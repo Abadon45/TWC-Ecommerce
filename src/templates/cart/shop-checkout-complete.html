@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+
+
+<!-- shop checkout complete -->
+<div class="shop-checkout-complete py-120">
+    <div class="container">
+        <div class="row">
+            <div class="col mx-auto">
+                <div class="checkout-complete-content">
+                    <div class="checkout-complete-icon"><i class="far fa-check"></i></div>
+                    <h3>THANK YOU! YOUR ORDER HAS BEEN RECEIVED.</h3>
+                    <h5>For any concern, please feel free to contact us at +639565885998.</h5>
+                    <table class="table">
+                        <thead>
+                            <tr class="table-active">
+                                <th scope="col-6">Product</th>
+                                <th scope="col-2">QTY</th>
+                                <th scope="col-4">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ordered_item in order.ordered_items.all %}
+                            <tr>
+                                <td>{{ ordered_item.product.name }}</td>
+                                <td>{{ ordered_item.quantity }}</td>
+                                <td>₱{{ ordered_item.get_total }}</td>
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <th>Shipping + Handling</th>
+                                <th>---</th>
+                                <th>₱0.00</th>
+                            </tr>
+                            <tr class="table-active">
+                                <th>Total:</th>
+                                <th>{{ order.total_quantity }}</th>
+                                <th>₱{{ order.total_amount }}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row mt-50">
+                        <div class="col-2">
+                            <h5>ORDER NUMBER:</h5>
+                            <h5>{{ order.order_id }}</h5>
+                        </div>
+                        <div class="col-2">
+                            <h5>DATE:</h5>
+                            <h5>{{order.created_at|date:"Y-m-d"}}</h5>
+                        </div>
+                        <div class="col-3">
+                            <h5>MOBILE:</h5>
+                            <h5>{{order.shipping_address.phone}}</h5>
+                        </div>
+                        <div class="col-2">
+                            <h5>TOTAL:</h5>
+                            <h5>₱{{ order.total_amount }}</h5>
+                        </div>
+                        <div class="col-3">
+                            <h5>PAYEMNT METHOD:</h5>
+                            <h5>Cash On Delivery</h5>
+                        </div>
+                    </div>
+                    <div class="row mt-50">
+                        <div class="col-6 d-flex justify-content-center">
+                            <div class="card" style="width: 35rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title">DELIVERY ADDRESS</h5>
+                                    <p class="card-text">
+                                        {{ order.shipping_address.line1 }}
+                                        {% if order.shipping_address.line2 %}{{ order.shipping_address.line2 }}
+                                        {%endif %}
+                                        {{ order.shipping_address.city }}, {{ order.shipping_address.postcode }}                                    
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 d-flex justify-content-center">
+                            <div class="card" style="width: 35rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title">ESTIMATED DELIVERY</h5>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <span>NCR: 2-3 Days</span><br>
+                                            <span>Luzon: 3-5 Days</span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <span>Visayas: 5-7 Days</span><br>
+                                            <span>Mindanao: 3-7 Days</span>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{% url 'shop:grid' %}" class="theme-btn mt-50">Go Back Shopping<i
+                            class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- shop checkout complete end -->
+
+{% endblock %}

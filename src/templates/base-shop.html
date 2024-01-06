@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- meta tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- title -->
+    <title>{{ title }}</title>
+
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'img/logo/favicon.png' %}">
+
+    <!-- css -->
+    {% include 'base/css.html' %}
+</head>
+
+<body class="home-6">
+
+    <!-- preloader -->
+    <div class="preloader">
+        <div class="loader-ripple">
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <!-- preloader end -->
+
+    <!-- header area -->
+    {% include 'base/header.html' %}
+    <!-- header area end -->
+
+    <main class="main">
+
+        <!-- breadcrumb -->
+        <div class="site-breadcrumb">
+            <div class="site-breadcrumb-bg" style="background: url({% static 'img/breadcrumb/01.jpg' %})"></div>
+            <div class="container">
+                <div class="site-breadcrumb-wrap">
+                    <h4 class="breadcrumb-title">{{ title }}</h4>
+                    <ul class="breadcrumb-menu">
+                        <li><a href="/"><i class="far fa-home"></i> Home</a></li>
+                        <li class="active">{{ title }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- breadcrumb end -->
+
+        {% block content %}{% endblock content %}
+
+
+    </main>
+
+
+    {% include 'base/footer.html' %}
+    <!-- scroll-top -->
+    <a href="#" id="scroll-top"><i class="far fa-arrow-up-from-arc"></i></a>
+    <!-- scroll-top end -->
+    {% include 'base/modal.html' %}
+    <!-- js -->
+    {% include 'base/js.html' %}
+    <!-- Include jQuery library -->
+    
+    <script>
+        
+    </script>
+
+
+</body>
+
+</html>

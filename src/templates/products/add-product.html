@@ -1,0 +1,157 @@
+{% extends "base-dashboard.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+        <!-- user add product -->
+        <div class="user-area bg py-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="user-wrapper">
+                            <div class="user-card">
+                                <div class="user-card-header">
+                                    <h4 class="user-card-title">Add New Product</h4>
+                                    <a href="{% url 'products:product_list' %}" class="theme-btn"><span class="far fa-arrow-left"></span>All Products</a>
+                                </div>
+                                    <div class="user-form">
+                                        <h6 class="mb-20">Basic Information</h6>
+                                        <form id="addProduct" method="POST" action="{% url 'products:add_product' %}" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="row align-items-center">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label>Product Name</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Name" name="name">
+                                                            {% for error in form.name.errors %}
+                                                                <div class="error">{{ error }}</div>
+                                                            {% endfor %}
+                                                        <div class="form-text">
+                                                            Maximum 100 characters. No HTML or emoji allowed.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label>Category</label>
+                                                        <select class="select" name="category">
+                                                            <option value="">Choose Category</option>
+                                                            <option value="1">Fashion & Accessories</option>
+                                                            <option value="2">Electronics</option>
+                                                            <option value="3">Health</option>
+                                                        </select>
+                                                        {% for error in form.category.errors %}
+                                                            <div class="error">{{ error }}</div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label>Brand</label>
+                                                        <select class="select" name="brand">
+                                                            <option value="">Choose Brand</option>
+                                                            <option value="1">Apple</option>
+                                                            <option value="2">Samsung</option>
+                                                            <option value="3">Sante</option>
+                                                        </select>
+                                                        {% for error in form.brand.errors %}
+                                                            <div class="error">{{ error }}</div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>SKU</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="SKU" name="sku">
+                                                            {% for error in form.sku.errors %}
+                                                                <div class="error">{{ error }}</div>
+                                                            {% endfor %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>Price (PHP)</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Price" name="price">
+                                                            {% for error in form.price.errors %}
+                                                                <div class="error">{{ error }}</div>
+                                                            {% endfor %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>Discount Price (PHP)</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Discount Price" name="discount_price">
+                                                            {% for error in form.discount_price.errors %}
+                                                                <div class="error">{{ error }}</div>
+                                                            {% endfor %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label>Stock</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Stock" name="stock">
+                                                            {% for error in form.stock.errors %}
+                                                                <div class="error">{{ error }}</div>
+                                                            {% endfor %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label>Stock Unit</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Stock Unit Ex: Pcs, Kg" name="stock_unit">
+                                                            {% for error in form.stock_unit.errors %}
+                                                                <div class="error">{{ error }}</div>
+                                                            {% endfor %}
+                                                    </div>
+                                                </div>
+                                                <h6 class="mt-20 mb-20">Upload Images</h6>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <div class="form-upload-wrapper">
+                                                            <div class="form-img-upload">
+                                                                <span><i class="far fa-images"></i> Upload Product Images</span>
+                                                            </div>
+                                                            {{ image_formset.management_form }}
+                                                            {% for form in image_formset %}
+                                                            <div class="form-group">
+                                                                {{ form.image }}
+                                                                {% for error in form.image.errors %}
+                                                                    <div class="error">{{ error }}</div>
+                                                                {% endfor %}
+                                                            </div>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h6 class="mt-20 mb-20">Detailed Information</h6>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label>Description</label>
+                                                        <textarea class="form-control" placeholder="Write Description"
+                                                            cols="30" rows="5" name="description"></textarea>
+                                                            {% for error in form.description.errors %}
+                                                                <div class="error">{{ error }}</div>
+                                                            {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="theme-btn"><span class="far fa-save"></span> Submit Your Product</button>
+                                        </form>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- user add product end -->
+       
+{% endblock %}

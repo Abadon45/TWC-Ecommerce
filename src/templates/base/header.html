@@ -1,0 +1,534 @@
+{% load static %}
+
+<header class="header">
+
+    <!-- header top -->
+    <div class="header-top">
+        <div class="container">
+            <div class="header-top-wrapper">
+                {% if user.is_authenticated and user.is_superuser %}
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-5">
+                        <div class="header-top-left">
+                            <ul class="header-top-list">
+                                <li><a href="{% url 'admin:index' %}"><i class="fa-solid fa-user-secret"></i></i>ADMIN</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-7">
+                        <div class="header-top-right">
+                            <ul class="header-top-list">
+                                <li><a href="{% url 'products:product_list' %}"><i class="fa-solid fa-code-compare"></i> Product List</a></li>
+                                <li><a href="{% url 'products:add_product' %}"><i class="fa-solid fa-keyboard"></i> Add Products</a></li>
+                                {% if user.is_authenticated %}
+                                <li class="login"><a href="{% url 'login:logout' %}"><i class="far fa-arrow-right-to-arc"></i> Logout</a></li>
+                                {% else %}
+                                <li class="login"><a href="{% url 'login:login' %}"><i class="far fa-arrow-right-to-arc"></i> Login</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="row">  
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-5">
+                        <div class="header-top-left">
+                            <ul class="header-top-list">
+                                <li><a href="mailto:info@example.com"><i class="far fa-envelopes"></i>
+                                        info@example.com</a></li>
+                                <li><a href="tel:+21236547898"><i class="far fa-headset"></i> +2 123 654
+                                        7898</a></li>
+                                <li class="help"><a href="#"><i class="far fa-comment-question"></i> Need Help?</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-7">
+                        <div class="header-top-right">
+                            <ul class="header-top-list">
+                                <li><a href="#"><i class="far fa-alarm-clock"></i> Daily Deal</a></li>
+                                {% if user.is_authenticated %}
+                                <li class="login"><a href="{% url 'login:logout' %}"><i class="far fa-arrow-right-to-arc"></i> Logout</a></li>
+                                {% else %}
+                                <li class="login"><a href="{% url 'login:login' %}"><i class="far fa-arrow-right-to-arc"></i> Login</a></li>
+                                {% endif %}
+                                <li>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            <i class="far fa-usd"></i> USD
+                                        </a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="#">USD</a>
+                                            <a class="dropdown-item" href="#">EUR</a>
+                                            <a class="dropdown-item" href="#">AUD</a>
+                                            <a class="dropdown-item" href="#">CUD</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            <i class="far fa-globe-americas"></i> EN
+                                        </a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="#">EN</a>
+                                            <a class="dropdown-item" href="#">FR</a>
+                                            <a class="dropdown-item" href="#">DE</a>
+                                            <a class="dropdown-item" href="#">RU</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="social">
+                                    <div class="header-top-social">
+                                        <span>Follow Us: </span>
+                                        <a href="#"><i class="fab fa-facebook"></i></a>
+                                        <a href="#"><i class="fab fa-twitter"></i></a>
+                                        <a href="#"><i class="fab fa-instagram"></i></a>
+                                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>       
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- header middle -->
+    <div class="header-middle">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-5 col-lg-3 col-xl-3">
+                    <div class="header-middle-logo">
+                        <a class="navbar-brand" href="/">
+                            <img src="{% static 'img/logo/logo.png' %}" alt="logo">
+                        </a>
+                    </div>
+                </div>
+                <div class="d-none d-lg-block col-lg-6 col-xl-5">
+                    <div class="header-middle-search">
+                        <form action="#">
+                            <div class="search-content">
+                                <select class="select">
+                                    <option value="">All Category</option>
+                                    <!-- Your other options -->
+                                </select>
+                                <input type="text" class="form-control" placeholder="Search Here...">
+                                <button type="submit" class="search-btn"><i class="far fa-search"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-7 col-lg-3 col-xl-4">
+                    <div class="header-middle-right">
+                        <ul class="header-middle-list">
+                            {% if user.is_authenticated %}
+                                <li><a href="{% url 'user:dashboard' %}" class="list-item"><i class="far fa-user-circle"></i></a></li>
+                                <li><a href="{% url 'wishlist' %}" class="list-item" placeholder="wishlist"><i class="far fa-heart"></i><span>0</span></a></li>
+                            {% else %}
+                                <li><a href="{% url 'login:login' %}" class="list-item"><i class="far fa-user-circle"></i></a></li>
+                                <li><a href="{% url 'login:login' %}" class="list-item" placeholder="wishlist"><i class="far fa-heart"></i><span>0</span></a></li>
+                            {% endif %}
+                            
+                            <li class="dropdown-cart">
+                                {% if user.is_authenticated %}
+                                    <a href="{% url 'cart:cart' %}" class="shop-cart list-item"><i class="far fa-shopping-bag"></i>
+                                {% else %}
+                                    <a href="{% url 'login:login' %}" class="shop-cart list-item"><i class="far fa-shopping-bag"></i>     
+                                {% endif %}
+                                    <span id="cart-count">{{ cart_items }}</span></a>
+                                <!-- <div class="dropdown-cart-menu">
+                                    <div class="container">
+                                        {% for item in items %}
+                                        <div class="row product-id-{{ item.product.id }}">   
+                                            <div class="col-2 shop-cart-img">
+                                                <img src="{{ item.product.images.first.image.url }}" alt="">
+                                            </div>
+                                            <div class="col-5 shop-cart-content">
+                                                <h5 class="shop-cart-name"><a href="#">{{ item.product.name }}</a></h5>
+                                            </div>
+                                            <div class="col-2">
+                                                <h5>x{{ item.quantity|default:1 }}</h5>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                        {% endfor %}
+                                    </div>                        
+                                </div> -->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-middle-line">
+            <div class="line-1">1</div>
+            <div class="line-2">2</div>
+            <div class="line-3">3</div>
+            <div class="line-4">4</div>
+            <div class="line-5">5</div>
+            <div class="line-6">5</div>
+        </div>
+    </div>
+    
+
+    <!-- header main navigation -->
+    <div class="main-navigation">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container position-relative">
+                <a class="navbar-brand" href="index.html">
+                    <img src="{% static 'img/logo/logo.png' %}" class="logo-scrolled" alt="logo">
+                </a>
+                <div class="category-all">
+                    <button class="category-btn" type="button">
+                        <i class="far fa-grid-2-plus"></i><span>All Categories</span>
+                    </button>
+                    <ul class="main-category hide-category">
+                        <li>
+                            <a href="#">
+                                <img src="{% static 'img/icon/shopping-bag.svg' %}" alt="">
+                                <span>New Arrivals</span><i class="far fa-angle-right"></i>
+                            </a>
+                            <ul class="sub-category">
+                                <li><a href="#"><img src="{% static 'img/icon/dress.svg' %}" alt=""><span>Accessories</span></a></li>
+                                <li><a href="#"><img src="{% static 'img/icon/laptop.svg' %}" alt=""><span>Electronics</span></a></li>
+                                <li><a href="#"><img src="{% static 'img/icon/grocery.svg' %}" alt=""><span>Grocery & Market</span></a></li>
+                                <li><a href="#"><img src="{% static 'img/icon/music.svg' %}" alt=""><span>Music & Audio</span></a></li>
+                                <li><a href="#"><img src="{% static 'img/icon/furniture.svg' %}" alt=""><span>Home & Furniture</span></a></li>
+                                <li><a href="#"><img src="{% static 'img/icon/toy.svg' %}" alt=""><span>Toy & Video Games</span></a></li>
+                                <li><a href="#"><img src="{% static 'img/icon/gifts.svg' %}" alt=""><span>Gifts</span></a></li>
+                                <li><a href="#"><img src="{% static 'img/icon/mother.svg' %}" alt=""><span>Babies & Moms</span></a></li>
+                                <li><a href="#"><img src="{% static 'img/icon/beauty.svg' %}" alt=""><span>Health & Beauty</span></a></li>
+                                <li><a href="#"><img src="{% static 'img/icon/sports.svg' %}" alt=""><span>Sports & Outdoor</span></a></li>
+                                <li><a href="#"><img src="{% static 'img/icon/garden.svg' %}" alt=""><span>Home & Garden</span></a></li>
+                                <li><a href="#"><img src="{% static 'img/icon/automotive.svg' %}" alt=""><span>Automotive</span></a></li>
+                            </ul>               
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="{% static 'img/icon/dress.svg' %}" alt="">
+                                <span>Fashion & Accessories</span><i class="far fa-angle-right"></i>
+                            </a>
+                            <div class="sub-category-mega">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="category-single">
+                                            <a href="#" class="category-title">Shop Kid's</a>
+                                            <div class="category-img mb-3">
+                                                <img src="{% static 'img/category/01.jpg' %}" alt="#">
+                                            </div>
+                                            <div class="category-link">
+                                                <a href="#">Kids Toys</a>
+                                                <a href="#">Kids Color Shape</a>
+                                                <a href="#">Kids Travel Car</a>
+                                                <a href="#">Kids Tent</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="category-single">
+                                            <a href="#" class="category-title">Shop Men's</a>
+                                            <div class="category-img mb-3">
+                                                <img src="{% static 'img/category/02.jpg' %}" alt="#">
+                                            </div>
+                                            <div class="category-link">
+                                                <a href="#">Watch</a>
+                                                <a href="#">Hoodies</a>
+                                                <a href="#">T-shirt</a>
+                                                <a href="#">Formal Pant</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="category-single">
+                                            <a href="#" class="category-title">Shop Women's</a>
+                                            <div class="category-img mb-3">
+                                                <img src="{% static 'img/category/03.jpg' %}" alt="#">
+                                            </div>
+                                            <div class="category-link">
+                                                <a href="#">Ladies Shirt</a>
+                                                <a href="#">Ladies Sun Glass</a>
+                                                <a href="#">Ladies Frog</a>
+                                                <a href="#">Ladies Watch</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="{% static 'img/icon/laptop.svg' %}" alt="">
+                                <span>Electronics</span><i class="far fa-angle-right"></i>
+                            </a>
+                            <div class="sub-category-mega">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="category-single">
+                                            <h6 class="category-title-text">Man Cloths</h6>
+                                            <div class="category-link">
+                                                <a href="#">Kids Toys</a>
+                                                <a href="#">Kids Color Shape</a>
+                                                <a href="#">Kids Travel Car</a>
+                                                <a href="#">Kids Tent</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="category-single">
+                                            <h6 class="category-title-text">Accessories</h6>
+                                            <div class="category-link">
+                                                <a href="#">Watch</a>
+                                                <a href="#">Hoodies</a>
+                                                <a href="#">T-shirt</a>
+                                                <a href="#">Formal Pant</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="category-single">
+                                            <h6 class="category-title-text">Bags</h6>
+                                            <div class="category-link">
+                                                <a href="#">Ladies Shirt</a>
+                                                <a href="#">Ladies Sun Glass</a>
+                                                <a href="#">Ladies Frog</a>
+                                                <a href="#">Ladies Watch</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="category-img">
+                                            <a href="#"><img src="{% static 'img/category/04.jpg' %}" alt=""></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="category-single">
+                                            <h6 class="category-title-text">Women Cloths</h6>
+                                            <div class="category-link">
+                                                <a href="#">Ladies Shirt</a>
+                                                <a href="#">Ladies Sun Glass</a>
+                                                <a href="#">Ladies Frog</a>
+                                                <a href="#">Ladies Watch</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="category-single">
+                                            <h6 class="category-title-text">Shoes</h6>
+                                            <div class="category-link">
+                                                <a href="#">Ladies Shirt</a>
+                                                <a href="#">Ladies Sun Glass</a>
+                                                <a href="#">Ladies Frog</a>
+                                                <a href="#">Ladies Watch</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="category-single">
+                                            <h6 class="category-title-text">Bags</h6>
+                                            <div class="category-link">
+                                                <a href="#">Ladies Shirt</a>
+                                                <a href="#">Ladies Sun Glass</a>
+                                                <a href="#">Ladies Frog</a>
+                                                <a href="#">Ladies Watch</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="category-img">
+                                            <a href="#"><img src="{% static 'img/category/05.jpg' %}" alt=""></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="{% static 'img/icon/grocery.svg' %}" alt="">
+                                <span>Grocery & Market</span><i class="far fa-angle-right"></i>
+                            </a>
+                            <div class="sub-category-mega">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="category-single">
+                                            <h6 class="category-title-text">Man Cloths</h6>
+                                            <div class="category-link">
+                                                <a href="#">Kids Toys</a>
+                                                <a href="#">Kids Color Shape</a>
+                                                <a href="#">Kids Travel Car</a>
+                                                <a href="#">Kids Tent</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="category-single">
+                                            <h6 class="category-title-text">Accessories</h6>
+                                            <div class="category-link">
+                                                <a href="#">Watch</a>
+                                                <a href="#">Hoodies</a>
+                                                <a href="#">T-shirt</a>
+                                                <a href="#">Formal Pant</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="category-single">
+                                            <h6 class="category-title-text">Bags</h6>
+                                            <div class="category-link">
+                                                <a href="#">Ladies Shirt</a>
+                                                <a href="#">Ladies Sun Glass</a>
+                                                <a href="#">Ladies Frog</a>
+                                                <a href="#">Ladies Watch</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="category-single">
+                                            <h6 class="category-title-text">Women Cloths</h6>
+                                            <div class="category-link">
+                                                <a href="#">Ladies Shirt</a>
+                                                <a href="#">Ladies Sun Glass</a>
+                                                <a href="#">Ladies Frog</a>
+                                                <a href="#">Ladies Watch</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="category-single">
+                                            <h6 class="category-title-text">Man Cloths</h6>
+                                            <div class="category-link">
+                                                <a href="#">Kids Toys</a>
+                                                <a href="#">Kids Color Shape</a>
+                                                <a href="#">Kids Travel Car</a>
+                                                <a href="#">Kids Tent</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="category-single">
+                                            <h6 class="category-title-text">Accessories</h6>
+                                            <div class="category-link">
+                                                <a href="#">Watch</a>
+                                                <a href="#">Hoodies</a>
+                                                <a href="#">T-shirt</a>
+                                                <a href="#">Formal Pant</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="category-single">
+                                            <h6 class="category-title-text">Bags</h6>
+                                            <div class="category-link">
+                                                <a href="#">Ladies Shirt</a>
+                                                <a href="#">Ladies Sun Glass</a>
+                                                <a href="#">Ladies Frog</a>
+                                                <a href="#">Ladies Watch</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="category-single">
+                                            <h6 class="category-title-text">Women Cloths</h6>
+                                            <div class="category-link">
+                                                <a href="#">Ladies Shirt</a>
+                                                <a href="#">Ladies Sun Glass</a>
+                                                <a href="#">Ladies Frog</a>
+                                                <a href="#">Ladies Watch</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li><a href="#"><img src="{% static 'img/icon/music.svg' %}" alt=""><span>Music & Audio</span></a></li>
+                        <li>
+                            <a href="#">
+                                <img src="{% static 'img/icon/furniture.svg' %}" alt="">
+                                <span>Home & Furniture</span><i class="far fa-angle-right"></i>
+                            </a>
+                            <div class="sub-category-mega">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="category-single">
+                                            <h6 class="category-title-text">Man Cloths</h6>
+                                            <div class="category-link">
+                                                <a href="#">Kids Toys</a>
+                                                <a href="#">Kids Color Shape</a>
+                                                <a href="#">Kids Travel Car</a>
+                                                <a href="#">Kids Tent</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="category-single">
+                                            <h6 class="category-title-text">Accessories</h6>
+                                            <div class="category-link">
+                                                <a href="#">Watch</a>
+                                                <a href="#">Hoodies</a>
+                                                <a href="#">T-shirt</a>
+                                                <a href="#">Formal Pant</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="category-single">
+                                            <h6 class="category-title-text">Bags</h6>
+                                            <div class="category-link">
+                                                <a href="#">Ladies Shirt</a>
+                                                <a href="#">Ladies Sun Glass</a>
+                                                <a href="#">Ladies Frog</a>
+                                                <a href="#">Ladies Watch</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="category-img">
+                                            <a href="#"><img src="{% static 'img/category/04.jpg' %}" alt=""></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li><a href="#"><img src="{% static 'img/icon/toy.svg' %}" alt=""><span>Toy & Video Games</span></a></li>
+                        <li><a href="#"><img src="{% static 'img/icon/gifts.svg' %}" alt=""><span>Gifts</span></a></li>
+                        <li><a href="#"><img src="{% static 'img/icon/mother.svg' %}" alt=""><span>Babies & Moms</span></a></li>
+                        <li><a href="#"><img src="{% static 'img/icon/beauty.svg' %}" alt=""><span>Health & Beauty</span></a></li>
+                        <li><a href="#"><img src="{% static 'img/icon/sports.svg' %}" alt=""><span>Sports & Outdoor</span></a></li>
+                        <li><a href="#"><img src="{% static 'img/icon/garden.svg' %}" alt=""><span>Home & Garden</span></a></li>
+                        <li><a href="#"><img src="{% static 'img/icon/automotive.svg' %}" alt=""><span>Automotive</span></a></li>
+                    </ul>
+                </div>
+                <div class="mobile-menu-right">
+                    <div class="search-btn">
+                        <button type="button" class="nav-right-link"><i class="far fa-search"></i></button>
+                        <div class="mobile-search-form">
+                            <form action="#">
+                                <input type="text" class="form-control" placeholder="Search Here...">
+                                <button type="submit"><i class="far fa-search"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#main_nav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-mobile-icon"><i class="far fa-bars"></i></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="main_nav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home_view' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'shop:grid' %}">Shop</a></li>
+                    <div class="nav-right">
+                        <div class="nav-right-btn">
+                            <a href="{% url 'become_seller' %}" class="theme-btn">Become Seller</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+</header>

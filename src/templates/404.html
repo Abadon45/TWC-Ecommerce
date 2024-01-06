@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+        <!-- error area -->
+        <div class="error-area py-100">
+            <div class="container">
+                <div class="col-md-6 mx-auto">
+                    <div class="error-wrapper">
+                        <div class="error-img">
+                            <img src="{% static 'img/error/01.png' %}" alt="">
+                        </div>
+                        <h2>Opps... Page Not Found!</h2>
+                        <p>The page you looking for not found may be it not exist or removed.</p>
+                        <a href="/" class="theme-btn">Go Back Home <i class="far fa-home"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- error area end -->
+
+
+        {% endblock %}

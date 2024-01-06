@@ -1,0 +1,161 @@
+{% load static %}
+
+<footer class="footer-area">
+    <div class="footer-widget">
+        <div class="container">
+            <div class="row footer-widget-wrapper pt-100 pb-70">
+                <div class="col-md-6 col-lg-3">
+                    <div class="footer-widget-box about-us">
+                        <a href="#" class="footer-logo">
+                            <img src="{% static 'img/logo/logo-light.png' %}" alt="">
+                        </a>
+                        <p class="mb-1">
+                            We are many variations of the passages available but the majoro have suffered alteration
+                            in some form by injected.
+                        </p>
+                        <div class="footer-call">
+                            <div class="footer-call-icon">
+                                <i class="fal fa-headset"></i>
+                            </div>
+                            <div class="footer-call-info">
+                                <p>24/7 Need Any Help?</p>
+                                <a href="tel:+21236547898">(+2) 222 666 7777</a>
+                            </div>
+                        </div>
+                        <div class="footer-download">
+                            <h5>Get Our Mobile App</h5>
+                            <div class="footer-download-btn">
+                                <a href="https://play.google.com/">
+                                    <i class="fab fa-google-play"></i>
+                                    <div class="download-btn-info">
+                                        <span>Get It On</span>
+                                        <h6>Google Play</h6>
+                                    </div>
+                                </a>
+                                <a href="https://www.apple.com/ph/app-store/">
+                                    <i class="fab fa-app-store"></i>
+                                    <div class="download-btn-info">
+                                        <span>Get It On</span>
+                                        <h6>App Store</h6>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                    <div class="footer-widget-box list">
+                        <h4 class="footer-widget-title">Quick Links</h4>
+                        <ul class="footer-list">
+                            <li><a href="{% url 'about' %}">About Us</a></li>
+                            <li><a href="{% url 'become_seller' %}">Become A Seller</a></li>
+                            <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                            <li><a href="{% url 'testimonial' %}">Testimonials</a></li>
+                            <li><a href="{% url 'terms' %}">Terms Of Service</a></li>
+                            <li><a href="{% url 'privacy' %}">Privacy policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                    <div class="footer-widget-box list">
+                        <h4 class="footer-widget-title">Browse Category</h4>
+                        <ul class="footer-list">
+                            <li><a href="#">Accessories</a></li>
+                            <li><a href="#">Home & Garden</a></li>
+                            <li><a href="#">Electronics</a></li>
+                            <li><a href="#">Health & Beauty</a></li>
+                            <li><a href="#">Groceries</a></li>
+                            <li><a href="#">Baby Toys</a></li>
+                            <li><a href="#">Music & Video</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-2">
+                    <div class="footer-widget-box list">
+                        <h4 class="footer-widget-title">Support Center</h4>
+                        <ul class="footer-list">
+                            <li><a href="{% url 'faqs' %}">FAQ's</a></li>
+                            <li><a href="{% url 'faqs' %}">How To Buy</a></li>
+                            <li><a href="{% url 'contact' %}">Support Center</a></li>
+                            <li><a href="{% url 'user:dashboard' %}">Track Your Order</a></li>
+                            <li><a href="{% url 'return' %}">Returns Policy</a></li>
+                            <li><a href="{% url 'team' %}">Our Affiliates</a></li>
+                            <li><a href="https://www.google.com/maps">Sitemap</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="footer-widget-box list">
+                        <h4 class="footer-widget-title">Get In Touch</h4>
+                        <p>Feel Free To Get In Touch With Us Today. We Are Ready To Help You.</p>
+                        <ul class="footer-contact">
+                            <li><a href="tel:+21236547898"><i class="far fa-phone"></i>+2 123 654 7898</a></li>
+                            <li><i class="far fa-map-marker-alt"></i>25/B Milford Road, New York</li>
+                            <li><a href="mailto:info@example.com"><i
+                                        class="far fa-envelope"></i>info@example.com</a></li>
+                            <li><i class="far fa-clock"></i>Mon-Fri (9.00AM - 8.00PM)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="footer-top-link">
+                        <h5>Top Links</h5>
+                        <div class="footer-top-link-info">
+                            <a href="#">Top Sellers</a>
+                            <a href="#">New Arrivals</a>
+                            <a href="#">Accessories</a>
+                            <a href="#">Electronics</a>
+                            <a href="#">Groceries</a>
+                            <a href="#">Beauty</a>
+                            <a href="#">Health</a>
+                            <a href="#">Baby Toys</a>
+                            <a href="#">Music</a>
+                            <a href="#">Furniture</a>
+                            <a href="#">Gifts</a>
+                            <a href="#">Sports</a>
+                            <a href="#">Automotive</a>
+                            <a href="#">Watch</a>
+                            <a href="#">Sitemap</a>
+                            <a href="#">Our Affiliates</a>
+                            <a href="#">Returns Policy</a>
+                            <a href="#">Video</a>
+                            <a href="#">Home & Garden</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        <div class="container">
+            <div class="copyright-wrap">
+                <div class="row">
+                    <div class="col-12 col-lg-4 align-self-center">
+                        <div class="footer-payment">
+                            <span>We Accept:</span>
+                            <img src="{% static 'img/payment/visa.svg' %}" alt="">
+                            <img src="{% static 'img/payment/mastercard.svg' %}" alt="">
+                            <img src="{% static 'img/payment/amex.svg' %}" alt="">
+                            <img src="{% static 'img/payment/discover.svg' %}" alt="">
+                            <img src="{% static 'img/payment/paypal.svg' %}" alt="">
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4 align-self-center">
+                        <p class="copyright-text">
+                            &copy; Copyright <span id="date"></span> <a href="#"> TWCMART </a> All Rights Reserved.
+                        </p>
+                    </div>
+                    <div class="col-12 col-lg-4 align-self-center">
+                        <div class="footer-social">
+                            <span>Follow Us:</span>
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

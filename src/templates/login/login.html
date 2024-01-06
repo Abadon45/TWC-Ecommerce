@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+        <!-- login area -->
+        <div class="login-area py-100">
+            <div class="container">
+                <div class="col-md-7 col-lg-5 mx-auto">
+                    <div class="login-form">
+                        <div class="login-header">
+                            <img src="{% static 'img/logo/logo.png' %}" alt="">
+                            <p>Login with your TWC account</p>
+                        </div>
+                        <form method="POST" action="{% url 'login:login' %}">
+                            <div class="form-group">
+                                {% csrf_token %}
+                                <label>Username</label>
+                                <input type="text" class="form-control" placeholder="Username" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" class="form-control" placeholder="Your Password" name="password" required>
+                            </div>
+                            <div class="d-flex justify-content-between mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="remember">
+                                    <label class="form-check-label" for="remember">
+                                        Remember Me
+                                    </label>
+                                </div>
+                                <a href="{% url 'login:forgot_password' %}" class="forgot-pass">Forgot Password?</a>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <button type="submit" class="theme-btn"><i class="far fa-sign-in"></i> Login</button>
+                            </div>
+                        </form>
+                        
+                        <div class="login-footer">
+                            <p>Don't have an account? <a href="{% url 'login:register' %}">Register</a></p>
+                            <div class="social-login">
+                                <span class="social-divider">or</span>
+                                <p>Continue with social media</p>
+                                <div class="social-login-list">
+                                    <a href="#" class="fb-auth"><i class="fab fa-facebook-f"></i> Facebook</a>
+                                    <a href="#" class="gl-auth"><i class="fab fa-google"></i> Google</a>
+                                    <a href="#" class="tw-auth"><i class="fab fa-twitter"></i> Twitter</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- login area end -->
+
+{% endblock %}

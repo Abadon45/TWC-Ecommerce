@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+
+        {% include 'base/breadcrumb.html' %}
+
+        <!-- category area -->
+        <div class="category-area4 py-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="site-heading-inline">
+                            <h2 class="site-title"><img src="{% static 'img/icon/category.svg' %}" alt="">Our Category</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="category-item">
+                            <a href="{% url 'shop:list' %}">
+                                <div class="category-img-box">
+                                    <div class="category-img">
+                                        <img src="{% static 'img/category/bc1.jpg' %}" alt="">
+                                        <div class="category-img-info">
+                                            <h4>New Arrivals</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="category-item">
+                            <a href="#">
+                                <div class="category-img-box">
+                                    <div class="category-img">
+                                        <img src="{% static 'img/category/bc2.jpg' %}" alt="">
+                                        <div class="category-img-info">
+                                            <h4>Accessories</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="category-item">
+                            <a href="#">
+                                <div class="category-img-box">
+                                    <div class="category-img">
+                                        <img src="{% static 'img/category/bc3.jpg' %}" alt="">
+                                        <div class="category-img-info">
+                                            <h4>Winter Collection</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="category-item">
+                            <a href="#">
+                                <div class="category-img-box">
+                                    <div class="category-img">
+                                        <img src="{% static 'img/category/bc4.jpg' %}" alt="">
+                                        <div class="category-img-info">
+                                            <h4>Electronics</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="category-item">
+                            <a href="#">
+                                <div class="category-img-box">
+                                    <div class="category-img">
+                                        <img src="{% static 'img/category/bc5.jpg' %}" alt="">
+                                        <div class="category-img-info">
+                                            <h4>Clothing</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- category area end-->
+
+{% endblock %}

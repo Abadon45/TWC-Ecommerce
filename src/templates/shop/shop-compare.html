@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+        <!-- compare area -->
+        <div class="compare-area py-100">
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table table-bordered compare-table">
+                        <tbody>
+                            <tr>
+                                <th></th>
+                                <td>
+                                    <div class="compare-img">
+                                        <img src="{% static 'img/product/p1.png' %}" alt="product">
+                                        <a href="#" class="compare-remove"><i class="far fa-xmark"></i></a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="compare-img">
+                                        <img src="{% static 'img/product/p2.png' %}" alt="product">
+                                        <a href="#" class="compare-remove"><i class="far fa-xmark"></i></a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="compare-img">
+                                        <img src="{% static 'img/product/p3.png' %}" alt="product">
+                                        <a href="#" class="compare-remove"><i class="far fa-xmark"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Product Name</th>
+                                <td><a href="#" class="compare-title">Wireless Earphones</a></td>
+                                <td><a href="#" class="compare-title">Wireless Earphones</a></td>
+                                <td><a href="#" class="compare-title">Wireless Earphones</a></td>
+                            </tr>
+                            <tr>
+                                <th>Product Color</th>
+                                <td><span>Black</span></td>
+                                <td><span>Red</span></td>
+                                <td><span>Blue</span></td>
+                            </tr>
+                            <tr>
+                                <th>Performance</th>
+                                <td><span>Hexa Core</span></td>
+                                <td><span>Octa Core</span></td>
+                                <td><span>Octa Core</span></td>
+                            </tr>
+                            <tr>
+                                <th>Quick Charging</th>
+                                <td><span>Yes</span></td>
+                                <td><span>No</span></td>
+                                <td><span>Yes</span></td>
+                            </tr>
+                            <tr>
+                                <th>Thickness</th>
+                                <td><span>6.7mm</span></td>
+                                <td><span>6.9mm</span></td>
+                                <td><span>6.7mm</span></td>
+                            </tr>
+                            <tr>
+                                <th>Sound Quality</th>
+                                <td><span>Best</span></td>
+                                <td><span>Best</span></td>
+                                <td><span>Best</span></td>
+                            </tr>
+                            <tr>
+                                <th>Weight</th>
+                                <td><span>10gm</span></td>
+                                <td><span>10gm</span></td>
+                                <td><span>10gm</span></td>
+                            </tr>
+                            <tr>
+                                <th>Water Proof</th>
+                                <td><span>No</span></td>
+                                <td><span>No</span></td>
+                                <td><span>No</span></td>
+                            </tr>
+                            <tr>
+                                <th>Price</th>
+                                <td><span class="compare-price">$150</span></td>
+                                <td><span class="compare-price">$120</span></td>
+                                <td><span class="compare-price">$140</span></td>
+                            </tr>
+                            <tr>
+                                <th>Review</th>
+                                <td>
+                                    <div class="compare-rate">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span>5.0 (5k Review)</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="compare-rate">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span>5.0 (5k Review)</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="compare-rate">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span>5.0 (5k Review)</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Action</th>
+                                <td><a href="#" class="theme-btn"> <span class="far fa-shopping-bag"></span>Add To Cart</a></td>
+                                <td><a href="#" class="theme-btn"> <span class="far fa-shopping-bag"></span>Add To Cart</a></td>
+                                <td><a href="#" class="theme-btn"> <span class="far fa-shopping-bag"></span>Add To Cart</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- compare area end -->
+
+{% endblock %}

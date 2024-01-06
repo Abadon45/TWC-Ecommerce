@@ -1,0 +1,103 @@
+{% extends "base-user.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+
+        <!-- user ticket details -->
+        <div class="user-area bg py-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="sidebar">
+                            <div class="sidebar-top">
+                                <div class="sidebar-profile-img">
+                                    <img src="{% static 'img/account/user.jpg' %}" alt="">
+                                    <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
+                                    <input type="file" class="profile-img-file">
+                                </div>
+                                <h5>Antoni Jonson</h5>
+                                <p>antoni@example.com</p>
+                            </div>
+                            <ul class="sidebar-list">
+                                <li><a href="{% url 'user:dashboard' %}"><i class="far fa-gauge-high"></i> Dashboard</a></li>
+                                <li><a href="{% url 'user:profile' %}"><i class="far fa-user"></i> My Profile</a></li>
+                                <li><a href="{% url 'user:order_list' %}"><i class="far fa-shopping-bag"></i> My Order List <span class="badge badge-danger">02</span></a></li>
+                                <li><a href="{% url 'user:wishlist' %}"><i class="far fa-heart"></i> My Wishlist <span class="badge badge-danger">02</span></a></li>
+                                <li><a href="{% url 'user:addresslist' %}"><i class="far fa-location-dot"></i> Address List</a></li>
+                                <li><a class="active" href="{% url 'user:support_ticket' %}"><i class="far fa-headset"></i> Support Tickets <span class="badge badge-danger">02</span></a></li>
+                                <li><a href="{% url 'user:track_order' %}"><i class="far fa-map-location-dot"></i> Track My Order</a></li>
+                                <li><a href="{% url 'user:payment_method' %}"><i class="far fa-wallet"></i> Payment Methods</a></li>
+                                <li><a href="{% url 'user:notification' %}"><i class="far fa-bell"></i> Notification <span class="badge badge-danger">02</span></a></li>
+                                <li><a href="{% url 'user:message' %}"><i class="far fa-envelope"></i> Messages <span class="badge badge-danger">02</span></a></li>
+                                <li><a href="{% url 'user:setting' %}"><i class="far fa-gear"></i> Settings</a></li>
+                                <li><a href="#"><i class="far fa-sign-out"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="user-wrapper">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="user-card user-ticket-detail">
+                                        <div class="user-card-header">
+                                            <h4 class="user-card-title">Ticket Details (#35VR5K54)</h4>
+                                            <div class="user-card-header-right">
+                                                <a href="support-ticket.html" class="theme-btn"><span class="fas fa-arrow-left"></span>Support Ticket</a>
+                                            </div>
+                                        </div>
+                                        <div class="ticket-detail-content">
+                                            <div class="ticket-chat-item">
+                                                <div class="ticket-img">
+                                                    <img src="{% static 'img/account/01.jpg' %}" alt="">
+                                                </div>
+                                                <div class="ticket-info">
+                                                    <h5>Antoni Jonson</h5>
+                                                    <span>10:20 PM | January 21, 2023</span>
+                                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                                </div>
+                                            </div>
+                                            <div class="ticket-chat-item ms-lg-5">
+                                                <div class="ticket-img">
+                                                    <img src="{% static 'img/account/02.jpg' %}" alt="">
+                                                </div>
+                                                <div class="ticket-info">
+                                                    <h5>Nikol Habitex</h5>
+                                                    <span>10:20 PM | January 21, 2023</span>
+                                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                                </div>
+                                            </div>
+                                            <div class="ticket-chat-item">
+                                                <div class="ticket-img">
+                                                    <img src="{% static 'img/account/01.jpg' %}" alt="">
+                                                </div>
+                                                <div class="ticket-info">
+                                                    <h5>Antoni Jonson</h5>
+                                                    <span>10:20 PM | January 21, 2023</span>
+                                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ticket-chat-box">
+                                            <div class="ticket-chat-form user-form">
+                                               <form action="#">
+                                                    <div class="form-group">
+                                                        <textarea class="form-control" cols="30" rows="6" placeholder="Type Your Message"></textarea>
+                                                    </div>
+                                                    <button type="submit" class="theme-btn"><span class="far fa-paper-plane"></span> Send Message</button>
+                                               </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- user ticket details end -->
+
+{% endblock %}

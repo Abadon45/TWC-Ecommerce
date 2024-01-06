@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+
+<!-- about area -->
+<div class="about-area py-100">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="about-left wow fadeInLeft" data-wow-delay=".25s">
+                    <div class="about-img">
+                        <img src="{% static 'img/about/01.jpg' %}" alt="">
+                    </div>
+                    <div class="about-experience">
+                        <div class="about-experience-icon">
+                            <img src="{% static 'img/icon/experience.svg' %}" alt="">
+                        </div>
+                        <b>30 Years Of <br> Experience</b>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-right wow fadeInRight" data-wow-delay=".25s">
+                    <div class="site-heading mb-3">
+                        <span class="site-title-tagline justify-content-start">
+                            <i class="flaticon-drive"></i> About Us
+                        </span>
+                        <h2 class="site-title">
+                            World Largest Online <span>Shopping Marketplace</span> For You.
+                        </h2>
+                    </div>
+                    <p>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                        the industry's standard dummy text ever since the when an unknown printer took a galley of type
+                        and scrambled it to make a type specimen book. It has survived not only five centuries, but also
+                        the leap into electronic typesetting, remaining essentially by injected humour unchanged.
+                    </p>
+                    <p class="mt-10">
+                        There are many variations of passages of Lorem Ipsum available, but the majority have suffered
+                        alteration in some form, by injected humour, or randomised words which don't look even slightly
+                        believable.
+                    </p>
+                    <a href="contact.html" class="theme-btn mt-4">Discover More<i
+                            class="fas fa-arrow-right-long"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- about area end -->
+
+<!-- counter area -->
+<div class="counter-area pt-50 pb-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-sm-6">
+                <div class="counter-box">
+                    <div class="icon">
+                        <img src="{% static 'img/icon/shopping.svg' %}" alt="">
+                    </div>
+                    <div class="counter-info">
+                        <div class="counter-amount">
+                            <span class="counter" data-count="+" data-to="50" data-speed="3000">50</span>
+                            <span class="counter-sign">k+</span>
+                        </div>
+                        <h6 class="title">Total Sales </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="counter-box">
+                    <div class="icon">
+                        <img src="{% static 'img/icon/happy-customer.svg' %}" alt="">
+                    </div>
+                    <div class="counter-info">
+                        <div class="counter-amount">
+                            <span class="counter" data-count="+" data-to="90" data-speed="3000">90</span>
+                            <span class="counter-sign">k+</span>
+                        </div>
+                        <h6 class="title">Happy Clients</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="counter-box">
+                    <div class="icon">
+                        <img src="{% static 'img/icon/employee.svg' %}" alt="">
+                    </div>
+                    <div class="counter-info">
+                        <div class="counter-amount">
+                            <span class="counter" data-count="+" data-to="150" data-speed="3000">150</span>
+                            <span class="counter-sign">k+</span>
+                        </div>
+                        <h6 class="title">Team Workers</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="counter-box">
+                    <div class="icon">
+                        <img src="{% static 'img/icon/award.svg' %}" alt="">
+                    </div>
+                    <div class="counter-info">
+                        <div class="counter-amount">
+                            <span class="counter" data-count="+" data-to="30" data-speed="3000">30</span>
+                            <span class="counter-sign">k+</span>
+                        </div>
+                        <h6 class="title">Win Awards</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- counter area end -->
+
+
+<!-- team-area -->
+<div class="team-area pt-100 pb-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mx-auto">
+                <div class="site-heading text-center">
+                    <span class="site-title-tagline">Our Team</span>
+                    <h2 class="site-title">Meet Our Expert <span>Team</span></h2>
+                    <div class="heading-divider"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-6 col-lg-3">
+                <div class="team-item wow fadeInUp" data-wow-delay=".25s">
+                    <div class="team-img">
+                        <img src="{% static 'img/team/01.jpg' %}" alt="thumb">
+                    </div>
+                    <div class="team-content">
+                        <div class="team-bio">
+                            <h5><a href="#">Chad Smith</a></h5>
+                            <span>Senior Manager</span>
+                        </div>
+                    </div>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="team-item wow fadeInUp" data-wow-delay=".50s">
+                    <div class="team-img">
+                        <img src="{% static 'img/team/02.jpg' %}" alt="thumb">
+                    </div>
+                    <div class="team-content">
+                        <div class="team-bio">
+                            <h5><a href="#">Malissa Fie</a></h5>
+                            <span>SEO Expert</span>
+                        </div>
+                    </div>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="team-item wow fadeInUp" data-wow-delay=".75s">
+                    <div class="team-img">
+                        <img src="{% static 'img/team/03.jpg' %}" alt="thumb">
+                    </div>
+                    <div class="team-content">
+                        <div class="team-bio">
+                            <h5><a href="#">Arron Rodri</a></h5>
+                            <span>CEO & Founder</span>
+                        </div>
+                    </div>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="team-item wow fadeInUp" data-wow-delay="1s">
+                    <div class="team-img">
+                        <img src="{% static 'img/team/04.jpg' %}" alt="thumb">
+                    </div>
+                    <div class="team-content">
+                        <div class="team-bio">
+                            <h5><a href="#">Tony Pinako</a></h5>
+                            <span>Digital Marketer</span>
+                        </div>
+                    </div>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- team-area end -->
+
+<!-- newsletter area -->
+{% include 'base/newsletter.html' %}       
+<!-- newsletter area end -->
+
+{% endblock %}
+        

@@ -1,0 +1,92 @@
+{% extends "base-user.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+
+        <!-- user add payment -->
+        <div class="user-area bg py-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="sidebar">
+                            <div class="sidebar-top">
+                                <div class="sidebar-profile-img">
+                                    <img src="{% static 'img/account/user.jpg' %}" alt="">
+                                    <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
+                                    <input type="file" class="profile-img-file">
+                                </div>
+                                <h5>Antoni Jonson</h5>
+                                <p>antoni@example.com</p>
+                            </div>
+                            <ul class="sidebar-list">
+                                <li><a href="{% url 'user:dashboard' %}"><i class="far fa-gauge-high"></i> Dashboard</a></li>
+                                <li><a href="{% url 'user:profile' %}"><i class="far fa-user"></i> My Profile</a></li>
+                                <li><a href="{% url 'user:order_list' %}"><i class="far fa-shopping-bag"></i> My Order List <span class="badge badge-danger">02</span></a></li>
+                                <li><a href="{% url 'user:wishlist' %}"><i class="far fa-heart"></i> My Wishlist <span class="badge badge-danger">02</span></a></li>
+                                <li><a href="{% url 'user:addresslist' %}"><i class="far fa-location-dot"></i> Address List</a></li>
+                                <li><a href="{% url 'user:support_ticket' %}"><i class="far fa-headset"></i> Support Tickets <span class="badge badge-danger">02</span></a></li>
+                                <li><a href="{% url 'user:track_order' %}"><i class="far fa-map-location-dot"></i> Track My Order</a></li>
+                                <li><a class="active" href="{% url 'user:payment_method' %}"><i class="far fa-wallet"></i> Payment Methods</a></li>
+                                <li><a href="{% url 'user:notification' %}"><i class="far fa-bell"></i> Notification <span class="badge badge-danger">02</span></a></li>
+                                <li><a href="{% url 'user:message' %}"><i class="far fa-envelope"></i> Messages <span class="badge badge-danger">02</span></a></li>
+                                <li><a href="{% url 'user:setting' %}"><i class="far fa-gear"></i> Settings</a></li>
+                                <li><a href="#"><i class="far fa-sign-out"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="user-wrapper">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="user-card">
+                                        <div class="user-card-header">
+                                            <h4 class="user-card-title">Add New Payment</h4>
+                                            <div class="user-card-header-right">
+                                                <a href="payment-method.html" class="theme-btn"><span class="fas fa-arrow-left"></span>Payment Method</a>
+                                            </div>
+                                        </div>
+                                        <div class="user-form">
+                                            <form action="#">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Name On Card</label>
+                                                            <input type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Card Number</label>
+                                                            <input type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Expire Date</label>
+                                                            <input type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>CVC</label>
+                                                            <input type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="theme-btn"><span class="far fa-save"></span> Save Payment</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- user add payment end -->
+
+{% endblock %}

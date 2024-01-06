@@ -1,0 +1,115 @@
+{% extends "base-dashboard.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+        <!-- user product -->
+        <div class="user-area bg py-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="user-card user-product">
+                            <div class="user-card-header">
+                                <h4 class="user-card-title">Products</h4>
+                                <div class="user-card-header-right">
+                                    <div class="user-card-filter">
+                                        <select class="select">
+                                            <option value="">Default</option>
+                                            <option value="1">Active</option>
+                                            <option value="2">Pending</option>
+                                            <option value="3">Hidden</option>
+                                        </select>
+                                    </div>
+                                    <div class="user-card-search">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Search...">
+                                            <i class="far fa-search"></i>
+                                        </div>
+                                    </div>
+                                    <a class="theme-btn" href="{% url 'products:add_product' %}"><span class="far fa-plus-circle"></span>Add Product</a>
+                                </div> 
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-borderless text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Stock</th>
+                                            <th>Price</th>
+                                            <th>Sales</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for product in products %}
+                                            <tr>
+                                                <td>
+                                                    <div class="table-list-info">
+                                                        <a href="#">
+                                                            <div class="table-list-img">
+                                                                {% if product.images.first %}
+                                                                    <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
+                                                                {% else %}
+                                                                    <p>No image available</p>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="table-list-content">
+                                                                <h6>{{ product.name }}</h6>
+                                                                <span>SKU: #{{ product.sku }}</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                                <td>{{ product.stock }} {{ product.stock_unit }}</td>
+                                                <td>{{ product.price }}Php</td>
+                                                <td>
+                                                    {% if product.sales_count > 0 %}
+                                                        {{ product.sales_count }}
+                                                    {% else %}
+                                                        0
+                                                    {% endif %}
+                                                </td>
+                                                <td><span class="badge badge-success">Active</span></td>
+                                                <td>
+                                                    <a href="#" class="btn btn-outline-secondary btn-sm rounded-2" data-tooltip="tooltip" title="Details"><i class="far fa-eye"></i></a>
+                                                    <a href="#" class="btn btn-outline-secondary btn-sm rounded-2" data-tooltip="tooltip" title="Edit"><i class="far fa-pen"></i></a>
+                                                    <a href="#" class="btn btn-outline-danger btn-sm rounded-2" data-tooltip="tooltip" title="Delete"><i class="far fa-trash-can"></i></a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    
+                                </table>
+                            </div>
+                            <!-- pagination -->
+                            <div class="pagination-area mt-4 mb-3">
+                                <div aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Previous">
+                                                <span aria-hidden="true"><i class="far fa-angle-double-left"></i></span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Next">
+                                                <span aria-hidden="true"><i class="far fa-angle-double-right"></i></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- pagination end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- user product end -->
+
+{% endblock %}
