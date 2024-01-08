@@ -5,3 +5,5 @@ lib/
 include/
 pyvenv.cfg
 node_modules
+
+__pycache__/
