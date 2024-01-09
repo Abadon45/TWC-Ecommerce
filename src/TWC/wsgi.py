@@ -15,4 +15,4 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'TWC.settings')
 
 application = get_wsgi_application()
 
-print("ASGI application initialized.")
+
