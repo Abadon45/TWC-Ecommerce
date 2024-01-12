@@ -125,11 +125,7 @@
                                 <div class="row align-items-center">
                                     <div class="col-md-6 col-lg-12 col-xl-6">
                                         <div class="shop-single-btn">
-                                            {% if user.is_authenticated %}
                                             <button data-product="{{ product.id }}" data-action="add" type="button" class="update-cart theme-btn add-to-cart-btn">Add To Cart</button>
-                                            {% else %}
-                                            <button type="button" class="sweet-modal theme-btn add-to-cart-btn">Add To Cart</button>
-                                            {% endif %}
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-12 col-xl-6">

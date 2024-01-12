@@ -2,7 +2,7 @@ $(document).ready(function () {
     $('.sweet-modal').click(function () {
         Swal.fire({
             title: 'Authentication Required',
-            text: 'Please log in or register to add items to your cart.',
+            text: 'Please log in or register to proceed to checkout.',
             icon: 'info',
             showCancelButton: true,
             confirmButtonText: 'Log In',

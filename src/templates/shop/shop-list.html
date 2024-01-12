@@ -369,16 +369,10 @@
                                         <div class="product-price">
                                             <span>{{ product.price }}Php</span>
                                         </div>
-                                        {% if user.is_authenticated %}
                                         <button data-product="{{ product.id }}" data-action="add" type="button"
                                             class="product-cart-btn add-to-cart-btn update-cart">
                                             <i class="far fa-shopping-bag"></i>
-                                        </button>
-                                        {% else %}
-                                        <button type="button" class="sweet-modal product-cart-btn add-to-cart-btn">
-                                            <i class="far fa-shopping-bag"></i>
-                                        </button>
-                                        {% endif %}
+                                        </button> 
                                     </div>
                                 </div>
                             </div>

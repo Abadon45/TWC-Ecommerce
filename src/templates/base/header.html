@@ -135,11 +135,7 @@
                             {% endif %}
                             
                             <li class="dropdown-cart">
-                                {% if user.is_authenticated %}
                                     <a href="{% url 'cart:cart' %}" class="shop-cart list-item"><i class="far fa-shopping-bag"></i>
-                                {% else %}
-                                    <a href="{% url 'login:login' %}" class="shop-cart list-item"><i class="far fa-shopping-bag"></i>     
-                                {% endif %}
                                     <span id="cart-count">{{ cart_items }}</span></a>
                                 <!-- <div class="dropdown-cart-menu">
                                     <div class="container">

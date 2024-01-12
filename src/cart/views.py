@@ -1,17 +1,27 @@
+from user.utils import create_or_get_guest_user
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import etag
 from django.views.generic import TemplateView
 from django.db import transaction
 from django.db.models import Sum
 from django.http import JsonResponse
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.signals import user_logged_in
+from django.dispatch import receiver
+
 import json
+import uuid
 
 from products.models import Product
 from orders.models import *
 from billing.models import Customer
 from addresses.forms import AddressForm
+
+class CartView (TemplateView):
+    template_name='cart/shop-cart.html'
   
-@etag(None)
 def updateItem(request):
     productId = request.GET.get('productId')
     action = request.GET.get('action')
@@ -20,13 +30,17 @@ def updateItem(request):
     print('Action: ', action)
     print('Product: ', productId)
     print('Quantity: ', quantity)
-    
-    customer = request.user.customer
-    product = get_object_or_404(Product, id=productId)
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
-    orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
 
+    if request.user.is_authenticated:
+        customer = request.user.customer
+    else:
+        customer = create_or_get_guest_user(request)
+
+    order, created = Order.objects.get_or_create(customer=customer, complete=False)
     
+    product = get_object_or_404(Product, id=productId)
+    orderItem, order_item_created = OrderItem.objects.get_or_create(order=order, product=product)
+
     if action == 'add':
         orderItem.quantity += int(quantity)
     elif action == 'minus':
@@ -38,10 +52,14 @@ def updateItem(request):
     
     if orderItem.quantity <= 0:
         orderItem.delete()
+        
+    # Store anonymous order ID in session if the user is a guest
+    if not request.user.is_authenticated:
+        anonymous_orders = request.session.get('anonymous_orders', [])
+        anonymous_orders.append(order.id)
+        request.session['anonymous_orders'] = anonymous_orders
 
     total_quantity = OrderItem.objects.filter(order__customer=customer, order__complete=False).aggregate(Sum('quantity'))['quantity__sum']
-    
-    
     cart_items_count = total_quantity if total_quantity is not None else 0
     
     product_data = {
@@ -63,6 +81,8 @@ def updateItem(request):
         }],
         'action': action
     }, safe=False)
+
+
 
 
 def checkout(request):
@@ -186,6 +206,52 @@ def checkout_done_view(request):
     else:
         return redirect('login:login')
 
+@receiver(user_logged_in)
+def user_logged_in_handler(request, user, **kwargs):
+    anonymous_orders = request.session.get('anonymous_orders', [])
+    
+    print("Anonymous Orders:", anonymous_orders)
+    
+    if anonymous_orders:
+        latest_order = Order.objects.filter(id__in=anonymous_orders[1:])
+        
+        print("Latest Orders:", latest_order)
+        
+        if latest_order.exists():
+            latest_order = latest_order.latest('created_at')
 
+            print("Latest Order ID:", latest_order.order_id)
 
+            # Check if the user has existing orders
+            existing_orders = Order.objects.filter(customer=request.user.customer, complete=False)
 
+            if existing_orders.exists():
+                # Copy items from the latest order to the user's existing order
+                existing_order = existing_orders.latest('created_at')
+
+                print("Existing Order ID:", existing_order.order_id)
+
+                for item in latest_order.orderitem_set.all():
+                    order_item, created = OrderItem.objects.get_or_create(order=existing_order, product=item.product)
+                    order_item.quantity += item.quantity
+                    order_item.save()
+
+                # Delete the latest order
+                latest_order.delete()
+
+                print("Cart items merged successfully.")
+
+                messages.success(request, 'Cart items merged successfully.')
+                return redirect('cart:cart')
+            else:
+                # If the user has no existing orders, make the latest order by the guest as the order
+                latest_order.customer = request.user.customer
+                latest_order.save()
+
+                print("Guest order assigned to the authenticated user.")
+
+                messages.success(request, 'Guest order assigned to the authenticated user.')
+                return redirect('home_view')
+
+    print("No anonymous orders found.")
+    return redirect('home_view')

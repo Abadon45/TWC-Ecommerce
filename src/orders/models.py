@@ -19,6 +19,7 @@ ORDER_STATUS_CHOICES = (
 class Order(models.Model):
     customer            = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
     order_id            = models.CharField(max_length=120, blank=True, unique=True)
+    session_key         = models.CharField(max_length=120, blank=True, null=True, unique=True)
     shipping_address    = models.ForeignKey(Address, null =True, blank=True, on_delete=models.CASCADE, related_name='shipping_address')
     contact_number      = models.CharField(max_length=15, blank=True, null=True)
     complete            = models.BooleanField(default=False, null=True, blank=False)

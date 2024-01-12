@@ -26,7 +26,6 @@
                                     </tr>
                                 </thead>
                                 <tbody class="cart-body">
-                                    {% if user.is_authenticated %}
                                         {% for item in items %}
                                             <tr class="cart-product" id="product-row-{{ item.product.id }}">
                                                 <td>
@@ -70,7 +69,6 @@
                                                 </td>
                                             </tr>
                                         {% endfor %}
-                                    {% endif %}
                                 </tbody>
                             </table>
                         </div>
@@ -103,9 +101,16 @@
                             <li><strong>Shipping:</strong> <span>{% if shipping == 0 %}Free{% else %}{{ shipping }}{%endif %}</span></li>
                             <li class="shop-cart-total"><strong>Total:</strong> <span>{{ total }}</span></li>
                         </ul>
+                        
                         <div class="text-end mt-40">
+                            {% if user.is_authenticated %}
                             <a href="{% url 'cart:checkout' %}" class="theme-btn">Checkout Now<i
                                     class="fas fa-arrow-right-long"></i></a>
+                            {% else %}
+                            <button type="button" class="sweet-modal theme-btn">Checkout Now
+                                <i class="fas fa-arrow-right-long"></i>
+                            </button>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
