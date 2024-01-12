@@ -134,7 +134,7 @@
                                 <li><a href="{% url 'login:login' %}" class="list-item" placeholder="wishlist"><i class="far fa-heart"></i><span>0</span></a></li>
                             {% endif %}
                             
-                            <li class="dropdown-cart">
+                            <li id="cart-link" class="dropdown-cart">
                                     <a href="{% url 'cart:cart' %}" class="shop-cart list-item"><i class="far fa-shopping-bag"></i>
                                     <span id="cart-count">{{ cart_items }}</span></a>
                                 <!-- <div class="dropdown-cart-menu">

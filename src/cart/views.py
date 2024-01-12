@@ -19,9 +19,23 @@ from orders.models import *
 from billing.models import Customer
 from addresses.forms import AddressForm
 
-class CartView (TemplateView):
-    template_name='cart/shop-cart.html'
-  
+class CartView(TemplateView):
+    template_name = 'cart/shop-cart.html'
+
+    # def dispatch(self, request, *args, **kwargs):
+    #     cart_items_count = 0
+    #     customer = create_or_get_guest_user(request)
+    #     orders = Order.objects.filter(customer=customer, complete=False)
+        
+    #     if orders.exists():
+    #         order = orders.first()
+    #         cart_items_count = order.get_cart_total
+
+    #         if cart_items_count == 0:
+    #             return redirect('home_view')
+
+    #     return super().dispatch(request, *args, **kwargs)
+
 def updateItem(request):
     productId = request.GET.get('productId')
     action = request.GET.get('action')
@@ -221,22 +235,15 @@ def user_logged_in_handler(request, user, **kwargs):
             latest_order = latest_order.latest('created_at')
 
             print("Latest Order ID:", latest_order.order_id)
-
-            # Check if the user has existing orders
             existing_orders = Order.objects.filter(customer=request.user.customer, complete=False)
-
             if existing_orders.exists():
-                # Copy items from the latest order to the user's existing order
                 existing_order = existing_orders.latest('created_at')
-
                 print("Existing Order ID:", existing_order.order_id)
-
                 for item in latest_order.orderitem_set.all():
                     order_item, created = OrderItem.objects.get_or_create(order=existing_order, product=item.product)
                     order_item.quantity += item.quantity
                     order_item.save()
 
-                # Delete the latest order
                 latest_order.delete()
 
                 print("Cart items merged successfully.")
@@ -244,7 +251,6 @@ def user_logged_in_handler(request, user, **kwargs):
                 messages.success(request, 'Cart items merged successfully.')
                 return redirect('cart:cart')
             else:
-                # If the user has no existing orders, make the latest order by the guest as the order
                 latest_order.customer = request.user.customer
                 latest_order.save()
 

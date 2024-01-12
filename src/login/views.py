@@ -31,26 +31,22 @@ class EcomLoginView(BaseLoginView):
     template_name = 'login/login.html'
     
     def get_success_url(self):
-        # Check if the user is not authenticated and has an anonymous order
         if not self.request.user.is_authenticated:
             session_key = self.request.session.session_key
             
             if not session_key:
-                # If session_key is not available, create a new session
                 self.request.session.create()
                 session_key = self.request.session.session_key
 
             anonymous_order = Order.objects.filter(session_key=session_key, complete=False).first()
             
             if anonymous_order:
-                # Merge the anonymous order with the authenticated user's order
                 if self.request.user.customer:
                     anonymous_order.customer = self.request.user.customer
                     anonymous_order.save()
                     del self.request.session['guest_user']
                     return reverse('cart:cart')
 
-        # If no anonymous order or user is authenticated, redirect to home page
         return reverse('home_view')
 
     def form_invalid(self, form):
