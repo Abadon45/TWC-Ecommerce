@@ -1,13 +1,29 @@
 from django.db import models
 from django.utils.text import slugify
                             
+
+class Category(models.Model):
+    FASHION_ACCESSORIES = 'Fashion & Accessories'
+    ELECTRONICS = 'Electronics'
+    HEALTH = 'Health'
+
+    CATEGORY_CHOICES = [
+        (FASHION_ACCESSORIES, 'Fashion & Accessories'),
+        (ELECTRONICS, 'Electronics'),
+        (HEALTH, 'Health'),
+    ]
+
+    name = models.CharField(max_length=255, choices=CATEGORY_CHOICES, unique=True)
+
+    def __str__(self):
+        return self.name
+
 class Product(models.Model):
     CATEGORY_CHOICES = [
         (1, 'Fashion & Accessories'),
         (2, 'Electronics'),
         (3, 'Health'),
     ]
-
     BRAND_CHOICES = [
         (1, 'Apple'),
         (2, 'Samsung'),
@@ -42,6 +58,23 @@ class Product(models.Model):
     def __str__(self):
         
         return str(self.name)
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'slug': self.slug,
+            'category': str(self.category),
+            'brand': self.brand,
+            'sku': self.sku,
+            'price': str(self.price),
+            'discount_price': str(self.discount_price) if self.discount_price is not None else None,
+            'stock': self.stock,
+            'stock_unit': self.stock_unit,
+            'description': self.description,
+        }
+
+    
     
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')

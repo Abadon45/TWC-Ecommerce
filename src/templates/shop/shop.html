@@ -5,6 +5,7 @@
 
 {% block content %}
 
+
 <!-- shop-area -->
 <div class="shop-area py-100">
     <div class="container">
@@ -22,20 +23,16 @@
                             </form>
                         </div>
                     </div>
+                    <div></div>
                     <div class="shop-widget">
                         <h4 class="shop-widget-title">Category</h4>
                         <ul class="shop-category-list">
-                            <li><a href="#">Accessories<span>(15)</span></a></li>
-                            <li><a href="#">Fashion<span>(15)</span></a></li>
-                            <li><a href="#">Home & Furniture<span>(15)</span></a></li>
-                            <li><a href="#">Electronics <span>(15)</span></a></li>
-                            <li><a href="#">Grocery & Market<span>(15)</span></a></li>
-                            <li><a href="#">Toy & Video Games<span>(15)</span></a></li>
-                            <li><a href="#">Babies & Moms<span>(15)</span></a></li>
-                            <li><a href="#">Sports & Outdoor<span>(15)</span></a></li>
-                            <li><a href="#">Home & Garden<span>(15)</span></a></li>
-                            <li><a href="#">Music & Audio<span>(15)</span></a></li>
-                            <li><a href="#">Others<span>(25)</span></a></li>
+                            <li><a href="{% url 'shop:shop' %}">All</a></li>
+                        </ul>
+                        <ul class="shop-category-list">
+                            {% for category in categories %}
+                                <li><a href="#" data-category-id="{{ category.id }}">{{ category.name }}<span>({{ category.count }})</span></a></li>
+                            {% endfor %}
                         </ul>
                     </div>
                     <div class="shop-widget">
@@ -301,7 +298,8 @@
                         </ul>
                     </div>
                     <div class="shop-widget-banner mt-30 mb-50">
-                        <div class="banner-img" style="background-image:url(assets/img/banner/shop-banner.jpg)"></div>
+                        <div class="banner-img" style="background-image:url({% static 'img/banner/shop-banner.jpg' %})">
+                        </div>
                         <div class="banner-content">
                             <h6>Get <span>35% Off</span></h6>
                             <h4>New Collection of Sunglassess</h4>
@@ -325,14 +323,62 @@
                             <div class="shop-sort-show">Showing 1-10 of 50 Results</div>
                         </div>
                         <div class="shop-sort-gl">
-                            <a href="{% url 'shop:grid' %}" class="shop-sort-grid"><i
-                                    class="far fa-grid-round-2"></i></a>
-                            <a href="{% url 'shop:list' %}" class="shop-sort-list active"><i
-                                    class="far fa-list-ul"></i></a>
+                            <button id="gridBtn" class="shop-sort-grid active"><i class="far fa-grid-round-2"></i></button>
+                            <button id="listBtn" class="shop-sort-list"><i class="far fa-list-ul"></i></button>
                         </div>
                     </div>
                 </div>
-                <div class="shop-item-wrapper item-list">
+                <div class="shop-item-wrapper shop-grid product-list">
+                    <div class="row">
+                        {% for product in products %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="product-item">
+                                <div class="product-img">
+                                    <span class="type">Trending</span>
+                                    <a href="{% url 'shop:single' slug=product.slug %}">
+                                        {% if product.images.first %}
+                                        <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}"
+                                            id="product-image">
+                                        {% else %}
+                                        no image
+                                        {% endif %}
+                                    </a>
+                                    <div class="product-action-wrap">
+                                        <div class="product-action">
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"
+                                                data-tooltip="tooltip" title="Quick View"><i class="far fa-eye"></i></a>
+                                            <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i
+                                                    class="far fa-heart"></i></a>
+                                            <a href="#" data-tooltip="tooltip" title="Add To Compare"><i
+                                                    class="far fa-arrows-repeat"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-content">
+                                    <h3 class="product-title"><a href="{% url 'shop:single' slug=product.slug %}">{{product.name }}</a></h3>
+                                    <div class="product-rate">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                    <div class="product-bottom">
+                                        <div class="product-price">
+                                            <span class="current-product-price">{{ product.price}}</span><span>Php</span>
+                                        </div>
+                                        <button data-product="{{ product.id }}" data-action="add" type="button"
+                                            class="product-cart-btn add-to-cart-btn update-cart">
+                                            <i class="far fa-shopping-bag"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="shop-item-wrapper item-list shop-list product-list">
                     <div class="row">
                         {% for product in products %}
                         <div class="col-md-12">
@@ -406,7 +452,5 @@
         </div>
     </div>
 </div>
-
 <!-- shop-area end -->
-
 {% endblock %}

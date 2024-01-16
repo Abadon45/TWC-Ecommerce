@@ -186,27 +186,14 @@
                     <ul class="main-category hide-category">
                         <li>
                             <a href="#">
-                                <img src="{% static 'img/icon/shopping-bag.svg' %}" alt="">
-                                <span>New Arrivals</span><i class="far fa-angle-right"></i>
+                                <span><b>New Arrivals</b></span><i class="far fa-angle-right"></i>
                             </a>
                             <ul class="sub-category">
-                                <li><a href="#"><img src="{% static 'img/icon/dress.svg' %}" alt=""><span>Accessories</span></a></li>
-                                <li><a href="#"><img src="{% static 'img/icon/laptop.svg' %}" alt=""><span>Electronics</span></a></li>
-                                <li><a href="#"><img src="{% static 'img/icon/grocery.svg' %}" alt=""><span>Grocery & Market</span></a></li>
-                                <li><a href="#"><img src="{% static 'img/icon/music.svg' %}" alt=""><span>Music & Audio</span></a></li>
-                                <li><a href="#"><img src="{% static 'img/icon/furniture.svg' %}" alt=""><span>Home & Furniture</span></a></li>
-                                <li><a href="#"><img src="{% static 'img/icon/toy.svg' %}" alt=""><span>Toy & Video Games</span></a></li>
-                                <li><a href="#"><img src="{% static 'img/icon/gifts.svg' %}" alt=""><span>Gifts</span></a></li>
-                                <li><a href="#"><img src="{% static 'img/icon/mother.svg' %}" alt=""><span>Babies & Moms</span></a></li>
-                                <li><a href="#"><img src="{% static 'img/icon/beauty.svg' %}" alt=""><span>Health & Beauty</span></a></li>
-                                <li><a href="#"><img src="{% static 'img/icon/sports.svg' %}" alt=""><span>Sports & Outdoor</span></a></li>
-                                <li><a href="#"><img src="{% static 'img/icon/garden.svg' %}" alt=""><span>Home & Garden</span></a></li>
-                                <li><a href="#"><img src="{% static 'img/icon/automotive.svg' %}" alt=""><span>Automotive</span></a></li>
+                                <li><a href="#"><span>Place context here</span></a></li>
                             </ul>               
                         </li>
                         <li>
                             <a href="#">
-                                <img src="{% static 'img/icon/dress.svg' %}" alt="">
                                 <span>Fashion & Accessories</span><i class="far fa-angle-right"></i>
                             </a>
                             <div class="sub-category-mega">
@@ -256,246 +243,11 @@
                                 </div>
                             </div>
                         </li>
+                        {% for category in categories %}
                         <li>
-                            <a href="#">
-                                <img src="{% static 'img/icon/laptop.svg' %}" alt="">
-                                <span>Electronics</span><i class="far fa-angle-right"></i>
-                            </a>
-                            <div class="sub-category-mega">
-                                <div class="row">
-                                    <div class="col-lg-3">
-                                        <div class="category-single">
-                                            <h6 class="category-title-text">Man Cloths</h6>
-                                            <div class="category-link">
-                                                <a href="#">Kids Toys</a>
-                                                <a href="#">Kids Color Shape</a>
-                                                <a href="#">Kids Travel Car</a>
-                                                <a href="#">Kids Tent</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="category-single">
-                                            <h6 class="category-title-text">Accessories</h6>
-                                            <div class="category-link">
-                                                <a href="#">Watch</a>
-                                                <a href="#">Hoodies</a>
-                                                <a href="#">T-shirt</a>
-                                                <a href="#">Formal Pant</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="category-single">
-                                            <h6 class="category-title-text">Bags</h6>
-                                            <div class="category-link">
-                                                <a href="#">Ladies Shirt</a>
-                                                <a href="#">Ladies Sun Glass</a>
-                                                <a href="#">Ladies Frog</a>
-                                                <a href="#">Ladies Watch</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="category-img">
-                                            <a href="#"><img src="{% static 'img/category/04.jpg' %}" alt=""></a>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="category-single">
-                                            <h6 class="category-title-text">Women Cloths</h6>
-                                            <div class="category-link">
-                                                <a href="#">Ladies Shirt</a>
-                                                <a href="#">Ladies Sun Glass</a>
-                                                <a href="#">Ladies Frog</a>
-                                                <a href="#">Ladies Watch</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="category-single">
-                                            <h6 class="category-title-text">Shoes</h6>
-                                            <div class="category-link">
-                                                <a href="#">Ladies Shirt</a>
-                                                <a href="#">Ladies Sun Glass</a>
-                                                <a href="#">Ladies Frog</a>
-                                                <a href="#">Ladies Watch</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="category-single">
-                                            <h6 class="category-title-text">Bags</h6>
-                                            <div class="category-link">
-                                                <a href="#">Ladies Shirt</a>
-                                                <a href="#">Ladies Sun Glass</a>
-                                                <a href="#">Ladies Frog</a>
-                                                <a href="#">Ladies Watch</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="category-img">
-                                            <a href="#"><img src="{% static 'img/category/05.jpg' %}" alt=""></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <a href="#"><span>{{ category_name }}</span></a>
                         </li>
-                        <li>
-                            <a href="#">
-                                <img src="{% static 'img/icon/grocery.svg' %}" alt="">
-                                <span>Grocery & Market</span><i class="far fa-angle-right"></i>
-                            </a>
-                            <div class="sub-category-mega">
-                                <div class="row">
-                                    <div class="col-lg-3">
-                                        <div class="category-single">
-                                            <h6 class="category-title-text">Man Cloths</h6>
-                                            <div class="category-link">
-                                                <a href="#">Kids Toys</a>
-                                                <a href="#">Kids Color Shape</a>
-                                                <a href="#">Kids Travel Car</a>
-                                                <a href="#">Kids Tent</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="category-single">
-                                            <h6 class="category-title-text">Accessories</h6>
-                                            <div class="category-link">
-                                                <a href="#">Watch</a>
-                                                <a href="#">Hoodies</a>
-                                                <a href="#">T-shirt</a>
-                                                <a href="#">Formal Pant</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="category-single">
-                                            <h6 class="category-title-text">Bags</h6>
-                                            <div class="category-link">
-                                                <a href="#">Ladies Shirt</a>
-                                                <a href="#">Ladies Sun Glass</a>
-                                                <a href="#">Ladies Frog</a>
-                                                <a href="#">Ladies Watch</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="category-single">
-                                            <h6 class="category-title-text">Women Cloths</h6>
-                                            <div class="category-link">
-                                                <a href="#">Ladies Shirt</a>
-                                                <a href="#">Ladies Sun Glass</a>
-                                                <a href="#">Ladies Frog</a>
-                                                <a href="#">Ladies Watch</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="category-single">
-                                            <h6 class="category-title-text">Man Cloths</h6>
-                                            <div class="category-link">
-                                                <a href="#">Kids Toys</a>
-                                                <a href="#">Kids Color Shape</a>
-                                                <a href="#">Kids Travel Car</a>
-                                                <a href="#">Kids Tent</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="category-single">
-                                            <h6 class="category-title-text">Accessories</h6>
-                                            <div class="category-link">
-                                                <a href="#">Watch</a>
-                                                <a href="#">Hoodies</a>
-                                                <a href="#">T-shirt</a>
-                                                <a href="#">Formal Pant</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="category-single">
-                                            <h6 class="category-title-text">Bags</h6>
-                                            <div class="category-link">
-                                                <a href="#">Ladies Shirt</a>
-                                                <a href="#">Ladies Sun Glass</a>
-                                                <a href="#">Ladies Frog</a>
-                                                <a href="#">Ladies Watch</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="category-single">
-                                            <h6 class="category-title-text">Women Cloths</h6>
-                                            <div class="category-link">
-                                                <a href="#">Ladies Shirt</a>
-                                                <a href="#">Ladies Sun Glass</a>
-                                                <a href="#">Ladies Frog</a>
-                                                <a href="#">Ladies Watch</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li><a href="#"><img src="{% static 'img/icon/music.svg' %}" alt=""><span>Music & Audio</span></a></li>
-                        <li>
-                            <a href="#">
-                                <img src="{% static 'img/icon/furniture.svg' %}" alt="">
-                                <span>Home & Furniture</span><i class="far fa-angle-right"></i>
-                            </a>
-                            <div class="sub-category-mega">
-                                <div class="row">
-                                    <div class="col-lg-3">
-                                        <div class="category-single">
-                                            <h6 class="category-title-text">Man Cloths</h6>
-                                            <div class="category-link">
-                                                <a href="#">Kids Toys</a>
-                                                <a href="#">Kids Color Shape</a>
-                                                <a href="#">Kids Travel Car</a>
-                                                <a href="#">Kids Tent</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="category-single">
-                                            <h6 class="category-title-text">Accessories</h6>
-                                            <div class="category-link">
-                                                <a href="#">Watch</a>
-                                                <a href="#">Hoodies</a>
-                                                <a href="#">T-shirt</a>
-                                                <a href="#">Formal Pant</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="category-single">
-                                            <h6 class="category-title-text">Bags</h6>
-                                            <div class="category-link">
-                                                <a href="#">Ladies Shirt</a>
-                                                <a href="#">Ladies Sun Glass</a>
-                                                <a href="#">Ladies Frog</a>
-                                                <a href="#">Ladies Watch</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="category-img">
-                                            <a href="#"><img src="{% static 'img/category/04.jpg' %}" alt=""></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li><a href="#"><img src="{% static 'img/icon/toy.svg' %}" alt=""><span>Toy & Video Games</span></a></li>
-                        <li><a href="#"><img src="{% static 'img/icon/gifts.svg' %}" alt=""><span>Gifts</span></a></li>
-                        <li><a href="#"><img src="{% static 'img/icon/mother.svg' %}" alt=""><span>Babies & Moms</span></a></li>
-                        <li><a href="#"><img src="{% static 'img/icon/beauty.svg' %}" alt=""><span>Health & Beauty</span></a></li>
-                        <li><a href="#"><img src="{% static 'img/icon/sports.svg' %}" alt=""><span>Sports & Outdoor</span></a></li>
-                        <li><a href="#"><img src="{% static 'img/icon/garden.svg' %}" alt=""><span>Home & Garden</span></a></li>
-                        <li><a href="#"><img src="{% static 'img/icon/automotive.svg' %}" alt=""><span>Automotive</span></a></li>
+                        {% endfor %}
                     </ul>
                 </div>
                 <div class="mobile-menu-right">
@@ -516,7 +268,7 @@
                 <div class="collapse navbar-collapse" id="main_nav">
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link" href="{% url 'home_view' %}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'shop:grid' %}">Shop</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'shop:shop' %}">Shop</a></li>
                     <div class="nav-right">
                         <div class="nav-right-btn">
                             <a href="{% url 'become_seller' %}" class="theme-btn">Become Seller</a>

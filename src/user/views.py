@@ -5,7 +5,7 @@ from addresses.models import Address
 
 class DashboardView(TemplateView):
     template_name = 'user/dashboard.html'
-    title = "dashboard"
+    title = "User Dashboard"
     context = {'title': title}
 
     def get_context_data(self, **kwargs):
