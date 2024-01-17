@@ -22,19 +22,6 @@ from addresses.forms import AddressForm
 class CartView(TemplateView):
     template_name = 'cart/shop-cart.html'
 
-    # def dispatch(self, request, *args, **kwargs):
-    #     cart_items_count = 0
-    #     customer = create_or_get_guest_user(request)
-    #     orders = Order.objects.filter(customer=customer, complete=False)
-        
-    #     if orders.exists():
-    #         order = orders.first()
-    #         cart_items_count = order.get_cart_total
-
-    #         if cart_items_count == 0:
-    #             return redirect('home_view')
-
-    #     return super().dispatch(request, *args, **kwargs)
 
 def updateItem(request):
     productId = request.GET.get('productId')
@@ -46,7 +33,12 @@ def updateItem(request):
     print('Quantity: ', quantity)
 
     if request.user.is_authenticated:
-        customer = request.user.customer
+        user = request.user
+
+        if hasattr(user, 'customer'):
+            customer = user.customer
+        else:
+            customer = Customer.objects.create(user=user, email=user.email)
     else:
         customer = create_or_get_guest_user(request)
 

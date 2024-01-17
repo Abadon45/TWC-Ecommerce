@@ -34,6 +34,15 @@ class Order(models.Model):
     def get_absolute_url(self):
         return reverse("orders:detail", kwargs={'order_id': self.order_id})
     
+    @classmethod
+    def get_or_create_customer(cls, user, email):
+        if user is not None:
+            customer, created = cls.objects.get_or_create(user=user, email=email)
+            return customer, created
+        else:
+            # Handle the case for guests (non-authenticated users)
+            customer, created = cls.objects.get_or_create(email=email)
+            return customer, created
     
     @property
     def get_cart_total(self):

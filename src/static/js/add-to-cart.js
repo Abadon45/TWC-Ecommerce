@@ -2,7 +2,8 @@ $(document).ready(function () {
     $('.update-cart').click(function () {
         var productId = $(this).data('product');
         var action = $(this).data('action');
-        var quantity = $('#quantity-input-' + productId).val();
+        var quantityInput = $('#quantity-input-' + productId);
+        var quantity = parseInt(quantityInput.val()) || 1;
 
         console.log('Product ID:', productId, 'Action:', action, 'Quantity:', quantity);
 

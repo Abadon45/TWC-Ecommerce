@@ -84,14 +84,29 @@ WSGI_APPLICATION = 'TWC.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+POSTGRES_DB = os.environ.get("POSTGRES_DB", 'twcmart')
+POSTGRES_PASSWORD = os.environ.get("POSTGRES_DB", 'VjIT0hyTEzHSwV-yEpGh-l7uNoieqZ-YhapAj4Qf2r4')
+POSTGRES_USER = os.environ.get("POSTGRES_USER", 'twcdev')
+POSTGRES_HOST = os.environ.get("POSTGRES_HOST", '172.104.160.121')
+POSTGRES_PORT = os.environ.get("POSTGRES_PORT", "5432")
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': POSTGRES_DB,
+        'USER': POSTGRES_USER,
+        'PASSWORD': POSTGRES_PASSWORD,
+        'HOST': POSTGRES_HOST,
+        'PORT': POSTGRES_PORT,
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
@@ -147,3 +162,27 @@ MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_SAVE_EVERY_REQUEST = True
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'login' / 'log' / 'file.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'login': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
