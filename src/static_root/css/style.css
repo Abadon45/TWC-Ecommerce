@@ -3302,7 +3302,7 @@ label {
   box-shadow: var(--box-shadow);
 }
 
-.shop-sort-gl a{
+.shop-sort-gl button{
   background: transparent;
   border: 1px solid var(--border-info-color);
   color: var(--body-text-color);
