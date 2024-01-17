@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'TWC.wsgi.application'
 
 # Database
 POSTGRES_DB = os.environ.get("POSTGRES_DB", 'twcmart')
-POSTGRES_PASSWORD = os.environ.get("POSTGRES_DB", 'VjIT0hyTEzHSwV-yEpGh-l7uNoieqZ-YhapAj4Qf2r4')
+POSTGRES_PASSWORD = os.environ.get("POSTGRES_PASSWORD", 'VjIT0hyTEzHSwV-yEpGh-l7uNoieqZ-YhapAj4Qf2r4')
 POSTGRES_USER = os.environ.get("POSTGRES_USER", 'twcdev')
 POSTGRES_HOST = os.environ.get("POSTGRES_HOST", '172.104.160.121')
 POSTGRES_PORT = os.environ.get("POSTGRES_PORT", "5432")
