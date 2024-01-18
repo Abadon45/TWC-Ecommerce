@@ -71,7 +71,7 @@ def updateItem(request):
     product_data = {
         'id': product.id,
         'name': product.name,
-        'price': str(product.price),
+        'price': str(product.customer_price),
         'quantity': orderItem.quantity,
         'total': str(orderItem.get_total),
     }
@@ -148,10 +148,10 @@ def checkout_done_view(request):
         if order:
             with transaction.atomic():
                 existing_order_items = order.orderitem_set.all()
-                for order_item in existing_order_items:
-                    product = order_item.product
-                    product.stock -= order_item.quantity
-                    product.save()  
+                # for order_item in existing_order_items:
+                #     product = order_item.product
+                #     product.stock -= order_item.quantity
+                #     product.save()  
                 ordered_items = list(existing_order_items)
                 order.complete = True
                 existing_order_items.delete()

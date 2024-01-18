@@ -1,14 +1,30 @@
 from django import forms
-from .models import Product, ProductImage
+from .models import Product
+from django.forms import formset_factory
 
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['id','name', 'category', 'brand', 'sku', 'price', 'discount_price', 'stock', 'stock_unit', 'description']
-
-class ProductImageForm(forms.ModelForm):
-    class Meta:
-        model = ProductImage
-        fields = ['image']
-
-ProductImageFormSet = forms.inlineformset_factory(Product, ProductImage, form=ProductImageForm, extra=1, can_delete=True)
+        fields = [
+            'sku',
+            'slug',
+            'category_1',
+            'category_2',
+            'name',
+            'description_1',
+            'description_2',
+            'feature',
+            'advantage',
+            'benefit',
+            'specification',
+            'image_1',
+            'image_2',
+            'image_3',
+            'image_4',
+            'image_5',
+            'supplier_price',
+            'franchisee_price',
+            'distributor_price',
+            'seller_price',
+            'customer_price',
+        ]

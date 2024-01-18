@@ -336,8 +336,8 @@
                                 <div class="product-img">
                                     <span class="type">Trending</span>
                                     <a href="{% url 'shop:single' slug=product.slug %}">
-                                        {% if product.images.first %}
-                                        <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}"
+                                        {% if product.image_1 %}
+                                        <img src="{{ product.image_1.url }}" alt="{{ product.name }}"
                                             id="product-image">
                                         {% else %}
                                         no image
@@ -385,8 +385,8 @@
                             <div class="product-item">
                                 <div class="product-img">
                                     <span class="type">Trending</span>
-                                    {% if product.images.first %}
-                                    <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
+                                    {% if product.image_1 %}
+                                    <img src="{{ product.image_1.url }}" alt="{{ product.name }}">
                                     {% else %}
                                     no image
                                     {% endif %}
@@ -410,7 +410,7 @@
                                         <i class="fas fa-star"></i>
                                         <i class="far fa-star"></i>
                                     </div>
-                                    <p>{{ product.description }}</p>
+                                    <p>{{ product.description_1 }}</p>
                                     <div class="product-bottom">
                                         <div class="product-price">
                                             <span>{{ product.price }}Php</span>

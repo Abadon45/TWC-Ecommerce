@@ -64,8 +64,8 @@
                                             <div class="table-list-info">
                                                 <a href="#">
                                                     <div class="table-list-img">
-                                                        {% if product.images.first %}
-                                                            <img src="{{ product.images.first.image.url }}"
+                                                        {% if product.image_1 %}
+                                                            <img src="{{ product.image_1.url }}"
                                                                 alt="{{ product.name }}">
                                                         {% else %}
                                                             <p>No image available</p>
@@ -79,7 +79,7 @@
                                             </div>
                                         </td>
                                         <td>{{ product.stock }} {{ product.stock_unit }}</td>
-                                        <td>{{ product.price }}Php</td>
+                                        <td>{{ product.customer_price }}Php</td>
                                         <td>
                                             {% if product.sales_count > 0 %}
                                                 {{ product.sales_count }}
