@@ -8,31 +8,32 @@ $(document).ready(function () {
         toggleView($(this).hasClass("shop-sort-grid") ? "grid" : "list");
     });
 
-    // Category filtering
+    // Category filtering for Category 1
     $(document).on('click', '.category-1 a', function (event) {
         event.preventDefault();
-        
-        const category_id = $(this).attr('data-category-id');
-        console.log("Category ID:", category_id);
+        const category_id = $(this).data('category-id');
+        console.log("Category 1 ID:", category_id);
 
         $('#loading-spinner').show();
-    
         filterProducts(category_id);
-      
     });
+
+    // Category filtering for Category 2
+    $(document).on('click', '.category-2 a', function (event) {
+        event.preventDefault();
+        const category_id = $(this).data('category-id');
+        console.log("Category 2 ID:", category_id);
+
+        $('#loading-spinner').show();
+        filterProducts(category_id);
+    });
+
+
 
     function filterProducts(category_id) {
         const requestData = { category: category_id };
-        let url;
+        const url = (category_id === "all") ? "/shop/" : `/shop/?category_id=${category_id}`;
 
-        if (category_id === "all") {
-            // Perform actions for the "All" category
-            url = "/shop/";
-        } else {
-            // Perform actions for other categories
-            url = `/shop/?category_id=${category_id}`;
-    
-        }
 
         console.log("Filtering products with URL:", url);
         console.log("Request Data:", requestData);
@@ -46,7 +47,6 @@ $(document).ready(function () {
                 console.log("AJAX Response:", data);
                 console.log("Number of products received:", data.products.length);
                 console.log("Filtered products:", data.products);
-                console.log("Properties of the first product:", Object.keys(data.products[0]));
                 const productListContainerGrid = $('.shop-grid .row');
                 const productListContainerList = $('.shop-list .row');
              

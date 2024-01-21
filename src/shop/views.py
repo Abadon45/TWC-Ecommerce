@@ -21,7 +21,7 @@ class ShopView(ProductListView):
         if category_id is None or category_id.lower() == 'all':
             queryset = Product.objects.all()
         else:
-            queryset = Product.objects.filter(category_1=category_id)
+            queryset = Product.objects.filter(category_1=category_id) | Product.objects.filter(category_2=category_id)
         
         print(f"Category ID: {category_id}")
 
@@ -31,14 +31,14 @@ class ShopView(ProductListView):
         context = super().get_context_data(**kwargs)
 
         if not self._product_choices:
-            # Retrieve choices only once and store them
             self._product_choices = {
                 'categories_1': Product.PRODUCT_CATEGORY_1_CHOICES,
                 'categories_2': Product.PRODUCT_CATEGORY_2_CHOICES,
             }
         context.update(self._product_choices)
-        context['products'] = self.get_queryset()
-        print(f"Products length in context: {len(context['products'])}")
+        products = self.get_queryset()
+        print(f"Products length in context: {len(products)}")
+        context['products'] = products
         return context
 
     def render_to_response(self, context, **response_kwargs):

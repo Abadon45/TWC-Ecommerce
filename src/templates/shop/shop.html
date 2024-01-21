@@ -36,7 +36,6 @@
                     <div class="shop-widget">
                         <h4 class="shop-widget-title">Category 2</h4>
                         <ul class="shop-category-list category-2">
-                            <li><a href="{% url 'shop:shop' %}">All</a></li>
                             {% for choice in categories_2 %}
                                 <li><a href="#" data-category-id="{{ choice.0 }}">{{ choice.1 }}</a></li>
                             {% endfor %}
