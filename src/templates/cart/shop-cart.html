@@ -30,7 +30,7 @@
                                             <tr class="cart-product" id="product-row-{{ item.product.id }}">
                                                 <td>
                                                     <div class="shop-cart-img">
-                                                        <a href="#"><img src="{{ item.product.images.first.image.url }}"
+                                                        <a href="#"><img src="{{ item.product.image_1.url }}"
                                                                 alt=""></a>
                                                     </div>
                                                 </td>
@@ -44,7 +44,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="shop-cart-price">
-                                                        $<span id="product-price-{{ item.product.id }}">{{ item.product.price}}</span>
+                                                        <span id="product-price-{{ item.product.id }}">₱{{ item.product.customer_price}}</span>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -60,7 +60,7 @@
                                                 <td>
                                                     <div class="shop-cart-subtotal">
                                                         <span id="product-subtotal-{{ item.product.id }}"
-                                                            class="product-subtotal">{{ item.get_total }}</span>
+                                                            class="product-subtotal">₱{{ item.get_total }}</span>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -96,10 +96,10 @@
                     <div class="shop-cart-summary">
                         <h5>Cart Summary</h5>
                         <ul>
-                            <li><strong>Sub Total:</strong> <span>{{ subtotal }}</span></li>
+                            <li><strong>Sub Total:</strong> <span>₱{{ subtotal }}</span></li>
                             <li><strong>Discount:</strong> <span>{{ discount }}%</span></li>
                             <li><strong>Shipping:</strong> <span>{% if shipping == 0 %}Free{% else %}{{ shipping }}{%endif %}</span></li>
-                            <li class="shop-cart-total"><strong>Total:</strong> <span>{{ total }}</span></li>
+                            <li class="shop-cart-total"><strong>Total:</strong> <span>₱{{ total }}</span></li>
                         </ul>
                         
                         <div class="text-end mt-40">

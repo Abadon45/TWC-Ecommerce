@@ -1,7 +1,7 @@
 
 from django.urls import path
 from django.views.generic import TemplateView
-from .views import ShopView, ShopDetailView
+from .views import *
 
 app_name='shop'
 

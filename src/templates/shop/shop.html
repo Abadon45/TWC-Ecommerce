@@ -23,15 +23,22 @@
                             </form>
                         </div>
                     </div>
-                    <div></div>
+                    
                     <div class="shop-widget">
-                        <h4 class="shop-widget-title">Category</h4>
-                        <ul class="shop-category-list">
-                            <li><a href="{% url 'shop:shop' %}">All</a></li>
+                        <h4 class="shop-widget-title">Category 1</h4>
+                        <ul class="shop-category-list category-1">
+                            <li><a href="{% url 'shop:shop' %}?category_id=all" data-category-id="all">All</a></li>
+                            {% for choice in categories_1 %}
+                                <li><a href="{% url 'shop:shop' %}?category_id={{ choice.0 }}" data-category-id="{{ choice.0 }}">{{ choice.1 }}</a></li>
+                            {% endfor %}
                         </ul>
-                        <ul class="shop-category-list">
-                            {% for category in categories %}
-                                <li><a href="#" data-category-id="{{ category.id }}">{{ category.name }}<span>({{ category.count }})</span></a></li>
+                    </div>
+                    <div class="shop-widget">
+                        <h4 class="shop-widget-title">Category 2</h4>
+                        <ul class="shop-category-list category-2">
+                            <li><a href="{% url 'shop:shop' %}">All</a></li>
+                            {% for choice in categories_2 %}
+                                <li><a href="#" data-category-id="{{ choice.0 }}">{{ choice.1 }}</a></li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -42,79 +49,6 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="brand1">
                                     <label class="form-check-label" for="brand1">Apple<span>(12)</span></label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="brand2">
-                                    <label class="form-check-label" for="brand2">Adidas<span>(15)</span></label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="brand3">
-                                    <label class="form-check-label" for="brand3">Bosilox Inc<span>(20)</span></label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="brand4">
-                                    <label class="form-check-label" for="brand4">Converse<span>(05)</span></label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="brand5">
-                                    <label class="form-check-label" for="brand5">Canon Inc<span>(09)</span></label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="brand6">
-                                    <label class="form-check-label" for="brand6">Fashionox<span>(25)</span></label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="brand7">
-                                    <label class="form-check-label" for="brand7">Samsung<span>(19)</span></label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="brand8">
-                                    <label class="form-check-label" for="brand8">Hitachi<span>(23)</span></label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="brand9">
-                                    <label class="form-check-label" for="brand9">Nike<span>(13)</span></label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="brand10">
-                                    <label class="form-check-label" for="brand10">Panasonic<span>(14)</span></label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="brand11">
-                                    <label class="form-check-label" for="brand11">Puma<span>(16)</span></label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="brand12">
-                                    <label class="form-check-label" for="brand12">Urba
-                                        Outfitters<span>(17)</span></label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="brand13">
-                                    <label class="form-check-label" for="brand13">Others<span>(18)</span></label>
                                 </div>
                             </li>
                         </ul>
@@ -365,7 +299,7 @@
                                     </div>
                                     <div class="product-bottom">
                                         <div class="product-price">
-                                            <span class="current-product-price">{{ product.price}}</span><span>Php</span>
+                                            <span class="current-product-price">{{ product.customer_price}}</span><span>Php</span>
                                         </div>
                                         <button data-product="{{ product.id }}" data-action="add" type="button"
                                             class="product-cart-btn add-to-cart-btn update-cart">
@@ -380,6 +314,11 @@
                 </div>
                 <div class="shop-item-wrapper item-list shop-list product-list">
                     <div class="row">
+                        {% if products %}
+                        <p>Number of products: {{ products|length }}</p>
+                        {% else %}
+                        <p>No products found.</p>
+                        {% endif %}
                         {% for product in products %}
                         <div class="col-md-12">
                             <div class="product-item">
@@ -413,7 +352,7 @@
                                     <p>{{ product.description_1 }}</p>
                                     <div class="product-bottom">
                                         <div class="product-price">
-                                            <span>{{ product.price }}Php</span>
+                                            <span>{{ product.customer_price }}Php</span>
                                         </div>
                                         <button data-product="{{ product.id }}" data-action="add" type="button"
                                             class="product-cart-btn add-to-cart-btn update-cart">

@@ -1,19 +1,20 @@
 from django.db import models
 from django.utils.text import slugify
 from .utils import upload_image_path_admin
+from django.urls import reverse
                             
     
 class Product(models.Model):
-    PRODUCT_CATEGORY_1_CHOICES = (
+    PRODUCT_CATEGORY_1_CHOICES = [
         ('promos', 'Promos'),
         ('sante', 'Sante Product'),
         ('twc', 'TWC Product'),
         ('chingu', 'Chingu'),
         ('mood', 'Mood Timepieces'),
         ('sante-package', 'Sante | Package'),
-    )
+    ]
 
-    PRODUCT_CATEGORY_2_CHOICES = (
+    PRODUCT_CATEGORY_2_CHOICES = [
         ('sante-nutraceutical', 'Sante | Nutraceutical'),
         ('sante-beverage', 'Sante | Beverage'),
         ('sante-intimate_care', 'Sante | Intimate Care'),
@@ -21,7 +22,7 @@ class Product(models.Model):
         ('chingu-bundle', 'Chingu | Bundle'),
         ('mood-bundle', 'Mood Timepieces | Bundle'),
         ('promo', 'Promos'),
-    )
+    ]
     
     sku = models.CharField('SKU', max_length=255, null=True, blank=True)
     slug = models.CharField('slug', max_length=255, null=True, blank=True)
@@ -78,4 +79,8 @@ class Product(models.Model):
             return True
         else:
             return False
+    
+    # def get_absolute_url(self):
+    #     # Replace 'product_detail' with the name of your view for displaying a single product
+    #     return reverse('product_detail', args=[str(self.id)])
 
