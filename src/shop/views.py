@@ -62,6 +62,7 @@ class ShopView(ProductListView):
                     'price': product.customer_price,
                     'image': product.image_1.url if product.image_1 else '',
                     'slug': product.slug,
+                    'id': product.id,
 
                 }
                 for product in paginated_products

@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    $('.update-cart').click(function () {
+    $(document).on('click', '.update-cart', function (event) {
+        event.preventDefault();
         var productId = $(this).data('product');
         var action = $(this).data('action');
         var quantityInput = $('#quantity-input-' + productId);
@@ -56,6 +57,9 @@ $(document).ready(function () {
                     });
                 }
             },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('AJAX Error:', textStatus, errorThrown);
+            }
         });
     }
     function isCartPage() {

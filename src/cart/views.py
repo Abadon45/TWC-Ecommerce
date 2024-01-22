@@ -31,65 +31,68 @@ def updateItem(request):
     print('Action: ', action)
     print('Product: ', productId)
     print('Quantity: ', quantity)
+    
+    try:
 
-    if request.user.is_authenticated:
-        user = request.user
+        if request.user.is_authenticated:
+            user = request.user
 
-        if hasattr(user, 'customer'):
-            customer = user.customer
+            if hasattr(user, 'customer'):
+                customer = user.customer
+            else:
+                customer = Customer.objects.create(user=user, email=user.email)
         else:
-            customer = Customer.objects.create(user=user, email=user.email)
-    else:
-        customer = create_or_get_guest_user(request)
+            customer = create_or_get_guest_user(request)
 
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
-    
-    product = get_object_or_404(Product, id=productId)
-    orderItem, order_item_created = OrderItem.objects.get_or_create(order=order, product=product)
-
-    if action == 'add':
-        orderItem.quantity += int(quantity)
-    elif action == 'minus':
-        orderItem.quantity -= int(quantity)
-    elif action == 'remove':
-        orderItem.quantity = 0
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
         
-    orderItem.save()
-    
-    if orderItem.quantity <= 0:
-        orderItem.delete()
-        
-    # Store anonymous order ID in session if the user is a guest
-    if not request.user.is_authenticated:
-        anonymous_orders = request.session.get('anonymous_orders', [])
-        anonymous_orders.append(order.id)
-        request.session['anonymous_orders'] = anonymous_orders
+        product = get_object_or_404(Product, id=productId)
+        orderItem, order_item_created = OrderItem.objects.get_or_create(order=order, product=product)
 
-    total_quantity = OrderItem.objects.filter(order__customer=customer, order__complete=False).aggregate(Sum('quantity'))['quantity__sum']
-    cart_items_count = total_quantity if total_quantity is not None else 0
-    
-    product_data = {
-        'id': product.id,
-        'name': product.name,
-        'price': str(product.customer_price),
-        'quantity': orderItem.quantity,
-        'total': str(orderItem.get_total),
-    }
-    
-    return JsonResponse({
-        'cart_items': cart_items_count,
-        'products': [{
+        if action == 'add':
+            orderItem.quantity += int(quantity)
+        elif action == 'minus':
+            orderItem.quantity -= int(quantity)
+        elif action == 'remove':
+            orderItem.quantity = 0
+            
+        orderItem.save()
+        
+        if orderItem.quantity <= 0:
+            orderItem.delete()
+            
+        # Store anonymous order ID in session if the user is a guest
+        if not request.user.is_authenticated:
+            anonymous_orders = request.session.get('anonymous_orders', [])
+            anonymous_orders.append(order.id)
+            request.session['anonymous_orders'] = anonymous_orders
+
+        total_quantity = OrderItem.objects.filter(order__customer=customer, order__complete=False).aggregate(Sum('quantity'))['quantity__sum']
+        cart_items_count = total_quantity if total_quantity is not None else 0
+        
+        product_data = {
             'id': product.id,
             'name': product.name,
-            'image': getattr(product.images.first(), 'image', None).url if product.images.first() else None,
+            'price': str(product.customer_price),
             'quantity': orderItem.quantity,
-            'total': orderItem.get_total,
-        }],
-        'action': action
-    }, safe=False)
-
-
-
+            'total': str(orderItem.get_total),
+        }
+        
+        return JsonResponse({
+            'cart_items': cart_items_count,
+            'products': [{
+                'id': product.id,
+                'name': product.name,
+                'image': getattr(product.image_1, 'url', None) if product.image_1 else None,
+                'quantity': orderItem.quantity,
+                'total': orderItem.get_total,
+            }],
+            'action': action
+        }, safe=False)
+        
+    except Exception as e:
+        print(f"Exception in updateItem: {e}")
+        return JsonResponse({'error': 'Internal Server Error'}, status=500)
 
 def checkout(request):
     shipping_form = AddressForm()
