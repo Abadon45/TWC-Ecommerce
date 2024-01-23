@@ -3913,8 +3913,8 @@ label {
 }
 
 .checkout-complete-content p{
-  margin-top: 15px;
-  margin-bottom: 30px;
+  justify-content: left;
+  /* margin-top: 5px */
 }
 
 .checkout-complete-content table{
@@ -6256,6 +6256,10 @@ label {
   margin-bottom: 8px;
 }
 
+.country-code{
+  padding: 12px 20px;
+}
+
 .invoice-table{
   margin-top: 30px;
 }
@@ -6288,6 +6292,31 @@ label {
   color: var(--body-text-color);
 }
 
+.input-group .input-group-text {
+  margin: 0 !important;
+  padding: 12px 20px !important;
+  width: 100px !important;
+}
+
+.input-group .form-select {
+  height: auto;
+}
+
+.change-address button{
+  background: none !important;
+  border: none !important;
+  color: #59b0f6 !important; 
+  cursor: pointer !important;
+  padding: 0 !important;
+}
+
+.change-address span {
+  border: 1px solid orange;
+  display: inline-block;
+  padding: 0 5px;
+  border-radius: 4px;
+  color: orange
+}
 
 
 /*====================

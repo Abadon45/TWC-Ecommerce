@@ -96,11 +96,39 @@ def updateItem(request):
 
 def checkout(request):
     shipping_form = AddressForm()
-
+    
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        default_address = Address.objects.filter(customer=customer, is_default=True).first()
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        ordered_items = []
+        
+        with transaction.atomic():
+            existing_order_items = order.orderitem_set.all()
+            for order_item in existing_order_items:
+                product = order_item.product
+                ordered_items.append(OrderItem(order=order, product=product, quantity=order_item.quantity))   
+            order.save()
+        is_authenticated = True
+        
+        if default_address:
+            print(f"Default Address: {default_address}")
+            order.shipping_address = default_address
+            order.save()
+            
+    else:
+        is_authenticated = False
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        order = {
+            'get_cart_total': 0, 
+            'get_cart_items': 0, 
+            'shipping': False
+            }      
+            
     if request.method == 'POST':
         order = Order.objects.get_or_create(customer=request.user.customer, complete=False)[0]
-
         shipping_form = AddressForm(request.POST)
+        
         if shipping_form.is_valid():
             customer = get_object_or_404(Customer, user=request.user)
             
@@ -113,31 +141,22 @@ def checkout(request):
         order.save()
 
         return redirect('cart:checkout')
-
-    if request.user.is_authenticated:
-        customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        ordered_items = []
-        with transaction.atomic():
-            existing_order_items = order.orderitem_set.all()
-            for order_item in existing_order_items:
-                product = order_item.product
-                ordered_items.append(OrderItem(order=order, product=product, quantity=order_item.quantity))   
-            order.save()
     
-    else:
         
-        order = {
-            'get_cart_total': 0, 
-            'get_cart_items': 0, 
-            'shipping': False
-            }
-
-    context = {
-        'order': order,
-        'shipping_form': shipping_form,
-    }
-    return render(request, "cart/shop-checkout-2.html", context)
+    if request.is_ajax():
+        response_data = {
+            'isAuthenticated': is_authenticated,
+        }
+        return JsonResponse(response_data)
+    else:
+        context = {
+            'order': order,
+            'shipping_form': shipping_form,
+            'is_authenticated': is_authenticated,
+            'default_address': default_address,
+        }
+        print(f'is_authenticated: {is_authenticated}')
+        return render(request, "cart/shop-checkout.html", context)
 
 
 def checkout_done_view(request):

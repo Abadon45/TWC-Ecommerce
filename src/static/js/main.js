@@ -397,11 +397,11 @@ Version         : 1.0
 
 
     // modal popup banner
-    $(window).on('load', function () {
-        setTimeout(function () {
-            $("#popup-banner").modal("show");
-        }, 3000)
-    });
+    // $(window).on('load', function () {
+    //     setTimeout(function () {
+    //         $("#popup-banner").modal("show");
+    //     }, 3000)
+    // });
 
 
     // shop checkout 2 step

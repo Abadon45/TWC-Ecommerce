@@ -73,9 +73,12 @@
                                     <h5 class="card-title">DELIVERY ADDRESS</h5>
                                     <p class="card-text">
                                         {{ order.shipping_address.line1 }}
-                                        {% if order.shipping_address.line2 %}{{ order.shipping_address.line2 }}
-                                        {%endif %}
-                                        {{ order.shipping_address.city }}, {{ order.shipping_address.postcode }}                                    
+                                        {% if order.shipping_address.line2 %}
+                                            {{ order.shipping_address.line2 }}
+                                        {%endif %}                                 
+                                    </p>
+                                    <p>
+                                        Brgy. {{ order.shipping_address.barangay }}, {{ order.shipping_address.city }}, {{ order.shipping_address.province }}, {{ order.shipping_address.region }}, {{ order.shipping_address.postcode }}   
                                     </p>
                                 </div>
                             </div>
