@@ -29,7 +29,11 @@ class Order(models.Model):
     
     
     def __str__(self):
-        return str(self.order_id)
+        try:
+            return f"Order #{str(self.order_id) or '(no order ID available)'}"
+        except Exception as e:
+            print(f"Error in __str__ method: {type(e)}, {e}")
+
     
     def get_absolute_url(self):
         return reverse("orders:detail", kwargs={'order_id': self.order_id})

@@ -10,7 +10,10 @@ def cart_items(request):
     items = []
     order_id = None
 
-    customer = create_or_get_guest_user(request)
+    if request.user.is_authenticated:
+        customer = request.user.customer if hasattr(request.user, 'customer') else None
+    else:
+        customer = create_or_get_guest_user(request)
 
     try:
         orders = Order.objects.filter(customer=customer, complete=False)
@@ -26,7 +29,7 @@ def cart_items(request):
     except Order.DoesNotExist:
         order = None
 
-    print(f"Authenticated user, Existing order_id: {order_id}")
+    print(f"Existing order_id: {order_id}")
 
     return {
         'cart_items': cart_items_count,

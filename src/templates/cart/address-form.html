@@ -70,49 +70,37 @@
         </div>
         <div class="col-lg-12">
             <div class="input-group mb-3">
-                <label class="input-group-text"
-                    for="inputGroupSelect01">Region</label>
-                <select class="form-select" id="inputGroupSelect01">
-                    <option selected>- Select Region - </option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <label class="input-group-text" for="regionDropdown">Region</label>
+                <select class="form-select" id="regionDropdown" name="region" required>
+                    <option selected>- Select Region -</option>
+                    <!-- Options will be populated dynamically by jQuery -->
                 </select>
             </div>
         </div>
         <div class="col-lg-12">
             <div class="input-group mb-3">
-                <label class="input-group-text"
-                    for="inputGroupSelect01">Province</label>
-                <select class="form-select" id="inputGroupSelect01">
-                    <option selected>- Select Province - </option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <label class="input-group-text" for="provinceDropdown">Province</label>
+                <select class="form-select" id="provinceDropdown" name="province" required>
+                    <option selected>- Select Province -</option>
+                    <!-- Options will be populated dynamically by jQuery -->
                 </select>
             </div>
         </div>
         <div class="col-lg-12">
             <div class="input-group mb-3">
-                <label class="input-group-text"
-                    for="inputGroupSelect01">City</label>
-                <select class="form-select" id="inputGroupSelect01">
-                    <option selected>- Select City - </option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <label class="input-group-text" for="cityDropdown">City</label>
+                <select class="form-select" id="cityDropdown" name="city" required>
+                    <option selected>- Select City -</option>
+                    <!-- Options will be populated dynamically by jQuery -->
                 </select>
             </div>
         </div>
         <div class="col-lg-12">
             <div class="input-group mb-3">
-                <label class="input-group-text"
-                    for="inputGroupSelect01">Barangay</label>
-                <select class="form-select" id="inputGroupSelect01">
-                    <option selected>- Barangay - </option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <label class="input-group-text" for="barangayDropdown">Barangay</label>
+                <select class="form-select" id="barangayDropdown" name="barangay" required>
+                    <option selected>- Barangay -</option>
+                    <!-- Options will be populated dynamically by jQuery -->
                 </select>
             </div>
         </div>
@@ -141,7 +129,7 @@
                 class="theme-btn theme-btn2"><span
                     class="fas fa-arrow-left"></span>Back To Cart</a>
             <input type="hidden" name="submit_type" value="shipping">
-            <button type="submit" class="theme-btn">Next Step<i
+            <button type="submit" id="addUserData" class="theme-btn">Next Step<i
                     class="fas fa-arrow-right"></i></button>
         </div>
     </div>

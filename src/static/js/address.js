@@ -1,99 +1,66 @@
 
 $(document).ready(function () {
+    var selectedRegionCode; 
 
-    $.ajax({
-        url: checkoutUrl,
-        type: "GET",
-        dataType: "json",
-        success: function (data) {
-            const isAuthenticated = data.isAuthenticated;
-            // Now you can use isAuthenticated in your JavaScript logic
-            console.log("isAuthenticated:", isAuthenticated);
-        },
-        error: function (error) {
-            console.error("Error fetching data:", error);
-        }
+    // Populate regions on page load
+    populateDropdown("#regionDropdown", Philippines.regions);
+
+    // Handle region selection
+    $("#regionDropdown").change(function () {
+        selectedRegionCode = $(this).find(":selected").data("code");
+        console.log("Selected Region Code: " + selectedRegionCode);
+        var provincesInRegion = Philippines.provinces.filter(function (province) {
+            return province.reg_code === selectedRegionCode;
+        });
+        populateDropdown("#provinceDropdown", provincesInRegion);
+        $("#cityDropdown, #barangayDropdown").empty(); // Clear other dropdowns
     });
 
+    // Handle province selection
+    $("#provinceDropdown").change(function () {
+        var selectedProvinceCode = $(this).find("option:selected").data("code");
+        console.log("Selected Province Code: " + selectedProvinceCode);
+        var municipalitiesInProvince = Philippines.city_mun.filter(function (municipality) {
+            return municipality.prov_code === selectedProvinceCode;
+        });
+        populateDropdown("#cityDropdown", municipalitiesInProvince);
+        $("#barangayDropdown").empty(); // Clear barangay dropdown
+    });
 
-    // Initialize an object to store input details
-    var userDetails = {
-        first_name: "",
-        last_name: "",
-        email: ""
-    };
-
-    function generateRandomString(length) {
-        var result = '';
-        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        var charactersLength = characters.length;
-        for (var i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
-    }
-
-    // Function to update userDetails object
-    function updateUserData() {
-        userDetails.first_name = $('#inputFirstName').val().charAt(0);
-        userDetails.last_name = $('#inputLastName').val();
-        userDetails.email = $('#inputEmail').val();
-
-        var randomString = generateRandomString(4);
-
-        var userName = userDetails.first_name + userDetails.last_name + randomString;
-
-        console.log(userName)
-    }
-
-    // Event listeners to capture input changes using jQuery
-    $('#inputFirstName').on('input', updateUserData);
-    $('#inputLastName').on('input', updateUserData);
-    $('#inputEmail').on('input', updateUserData);
-
+    // Handle municipality selection
+    $("#cityDropdown").change(function () {
+        var selectedMunicipalityCode = $(this).find(":selected").data("code");
+        console.log("Selected Municipality Code: " + selectedMunicipalityCode);
     
-    function createAccountAndProceed() {
+        // Filter barangays based on the selected municipality
+        var barangaysInMunicipality = Philippines.barangays.filter(function (barangay) {
+            return barangay.mun_code === selectedMunicipalityCode;
+        });
+    
+        populateDropdown("#barangayDropdown", barangaysInMunicipality);
+    });
+
+    // Function to populate a dropdown based on data
+    function populateDropdown(dropdownId, data) {
+        console.log("Dropdown ID: " + dropdownId);
+        console.log("Data for Dropdown: ", data);
+    
+        var dropdown = $(dropdownId);
+        dropdown.empty();
+        dropdown.append('<option selected>- Select -</option>');
+    
+        $.each(data, function (index, item) {
+            // Create an option with data-code attribute
+            var option = $('<option></option>').val(item.name).text(item.name);
+    
+            // Set data-code attribute based on the item's code property
+            if (item.reg_code) option.data("code", item.reg_code);
+            if (item.prov_code) option.data("code", item.prov_code);
+            if (item.mun_code) option.data("code", item.mun_code);
         
-        // Check if the customer is authenticated
-        if (isAuthenticated) {
-            // Customer is authenticated, proceed to checkout-complete
-            window.location.href = checkoutComplateUrl;
-        } else {
-            // Customer is not authenticated, create an account
-            var userName = userDetails.first_name + userDetails.last_name + generateRandomString(4);
-            var userEmail = userDetails.email;
-
-            // Perform an AJAX request to create a user account
-            $.ajax({
-                url: "{% url 'create_user_account' %}",  // Replace with your URL for creating a user account
-                method: "POST",
-                data: { 
-                    // Pass necessary data for user creation, e.g., userName, userDetails.email, etc.
-                    username: userName,
-                    email: userEmail,
-                    // ... other data
-                },
-                success: function (response) {
-                    // Handle the success response, e.g., show a success message
-
-                    // Proceed to checkout-complete after creating the account
-                    window.location.href = "{% url 'cart:checkout_complete' %}";
-                },
-                error: function (error) {
-                    // Handle the error, e.g., show an error message
-                }
-            });
-        }
-    }
     
-    // Event listener for the checkout button
-    $('#checkoutButton').on('click', function () {
-        // Update user data before proceeding
-        updateUserData();
-
-        // Call the function to create an account or proceed to checkout-complete
-        createAccountAndProceed();
-    });
-
+            dropdown.append(option);
+        });
+    }
     
 });

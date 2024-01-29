@@ -1,59 +1,114 @@
 $(document).ready(function () {
-    var productForm = $("#addProduct");
-    var shippingForm = $("#addShipping");
+  var productForm = $("#addProduct");
+  var shippingForm = $("#addShipping");
 
+  productForm.submit(function (e) {
+    e.preventDefault();
+    var thisForm = $(this);
+    var actionEndpoint = thisForm.attr("action");
+    var httpMethod = thisForm.attr("method");
+    var formData = new FormData(thisForm[0]);
 
-    productForm.submit(function (e) {
-        e.preventDefault();
-        var thisForm = $(this);
-        var actionEndpoint = thisForm.attr("action");
-        var httpMethod = thisForm.attr("method");
-        var formData = new FormData(thisForm[0]);
+    console.log("Submitting form via AJAX");
+    console.log("Action Endpoint:", actionEndpoint);
+    console.log("HTTP Method:", httpMethod);
+    console.log("Form Data:", formData);
 
-        console.log("Submitting form via AJAX");
-        console.log("Action Endpoint:", actionEndpoint);
-        console.log("HTTP Method:", httpMethod);
-        console.log("Form Data:", formData);
-
-        $.ajax({
-            url: actionEndpoint,
-            method: httpMethod,
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                window.location.href = window.location.href + '../';
-            },
-            error: function (errorData) {
-                console.log(errorData);
-            }
-        });
+    $.ajax({
+      url: actionEndpoint,
+      method: httpMethod,
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (response) {
+        window.location.href = window.location.href + "../";
+      },
+      error: function (errorData) {
+        console.log(errorData);
+      },
     });
+  });
 
-    shippingForm.submit(function (e) {
-        e.preventDefault();
-        var thisForm = $(this);
-        var actionEndpoint = thisForm.attr("action");
-        var httpMethod = thisForm.attr("method");
-        var formData = thisForm.serialize();
-        console.log(formData);
+  shippingForm.submit(function (e) {
+    e.preventDefault();
+    var thisForm = $(this);
 
-        $.ajax({
-            url: actionEndpoint,
-            method: httpMethod,
-            data: formData,
-            success: function (successData) {
-                console.log(successData);
-                $("#step2-tab").click();
-                $("#step1").removeClass("active show");
-                $("#step2").addClass("active show");
+    var actionEndpoint = thisForm.attr("action");
+    var httpMethod = thisForm.attr("method");
+    var formData = thisForm.serializeArray();
 
-            },
-            error: function (errorData) {
-                console.log(errorData);
-            }
-        });
+    // Prepare user data and add it to the form data
+    var userData = prepareUserData();
+    formData.push({ name: "username", value: userData.username });
+    formData.push({ name: "email", value: userData.email });
+
+    console.log(formData);
+
+    $.ajax({
+      url: actionEndpoint,
+      method: httpMethod,
+      data: formData,
+      success: function (successData) {
+        console.log(successData);
+        $("#step2-tab").click();
+        $("#step1").removeClass("active show");
+        $("#step1-tab").removeClass("nav-link active done");
+        $("#step1-tab").addClass("nav-link done");
+        $("#step2").addClass("active show");
+        $("#step2-tab").addClass("active done");
+      },
+      error: function (errorData) {
+        console.log(errorData);
+      },
     });
+  });
+
+  // Initialize an object to store input details
+  var userDetails = {
+    first_name: "",
+    last_name: "",
+    email: "",
+  };
+
+  // Variables to store generated username and email
+  var userName = "";
+  var userEmail = "";
+
+  // Function to update userDetails object
+  function prepareUserData() {
+    userDetails.first_name = $("#inputFirstName").val().charAt(0);
+    userDetails.last_name = $("#inputLastName").val();
+    userDetails.email = $("#inputEmail").val();
+
+    userName =
+      userDetails.first_name + userDetails.last_name + generateRandomString(4);
+    userEmail = userDetails.email;
+
+    console.log("User Details:", userDetails);
+    console.log("userName:", userName);
+    console.log("userEmail:", userEmail);
+
+    return {
+      username: userName,
+      email: userEmail,
+    };
+  }
+
+  // $("#addUserData").click(function(e) {
+  //     e.preventDefault();
+
+  //   });
+
+  // Function to generate a random string
+  function generateRandomString(length) {
+    var result = "";
+    var characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
 });
-

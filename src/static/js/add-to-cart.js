@@ -12,8 +12,7 @@ $(document).ready(function () {
     });
 
     function updateUserOrder(productId, action, quantity, url) {
-        console.log('User is logged in, sending data...');
-
+        
         $.ajax({
             url: url,
             method: 'GET',

@@ -1,31 +1,42 @@
 # utils.py
 import uuid
-import json
+
 from billing.models import Customer
-from django.contrib.auth.models import AnonymousUser
-from django.http import JsonResponse
 
 
 def create_or_get_guest_user(request):
     if request.user.is_authenticated:
         return request.user.customer if hasattr(request.user, 'customer') else None
     else:
-        
-        guest_user_email = request.COOKIES.get('guest_user')
+        # Check if the guest user ID is stored in the cookie
+        guest_user_id = request.session.get('guest_user_id')
 
-        if guest_user_email:
-            customer = Customer.objects.filter(email=guest_user_email).first()
-            if customer:
-                return customer
+        if guest_user_id:
+            try:
+                guest_user = Customer.objects.get(id=guest_user_id)
+                if guest_user.user is not None:
+                    request.session['guest_user'] = {
+                        'username': guest_user.user.username,  # Assuming Customer has a foreign key to User
+                        'email': guest_user.email,
+                        'password': guest_user.user.password,  # Storing password in session is not recommended
+                    }
+                return guest_user
+            except Customer.DoesNotExist:
+                pass
 
-        guest_user_email = f'{uuid.uuid4()}@temporary.com'
-        
-        # Use AnonymousUser for guest users
-        guest_user = AnonymousUser()
-        guest_user.customer = Customer.objects.create(email=guest_user_email)
-        
-        # Save guest user email in a cookie
-        response = JsonResponse({'status': 'success'})
-        response.set_cookie('guest_user', guest_user_email, max_age=60*60*24*7)  # Set the cookie to expire in 7 days
+        # If not, create a new guest user
+        guest_user = Customer.objects.create(email=f'{uuid.uuid4()}@temporary.com')
 
-        return guest_user.customer
+        # Save guest user ID in a cookie
+        request.session['guest_user_id'] = guest_user.id
+
+        return guest_user
+    
+def get_or_create_customer(user):
+    if hasattr(user, 'customer'):
+        customer = user.customer
+    else:
+        customer, created = Customer.objects.get_or_create(user=user, defaults={'email': user.email})
+
+    return customer
+    

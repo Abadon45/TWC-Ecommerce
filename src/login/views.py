@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 from billing.models import Customer
 from orders.models import Order
+from user.utils import get_or_create_customer
 
 from .forms import CustomUserCreationForm
 
@@ -32,6 +33,7 @@ class EcomLoginView(BaseLoginView):
     
     def get_success_url(self):
         if not self.request.user.is_authenticated:
+            customer = get_or_create_customer()
             session_key = self.request.session.session_key
             
             if not session_key:

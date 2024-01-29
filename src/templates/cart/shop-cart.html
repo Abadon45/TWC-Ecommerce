@@ -103,14 +103,11 @@
                         </ul>
                         
                         <div class="text-end mt-40">
-                            {% if user.is_authenticated %}
                             <a href="{% url 'cart:checkout' %}" class="theme-btn">Checkout Now<i
                                     class="fas fa-arrow-right-long"></i></a>
-                            {% else %}
-                            <button type="button" class="sweet-modal theme-btn">Checkout Now
+                            <!-- <button type="button" class="sweet-modal theme-btn">Checkout Now
                                 <i class="fas fa-arrow-right-long"></i>
-                            </button>
-                            {% endif %}
+                            </button> -->
                         </div>
                     </div>
                 </div>

@@ -14,12 +14,9 @@ class Customer(models.Model):
     def __str__(self):
         return self.email
     
-    # objects = CustomerManager()
     
     @classmethod
     def get_or_create_customer(cls, user, email):
         customer, created = cls.objects.get_or_create(user=user, email=email)
         return customer, created
     
-
-

@@ -163,6 +163,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_SAVE_EVERY_REQUEST = True
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 7
 
 LOGGING = {
     'version': 1,

@@ -1,32 +1,44 @@
-// const nextStepButton = document.getElementById('shipping-step');
-// const targetAnchor = document.getElementById('step2-tab');
-// const nextStepButton2 = document.getElementById('payment-step');
-// const targetAnchor2 = document.getElementById('step3-tab');
+$(document).ready(function() {
+    $(".checkoutBtn").hide();
 
-// const previousForm = document.querySelector('#addressForm');
-// const currentForm = document.querySelector('#shippingForm');
-// const copyCheckbox = document.getElementById('copy-previous-form-data');
+    $(".paymentBtn").on("click", function (e) {
+        e.preventDefault();
+        $("#step2-tab").click();
+        $("#step1").removeClass("active show");
+        $("#step1-tab").removeClass("nav-link active done");
+        $("#step1-tab").addClass("nav-link done");
+        $("#step2").addClass("active show");
+        $("#step2-tab").addClass("active done");
+    });
 
-// const copyData = () => {
-//   if (!copyCheckbox.checked) return;
+    $(".confirmPaymentBtn").on("change", function () { 
+        // Add blur class to SweetAlert backdrop
+        showLoading();
 
-//   for (const inputField of previousForm.querySelectorAll('input')) {
-//     const currentInputField = currentForm.querySelector(`input[name="${inputField.name}"]`);
-//     if (currentInputField) {
-//       currentInputField.value = inputField.value;
-//     }
-//   }
-// };
+        if ($(this).prop("checked")) {
+            $(".checkoutBtn").show();
+        } else {
+            $(".checkoutBtn").hide();
+        }
+    });
 
-// nextStepButton.addEventListener('click', () => {
-//   targetAnchor.click();
-//   copyData();
-// });
+    function showLoading() {
+        Swal.fire({
+            title: 'Loading...',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            onBeforeOpen: () => {
+                Swal.showLoading()
+            },
+        });
 
-// nextStepButton2.addEventListener('click', () => {
-//   targetAnchor2.click();
-//   copyData();
-// });
+        // Set a 2-second timeout to hide SweetAlert
+        setTimeout(function() {
+            hideLoading();
+        }, 1000);
+    }
 
-// // Copy data on initial load if checkbox is checked
-// copyData();
+    function hideLoading() {
+        Swal.close();
+    }
+});

@@ -34,7 +34,7 @@
                                         {% if default_address %}
                                         <h6 class="mb-2"><i class="fa-solid fa-location-dot"></i> Delivery Address:</h6>
                                         <p><b>{{default_address.first_name}} {{default_address.last_name}} {{default_address.phone}}</b></p>
-                                        <div class="change-address row">
+                                        <div class="change-address row mb-20">
                                             <div class="col-lg-10">
                                                 <p>{{ default_address.line1 }} Brgy. {{ default_address.barangay }}, {{ default_address.city }}, {{ default_address.province }}, {{ default_address.postcode }} </p>
                                             </div>
@@ -44,6 +44,13 @@
                                             <div class="col-lg-1">
                                                 <button>Change</button>
                                             </div>
+                                        </div>
+                                        <hr class="mt-2 mb-3">
+                                        <div class="col-lg-12 mt-20">
+                                            <a href="{% url 'cart:cart' %}" type="button"
+                                                class="theme-btn theme-btn2"><span
+                                                    class="fas fa-arrow-left"></span>Back To Cart</a>
+                                            <button class="theme-btn paymentBtn">Next Step<i class="fas fa-arrow-right"></i></button>
                                         </div>
                                         {% else %}
                                             {% include 'cart/address-form.html' %}
@@ -76,7 +83,7 @@
                                                     <div class="row">
                                                         <div class="col-lg-12">
                                                             <div class="form-check mb-20">
-                                                                <input class="form-check-input" type="checkbox" value=""
+                                                                <input class="form-check-input confirmPaymentBtn" type="checkbox" value=""
                                                                     id="cod">
                                                                 <label class="form-check-label" for="cod">
                                                                     Cash On Delivery
@@ -99,8 +106,8 @@
                     <div class="shop-cart-summary mt-lg-0">
                         <h5>Cart Summary</h5>
                         <ul>
-                            <li><strong>Order ID:</strong> <span>{{ order.order_id }}</span></li>
-                            <li><strong>Sub Total:</strong> <span>{{ order.get_cart_items }}</span></li>
+                            <li><strong>Order ID:</strong> <span>{{ order.order_id|default:order_id }}</span></li>
+                            <li><strong>Sub Total:</strong> <span>{{ order.get_cart_items|default:subtotal }}</span></li>
                             <li><strong>Discount:</strong> <span>0.00Php</span></li>
                             <li><strong>Shipping:</strong>
                                 <span>
@@ -113,10 +120,9 @@
                             </li>
                             <li class="shop-cart-total"><strong>Total:</strong> <span>{{ total }}</span></li>
                         </ul>
-                        <div class="text-end mt-40">
+                        <div class="text-end mt-40 checkoutBtn">
                             <form class="form" method="POST" action="">
                                 {% csrf_token %}
-                                <!-- <button class="theme-btn" type="submit">Checkout Now</button> -->
                                 <a href="{% url 'cart:checkout_complete' %}" class="theme-btn">Checkout Now<i
                                         class="fas fa-arrow-right-long"></i></a>
                             </form>
