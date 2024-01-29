@@ -247,6 +247,7 @@ def checkout(request):
 
 def checkout_done_view(request):  
     try:
+        request.session['new_guest_user'] = True
         if request.user.is_authenticated:
             customer = request.user.customer
             print(f"Customer: {customer}")

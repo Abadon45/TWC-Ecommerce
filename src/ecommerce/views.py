@@ -1,4 +1,5 @@
 from django.views.generic import View, TemplateView
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.http import HttpResponseNotFound
 
@@ -15,10 +16,34 @@ class AboutUsView(TemplateView):
 class IndexView(TemplateView):
     template_name = 'index.html'
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = "HOME"
-        return context
+    def get(self, request, *args, **kwargs):
+        guest_user_info = request.session.get('guest_user_data', {})
+        new_guest_user = request.session.get('new_guest_user', False)
+        
+        context = {
+            'title': "HOME",
+            'username': guest_user_info.get('username'),
+            'password': guest_user_info.get('password'),
+            'email': guest_user_info.get('email'),
+            'new_guest_user': new_guest_user,
+            'has_existing_order': request.session.get('has_existing_order', False),
+        }
+
+        if new_guest_user:
+            # Clear the flag so the notification is not shown again
+            del request.session['new_guest_user']
+            
+        if request.is_ajax():
+            return JsonResponse({
+            'has_existing_order': request.session.get('has_existing_order', False),
+            'email': guest_user_info.get('email'),
+        })
+
+        return render(request, self.template_name, context)
+    
+    
+    
+    
     
 class ContactView(TemplateView):
     title="Contact"

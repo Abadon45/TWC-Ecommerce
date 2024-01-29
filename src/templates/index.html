@@ -2,6 +2,7 @@
 
 {% load static %}
 
+
 {% block content %}
 
         <!-- category area -->
@@ -1403,5 +1404,7 @@
         </div>
         <!-- product list end -->
 
-
-        {% endblock %}
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/index.js' %}"></script>
+{% endblock %}

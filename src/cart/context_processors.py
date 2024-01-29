@@ -40,3 +40,11 @@ def cart_items(request):
         'total': total,
         'order_id': order_id,
     }
+
+def new_guest_user(request):
+    return {'new_guest_user': request.session.get('new_guest_user', False)}
+
+def has_existing_order(request):
+    return {
+        'has_existing_order': request.session.get('has_existing_order', False)
+    }

@@ -2,6 +2,7 @@
 import uuid
 
 from billing.models import Customer
+from orders.models import Order
 
 
 def create_or_get_guest_user(request):
@@ -14,12 +15,10 @@ def create_or_get_guest_user(request):
         if guest_user_id:
             try:
                 guest_user = Customer.objects.get(id=guest_user_id)
-                if guest_user.user is not None:
-                    request.session['guest_user'] = {
-                        'username': guest_user.user.username,  # Assuming Customer has a foreign key to User
-                        'email': guest_user.email,
-                        'password': guest_user.user.password,  # Storing password in session is not recommended
-                    }
+                has_existing_orders = Order.objects.filter(customer=guest_user).exists()
+                request.session['new_guest_user'] = not has_existing_orders
+                request.session['has_existing_order'] = has_existing_orders
+                print('session', request.session['new_guest_user'])
                 return guest_user
             except Customer.DoesNotExist:
                 pass
@@ -29,6 +28,12 @@ def create_or_get_guest_user(request):
 
         # Save guest user ID in a cookie
         request.session['guest_user_id'] = guest_user.id
+        
+        # Set a flag in the session to indicate that this is a new guest user
+        request.session['new_guest_user'] = True
+
+        # Set a flag in the session to indicate that this guest user does not have any existing orders
+        request.session['has_existing_order'] = False
 
         return guest_user
     
