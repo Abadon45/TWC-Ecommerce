@@ -9,7 +9,7 @@ def create_or_get_guest_user(request):
     if request.user.is_authenticated:
         return request.user.customer if hasattr(request.user, 'customer') else None
     else:
-        # Check if the guest user ID is stored in the cookie
+        guest_user = None
         guest_user_id = request.session.get('guest_user_id')
 
         if guest_user_id:
@@ -18,22 +18,19 @@ def create_or_get_guest_user(request):
                 has_existing_orders = Order.objects.filter(customer=guest_user).exists()
                 request.session['new_guest_user'] = not has_existing_orders
                 request.session['has_existing_order'] = has_existing_orders
-                print('session', request.session['new_guest_user'])
+                request.session.modified = True
+                guest_user.is_guest = True
+                guest_user.save()
                 return guest_user
             except Customer.DoesNotExist:
-                pass
+                del request.session['guest_user_id']
 
-        # If not, create a new guest user
-        guest_user = Customer.objects.create(email=f'{uuid.uuid4()}@temporary.com')
-
-        # Save guest user ID in a cookie
-        request.session['guest_user_id'] = guest_user.id
-        
-        # Set a flag in the session to indicate that this is a new guest user
-        request.session['new_guest_user'] = True
-
-        # Set a flag in the session to indicate that this guest user does not have any existing orders
-        request.session['has_existing_order'] = False
+        if not guest_user:
+            guest_user = Customer.objects.create(email=f'{uuid.uuid4()}@temporary.com', is_guest=True)
+            request.session['guest_user_id'] = guest_user.id
+            request.session['new_guest_user'] = True
+            request.session['has_existing_order'] = False
+            request.session.modified = True
 
         return guest_user
     

@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)!a@6)s)$_u_o6*b7&#vqo++i)i5f^$_8nid!r0w^wm3#w47$y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['172.105.126.70', '127.0.0.1', '139.144.121.152','172.104.35.33','172.104.40.138', 'www.twconline.store']
+ALLOWED_HOSTS = ['172.105.126.70', '127.0.0.1', '139.144.121.152','172.104.35.33','172.104.40.138', '.twconline.store']
 
 
 # Application definition
@@ -49,20 +49,27 @@ INSTALLED_APPS = [
     'orders',
     'billing',
     'addresses',
+    'django_hosts',
 ]
 
 MIDDLEWARE = [
+    'django_hosts.middleware.HostsRequestMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'TWC.middleware.SubdomainMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
+    'django_hosts.middleware.HostsResponseMiddleware',
 ]
 
 ROOT_URLCONF = 'TWC.urls'
+ROOT_HOSTCONF = 'TWC.hosts'
+DEFAULT_HOST = 'www'
+PARENT_HOST = 'twconline.store'
+SITE_DOMAIN = 'twconline.store'
 
 TEMPLATES = [
     {
@@ -76,6 +83,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'cart.context_processors.cart_items',
+                'TWC.context_processors.main_site_url',
+                'TWC.context_processors.site_urls',
             ],
         },
     },
@@ -163,9 +172,20 @@ MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_SAVE_EVERY_REQUEST = True
-SESSION_COOKIE_AGE = 60 * 60 * 24 * 7
-SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 14
+SESSION_COOKIE_SECURE = not DEBUG
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+if DEBUG:
+    SESSION_COOKIE_DOMAIN = None
+else:
+    SESSION_COOKIE_DOMAIN = '.twconline.store'
+CSRF_COOKIE_DOMAIN = SESSION_COOKIE_DOMAIN
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:8000",
+    "*.twconline.store",
+]
 
 LOGGING = {
     'version': 1,
@@ -190,3 +210,14 @@ LOGGING = {
         },
     },
 }
+
+ENV = os.getenv('ENV', 'production')
+if ENV == 'production':
+    DASHBOARD_URL = 'dashboard.twconline.store'
+    ADMIN_URL = 'admin.twconline.store'
+    MAIN_SITE_URL = 'https://www.twconline.store'
+    
+else:
+    DASHBOARD_URL = 'http://dashboard.twconline.store:8000'
+    ADMIN_URL = 'http://admin.twconline.store:8000'
+    MAIN_SITE_URL = 'http://www.twconline.store:8000'

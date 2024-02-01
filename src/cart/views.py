@@ -43,7 +43,7 @@ def updateItem(request):
         else:
             customer = create_or_get_guest_user(request)
 
-        
+        print(customer)
         order = Order.objects.filter(customer=customer, complete=False).first()
         
         if not order:
@@ -366,6 +366,8 @@ def checkout_done_view(request):
 
 @receiver(user_logged_in)
 def user_logged_in_handler(request, user, **kwargs):
+    if user.is_staff:
+        return redirect('/admin/')
     anonymous_orders = request.session.get('anonymous_orders', [])
     
     print("Anonymous Orders:", anonymous_orders)

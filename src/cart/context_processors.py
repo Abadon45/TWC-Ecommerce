@@ -30,6 +30,7 @@ def cart_items(request):
         order = None
 
     print(f"Existing order_id: {order_id}")
+    print(cart_items_count)
 
     return {
         'cart_items': cart_items_count,

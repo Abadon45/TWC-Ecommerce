@@ -25,15 +25,15 @@ class RegisterView(FormView):
         if user is not None:
             login(self.request, user)
         return super(RegisterView, self).form_valid(form)
-    
-    
+       
+
 class EcomLoginView(BaseLoginView):
     redirect_authenticated_user = False
     template_name = 'login/login.html'
     
     def get_success_url(self):
         if not self.request.user.is_authenticated:
-            customer = get_or_create_customer()
+            customer, created = Customer.objects.get_or_create(user=self.request.user)
             session_key = self.request.session.session_key
             
             if not session_key:
@@ -43,11 +43,13 @@ class EcomLoginView(BaseLoginView):
             anonymous_order = Order.objects.filter(session_key=session_key, complete=False).first()
             
             if anonymous_order:
-                if self.request.user.customer:
-                    anonymous_order.customer = self.request.user.customer
+                if customer:
+                    anonymous_order.customer = customer
                     anonymous_order.save()
                     del self.request.session['guest_user']
                     return reverse('cart:cart')
+        else:
+            customer, created = Customer.objects.get_or_create(user=self.request.user)
 
         return reverse('home_view')
 

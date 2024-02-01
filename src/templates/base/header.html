@@ -1,4 +1,5 @@
 {% load static %}
+{% load url_with_domain %}
 
 <header class="header">
 
@@ -11,7 +12,11 @@
                     <div class="col-12 col-md-6 col-lg-6 col-xl-5">
                         <div class="header-top-left">
                             <ul class="header-top-list">
-                                <li><a href="{% url 'admin:index' %}"><i class="fa-solid fa-user-secret"></i></i>ADMIN</a></li>
+                                {% if settings.IS_PRODUCTION %}
+                                <li><a href="admin.twconline.store"><i class="fa-solid fa-user-secret"></i></i>ADMIN</a></li>
+                                {% else %}
+                                <li><a href="admin.twconline.store:8000"><i class="fa-solid fa-user-secret"></i></i>ADMIN</a></li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
@@ -127,11 +132,10 @@
                     <div class="header-middle-right">
                         <ul class="header-middle-list">
                             {% if user.is_authenticated %}
-                                <li><a href="{% url 'user:dashboard' %}" class="list-item"><i class="far fa-user-circle"></i></a></li>
-                                <li><a href="{% url 'wishlist' %}" class="list-item" placeholder="wishlist"><i class="far fa-heart"></i><span>0</span></a></li>
+                                <li><a href="{{ DASHBOARD_URL }}" class="list-item"><i class="far fa-user-circle"></i></a></li>
+                                <li><a href="{{ DASHBOARD_URL }}" class="list-item wishlist" placeholder="wishlist"><i class="far fa-heart"></i><span>0</span></a></li>
                             {% else %}
-                                <li><a href="{% url 'login:login' %}" class="list-item"><i class="far fa-user-circle"></i></a></li>
-                                <li><a href="{% url 'login:login' %}" class="list-item" placeholder="wishlist"><i class="far fa-heart"></i><span>0</span></a></li>
+                                
                             {% endif %}
                             
                             <li id="cart-link" class="dropdown-cart">
@@ -267,8 +271,8 @@
                 </div>
                 <div class="collapse navbar-collapse" id="main_nav">
                     <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="{% url 'home_view' %}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'shop:shop' %}">Shop</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url_with_domain 'home_view' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url_with_domain 'shop:shop' %}">Shop</a></li>
                     <div class="nav-right">
                         <div class="nav-right-btn">
                             <a href="{% url 'become_seller' %}" class="theme-btn">Become Seller</a>
