@@ -23,12 +23,12 @@
                     <div class="col-12 col-md-6 col-lg-6 col-xl-7">
                         <div class="header-top-right">
                             <ul class="header-top-list">
-                                <li><a href="{% url 'products:product_list' %}"><i class="fa-solid fa-code-compare"></i> Product List</a></li>
-                                <li><a href="{% url 'products:add_product' %}"><i class="fa-solid fa-keyboard"></i> Add Products</a></li>
+                                <li><a href="{% url_with_domain 'products:product_list' %}"><i class="fa-solid fa-code-compare"></i> Product List</a></li>
+                                <li><a href="{% url_with_domain 'products:add_product' %}"><i class="fa-solid fa-keyboard"></i> Add Products</a></li>
                                 {% if user.is_authenticated %}
-                                <li class="login"><a href="{% url 'login:logout' %}"><i class="far fa-arrow-right-to-arc"></i> Logout</a></li>
+                                <li class="login"><a href="{% url_with_domain 'login:logout' %}"><i class="far fa-arrow-right-to-arc"></i> Logout</a></li>
                                 {% else %}
-                                <li class="login"><a href="{% url 'login:login' %}"><i class="far fa-arrow-right-to-arc"></i> Login</a></li>
+                                <li class="login"><a href="{% url_with_domain 'login:login' %}"><i class="far fa-arrow-right-to-arc"></i> Login</a></li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -52,9 +52,9 @@
                             <ul class="header-top-list">
                                 <li><a href="#"><i class="far fa-alarm-clock"></i> Daily Deal</a></li>
                                 {% if user.is_authenticated %}
-                                <li class="login"><a href="{% url 'login:logout' %}"><i class="far fa-arrow-right-to-arc"></i> Logout</a></li>
+                                <li class="login"><a href="{% url_with_domain 'login:logout' %}"><i class="far fa-arrow-right-to-arc"></i> Logout</a></li>
                                 {% else %}
-                                <li class="login"><a href="{% url 'login:login' %}"><i class="far fa-arrow-right-to-arc"></i> Login</a></li>
+                                <li class="login"><a href="{% url_with_domain 'login:login' %}"><i class="far fa-arrow-right-to-arc"></i> Login</a></li>
                                 {% endif %}
                                 <li>
                                     <div class="dropdown">
@@ -109,7 +109,7 @@
             <div class="row align-items-center">
                 <div class="col-5 col-lg-3 col-xl-3">
                     <div class="header-middle-logo">
-                        <a class="navbar-brand" href="/">
+                        <a class="navbar-brand" href="{{ MAIN_SITE_URL }}">
                             <img src="{% static 'img/logo/logo.png' %}" alt="logo">
                         </a>
                     </div>
@@ -139,7 +139,7 @@
                             {% endif %}
                             
                             <li id="cart-link" class="dropdown-cart">
-                                    <a href="{% url 'cart:cart' %}" class="shop-cart list-item"><i class="far fa-shopping-bag"></i>
+                                    <a href="{% url_with_domain 'cart:cart' %}" class="shop-cart list-item"><i class="far fa-shopping-bag"></i>
                                     <span id="cart-count">{{ cart_items }}</span></a>
                                 <!-- <div class="dropdown-cart-menu">
                                     <div class="container">
@@ -275,7 +275,7 @@
                         <li class="nav-item"><a class="nav-link" href="{% url_with_domain 'shop:shop' %}">Shop</a></li>
                     <div class="nav-right">
                         <div class="nav-right-btn">
-                            <a href="{% url 'become_seller' %}" class="theme-btn">Become Seller</a>
+                            <a href="{% url_with_domain 'become_seller' %}" class="theme-btn">Become Seller</a>
                         </div>
                     </div>
                 </div>
