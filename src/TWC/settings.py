@@ -213,8 +213,8 @@ LOGGING = {
 
 ENV = os.getenv('ENV', 'production')
 if ENV == 'production':
-    DASHBOARD_URL = 'dashboard.twconline.store'
-    ADMIN_URL = 'admin.twconline.store'
+    DASHBOARD_URL = 'https://dashboard.twconline.store'
+    ADMIN_URL = 'https://admin.twconline.store'
     MAIN_SITE_URL = 'https://www.twconline.store'
     
 else:
