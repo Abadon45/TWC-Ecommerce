@@ -43,54 +43,21 @@
                                         info@example.com</a></li>
                                 <li><a href="tel:+21236547898"><i class="far fa-headset"></i> +2 123 654
                                         7898</a></li>
-                                <li class="help"><a href="#"><i class="far fa-comment-question"></i> {{ has_existing_order }}</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-12 col-md-6 col-lg-6 col-xl-7">
                         <div class="header-top-right">
                             <ul class="header-top-list">
-                                <li><a href="#"><i class="far fa-alarm-clock"></i> Daily Deal</a></li>
                                 {% if user.is_authenticated %}
                                 <li class="login"><a href="{% url_with_domain 'login:logout' %}"><i class="far fa-arrow-right-to-arc"></i> Logout</a></li>
                                 {% else %}
                                 <li class="login"><a href="{% url_with_domain 'login:login' %}"><i class="far fa-arrow-right-to-arc"></i> Login</a></li>
                                 {% endif %}
-                                <li>
-                                    <div class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            <i class="far fa-usd"></i> USD
-                                        </a>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">USD</a>
-                                            <a class="dropdown-item" href="#">EUR</a>
-                                            <a class="dropdown-item" href="#">AUD</a>
-                                            <a class="dropdown-item" href="#">CUD</a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            <i class="far fa-globe-americas"></i> EN
-                                        </a>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">EN</a>
-                                            <a class="dropdown-item" href="#">FR</a>
-                                            <a class="dropdown-item" href="#">DE</a>
-                                            <a class="dropdown-item" href="#">RU</a>
-                                        </div>
-                                    </div>
-                                </li>
                                 <li class="social">
                                     <div class="header-top-social">
                                         <span>Follow Us: </span>
                                         <a href="#"><i class="fab fa-facebook"></i></a>
-                                        <a href="#"><i class="fab fa-twitter"></i></a>
-                                        <a href="#"><i class="fab fa-instagram"></i></a>
-                                        <a href="#"><i class="fab fa-linkedin"></i></a>
                                     </div>
                                 </li>
                             </ul>
@@ -133,6 +100,9 @@
                         <ul class="header-middle-list">
                             {% if user.is_authenticated %}
                                 <li><a href="{{ DASHBOARD_URL }}" class="list-item"><i class="far fa-user-circle"></i></a></li>
+                                {% if user.is_seller %}
+                                    <li><a href="{{ DASHBOARD_URL|add:'/seller' }}" class="list-item"><i class="far fa-user-circle"></i></a>Seller</li>
+                                {% endif %}
                                 <li><a href="{{ DASHBOARD_URL }}" class="list-item wishlist" placeholder="wishlist"><i class="far fa-heart"></i><span>0</span></a></li>
                             {% else %}
                                 

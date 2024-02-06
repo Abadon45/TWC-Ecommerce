@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
+
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,6 +31,8 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['172.105.126.70', '127.0.0.1', '139.144.121.152','172.104.35.33','172.104.40.138', '.twconline.store']
 
+USE_X_FORWARDED_HOST = True
+
 
 # Application definition
 
@@ -38,11 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'user',
     'TWC',
     'ecommerce',
     'login',
     'shop',
-    'user',
     'vendor',
     'products',
     'cart',
@@ -50,6 +55,7 @@ INSTALLED_APPS = [
     'billing',
     'addresses',
     'django_hosts',
+    'django.contrib.sites',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +70,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_hosts.middleware.HostsResponseMiddleware',
 ]
+
+AUTH_USER_MODEL = 'user.User'
 
 ROOT_URLCONF = 'TWC.urls'
 ROOT_HOSTCONF = 'TWC.hosts'
@@ -173,12 +181,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 14
-SESSION_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SECURE = False
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-if DEBUG:
-    SESSION_COOKIE_DOMAIN = None
-else:
-    SESSION_COOKIE_DOMAIN = '.twconline.store'
+# if DEBUG:
+#     SESSION_COOKIE_DOMAIN = None
+# else:
+SESSION_COOKIE_DOMAIN = '.twconline.store'
 CSRF_COOKIE_DOMAIN = SESSION_COOKIE_DOMAIN
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -186,6 +194,8 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:8000",
     "*.twconline.store",
 ]
+
+SITE_ID = 1
 
 LOGGING = {
     'version': 1,
@@ -212,6 +222,7 @@ LOGGING = {
 }
 
 ENV = os.getenv('ENV', 'production')
+print("ENV:", ENV)
 if ENV == 'production':
     DASHBOARD_URL = 'https://dashboard.twconline.store'
     ADMIN_URL = 'https://admin.twconline.store'
@@ -221,4 +232,5 @@ else:
     DASHBOARD_URL = 'http://dashboard.twconline.store:8000'
     ADMIN_URL = 'http://admin.twconline.store:8000'
     MAIN_SITE_URL = 'http://www.twconline.store:8000'
+    
 

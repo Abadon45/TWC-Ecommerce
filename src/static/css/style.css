@@ -10225,3 +10225,7 @@ label {
 .no-background {
   background: none !important;
 }
+
+.nav__link {
+  cursor: pointer;
+}

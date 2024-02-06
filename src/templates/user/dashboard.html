@@ -1,4 +1,5 @@
 {% extends "base-dashboard.html" %}
+{% load url_with_domain %}
 {% load static %}
 
 {% block title %} {{ title }} {% endblock %}
@@ -33,7 +34,7 @@
                                 <li><a class="nav__link"><i class="far fa-bell"></i> Notification <span class="badge badge-danger">02</span></a></li>
                                 <li><a class="nav__link comming-soon"><i class="far fa-envelope"></i> Messages <span class="badge badge-danger">02</span></a></li>
                                 <li><a class="nav__link"><i class="far fa-gear"></i> Settings</a></li>
-                                <li><a class="nav__link"><i class="far fa-sign-out"></i> Logout</a></li>
+                                <li><a class="nav__link" href="{% url_with_domain 'login:logout' %}"><i class="far fa-sign-out"></i> Logout</a></li>
                             </ul>
                         </div>
                     </div>

@@ -2,6 +2,9 @@ from django.views.generic import View, TemplateView
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.http import HttpResponseNotFound
+from products.models import Product
+
+import random
 
 
 
@@ -20,6 +23,12 @@ class IndexView(TemplateView):
         guest_user_info = request.session.get('guest_user_data', {})
         new_guest_user = request.session.get('new_guest_user', False)
         
+        products = list(Product.objects.filter(active=True))
+        random_products = random.sample(products, min(len(products), 4)) if products else []
+        rand_on_sale_products = random.sample(products, min(len(products), 3)) if products else []
+        rand_best_seller_products = random.sample(products, min(len(products), 3)) if products else []
+        rand_top_rated_products = random.sample(products, min(len(products), 3)) if products else []
+        
         context = {
             'title': "HOME",
             'username': guest_user_info.get('username'),
@@ -27,6 +36,11 @@ class IndexView(TemplateView):
             'email': guest_user_info.get('email'),
             'new_guest_user': new_guest_user,
             'has_existing_order': request.session.get('has_existing_order', False),
+            'products': products,
+            'random_products': random_products,
+            'rand_on_sale_products': rand_on_sale_products,
+            'rand_best_seller_products': rand_best_seller_products,
+            'rand_top_rated_products': rand_top_rated_products,
         }
 
         if new_guest_user:

@@ -1,28 +1,40 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const navLinkEls = document.querySelectorAll('.nav__link');
-    const contentDivs = document.querySelectorAll('.content-div');
+$(document).ready(function() {
+    const navLinkEls = $('.nav__link');
+    const contentDivs = $('.content-div');
 
     function handleNavLinkClick(index, linkElement) {
-        if (!linkElement.classList.contains('active')) {
-            const activeNavLink = document.querySelector('.nav__link.active');
+        if (!linkElement.hasClass('active')) {
+            const activeNavLink = $('.nav__link.active');
             if (activeNavLink) {
-                activeNavLink.classList.remove('active');
+                activeNavLink.removeClass('active');
             }
-            linkElement.classList.add('active');
+            linkElement.addClass('active');
 
             // Hide all content divs
-            contentDivs.forEach((div) => {
-                div.setAttribute('hidden', true);
-            });
+            contentDivs.attr('hidden', true);
 
             // Show the corresponding content div
-            contentDivs[index].removeAttribute('hidden');
+            contentDivs.eq(index).removeAttr('hidden');
         }
     }
 
-    navLinkEls.forEach((navLinkEl, index) => {
-        navLinkEl.addEventListener('click', () => {
-            handleNavLinkClick(index, navLinkEl);
+    navLinkEls.each(function(index) {
+        $(this).on('click', function() {
+            handleNavLinkClick(index, $(this));
         });
     });
+    $("#copyButton").click(function(){
+        /* Get the text field */
+        var copyText = $("#copyInput");
+    
+        /* Select the text field */
+        copyText.select();
+    
+        /* Copy the text inside the text field */
+        document.execCommand("copy");
+    
+        /* Alert the copied text */
+        $(this).text("Copied!!");
+      });
+
 });

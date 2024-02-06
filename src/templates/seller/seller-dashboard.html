@@ -1,0 +1,67 @@
+{% extends "base-dashboard.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+        <!-- user dashboard -->
+        <div class="user-area bg py-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="sidebar">
+                            <div class="sidebar-top">
+                                <div class="sidebar-profile-img">
+                                    <img src="assets/img/account/user.jpg" alt="">
+                                    <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
+                                    <input type="file" class="profile-img-file">
+                                </div>
+                                <h5>Antoni Jonson</h5>
+                                <p>antoni@example.com</p>
+                            </div>
+                            <ul class="sidebar-list">
+                                <li><a class="nav__link active"><i class="far fa-gauge-high"></i> Dashboard</a></li>
+                                <li><a class="nav__link"><i class="far fa-user"></i> My Profile</a></li>
+                                <li><a class="nav__link"><i class="far fa-shopping-bag"></i> All Orders <span class="badge badge-danger">02</span></a></li>
+                                <li><a class="nav__link"><i class="far fa-wallet"></i> Payout</a></li>
+                                <li><a class="nav__link"><i class="far fa-credit-card"></i> Transaction</a></li>
+                                <li><a class="nav__link"><i class="far fa-bell"></i> Notification <span class="badge badge-danger">02</span></a></li>
+                                <li><a class="nav__link"><i class="far fa-envelope"></i> Messages <span class="badge badge-danger">02</span></a></li>
+                                <li><a class="nav__link"><i class="far fa-gear"></i> Settings</a></li>
+                                <li><a href="{% url 'login:logout' %}"><i class="far fa-sign-out"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="content-div">
+                            {% include "seller/summary.html" %}
+                        </div>
+                        <div class="content-div" hidden>
+                            {% include "seller/profile.html" %}
+                        </div>
+                        <div class="content-div" hidden>
+                            {% include "seller/order.html" %}
+                        </div>
+                        <div class="content-div" hidden>
+                            {% include "seller/payout.html" %}
+                        </div>
+                        <div class="content-div" hidden>
+                            {% include "seller/transaction.html" %}
+                        </div>
+                        <div class="content-div" hidden>
+                            {% include "seller/notification.html" %}
+                        </div>
+                        <div class="content-div" hidden>
+                            {% include "seller/message.html" %}
+                        </div>
+                        <div class="content-div" hidden>
+                            {% include "seller/setting.html" %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- user dashboard end -->
+
+{% endblock %}

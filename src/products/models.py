@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-from .utils import upload_image_path_admin
+from TWC.utils import upload_image_path_admin
 from django.urls import reverse
                             
     

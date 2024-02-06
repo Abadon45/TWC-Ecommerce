@@ -1,17 +1,18 @@
 from user.utils import create_or_get_guest_user, get_or_create_customer
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.http import Http404
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 from django.db import transaction
 from django.db.models import Sum
 from django.http import JsonResponse
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
 from django.contrib.auth.signals import user_logged_in
-from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
 from django.dispatch import receiver
-from django.views.decorators.http import require_http_methods
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 
 from products.models import Product
 from orders.models import *
@@ -36,25 +37,19 @@ def updateItem(request):
     print('Quantity: ', quantity)
     
     try:
-
-        if request.user.is_authenticated:
-            user = request.user
-            customer = get_or_create_customer(user)
-        else:
-            customer = create_or_get_guest_user(request)
-
+        
+        print('User ID:', request.user.id)
+        customer = get_or_create_customer(request, request.user)
+        
         print(customer)
+        
         order = Order.objects.filter(customer=customer, complete=False).first()
         
         if not order:
             order = Order.objects.create(customer=customer)
         
-        print(f"Before order retrieval - Customer ID: {customer.id}")
-        
         product = get_object_or_404(Product, id=productId)
         orderItem, order_item_created = OrderItem.objects.get_or_create(order=order, product=product)
-        
-        print(f"After OrderItem retrieval - OrderItem ID: {orderItem.id}")
 
         if action == 'add':
             orderItem.quantity += int(quantity)
@@ -93,6 +88,8 @@ def updateItem(request):
     except Exception as e:
         print(f"Exception in updateItem: {e}")
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
+    
+
 
 def checkout(request):
     shipping_form = AddressForm()
@@ -163,6 +160,12 @@ def checkout(request):
                         shipping_address.customer = customer
                         shipping_address.save()
                         
+                         # Check if the customer has a default address
+                        if not Address.objects.filter(customer=customer, is_default=True).exists():
+                            # If not, set the new address as the default
+                            shipping_address.is_default = True
+                            shipping_address.save()
+                                            
                         if not order.shipping_address:
                             print("Shipping address created:", shipping_address)
                             order.shipping_address = shipping_address
