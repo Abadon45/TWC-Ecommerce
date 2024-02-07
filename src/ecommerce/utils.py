@@ -3,6 +3,8 @@ import datetime
 import os
 import random
 import string
+import uuid
+
 
 from django.utils import timezone
 from django.utils.text import slugify

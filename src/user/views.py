@@ -2,7 +2,7 @@ from django.views.generic import View, TemplateView
 from django.shortcuts import render
 from orders.models import Order
 from addresses.models import Address
-from user.utils import create_or_get_guest_user
+from user.utils import get_or_create_customer
 from django.shortcuts import redirect
 from django.urls import reverse
 from billing.models import Customer
@@ -19,7 +19,7 @@ class DashboardView(TemplateView):
             customer = self.request.user.customer
             
         elif self.request.user.is_anonymous:
-            customer = create_or_get_guest_user(self.request)
+            customer = get_or_create_customer(self.request)
             
         context['customer'] = customer
         context = {
@@ -43,7 +43,11 @@ class SellerDashboardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
         customer = self.request.user.customer
+        if not customer:
+            customer = get_or_create_customer(self.request)
+            
         affiliate_link = self.request.user.generate_affiliate_link()
 
         context.update({

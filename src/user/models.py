@@ -10,6 +10,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
 from TWC.utils import upload_image_path
 
+import uuid
+
 
 alphanumeric = RegexValidator(regex=r'^[0-9a-zA-Z]*$', message='The username must only contain letters and numbers.')
 
@@ -71,6 +73,9 @@ class User(AbstractBaseUser):
 
     date_activated  = models.DateTimeField(verbose_name='Date Activated', blank=True, null=True)
     expiration_date = models.DateTimeField(verbose_name='Expiration Date', null=True, blank=True)
+    
+    affiliate_code  = models.CharField(max_length=8, blank=True, editable=False)
+    referred_by     = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='referrals')
 
     is_seller       = models.BooleanField(default=False)
     is_member       = models.BooleanField(default=False)
@@ -91,6 +96,11 @@ class User(AbstractBaseUser):
     
     def __str__(self):
         return self.username if self.username else 'No username'
+    
+    def save(self, *args, **kwargs):
+        if not self.affiliate_code:
+            self.affiliate_code = str(uuid.uuid4())[:8]
+        super().save(*args, **kwargs)
       
     def has_perm(self, perm, obj=None):
         return True
@@ -108,7 +118,7 @@ class User(AbstractBaseUser):
         return super().clean()    
 
     def generate_affiliate_link(self):
-        return f'http://www.{settings.SITE_DOMAIN}/shop/{self.username}{self.id}/'
+        return f'http://www.{settings.SITE_DOMAIN}/{self.username}/{self.affiliate_code}/'
         
     def get_referred_customers(self):
         try:
@@ -133,3 +143,7 @@ class User(AbstractBaseUser):
         return self.get_referred_customers().filter(order__complete=True)
     
     
+class Referral(models.Model):
+    referrer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='referrals_made')
+    referred = models.ForeignKey(User, on_delete=models.CASCADE, related_name='referrals_received')
+    timestamp = models.DateTimeField(auto_now_add=True)

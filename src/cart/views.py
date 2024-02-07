@@ -18,6 +18,7 @@ from products.models import Product
 from orders.models import *
 from billing.models import Customer
 
+
 from addresses.forms import AddressForm
 import string
 import random
@@ -32,6 +33,8 @@ def updateItem(request):
     action = request.GET.get('action')
     quantity = request.GET.get('quantity', 1)
     
+    user = request.user
+    
     print('Action: ', action)
     print('Product: ', productId)
     print('Quantity: ', quantity)
@@ -39,7 +42,12 @@ def updateItem(request):
     try:
         
         print('User ID:', request.user.id)
-        customer = get_or_create_customer(request, request.user)
+        if user.is_authenticated:
+            print(f"User is authenticated: {user.username}")
+            customer, created = Customer.objects.get_or_create(user=user, defaults={'email': user.email})
+        else:
+            print(f"User is not authenticated")
+            customer = create_or_get_guest_user(request)
         
         print(customer)
         
@@ -196,6 +204,10 @@ def checkout(request):
                                         customer.save()
                                         temporary_user.email = customer.email
                                         temporary_user.set_password(temporary_password)
+                                        
+                                        if customer.referrer is not None:
+                                            temporary_user.referred_by = customer.referrer
+                                            
                                         temporary_user.save()
                                         print("Temporary user created:", temporary_user)
 

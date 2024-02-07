@@ -3,10 +3,16 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.http import HttpResponseNotFound
 from products.models import Product
+from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
+from user.models import Referral
+from billing.models import Customer
+from django.shortcuts import redirect
 
 import random
 
 
+User = get_user_model()
 
 class AboutUsView(TemplateView):
     title="About Us"
@@ -19,7 +25,24 @@ class AboutUsView(TemplateView):
 class IndexView(TemplateView):
     template_name = 'index.html'
     
-    def get(self, request, *args, **kwargs):
+    def get(self, request, username=None, affiliate_code=None, *args, **kwargs):
+        referrer = None
+        if username and affiliate_code:
+            referrer = get_object_or_404(User, username=username, affiliate_code=affiliate_code)
+            if not request.user.is_superuser and request.user.is_authenticated:
+                referred = request.user  # The user who accessed the page
+                Referral.objects.create(referrer=referrer, referred=referred)
+                print(f"User {referred.username} was successfully referred by {referrer.username}.")
+
+        if referrer:
+            # Create a Customer object for the referred user
+            customer, created = Customer.get_or_create_customer(request.user, request, referrer_code=referrer.id)
+            if created:
+                print(f"Customer {customer.email} was successfully created for user {request.user.username}.")
+            return redirect('home_view')
+            
+        
+            
         guest_user_info = request.session.get('guest_user_data', {})
         new_guest_user = request.session.get('new_guest_user', False)
         
@@ -41,6 +64,7 @@ class IndexView(TemplateView):
             'rand_on_sale_products': rand_on_sale_products,
             'rand_best_seller_products': rand_best_seller_products,
             'rand_top_rated_products': rand_top_rated_products,
+            'referrer': referrer if username and affiliate_code else None,
         }
 
         if new_guest_user:
@@ -54,9 +78,6 @@ class IndexView(TemplateView):
         })
 
         return render(request, self.template_name, context)
-    
-    
-    
     
     
 class ContactView(TemplateView):

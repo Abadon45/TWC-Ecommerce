@@ -21,13 +21,14 @@ urlpatterns = [
     path('terms/', TemplateView.as_view(template_name='terms.html'), name="terms"),
     path('testimonial/', TemplateView.as_view(template_name='testimonial.html'), name="testimonial"),
     path('wishlist/', TemplateView.as_view(template_name='wishlist.html'), name="wishlist"),
-    path('', IndexView.as_view(), name="home_view"),
     path('login/', include('login.urls', namespace='login')),
     path('shop/', include('shop.urls', namespace='shop')),
     path('dashboard/', include('user.urls.index', namespace='user')),
     path('vendor/', include('vendor.urls', namespace='vendor')), 
     path('products/', include('products.urls', namespace='products')), 
     path('cart/', include('cart.urls', namespace='cart')), 
+    path('', IndexView.as_view(), name="home_view"),
+    path('<str:username>/<str:affiliate_code>/', IndexView.as_view(), name='affiliate_redirect'),
     re_path(r'^.*/$', Handle404View.as_view(), name='handle_404'),
 ]
 
