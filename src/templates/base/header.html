@@ -83,13 +83,13 @@
                 </div>
                 <div class="d-none d-lg-block col-lg-6 col-xl-5">
                     <div class="header-middle-search">
-                        <form action="#">
+                        <form method="get" action="{% url 'shop:search' %}">
                             <div class="search-content">
                                 <select class="select">
                                     <option value="">All Category</option>
                                     <!-- Your other options -->
                                 </select>
-                                <input type="text" class="form-control" placeholder="Search Here...">
+                                <input type="text" class="form-control" name="q" placeholder="Search Here...">
                                 <button type="submit" class="search-btn"><i class="far fa-search"></i></button>
                             </div>
                         </form>
@@ -228,9 +228,9 @@
                     <div class="search-btn">
                         <button type="button" class="nav-right-link"><i class="far fa-search"></i></button>
                         <div class="mobile-search-form">
-                            <form action="#">
-                                <input type="text" class="form-control" placeholder="Search Here...">
-                                <button type="submit"><i class="far fa-search"></i></button>
+                            <form method="get" action="{% url 'shop:search' %}">
+                                    <input type="text" class="form-control" name="q" placeholder="Search Here...">
+                                    <button type="submit"><i class="far fa-search"></i></button>
                             </form>
                         </div>
                     </div>
