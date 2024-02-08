@@ -3,22 +3,36 @@ from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from products.views import ProductListView, ProductDetailView
 from products.models import Product
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.db.models import Q
+from django.template.loader import render_to_string
+from django.urls import NoReverseMatch
 
 
 class ShopView(ProductListView):
     model = Product
     template_name = 'shop/shop.html'
     context_object_name = 'products'
-    paginate_by = 25
+    paginate_by = 12
     _product_choices = None
-
+    
+    def get(self, request, *args, **kwargs):
+        try:
+            return super().get(request, *args, **kwargs)
+        except NoReverseMatch:
+            # Handle the exception here
+            return HttpResponse("An error occurred")
 
     def get_queryset(self):
         category_id = self.request.GET.get('category_id')
-        
-        if category_id is None or category_id.lower() == 'all':
+        search_query = self.request.GET.get('q')
+
+        print(f"Search query: {search_query}")  # Print the search query
+
+        if search_query:
+            queryset = Product.objects.filter(name__icontains=search_query)
+            print(f"Search results: {queryset}")  # Print the search results
+        elif category_id is None or category_id.lower() == 'all':
             queryset = Product.objects.all()
         else:
             queryset = Product.objects.filter(category_1=category_id) | Product.objects.filter(category_2=category_id)
@@ -37,8 +51,10 @@ class ShopView(ProductListView):
             }
         context.update(self._product_choices)
         products = self.get_queryset()
-        print(f"Products length in context: {len(products)}")
         context['products'] = products
+
+        print(f"Context: {context}")  # Print the context
+
         return context
 
     def render_to_response(self, context, **response_kwargs):
@@ -54,7 +70,6 @@ class ShopView(ProductListView):
             except EmptyPage:
                 paginated_products = paginator.page(paginator.num_pages)
 
-            # Convert paginated_products to a format that can be serialized
             serialized_products = [
                 {
                     'name': product.name,
@@ -67,13 +82,19 @@ class ShopView(ProductListView):
                 }
                 for product in paginated_products
             ]
+            
+            products_grid_html = render_to_string('shop/products_grid.html', {'page_obj': paginated_products}, request=self.request)
+            products_list_html = render_to_string('shop/products_list.html', {'page_obj': paginated_products}, request=self.request)
+            pagination_html = render_to_string('shop/pagination.html', {'page_obj': paginated_products}, request=self.request)
 
             response_data = {
                 'products': serialized_products,
                 'has_next': paginated_products.has_next(),
                 'has_previous': paginated_products.has_previous(),
+                'products_grid_html': products_grid_html,
+                'products_list_html': products_list_html,
+                'pagination_html': pagination_html,
             }
-            print(f"AJAX Response: {response_data}")
             
             return JsonResponse(response_data)
         else:

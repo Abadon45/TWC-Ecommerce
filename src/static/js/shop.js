@@ -28,12 +28,56 @@ $(document).ready(function () {
         filterProducts(category_id);
     });
 
+    // Pagination
+    $(document).on('click', '.pagination a', function(event){
+        event.preventDefault();
+        var page = $(this).attr('href').split('page=')[1];
+        var view = $("#gridBtn").hasClass("active") ? "grid" : "list";
+        fetchProducts(page, view);
+    });
 
+    function fetchProducts(page, view){
+        $.ajax({
+            url: '/shop/?page=' + page,
+            type: 'get',
+            dataType: 'json',
+            success: function(data){
+                $('#products-grid').html(data.products_grid_html);
+                $('#products-list').html(data.products_list_html);
+                $('.pagination').html(data.pagination_html);
+                toggleView(view);
+            }
+        });
+    }
+
+    // Search
+
+    $('#search-form').on('submit', function(event) {
+        event.preventDefault();
+        var query = $('#search-input').val();
+        searchProducts(query);
+    });
+    
+    function searchProducts(query) {
+        console.log("Search query:", query);
+
+        $.ajax({
+            url: '/shop/search/',
+            type: 'get',
+            data: { q: query },
+            dataType: 'json',
+            success: function(data){
+                console.log("AJAX request:", data);
+                $('#products-grid').html(data.products_grid_html);
+                $('#products-list').html(data.products_list_html);
+                $('.pagination').html(data.pagination_html);
+            }
+        });
+    }
 
     function filterProducts(category_id) {
         const requestData = { category: category_id };
         const url = (category_id === "all") ? "/shop/" : `/shop/?category_id=${category_id}`;
-
 
         console.log("Filtering products with URL:", url);
         console.log("Request Data:", requestData);
@@ -49,7 +93,7 @@ $(document).ready(function () {
                 console.log("Filtered products:", data.products);
                 const productListContainerGrid = $('.shop-grid .row');
                 const productListContainerList = $('.shop-list .row');
-             
+
                 productListContainerGrid.empty();
                 productListContainerList.empty();
 

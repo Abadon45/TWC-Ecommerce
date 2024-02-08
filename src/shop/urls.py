@@ -12,7 +12,7 @@ urlpatterns = [
     path('category-4/', TemplateView.as_view(template_name='shop/category-4.html'), name='category_4'),
     path('category/', TemplateView.as_view(template_name='shop/category.html'), name='category'),
     path('compare/', TemplateView.as_view(template_name='shop/shop-compare.html'), name='compare'),
-    path('search/', TemplateView.as_view(template_name='shop/shop-search.html'), name='search'),
+    path('search/', ShopView.as_view(), name='search'),
     path('single/<slug:slug>', ShopDetailView.as_view(), name='single'),
     path('', ShopView.as_view(), name='shop'),
    
