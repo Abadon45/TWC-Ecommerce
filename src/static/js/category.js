@@ -1,7 +1,17 @@
+function showSubcategories(category) {
+  const $subcategoryWidget = $("#subcategory-sante");
+  if (category === 'sante') {
+  $subcategoryWidget.show();
+} else {
+  $subcategoryWidget.hide();
+}
+}
+
 $(document).ready(function () {
   const $productListContainerBody = $("#product-list-container tbody");
   const $categoryDropdownBtn = $("#category-dropdown button");
   const $categoryDropdownLinks = $("#category-dropdown a");
+
 
   $categoryDropdownLinks.click(function (event) {
     event.preventDefault();
