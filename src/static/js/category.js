@@ -1,5 +1,6 @@
 function showSubcategories(category) {
   const $subcategoryWidget = $("#subcategory-sante");
+  console.log('category')
   if (category === 'sante') {
   $subcategoryWidget.show();
 } else {
