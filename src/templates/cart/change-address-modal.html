@@ -1,0 +1,57 @@
+<!-- Address Modal -->
+<div class="modal fade" id="changeAddressModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Address</h5> 
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> 
+            </div>
+            <div class="modal-body">
+                <fieldset> 
+                    <legend>Select an Address</legend>
+                    </fieldset>
+                <div class="row">
+                    <div class="col-lg-1" data-address-details>
+                        <input type="radio" name="addressChoice" id="defaultAddress" checked></div>
+                    <div class="col-lg-9">
+                        <p class="address-name" data-name><b>{{default_address.first_name}} {{default_address.last_name}} {{default_address.phone}}</b></p>
+                        <div class="change-address row mb-20">
+                            <div class="col-lg-10">
+                                <p data-address-line>{{ default_address.line1 }} Brgy. {{ default_address.barangay }}, {{ default_address.city }}, {{ default_address.province }}, {{ default_address.postcode }} </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <a href="#">Edit</a>
+                    </div>
+                    <div class="col-lg-2">
+                        <span>Default</span>
+                    </div>
+                    <hr class="mt-2 mb-3">
+                    {% for address in customer_addresses %} 
+                        <div class="col-lg-1" data-address-details="">
+                            <input type="radio" name="addressChoice">
+                        </div> 
+                        <div class="col-lg-9">
+                            <p class="address-name" data-name><b>{{ address.first_name }} {{ address.last_name }} {{ address.phone }}</b></p> 
+                            <div class="change-address row mb-20" data-address-details>
+                                <div class="col-lg-10">
+                                    <p data-address-line>{{ address.line1 }} Brgy. {{ address.barangay }}, {{ address.city }}, {{ address.province }}, {{ address.postcode }} </p> 
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="col-lg-2">
+                            <a href="#">Edit</a>
+                        </div>
+                        <hr class="mt-2 mb-3"> 
+                    {% endfor %}
+                    <button style="margin: 0 0 20px 20px;" id="addNewAddressBtn"><span><i class="fa-solid fa-plus"></i> Add New Address</span></button>
+                </div>                                                             
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="changeAddressBtn btn btn-primary">Submit</button> 
+            </div>
+        </div>
+    </div>
+</div>

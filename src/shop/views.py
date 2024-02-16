@@ -7,13 +7,14 @@ from django.http import JsonResponse, HttpResponse
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.urls import NoReverseMatch
+from django.db.models import Count
 
 
 class ShopView(ProductListView):
     model = Product
     template_name = 'shop/shop.html'
     context_object_name = 'products'
-    paginate_by = 12
+    paginate_by = 9
     _product_choices = None
     
     def get(self, request, *args, **kwargs):
@@ -51,9 +52,19 @@ class ShopView(ProductListView):
             }
         context.update(self._product_choices)
         products = self.get_queryset()
-        context['products'] = products
+        subcategories = ['sante-nutraceutical', 'sante-beverage', 'sante-intimate_care']
+        
+        # Filter products by subcategories
+        filtered_products = products.filter(category_2__in=subcategories)
 
-        print(f"Context: {context}")  # Print the context
+        # Count the number of products in each subcategory and replace hyphens with underscores in the keys
+        subcategory_counts = {subcategory.replace('-', '_'): filtered_products.filter(category_2=subcategory).count() for subcategory in subcategories}
+
+        # Print the subcategory_counts dictionary to the console
+        print(subcategory_counts)
+
+        context['products'] = products
+        context['subcategory_counts'] = subcategory_counts
 
         return context
 
@@ -99,6 +110,7 @@ class ShopView(ProductListView):
             return JsonResponse(response_data)
         else:
             return super().render_to_response(context, **response_kwargs)
+        
 
 class ShopDetailView(ProductDetailView):
     template_name = "shop/shop-single.html"

@@ -1,5 +1,7 @@
 from django.urls import path
-from .views import *
+from .views import CartView, updateItem, checkout, checkout_done_view, get_addresses
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'cart'
 urlpatterns = [
@@ -7,4 +9,8 @@ urlpatterns = [
     path('update-item/', updateItem, name='update_item'),
     path('checkout/', checkout, name='checkout'),
     path('checkout/complete/', checkout_done_view, name='checkout_complete'),
+    path('get-addresses/', get_addresses, name='get_addresses'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

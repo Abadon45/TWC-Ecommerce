@@ -5,6 +5,10 @@
 
 {% block content %}
 
+<!-- Loading Spinner -->
+
+
+
 <!-- shop checkout -->
 <div class="shop-checkout2 py-100">
     <div class="container">
@@ -42,8 +46,11 @@
                                                 <span>Default</span>
                                             </div>
                                             <div class="col-lg-1">
-                                                <button>Change</button>
+                                                <button type="button" class="change-address-btn">Change</button>
                                             </div>
+<!-- Change / Add Address Modal -->
+                                        {% include 'cart/change-address-modal.html' %}
+                                        {% include 'cart/add-address-modal.html' %}  
                                         </div>
                                         <hr class="mt-2 mb-3">
                                         <div class="col-lg-12 mt-20">
@@ -58,6 +65,7 @@
                                     {% else %}
                                         {% include 'cart/address-form.html' %}
                                     {% endif %}
+
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="step2" role="tabpanel" aria-labelledby="step2-tab"

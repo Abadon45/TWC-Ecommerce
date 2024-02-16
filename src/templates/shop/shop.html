@@ -26,20 +26,23 @@
                     </div>
                     
                     <div class="shop-widget">
-                        <h4 class="shop-widget-title">Category 1</h4>
+                        <h4 class="shop-widget-title">Category</h4>
                         <ul class="shop-category-list category-1">
-                            <li><a href="{% url 'shop:shop' %}?category_id=all" data-category-id="all">All</a></li>
-                            {% for choice in categories_1 %}
-                                <li><a href="{% url 'shop:shop' %}?category_id={{ choice.0 }}" data-category-id="{{ choice.0 }}">{{ choice.1 }}</a></li>
-                            {% endfor %}
+                            <li><a href="{% url 'shop:shop' %}?category_id=all" data-category-id="all" onclick="showSubcategories('all')">All</a></li>
+                            <li><a href="{% url 'shop:shop' %}?category_id=sante" data-category-id="sante" onclick="showSubcategories('sante')">Sante International</a></li>
+                                <li><a href="{% url 'shop:shop' %}?category_id=chingu" data-category-id="chingu" onclick="showSubcategories('chingu')">Chingu</a></li>
+                            <li><a href="{% url 'shop:shop' %}?category_id=mood" data-category-id="mood" onclick="showSubcategories('mood')">Mood Timepieces</a></li>
                         </ul>
                     </div>
-                    <div class="shop-widget">
-                        <h4 class="shop-widget-title">Category 2</h4>
+                    <div class="shop-widget" id="subcategory-sante" style="display: none;">
+                        <h4 class="shop-widget-title">Subcategory</h4>
                         <ul class="shop-category-list category-2">
-                            {% for choice in categories_2 %}
-                                <li><a href="#" data-category-id="{{ choice.0 }}">{{ choice.1 }}</a></li>
-                            {% endfor %}
+                            <li><a href="{% url 'shop:shop' %}?category_id=sante-nutraceutical" 
+                                data-category-id="sante-nutraceutical">Sante Nutraceutical<span>({{ subcategory_counts.sante_nutraceutical }})</span></a></li>
+                            <li><a href="{% url 'shop:shop' %}?category_id=sante-beverage" 
+                                data-category-id="sante-beverage">Sante Beverages<span>({{ subcategory_counts.sante_beverage }})</span></a></li>
+                            <li><a href="{% url 'shop:shop' %}?category_id=sante-intimate_care" 
+                                data-category-id="sante-intimate_care">Sante Intimate Care<span>({{ subcategory_counts.sante_intimate_care }})</span></a></li>
                         </ul>
                     </div>
                     <div class="shop-widget">
@@ -54,7 +57,7 @@
                         </ul>
                     </div>
                     <div class="shop-widget">
-                        <h4 class="shop-widget-title">Price Range</h4>
+                        <h4 class="shop-widget-title">Price Range Filter</h4>
                         <div class="price-range-box">
                             <div class="price-range-input">
                                 <input type="text" id="price-amount" readonly>
@@ -260,7 +263,7 @@
                             <button id="gridBtn" class="shop-sort-grid active"><i class="far fa-grid-round-2"></i></button>
                             <button id="listBtn" class="shop-sort-list"><i class="far fa-list-ul"></i></button>
                         </div>
-                    </div>6
+                    </div>
                 </div>
                 {% if products.exists %}
                     <div id="products-grid">

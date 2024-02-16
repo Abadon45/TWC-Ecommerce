@@ -6,8 +6,9 @@
     const productListUrl = '{% url "products:product_list" %}';
     const checkoutUrl = "{% url 'cart:checkout' %}";
     const checkoutCompleteUrl = "{% url 'cart:checkout_complete' %}";
-    const registerURL = "{% url 'login:register' %}"
-    var csrf = "{{ csrf_token }}"
+    const registerURL = "{% url 'login:register' %}";
+    const cartAddressURL = "{% url 'cart:get_addresses' %}";
+    var csrf = "{{ csrf_token }}";
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{% static 'js/add-to-cart.js' %}"></script>
@@ -26,6 +27,7 @@
 <script src="{% static 'js/zip-code-ph.js' %}"></script>
 <script src="{% static 'js/countdown.min.js' %}"></script>
 <script src="{% static 'js/wow.min.js' %}"></script>
+<script src="{% static 'js/flex-slider.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
 <script src="{% static 'js/dashboardview.js' %}"></script>
 <script src="{% static 'js/checkout.js' %}"></script>
@@ -37,6 +39,7 @@
 <script src="{% static 'js/category.js' %}"></script>
 <script src="{% static 'js/shop.js' %}"></script>
 <script src="{% static 'js/checkout.js' %}"></script>
+
 
 
 

@@ -6303,6 +6303,7 @@ label {
 }
 
 .change-address button{
+display: flex!important;
   background: none !important;
   border: none !important;
   color: #59b0f6 !important; 
@@ -10228,4 +10229,15 @@ label {
 
 .nav__link {
   cursor: pointer;
+}
+
+.addNewAddress button{
+  display: flex!important;
+  margin-left: 20px!important;
+}
+
+/*==================== Flex Slider css ====================*/
+
+.flexslider-thumbnails ol {
+  display: flex!important;
 }

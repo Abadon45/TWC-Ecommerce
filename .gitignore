@@ -8,5 +8,3 @@ pyvenv.cfg
 node_modules
 
 __pycache__/
-
-file.log

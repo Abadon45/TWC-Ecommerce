@@ -11,21 +11,33 @@
                 <div class="row">
                     <div class="col-md-9 col-lg-6 col-xxl-5">
                         <div class="shop-single-gallery">
-                            <a class="shop-single-video popup-youtube" href="" data-tooltip="tooltip" title="Watch Video">
-                                <i class="far fa-play"></i>
-                            </a>
-                            <div class="flexslider-thumbnails">
+                                                        <div class="flexslider-thumbnails">
                                 <ul class="slides">
-                                    {% if product.images.first %}
-                                        <li data-thumb="{{ product.images.first.image.url }}" rel="adjustX:10, adjustY:">
-                                            <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
+                                    {% if product.image_1 %}
+                                        <li data-thumb="{{ product.image_1.url }}">
+                                            <img src="{{ product.image_1.url }}" alt="{{ product.name }}">
                                         </li>
                                     {% endif %}
-                                    {% for product_image in product.images.all|slice:"1:" %}
-                                        <li data-thumb="{{ product_image.image.url }}">
-                                            <img src="{{ product_image.image.url }}" alt="{{ product.name }}">
+                                    {% if product.image_2 %}
+                                        <li data-thumb="{{ product.image_2.url }}">
+                                            <img src="{{ product.image_2.url }}" alt="{{ product.name }}">
                                         </li>
-                                    {% endfor %}
+                                    {% endif %}
+                                    {% if product.image_3 %}
+                                        <li data-thumb="{{ product.image_3.url }}">
+                                            <img src="{{ product.image_3.url }}" alt="{{ product.name }}">
+                                        </li>
+                                    {% endif %}
+                                    {% if product.image_4 %}
+                                        <li data-thumb="{{ product.image_4.url }}">
+                                            <img src="{{ product.image_4.url }}" alt="{{ product.name }}">
+                                        </li>
+                                    {% endif %}
+                                    {% if product.image_5 %}
+                                        <li data-thumb="{{ product.image_5.url }}">
+                                            <img src="{{ product.image_5.url }}" alt="{{ product.name }}">
+                                        </li>
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>
