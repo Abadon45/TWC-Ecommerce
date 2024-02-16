@@ -11,11 +11,10 @@
                     <legend>Select an Address</legend>
                     </fieldset>
                 <div class="row">
-                    <div class="col-lg-1" data-address-details>
-                        <input type="radio" name="addressChoice" id="defaultAddress" checked></div>
+                    <div class="col-lg-1"><input type="radio" name="addressChoice" id="defaultAddress" checked></div>
                     <div class="col-lg-9">
                         <p class="address-name" data-name><b>{{default_address.first_name}} {{default_address.last_name}} {{default_address.phone}}</b></p>
-                        <div class="change-address row mb-20">
+                        <div class="change-address row mb-20" data-address-details>
                             <div class="col-lg-10">
                                 <p data-address-line>{{ default_address.line1 }} Brgy. {{ default_address.barangay }}, {{ default_address.city }}, {{ default_address.province }}, {{ default_address.postcode }} </p>
                             </div>
@@ -30,7 +29,7 @@
                     <hr class="mt-2 mb-3">
                     {% for address in customer_addresses %} 
                         <div class="col-lg-1" data-address-details="">
-                            <input type="radio" name="addressChoice">
+                            <input type="radio" name="addressChoice" id="defaultAddress">
                         </div> 
                         <div class="col-lg-9">
                             <p class="address-name" data-name><b>{{ address.first_name }} {{ address.last_name }} {{ address.phone }}</b></p> 

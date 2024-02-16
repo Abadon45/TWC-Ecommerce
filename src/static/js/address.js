@@ -15,7 +15,7 @@ $(document).ready(function () {
             changeAddressModal.show();
         } else {
              // Assuming you use Bootstrap 4 or prior
-             $('#changeAddressModal').modal('show');
+            $('#changeAddressModal').modal('show');
         } 
     });
 
