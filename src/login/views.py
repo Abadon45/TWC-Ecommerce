@@ -40,7 +40,6 @@ class RegisterView(FormView):
 
         except IntegrityError as e:
             print(user.__dict__)
-            # print(customer.__dict__)
             raise e
 
         return super(RegisterView, self).form_valid(form)
