@@ -1,5 +1,6 @@
 from django.views.generic import View, TemplateView
 from django.shortcuts import render
+from django.contrib.auth import get_user_model
 from orders.models import Order
 from addresses.models import Address
 from user.utils import get_or_create_customer
@@ -9,6 +10,8 @@ from billing.models import Customer
 from django.http import HttpResponseRedirect
 from django.conf import settings
 
+User = get_user_model()
+
 class DashboardView(TemplateView):
     template_name = 'user/dashboard.html'
     title = "User Dashboard"
@@ -16,11 +19,8 @@ class DashboardView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            customer = self.request.user.customer
-            
-        elif self.request.user.is_anonymous:
-            customer = get_or_create_customer(self.request)
-            
+            customer, created = Customer.get_or_create_customer(self.request.user, self.request)
+                     
         context['customer'] = customer
         context = {
             'title': self.title,
@@ -43,10 +43,13 @@ class SellerDashboardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
-        customer = self.request.user.customer
+        user = self.request.user
+        customer, created = Customer.get_or_create_customer(self.request.user, self.request)
+        referred_users = User.objects.filter(referred_by=user)
+            
         if not customer:
             customer = get_or_create_customer(self.request)
+            
             
         affiliate_link = self.request.user.generate_affiliate_link()
 
@@ -56,7 +59,9 @@ class SellerDashboardView(TemplateView):
             'orders': Order.objects.filter(customer=customer),
             'addresses': Address.objects.filter(customer=customer),
             'affiliate_link': affiliate_link,
+            'referred_users': referred_users, 
         })
+        
 
         return context
     
