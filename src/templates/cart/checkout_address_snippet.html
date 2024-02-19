@@ -1,0 +1,12 @@
+{% if address %}
+<p><b>{{ address.name }}</b></p>
+<p>{{ address.addressLine }}</p>
+{% else %}
+<p>No address selected</p>
+{% endif %}
+
+
+
+<!-- <div id="selected-address-display" hx-post="/refresh_checkout_address" hx-trigger="load" hx-target="this">
+                                            {% include 'cart:refresh_checkout_address' %} 
+                                        </div> -->

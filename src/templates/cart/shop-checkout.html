@@ -37,6 +37,11 @@
                                     {% if is_authenticated %}
                                         {% if default_address %}
                                         <h6 class="mb-2"><i class="fa-solid fa-location-dot"></i> Delivery Address:</h6>
+
+                                        <!-- load htmx -->
+                                        
+                                        <!-- end htmx -->
+
                                         <p><b>{{default_address.first_name}} {{default_address.last_name}} {{default_address.phone}}</b></p>
                                         <div class="change-address row mb-20">
                                             <div class="col-lg-10">
@@ -48,7 +53,7 @@
                                             <div class="col-lg-1">
                                                 <button type="button" class="change-address-btn">Change</button>
                                             </div>
-<!-- Change / Add Address Modal -->
+                                        <!-- Change / Add Address Modal -->
                                         {% include 'cart/change-address-modal.html' %}
                                         {% include 'cart/add-address-modal.html' %}  
                                         </div>
@@ -65,7 +70,6 @@
                                     {% else %}
                                         {% include 'cart/address-form.html' %}
                                     {% endif %}
-
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="step2" role="tabpanel" aria-labelledby="step2-tab"

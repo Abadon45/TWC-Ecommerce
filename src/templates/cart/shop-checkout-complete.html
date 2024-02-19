@@ -16,6 +16,10 @@
                     <div class="checkout-complete-icon"><i class="far fa-check"></i></div>
                     <h3>THANK YOU {{ order.shipping_address.first_name|upper }}! YOUR ORDER HAS BEEN RECEIVED.</h3>
                     <h5>For any concern, please feel free to contact us at +639565885998.</h5>
+                    <h5 class="mt-20">Your Login Detail is:</h5>
+                    <h6>Email: {{ email }}</h6>
+                    <h6>Username: {{ username }}</h6>
+                    <h6>Password: {{ password }}</h6>
                     <table class="table">
                         <thead>
                             <tr class="table-active">
@@ -109,7 +113,7 @@
     </div>
 </div>
 <!-- shop checkout complete end -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     // Your existing AJAX request
     $.ajax({
@@ -152,5 +156,5 @@
             console.error('AJAX error:', errmsg);
         }
     });
-</script>
+</script> -->
 {% endblock %}

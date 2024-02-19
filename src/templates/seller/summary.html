@@ -73,7 +73,44 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-12">
+            <div class="user-card">
+                <div class="user-card-header">
+                    <h4 class="user-card-title">Reffered Users</h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-borderless text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Name</th>
+                                <th>Joined Date</th>
+                                <th>Orders</th>
+                                <th>Earnings</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in referred_users %}
+                                <tr>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.first_name }} {{ user.last_name }}</td>
+                                    <td>{{ user.date_activated }}</td>
+                                    <td>{{ user.get_referred_customers.count }}</td>
+                                    <td>P567,000</td>
+                                    <td><span class="badge badge-success">{{ user.is_active|yesno:"Active,Inactive" }}</span></td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="5">No referrals yet.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
             <div class="user-card">
                 <h4 class="user-card-title">Sales</h4>
                 <div class="user-chart">
@@ -81,66 +118,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
-            <div class="user-card user-country">
-                <h4 class="user-card-title">Top Countries</h4>
-                <div class="user-country-list">
-                    <ul>
-                        <li>
-                            <img src="assets/img/country/US.svg" alt="">
-                            <h6>United States</h6>
-                            <span>$150</span>
-                        </li>
-                        <li>
-                            <img src="assets/img/country/UK.svg" alt="">
-                            <h6>United Kingdom</h6>
-                            <span>$220</span>
-                        </li>
-                        <li>
-                            <img src="assets/img/country/CA.svg" alt="">
-                            <h6>Canada</h6>
-                            <span>$340</span>
-                        </li>
-                        <li>
-                            <img src="assets/img/country/JO.svg" alt="">
-                            <h6>Jordan</h6>
-                            <span>$180</span>
-                        </li>
-                        <li>
-                            <img src="assets/img/country/BR.svg" alt="">
-                            <h6>Brazil</h6>
-                            <span>$110</span>
-                        </li>
-                        <li>
-                            <img src="assets/img/country/UK.svg" alt="">
-                            <h6>United Kingdom</h6>
-                            <span>$140</span>
-                        </li>
-                        <li>
-                            <img src="assets/img/country/CA.svg" alt="">
-                            <h6>Canada</h6>
-                            <span>$550</span>
-                        </li>
-                        <li>
-                            <img src="assets/img/country/JO.svg" alt="">
-                            <h6>Jordan</h6>
-                            <span>$270</span>
-                        </li>
-                        <li>
-                            <img src="assets/img/country/BR.svg" alt="">
-                            <h6>Brazil</h6>
-                            <span>$520</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-12">
+                <div class="col-lg-12">
             <div class="user-card">
                 <div class="user-card-header">
                     <h4 class="user-card-title">Recent Orders</h4>
                     <div class="user-card-header-right">
-                        <a href="vendor-order.html" class="theme-btn">View All Orders</a>
+                        <a href="#" class="theme-btn">View All Orders</a>
                     </div>
                 </div>
                 <div class="table-responsive">

@@ -1,7 +1,9 @@
 from user.utils import create_or_get_guest_user, get_or_create_customer
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.http import HttpResponseBadRequest
+from django.utils import timezone
 from django.http import Http404
-from django.views.generic import TemplateView, View
+from django.views.generic import TemplateView
 from django.db import transaction
 from django.db.models import Sum
 from django.http import JsonResponse
@@ -11,6 +13,9 @@ from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
 from django.core import serializers
+
+import json
+
 
 
 User = get_user_model()
@@ -100,23 +105,35 @@ def updateItem(request):
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
     
     
-def get_addresses(request):
-    user = request.user
-    if user.is_authenticated:
-            print(f"User is authenticated: {user.username}")
-            customer, created = Customer.objects.get_or_create(user=user, defaults={'email': user.email})
-    else:
-        print(f"User is not authenticated")
-        customer = create_or_get_guest_user(request)
-        
-    customer_addresses = Address.objects.filter(customer=customer).order_by('-is_default')[:5] 
-    address_data = serializers.serialize('json', customer_addresses)
+# ---------------  Update Address Views -------------- 
 
-    return JsonResponse({
-        'success': True,
-        'addresses': address_data,
-    })
-    
+# def get_address(request):
+#     address_id = request.GET.get('id')
+#     address = Address.objects.get(id=address_id)  # Assuming you have an Address model
+#     print(f'address: {address}')
+#     return render(request, 'cart/address_fragment.html', {'address': address})
+
+# def update_selected_address(request):
+#     if request.method == "POST":
+#         data = json.loads(request.body)  # Extract name and addressLine
+#         request.session['selected_address'] = data
+#         return JsonResponse({'success': True}) 
+#     else:
+#         return HttpResponseBadRequest() 
+
+# def refresh_checkout_address(request):
+#     # Retrieve data from the session if 'selected_address' exists
+#     selected_address = request.session.get('selected_address') 
+#     print(selected_address)
+#     return render(request, 'cart/checkout_address_snippet.html', {'address': selected_address})
+
+
+#note: default address should be displayed_address = request.GET.get('default_address') or it should be ID
+#      and selected address should be displayed_address = request.GET.get('selected_address')
+#      it should be fetched on an address so that it would be dynamic and the id should be posted on /get-address/?id={{ address.id }}
+
+
+#----------------- Checkout Views -------------------
 
 def checkout(request):
     shipping_form = AddressForm()
@@ -173,11 +190,9 @@ def checkout(request):
         if customer.id:
             customer_addresses = Address.objects.filter(customer=customer).exclude(is_default=True).order_by('-is_default')[:3]
                 
-        if request.method == 'POST': 
+        if request.method == 'POST':  
             if customer is not None:      
                 shipping_form = AddressForm(request.POST)
-                print("POST REQUEST RECEIVED")  
-                print(request.POST)
                 
                 if shipping_form.is_valid():
                     shipping_address = shipping_form.save(commit=False)
@@ -394,6 +409,9 @@ def checkout_done_view(request):
                 context = {
                     "order": order_data,
                     "customer": customer,
+                    "username": username,
+                    "email": email,
+                    "password": password,
                 }
                 return render(request, "cart/shop-checkout-complete.html", context)
             else:

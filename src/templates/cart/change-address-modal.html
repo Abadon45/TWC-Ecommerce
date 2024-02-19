@@ -31,7 +31,8 @@
                         <div class="col-lg-1" data-address-details="">
                             <input type="radio" name="addressChoice" id="defaultAddress">
                         </div> 
-                        <div class="col-lg-9">
+                        <div class="col-lg-9" hx-get="/get_address/?id={{ address.id }}" hx-trigger="click"  
+                            hx-target="#selected-address-display" hx-swap="innerHTML">
                             <p class="address-name" data-name><b>{{ address.first_name }} {{ address.last_name }} {{ address.phone }}</b></p> 
                             <div class="change-address row mb-20" data-address-details>
                                 <div class="col-lg-10">

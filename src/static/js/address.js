@@ -2,19 +2,19 @@
 $(document).ready(function () {
     var selectedRegionCode; 
 
+    // =======================================================//
+    // -------- Modal popups --------//
+    // =======================================================//
     $('.cancelAddress').click(function() {
         $('#addAddressModal').modal('hide'); 
         $('#changeAddressModal').modal('show'); 
     });
     
     $('.change-address-btn').click(function() {
-        // Adapt based on the Bootstrap version in use:
         if ($('#changeAddressModal').hasClass('modal')) { 
-            // Assuming you use Bootstrap 5...
             var changeAddressModal = new bootstrap.Modal(document.getElementById('changeAddressModal')) 
             changeAddressModal.show();
         } else {
-             // Assuming you use Bootstrap 4 or prior
             $('#changeAddressModal').modal('show');
         } 
     });
@@ -24,7 +24,7 @@ $(document).ready(function () {
         $('#addressFormContainer').show(); 
     });
 
-    $('#changeAddressModal').on('hidden.bs.modal', function() { // Modal close event
+    $('#changeAddressModal').on('hidden.bs.modal', function() {
         $('#addressFormContainer').hide(); 
     });
 
@@ -33,69 +33,49 @@ $(document).ready(function () {
         $('#addAddressModal').modal('show'); // Show the add address modal  
     });
 
-    function changeAddressElement(selectedAddressData) {
-        console.log("changeAddressElement called with data:", selectedAddressData);
-        const addressHTML = `
-            <div class="col-lg-1">
-                <input type="radio" name="addressChoice" id="defaultAddress" data-address-text="${selectedAddressData.nameLine} - ${selectedAddressData.addressLine}">  
-            </div>
-            <div class="col-lg-9">
-                <p class="address-name" data-name="${selectedAddressData.nameLine}"><b>${selectedAddressData.nameLine}</b></p> 
-                <div class="change-address row mb-20" data-address-details>
-                    <div class="col-lg-10">
-                        <p data-address-line>${selectedAddressData.addressLine}</p> 
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <a href="#">Edit</a>
-            </div>
-            <hr class="mt-2 mb-3">
-        `;
-        console.log("Generated addressHTML:", addressHTML);
-        return addressHTML;
-    }
+    // =======================================================//
+    // -------- Change Address Using HTMX --------//
+    // =======================================================//
 
-    function handleAddressSelection() {
-        console.log("handleAddressSelection triggered");
-        const selectedAddressRadio = document.querySelector('input[name="addressChoice"]:checked');
-        console.log("Selected address radio:", selectedAddressRadio);
-        if (selectedAddressRadio) { 
-            const addressContainer = selectedAddressRadio.closest('[data-address-details]');
-            console.log("Found address container:", addressContainer);
-
-            const nameElement = addressContainer.querySelector('[data-name]'); // Find elements first
-            const addressElement = addressContainer.querySelector('[data-address-line]');
-
-            if (nameElement && addressElement) { // Check if elements were found
-                const nameLine = nameElement.textContent;
-                const addressLine = addressElement.textContent;
-                // ... (Rest of your update logic)
-            } else {
-                console.error(
-                    "Error: nameLine or addressLine element NOT FOUND within address container" 
-                );  
-            }
-
-            console.log("Extracted nameLine:", nameLine);
-            console.log("Extracted addressLine:", addressLine);
+    $('#changeAddressModal').on('change', 'input[name="addressChoice"]', function(event) {
+        const selectedAddressRadio = $(this);
+        const addressDetails = selectedAddressRadio.closest('[data-address-details]');
     
-            // Update existing display element
-            const selectedAddressDisplay = document.getElementById('selected-address'); 
-            console.log("Found selectedAddressDisplay:", selectedAddressDisplay);
-            if (selectedAddressDisplay) {
-                selectedAddressDisplay.innerHTML = changeAddressElement({ nameLine, addressLine });
-            }
-        }
-    }
+        // Input Extraction
+        const name = addressDetails.find('[data-name]').text();
+        const addressLine = addressDetails.find('[data-address-line]').text();
     
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('changeAddressBtn')) {
-            e.preventDefault();
-            handleAddressSelection();
-        }
+        //  Loading State (Assume you have this element somewhere in your form)
+        let $selectButton = $(event.target).closest('.select-address-btn'); // If you have one 
+        $selectButton.prop('disabled', true); 
+
+        // Create a simple loading message next to the select button
+        $selectButton.after('<span id="temp-loading">Updating...</span>'); 
+    
+        // Send data to backend 
+        $.ajax({
+            url: '/update_selected_address/',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ name: name, addressLine: addressLine }),
+            success: function(response) {
+                // Update checkout form using HTMX
+                hx.post('/refresh_checkout_address', { trigger: 'change' }); 
+            },
+            error: function(xhr, status, error) {
+                console.error("Address update failed:", error); 
+                alert("There was an error updating the address. Please try again."); 
+            }
+        }).always(function() {
+            $selectButton.prop('disabled', false); // Re-enable button
+            $('#temp-loading').remove(); // Remove temporary loading text 
+        });
     });
 
+
+    // =======================================================//
+    // -------- Address form submission --------//
+    // =======================================================//
     function createAddressElement(addressData) {
         const addressHTML = `
           <div class="col-lg-1"><input type="radio" name="addressChoice" id="defaultAddress"></div>
@@ -170,7 +150,10 @@ $(document).ready(function () {
         });
     });
 
-    // Populate regions on page load
+
+    // =======================================================//
+    // -------- Populate regions on page load --------//
+    // =======================================================//
     populateDropdown("#regionDropdown", Philippines.regions);
 
     // Handle region selection
