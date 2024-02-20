@@ -2,7 +2,7 @@
 from django.urls import path, include
 from django.conf import settings
 from django.views.generic import RedirectView
-from user.views import DashboardView, SellerDashboardView
+from user.views import DashboardView, SellerDashboardView, get_order_details
 from TWC.urls import IndexView, BecomeSellerView
 from django.contrib import admin
 from user.views import RegisterGuestView
@@ -26,5 +26,6 @@ urlpatterns = [
     path('products/', include('products.urls')),
     path('admin/', RedirectView.as_view(url=f'http://admin.{settings.SITE_DOMAIN}{port}/')),
     path('seller/', SellerDashboardView.as_view(), name='seller_dashboard'),
+    path('get_order_details/', get_order_details, name='get_order_details'),
     path('shop/<int:referrer_id>/', RegisterGuestView.as_view(), name='register_guest'),
 ]

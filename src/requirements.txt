@@ -8,3 +8,5 @@ psycopg2-binary
 psycopg2
 postgresql
 django-hosts
+boto3
+django-ses

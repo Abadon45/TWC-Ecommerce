@@ -178,7 +178,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
+AWS_ACCESS_KEY_ID = os.environ.get('AKIAW3MEEP3POZWELOVZ')
+AWS_SECRET_ACCESS_KEY = os.environ.get('92HuZl4rfU6hTlW8nofzyvHlQkMMcBO9B/1us0XV')
 
+EMAIL_BACKEND = 'django_ses.SESBackend'
+EMAIL_HOST = 'email-smtp.uap-southeast-2.amazonaws.com'  # Adjust for your SES region
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_SAVE_EVERY_REQUEST = True

@@ -7,79 +7,88 @@
 {% block content %}
 
 
-        <!-- user dashboard -->
-        <div id="dashboard-content" class="user-area bg py-100">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="sidebar">
-                            <div class="sidebar-top">
-                                <div class="sidebar-profile-img">
-                                    <img src="{% static 'img/account/user.jpg' %}" alt="">
-                                    <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
-                                    <input type="file" class="profile-img-file">
-                                </div>
-                                <h5>{{user.full_name}}</h5>
-                                <p>{{user.email}}</p>
-                            </div>
-                            <ul class="sidebar-list">
-                                <li><a class="nav__link active"><i class="far fa-gauge-high"></i> Dashboard</a></li>
-                                <li><a class="nav__link"><i class="far fa-user"></i> My Profile</a></li>
-                                <li><a class="nav__link"><i class="far fa-shopping-bag"></i> My Order List <span class="badge badge-danger">02</span></a></li>
-                                <li><a class="nav__link"><i class="far fa-heart"></i> My Wishlist <span class="badge badge-danger">02</span></a></li>
-                                <li><a class="nav__link"><i class="far fa-location-dot"></i> Address List</a></li>
-                                <li><a class="nav__link comming-soon"><i class="far fa-headset"></i> Support Tickets <span class="badge badge-danger">02</span></a></li>
-                                <li><a class="nav__link"><i class="far fa-map-location-dot"></i> Track My Order</a></li>
-                                <li><a class="nav__link"><i class="far fa-wallet"></i> Payment Methods</a></li>
-                                <li><a class="nav__link"><i class="far fa-bell"></i> Notification <span class="badge badge-danger">02</span></a></li>
-                                <li><a class="nav__link comming-soon"><i class="far fa-envelope"></i> Messages <span class="badge badge-danger">02</span></a></li>
-                                <li><a class="nav__link"><i class="far fa-gear"></i> Settings</a></li>
-                                <li><a class="nav__link" href="{% url_with_domain 'login:logout' %}"><i class="far fa-sign-out"></i> Logout</a></li>
-                            </ul>
+<!-- user dashboard -->
+<div id="dashboard-content" class="user-area bg py-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <div class="sidebar-top">
+                        <div class="sidebar-profile-img">
+                            <img src="{% static 'img/account/user.jpg' %}" alt="">
+                            <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
+                            <input type="file" class="profile-img-file">
                         </div>
+                        <h5>{{user.full_name}}</h5>
+                        <p>{{user.email}}</p>
                     </div>
-                    <div class="col-lg-9">
-                        <div class="content-div">
-                            {% include 'user/user-dashboard.html' %}
-                        </div>
-                        <div class="content-div" hidden>
-                            {% include 'user/user-profile.html' %}
-                        </div>
-                        <div class="content-div" hidden>
-                            {% include 'user/order-list.html' %}
-                        </div>
-                        <div class="content-div" hidden>
-                            {% include 'user/wishlist.html' %}
-                        </div>
-                        <div class="content-div" hidden>
-                            {% include 'user/address-list.html' %}
-                        </div>
-                        <div class="content-div" hidden>
-                            {% include 'user/support-ticket.html' %}
-                        </div>
-                        <div class="content-div" hidden>
-                            {% include 'user/track-order.html' %}
-                        </div>
-                        <div class="content-div" hidden>
-                            {% include 'user/payment-method.html' %}
-                        </div>
-                        <div class="content-div" hidden>
-                            {% include 'user/user-notification.html' %}
-                        </div>
-                        <div class="content-div" hidden>
-                            {% include 'user/user-message.html' %}
-                        </div>
-                        <div class="content-div" hidden>
-                            {% include 'user/user-setting.html' %}
-                        </div>
-                    </div> 
+                    <ul class="sidebar-list">
+                        <li><a class="nav__link active"><i class="far fa-gauge-high"></i> Dashboard</a></li>
+                        <li><a class="nav__link"><i class="far fa-user"></i> My Profile</a></li>
+                        <li><a class="nav__link"><i class="far fa-shopping-bag"></i> My Order List <span
+                                    class="badge badge-danger">02</span></a></li>
+                        <li><a class="nav__link"><i class="far fa-heart"></i> My Wishlist <span
+                                    class="badge badge-danger">02</span></a></li>
+                        <li><a class="nav__link"><i class="far fa-location-dot"></i> Address List</a></li>
+                        <li><a class="nav__link comming-soon"><i class="far fa-headset"></i> Support Tickets <span
+                                    class="badge badge-danger">02</span></a></li>
+                        <li><a class="nav__link"><i class="far fa-map-location-dot"></i> Track My Order</a></li>
+                        <li><a class="nav__link"><i class="far fa-wallet"></i> Payment Methods</a></li>
+                        <li><a class="nav__link"><i class="far fa-bell"></i> Notification <span
+                                    class="badge badge-danger">02</span></a></li>
+                        <li><a class="nav__link comming-soon"><i class="far fa-envelope"></i> Messages <span
+                                    class="badge badge-danger">02</span></a></li>
+                        <li><a class="nav__link"><i class="far fa-gear"></i> Settings</a></li>
+                        <li><a class="nav__link" href="{% url_with_domain 'login:logout' %}"><i
+                                    class="far fa-sign-out"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="content-div">
+                    {% include 'user/user-dashboard.html' %}
+                </div>
+                <div class="content-div" hidden>
+                    {% include 'user/user-profile.html' %}
+                </div>
+                <div class="content-div" hidden>
+                    {% include 'user/order-list.html' %}
+                </div>
+                <div class="content-div" hidden>
+                    {% include 'user/wishlist.html' %}
+                </div>
+                <div class="content-div" hidden>
+                    {% include 'user/address-list.html' %}
+                </div>
+                <div class="content-div" hidden>
+                    {% include 'user/support-ticket.html' %}
+                </div>
+                <div class="content-div" hidden>
+                    {% include 'user/track-order.html' %}
+                </div>
+                <div class="content-div" hidden>
+                    {% include 'user/payment-method.html' %}
+                </div>
+                <div class="content-div" hidden>
+                    {% include 'user/user-notification.html' %}
+                </div>
+                <div class="content-div" hidden>
+                    {% include 'user/user-message.html' %}
+                </div>
+                <div class="content-div" hidden>
+                    {% include 'user/user-setting.html' %}
                 </div>
             </div>
         </div>
-        <!-- user dashboard end -->
-        
-        
+    </div>
+</div>
+<!-- user dashboard end -->
+
+<!-- modal -->
+
+{% include 'user/order-detail.html' %}
+
+<!-- modal end -->
+
+
 {% endblock %}
-
-
-

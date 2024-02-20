@@ -13,8 +13,10 @@ from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
 from django.core import serializers
+from django.core.mail import send_mail
 
 import json
+import boto3
 
 
 
@@ -52,6 +54,8 @@ def updateItem(request):
         if user.is_authenticated:
             print(f"User is authenticated: {user.username}")
             customer, created = Customer.objects.get_or_create(user=user, defaults={'email': user.email})
+            customer.save()
+            
         else:
             print(f"User is not authenticated")
             customer = create_or_get_guest_user(request)
@@ -253,6 +257,15 @@ def checkout(request):
                                     print("Email:", request.session['guest_user_data']['email'])
 
                                     user = authenticate(request, username=temporary_username, password=temporary_password)
+                                    
+                                    # if user: 
+                                    #     subject = 'TWC Online Store Temporary Account'
+                                    #     message = f'Hello,\n\nHere are your temporary account details:\nUsername: {temporary_username}\nPassword: {temporary_password}\n\nThanks for your order!'
+                                    #     from_email = 'vendicsenterprise@gmail.com'  
+                                    #     recipient_list = [temporary_user.email]
+
+                                    #     send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+                                    
                                         
                                 else:
                                     print("Temporary username is null or empty. Handle accordingly.")

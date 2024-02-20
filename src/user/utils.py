@@ -4,9 +4,6 @@ import uuid
 from django.contrib.auth import get_user_model
 from django.apps import apps
 
-
-
-
 User = get_user_model()
 
 def create_or_get_guest_user(request, referrer_id=None):

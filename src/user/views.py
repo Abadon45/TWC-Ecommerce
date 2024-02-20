@@ -1,16 +1,56 @@
 from django.views.generic import View, TemplateView
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import get_user_model
-from orders.models import Order
+from orders.models import Order, OrderItem
 from addresses.models import Address
 from user.utils import get_or_create_customer
-from django.shortcuts import redirect
 from django.urls import reverse
 from billing.models import Customer
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest, HttpResponseNotFound
 from django.conf import settings
 
+import logging
+
 User = get_user_model()
+
+# Define get_order_details function outside of the DashboardView class
+def get_order_details(request):
+    logger = logging.getLogger(__name__) 
+    if request.method == 'GET':
+        order_id = request.GET.get('order_id')
+        if order_id:
+            try:
+                order = Order.objects.get(order_id=order_id)
+                ordered_items = OrderItem.objects.filter(order=order)
+                total_quantity = sum(item.quantity for item in ordered_items)
+                total_amount = sum(item.get_total for item in ordered_items)
+                print(ordered_items)
+                print(total_quantity)
+                print(total_amount)
+                data = {
+                    'order_id': order.order_id,
+                    'created_at': order.created_at.strftime("%Y-%m-%d"),
+                    'total_amount': total_amount,
+                    'total_quantity': total_quantity,
+                    'order_items': [
+                        {
+                            'product_name': item.product.name,
+                            'quantity': item.quantity,
+                            'price': item.get_total,
+                        } for item in ordered_items
+                    ]
+                }
+                return JsonResponse(data)
+            except Order.DoesNotExist:
+                logger.exception("Order not found for order_id %s", order_id)
+                return HttpResponseNotFound("Order not found")
+            except Exception as e:
+                logger.exception("Error getting order details for order_id %s", order_id)
+                return HttpResponseBadRequest("Error getting order details")
+        else:
+            return HttpResponseBadRequest("Order ID is required")
+    else:
+        return HttpResponseBadRequest("Only GET method is allowed")
 
 class DashboardView(TemplateView):
     template_name = 'user/dashboard.html'
@@ -20,16 +60,18 @@ class DashboardView(TemplateView):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
             customer, created = Customer.get_or_create_customer(self.request.user, self.request)
-                     
+            order = Order.objects.filter(customer=customer)
         context['customer'] = customer
         context = {
             'title': self.title,
             'customer': customer,
-            'orders': Order.objects.filter(customer=customer),
+            'orders': order,
             'addresses': Address.objects.filter(customer=customer),
+            'ordered_items': OrderItem.objects.filter(order=order)
         }
         
         return context
+
     
     
 class SellerDashboardView(TemplateView):
