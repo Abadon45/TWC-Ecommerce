@@ -13,7 +13,7 @@ import logging
 
 User = get_user_model()
 
-# Define get_order_details function outside of the DashboardView class
+
 def get_order_details(request):
     logger = logging.getLogger(__name__) 
     if request.method == 'GET':
@@ -53,6 +53,7 @@ def get_order_details(request):
     else:
         return HttpResponseBadRequest("Only GET method is allowed")
 
+
 class DashboardView(TemplateView):
     template_name = 'user/dashboard.html'
     title = "User Dashboard"
@@ -62,9 +63,7 @@ class DashboardView(TemplateView):
         if self.request.user.is_authenticated:
             customer, created = Customer.get_or_create_customer(self.request.user, self.request)
             order = Order.objects.filter(customer=customer)
-            
-            
-                
+                     
         context['customer'] = customer
         context = {
             'title': self.title,
@@ -75,8 +74,7 @@ class DashboardView(TemplateView):
         }
         
         return context
-
-    
+ 
     
 class SellerDashboardView(TemplateView):
     template_name = 'seller/seller-dashboard.html'
@@ -107,8 +105,6 @@ class SellerDashboardView(TemplateView):
             'affiliate_link': affiliate_link,
             'referred_users': referred_users, 
         })
-        
-
         return context
     
 
