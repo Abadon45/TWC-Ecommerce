@@ -71,8 +71,7 @@ class DashboardView(TemplateView):
             'orders': order,
             'addresses': Address.objects.filter(customer=customer),
             'ordered_items': OrderItem.objects.filter(order=order)
-        }
-        
+        }     
         return context
  
     

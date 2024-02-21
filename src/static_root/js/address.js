@@ -2,7 +2,158 @@
 $(document).ready(function () {
     var selectedRegionCode; 
 
-    // Populate regions on page load
+    // =======================================================//
+    // -------- Modal popups --------//
+    // =======================================================//
+    $('.cancelAddress').click(function() {
+        $('#addAddressModal').modal('hide'); 
+        $('#changeAddressModal').modal('show'); 
+    });
+    
+    $('.change-address-btn').click(function() {
+        if ($('#changeAddressModal').hasClass('modal')) { 
+            var changeAddressModal = new bootstrap.Modal(document.getElementById('changeAddressModal')) 
+            changeAddressModal.show();
+        } else {
+            $('#changeAddressModal').modal('show');
+        } 
+    });
+
+    $('#changeAddressModal button[style*="fa-plus"]').click(function() { 
+        alert('Button clicked!'); 
+        $('#addressFormContainer').show(); 
+    });
+
+    $('#changeAddressModal').on('hidden.bs.modal', function() {
+        $('#addressFormContainer').hide(); 
+    });
+
+    $('#addNewAddressBtn').click(function() {
+        $('#changeAddressModal').modal('hide'); // Hide the initial modal
+        $('#addAddressModal').modal('show'); // Show the add address modal  
+    });
+
+    // =======================================================//
+    // -------- Change Address Using HTMX --------//
+    // =======================================================//
+
+    $('#changeAddressModal').on('change', 'input[name="addressChoice"]', function(event) {
+        const selectedAddressRadio = $(this);
+        const addressDetails = selectedAddressRadio.closest('[data-address-details]');
+    
+        // Input Extraction
+        const name = addressDetails.find('[data-name]').text();
+        const addressLine = addressDetails.find('[data-address-line]').text();
+    
+        //  Loading State (Assume you have this element somewhere in your form)
+        let $selectButton = $(event.target).closest('.select-address-btn'); // If you have one 
+        $selectButton.prop('disabled', true); 
+
+        // Create a simple loading message next to the select button
+        $selectButton.after('<span id="temp-loading">Updating...</span>'); 
+    
+        // Send data to backend 
+        $.ajax({
+            url: '/update_selected_address/',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ name: name, addressLine: addressLine }),
+            success: function(response) {
+                // Update checkout form using HTMX
+                hx.post('/refresh_checkout_address', { trigger: 'change' }); 
+            },
+            error: function(xhr, status, error) {
+                console.error("Address update failed:", error); 
+                alert("There was an error updating the address. Please try again."); 
+            }
+        }).always(function() {
+            $selectButton.prop('disabled', false); // Re-enable button
+            $('#temp-loading').remove(); // Remove temporary loading text 
+        });
+    });
+
+
+    // =======================================================//
+    // -------- Address form submission --------//
+    // =======================================================//
+    function createAddressElement(addressData) {
+        const addressHTML = `
+          <div class="col-lg-1"><input type="radio" name="addressChoice" id="defaultAddress"></div>
+          <div class="col-lg-9">
+            <p><b>${addressData.firstName} ${addressData.lastName} ${addressData.phone}</b></p>
+            <div class="change-address row mb-20">
+              <div class="col-lg-10">
+                  <p>${addressData.line1} Brgy. ${addressData.barangay}, ${addressData.city}, ${addressData.province}, ${addressData.postcode}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-2">
+              <a href="#">Edit</a>
+          </div>
+          <hr class="mt-2 mb-3">
+        `;
+        return addressHTML;
+      }
+
+      function addNewAddress(newAddressData) {
+        const addressElement = createAddressElement(newAddressData);
+    
+        // Find the 'Add New Address' button
+        const addNewAddressBtn = $('#addNewAddressBtn'); 
+    
+        // Add the new address before the 'Add New Address' button
+        addNewAddressBtn.before(addressElement); 
+    }
+
+    $(document).on('submit', '#addAddressForm', function (e) { // Attach to 'document'
+        e.preventDefault();
+
+        var thisForm = $(this);
+        var submitButton = thisForm.find('button[type="submit"]')
+    
+        var actionEndpoint = thisForm.attr("action");
+        var httpMethod = thisForm.attr("method");
+        var formData = thisForm.serializeArray();
+    
+        console.log(formData);
+        submitButton.prop('disabled', true); // Disable the button
+        submitButton.append('<div class="spinner"></div>');
+
+        $.ajax({
+            url: actionEndpoint,
+            method: httpMethod,
+            data: formData,
+            complete: function() { 
+                submitButton.prop('disabled', false); // Re-enable
+                submitButton.find('.spinner').remove(); // Remove spinner
+            },
+            success: function (successData) {
+                console.log(successData);
+                const newAddressData = {
+                    firstName: successData.firstName,
+                    lastName: successData.lastName,
+                    phone: successData.phone,
+                    line1: successData.line1,
+                    province: successData.province,
+                    city: successData.city,
+                    barangay: successData.barangay,
+                    postcode: successData.postcode,
+                };
+
+                addNewAddress(newAddressData);
+                $('#addAddressModal').modal('hide');
+                $('#changeAddressModal').modal('show');
+            },
+            error: function (errorData) {
+            console.log(errorData);
+          },
+        });
+    });
+
+
+    // =======================================================//
+    // -------- Populate regions on page load --------//
+    // =======================================================//
     populateDropdown("#regionDropdown", Philippines.regions);
 
     // Handle region selection
