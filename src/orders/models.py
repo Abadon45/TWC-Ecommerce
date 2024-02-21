@@ -9,10 +9,10 @@ from products.models import Product
 
 
 ORDER_STATUS_CHOICES = (
-    ('created', 'Created'),
-    ('paid', 'Paid'),
+    ('processed', 'Processed'),
+    ('prepared', 'Prepared'),
     ('shipped', 'Shipped'),
-    ('refunded', 'Refunded'),
+    ('received', 'Received'),
 )
 
 
@@ -26,6 +26,7 @@ class Order(models.Model):
     active              = models.BooleanField(default=True)
     created_at          = models.DateTimeField(default=timezone.now)
     ordered_items       = models.ManyToManyField(Product, blank=True)
+    status              = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='processed')
     
     
     def __str__(self):

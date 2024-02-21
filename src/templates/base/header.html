@@ -108,24 +108,7 @@
                             <li id="cart-link" class="dropdown-cart">
                                     <a href="{% url_with_domain 'cart:cart' %}" class="shop-cart list-item"><i class="far fa-shopping-bag"></i>
                                     <span id="cart-count">{{ cart_items }}</span></a>
-                                <!-- <div class="dropdown-cart-menu">
-                                    <div class="container">
-                                        {% for item in items %}
-                                        <div class="row product-id-{{ item.product.id }}">   
-                                            <div class="col-2 shop-cart-img">
-                                                <img src="{{ item.product.images.first.image.url }}" alt="">
-                                            </div>
-                                            <div class="col-5 shop-cart-content">
-                                                <h5 class="shop-cart-name"><a href="#">{{ item.product.name }}</a></h5>
-                                            </div>
-                                            <div class="col-2">
-                                                <h5>x{{ item.quantity|default:1 }}</h5>
-                                            </div>
-                                            <hr>
-                                        </div>
-                                        {% endfor %}
-                                    </div>                        
-                                </div> -->
+                                <!-- insert cart items dropdown here -->
                             </li>
                         </ul>
                     </div>
@@ -240,7 +223,7 @@
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link" href="{% url_with_domain 'home_view' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url_with_domain 'shop:shop' %}">Shop</a></li>
-{% if user.is_seller %}
+                        {% if user.is_seller %}
                             <li class="nav-item"><a class="nav-link" href="{{ DASHBOARD_URL|add:'/seller' }}">Seller Dashboard</a></li>
                         {% endif %}
                     <div class="nav-right">

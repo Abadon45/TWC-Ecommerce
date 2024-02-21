@@ -32,6 +32,7 @@ def get_order_details(request):
                     'created_at': order.created_at.strftime("%Y-%m-%d"),
                     'total_amount': total_amount,
                     'total_quantity': total_quantity,
+                    'status': order.status,
                     'order_items': [
                         {
                             'product_name': item.product.name,
@@ -61,6 +62,9 @@ class DashboardView(TemplateView):
         if self.request.user.is_authenticated:
             customer, created = Customer.get_or_create_customer(self.request.user, self.request)
             order = Order.objects.filter(customer=customer)
+            
+            
+                
         context['customer'] = customer
         context = {
             'title': self.title,

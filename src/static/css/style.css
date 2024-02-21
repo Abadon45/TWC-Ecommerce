@@ -6961,7 +6961,27 @@ display: flex!important;
 
 .user-area .badge-danger{
   background: #FEE2E2;
-  color: #EF4444;
+  color: red;
+}
+
+.user-area .badge-received{
+  background: #01be3b;
+  color: #FFFFFF;
+}
+
+.user-area .badge-shipped{
+  background: #ee0004;
+  color: #FFFFFF;
+}
+
+.user-area .badge-prepared{
+  background: #f29404!important;
+  color: #FFFFFF;
+}
+
+.user-area .badge-processed{
+  background: #41bff6;
+  color: #FFFFFF;
 }
 
 /* dashboard */
