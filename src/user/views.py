@@ -72,6 +72,7 @@ class DashboardView(TemplateView):
         }     
         return context
     
+    
 class SellerDashboardView(TemplateView):
     template_name = 'seller/seller-dashboard.html'
     title = "Seller Dashboard"
