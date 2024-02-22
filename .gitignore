@@ -3,6 +3,7 @@ development.env
 
 bin/
 lib/
+lib64
 include/
 pyvenv.cfg
 node_modules
