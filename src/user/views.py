@@ -73,7 +73,6 @@ class DashboardView(TemplateView):
             'ordered_items': OrderItem.objects.filter(order=order)
         }     
         return context
- 
     
 class SellerDashboardView(TemplateView):
     template_name = 'seller/seller-dashboard.html'
