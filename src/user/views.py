@@ -13,7 +13,6 @@ from django.conf import settings
 import logging
 
 logger = logging.getLogger(__name__)
-
 User = get_user_model()
 
 
@@ -24,7 +23,6 @@ def get_order_details(request):
     order_id = request.GET.get('order_id')
     if not order_id:
         return HttpResponseBadRequest("Order ID is required")
-
     try:
         order = Order.objects.select_related('items').get(order_id=order_id)
     except Order.DoesNotExist:
@@ -51,7 +49,6 @@ def get_order_details(request):
             } for item in order.items.all()
         ]
     }
-
     return JsonResponse(data)
 
 
