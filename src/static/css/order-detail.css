@@ -51,6 +51,7 @@
         text-align: center;
         }
         
+        
         #progressbar-2 li:before {
         line-height: 37px;
         display: block;
@@ -59,6 +60,7 @@
         border-radius: 50%;
         }
         
+
         #progressbar-2 li:after {
         content: '';
         width: 100%;

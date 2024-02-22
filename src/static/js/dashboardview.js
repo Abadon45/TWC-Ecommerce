@@ -118,6 +118,7 @@ $(document).ready(function () {
       });
   });
 
+  //ORDER PROGRESS BAR
   function updateProgressBar(status) {
     console.log('Updating progress bar for status:', status);
     // Reset all steps to their default state;

@@ -90,9 +90,7 @@ class SellerDashboardView(TemplateView):
         referred_users = User.objects.filter(referred_by=user)
             
         if not customer:
-            customer = get_or_create_customer(self.request)
-            
-            
+            customer = get_or_create_customer(self.request)      
         affiliate_link = self.request.user.generate_affiliate_link()
 
         context.update({
