@@ -124,6 +124,10 @@
             content: '\f058' !important;
         }
 
+        .modal-content.loading {
+            display: none!important; 
+        }
+
 }
 
 

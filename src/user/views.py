@@ -9,47 +9,45 @@ from django.urls import reverse
 from billing.models import Customer
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest, HttpResponseNotFound
 from django.conf import settings
+from django.views.decorators.cache import cache_page
 
 import logging
 
-logger = logging.getLogger(__name__)
 User = get_user_model()
 
-
+@cache_page(60 * 15)
 def get_order_details(request):
-    if request.method != 'GET':
+    logger = logging.getLogger(__name__) 
+    if request.method == 'GET':
+        order_id = request.GET.get('order_id')
+        if order_id:
+            try:
+                order = Order.objects.get(order_id=order_id)
+                data = {
+                    'order_id': order.order_id,
+                    'created_at': order.created_at.strftime("%Y-%m-%d"),
+                    'total_amount': order.total_amount,
+                    'total_quantity': order.total_quantity,
+                    'status': order.status,
+                    'order_items': [
+                        {
+                            'product_name': item.product.name,
+                            'quantity': item.quantity,
+                            'price': item.get_total,
+                        } for item in order.orderitem_set.all() 
+                    ]
+                }
+                return JsonResponse(data)
+            except Order.DoesNotExist:
+                logger.exception("Order not found for order_id %s", order_id)
+                return HttpResponseNotFound("Order not found")
+            except Exception as e:
+                logger.exception("Error getting order details for order_id %s", order_id)
+                return HttpResponseBadRequest("Error getting order details")
+        else:
+            return HttpResponseBadRequest("Order ID is required")
+    else:
         return HttpResponseBadRequest("Only GET method is allowed")
-
-    order_id = request.GET.get('order_id')
-    if not order_id:
-        return HttpResponseBadRequest("Order ID is required")
-    try:
-        order = Order.objects.select_related('items').get(order_id=order_id)
-    except Order.DoesNotExist:
-        logger.exception("Order not found for order_id %s", order_id)
-        return HttpResponseNotFound("Order not found")
-    except Exception as e:
-        logger.exception("Error getting order details for order_id %s", order_id)
-        return HttpResponseBadRequest("Error getting order details")
-
-    total_quantity = sum(item.quantity for item in order.items.all())
-    total_amount = sum(item.get_total() for item in order.items.all())
-
-    data = {
-        'order_id': order.order_id,
-        'created_at': order.created_at.strftime("%Y-%m-%d"),
-        'total_amount': total_amount,
-        'total_quantity': total_quantity,
-        'status': order.status,
-        'order_items': [
-            {
-                'product_name': item.product.name,
-                'quantity': item.quantity,
-                'price': item.get_total(),
-            } for item in order.items.all()
-        ]
-    }
-    return JsonResponse(data)
 
 
 class DashboardView(TemplateView):
@@ -69,9 +67,10 @@ class DashboardView(TemplateView):
             'orders': order,
             'addresses': Address.objects.filter(customer=customer),
             'ordered_items': OrderItem.objects.filter(order=order)
-        }     
+        }
+        
         return context
-    
+ 
     
 class SellerDashboardView(TemplateView):
     template_name = 'seller/seller-dashboard.html'

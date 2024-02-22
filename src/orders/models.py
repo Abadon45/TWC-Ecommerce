@@ -7,6 +7,10 @@ from ecommerce.utils import unique_order_id_generator
 from django.db.models.signals import pre_save
 from products.models import Product
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 ORDER_STATUS_CHOICES = (
     ('processed', 'Processed'),
@@ -27,13 +31,16 @@ class Order(models.Model):
     created_at          = models.DateTimeField(default=timezone.now)
     ordered_items       = models.ManyToManyField(Product, blank=True)
     status              = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='processed')
+    total_quantity      = models.IntegerField(default=0, null=True, blank=True)
+    total_amount        = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     
     
     def __str__(self):
         try:
             return f"Order #{str(self.order_id) or '(no order ID available)'}"
         except Exception as e:
-            print(f"Error in __str__ method: {type(e)}, {e}")
+            logger.error(f"Error in Order.__str__ method: {type(e)}, {e}")
+            return f"Order (Error generating string representation)" 
 
     
     def get_absolute_url(self):
@@ -75,3 +82,18 @@ class OrderItem(models.Model):
     def get_total(self):
         total = self.product.customer_price * self.quantity
         return total
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)  # Call the original save method
+        # Update the order totals
+        self.order.update_totals()
+        
+    def delete(self, *args, **kwargs):
+        order = self.order  # Cache the order before deleting
+        super().delete(*args, **kwargs)  # Call the original delete method
+        order.update_totals()
+        
+def update_totals(self):
+    self.total_quantity = sum(item.quantity for item in self.orderitem_set.all())
+    self.total_amount = sum(item.get_total for item in self.orderitem_set.all())
+    self.save()
