@@ -2,7 +2,7 @@
 from django.urls import path, include
 from django.conf import settings
 from django.views.generic import RedirectView
-from user.views import *
+from user.views import get_order_details, DashboardView, SellerDashboardView
 from TWC.urls import IndexView, BecomeSellerView
 from django.contrib import admin
 from user.views import RegisterGuestView
