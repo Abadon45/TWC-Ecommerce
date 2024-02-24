@@ -15,11 +15,11 @@
                 <div class="sidebar">
                     <div class="sidebar-top">
                         <div class="sidebar-profile-img">
-                            <img src="{% static 'img/account/user.jpg' %}" alt="">
+                            <img src="{{ user.image.url }}" alt="Profile Picture">
                             <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
                             <input type="file" class="profile-img-file">
                         </div>
-                        <h5>{{user.full_name}}</h5>
+                        <h5>{{user.first_name}} {{ user.last_name }}</h5>
                         <p>{{user.email}}</p>
                     </div>
                     <ul class="sidebar-list">

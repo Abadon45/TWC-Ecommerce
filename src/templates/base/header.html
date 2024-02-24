@@ -224,6 +224,8 @@
                         <li class="nav-item"><a class="nav-link" href="{% url_with_domain 'shop:shop' %}">Shop</a></li>
                         {% if user.is_seller %}
                             <li class="nav-item"><a class="nav-link" href="{{ DASHBOARD_URL|add:'/seller' }}">Seller Dashboard</a></li>
+                        {% elif user.is_distributor %}
+                            <li class="nav-item"><a class="nav-link" href="{{ DASHBOARD_URL|add:'/distributor' }}">Distributor Dashboard</a></li>
                         {% endif %}
                     <div class="nav-right">
                         <div class="nav-right-btn">

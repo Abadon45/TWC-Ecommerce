@@ -80,6 +80,7 @@ class User(AbstractBaseUser):
     is_seller       = models.BooleanField(default=False)
     is_member       = models.BooleanField(default=False)
     is_supplier     = models.BooleanField(default=False)
+    is_distributor  = models.BooleanField(default=False)
 
     is_expired      = models.BooleanField(default=True)
     is_active       = models.BooleanField(default=True)

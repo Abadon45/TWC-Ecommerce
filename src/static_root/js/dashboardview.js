@@ -49,76 +49,66 @@ $(document).ready(function () {
     $(this).text("Copied!!");
   });
 
-  $("#orderDetailsModal").on("show.bs.modal", function (event) {
-    var modal = $(this);
-    var spinner = $(".spinner"); // Get the spinner element
-    var button = event.relatedTarget;
-    var orderId = $(button).data("order-id");
+    $("#orderDetailsModal").on("show.bs.modal", function (event) {
+        var modal = $(this);
+        var spinner = $(".spinner"); // Get the spinner element
+        var button = event.relatedTarget;
+        var orderId = $(button).data("order-id");
 
-    // Show the spinner when starting to fetch data
-    spinner.addClass("visible");
 
+        modal.find(".modal-body .alert").remove(); 
+        modal.find(".modal-content").addClass("loading");
+        spinner.addClass("visible");
+        
     // Fetch order details from the server
-    const fetchOrderDetailsPromise = $.get(
-      `/get_order_details/?order_id=${orderId}`
-    );
+        $.get(`/get_order_details/?order_id=${orderId}`)
+            .done(function (data) {
+                // Update modal content with the fetched order details
+                console.log("Order details:", data);
+                modal.find(".modal-title").text("Order Details - " + data.order_id);
+                modal.find("#orderDate, #orderMobile").text(data.created_at);
+                modal.find("#orderTotal").text("₱" + data.total_amount);
 
-    fetchOrderDetailsPromise
-      .done(function (data) {
-        // Update modal content with the fetched order details
-        console.log("Order details:", data);
-        var modalTitle = modal.find(".modal-title");
-        modalTitle.text("Order Details - " + data.order_id);
+                var orderItemsList = modal.find("#orderItemsList");
+                orderItemsList.empty();
+                if (data.order_items.length > 0) {
+                    $.each(data.order_items, function (index, item) {
+                        var listItem = $("<tr>").append(
+                            $("<td>").text(item.product_name),
+                            $("<td>").text(item.quantity),
+                            $("<td>").text("₱" + item.price)
+                        );
+                        orderItemsList.append(listItem);
+                    });
+                } else {
+                    orderItemsList.append('<tr><td colspan="3">No items found</td></tr>');
+                }
 
-        var orderDateField = modal.find("#orderDate");
-        orderDateField.text(data.created_at);
+                updateProgressBar(data.status);
 
-        var orderDateField = modal.find("#orderMobile");
-        orderDateField.text(data.created_at);
+                // Hide the spinner when data is ready
+                spinner.removeClass("visible");
+                modal.find(".modal-content").removeClass("loading");
 
-        var orderTotalField = modal.find("#orderTotal");
-        orderTotalField.text("₱" + data.total_amount);
+                // Show the modal after data is loaded
+                modal.modal("show");
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.error("Error fetching order details:", textStatus, errorThrown);
+                // Example: Display error within the modal   
+                modal.find(".modal-body").prepend(
+                    '<div class="alert alert-danger">Error fetching order details. Please try again later.</div>'
+                );
 
-        console.log(data.status);
+                // Hide the spinner if there's an error
+                spinner.removeClass("visible");
+                modal.find(".modal-content").removeClass("loading");
+        });
+    });
 
-        var orderItemsList = modal.find("#orderItemsList");
-        orderItemsList.empty();
-        if (data.order_items.length > 0) {
-          $.each(data.order_items, function (index, item) {
-            var listItem = $("<tr>").append(
-              $("<td>").text(item.product_name),
-              $("<td>").text(item.quantity),
-              $("<td>").text("₱" + item.price)
-            );
-            orderItemsList.append(listItem);
-          });
-        } else {
-          orderItemsList.append('<tr><td colspan="3">No items found</td></tr>');
-        }
 
-        updateProgressBar(data.status);
-
-        // Hide the spinner when data is ready
-        spinner.removeClass("visible");
-
-        // Show the modal after data is loaded
-        modal.modal("show");
-      })
-      .fail(function (jqXHR, textStatus, errorThrown) {
-        console.error("Error fetching order details:", textStatus, errorThrown);
-        // Example: Display error within the modal
-        modal
-          .find(".modal-body")
-          .prepend(
-            '<div class="alert alert-danger">Error fetching order details. Please try again later.</div>'
-          );
-
-        // Hide the spinner if there's an error
-        spinner.removeClass("visible");
-      });
-  });
-
-  function updateProgressBar(status) {
+  //ORDER PROGRESS BAR
+    function updateProgressBar(status) {
     console.log('Updating progress bar for status:', status);
     // Reset all steps to their default state;
 

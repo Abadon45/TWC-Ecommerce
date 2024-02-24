@@ -257,14 +257,15 @@ def checkout(request):
                                     print("Email:", request.session['guest_user_data']['email'])
 
                                     user = authenticate(request, username=temporary_username, password=temporary_password)
+                                    name = request.POST.get('first_name')
                                     
-                                    # if user: 
-                                    #     subject = 'TWC Online Store Temporary Account'
-                                    #     message = f'Hello,\n\nHere are your temporary account details:\nUsername: {temporary_username}\nPassword: {temporary_password}\n\nThanks for your order!'
-                                    #     from_email = 'vendicsenterprise@gmail.com'  
-                                    #     recipient_list = [temporary_user.email]
+                                    if user: 
+                                        subject = 'TWC Online Store Temporary Account'
+                                        message = f'Good Day {name},\n\n\nYou have successfully registered an account on TWConline.store!!\n\n\nHere are your temporary account details:\n\nUsername: {temporary_username}\nPassword: {temporary_password}\n\n\nThank you for your order!'
+                                        from_email = 'vendicsenterprise@gmail.com'  
+                                        recipient_list = [temporary_user.email]
 
-                                    #     send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+                                        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
                                     
                                         
                                 else:
@@ -281,8 +282,6 @@ def checkout(request):
         if request.is_ajax():
             response_data = {
                 'isAuthenticated': is_authenticated,
-                'tempUsername': temporary_username,
-                'tempPassword': temporary_password,
                 'email': customer.email,
                 'firstName': shipping_address.first_name,
                 'lastName': shipping_address.last_name,
@@ -381,6 +380,9 @@ def checkout_done_view(request):
                 context = {
                     "order": order_data,
                     "customer": customer,
+                    "username": username,
+                    "email": email,
+                    "password": password,
                 }
                 return render(request, "cart/shop-checkout-complete.html", context)
         else:

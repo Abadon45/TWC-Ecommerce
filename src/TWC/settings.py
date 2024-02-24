@@ -178,22 +178,29 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
-AWS_ACCESS_KEY_ID = os.environ.get('AKIAW3MEEP3POZWELOVZ')
-AWS_SECRET_ACCESS_KEY = os.environ.get('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')
+# AWS_ACCESS_KEY_ID = 'AKIAW3MEEP3PHEGDOZ4D'
+# AWS_SECRET_ACCESS_KEY = 'gv1mtKxieJ4gXhtnayMRnfrvPS1Op8CWSAhb2UJN'
 
-EMAIL_BACKEND = 'django_ses.SESBackend'
-EMAIL_HOST = 'email-smtp.uap-southeast-2.amazonaws.com'  # Adjust for your SES region
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
+# EMAIL_BACKEND = 'django_ses.SESBackend'
+# EMAIL_HOST = 'email-smtp.uap-southeast-1.amazonaws.com'  # Adjust for your SES region
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+
+# AWS_SES_REGION_NAME = 'ap-southeast-1'
+# AWS_SES_REGION_ENDPOINT = 'email.ap-southeast-1.amazonaws.com'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 2525
+
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 14
 SESSION_COOKIE_SECURE = False
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-# if DEBUG:
-#     SESSION_COOKIE_DOMAIN = None
-# else:
 SESSION_COOKIE_DOMAIN = '.twconline.store'
 CSRF_COOKIE_DOMAIN = SESSION_COOKIE_DOMAIN
 

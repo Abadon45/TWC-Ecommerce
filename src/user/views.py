@@ -21,29 +21,25 @@ def get_order_details(request):
     if request.method == 'GET':
         order_id = request.GET.get('order_id')
         if order_id:
-            try:
-                order = Order.objects.get(order_id=order_id)
-                data = {
-                    'order_id': order.order_id,
-                    'created_at': order.created_at.strftime("%Y-%m-%d"),
-                    'total_amount': order.total_amount,
-                    'total_quantity': order.total_quantity,
-                    'status': order.status,
-                    'order_items': [
-                        {
-                            'product_name': item.product.name,
-                            'quantity': item.quantity,
-                            'price': item.get_total,
-                        } for item in order.orderitem_set.all() 
-                    ]
-                }
-                return JsonResponse(data)
-            except Order.DoesNotExist:
-                logger.exception("Order not found for order_id %s", order_id)
-                return HttpResponseNotFound("Order not found")
-            except Exception as e:
-                logger.exception("Error getting order details for order_id %s", order_id)
-                return HttpResponseBadRequest("Error getting order details")
+            order = get_object_or_404(Order, order_id=order_id)
+            order_items = order.orderitem_set.select_related('product') 
+
+            data = {
+                'order_id': order.order_id,
+                'created_at': order.created_at.strftime("%Y-%m-%d"),
+                'total_amount': sum([item.get_total for item in order_items]),
+                'total_quantity': sum([item.quantity for item in order_items]),
+                'status': order.status,
+                'order_items': [
+                    {
+                        'product_name': item.product.name,
+                        'quantity': item.quantity,
+                        'price': item.get_total,
+                    } for item in order_items
+                ]
+            }
+            print(data)
+            return JsonResponse(data)
         else:
             return HttpResponseBadRequest("Order ID is required")
     else:

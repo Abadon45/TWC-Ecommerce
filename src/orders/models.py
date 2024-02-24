@@ -7,6 +7,8 @@ from ecommerce.utils import unique_order_id_generator
 from django.db.models.signals import pre_save
 from products.models import Product
 
+from decimal import Decimal
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -45,6 +47,16 @@ class Order(models.Model):
     
     def get_absolute_url(self):
         return reverse("orders:detail", kwargs={'order_id': self.order_id})
+    
+    def update_totals(self):
+        total_quantity = 0
+        total_amount = Decimal('0.00')
+        for item in self.orderitem_set.all():
+            total_quantity += item.quantity
+            total_amount += item.get_total
+        self.total_quantity = total_quantity
+        self.total_amount = total_amount
+        self.save()
     
     @classmethod
     def get_or_create_customer(cls, user, email):
@@ -93,7 +105,17 @@ class OrderItem(models.Model):
         super().delete(*args, **kwargs)  # Call the original delete method
         order.update_totals()
         
-def update_totals(self):
-    self.total_quantity = sum(item.quantity for item in self.orderitem_set.all())
-    self.total_amount = sum(item.get_total for item in self.orderitem_set.all())
-    self.save()
+        
+# PAYMENT_STATUS_CHOICES = (
+#         ('pending', 'Pending'), 
+#         ('completed', 'Completed'), 
+#         ('failed', 'Failed')
+#     )
+        
+# class Payment(models.Model):
+#     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='payments')
+#     method = models.CharField(max_length=50)  # gcash, maya, credit_card, etc.
+#     transaction_id = models.CharField(max_length=100, blank=True, null=True)
+#     status = models.CharField(max_length=50, choices=PAYMENT_STATUS_CHOICES, default='pending') 
+#     created_at = models.DateTimeField(auto_now_add=True)
+        

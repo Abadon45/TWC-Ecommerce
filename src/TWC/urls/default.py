@@ -7,7 +7,6 @@ from django.conf.urls.static import static
 from ecommerce.views import *
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
     path('about/', AboutUsView.as_view(), name="about"),
     path('become-seller/', BecomeSellerView.as_view(), name="become_seller"),
     path('coming-soon/', TemplateView.as_view(template_name='coming-soon.html'), name="coming_soon"),
@@ -35,3 +34,4 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

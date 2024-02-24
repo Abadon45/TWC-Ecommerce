@@ -67,7 +67,8 @@ $(document).ready(function () {
                 console.log("Order details:", data);
                 modal.find(".modal-title").text("Order Details - " + data.order_id);
                 modal.find("#orderDate, #orderMobile").text(data.created_at);
-                modal.find("#orderTotal").text("₱" + data.total_amount);
+                modal.find(".orderQuantity").text(data.total_quantity); 
+                modal.find(".orderTotal").text("₱" + data.total_amount); 
 
                 var orderItemsList = modal.find("#orderItemsList");
                 orderItemsList.empty();

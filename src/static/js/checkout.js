@@ -11,7 +11,7 @@ $(document).ready(function() {
         $("#step2-tab").addClass("active done");
     });
 
-    $(".confirmPaymentBtn").on("change", function () { 
+    $(".confirmPaymentChk").on("change", function () { 
         // Add blur class to SweetAlert backdrop
         showLoading();
 
@@ -20,6 +20,13 @@ $(document).ready(function() {
         } else {
             $(".checkoutBtn").hide();
         }
+    });
+
+    $(".confirmPaymentBtn").on("click", function () { 
+        // Add blur class to SweetAlert backdrop
+        showLoading();
+
+        $(".checkoutBtn").show();
     });
 
     function showLoading() {

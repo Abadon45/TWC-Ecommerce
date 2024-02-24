@@ -1,5 +1,7 @@
 import os
+import logging
 from django.utils import timezone
+from django.conf import settings
 
 def upload_image_path_admin(instance, filename):
     # Get the current date and time

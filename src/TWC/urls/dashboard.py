@@ -6,6 +6,8 @@ from user.views import get_order_details, DashboardView, SellerDashboardView
 from TWC.urls import IndexView, BecomeSellerView
 from django.contrib import admin
 from user.views import RegisterGuestView
+from django.conf.urls.static import static
+
 
 admin.autodiscover()
 
@@ -29,3 +31,7 @@ urlpatterns = [
     path('get_order_details/', get_order_details, name='get_order_details'),
     path('shop/<int:referrer_id>/', RegisterGuestView.as_view(), name='register_guest'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

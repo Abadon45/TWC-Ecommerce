@@ -32,37 +32,40 @@
                         </nav>
                         <div class="tab-content" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="step1" role="tabpanel"
-                                aria-labelledby="step1-tab" tabindex="0"> 
+                                aria-labelledby="step1-tab" tabindex="0">
                                 <div class="shop-checkout-form">
                                     {% if is_authenticated %}
                                         {% if default_address %}
                                         <h6 class="mb-2"><i class="fa-solid fa-location-dot"></i> Delivery Address:</h6>
 
                                         <!-- load htmx -->
-                                        
+
                                         <!-- end htmx -->
 
-                                        <p><b>{{default_address.first_name}} {{default_address.last_name}} {{default_address.phone}}</b></p>
+                                        <p><b>{{default_address.first_name}} {{default_address.last_name}}
+                                                {{default_address.phone}}</b></p>
                                         <div class="change-address row mb-20">
                                             <div class="col-lg-10">
-                                                <p>{{ default_address.line1 }} Brgy. {{ default_address.barangay }}, {{ default_address.city }}, {{ default_address.province }}, {{ default_address.postcode }} </p>
+                                                <p>{{ default_address.line1 }} Brgy. {{ default_address.barangay }}, 
+                                                    {{ default_address.city }}, {{ default_address.province }}, 
+                                                    {{ default_address.postcode }} </p>
                                             </div>
-                                            <div class="col-lg-2" >
+                                            <div class="col-lg-2">
                                                 <span>Default</span>
                                             </div>
                                             <div class="col-lg-1">
                                                 <button type="button" class="change-address-btn">Change</button>
                                             </div>
-                                        <!-- Change / Add Address Modal -->
-                                        {% include 'cart/change-address-modal.html' %}
-                                        {% include 'cart/add-address-modal.html' %}  
+                                            <!-- Change / Add Address Modal -->
+                                            {% include 'cart/change-address-modal.html' %}
+                                            {% include 'cart/add-address-modal.html' %}
                                         </div>
                                         <hr class="mt-2 mb-3">
                                         <div class="col-lg-12 mt-20">
-                                            <a href="{% url 'cart:cart' %}" type="button"
-                                                class="theme-btn theme-btn2"><span
+                                            <a href="{% url 'cart:cart' %}" type="button" class="theme-btn theme-btn2"><span
                                                     class="fas fa-arrow-left"></span>Back To Cart</a>
-                                            <button class="theme-btn paymentBtn">Next Step<i class="fas fa-arrow-right"></i></button>
+                                            <button class="theme-btn paymentBtn">Next Step<i
+                                                    class="fas fa-arrow-right"></i></button>
                                         </div>
                                         {% else %}
                                             {% include 'cart/address-form.html' %}
@@ -86,8 +89,31 @@
                                                 <span>Cash On Delivery</span>
                                             </a>
                                         </li>
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link" id="pills-tab-2" data-bs-toggle="pill"
+                                                data-bs-target="#pills-2" type="button" role="tab"
+                                                aria-controls="pills-2" aria-selected="false">
+                                                <div class="checkout-card-img">
+                                                    <img src="{% static 'img/payment/mastercard.svg' %}" alt="">
+                                                    <img src="{% static 'img/payment/visa.svg' %}" alt="">
+                                                </div>
+                                                <span>Credit/Debit Payments</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link" id="pills-tab-3" data-bs-toggle="pill"
+                                                data-bs-target="#pills-3" type="button" role="tab"
+                                                aria-controls="pills-3" aria-selected="false">
+                                                <div class="checkout-payment-img">
+                                                    <img src="{% static 'img/payment/gcash.svg' %}" alt="" style="width: 95px;">
+                                                    <img src="{% static 'img/payment/maya.svg' %}" alt="" style="width: 95px;">
+                                                </div>
+                                                <span>Gcash/Maya Payment</span>
+                                            </a>
+                                        </li>
                                     </ul>
                                     <div class="tab-content" id="pills-tabContent">
+                                        <!-- payment tab1 -->
                                         <div class="tab-pane fade show active" id="pills-1" role="tabpanel"
                                             aria-labelledby="pills-tab-1" tabindex="0">
                                             <div class="shop-checkout-form cod">
@@ -95,14 +121,91 @@
                                                     <div class="row">
                                                         <div class="col-lg-12">
                                                             <div class="form-check mb-20">
-                                                                <input class="form-check-input confirmPaymentBtn" type="checkbox" value=""
-                                                                    id="cod">
+                                                                <input class="form-check-input confirmPaymentChk"
+                                                                    type="checkbox" value="" id="cod">
                                                                 <label class="form-check-label" for="cod">
                                                                     Cash On Delivery
                                                                     <span>Please read our <a href="#">Terms And
                                                                             Conditions</a> for cash on delivery.</span>
                                                                 </label>
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <!-- payment tab2 -->
+                                        <div class="tab-pane fade" id="pills-2" role="tabpanel"
+                                            aria-labelledby="pills-tab-2" tabindex="0">
+                                            <div class="shop-checkout-form">
+                                                <form action="#">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label>Card Holder Name</label>
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="Name On Card">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label>Card Number</label>
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="Your Card Number">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label>Expire Date</label>
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="Expire">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label>CCV</label>
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="CVV">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <button type="button" class="theme-btn confirmPaymentBtn">Pay Now<i
+                                                                    class="fas fa-arrow-right"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <!-- payment tab3 -->
+                                        <div class="tab-pane fade" id="pills-3" role="tabpanel"
+                                            aria-labelledby="pills-tab-3" tabindex="0">
+                                            <div class="shop-checkout-form">
+                                                <form action="#">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label>Ful Name</label>
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="Name">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label>Phone Number</label>
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="Phone Number">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-8">
+                                                            <div class="form-group">
+                                                                <label>Reference Number</label>
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="Reference Number">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <button type="button" class="theme-btn confirmPaymentBtn">Submit<i
+                                                                    class="fas fa-arrow-right"></i></button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -119,7 +222,8 @@
                         <h5>Cart Summary</h5>
                         <ul>
                             <li><strong>Order ID:</strong> <span>{{ order.order_id|default:order_id }}</span></li>
-                            <li><strong>Sub Total:</strong> <span>{{ order.get_cart_items|default:subtotal }}</span></li>
+                            <li><strong>Sub Total:</strong> <span>{{ order.get_cart_items|default:subtotal }}</span>
+                            </li>
                             <li><strong>Discount:</strong> <span>0.00Php</span></li>
                             <li><strong>Shipping:</strong>
                                 <span>
