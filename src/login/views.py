@@ -52,7 +52,7 @@ class EcomLoginView(BaseLoginView):
     def get_success_url(self):
         User = get_user_model()
         user = User.objects.get(username=self.request.user.username)
-        customer, created = Customer.objects.get_or_create(user=user)
+        # customer, created = Customer.objects.get_or_create(user=user)
         session_key = self.request.session.session_key
         
         if not session_key:
@@ -62,7 +62,7 @@ class EcomLoginView(BaseLoginView):
         anonymous_order = Order.objects.filter(session_key=session_key, complete=False).first()
         
         if anonymous_order:
-            anonymous_order.customer = customer
+            # anonymous_order.customer = customer
             anonymous_order.save()
             if 'guest_user' in self.request.session:
                 del self.request.session['guest_user']

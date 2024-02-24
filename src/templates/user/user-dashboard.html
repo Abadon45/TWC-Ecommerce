@@ -60,28 +60,35 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for order in orders %}
-                                <tr>
-                                    <td><span class="table-list-code">{{ order.order_id }}</span></td>
-                                    <td>{{ order.created_at }}</td>
-                                    <td>₱{{ order.get_cart_items }}</td>
-                                    <td><span id="orderStatus" class="badge badge-{{ order.status|lower }}">{{ order.status|upper }}</span></td>
-                                    <td>
-                                        <button type="button" 
-                                                class="btn btn-outline-secondary btn-sm rounded-2" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#orderDetailsModal" 
-                                                data-order-id="{{ order.order_id }}"
-                                                data-order-date="{{ order.created_at }}"
-                                                data-order-total="{{ order.total_amount }}"
-                                                data-order-status="{{ order.status }}"
-                                                data-tooltip="Order Details" 
-                                                title="Details">
-                                            <i class="far fa-eye"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                {% endfor %}
+                                {% if orders %}
+                                    {% for order in orders %}
+                                    <tr>
+                                        <td><span class="table-list-code">{{ order.order_id }}</span></td>
+                                        <td>{{ order.created_at }}</td>
+                                        <td>₱{{ order.get_cart_items }}</td>
+                                        <td><span id="orderStatus" class="badge badge-{{ order.status|lower }}">{{ order.status|upper }}</span></td>
+                                        <td>
+                                            <button type="button" 
+                                                    class="btn btn-outline-secondary btn-sm rounded-2" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#orderDetailsModal" 
+                                                    data-order-id="{{ order.order_id }}"
+                                                    data-order-date="{{ order.created_at }}"
+                                                    data-order-total="{{ order.total_amount }}"
+                                                    data-order-status="{{ order.status }}"
+                                                    data-tooltip="Order Details" 
+                                                    title="Details">
+                                                <i class="far fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="5" class="text-center">No orders completed found</td>
+                                    </tr>
+                                {% endif %}
+            
                             </tbody>
                         </table>
                     </div>

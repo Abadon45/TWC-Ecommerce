@@ -7,6 +7,17 @@ $(document).ready(function () {
         var quantity = parseInt(quantityInput.val()) || 1;
 
         console.log('Product ID:', productId, 'Action:', action, 'Quantity:', quantity);
+        
+        if (!isCartPage()) {
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Cart updated successfully!',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
 
         updateUserOrder(productId, action, quantity, updateItemUrl);
     });
@@ -25,16 +36,6 @@ $(document).ready(function () {
             success: function (data) {
                 console.log(data);
 
-                if (!isCartPage()) {
-
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Cart updated successfully!',
-                        timer: 2000,
-                        showConfirmButton: false
-                    });
-                }
                 $('#cart-count').text(data.cart_items);
 
                 if (data.products.length > 0) {

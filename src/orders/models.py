@@ -92,6 +92,9 @@ class OrderItem(models.Model):
     
     @property
     def get_total(self):
+        if self.product is None:
+            logger.error("Product is None for OrderItem id: %d", self.id)
+            return Decimal('0.00')
         total = self.product.customer_price * self.quantity
         return total
     

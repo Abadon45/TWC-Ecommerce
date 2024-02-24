@@ -313,6 +313,10 @@ def checkout(request):
     
 
 def checkout_done_view(request):  
+    username = ""
+    email = ""
+    password = ""
+    
     try:
         request.session['new_guest_user'] = True
         if request.user.is_authenticated:

@@ -54,8 +54,8 @@ class DashboardView(TemplateView):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
             customer, created = Customer.get_or_create_customer(self.request.user, self.request)
-            order = Order.objects.filter(customer=customer)
-                     
+            order = Order.objects.filter(customer=customer, complete=True)
+                    
         context['customer'] = customer
         context = {
             'title': self.title,
