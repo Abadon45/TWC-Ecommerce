@@ -259,13 +259,13 @@ def checkout(request):
                                     user = authenticate(request, username=temporary_username, password=temporary_password)
                                     name = request.POST.get('first_name')
                                     
-                                    if user: 
-                                        subject = 'TWC Online Store Temporary Account'
-                                        message = f'Good Day {name},\n\n\nYou have successfully registered an account on TWConline.store!!\n\n\nHere are your temporary account details:\n\nUsername: {temporary_username}\nPassword: {temporary_password}\n\n\nThank you for your order!'
-                                        from_email = 'vendicsenterprise@gmail.com'  
-                                        recipient_list = [temporary_user.email]
+                                    # if user: 
+                                    #     subject = 'TWC Online Store Temporary Account'
+                                    #     message = f'Good Day {name},\n\n\nYou have successfully registered an account on TWConline.store!!\n\n\nHere are your temporary account details:\n\nUsername: {temporary_username}\nPassword: {temporary_password}\n\n\nThank you for your order!'
+                                    #     from_email = 'vendicsenterprise@gmail.com'  
+                                    #     recipient_list = [temporary_user.email]
 
-                                        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+                                    #     send_mail(subject, message, from_email, recipient_list, fail_silently=False)
                                     
                                         
                                 else:
