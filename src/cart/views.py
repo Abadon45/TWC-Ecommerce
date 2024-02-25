@@ -441,46 +441,46 @@ def checkout_done_view(request):
         return JsonResponse({"error": "An error occurred"}, status=500)
 
 
-@receiver(user_logged_in)
-def user_logged_in_handler(request, user, **kwargs):
-    if user.is_staff:
-        return redirect('/admin/')
-    anonymous_orders = request.session.get('anonymous_orders', [])
+# @receiver(user_logged_in)
+# def user_logged_in_handler(request, user, **kwargs):
+#     if user.is_staff:
+#         return redirect('/admin/')
+#     anonymous_orders = request.session.get('anonymous_orders', [])
     
-    print("Anonymous Orders:", anonymous_orders)
+#     print("Anonymous Orders:", anonymous_orders)
     
-    if anonymous_orders:
-        latest_order = Order.objects.filter(id__in=anonymous_orders[1:])
+#     if anonymous_orders:
+#         latest_order = Order.objects.filter(id__in=anonymous_orders[1:])
         
-        print("Latest Orders:", latest_order)
+#         print("Latest Orders:", latest_order)
         
-        if latest_order.exists():
-            latest_order = latest_order.latest('created_at')
+#         if latest_order.exists():
+#             latest_order = latest_order.latest('created_at')
 
-            print("Latest Order ID:", latest_order.order_id)
-            existing_orders = Order.objects.filter(customer=request.user.customer, complete=False)
-            if existing_orders.exists():
-                existing_order = existing_orders.latest('created_at')
-                print("Existing Order ID:", existing_order.order_id)
-                for item in latest_order.orderitem_set.all():
-                    order_item, created = OrderItem.objects.get_or_create(order=existing_order, product=item.product)
-                    order_item.quantity += item.quantity
-                    order_item.save()
+#             print("Latest Order ID:", latest_order.order_id)
+#             existing_orders = Order.objects.filter(customer=request.user.customer, complete=False)
+#             if existing_orders.exists():
+#                 existing_order = existing_orders.latest('created_at')
+#                 print("Existing Order ID:", existing_order.order_id)
+#                 for item in latest_order.orderitem_set.all():
+#                     order_item, created = OrderItem.objects.get_or_create(order=existing_order, product=item.product)
+#                     order_item.quantity += item.quantity
+#                     order_item.save()
 
-                latest_order.delete()
+#                 latest_order.delete()
 
-                print("Cart items merged successfully.")
+#                 print("Cart items merged successfully.")
 
-                messages.success(request, 'Cart items merged successfully.')
-                return redirect('cart:cart')
-            else:
-                latest_order.customer = request.user.customer
-                latest_order.save()
+#                 messages.success(request, 'Cart items merged successfully.')
+#                 return redirect('cart:cart')
+#             else:
+#                 latest_order.customer = request.user.customer
+#                 latest_order.save()
 
-                print("Guest order assigned to the authenticated user.")
+#                 print("Guest order assigned to the authenticated user.")
 
-                messages.success(request, 'Guest order assigned to the authenticated user.')
-                return redirect('home_view')
+#                 messages.success(request, 'Guest order assigned to the authenticated user.')
+#                 return redirect('home_view')
 
-    print("No anonymous orders found.")
-    return redirect('home_view')
+#     print("No anonymous orders found.")
+#     return redirect('home_view')
