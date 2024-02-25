@@ -49,14 +49,15 @@ def get_order_details(request):
 class DashboardView(TemplateView):
     template_name = 'user/dashboard.html'
     title = "User Dashboard"
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        customer = ""
+        order = ""
         if self.request.user.is_authenticated:
             customer, created = Customer.get_or_create_customer(self.request.user, self.request)
             order = Order.objects.filter(customer=customer, complete=True)
                     
-        context['customer'] = customer
         context = {
             'title': self.title,
             'customer': customer,
@@ -66,7 +67,7 @@ class DashboardView(TemplateView):
         }
         
         return context
- 
+
     
 class SellerDashboardView(TemplateView):
     template_name = 'seller/seller-dashboard.html'

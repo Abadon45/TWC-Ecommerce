@@ -76,11 +76,11 @@ def updateItem(request):
             orderItem.quantity -= int(quantity)
         elif action == 'remove':
             orderItem.quantity = 0
-            
-        orderItem.save()
         
         if orderItem.quantity <= 0:
             orderItem.delete()
+            
+        orderItem.save()
             
         # Store anonymous order ID in session if the user is a guest
         if not request.user.is_authenticated:
@@ -149,6 +149,8 @@ def checkout(request):
     order_id = ""
     temporary_username = ""
     temporary_password = ""
+    
+    referrer_id = request.session.get('referrer')
 
     try:
         user = request.user
@@ -160,6 +162,7 @@ def checkout(request):
             
         elif user.is_anonymous:
             customer = create_or_get_guest_user(request)
+            
                 
             subtotal = order.get_cart_items
             order_dict = {
@@ -229,7 +232,14 @@ def checkout(request):
                                 if user_created:
                                     print(f"User created: {user_created}")
                                     temporary_password = User.objects.make_random_password()
-                                    customer.email = request.POST.get('email')
+                                    
+                                    if referrer_id:
+                                        try:
+                                            referrer = User.objects.get(id=referrer_id)
+                                            temporary_user.referred_by = referrer
+                                            temporary_user.save()
+                                        except User.DoesNotExist:
+                                            print("Referrer not found.")
                                     
                                     # PUT THIS ON THE FINAL VERSION
                                     # if User.objects.filter(email=customer.email).exists():
@@ -239,10 +249,6 @@ def checkout(request):
                                     customer.save()
                                     temporary_user.email = customer.email
                                     temporary_user.set_password(temporary_password)
-                                    
-                                    if customer.referrer is not None:
-                                        temporary_user.referred_by = customer.referrer
-                                        
                                     temporary_user.save()
                                     print("Temporary user created:", temporary_user)
 
@@ -258,6 +264,7 @@ def checkout(request):
 
                                     user = authenticate(request, username=temporary_username, password=temporary_password)
                                     name = request.POST.get('first_name')
+                                    
                                     
                                     # if user: 
                                     #     subject = 'TWC Online Store Temporary Account'

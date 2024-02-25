@@ -29,10 +29,16 @@ class IndexView(TemplateView):
         referrer = None
         if username and affiliate_code:
             referrer = get_object_or_404(User, username=username, affiliate_code=affiliate_code)
-            if request.user.is_authenticated and hasattr(request.user, 'is_superuser') and not request.user.is_superuser:
-                referred = request.user  # The user who accessed the page
-                Referral.objects.create(referrer=referrer, referred=referred)
-                print(f"User {referred.username} was successfully referred by {referrer.username}.")
+            print(f"Referrer: {referrer.username}")
+            
+            request.session['referrer'] = referrer.id
+            
+            print(f"Referrer: {request.session['referrer']}")
+            
+            # if request.user.is_authenticated and hasattr(request.user, 'is_superuser') and not request.user.is_superuser:
+            #     referred = request.user  # The user who accessed the page
+            #     Referral.objects.create(referrer=referrer, referred=referred)
+            #     print(f"User {referred.username} was successfully referred by {referrer.username}.")
 
         if referrer:
             # Create a Customer object for the referred user
