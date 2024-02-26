@@ -1,5 +1,5 @@
 from django.views.generic import View
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from products.views import ProductListView, ProductDetailView
 from products.models import Product
@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.template.loader import render_to_string
 from django.urls import NoReverseMatch
 from django.db.models import Count
+
 
 
 class ShopView(ProductListView):
@@ -109,4 +110,7 @@ class ShopView(ProductListView):
 
 class ShopDetailView(ProductDetailView):
     template_name = "shop/shop-single.html"
+    
+    def get_object(self, queryset=None):
+        return get_object_or_404(Product, slug=self.kwargs['slug'])
     

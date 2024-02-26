@@ -1,9 +1,13 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 from billing.models import Customer
+
+User = get_user_model()
 
 
 class Address(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     first_name = models.CharField(max_length=255, null=True, blank=True)
     last_name = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField()

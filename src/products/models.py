@@ -69,6 +69,12 @@ class Product(models.Model):
         if not self.slug:
             self.slug = slugify(self.name)
         super(Product, self).save(*args, **kwargs)
+        
+    def get_category_1_display(self):
+        return dict(self.PRODUCT_CATEGORY_1_CHOICES).get(self.category_1, '')
+
+    def get_category_2_display(self):
+        return dict(self.PRODUCT_CATEGORY_2_CHOICES).get(self.category_2, '')
 
     class Meta:
         ordering = ['-timestamp']

@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django.contrib.auth import get_user_model
 from addresses.models import Address
 from billing.models import Customer
 from ecommerce.utils import unique_order_id_generator
@@ -10,6 +11,8 @@ from products.models import Product
 from decimal import Decimal
 
 import logging
+
+User = get_user_model()
 
 logger = logging.getLogger(__name__)
 
@@ -24,6 +27,7 @@ ORDER_STATUS_CHOICES = (
 
 class Order(models.Model):
     customer            = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
+    user                = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     order_id            = models.CharField(max_length=120, blank=True, unique=True)
     session_key         = models.CharField(max_length=120, blank=True, null=True, unique=True)
     shipping_address    = models.ForeignKey(Address, null =True, blank=True, on_delete=models.CASCADE, related_name='shipping_address')

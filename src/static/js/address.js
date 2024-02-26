@@ -187,9 +187,26 @@ $(document).ready(function () {
         var barangaysInMunicipality = Philippines.barangays.filter(function (barangay) {
             return barangay.mun_code === selectedMunicipalityCode;
         });
-    
+        
+        barangaysInMunicipality.push({ name: "Other (Specify Barangay)", mun_code: "" });
+
         populateDropdown("#barangayDropdown", barangaysInMunicipality);
+
+
+        $("#barangayDropdown").change(function () {
+            var selectedOption = $(this).val();
+            $("#barangayInputBox").toggle(selectedOption === "Other (Specify Barangay)");
+            if (selectedOption === 'Other (Specify Barangay)') {
+                $('#barangayDropdown').attr('name', 'barangay_input');
+                $('#barangayInputBox input').attr('name', 'barangay');
+            } else {
+                $('#barangayDropdown').attr('name', 'barangay');
+                $('#barangayInputBox input').attr('name', 'barangay_input');
+            }
+        });
     });
+
+
 
     // Function to populate a dropdown based on data
     function populateDropdown(dropdownId, data) {

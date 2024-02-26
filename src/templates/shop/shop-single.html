@@ -59,7 +59,7 @@
                                 <span class="discount-percentage">10% Off</span>
                             </div>
                             <p class="mb-3">
-                                {{ product.description }}
+                                {{ product.description_1 }}
                             </p>
                             <div class="shop-single-cs">
                                 <div class="row">
@@ -73,6 +73,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    {% if product.category_1 != 'sante' %}
                                     <div class="col-md-3 col-lg-4 col-xl-3">
                                         <div class="shop-single-size">
                                             <h6>Size</h6>
@@ -122,15 +123,16 @@
                                             </ul>
                                         </div>
                                     </div>
+                                    {% endif %}
                                 </div>
                             </div>
-                            <div class="shop-single-sortinfo">
+                            <div class="shop-single-sortinfo mt-20">
                                 <ul>
                                     <li>Stock: <span>Available</span></li>
                                     <li>SKU: <span>{{ product.sku }}</span></li>
-                                    <li>Category: <span>Electronics</span></li>
-                                    <li>Sold By: <a href="#">Fast Shop</a></li>
-                                    <li>Tags: <a href="#">Headphone</a>,<a href="#">Bluetooth</a>,<a href="#">Modern</a>,<a href="#">Shop</a></li>
+                                    <li>Category: <span>{{ product.get_category_1_display }}</span></li>
+                                    <!-- <li>Sold By: <a href="#">Fast Shop</a></li>
+                                    <li>Tags: <a href="#">Headphone</a>,<a href="#">Bluetooth</a>,<a href="#">Modern</a>,<a href="#">Shop</a></li> -->
                                 </ul>
                             </div>
                             <div class="shop-single-action">
@@ -139,6 +141,7 @@
                                         <div class="shop-single-btn">
                                             <button data-product="{{ product.id }}" data-action="add" type="button" class="update-cart theme-btn add-to-cart-btn">Add To Cart</button>
                                         </div>
+
                                     </div>
                                     <div class="col-md-6 col-lg-12 col-xl-6">
                                         <div class="shop-single-share">
@@ -161,173 +164,71 @@
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <button class="nav-link active" id="nav-tab1" data-bs-toggle="tab" data-bs-target="#tab1"
                                 type="button" role="tab" aria-controls="tab1" aria-selected="true">Description</button>
+                            
+                            <!-- Features -->
+                            {% if product.advantage %}
                             <button class="nav-link" id="nav-tab2" data-bs-toggle="tab" data-bs-target="#tab2"
-                                type="button" role="tab" aria-controls="tab2" aria-selected="false">Additional
-                                Info</button>
+                                type="button" role="tab" aria-controls="tab2" aria-selected="false">Features
+                            </button>
+                            {% endif %}
+                            
+                            <!-- Advantages -->
+                            {% if product.advantage %}
                             <button class="nav-link" id="nav-tab3" data-bs-toggle="tab" data-bs-target="#tab3"
-                                type="button" role="tab" aria-controls="tab3" aria-selected="false">Reviews
-                                (05)</button>
+                                type="button" role="tab" aria-controls="tab3" aria-selected="false">Advantages
+                            </button>
+                            {% endif %}
+
+                            <!-- Benfits -->
+                            {% if product.benefit %}
+                            <button class="nav-link" id="nav-tab4" data-bs-toggle="tab" data-bs-target="#tab4"
+                            type="button" role="tab" aria-controls="tab4" aria-selected="false">Benefits
+                            </button>
+                            {% endif %}
+
+                            <!-- Specifications -->
+                            {% if product.specification %}
+                            <button class="nav-link" id="nav-tab5" data-bs-toggle="tab" data-bs-target="#tab5"
+                            type="button" role="tab" aria-controls="tab5" aria-selected="false">Specifications
+                            </button>
+                            {% endif %}
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="nav-tab1">
                             <div class="shop-single-desc">
                                 <p>
-                                    {{ product.description }}
+                                    {{ product.description_2 }}
                                 </p>
-                                
-                                <!-- <div class="row">
-                                    <div class="col-lg-5 col-xl-4">
-                                        <div class="shop-single-list">
-                                            <h5 class="title">Features</h5>
-                                            <ul>
-                                                <li>Capture 4K30 Video and 30MP Photos</li>
-                                                <li>Game Style Controller with Touchscreen</li>
-                                                <li>Capture 4K30 Video and 30MP Photos</li>
-                                                <li>View Live Camera Feed</li>
-                                                <li>Full Control of HERO6 Black</li>
-                                                <li>Use App for Dedicated Camera Operation</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-xl-5">
-                                        <div class="shop-single-list">
-                                            <h5 class="title">Specifications</h5>
-                                            <ul>
-                                                <li><span>Materials:</span> Leather, Cotton, Rubber, Foam</li>
-                                                <li><span>Model Year:</span> 2023</li>
-                                                <li><span>Available Sizes:</span> 8.5, 9.0, 9.5, 10.0</li>
-                                                <li><span>Manufacturer:</span> Reebok Inc.</li>
-                                                <li><span>Available Colors:</span> White/Red/Blue,Black/Orange/Green</li>
-                                                <li><span>Made In:</span> USA</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div> -->
                             </div>
                         </div>
                         <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="nav-tab2">
                             <div class="shop-single-additional">
                                 <p>
-                                    {{ product.description }}
+                                    {{ product.feature }}
                                 </p>
-                                <!-- <div class="shop-single-list">
-                                    <h5 class="title">Shipping Options:</h5>
-                                    <ul>
-                                        <li><span>Standard:</span> 6-7 Days, Shipping Cost - Free</li>
-                                        <li><span>Express:</span> 1-2 Days, Shipping Cost - $20</li>
-                                        <li><span>Courier:</span> 2-3 Days, Shipping Cost - $30</li>
-                                        <li><span>Fastgo:</span> 1-3 Days, Shipping Cost - $15</li>
-                                    </ul>
-                                </div> -->
                             </div>
                         </div>
                         <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="nav-tab3">
                             <div class="shop-single-review">
                                 <div class="blog-comments">
-                                    <h5>Reviews (05)</h5>
-                                    <div class="blog-comments-wrapper">
-                                        <div class="blog-comments-single mt-0">
-                                            <img src="{% static 'img/blog/com-1.jpg' %}" alt="thumb">
-                                            <div class="blog-comments-content">
-                                                <h5>Sinkler Denola</h5>
-                                                <span><i class="far fa-clock"></i> 31 January, 2023</span>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap electronic typesetting, remaining essentially unchanged. It was popularised in the with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                                <a href="#"><i class="far fa-reply"></i> Reply</a>
-                                                <div class="review-rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="blog-comments-single ms-md-5">
-                                            <img src="{% static 'img/blog/com-2.jpg' %}" alt="thumb">
-                                            <div class="blog-comments-content">
-                                                <h5>Daniel Wellman</h5>
-                                                <span><i class="far fa-clock"></i> 31 January, 2023</span>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap electronic typesetting, remaining essentially unchanged. It was popularised in the with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                                <a href="#"><i class="far fa-reply"></i> Reply</a>
-                                                <div class="review-rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="far fa-star"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="blog-comments-single">
-                                            <img src="{% static 'img/blog/com-3.jpg' %}" alt="thumb">
-                                            <div class="blog-comments-content">
-                                                <h5>Kenneth Evans</h5>
-                                                <span><i class="far fa-clock"></i> 31 January, 2023</span>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap electronic typesetting, remaining essentially unchanged. It was popularised in the with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                                <a href="#"><i class="far fa-reply"></i> Reply</a>
-                                                <div class="review-rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                    <i class="far fa-star"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="blog-comments-form">
-                                        <h4 class="mb-4">Leave A Review</h4>
-                                        <form action="#">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group review-rating">
-                                                        <label>Your Rating</label>
-                                                        <div>
-                                                            <i class="far fa-star"></i>
-                                                            <i class="far fa-star"></i>
-                                                            <i class="far fa-star"></i>
-                                                            <i class="far fa-star"></i>
-                                                            <i class="far fa-star"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control" placeholder="Your Name*">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <input type="email" class="form-control" placeholder="Your Email*">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control" placeholder="Your Subject*">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <select class="form-control form-select">
-                                                            <option value="">Your Rating</option>
-                                                            <option value="5">5 Stars</option>
-                                                            <option value="4">4 Stars</option>
-                                                            <option value="3">3 Stars</option>
-                                                            <option value="2">2 Stars</option>
-                                                            <option value="1">1 Star</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <textarea class="form-control" rows="5" placeholder="Your Review*"></textarea>
-                                                    </div>
-                                                    <button type="submit" class="theme-btn"><span class="far fa-paper-plane"></span> Submit Review</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
+                                    <h5>Advantages</h5>
+                                    <p>{{ product.advantage }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="nav-tab4">
+                            <div class="shop-single-review">
+                                <div class="blog-comments">
+                                    <h5>Benefits</h5>
+                                    <p>{{ product.benefit }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="nav-tab5">
+                            <div class="shop-single-review">
+                                <div class="blog-comments">
+                                    <p>{{ product.specification|linebreaks }}</p>
                                 </div>
                             </div>
                         </div>
@@ -454,7 +355,7 @@
                                             <div class="product-price">
                                                 <span>$100.00</span>
                                             </div>
-                                            <button type="button" class="product-cart-btn" data-bs-placement="left" data-tooltip="tooltip" title="Add To Cart" onclick="addToCart('{{ product.slug }}')>
+                                            <button type="button" class="product-cart-btn" data-bs-placement="left" data-tooltip="tooltip" title="Add To Cart" onclick="addToCart('{{ product.slug }}')">
                                                  <i class="far fa-shopping-bag"></i>
                                             </button>
                                         </div>
@@ -555,7 +456,7 @@
                                                 <span>$100.00</span>
                                             </div>
                                             <button type="button" class="product-cart-btn" data-bs-placement="left" data-tooltip="tooltip" title="Add To Cart">
-                                                <i class="far fa-shopping-bag"></i>
+                                            <i class="far fa-shopping-bag"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -568,5 +469,8 @@
             </div>
         </div>
         <!-- shop single end -->
+
+{% endblock %}
+{% block js %}
 
 {% endblock %}

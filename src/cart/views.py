@@ -223,7 +223,7 @@ def checkout(request):
                         
                         #Generate a temporary account for the Guest User
                         if request.user.is_anonymous:
-                            temporary_username = request.POST.get('username')   
+                            temporary_username = request.POST.get('username').lower()  
                             print(f'username retrieved from ajax: {temporary_username}') 
                                     
                             if temporary_username:
@@ -245,11 +245,22 @@ def checkout(request):
                                     # if User.objects.filter(email=customer.email).exists():
                                     #     print("A user with this email already exists.") 
                                     # else:
+                                    
+                                    
+                                    #---------------------------------------
+                                    # Transfer Details to the temporary_user
+                                    #---------------------------------------
                                     customer.email = request.POST.get('email')
-                                    customer.save()
                                     temporary_user.email = customer.email
                                     temporary_user.set_password(temporary_password)
+                                    temporary_user.first_name = shipping_address.first_name
+                                    temporary_user.last_name = shipping_address.last_name
+                                    temporary_user.mobile = shipping_address.phone
                                     temporary_user.save()
+                                    customer.user = temporary_user
+                                    customer.save()
+                                    
+                                    
                                     print("Temporary user created:", temporary_user)
 
                                     request.session['guest_user_data'] = {
