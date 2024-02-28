@@ -178,22 +178,28 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
-# AWS_ACCESS_KEY_ID = 'AKIAW3MEEP3PHEGDOZ4D'
-# AWS_SECRET_ACCESS_KEY = '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'
+#AMAZON EMAIL
 
-# EMAIL_BACKEND = 'django_ses.SESBackend'
-# EMAIL_HOST = 'email-smtp.uap-southeast-1.amazonaws.com'  # Adjust for your SES region
-# EMAIL_USE_TLS = True
-# EMAIL_PORT = 587
+AWS_ACCESS_KEY_ID = 'AKIAW3MEEP3PHEGDOZ4D'
+AWS_SECRET_ACCESS_KEY = 'gv1mtKxieJ4gXhtnayMRnfrvPS1Op8CWSAhb2UJN'
 
-# AWS_SES_REGION_NAME = 'ap-southeast-1'
-# AWS_SES_REGION_ENDPOINT = 'email.ap-southeast-1.amazonaws.com'
+EMAIL_BACKEND = 'django_ses.SESBackend'
+EMAIL_HOST = 'email-smtp.uap-southeast-1.amazonaws.com'  # Adjust for your SES region
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'localhost'
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_PORT = 2525
+AWS_SES_REGION_NAME = 'ap-southeast-1'
+AWS_SES_REGION_ENDPOINT = 'email.ap-southeast-1.amazonaws.com'
+
+#--------------------------
+#LOCAL SERVER EMAIL
+#--------------------------
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'localhost'
+# EMAIL_HOST_USER = ''
+# EMAIL_HOST_PASSWORD = ''
+# EMAIL_PORT = 2525
 
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'

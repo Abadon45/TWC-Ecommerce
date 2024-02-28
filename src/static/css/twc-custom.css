@@ -1,0 +1,102 @@
+#checkout-complete {
+    h3{
+        font-size: 18px;
+    }
+    h5{
+        font-size: 16px;
+    }
+    .sm-order-details{
+        margin-top: 10px;
+    }
+    .order-detail{
+        margin-top: 15px;
+    }
+    .sm-delivery{
+        margin-top: 15px;
+    }
+    table{
+        margin-top: 30px;
+    }
+}
+
+/* For small screens (≥576px) */
+@media (min-width: 576px) {
+    #checkout-complete {
+        h3{
+            font-size: 20px;
+        }
+        h5{
+            font-size: 14px;
+        }
+        .col-md-6{
+            margin-top: 0;
+        }
+
+        .order-detail{
+            margin-top: 10px;
+        }
+        .sm-delivery{
+            margin-top: 0;
+        }
+
+    }
+
+}
+
+/* For medium screens (≥768px) */
+@media (min-width: 768px) {
+    #checkout-complete {
+        h3{
+            font-size: 20px;
+        }
+        h5{
+            font-size: 14px;
+        }
+        .col-md-6{
+            margin-top: 20px;
+        }
+        .sm-order-details{
+            margin-top: 20px;
+        }
+    }
+
+    /* Additional styles for specific elements */
+}
+
+/* For large screens (≥992px) */
+@media (min-width: 992px) {
+    #checkout-complete {
+        .order-detail{
+            margin-top: 50px;
+        }
+        .col-md-6{
+            margin-top: 0;
+        }
+        .sm-order-details{
+            margin-top: 0;
+        }
+        .order-detail{
+            margin-top: 30px;
+        }
+        table{
+            margin-top: 50px;
+        }
+    }
+}
+
+/* For extra large screens (≥1200px) */
+@media (min-width: 1200px) {
+    #checkout-complete {
+        h3{
+            font-size: 28px;
+        }
+        h5{
+            font-size: 18px;
+        }
+        .col-md-6{
+            margin-top: 0;
+        }
+    }
+        
+}
+

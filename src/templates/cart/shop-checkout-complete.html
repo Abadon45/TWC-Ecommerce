@@ -8,7 +8,7 @@
 
 
 <!-- shop checkout complete -->
-<div class="shop-checkout-complete py-120">
+<div id="checkout-complete" class="shop-checkout-complete py-120">
     <div class="container">
         <div class="row">
             <div class="col mx-auto">
@@ -56,30 +56,30 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="row mt-50">
-                        <div class="col-2">
+                    <div class="row order-detail">
+                        <div class="col-lg-2 col-md-4 sm-order-details">
                             <h5>ORDER NUMBER:</h5>
                             <h5>{{ order.order_id }}</h5>
                         </div>
-                        <div class="col-2">
+                        <div class="col-lg-2 col-md-4 sm-order-details">
                             <h5>DATE:</h5>
                             <h5>{{order.created_at|date:"Y-m-d"}}</h5>
                         </div>
-                        <div class="col-3">
+                        <div class="col-lg-3 col-md-4 sm-order-details">
                             <h5>MOBILE:</h5>
                             <h5>{{order.shipping_address.phone}}</h5>
                         </div>
-                        <div class="col-2">
+                        <div class="col-lg-2 col-md-6 sm-order-details">
                             <h5>TOTAL:</h5>
                             <h5>₱{{ order.total_amount }}</h5>
                         </div>
-                        <div class="col-3">
+                        <div class="col-lg-3 col-md-6 sm-order-details">
                             <h5>PAYEMNT METHOD:</h5>
                             <h5>Cash On Delivery</h5>
                         </div>
                     </div>
-                    <div class="row mt-50">
-                        <div class="col-6 d-flex justify-content-center">
+                    <div class="row order-detail">
+                        <div class="col-md-6 d-flex justify-content-center">
                             <div class="card" style="width: 35rem;">
                                 <div class="card-body">
                                     <h5 class="card-title">DELIVERY ADDRESS</h5>
@@ -95,7 +95,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6 d-flex justify-content-center">
+                        <div class="col-md-6 d-flex justify-content-center sm-delivery">
                             <div class="card" style="width: 35rem;">
                                 <div class="card-body">
                                     <h5 class="card-title">ESTIMATED DELIVERY</h5>
@@ -120,49 +120,4 @@
         </div>
     </div>
 </div>
-<!-- shop checkout complete end -->
-<!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-    // Your existing AJAX request
-    $.ajax({
-        type: 'POST',
-        url: "{% url 'cart:checkout_complete' %}",
-        headers: {
-        'X-CSRFToken': "{{ csrf_token }}",
-        },
-        data: {
-            // Your data here
-        },
-        success: function (response) {
-            // Handle the response
-            if (response.username && response.email && response.password) {
-                // Show SweetAlert2
-                Swal.fire({
-                    title: 'Temporary Login Credentials',
-                    html: `
-                        <h5>Username: ${response.username}</h5>
-                        <h5>Email: ${response.email}</h5>
-                        <h5>Password: ${response.password}</h5>
-                    `,
-                    icon: 'success',
-                    confirmButtonText: 'OK',
-                    timer: 10000, // Set the timer to 3 seconds (3000 milliseconds)
-                    timerProgressBar: true, // Show a progress bar during the timer
-                    onClose: () => {
-                        // Perform any action when the modal is closed
-                        console.log('Modal closed');
-                        // You can redirect or perform other actions here
-                    }
-                });
-            } else {
-                // Handle case when response is not as expected
-                console.error('Invalid AJAX response');
-            }
-        },
-        error: function (xhr, errmsg, err) {
-            // Handle AJAX error
-            console.error('AJAX error:', errmsg);
-        }
-    });
-</script> -->
 {% endblock %}

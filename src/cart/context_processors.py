@@ -17,11 +17,13 @@ def cart_items(request):
 
     try:
         orders = Order.objects.filter(customer=customer, complete=False)
+        
 
         if orders.exists():
             order = orders.first()
             cart_items_count = order.get_cart_total
             subtotal = order.get_cart_items
+            shipping = order.shipping_fee
             total = subtotal - discount + shipping
             items = order.orderitem_set.all()
             order_id = order.order_id

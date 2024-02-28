@@ -335,9 +335,9 @@ Version         : 1.0
             min: 0,
             max: 5000,
             values: [500, 2000],
-            slide: function( event, ui ){$( "#price-amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );}
+            slide: function( event, ui ){$( "#price-amount" ).val( "₱" + ui.values[ 0 ] + " - ₱" + ui.values[ 1 ] );}
         });
-        $( "#price-amount" ).val( "$" + $( ".price-range" ).slider( "values", 0 ) + " - $" + $( ".price-range" ).slider( "values", 1 ) );
+        $( "#price-amount" ).val( "₱" + $( ".price-range" ).slider( "values", 0 ) + " - ₱" + $( ".price-range" ).slider( "values", 1 ) );
     }
 
 
