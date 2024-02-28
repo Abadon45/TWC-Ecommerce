@@ -40,7 +40,7 @@ class CartView(TemplateView):
 def updateItem(request):
     productId = request.GET.get('productId')
     action = request.GET.get('action')
-    quantity = request.GET.get('quantity', 1)
+    quantity = int(request.GET.get('quantity', 1))
     
     user = request.user
     
@@ -70,17 +70,22 @@ def updateItem(request):
         product = get_object_or_404(Product, id=productId)
         orderItem, order_item_created = OrderItem.objects.get_or_create(order=order, product=product)
 
-        if action == 'add':
-            orderItem.quantity += int(quantity)
-        elif action == 'minus':
-            orderItem.quantity -= int(quantity)
-        elif action == 'remove':
-            orderItem.quantity = 0
-        
-        if orderItem.quantity <= 0:
-            orderItem.delete()
-            
         orderItem.save()
+        
+        if action == 'add':
+            orderItem.quantity += quantity
+        elif action == 'minus':
+            orderItem.quantity -= quantity
+        
+            
+        if action == 'remove' or orderItem.quantity <= 0:
+            orderItem.delete()
+        else:
+            orderItem.save()
+        
+        print(order)
+        print(orderItem)
+        print(orderItem.quantity)
             
         # Store anonymous order ID in session if the user is a guest
         if not request.user.is_authenticated:
@@ -91,7 +96,7 @@ def updateItem(request):
     
         total_quantity = OrderItem.objects.filter(order__customer=customer, order__complete=False).aggregate(Sum('quantity'))['quantity__sum']
         cart_items_count = total_quantity if total_quantity is not None else 0
-        
+ 
         return JsonResponse({
             'cart_items': cart_items_count,
             'products': [{

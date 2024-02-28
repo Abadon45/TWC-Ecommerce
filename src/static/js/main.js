@@ -348,7 +348,7 @@ Version         : 1.0
         i > 0 && c.removeAttr("disabled");
     }),
     $(".minus-btn").on("click", function () {
-        2 == $(this).closest(".shop-cart-qty").children(".quantity").get(0).value-- && $(this).attr("disabled", "disabled");
+        0 == $(this).closest(".shop-cart-qty").children(".quantity").get(0).value-- && $(this).attr("disabled", "disabled");
     })
 
 

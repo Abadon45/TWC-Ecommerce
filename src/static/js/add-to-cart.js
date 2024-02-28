@@ -1,6 +1,8 @@
 $(document).ready(function () {
-    // for product detail page
-    
+
+    var spinner = $('.sk-circle');
+    var backdrop = $('.backdrop');
+
     $(document).on('click', '.update-cart', function (event) {
         event.preventDefault();
         var button = $(this);
@@ -10,6 +12,10 @@ $(document).ready(function () {
         var quantity = parseInt(quantityInput.val()) || 1;
 
         console.log('Product ID:', productId, 'Action:', action, 'Quantity:', quantity);
+
+        spinner.addClass('visible'); // Show the spinner
+        backdrop.addClass('visible');
+
         
         if (!isCartPage()) {
 
@@ -38,20 +44,24 @@ $(document).ready(function () {
             },
             success: function (data) {
                 console.log(data);
+                console.log(quantity);
+
+                spinner.removeClass('visible'); // Hide the spinner
+                backdrop.removeClass('visible');
 
                 $('#cart-count').text(data.cart_items);
 
-                if (button && button.length > 0) {
-                    // Disable the button
+                // Check if button exists and doesn't have the exclude class
+ 
+                if (button && button.length > 0 && !button.hasClass('excludeDisable')) {
+                    console.log("Before disabling minus button");
                     button.prop('disabled', true);
-                    // Change button class
                     button.removeClass('theme-btn add-to-cart-btn').addClass('btn btn-dark');
-                    // Change button text
                     if (button.text() === 'Add To Cart') {
                         button.text('Added To Cart');
                     }
                 }
-
+                
                 if (data.products.length > 0) {
                     if (data.action !== 'remove') {
                         $('#product-subtotal-' + productId).text(data.products[0].total);
@@ -59,6 +69,14 @@ $(document).ready(function () {
 
                     if (data.action === 'remove') {
                         $('#product-row-' + productId).remove();
+                    }
+
+                    if (data.cart_items === 0){
+                        $('#product-row-' + productId).remove();
+                    }
+
+                    if (quantity > 0) {
+                        $('.minus-btn').prop('disabled', false);
                     }
 
                 } else {
@@ -73,6 +91,9 @@ $(document).ready(function () {
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error('AJAX Error:', textStatus, errorThrown);
+
+                spinner.removeClass('visible'); // Hide the spinner
+                backdrop.removeClass('visible');
             }
         });
     }

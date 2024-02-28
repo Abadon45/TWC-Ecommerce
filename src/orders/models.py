@@ -52,15 +52,15 @@ class Order(models.Model):
     def get_absolute_url(self):
         return reverse("orders:detail", kwargs={'order_id': self.order_id})
     
-    def update_totals(self):
-        total_quantity = 0
-        total_amount = Decimal('0.00')
-        for item in self.orderitem_set.all():
-            total_quantity += item.quantity
-            total_amount += item.get_total
-        self.total_quantity = total_quantity
-        self.total_amount = total_amount
-        self.save()
+    # def update_totals(self):
+    #     total_quantity = 0
+    #     total_amount = Decimal('0.00')
+    #     for item in self.orderitem_set.all():
+    #         total_quantity += item.quantity
+    #         total_amount += item.get_total
+    #     self.total_quantity = total_quantity
+    #     self.total_amount = total_amount
+    #     self.save()
     
     @classmethod
     def get_or_create_customer(cls, user, email):
@@ -102,15 +102,18 @@ class OrderItem(models.Model):
         total = self.product.customer_price * self.quantity
         return total
     
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)  # Call the original save method
-        # Update the order totals
-        self.order.update_totals()
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)  # Call the original save method
+    #     # Update the order totals
+    #     self.order.update_totals()
         
-    def delete(self, *args, **kwargs):
-        order = self.order  # Cache the order before deleting
-        super().delete(*args, **kwargs)  # Call the original delete method
-        order.update_totals()
+    # def delete(self, *args, **kwargs):
+    #     if self.quantity <= 0:
+    #         super().delete(*args, **kwargs)
+    #     else:
+    #         super().delete(*args, **kwargs)
+    #         order = self.order
+    #         order.update_totals()
         
         
 # PAYMENT_STATUS_CHOICES = (

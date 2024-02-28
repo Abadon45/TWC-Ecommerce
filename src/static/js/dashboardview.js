@@ -51,14 +51,18 @@ $(document).ready(function () {
 
     $("#orderDetailsModal").on("show.bs.modal", function (event) {
         var modal = $(this);
-        var spinner = $(".spinner"); // Get the spinner element
+        var spinner = $('.sk-circle');
+        var backdrop = $('.backdrop'); 
         var button = event.relatedTarget;
         var orderId = $(button).data("order-id");
 
 
         modal.find(".modal-body .alert").remove(); 
         modal.find(".modal-content").addClass("loading");
-        spinner.addClass("visible");
+
+        //Load Spinner
+        spinner.addClass('visible');
+        backdrop.addClass('visible');
         
     // Fetch order details from the server
         $.get(`/get_order_details/?order_id=${orderId}`)
@@ -88,7 +92,9 @@ $(document).ready(function () {
                 updateProgressBar(data.status);
 
                 // Hide the spinner when data is ready
-                spinner.removeClass("visible");
+                spinner.removeClass('visible');
+                backdrop.removeClass('visible');
+
                 modal.find(".modal-content").removeClass("loading");
 
                 // Show the modal after data is loaded
@@ -102,7 +108,9 @@ $(document).ready(function () {
                 );
 
                 // Hide the spinner if there's an error
-                spinner.removeClass("visible");
+                spinner.removeClass('visible');
+                backdrop.removeClass('visible');
+
                 modal.find(".modal-content").removeClass("loading");
         });
     });
