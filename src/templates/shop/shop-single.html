@@ -147,9 +147,8 @@
                                         <div class="shop-single-share">
                                             <span>Share:</span>
                                             <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                            <a href="#"><i class="fa-brands fa-instagram"></i></a>
                                             <a href="#"><i class="fab fa-twitter"></i></a>
-                                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                            <a href="#"><i class="fab fa-pinterest-p"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -212,7 +211,7 @@
                         <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="nav-tab3">
                             <div class="shop-single-review">
                                 <div class="blog-comments">
-                                    <h5>Advantages</h5>
+                                    <!-- <h5>Advantages</h5> -->
                                     <p>{{ product.advantage }}</p>
                                 </div>
                             </div>
@@ -220,7 +219,7 @@
                         <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="nav-tab4">
                             <div class="shop-single-review">
                                 <div class="blog-comments">
-                                    <h5>Benefits</h5>
+                                    <!-- <h5>Benefits</h5> -->
                                     <p>{{ product.benefit }}</p>
                                 </div>
                             </div>
@@ -237,22 +236,30 @@
                 <!-- shop single details end -->
 
                 <!-- related item -->
-                <div class="product-area related-item">
+                <div class="product-area related-item mt-100">
                     <div class="container">
                         <div class="row">
                             <div class="col-12">
                                 <div class="site-heading-inline">
                                     <h2 class="site-title">Related Items</h2>
-                                    <a href="#">View More <i class="fas fa-arrow-right"></i></a>
+                                    <a href="{% url 'shop:shop' %}?category_id={{ product.category_1 }}">View More <i class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
+                            {% for related_product in related_products %}
                             <div class="col-md-6 col-lg-3">
                                 <div class="product-item">
                                     <div class="product-img">
                                         <span class="type new">New</span>
-                                        <a href="shop-single.html"><img src="{% static 'img/product/p7.png' %}" alt=""></a>
+                                        <a href="{% url 'shop:single' slug=related_product.slug %}">
+                                            {% if related_product.image_1 %}
+                                            <img src="{{ related_product.image_1.url }}" alt="{{ related_product.name }}"
+                                                id="product-image">
+                                            {% else %}
+                                            no image
+                                            {% endif %}
+                                        </a>
                                         <div class="product-action-wrap">
                                             <div class="product-action">
                                                 <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip" title="Quick View"><i class="far fa-eye"></i></a>
@@ -262,7 +269,7 @@
                                         </div>
                                     </div>
                                     <div class="product-content">
-                                        <h3 class="product-title"><a href="shop-single.html">Bluetooth Earphones</a></h3>
+                                        <h3 class="product-title"><a href="{% url 'shop:single' slug=related_product.slug %}">{{related_product.name }}</a></h3>
                                         <div class="product-rate">
                                             <i class="fas fa-star"></i>
                                             <i class="fas fa-star"></i>
@@ -272,16 +279,17 @@
                                         </div>
                                         <div class="product-bottom">
                                             <div class="product-price">
-                                                <span>$100.00</span>
+                                                <span class="current-product-price">₱ {{ related_product.customer_price}}</span>
                                             </div>
-                                            <button type="button" class="product-cart-btn" data-bs-placement="left" data-tooltip="tooltip" title="Add To Cart" onclick="addToCart('{{ product.slug }}')">
-                                                 <i class="far fa-shopping-bag"></i>
+                                            <button data-product="{{ related_product.id }}" data-action="add" type="button"
+                                                class="product-cart-btn add-to-cart-btn update-cart">
+                                                <i class="far fa-shopping-bag"></i>
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

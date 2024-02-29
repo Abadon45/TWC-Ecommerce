@@ -9,6 +9,8 @@ from django.template.loader import render_to_string
 from django.urls import NoReverseMatch
 from django.db.models import Count
 
+import random
+
 
 
 class ShopView(ProductListView):
@@ -110,7 +112,27 @@ class ShopView(ProductListView):
 
 class ShopDetailView(ProductDetailView):
     template_name = "shop/shop-single.html"
+    model = Product
+    context_object_name = 'product'
     
     def get_object(self, queryset=None):
         return get_object_or_404(Product, slug=self.kwargs['slug'])
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.get_object()
+        category_id = product.category_1
+        
+        # Get all related products except the current one
+        related_products = Product.objects.filter(category_1=category_id).exclude(slug=product.slug)
+        
+        # Shuffle the queryset
+        related_products = list(related_products)
+        random.shuffle(related_products)
+        
+        # Limit the queryset to 4 items
+        related_products = related_products[:4]
+        
+        context['related_products'] = related_products
+        return context
     
