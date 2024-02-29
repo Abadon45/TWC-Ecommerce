@@ -1,37 +1,24 @@
-from user.utils import create_or_get_guest_user, get_or_create_customer
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
-from django.http import HttpResponseBadRequest
+from user.utils import create_or_get_guest_user
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.http import Http404
 from django.views.generic import TemplateView
 from django.db import transaction
 from django.db.models import Sum
 from django.http import JsonResponse
-from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth.signals import user_logged_in
-from django.dispatch import receiver
 from django.contrib.auth import get_user_model
-from django.core import serializers
 from django.core.mail import send_mail
-
-import json
-import boto3
-
-
-
-User = get_user_model()
-
+from django.conf import settings
 
 from products.models import Product
 from orders.models import *
 from billing.models import Customer
-
-
 from addresses.forms import AddressForm
-import string
-import random
 
+
+User = get_user_model()
 
 class CartView(TemplateView):
     template_name = 'cart/shop-cart.html'
@@ -285,11 +272,12 @@ def checkout(request):
                                     if user: 
                                         subject = 'TWC Online Store Temporary Account'
                                         message = f'Good Day {name},\n\n\nYou have successfully registered an account on TWConline.store!!\n\n\nHere are your temporary account details:\n\nUsername: {temporary_username}\nPassword: {temporary_password}\n\n\nThank you for your order!'
-                                        from_email = 'vendicsenterprise@gmail.com'  
+                                        from_email = settings.EMAIL_MAIN
                                         recipient_list = [temporary_user.email]
                                         
                                         try:
                                             send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+                                            print("Email sent successfully!")
                                         except Exception as e:   
                                             print(f"Error sending email: {e}")
                                     

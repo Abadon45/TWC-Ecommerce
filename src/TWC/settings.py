@@ -178,18 +178,35 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
-#AMAZON EMAIL
 
-AWS_ACCESS_KEY_ID = 'AKIAW3MEEP3PHEGDOZ4D'
-AWS_SECRET_ACCESS_KEY = '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'
+#SENDGRID EMAIL
 
-EMAIL_BACKEND = 'django_ses.SESBackend'
-EMAIL_HOST = 'email-smtp.uap-southeast-1.amazonaws.com'  # Adjust for your SES region
-EMAIL_USE_TLS = True
+SENDGRID_API_KEY = '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'
+username = 'ZXZnZXJvbmlsbGE='
+password = 'dmVuZGljczIwMTU='
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_MAIN = 'TWCAKO <support@twcako.com>'
+EMAIL_HOST_PASSWORD = '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'
 EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
-AWS_SES_REGION_NAME = 'ap-southeast-1'
-AWS_SES_REGION_ENDPOINT = 'email.ap-southeast-1.amazonaws.com'
+
+#-------------------------
+#AMAZON EMAIL
+#-------------------------
+
+# AWS_ACCESS_KEY_ID = 'AKIAW3MEEP3PHEGDOZ4D'
+# AWS_SECRET_ACCESS_KEY = 'gv1mtKxieJ4gXhtnayMRnfrvPS1Op8CWSAhb2UJN'
+
+# EMAIL_BACKEND = 'django_ses.SESBackend'
+# EMAIL_HOST = 'email-smtp.uap-southeast-1.amazonaws.com'  # Adjust for your SES region
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+
+# AWS_SES_REGION_NAME = 'ap-southeast-1'
+# AWS_SES_REGION_ENDPOINT = 'email.ap-southeast-1.amazonaws.com'
 
 #--------------------------
 #LOCAL SERVER EMAIL

@@ -199,9 +199,11 @@ $(document).ready(function () {
             if (selectedOption === 'Other (Specify Barangay)') {
                 $('#barangayDropdown').attr('name', 'barangay_input');
                 $('#barangayInputBox input').attr('name', 'barangay');
+                $('#barangayInputBox input').prop('required', true);
             } else {
                 $('#barangayDropdown').attr('name', 'barangay');
                 $('#barangayInputBox input').attr('name', 'barangay_input');
+                $('#barangayInputBox input').removeAttr('required');
             }
         });
     });
