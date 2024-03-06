@@ -2,11 +2,15 @@
 from django.urls import path, include
 from django.conf import settings
 from django.views.generic import RedirectView
-from user.views import get_order_details, DashboardView, SellerDashboardView
+from user.views import *
 from TWC.urls import IndexView, BecomeSellerView
+from django.views.generic import TemplateView
 from django.contrib import admin
 from user.views import RegisterGuestView
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
+from django.urls import reverse_lazy
+
 
 
 admin.autodiscover()
@@ -26,10 +30,11 @@ urlpatterns = [
     path('shop/', include('shop.urls')),
     path('become-seller/', BecomeSellerView.as_view(), name='become_seller'),
     path('products/', include('products.urls')),
-    path('admin/', RedirectView.as_view(url=f'http://admin.{settings.SITE_DOMAIN}{port}/')),
+    path('admin/', RedirectView.as_view(url=f'http://admin.{settings.SITE_DOMAIN}{port}/'), name='admin'),
     path('seller/', SellerDashboardView.as_view(), name='seller_dashboard'),
     path('get_order_details/', get_order_details, name='get_order_details'),
     path('shop/<int:referrer_id>/', RegisterGuestView.as_view(), name='register_guest'),
+    
 ]
 
 if settings.DEBUG:

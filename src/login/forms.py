@@ -7,6 +7,9 @@ User = get_user_model()
 
 
 class CustomUserCreationForm(UserCreationForm):
+    new_password = forms.CharField(label='New Password', widget=forms.PasswordInput)
+    confirm_password = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+    
     full_name = forms.CharField(max_length=255, required=False)
     email = forms.EmailField(max_length=254, help_text='Required. Enter a valid email address.')
 
@@ -19,3 +22,11 @@ class CustomUserCreationForm(UserCreationForm):
         if len(password1) < 8:
             raise ValidationError("Password must be at least 8 characters long.")
         return password1
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password = cleaned_data.get('new_password')
+        confirm_password = cleaned_data.get('confirm_password')
+        if new_password != confirm_password:
+            self.add_error('confirm_password', "Passwords do not match.")
+        return cleaned_data

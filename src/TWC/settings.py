@@ -185,6 +185,7 @@ SENDGRID_API_KEY = 'SG.7Nt507S7RGOIfPwAQVF9hQ.Z16SFRryjteB8K-xzIEx16dou0dL-xH1He
 username = 'ZXZnZXJvbmlsbGE='
 password = 'dmVuZGljczIwMTU='
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = 'apikey'
 EMAIL_MAIN = 'TWCAKO <support@twcako.com>'

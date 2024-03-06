@@ -1,4 +1,5 @@
 from django.views.generic import View, TemplateView
+from django.views.generic.edit import FormView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import get_user_model
 from orders.models import Order, OrderItem
@@ -10,6 +11,9 @@ from billing.models import Customer
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest, HttpResponseNotFound
 from django.conf import settings
 from django.views.decorators.cache import cache_page
+from user.forms import ProfileForm, ProfilePictureForm
+from django.db.models import Sum, Q
+
 
 import logging
 
@@ -22,7 +26,7 @@ def get_order_details(request):
         order_id = request.GET.get('order_id')
         if order_id:
             order = get_object_or_404(Order, order_id=order_id)
-            order_items = order.orderitem_set.select_related('product') 
+            order_items = order.orderitem_set.select_related('product')
 
             data = {
                 'order_id': order.order_id,
@@ -54,19 +58,43 @@ class DashboardView(TemplateView):
         context = super().get_context_data(**kwargs)
         customer = ""
         order = ""
+
         if self.request.user.is_authenticated:
             customer, created = Customer.get_or_create_customer(self.request.user, self.request)
             order = Order.objects.filter(customer=customer, complete=True)
+            pending_orders = order.filter(
+                    Q(complete=False) | ~Q(status='received')
+                )
+            completed_orders = Order.objects.filter(customer=customer, complete=True, status='received')
+            pending_orders_count = pending_orders.count()
+            completed_order_count = completed_orders.count()
+                
                     
         context = {
             'title': self.title,
             'customer': customer,
             'orders': order,
             'addresses': Address.objects.filter(customer=customer),
-            'ordered_items': OrderItem.objects.filter(order=order)
+            'ordered_items': OrderItem.objects.filter(order=order),
+            'pending_orders_count': pending_orders_count,
+            'completed_order_count': completed_order_count,
+            'profile_form': ProfileForm(instance=self.request.user),
         }
         
         return context
+    
+    def post(self, request, *args, **kwargs):
+        current_user = User.objects.get(id=request.user.id) 
+        profile_form = ProfileForm(request.POST, request.FILES, instance=current_user)
+        
+        if profile_form.is_valid():
+            profile_form.save()      
+            return HttpResponseRedirect(reverse('dashboard'))
+        else:
+            print("Profile form or Image form is invalid.")
+            print("Profile form errors:", profile_form.errors)
+
+        return self.render_to_response(self.get_context_data())
 
     
 class SellerDashboardView(TemplateView):
@@ -75,6 +103,8 @@ class SellerDashboardView(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated or not request.user.is_seller:
+            return redirect('home_view')
+        elif not request.user.is_seller:
             return redirect('dashboard')
         return super().dispatch(request, *args, **kwargs)
 
@@ -87,6 +117,7 @@ class SellerDashboardView(TemplateView):
         if not customer:
             customer = get_or_create_customer(self.request)      
         affiliate_link = self.request.user.generate_affiliate_link()
+    
 
         context.update({
             'title': self.title,
@@ -98,6 +129,17 @@ class SellerDashboardView(TemplateView):
         })
         return context
     
+    def post(self, request, *args, **kwargs):
+        profile_form = ProfileForm(request.POST, instance=request.user)
+        if profile_form.is_valid():
+            profile_form.save()
+            print("Profile form is valid. Saving profile...")
+            return redirect('seller_dashboard')
+        else:
+            print("Profile form is invalid. Errors:", profile_form.errors)
+        
+        return self.get(request, *args, **kwargs)
+        
 
 class RegisterGuestView(View):
     def get(self, request, *args, **kwargs):
@@ -107,4 +149,6 @@ class RegisterGuestView(View):
         request.session.modified = True
         # Redirect to the dashboard
         return HttpResponseRedirect(f'http://{settings.SITE_DOMAIN}/')
+    
+
     

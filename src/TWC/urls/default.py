@@ -3,7 +3,7 @@ from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
-# from cart.views import cart_detail_api_view
+from django.contrib.auth.urls import urlpatterns as auth_urlpatterns
 from ecommerce.views import *
 
 urlpatterns = [
@@ -25,7 +25,7 @@ urlpatterns = [
     path('dashboard/', include('user.urls.index', namespace='user')),
     path('vendor/', include('vendor.urls', namespace='vendor')), 
     path('products/', include('products.urls', namespace='products')), 
-    path('cart/', include('cart.urls', namespace='cart')), 
+    path('cart/', include('cart.urls', namespace='cart')),
     path('', IndexView.as_view(), name="home_view"),
     path('<str:username>/<str:affiliate_code>/', IndexView.as_view(), name='affiliate_redirect'),
     path('dummy-list/', TemplateView.as_view(template_name='dummy_list.html'), name='list'),

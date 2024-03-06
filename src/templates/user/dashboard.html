@@ -14,15 +14,19 @@
             <div class="col-lg-3">
                 <div class="sidebar">
                     <div class="sidebar-top">
-                        <div class="sidebar-profile-img">
-                            {% if user.image %}
-                                <img src="{{ user.image.url }}" alt="Profile Picture">
-                            {% else %}
-                                <img src="{% static 'img/user/default_profile.png' %}" alt="No Image">
-                            {% endif %}
-                            <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
-                            <input type="file" class="profile-img-file">
-                        </div>
+                        <form method="post" enctype="multipart/form-data" action="{% url 'dashboard' %}">
+                            {% csrf_token %}
+                            <div class="sidebar-profile-img">
+                                {% if user.image %}
+                                    <img src="{{ user.image.url }}" alt="Profile Picture">
+                                {% else %}
+                                    <img src="{% static 'img/user/default_profile.png' %}" alt="No Image">
+                                {% endif %}
+                                <!-- <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
+                                <input type="file" name="image" accept="image/*" class="profile-img-file"> -->
+                            </div>
+                            <!-- Separate submit button for the image form -->
+                        </form>
                         <h5>{{user.first_name}} {{ user.last_name }}</h5>
                         <p>{{user.email}}</p>
                     </div>
@@ -81,6 +85,9 @@
                 </div>
                 <div class="content-div" hidden>
                     {% include 'user/user-setting.html' %}
+                </div>
+                <div class="addAddressDiv" hidden>
+                    {% include 'user/add-address.html' %}
                 </div>
             </div>
         </div>

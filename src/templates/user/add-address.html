@@ -1,98 +1,163 @@
-{% extends "base-user.html" %}
 {% load static %}
-
-{% block title %} {{ title }} {% endblock %}
-
-{% block content %}
-
-        <!-- user add address -->
-        <div id="dashboard-content" class="user-area bg py-100">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="sidebar">
-                            <div class="sidebar-top">
-                                <div class="sidebar-profile-img">
-                                    <img src="{% static 'img/account/user.jpg' %}" alt="">
-                                    <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
-                                    <input type="file" class="profile-img-file">
-                                </div>
-                                <h5>Antoni Jonson</h5>
-                                <p>antoni@example.com</p>
-                            </div>
-                            <ul class="sidebar-list">
-                                <li><a href="{% url 'user:dashboard' %}"><i class="far fa-gauge-high"></i> Dashboard</a></li>
-                                <li><a href="{% url 'user:profile' %}"><i class="far fa-user"></i> My Profile</a></li>
-                                <li><a href="{% url 'user:order_list' %}"><i class="far fa-shopping-bag"></i> My Order List <span class="badge badge-danger">02</span></a></li>
-                                <li><a href="{% url 'user:wishlist' %}"><i class="far fa-heart"></i> My Wishlist <span class="badge badge-danger">02</span></a></li>
-                                <li><a class="active" href="{% url 'user:addresslist' %}"><i class="far fa-location-dot"></i> Address List</a></li>
-                                <li><a href="{% url 'user:support_ticket' %}"><i class="far fa-headset"></i> Support Tickets <span class="badge badge-danger">02</span></a></li>
-                                <li><a href="{% url 'user:track_order' %}"><i class="far fa-map-location-dot"></i> Track My Order</a></li>
-                                <li><a href="{% url 'user:payment_method' %}"><i class="far fa-wallet"></i> Payment Methods</a></li>
-                                <li><a href="{% url 'user:notification' %}"><i class="far fa-bell"></i> Notification <span class="badge badge-danger">02</span></a></li>
-                                <li><a href="{% url 'user:message' %}"><i class="far fa-envelope"></i> Messages <span class="badge badge-danger">02</span></a></li>
-                                <li><a href="{% url 'user:setting' %}"><i class="far fa-gear"></i> Settings</a></li>
-                                <li><a href="#"><i class="far fa-sign-out"></i> Logout</a></li>
-                            </ul>
-                        </div>
+<!-- user add address -->   
+<div class="user-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="user-card">
+                <div class="user-card-header">
+                    <h4 class="user-card-title">Add New Address</h4>
+                    <div class="user-card-header-right">
+                        <button class="addressList theme-btn"><span class="fas fa-arrow-left"></span>Address List</a></button>
                     </div>
-                    <div class="col-lg-9">
-                        <div class="user-wrapper">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="user-card">
-                                        <div class="user-card-header">
-                                            <h4 class="user-card-title">Add New Address</h4>
-                                            <div class="user-card-header-right">
-                                                <a href="address-list.html" class="theme-btn"><span class="fas fa-arrow-left"></span>Address List</a>
-                                            </div>
+                </div>
+                <div class="user-form">
+                    <form action="{% url 'dashboard' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <!-- use this to display input for address in modal-->
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>First Name</label>
+                                    <input type="text" class="form-control" placeholder="First Name"
+                                        name="first_name" id="inputFirstName" required>
+                                    {% if form.errors.first_name %}
+                                    <div class="text-danger">{{ form.errors.first_name }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input type="text" class="form-control" placeholder="Last Name"
+                                        name="last_name"  id="inputLastName" required>
+                                    {% if form.errors.last_name %}
+                                    <div class="text-danger">{{ form.errors.last_name }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" class="form-control" placeholder="Email Address"
+                                        name="email" id="inputEmail" required>
+                                    {% if form.errors.email %}
+                                    <div class="text-danger">{{ form.errors.email }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Phone</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text country-code"
+                                                id="inputGroup-sizing-default">+63</span>
                                         </div>
-                                        <div class="user-form">
-                                            <form action="#">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label>First Name</label>
-                                                            <input type="text" class="form-control" placeholder="First Name">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label>Last Name</label>
-                                                            <input type="text" class="form-control" placeholder="Last Name">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label>Email</label>
-                                                            <input type="text" class="form-control" placeholder="Email Address">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label>Phone</label>
-                                                            <input type="text" class="form-control" placeholder="Phone Number">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label>Address</label>
-                                                            <input type="text" class="form-control" placeholder="Your Full Address">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <button type="submit" class="theme-btn"><span class="far fa-save"></span> Save Address</button>
-                                            </form>
-                                        </div>
+                                        <input type="text" class="form-control" aria-label="Default"
+                                            aria-describedby="inputGroup-sizing-default"
+                                            placeholder="Phone Number" name="phone" required>
                                     </div>
+                                    {% if form.errors.phone %}
+                                    <div class="text-danger">{{ form.errors.phone }}</div>
+                                    {% endif %}
                                 </div>
                             </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label>Address Line 1</label>
+                                    <input type="text" class="form-control" placeholder="Address Line 1"
+                                        name="line1" required>
+                                    {% if form.errors.line1 %}
+                                    <div class="text-danger">{{ form.errors.line1 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label>Address Line 2</label>
+                                    <input type="text" class="form-control" placeholder="Address Line 2"
+                                        name="line2">
+                                    {% if form.errors.line2 %}
+                                    <div class="text-danger">{{ form.errors.line2 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="regionDropdown">Region</label>
+                                    <select class="form-select" id="regionDropdown" name="region" required>
+                                        <option selected>- Select Region -</option>
+                                        <!-- Options will be populated dynamically by jQuery -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="provinceDropdown">Province</label>
+                                    <select class="form-select" id="provinceDropdown" name="province" required>
+                                        <option selected>- Select Province -</option>
+                                        <!-- Options will be populated dynamically by jQuery -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="cityDropdown">City</label>
+                                    <select class="form-select" id="cityDropdown" name="city" required>
+                                        <option selected>- Select City -</option>
+                                        <!-- Options will be populated dynamically by jQuery -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="barangayDropdown">Barangay</label>
+                                    <select class="form-select" id="barangayDropdown" name="barangay" required>
+                                        <option selected>- Barangay -</option>
+                                        <!-- Options will be populated dynamically by jQuery -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12" id="barangayInputBox" style="display: none;">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text">Other</label>
+                                    <input type="text" class="form-control" placeholder="Specify Barangay" name="barangay_input">
+                                </div>
+                            </div>
+                    
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Postal Code</label>
+                                    <input type="text" class="form-control" placeholder="Postal Code"
+                                        name="postcode" required>
+                                    {% if form.errors.postcode %}
+                                    <div class="text-danger">{{ form.errors.postcode }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label>Shipping Notes</label>
+                                    <textarea cols="30" rows="4" class="form-control"
+                                        placeholder="Your Message" name="message"></textarea>
+                                    {% if form.errors.message %}
+                                    <div class="text-danger">{{ form.errors.message }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <a href="{% url 'cart:cart' %}" type="button"
+                                    class="theme-btn theme-btn2"><span
+                                        class="fas fa-arrow-left"></span>Back To Cart</a>
+                                <input type="hidden" name="submit_type" value="shipping">
+                                <button type="submit" id="addUserData" class="theme-btn">Next Step<i
+                                        class="fas fa-arrow-right"></i></button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
-        <!-- user add address end -->
-
-
-{% endblock %}
+    </div>
+</div>
+<!-- user add address end -->

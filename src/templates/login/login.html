@@ -14,6 +14,15 @@
                             <img src="{% static 'img/logo/logo.png' %}" alt="">
                             <p>Login with your TWC account</p>
                         </div>
+                        {% if form.errors %}
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <div id="form_errors">
+                                    {% for key, value in form.errors.items %}
+                                    <strong>{{ value }}</strong>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
                         <form method="POST" action="{% url 'login:login' %}">
                             <div class="form-group">
                                 {% csrf_token %}
@@ -31,7 +40,7 @@
                                         Remember Me
                                     </label>
                                 </div>
-                                <a href="{% url 'login:forgot_password' %}" class="forgot-pass">Forgot Password?</a>
+                                <a href="{% url 'login:password_reset' %}" class="forgot-pass">Forgot Password?</a>
                             </div>
                             <div class="d-flex align-items-center">
                                 <button type="submit" class="theme-btn"><i class="far fa-sign-in"></i> Login</button>

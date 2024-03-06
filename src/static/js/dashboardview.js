@@ -70,6 +70,7 @@ $(document).ready(function () {
                 // Update modal content with the fetched order details
                 console.log("Order details:", data);
                 modal.find(".modal-title").text("Order Details - " + data.order_id);
+                modal.find(".invoice").text(data.order_id);
                 modal.find("#orderDate, #orderMobile").text(data.created_at);
                 modal.find(".orderQuantity").text(data.total_quantity); 
                 modal.find(".orderTotal").text("₱" + data.total_amount); 

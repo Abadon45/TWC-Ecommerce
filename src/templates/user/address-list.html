@@ -6,7 +6,7 @@
                 <div class="user-card-header">
                     <h4 class="user-card-title">Address List</h4>
                     <div class="user-card-header-right">
-                        <a href="add-address.html" class="theme-btn"><span class="far fa-plus-circle"></span>Add Address</a>
+                        <button class="addAddressBtn theme-btn"><span class="far fa-plus-circle"></span>Add Address</button>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -27,7 +27,7 @@
                                 <td>{{ address.phone }}</td>
                                 <td>
                                     <a href="#" class="btn btn-outline-secondary btn-sm rounded-2" data-tooltip="tooltip" title="Edit"><i class="far fa-pen"></i></a>
-                                    <a href="#" class="btn btn-outline-danger btn-sm rounded-2" data-tooltip="tooltip" title="Delete"><i class="far fa-trash-can"></i>{{title}}</a>
+                                    <a href="#" class="btn btn-outline-danger btn-sm rounded-2" data-tooltip="tooltip" title="Delete"><i class="far fa-trash-can"></i></a>
                                 </td>
                             </tr>
                             {% endfor %}

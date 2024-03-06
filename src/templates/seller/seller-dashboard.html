@@ -12,13 +12,22 @@
                     <div class="col-lg-3">
                         <div class="sidebar">
                             <div class="sidebar-top">
-                                <div class="sidebar-profile-img">
-                                    <img src="assets/img/account/user.jpg" alt="">
-                                    <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
-                                    <input type="file" class="profile-img-file">
-                                </div>
-                                <h5>Antoni Jonson</h5>
-                                <p>antoni@example.com</p>
+                                <form method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="sidebar-profile-img">
+                                        {% if user.image %}
+                                            <img src="{{ user.image.url }}" alt="Profile Picture">
+                                        {% else %}
+                                            <img src="{% static 'img/user/default_profile.png' %}" alt="No Image">
+                                        {% endif %}
+                                        <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
+                                        <!-- Input field to select an image file -->
+                                        <input type="file" name="image" accept="image/*" class="profile-img-file">
+                                        <button type="submit" class="profile-img-btn"><i class="far fa-camera"></i></button>
+                                    </div>
+                                </form>
+                                <h5>{{user.first_name}} {{ user.last_name }}</h5>
+                                <p>{{user.email}}</p>
                             </div>
                             <ul class="sidebar-list">
                                 <li><a class="nav__link active"><i class="far fa-gauge-high"></i> Dashboard</a></li>

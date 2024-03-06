@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import password_validation
 
 User = get_user_model()
 
@@ -25,3 +27,19 @@ class CustomUserCreationForm(UserCreationForm):
         if len(password1) < 8:
             raise ValidationError("Password must be at least 8 characters long.")
         return password1
+    
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username','first_name', 'last_name', 'email', 'mobile', 'image']
+        
+class ProfilePictureForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['image']
+        
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    class Meta:
+        model = User
+        fields = ['old_password', 'new_password1', 'new_password2'] 

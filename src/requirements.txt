@@ -10,3 +10,4 @@ postgresql
 django-hosts
 boto3
 django-ses
+sendgrid

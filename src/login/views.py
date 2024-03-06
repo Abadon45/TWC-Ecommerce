@@ -1,17 +1,27 @@
-from django.views.generic import TemplateView, FormView
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_text
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.utils.crypto import get_random_string
+from django.views.generic import FormView, TemplateView
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth.views import PasswordResetView, PasswordResetCompleteView, PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.utils.encoding import force_bytes
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
-from django.db import transaction
-from django.db import IntegrityError
+from django.db import transaction, IntegrityError
+from django.core.mail import send_mail
+from django.conf import settings
+from django.shortcuts import render, redirect
+
 
 from billing.models import Customer
 from orders.models import Order
 from user.utils import get_or_create_customer
 from user.models import UserManager
 
-from user.forms import CustomUserCreationForm
+from user.forms import CustomUserCreationForm, CustomPasswordChangeForm
 
 User = get_user_model()
 
@@ -76,7 +86,28 @@ class EcomLoginView(BaseLoginView):
         messages.error(self.request, 'Invalid username or password')
         return self.render_to_response(self.get_context_data(form=form))
 
-class ForgotPasswordView(TemplateView):
-    title="Forgot Password"
-    template_name = 'login/forgot-password.html'
-
+class ForgotPasswordView(SuccessMessageMixin, PasswordResetView):
+    title = "Password Reset"
+    template_name = 'login/password-reset.html'
+    email_template_name = 'login/password-reset-email.html'
+    subject_template_name = 'login/password-reset-subject.html'
+    success_message = "We've emailed you instructions for setting your password, " \
+                    "if an account exists with the email you entered. You should receive them shortly." \
+                    " If you don't receive an email, " \
+                    "please make sure you've entered the address you registered with, and check your spam folder."
+                    
+    from_email= settings.EMAIL_MAIN
+    success_url = reverse_lazy('home_view')
+    
+class PasswordResetComplete(PasswordResetCompleteView):
+    template_name = "login/password-reset-complete.html"
+    title = "Password Reset Complete"
+    
+class ChangePasswordView(PasswordChangeView):
+    template_name = 'login/change-password.html'
+    form_class = CustomPasswordChangeForm
+    success_url = reverse_lazy('login:password_done')
+    
+class PasswordDoneView(TemplateView):
+    template_name = 'login/change-password-done.html'
+    
