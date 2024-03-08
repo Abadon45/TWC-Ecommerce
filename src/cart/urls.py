@@ -8,9 +8,8 @@ urlpatterns = [
     path('', CartView.as_view(), name='cart'),
     path('update-item/', updateItem, name='update_item'),
     path('checkout/', checkout, name='checkout'),
+    path('get-selected-address/', get_selected_address, name='get_selected_address'),
     path('checkout/complete/', checkout_done_view, name='checkout_complete'),
-    
-    
 ]
 
 if settings.DEBUG:

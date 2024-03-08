@@ -7,6 +7,7 @@
     const checkoutUrl = "{% url 'cart:checkout' %}";
     const checkoutCompleteUrl = "{% url 'cart:checkout_complete' %}";
     const registerURL = "{% url 'login:register' %}";
+    const selectedAddressUrl = "{% url 'cart:get_selected_address' %}";
     var csrf = "{{ csrf_token }}";
 </script>
 

@@ -34,41 +34,50 @@ $(document).ready(function () {
     });
 
     // =======================================================//
-    // -------- Change Address Using HTMX --------//
+    // -------- Change Address  --------//
     // =======================================================//
 
-    $('#changeAddressModal').on('change', 'input[name="addressChoice"]', function(event) {
-        const selectedAddressRadio = $(this);
-        const addressDetails = selectedAddressRadio.closest('[data-address-details]');
-    
-        // Input Extraction
-        const name = addressDetails.find('[data-name]').text();
-        const addressLine = addressDetails.find('[data-address-line]').text();
-    
-        //  Loading State (Assume you have this element somewhere in your form)
-        let $selectButton = $(event.target).closest('.select-address-btn'); // If you have one 
-        $selectButton.prop('disabled', true); 
-
-        // Create a simple loading message next to the select button
-        $selectButton.after('<span id="temp-loading">Updating...</span>'); 
-    
-        // Send data to backend 
+    $(".changeAddressBtn").click(function() {
+        var selectedAddressId = $("input[name='addressChoice']:checked").data('address-id');
+        console.log(selectedAddressId);
         $.ajax({
-            url: '/update_selected_address/',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ name: name, addressLine: addressLine }),
-            success: function(response) {
-                // Update checkout form using HTMX
-                hx.post('/refresh_checkout_address', { trigger: 'change' }); 
+            type: 'GET',
+            url: selectedAddressUrl,
+            data: {
+                selected_address_id: selectedAddressId
             },
-            error: function(xhr, status, error) {
-                console.error("Address update failed:", error); 
-                alert("There was an error updating the address. Please try again."); 
+            success: function(response) {
+                // Handle success response
+                console.log('Address selection successful');
+                $('#changeAddressModal').modal('hide');
+
+                $('.selected_address').html('<b>' + response.address.first_name + ' ' + 
+                response.address.last_name + ' ' + response.address.phone + '</b>');
+
+                $('.address_details').html(response.address.line1 + ' Brgy. ' + 
+                response.address.barangay + ', ' + response.address.city + ', ' + 
+                response.address.province + ', ' + response.address.postcode);
+
+                if (!response.address.is_default) {
+                    $('.is_default').css({
+                        'border-color': 'black',
+                        'color': 'black'
+                    });
+                } else {
+                    $('.is_default').css({
+                        'border-color': 'orange',
+                        'color': 'orange'
+                    });
+                }
+
+                $('.is_default').text(response.address.is_default ? 'Default' : 'Pickup');
+                
+
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                // Handle error
+                console.error('Error selecting address:', errorThrown);
             }
-        }).always(function() {
-            $selectButton.prop('disabled', false); // Re-enable button
-            $('#temp-loading').remove(); // Remove temporary loading text 
         });
     });
 
@@ -78,7 +87,7 @@ $(document).ready(function () {
     // =======================================================//
     function createAddressElement(addressData) {
         const addressHTML = `
-          <div class="col-lg-1"><input type="radio" name="addressChoice" id="defaultAddress"></div>
+          <div class="col-lg-1"><input type="radio" name="addressChoice" data-address-id="${addressData.id }"></div>
           <div class="col-lg-9">
             <p><b>${addressData.firstName} ${addressData.lastName} ${addressData.phone}</b></p>
             <div class="change-address row mb-20">

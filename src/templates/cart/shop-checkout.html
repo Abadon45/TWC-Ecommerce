@@ -38,23 +38,21 @@
                                         {% if default_address %}
                                         <h6 class="mb-2"><i class="fa-solid fa-location-dot"></i> Delivery Address:</h6>
 
-                                        <!-- load htmx -->
-
-                                        <!-- end htmx -->
-
-                                        <p><b>{{default_address.first_name}} {{default_address.last_name}}
+                                        <p class="selected_address"><b>{{default_address.first_name}} {{default_address.last_name}}
                                                 {{default_address.phone}}</b></p>
                                         <div class="change-address row mb-20">
                                             <div class="col-lg-10">
-                                                <p>{{ default_address.line1 }} Brgy. {{ default_address.barangay }}, 
+                                                <p class="address_details">{{ default_address.line1 }} Brgy. {{ default_address.barangay }}, 
                                                     {{ default_address.city }}, {{ default_address.province }}, 
                                                     {{ default_address.postcode }} </p>
                                             </div>
-                                            <div class="col-lg-2">
-                                                <span>Default</span>
+                                            <div class="col-lg-2 d-flex justify-content-end">
+                                                <span class="is_default">Default</span>
                                             </div>
-                                            <div class="col-lg-1">
-                                                <button type="button" class="change-address-btn">Change</button>
+                                            <div class="row">
+                                                <div class="col-lg-1">
+                                                    <button type="button" class="change-address-btn">Change</button>
+                                                </div>
                                             </div>
                                             <!-- Change / Add Address Modal -->
                                             {% include 'cart/change-address-modal.html' %}
@@ -221,8 +219,8 @@
                     <div class="shop-cart-summary mt-lg-0">
                         <h5>Cart Summary</h5>
                         <ul>
-                            <li><strong>Order ID:</strong> <span>{{ order.order_id|default:order_id }}</span></li>
-                            <li><strong>Sub Total:</strong> <span>₱ {{ order.get_cart_items|default:subtotal }}</span></li>
+                            <li><strong>Order ID:</strong><span>{{ order.order_id|default:order_id }}</span></li>
+                            <li><strong>Sub Total:</strong><span>₱ {{ order.get_cart_items|default:subtotal }}</span></li>
                             
                             {% if discount %}
                                 <li><strong>Discount:</strong>{{ discount }}</li>

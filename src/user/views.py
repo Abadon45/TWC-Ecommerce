@@ -97,7 +97,7 @@ def get_address_details(request):
         address_id = request.GET.get('address_id')
         try:
             address = Address.objects.get(pk=address_id)
-            # Serialize address data as needed
+            
             address_data = {
                 'first_name': address.first_name,
                 'last_name': address.last_name,

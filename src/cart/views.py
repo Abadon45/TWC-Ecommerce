@@ -136,6 +136,7 @@ def checkout(request):
     order = Order()
     is_authenticated = False
     default_address = ""
+    selected_address = ""
     ordered_items = []
     order_dict = []
     order_id = ""
@@ -200,7 +201,6 @@ def checkout(request):
                     
                     
                     if not Address.objects.filter(customer=customer, is_default=True).exists():
-                        # If not, set the new address as the default
                         shipping_address.is_default = True
                         shipping_address.save()
                     
@@ -292,7 +292,8 @@ def checkout(request):
             else:
                 customer = create_or_get_guest_user(request) 
                 return redirect('cart:cart')
-            
+
+                
         if request.is_ajax():
             response_data = {
                 'isAuthenticated': is_authenticated,
@@ -309,7 +310,7 @@ def checkout(request):
             return JsonResponse(response_data)
         else:
             context = {
-                'order_id': order_id,
+                # 'order_id': order_id,
                 'order': order_dict,
                 'shipping_form': shipping_form,
                 'is_authenticated': is_authenticated,
@@ -324,7 +325,55 @@ def checkout(request):
     except Exception as e:
         print(f"Exception in checkout view: {e}")
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
+ 
+#########################################################  
+#----------Change address from list of addresses--------#
+######################################################### 
+def get_selected_address(request):
+    print("Incoming GET request to 'get-selected-address'")
+    if request.method != 'GET':
+        return JsonResponse({'success': False, 'error': 'Invalid request method.'})
+
+    selected_address_id = request.GET.get('selected_address_id')
+    print(f"selected address: {selected_address_id}")
+    if not selected_address_id:
+        return JsonResponse({'success': False, 'error': 'Missing address ID.'})
+
+    try:
+        selected_address = get_object_or_404(Address, pk=selected_address_id)
+        print(selected_address.barangay)
+    except Http404:
+        return JsonResponse({'success': False, 'error': 'Address not found.'})
     
+    try:
+        user=request.user
+        customer = get_object_or_404(Customer, user=user)
+        order, order_created = Order.objects.get_or_create(customer=customer, complete=False)
+        
+        order.shipping_address = selected_address
+        order.save()
+    except Exception as e:
+        print(f"Exception in checkout view: {e}")
+        return JsonResponse({'error': 'Internal Server Error'}, status=500)
+            
+    address_data = {
+        'first_name': selected_address.first_name,
+        'last_name': selected_address.last_name,
+        'email': selected_address.email, 
+        'phone': selected_address.phone,
+        'region': selected_address.region,
+        'province': selected_address.province,
+        'city': selected_address.city,
+        'barangay': selected_address.barangay,
+        'line1': selected_address.line1,
+        'line2': selected_address.line2,
+        'postcode': selected_address.postcode,
+        'message': selected_address.message,
+        'is_default': selected_address.is_default, 
+    }     
+    
+    return JsonResponse({'success': True, 'address': address_data})
+
 
 def checkout_done_view(request):  
     username = ""
