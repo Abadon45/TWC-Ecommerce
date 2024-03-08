@@ -154,32 +154,32 @@ $(document).ready(function () {
     // =======================================================//
     // -------- Populate regions on page load --------//
     // =======================================================//
-    populateDropdown("#regionDropdown", Philippines.regions);
+    populateDropdown(".regionDropdown", Philippines.regions);
 
     // Handle region selection
-    $("#regionDropdown").change(function () {
+    $(".regionDropdown").change(function () {
         selectedRegionCode = $(this).find(":selected").data("code");
         console.log("Selected Region Code: " + selectedRegionCode);
         var provincesInRegion = Philippines.provinces.filter(function (province) {
             return province.reg_code === selectedRegionCode;
         });
-        populateDropdown("#provinceDropdown", provincesInRegion);
-        $("#cityDropdown, #barangayDropdown").empty(); // Clear other dropdowns
+        populateDropdown(".provinceDropdown", provincesInRegion);
+        $(".cityDropdown, .barangayDropdown").empty(); // Clear other dropdowns
     });
 
     // Handle province selection
-    $("#provinceDropdown").change(function () {
+    $(".provinceDropdown").change(function () {
         var selectedProvinceCode = $(this).find("option:selected").data("code");
         console.log("Selected Province Code: " + selectedProvinceCode);
         var municipalitiesInProvince = Philippines.city_mun.filter(function (municipality) {
             return municipality.prov_code === selectedProvinceCode;
         });
-        populateDropdown("#cityDropdown", municipalitiesInProvince);
-        $("#barangayDropdown").empty(); // Clear barangay dropdown
+        populateDropdown(".cityDropdown", municipalitiesInProvince);
+        $(".barangayDropdown").empty(); // Clear barangay dropdown
     });
 
     // Handle municipality selection
-    $("#cityDropdown").change(function () {
+    $(".cityDropdown").change(function () {
         var selectedMunicipalityCode = $(this).find(":selected").data("code");
         console.log("Selected Municipality Code: " + selectedMunicipalityCode);
     
@@ -190,20 +190,20 @@ $(document).ready(function () {
         
         barangaysInMunicipality.push({ name: "Other (Specify Barangay)", mun_code: "" });
 
-        populateDropdown("#barangayDropdown", barangaysInMunicipality);
+        populateDropdown(".barangayDropdown", barangaysInMunicipality);
 
 
-        $("#barangayDropdown").change(function () {
+        $(".barangayDropdown").change(function () {
             var selectedOption = $(this).val();
-            $("#barangayInputBox").toggle(selectedOption === "Other (Specify Barangay)");
+            $(".barangayInputBox").toggle(selectedOption === "Other (Specify Barangay)");
             if (selectedOption === 'Other (Specify Barangay)') {
-                $('#barangayDropdown').attr('name', 'barangay_input');
-                $('#barangayInputBox input').attr('name', 'barangay');
-                $('#barangayInputBox input').prop('required', true);
+                $('.barangayDropdown').attr('name', 'barangay_input');
+                $('.barangayInputBox input').attr('name', 'barangay');
+                $('.barangayInputBox input').prop('required', true);
             } else {
-                $('#barangayDropdown').attr('name', 'barangay');
-                $('#barangayInputBox input').attr('name', 'barangay_input');
-                $('#barangayInputBox input').removeAttr('required');
+                $('.barangayDropdown').attr('name', 'barangay');
+                $('.barangayInputBox input').attr('name', 'barangay_input');
+                $('.barangayInputBox input').removeAttr('required');
             }
         });
     });

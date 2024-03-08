@@ -12,6 +12,7 @@ from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadReque
 from django.conf import settings
 from django.views.decorators.cache import cache_page
 from user.forms import ProfileForm, ProfilePictureForm
+from addresses.forms import AddressForm
 from django.db.models import Sum, Q
 
 
@@ -48,6 +49,87 @@ def get_order_details(request):
             return HttpResponseBadRequest("Order ID is required")
     else:
         return HttpResponseBadRequest("Only GET method is allowed")
+    
+    
+def update_address(request):
+    if request.method == 'POST':
+        # Retrieve data from POST request
+        address_id = request.POST.get('address_id')
+        
+        new_data = {
+            'first_name': request.POST.get('first_name'),
+            'last_name': request.POST.get('last_name'),
+            'email': request.POST.get('email'),
+            'phone': request.POST.get('phone'),
+            'region': request.POST.get('region'),
+            'province': request.POST.get('province'),
+            'city': request.POST.get('city'),
+            'barangay': request.POST.get('barangay'),
+            'line1': request.POST.get('line1'),
+            'line2': request.POST.get('line2'),
+            'postcode': request.POST.get('postcode'),
+            'message': request.POST.get('message'),
+        }
+        
+        print("Address ID:", address_id)
+        print("New Data:", new_data)
+
+        # Update the address
+        try:
+            address = Address.objects.get(pk=address_id)
+            print("Existing Address:", address)
+            
+            for key, value in new_data.items():
+                setattr(address, key, value)
+            address.save()
+            print("Address Updated Successfully")
+            return JsonResponse({'success': True, 'address_id': address_id, 'new_data': new_data})
+        except Address.DoesNotExist:
+            print("Address not found")
+            return JsonResponse({'success': False, 'error': 'Address not found'})
+    else:
+        print("Invalid request method")
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+    
+    
+def get_address_details(request):
+    if request.method == 'GET':
+        address_id = request.GET.get('address_id')
+        try:
+            address = Address.objects.get(pk=address_id)
+            # Serialize address data as needed
+            address_data = {
+                'first_name': address.first_name,
+                'last_name': address.last_name,
+                'email': address.email, 
+                'phone': address.phone,
+                'region': address.region,
+                'province': address.province,
+                'city': address.city,
+                'barangay': address.barangay,
+                'line1': address.line1,
+                'line2': address.line2,
+                'postcode': address.postcode,
+                'message': address.message,
+            }
+            return JsonResponse({'success': True, 'address': address_data})
+        except Address.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Address not found'})
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+
+def delete_address(request):
+    if request.method == "POST" and request.is_ajax():
+        address_id = request.POST.get("address_id")
+        try:
+            address = Address.objects.get(id=address_id)
+            address.delete()
+            return JsonResponse({"message": "Address deleted successfully."}, status=200)
+        except Address.DoesNotExist:
+            return JsonResponse({"error": "Address not found."}, status=404)
+    else:
+        return JsonResponse({"error": "Invalid request."}, status=400)
 
 
 class DashboardView(TemplateView):
@@ -58,7 +140,7 @@ class DashboardView(TemplateView):
         context = super().get_context_data(**kwargs)
         customer = ""
         order = ""
-
+        
         if self.request.user.is_authenticated:
             customer, created = Customer.get_or_create_customer(self.request.user, self.request)
             order = Order.objects.filter(customer=customer, complete=True)
@@ -86,12 +168,22 @@ class DashboardView(TemplateView):
     def post(self, request, *args, **kwargs):
         current_user = User.objects.get(id=request.user.id) 
         profile_form = ProfileForm(request.POST, request.FILES, instance=current_user)
+        address_form = AddressForm(request.POST)
+        
+        if address_form.is_valid():
+            address = address_form.save(commit=False)
+            address.customer = request.user.customer
+            address.save()
+            return HttpResponseRedirect(reverse('dashboard'))
+        else:
+            print("Address form is invalid.")
+            print("Address form is invalid:", address_form.errors)
         
         if profile_form.is_valid():
             profile_form.save()      
             return HttpResponseRedirect(reverse('dashboard'))
         else:
-            print("Profile form or Image form is invalid.")
+            print("Profile form is invalid.")
             print("Profile form errors:", profile_form.errors)
 
         return self.render_to_response(self.get_context_data())

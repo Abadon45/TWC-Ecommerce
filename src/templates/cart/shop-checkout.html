@@ -222,7 +222,7 @@
                         <h5>Cart Summary</h5>
                         <ul>
                             <li><strong>Order ID:</strong> <span>{{ order.order_id|default:order_id }}</span></li>
-                            <li><strong>Sub Total:</strong> <span>{{ order.get_cart_items|default:subtotal }}</span></li>
+                            <li><strong>Sub Total:</strong> <span>₱ {{ order.get_cart_items|default:subtotal }}</span></li>
                             
                             {% if discount %}
                                 <li><strong>Discount:</strong>{{ discount }}</li>
@@ -237,7 +237,7 @@
                                     {% endif %}
                                 </span>
                             </li>
-                            <li class="shop-cart-total"><strong>Total:</strong> <span>{{ total }}</span></li>
+                            <li class="shop-cart-total"><strong>Total:</strong> <span>₱ {{ total }}</span></li>
                         </ul>
                         <div class="text-end mt-40 checkoutBtn">
                             <form class="form" method="POST" action="">

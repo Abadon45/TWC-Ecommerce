@@ -223,7 +223,7 @@ def checkout(request):
                                 temporary_user, user_created = User.objects.get_or_create(username=temporary_username)
                                 if user_created:
                                     print(f"User created: {user_created}")
-                                    temporary_password = User.objects.make_random_password()
+                                    temporary_password = User.objects.make_random_password(length=6)
                                     
                                     if referrer_id:
                                         try:

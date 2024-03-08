@@ -19,8 +19,8 @@ class CustomUserCreationForm(UserCreationForm):
         
     def clean_password1(self):
         password1 = self.cleaned_data.get('password1')
-        if len(password1) < 8:
-            raise ValidationError("Password must be at least 8 characters long.")
+        if len(password1) < 6:
+            raise ValidationError("Password must be at least 6 characters long.")
         return password1
     
     def clean(self):

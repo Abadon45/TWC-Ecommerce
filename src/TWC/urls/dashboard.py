@@ -32,6 +32,9 @@ urlpatterns = [
     path('products/', include('products.urls')),
     path('admin/', RedirectView.as_view(url=f'http://admin.{settings.SITE_DOMAIN}{port}/'), name='admin'),
     path('seller/', SellerDashboardView.as_view(), name='seller_dashboard'),
+    path('delete-address/', delete_address, name='delete_address'),
+    path('update-address/', update_address, name='update_address'),
+    path('get-address-details/', get_address_details, name='get_address_details'),
     path('get_order_details/', get_order_details, name='get_order_details'),
     path('shop/<int:referrer_id>/', RegisterGuestView.as_view(), name='register_guest'),
     

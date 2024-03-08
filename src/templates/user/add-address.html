@@ -7,19 +7,18 @@
                 <div class="user-card-header">
                     <h4 class="user-card-title">Add New Address</h4>
                     <div class="user-card-header-right">
-                        <button class="addressList theme-btn"><span class="fas fa-arrow-left"></span>Address List</a></button>
+                        <button class="addressListBtn theme-btn"><span class="fas fa-arrow-left"></span>Address List</a></button>
                     </div>
                 </div>
                 <div class="user-form">
                     <form action="{% url 'dashboard' %}" method="POST">
                         {% csrf_token %}
                         <div class="row">
-                            <!-- use this to display input for address in modal-->
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>First Name</label>
-                                    <input type="text" class="form-control" placeholder="First Name"
-                                        name="first_name" id="inputFirstName" required>
+                                    <input type="text" class="form-control inputFirstName" placeholder="First Name"
+                                        name="first_name" required>
                                     {% if form.errors.first_name %}
                                     <div class="text-danger">{{ form.errors.first_name }}</div>
                                     {% endif %}
@@ -28,8 +27,8 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Last Name</label>
-                                    <input type="text" class="form-control" placeholder="Last Name"
-                                        name="last_name"  id="inputLastName" required>
+                                    <input type="text" class="form-control inputLastName" placeholder="Last Name"
+                                        name="last_name" required>
                                     {% if form.errors.last_name %}
                                     <div class="text-danger">{{ form.errors.last_name }}</div>
                                     {% endif %}
@@ -38,8 +37,8 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="email" class="form-control" placeholder="Email Address"
-                                        name="email" id="inputEmail" required>
+                                    <input type="email" class="form-control inputEmail" placeholder="Email Address"
+                                        name="email" required>
                                     {% if form.errors.email %}
                                     <div class="text-danger">{{ form.errors.email }}</div>
                                     {% endif %}
@@ -53,7 +52,7 @@
                                             <span class="input-group-text country-code"
                                                 id="inputGroup-sizing-default">+63</span>
                                         </div>
-                                        <input type="text" class="form-control" aria-label="Default"
+                                        <input type="text" class="form-control inputEmail" aria-label="Default"
                                             aria-describedby="inputGroup-sizing-default"
                                             placeholder="Phone Number" name="phone" required>
                                     </div>
@@ -65,7 +64,7 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label>Address Line 1</label>
-                                    <input type="text" class="form-control" placeholder="Address Line 1"
+                                    <input type="text" class="form-control inputLine1" placeholder="Address Line 1"
                                         name="line1" required>
                                     {% if form.errors.line1 %}
                                     <div class="text-danger">{{ form.errors.line1 }}</div>
@@ -75,7 +74,7 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label>Address Line 2</label>
-                                    <input type="text" class="form-control" placeholder="Address Line 2"
+                                    <input type="text" class="form-control inputLine2" placeholder="Address Line 2"
                                         name="line2">
                                     {% if form.errors.line2 %}
                                     <div class="text-danger">{{ form.errors.line2 }}</div>
@@ -85,7 +84,7 @@
                             <div class="col-lg-12">
                                 <div class="input-group mb-3">
                                     <label class="input-group-text" for="regionDropdown">Region</label>
-                                    <select class="form-select" id="regionDropdown" name="region" required>
+                                    <select class="form-select regionDropdown" name="region" required>
                                         <option selected>- Select Region -</option>
                                         <!-- Options will be populated dynamically by jQuery -->
                                     </select>
@@ -94,7 +93,7 @@
                             <div class="col-lg-12">
                                 <div class="input-group mb-3">
                                     <label class="input-group-text" for="provinceDropdown">Province</label>
-                                    <select class="form-select" id="provinceDropdown" name="province" required>
+                                    <select class="form-select provinceDropdown" name="province" required>
                                         <option selected>- Select Province -</option>
                                         <!-- Options will be populated dynamically by jQuery -->
                                     </select>
@@ -103,7 +102,7 @@
                             <div class="col-lg-12">
                                 <div class="input-group mb-3">
                                     <label class="input-group-text" for="cityDropdown">City</label>
-                                    <select class="form-select" id="cityDropdown" name="city" required>
+                                    <select class="form-select cityDropdown" name="city" required>
                                         <option selected>- Select City -</option>
                                         <!-- Options will be populated dynamically by jQuery -->
                                     </select>
@@ -112,14 +111,14 @@
                             <div class="col-lg-12">
                                 <div class="input-group mb-3">
                                     <label class="input-group-text" for="barangayDropdown">Barangay</label>
-                                    <select class="form-select" id="barangayDropdown" name="barangay" required>
+                                    <select class="form-select barangayDropdown" name="barangay" required>
                                         <option selected>- Barangay -</option>
                                         <!-- Options will be populated dynamically by jQuery -->
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-12" id="barangayInputBox" style="display: none;">
-                                <div class="input-group mb-3">
+                            <div class="col-lg-12 barangayInputBox" style="display: none;">
+                                <div class="input-group mb-3 ">
                                     <label class="input-group-text">Other</label>
                                     <input type="text" class="form-control" placeholder="Specify Barangay" name="barangay_input">
                                 </div>
@@ -128,8 +127,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Postal Code</label>
-                                    <input type="text" class="form-control" placeholder="Postal Code"
-                                        name="postcode" required>
+                                    <input type="text" class="form-control inputPostcode" placeholder="Postcode" name="postcode" required>
                                     {% if form.errors.postcode %}
                                     <div class="text-danger">{{ form.errors.postcode }}</div>
                                     {% endif %}
@@ -146,12 +144,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <a href="{% url 'cart:cart' %}" type="button"
-                                    class="theme-btn theme-btn2"><span
-                                        class="fas fa-arrow-left"></span>Back To Cart</a>
-                                <input type="hidden" name="submit_type" value="shipping">
-                                <button type="submit" id="addUserData" class="theme-btn">Next Step<i
-                                        class="fas fa-arrow-right"></i></button>
+                                <button type="submit" id="addUserData" class="theme-btn">Add Address</button>
                             </div>
                         </div>
                     </form>

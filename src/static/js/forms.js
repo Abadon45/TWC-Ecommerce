@@ -77,12 +77,12 @@ $(document).ready(function () {
 
   // Function to update userDetails object
   function prepareUserData() {
-    userDetails.first_name = $("#inputFirstName").val().charAt(0);
-    userDetails.last_name = $("#inputLastName").val();
-    userDetails.email = $("#inputEmail").val();
+    userDetails.first_name = $(".inputFirstName").val().charAt(0);
+    userDetails.last_name = $(".inputLastName").val();
+    userDetails.email = $(".inputEmail").val();
 
     userName =
-      userDetails.first_name + userDetails.last_name + generateRandomString(4);
+      userDetails.first_name + userDetails.last_name + generateRandomString(3);
     userEmail = userDetails.email;
 
     console.log("User Details:", userDetails);
