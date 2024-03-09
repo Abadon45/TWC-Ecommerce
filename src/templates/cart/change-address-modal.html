@@ -16,12 +16,12 @@
                         <p class="address-name" data-name><b>{{default_address.first_name}} {{default_address.last_name}} {{default_address.phone}}</b></p>
                         <div class="change-address row mb-20">
                             <div class="col-lg-10">
-                                <p data-address-line>{{ default_address.line1 }} Brgy. {{ default_address.barangay }}, {{ default_address.city }}, {{ default_address.province }}, {{ default_address.postcode }} </p>
+                                <p class="address-line" data-address-line>{{ default_address.line1 }} Brgy. {{ default_address.barangay }}, {{ default_address.city }}, {{ default_address.province }}, {{ default_address.postcode }} </p>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-2">
-                        <a href="#">Edit</a>
+                        <!-- <a href="#">Edit</a> -->
                     </div>
                     <div class="col-lg-2">
                         <span>Default</span>
@@ -31,16 +31,19 @@
                         <div class="col-lg-1">
                             <input type="radio" name="addressChoice" data-address-id="{{ address.id }}">
                         </div> 
-                        <div class="col-lg-9">
+                        <div id="address-{{ address.id }}" class="col-lg-9">
                             <p class="address-name" data-name><b>{{ address.first_name }} {{ address.last_name }} {{ address.phone }}</b></p> 
                             <div class="change-address row mb-20">
                                 <div class="col-lg-10">
-                                    <p data-address-line>{{ address.line1 }} Brgy. {{ address.barangay }}, {{ address.city }}, {{ address.province }}, {{ address.postcode }} </p> 
+                                    <p class="address-line" data-address-line>{{ address.line1 }} Brgy. {{ address.barangay }}, {{ address.city }}, {{ address.province }}, {{ address.postcode }} </p> 
                                 </div>
                             </div>
                         </div> 
                         <div class="col-lg-2">
-                            <a href="#">Edit</a>
+                            <a href="#" id="editAddressBtn" class="edit-checkout-address" 
+                                data-tooltip="tooltip" 
+                                title="Edit" 
+                                data-address-id="{{ address.id }}">Edit</a>
                         </div>
                         <hr class="mt-2 mb-3"> 
                     {% endfor %}

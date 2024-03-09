@@ -53,7 +53,6 @@ def get_order_details(request):
     
 def update_address(request):
     if request.method == 'POST':
-        # Retrieve data from POST request
         address_id = request.POST.get('address_id')
         
         new_data = {

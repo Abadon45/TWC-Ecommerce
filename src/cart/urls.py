@@ -9,6 +9,8 @@ urlpatterns = [
     path('update-item/', updateItem, name='update_item'),
     path('checkout/', checkout, name='checkout'),
     path('get-selected-address/', get_selected_address, name='get_selected_address'),
+    path('edit-address/', edit_checkout_address, name='edit_checkout_address'),
+    path('get-checkout-address-details/', get_checkout_address_details, name='get_checkout_address_details'),
     path('checkout/complete/', checkout_done_view, name='checkout_complete'),
 ]
 

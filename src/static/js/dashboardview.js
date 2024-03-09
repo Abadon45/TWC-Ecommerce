@@ -211,14 +211,14 @@ $(document).ready(function () {
       },
       success: function (response) {
         // Populate the form fields in the modal with the retrieved address details
-        $("#inputFirstName").val(response.address.first_name);
-        $("#inputLastName").val(response.address.last_name);
-        $("#inputEmail").val(response.address.email);
-        $("#inputPhone").val(response.address.phone);
-        $("#inputLine1").val(response.address.line1);
-        $("#inputLine2").val(response.address.line2);
-        $("#inputPostcode").val(response.address.postcode);
-        $("#inputMessage").val(response.address.message);
+        $(".inputFirstName").val(response.address.first_name);
+        $(".inputLastName").val(response.address.last_name);
+        $(".inputEmail").val(response.address.email);
+        $(".inputPhone").val(response.address.phone);
+        $(".inputLine1").val(response.address.line1);
+        $(".inputLine2").val(response.address.line2);
+        $(".inputPostcode").val(response.address.postcode);
+        $(".inputMessage").val(response.address.message);
 
         updateSelectValueAndTriggerChange(
           ".regionDropdown",
@@ -240,7 +240,9 @@ $(document).ready(function () {
         spinner.removeClass("visible");
         backdrop.removeClass("visible");
 
+        $("#changeAddressModal").modal("hide")
         $("#editAddressModal").modal("show");
+
       },
       error: function (xhr, textStatus, errorThrown) {
         console.log("Error:", errorThrown);

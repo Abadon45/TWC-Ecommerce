@@ -375,6 +375,81 @@ def get_selected_address(request):
     return JsonResponse({'success': True, 'address': address_data})
 
 
+#########################################################  
+#-------Edit an address from the list of addresses------#
+######################################################### 
+
+def edit_checkout_address(request):
+    if request.method == 'POST':
+        address_id = request.POST.get('address_id')
+        
+        new_data = {
+            'first_name': request.POST.get('first_name'),
+            'last_name': request.POST.get('last_name'),
+            'email': request.POST.get('email'),
+            'phone': request.POST.get('phone'),
+            'region': request.POST.get('region'),
+            'province': request.POST.get('province'),
+            'city': request.POST.get('city'),
+            'barangay': request.POST.get('barangay'),
+            'line1': request.POST.get('line1'),
+            'line2': request.POST.get('line2'),
+            'postcode': request.POST.get('postcode'),
+            'message': request.POST.get('message'),
+        }
+        
+        print("Address ID:", address_id)
+        print("New Data:", new_data)
+
+        # Update the address
+        try:
+            address = Address.objects.get(pk=address_id)
+            print("Existing Address:", address)
+            
+            for key, value in new_data.items():
+                setattr(address, key, value)
+            address.save()
+            print("Address Updated Successfully")
+            return JsonResponse({'success': True, 'address_id': address_id, 'new_data': new_data})
+        except Address.DoesNotExist:
+            print("Address not found")
+            return JsonResponse({'success': False, 'error': 'Address not found'})
+    else:
+        print("Invalid request method")
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+    
+def get_checkout_address_details(request):
+    if request.method == 'GET':
+        address_id = request.GET.get('address_id')
+        try:
+            address = Address.objects.get(pk=address_id)
+            
+            address_data = {
+                'address_id': address_id,
+                'first_name': address.first_name,
+                'last_name': address.last_name,
+                'email': address.email, 
+                'phone': address.phone,
+                'region': address.region,
+                'province': address.province,
+                'city': address.city,
+                'barangay': address.barangay,
+                'line1': address.line1,
+                'line2': address.line2,
+                'postcode': address.postcode,
+                'message': address.message,
+            }
+            return JsonResponse({'success': True, 'address': address_data})
+        except Address.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Address not found'})
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+
+#########################################################  
+#------------------checkout is done---------------------#
+######################################################### 
+
 def checkout_done_view(request):  
     username = ""
     email = ""
