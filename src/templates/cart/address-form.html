@@ -6,8 +6,8 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <label>First Name</label>
-                <input type="text" class="form-control" placeholder="First Name"
-                    name="first_name inputFirstName" required>
+                <input type="text" class="form-control inputFirstName" placeholder="First Name"
+                    name="first_name" required>
                 {% if form.errors.first_name %}
                 <div class="text-danger">{{ form.errors.first_name }}</div>
                 {% endif %}
@@ -26,8 +26,8 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <label>Email</label>
-                <input type="email" class="form-control" placeholder="Email Address"
-                    name="email inputEmail" required>
+                <input type="email" class="form-control inputEmail" placeholder="Email Address"
+                    name="email" required>
                 {% if form.errors.email %}
                 <div class="text-danger">{{ form.errors.email }}</div>
                 {% endif %}

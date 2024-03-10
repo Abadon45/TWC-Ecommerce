@@ -81,8 +81,7 @@ $(document).ready(function () {
     userDetails.last_name = $(".inputLastName").val();
     userDetails.email = $(".inputEmail").val();
 
-    userName =
-      userDetails.first_name + userDetails.last_name + generateRandomString(3);
+    userName = userDetails.first_name + userDetails.last_name + generateRandomString(3);
     userEmail = userDetails.email;
 
     console.log("User Details:", userDetails);

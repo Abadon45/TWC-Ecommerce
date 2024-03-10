@@ -247,7 +247,7 @@ def checkout(request):
                                     temporary_user.set_password(temporary_password)
                                     temporary_user.first_name = shipping_address.first_name
                                     temporary_user.last_name = shipping_address.last_name
-                                    temporary_user.mobile = shipping_address.phone
+                                    # temporary_user.mobile = shipping_address.phone
                                     temporary_user.save()
                                     customer.user = temporary_user
                                     customer.save()
