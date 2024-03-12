@@ -2,6 +2,9 @@ from django.http import Http404
 from django.contrib.auth import get_user_model
 from django_hosts import host
 from billing.models import Customer
+from user.models import User
+
+User = get_user_model()
 
 class SubdomainMiddleware:
     def __init__(self, get_response):
@@ -27,10 +30,9 @@ class SubdomainMiddleware:
 
         # Custom logic based on subdomain
         if request.subdomain:
-            User = get_user_model()
             try:
+                User = get_user_model()
                 request.user = User.objects.get(username=request.subdomain)
-                # Here you can record the visit or perform any other action you need
                 if request.user.is_authenticated:
                     customer = Customer.objects.get(user=request.user)
                     customer.is_guest = False

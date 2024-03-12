@@ -5,7 +5,8 @@ from django.utils.crypto import get_random_string
 from django.views.generic import FormView, TemplateView
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth import authenticate, login, get_user_model
-from django.contrib.auth.views import PasswordResetView, PasswordResetCompleteView, PasswordChangeView
+from django.contrib.auth.views import PasswordResetCompleteView, PasswordChangeView
+from allauth.account.views import PasswordResetView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.encoding import force_bytes
 from django.contrib import messages
@@ -89,7 +90,6 @@ class EcomLoginView(BaseLoginView):
 class ForgotPasswordView(SuccessMessageMixin, PasswordResetView):
     title = "Password Reset"
     template_name = 'login/password-reset.html'
-    email_template_name = 'login/password-reset-email.html'
     subject_template_name = 'login/password-reset-subject.html'
     success_message = "We've emailed you instructions for setting your password, " \
                     "if an account exists with the email you entered. You should receive them shortly." \

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 from dotenv import load_dotenv
+
 load_dotenv()
 
 import os
@@ -35,6 +36,10 @@ USE_X_FORWARDED_HOST = True
 
 
 # Application definition
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -43,6 +48,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount', 
     'user',
     'TWC',
     'ecommerce',
@@ -65,6 +73,8 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'TWC.middleware.SubdomainMiddleware',
+    # 'allauth.account.auth_backends.AuthenticationBackend',
+    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -82,12 +92,17 @@ SITE_DOMAIN = 'twconline.store'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'templates', 'allauth'),
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                # 'allauth.account.context_processors.account',  # Updated Path
+                # 'allauth.socialaccount.context_processors.socialaccount',  # Updated Path
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'cart.context_processors.cart_items',
@@ -96,6 +111,10 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+ACCOUNT_CONTEXT_PROCESSORS = [
+    'django.template.context_processors.request',
 ]
 
 WSGI_APPLICATION = 'TWC.wsgi.application'
@@ -195,6 +214,11 @@ EMAIL_USE_TLS = True
 
 DEFAULT_FROM_EMAIL = EMAIL_MAIN
 SERVER_EMAIL = EMAIL_MAIN
+
+ACCOUNT_EMAIL_TEMPLATE_PASSWORD_RESET = 'login/password_reset_email.html'
+
+# ACCOUNT_ADAPTER = 'TWC.email_backend.MyAccountAdapter'
+
 
 
 #-------------------------
