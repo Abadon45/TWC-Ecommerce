@@ -207,7 +207,8 @@ password = 'dmVuZGljczIwMTU='
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = 'apikey'
-EMAIL_MAIN = 'TWCAKO <support@twcako.com>'
+# EMAIL_MAIN = 'TWCAKO <support@twcako.com>'
+EMAIL_MAIN = 'noypangan5@gmail.com'
 EMAIL_HOST_PASSWORD = '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'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
