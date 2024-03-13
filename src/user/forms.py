@@ -42,4 +42,9 @@ class ProfilePictureForm(forms.ModelForm):
 class CustomPasswordChangeForm(PasswordChangeForm):
     class Meta:
         model = User
-        fields = ['old_password', 'new_password1', 'new_password2'] 
+        fields = ['old_password', 'new_password1', 'new_password2']
+        
+class EmailForm(forms.Form):
+    email = forms.EmailField(label='Email address', max_length=100)
+    subject = forms.CharField(label='Subject', max_length=100)
+    message = forms.CharField(label='Message', widget=forms.Textarea)

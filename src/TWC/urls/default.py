@@ -5,6 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.urls import urlpatterns as auth_urlpatterns
 from ecommerce.views import *
+from ..views import EmailFormView
 
 urlpatterns = [
     path('about/', AboutUsView.as_view(), name="about"),
@@ -20,6 +21,7 @@ urlpatterns = [
     path('terms/', TemplateView.as_view(template_name='terms.html'), name="terms"),
     path('testimonial/', TemplateView.as_view(template_name='testimonial.html'), name="testimonial"),
     path('wishlist/', TemplateView.as_view(template_name='wishlist.html'), name="wishlist"),
+    path('test-email/', EmailFormView.as_view(), name="test_email"),
     path('login/', include('login.urls', namespace='login')),
     path('shop/', include('shop.urls', namespace='shop')),
     path('dashboard/', include('user.urls.index', namespace='user')),
