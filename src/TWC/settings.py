@@ -35,11 +35,7 @@ ALLOWED_HOSTS = ['172.105.126.70', '127.0.0.1', '139.144.121.152','172.104.35.33
 USE_X_FORWARDED_HOST = True
 
 
-# Application definition
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
+SITE_ID = 1
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -50,7 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'allauth',
     'allauth.account',
-    'allauth.socialaccount', 
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook', 
     'user',
     'TWC',
     'ecommerce',
@@ -66,6 +64,27 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 ]
 
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+    },
+    "google": {
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+    }
+}
+
 MIDDLEWARE = [
     'django_hosts.middleware.HostsRequestMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -80,6 +99,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_hosts.middleware.HostsResponseMiddleware',
 ]
+
+
 
 AUTH_USER_MODEL = 'user.User'
 
@@ -118,6 +139,8 @@ ACCOUNT_CONTEXT_PROCESSORS = [
 ]
 
 WSGI_APPLICATION = 'TWC.wsgi.application'
+
+
 
 
 # Database
@@ -207,8 +230,7 @@ password = 'dmVuZGljczIwMTU='
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = 'apikey'
-# EMAIL_MAIN = 'TWCAKO <support@twcako.com>'
-EMAIL_MAIN = 'noypangan5@gmail.com'
+EMAIL_MAIN = 'TWCAKO <support@twcako.com>'
 EMAIL_HOST_PASSWORD = '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'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
@@ -262,7 +284,7 @@ CORS_ORIGIN_WHITELIST = [
     "*.twconline.store",
 ]
 
-SITE_ID = 1
+
 
 LOGGING = {
     'version': 1,
@@ -300,4 +322,10 @@ else:
     ADMIN_URL = 'http://admin.twconline.store:8000'
     MAIN_SITE_URL = 'http://www.twconline.store:8000'
     
+
+# Application definition
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 

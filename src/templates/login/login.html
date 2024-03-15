@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load socialaccount %}
 
 {% block title %}Login{% endblock %}
 
@@ -26,19 +27,17 @@
                         <form method="POST" action="{% url 'login:login' %}">
                             <div class="form-group">
                                 {% csrf_token %}
-                                <label>Username</label>
-                                <input type="text" class="form-control" placeholder="Username" name="username" required>
+                                <label for="id_login">Username:</label>
+                                <input type="text" class="form-control" name="login" placeholder="Username" autocomplete="username" maxlength="150" required="" id="id_login">
                             </div>
                             <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" class="form-control" placeholder="Your Password" name="password" required>
+                                <label for="id_password">Password:</label>
+                                <input type="password" class="form-control" name="password" placeholder="Your Password" autocomplete="current-password" required="" id="id_password" required>
                             </div>
                             <div class="d-flex justify-content-between mb-4">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="remember">
-                                    <label class="form-check-label" for="remember">
-                                        Remember Me
-                                    </label>
+                                    <input class="form-check-input" type="checkbox" name="remember" id="id_remember">
+                                    <label for="id_remember">Remember Me:</label>
                                 </div>
                                 <a href="{% url 'login:password_reset' %}" class="forgot-pass">Forgot Password?</a>
                             </div>
@@ -46,6 +45,7 @@
                                 <button type="submit" class="theme-btn"><i class="far fa-sign-in"></i> Login</button>
                             </div>
                         </form>
+
                         
                         <div class="login-footer">
                             <p>Don't have an account? <a href="{% url 'login:register' %}">Register</a></p>
@@ -53,9 +53,10 @@
                                 <span class="social-divider">or</span>
                                 <p>Continue with social media</p>
                                 <div class="social-login-list">
-                                    <a href="#" class="fb-auth"><i class="fab fa-facebook-f"></i> Facebook</a>
-                                    <a href="#" class="gl-auth"><i class="fab fa-google"></i> Google</a>
-                                    <a href="#" class="tw-auth"><i class="fab fa-twitter"></i> Twitter</a>
+                                    
+                                    <a href="{% provider_login_url 'facebook' %}?next=/" class="fb-auth"><i class="fab fa-facebook-f"></i> Facebook</a>
+                                    <a href="{% provider_login_url 'google' %}?next=/" class="gl-auth"><i class="fab fa-google"></i> Google</a>
+                                    <!-- <a href="#" class="tw-auth"><i class="fab fa-twitter"></i> Twitter</a> -->
                                 </div>
                             </div>
                         </div>

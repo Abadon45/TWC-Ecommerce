@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load allauth %}
+{% block head_title %}
+    {% trans "Sign In" %}
+{% endblock head_title %}
+{% block content %}
+<div class="login-area py-100">
+    <div class="container">
+        <div class="col-md-7 col-lg-5 mx-auto">
+            <div class="login-form">
+                <div class="login-header">
+                    <!-- <img src="{% static 'img/logo/logo.png' %}" alt=""> -->
+
+                        {% if process == "connect" %}
+                            {% element h1 %}
+                                {% blocktrans with provider.name as provider %}Connect {{ provider }}{% endblocktrans %}
+                            {% endelement %}
+                            <p>
+                                {% blocktrans with provider.name as provider %}You are about to connect a new third-party account from {{ provider }}.{% endblocktrans %}
+                            </p>
+                        {% else %}
+                            {% element h1 %}
+                                {% blocktrans with provider.name as provider %}Sign In Via {{ provider }}{% endblocktrans %}
+                            {% endelement %}
+                            <p>
+                                {% blocktrans with provider.name as provider %}You are about to sign in using a third-party account from {{ provider }}.{% endblocktrans %}
+                            </p>
+                        {% endif %}
+                </div>
+                <div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <!-- No visible fields -->
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <button type="submit" class="theme-btn">Continue</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

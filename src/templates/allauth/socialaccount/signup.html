@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load allauth %}
+{% block head_title %}
+{% trans "Signup" %}
+{% endblock head_title %}
+{% block content %}
+<div class="login-area py-100">
+    <div class="container">
+        <div class="col-md-7 col-lg-5 mx-auto">
+            <div class="login-form">
+                <div class="login-header">
+                    <img src="{% static 'img/logo/logo.png' %}" alt="">
+                    <p>
+                        {% blocktrans with provider_name=account.get_provider.name site_name=site.name %}
+                            Login with your {{provider_name}} account
+                        {% endblocktrans %}
+                    </p>
+                    <p></p>
+                </div>
+                {% if form.errors %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <div id="form_errors">
+                        {% for key, value in form.errors.items %}
+                        <strong>{{ value }}</strong>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                <!-- put social here -->
+
+                <h6 class="mb-20">
+                    {% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are about to
+                    use your {{provider_name}} account to login to
+                    {{site_name}}. As a final step, please complete the following form:{% endblocktrans %}
+                </h6>
+                {% url 'socialaccount_signup' as action_url %}
+
+                <form method="post" action="{{ action_url }}">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label">Username:</label>
+                        <input type="text" class="form-control" name="username" placeholder="Username" autocomplete="username" minlength="1" maxlength="150" required="" id="id_username">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_email" class="form-label">Email (optional):</label>
+                        <input type="email" class="form-control" name="email" value="{{ form.email.value }}" placeholder="Email address" autocomplete="email" id="id_email">
+                    </div>
+                    
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+                    <div class="d-flex align-items-center">
+                        <button button type="submit" class="theme-btn">Sign Up</button>
+                    </div>
+                </form>
+                
+
+                <!-- end social -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

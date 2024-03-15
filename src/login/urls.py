@@ -10,6 +10,9 @@ from django.urls import reverse_lazy
 
 app_name = 'login'
 urlpatterns = [
+    path('', EcomLoginView.as_view(), name="login"),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('register/', RegisterView.as_view(), name='register'),
     path('password-reset/', ForgotPasswordView.as_view(), name='password_reset'),
     path('password-reset-confirm/<uidb64>/<token>/',
         auth_views.PasswordResetConfirmView.as_view(
@@ -19,7 +22,4 @@ urlpatterns = [
     path('password-reset-complete/', PasswordResetComplete.as_view(), name='password_reset_complete'),
     path('change-password/', ChangePasswordView.as_view(), name='change_password'),
     path('password-done/', PasswordDoneView.as_view(), name='password_done'),
-    path('', EcomLoginView.as_view(), name="login"),
-    path('logout/', LogoutView.as_view(), name='logout'),
-    path('register/', RegisterView.as_view(), name='register'),
 ]

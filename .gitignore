@@ -12,3 +12,7 @@ awscliv2.zip
 awscliv2
 
 __pycache__/
+google_api.json
+server.crt
+server.csr
+server.key

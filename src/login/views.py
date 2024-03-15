@@ -3,6 +3,7 @@ from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.crypto import get_random_string
 from django.views.generic import FormView, TemplateView
+from allauth.account.views import LoginView as AllauthLoginView
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.views import PasswordResetCompleteView, PasswordChangeView
@@ -56,36 +57,48 @@ class RegisterView(FormView):
         return super(RegisterView, self).form_valid(form)
     
 
-class EcomLoginView(BaseLoginView):
+class EcomLoginView(AllauthLoginView):
     redirect_authenticated_user = False
     template_name = 'login/login.html'
-    
+
     def get_success_url(self):
-        User = get_user_model()
-        user = User.objects.get(username=self.request.user.username)
-        # customer, created = Customer.objects.get_or_create(user=user)
-        session_key = self.request.session.session_key
-        
-        if not session_key:
-            self.request.session.create()
-            session_key = self.request.session.session_key
-
-        anonymous_order = Order.objects.filter(session_key=session_key, complete=False).first()
-        
-        if anonymous_order:
-            # anonymous_order.customer = customer
-            anonymous_order.save()
-            if 'guest_user' in self.request.session:
-                del self.request.session['guest_user']
-            return reverse('cart:cart')
-        else:
-            self.request.session['guest_order'] = False
-
-        return reverse('home_view')
+        # Your custom success URL logic here
+        return reverse_lazy('home_view')
 
     def form_invalid(self, form):
-        messages.error(self.request, 'Invalid username or password')
-        return self.render_to_response(self.get_context_data(form=form))
+        # Your custom form invalid handling logic here
+        return super().form_invalid(form)
+
+# class EcomLoginView(BaseLoginView):
+#     redirect_authenticated_user = False
+#     template_name = 'login/login.html'
+    
+#     def get_success_url(self):
+#         User = get_user_model()
+#         user = User.objects.get(username=self.request.user.username)
+#         # customer, created = Customer.objects.get_or_create(user=user)
+#         session_key = self.request.session.session_key
+        
+#         if not session_key:
+#             self.request.session.create()
+#             session_key = self.request.session.session_key
+
+#         anonymous_order = Order.objects.filter(session_key=session_key, complete=False).first()
+        
+#         if anonymous_order:
+#             # anonymous_order.customer = customer
+#             anonymous_order.save()
+#             if 'guest_user' in self.request.session:
+#                 del self.request.session['guest_user']
+#             return reverse('cart:cart')
+#         else:
+#             self.request.session['guest_order'] = False
+
+#         return reverse('home_view')
+
+#     def form_invalid(self, form):
+#         messages.error(self.request, 'Invalid username or password')
+#         return self.render_to_response(self.get_context_data(form=form))
 
 class ForgotPasswordView(SuccessMessageMixin, PasswordResetView):
     title = "Password Reset"
