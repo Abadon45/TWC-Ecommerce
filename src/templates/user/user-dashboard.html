@@ -59,9 +59,9 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {% if orders %}
-                                    {% for order in orders %}
+                            <tbody class="order-list">
+                                {% if order %}
+                                    {% for order in page_obj %}
                                     <tr>
                                         <td><span class="table-list-code">{{ order.order_id }}</span></td>
                                         <td>{{ order.created_at }}</td>
@@ -92,6 +92,9 @@
                             </tbody>
                         </table>
                     </div>
+                    
+                    {% include 'user/user-order-pagination.html' %}
+                    
                 </div>
             </div>
         </div>

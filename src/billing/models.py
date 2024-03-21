@@ -23,10 +23,10 @@ class Customer(models.Model):
     is_guest = models.BooleanField(default=False)
     
     def __str__(self):
-        if self.email:
-            return self.email
-        else:
+        if self.user:
             return self.user.username
+        else:
+            return self.email
 
     def get_cart_items_count(self):
         Order = apps.get_model('orders', 'Order')

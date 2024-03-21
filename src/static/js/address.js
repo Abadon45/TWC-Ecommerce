@@ -178,16 +178,19 @@ $(document).ready(function () {
   function createAddressElement(addressData) {
     const addressHTML = `
           <div class="col-lg-1"><input type="radio" name="addressChoice" data-address-id="${addressData.id}"></div>
-          <div class="col-lg-9">
-            <p><b>${addressData.firstName} ${addressData.lastName} ${addressData.phone}</b></p>
+          <div id="address-${ addressData.id }" class="col-lg-9">
+          <p class="address-name" data-name><b>${addressData.firstName} ${addressData.lastName} ${addressData.phone}</b></p>
             <div class="change-address row mb-20">
               <div class="col-lg-10">
-                  <p>${addressData.line1} Brgy. ${addressData.barangay}, ${addressData.city}, ${addressData.province}, ${addressData.postcode}</p>
+              <p class="address-line" data-address-line>${addressData.line1} Brgy. ${addressData.barangay}, ${addressData.city}, ${addressData.province}, ${addressData.postcode}</p>
               </div>
             </div>
           </div>
           <div class="col-lg-2">
-              <a href="#">Edit</a>
+          <a href="#" id="editAddressBtn" class="edit-checkout-address" 
+            data-tooltip="tooltip" 
+            title="Edit" 
+            data-address-id="${ addressData.id }">Edit</a>
           </div>
           <hr class="mt-2 mb-3">
         `;
@@ -230,6 +233,7 @@ $(document).ready(function () {
       success: function (successData) {
         console.log(successData);
         const newAddressData = {
+          id: successData.id,
           firstName: successData.firstName,
           lastName: successData.lastName,
           phone: successData.phone,

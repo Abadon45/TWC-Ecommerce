@@ -1,0 +1,30 @@
+<!-- Modify your pagination template -->
+<div class="pagination-area mb-0">
+    <div aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="#" data-page="{{ page_obj.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true"><i class="far fa-arrow-left"></i></span>
+                    </a>
+                </li>
+            {% endif %}
+            {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                    <li class="page-item active"><a class="page-link" href="#" data-page="{{ i }}">{{ i }}</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="#" data-page="{{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="#" data-page="{{ page_obj.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true"><i class="far fa-arrow-right"></i></span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+

@@ -23,13 +23,14 @@ User = get_user_model()
 class CartView(TemplateView):
     template_name = 'cart/shop-cart.html'
 
-
+@transaction.atomic
 def updateItem(request):
     productId = request.GET.get('productId')
     action = request.GET.get('action')
     quantity = int(request.GET.get('quantity', 1))
     
     user = request.user
+    session_key = ""
     
     print('Action: ', action)
     print('Product: ', productId)
@@ -40,19 +41,18 @@ def updateItem(request):
         print('User ID:', request.user.id)
         if user.is_authenticated:
             print(f"User is authenticated: {user.username}")
-            customer, created = Customer.objects.get_or_create(user=user, defaults={'email': user.email})
-            customer.save()
+            order = Order.objects.filter(user=user, complete=False).first()
             
         else:
             print(f"User is not authenticated")
-            customer = create_or_get_guest_user(request)
-        
-        print(customer)
-        
-        order = Order.objects.filter(customer=customer, complete=False).first()
-        
+            session_key = request.session.session_key
+            order = Order.objects.filter(session_key=session_key, complete=False).first()
+            
         if not order:
-            order = Order.objects.create(customer=customer)
+            if user.is_authenticated:
+                order = Order.objects.create(user=user)
+            else:
+                order = Order.objects.create(session_key=session_key)
         
         product = get_object_or_404(Product, id=productId)
         orderItem, order_item_created = OrderItem.objects.get_or_create(order=order, product=product)
@@ -63,7 +63,6 @@ def updateItem(request):
             orderItem.quantity += quantity
         elif action == 'minus':
             orderItem.quantity -= quantity
-        
             
         if action == 'remove' or orderItem.quantity <= 0:
             orderItem.delete()
@@ -74,16 +73,9 @@ def updateItem(request):
         print(orderItem)
         print(orderItem.quantity)
             
-        # Store anonymous order ID in session if the user is a guest
-        if not request.user.is_authenticated:
-            anonymous_orders = request.session.get('anonymous_orders', [])
-            anonymous_orders.append(order.id)
-            request.session['anonymous_orders'] = anonymous_orders
-            print(request.session.get('anonymous_orders', []))
-    
-        total_quantity = OrderItem.objects.filter(order__customer=customer, order__complete=False).aggregate(Sum('quantity'))['quantity__sum']
+        total_quantity = order.orderitem_set.aggregate(Sum('quantity'))['quantity__sum']
         cart_items_count = total_quantity if total_quantity is not None else 0
- 
+
         return JsonResponse({
             'cart_items': cart_items_count,
             'products': [{
@@ -100,34 +92,6 @@ def updateItem(request):
         print(f"Exception in updateItem: {e}")
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
     
-    
-# ---------------  Update Address Views -------------- 
-
-# def get_address(request):
-#     address_id = request.GET.get('id')
-#     address = Address.objects.get(id=address_id)  # Assuming you have an Address model
-#     print(f'address: {address}')
-#     return render(request, 'cart/address_fragment.html', {'address': address})
-
-# def update_selected_address(request):
-#     if request.method == "POST":
-#         data = json.loads(request.body)  # Extract name and addressLine
-#         request.session['selected_address'] = data
-#         return JsonResponse({'success': True}) 
-#     else:
-#         return HttpResponseBadRequest() 
-
-# def refresh_checkout_address(request):
-#     # Retrieve data from the session if 'selected_address' exists
-#     selected_address = request.session.get('selected_address') 
-#     print(selected_address)
-#     return render(request, 'cart/checkout_address_snippet.html', {'address': selected_address})
-
-
-#note: default address should be displayed_address = request.GET.get('default_address') or it should be ID
-#      and selected address should be displayed_address = request.GET.get('selected_address')
-#      it should be fetched on an address so that it would be dynamic and the id should be posted on /get-address/?id={{ address.id }}
-
 
 #----------------- Checkout Views -------------------
 
@@ -136,168 +100,156 @@ def checkout(request):
     order = Order()
     is_authenticated = False
     default_address = ""
-    selected_address = ""
     ordered_items = []
     order_dict = []
-    order_id = ""
     temporary_username = ""
     temporary_password = ""
+    customer_addresses = ""  
     
     referrer_id = request.session.get('referrer')
+    user = request.user
+    session_key = ""
 
     try:
-        user = request.user
         is_authenticated = request.user.is_authenticated
+        
         if is_authenticated:
             is_authenticated=True
-            customer = get_object_or_404(Customer, user=user)
-            default_address = Address.objects.filter(customer=customer, is_default=True).first()
-            
-        elif user.is_anonymous:
-            customer = create_or_get_guest_user(request)
-            
-                
-            subtotal = order.get_cart_items
-            order_dict = {
-                'get_cart_total': 0, 
-                'subtotal': subtotal, 
-                'shipping': False
-            }  
+            user = request.user
+            default_address = Address.objects.filter(user=user, is_default=True).first()
+            order = Order.objects.filter(user=user, complete=False).first()
+            customer_addresses = Address.objects.filter(user=user).exclude(is_default=True).order_by('-is_default')[:3]      
+        else:
+            session_key = request.session.session_key
+            order = Order.objects.filter(session_key=session_key, complete=False).first()
         
-        if customer is None:
-            return redirect('cart:cart')
+            if not order:
+                return redirect('cart:cart')
         
-        #get or create order for the current customer     
-        order, order_created = Order.objects.get_or_create(customer=customer, complete=False)
-        if order_created:
-            order_id = order.order_id
-            print(f"Order created: {order_created}")
-            
         if default_address:
             print(f"Default Address: {default_address}")
             order.shipping_address = default_address
             order.save()
                 
-        if customer:
-            order = get_object_or_404(Order, customer=customer, complete=False)
+        if order:
             with transaction.atomic():
                 existing_order_items = order.orderitem_set.all()
+                print("Order items:", order.orderitem_set.all())
                 for order_item in existing_order_items:
                     product = order_item.product
                     ordered_items.append(OrderItem(order=order, product=product, quantity=order_item.quantity))   
                 order.save()
         
-        if customer.id:
-            customer_addresses = Address.objects.filter(customer=customer).exclude(is_default=True).order_by('-is_default')[:3]
-                
         if request.method == 'POST':  
-            if customer is not None:      
-                shipping_form = AddressForm(request.POST)
-                
-                if shipping_form.is_valid():
-                    shipping_address = shipping_form.save(commit=False)
-                    shipping_address.customer = customer
-                    shipping_address.save()
-                    
-                    
-                    if not Address.objects.filter(customer=customer, is_default=True).exists():
-                        shipping_address.is_default = True
-                        shipping_address.save()
-                    
-                    print("Shipping address created:", shipping_address)                   
-                    if not order.shipping_address:
-                        
-                        order.shipping_address = shipping_address
-                        order.contact_number = shipping_address.phone
-                        order.save()
-                    
-                        print("Order Information After Address Update:", order.order_id, order.shipping_address)
-                        
-                        #Generate a temporary account for the Guest User
-                        if request.user.is_anonymous:
-                            temporary_username = request.POST.get('username').lower()  
-                            print(f'username retrieved from ajax: {temporary_username}') 
-                                    
-                            if temporary_username:
-                                print("Creating temporary user...")
-                                temporary_user, user_created = User.objects.get_or_create(username=temporary_username)
-                                if user_created:
-                                    print(f"User created: {user_created}")
-                                    temporary_password = User.objects.make_random_password(length=6)
-                                    
-                                    if referrer_id:
-                                        try:
-                                            referrer = User.objects.get(id=referrer_id)
-                                            temporary_user.referred_by = referrer
-                                            temporary_user.save()
-                                        except User.DoesNotExist:
-                                            print("Referrer not found.")
-                                    
-                                    # PUT THIS ON THE FINAL VERSION
-                                    # if User.objects.filter(email=customer.email).exists():
-                                    #     print("A user with this email already exists.") 
-                                    # else:
-                                    
-                                    
-                                    #---------------------------------------
-                                    # Transfer Details to the temporary_user
-                                    #---------------------------------------
-                                    customer.email = request.POST.get('email')
-                                    temporary_user.email = customer.email
-                                    temporary_user.set_password(temporary_password)
-                                    temporary_user.first_name = shipping_address.first_name
-                                    temporary_user.last_name = shipping_address.last_name
-                                    # temporary_user.mobile = shipping_address.phone
-                                    temporary_user.save()
-                                    customer.user = temporary_user
-                                    customer.save()
-                                    
-                                    
-                                    print("Temporary user created:", temporary_user)
-
-                                    request.session['guest_user_data'] = {
-                                        'username': temporary_username,
-                                        'password': temporary_password,
-                                        'email': temporary_user.email,
-                                    }  
-                                    
-                                    print("Username:", request.session['guest_user_data']['username'])
-                                    print("Password:", request.session['guest_user_data']['password'])
-                                    print("Email:", request.session['guest_user_data']['email'])
-
-                                    user = authenticate(request, username=temporary_username, password=temporary_password)
-                                    name = request.POST.get('first_name')
-                                    
-                                    
-                                    if user: 
-                                        subject = 'TWC Online Store Temporary Account'
-                                        message = f'Good Day {name},\n\n\nYou have successfully registered an account on TWConline.store!!\n\n\nHere are your temporary account details:\n\nUsername: {temporary_username}\nPassword: {temporary_password}\n\n\nThank you for your order!'
-                                        from_email = settings.EMAIL_MAIN
-                                        recipient_list = [temporary_user.email]
-                                        
-                                        try:
-                                            send_mail(subject, message, from_email, recipient_list, fail_silently=False)
-                                            print("Email sent successfully!")
-                                        except Exception as e:   
-                                            print(f"Error sending email: {e}")
-                                    
-                                        
-                                else:
-                                    print("Temporary username is null or empty. Handle accordingly.")
-                        
+            shipping_form = AddressForm(request.POST)
+            
+            if shipping_form.is_valid():
+                shipping_address = shipping_form.save(commit=False)
+                if user.is_authenticated:
+                    shipping_address.user = user
                 else:
-                    return render(request, "cart/shop-checkout.html", {
-                    'error_message': 'The address form is not valid. Please correct the errors and try again.',
-                })
+                    shipping_address.session_key = session_key
+                
+                if user.is_authenticated:
+                    if not Address.objects.filter(user=user, is_default=True).exists():
+                        shipping_address.is_default = True
+
+                else:
+                    shipping_address.is_default = True
+                    
+                shipping_address.save()
+                print(shipping_address.session_key)
+                print("Shipping address created:", shipping_address)                   
+                if not order.shipping_address:
+                    
+                    order.shipping_address = shipping_address
+                    order.contact_number = shipping_address.phone
+                    order.save()
+                
+                    print("Order Information After Address Update:", order.order_id, order.shipping_address)
+                    
+                    #Generate a temporary account for the Guest User
+                    if request.user.is_anonymous:
+                        temporary_username = request.POST.get('username').lower()  
+                        print(f'username retrieved from ajax: {temporary_username}') 
+                                
+                        if temporary_username:
+                            print("Creating temporary user...")
+                            temporary_user, user_created = User.objects.get_or_create(username=temporary_username)
+                            if user_created:
+                                print(f"User created: {user_created}")
+                                temporary_password = User.objects.make_random_password(length=6)
+                                
+                                if referrer_id:
+                                    try:
+                                        referrer = User.objects.get(id=referrer_id)
+                                        temporary_user.referred_by = referrer
+                                        temporary_user.save()
+                                    except User.DoesNotExist:
+                                        print("Referrer not found.")
+                                
+                                # PUT THIS ON THE FINAL VERSION
+                                # if User.objects.filter(email=customer.email).exists():
+                                #     print("A user with this email already exists.") 
+                                # else:
+                                
+                                
+                                #---------------------------------------
+                                # Transfer Details to the temporary_user
+                                #---------------------------------------
+                                temporary_user.email = request.POST.get('email')
+                                temporary_user.set_password(temporary_password)
+                                temporary_user.first_name = shipping_address.first_name
+                                temporary_user.last_name = shipping_address.last_name
+                                temporary_user.save()
+                                shipping_address.user = temporary_user
+                                shipping_address.save()
+                                order.user = temporary_user
+                                order.save()
+                                
+                
+                                print("Temporary user created:", temporary_user)
+
+                                request.session['guest_user_data'] = {
+                                    'username': temporary_username,
+                                    'password': temporary_password,
+                                    'email': temporary_user.email,
+                                }  
+                                
+                                print("Username:", request.session['guest_user_data']['username'])
+                                print("Password:", request.session['guest_user_data']['password'])
+                                print("Email:", request.session['guest_user_data']['email'])
+
+                                user = authenticate(request, username=temporary_username, password=temporary_password)
+                                name = request.POST.get('first_name')
+                                
+                                if user: 
+                                    subject = 'TWC Online Store Temporary Account'
+                                    message = f'Good Day {name},\n\n\nYou have successfully registered an account on TWConline.store!!\n\n\nHere are your temporary account details:\n\nUsername: {temporary_username}\nPassword: {temporary_password}\n\n\nThank you for your order!'
+                                    from_email = settings.EMAIL_MAIN
+                                    recipient_list = [temporary_user.email]
+                                    
+                                    try:
+                                        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+                                        print("Email sent successfully!")
+                                    except Exception as e:   
+                                        print(f"Error sending email: {e}")
+                                
+                            else:
+                                print("Temporary username is null or empty. Handle accordingly.")
+                    
             else:
-                customer = create_or_get_guest_user(request) 
-                return redirect('cart:cart')
+                return render(request, "cart/shop-checkout.html", {
+                'error_message': 'The address form is not valid. Please correct the errors and try again.',
+            })
+            
 
                 
         if request.is_ajax():
             response_data = {
                 'isAuthenticated': is_authenticated,
-                'email': customer.email,
+                'id': shipping_address.id,
+                'email': request.POST.get('email'),
                 'firstName': shipping_address.first_name,
                 'lastName': shipping_address.last_name,
                 'phone': shipping_address.phone,
@@ -310,7 +262,6 @@ def checkout(request):
             return JsonResponse(response_data)
         else:
             context = {
-                # 'order_id': order_id,
                 'order': order_dict,
                 'shipping_form': shipping_form,
                 'is_authenticated': is_authenticated,
@@ -347,8 +298,7 @@ def get_selected_address(request):
     
     try:
         user=request.user
-        customer = get_object_or_404(Customer, user=user)
-        order, order_created = Order.objects.get_or_create(customer=customer, complete=False)
+        order, order_created = Order.objects.get_or_create(user=user, complete=False)
         
         order.shipping_address = selected_address
         order.save()
@@ -458,13 +408,12 @@ def checkout_done_view(request):
     try:
         request.session['new_guest_user'] = True
         if request.user.is_authenticated:
-            customer = request.user.customer
-            print(f"Customer: {customer}")
-            
-
+            user = request.user   
+            order = Order.objects.filter(user=user, complete=False).first()    
         elif request.user.is_anonymous:
-            customer = create_or_get_guest_user(request)
-            print(f"Guest Customer: {customer}")
+            session_key = request.session.session_key
+            order = Order.objects.filter(session_key=session_key, complete=False).first() 
+            print(f"Guest User: {session_key}")
             
             guest_user_info = request.session.get('guest_user_data', {})
             username = guest_user_info.get('username')
@@ -472,12 +421,6 @@ def checkout_done_view(request):
             email = guest_user_info.get('email')
             
             print(f'username: {username}, email: {email}, password: {password}')
-
-        else:
-            customer = None
-            return redirect("home_view")
-
-        order = Order.objects.filter(customer=customer, complete=False).first()
 
         if order is not None:
             print(f'Shipping Address: {order.shipping_address}')
@@ -500,7 +443,6 @@ def checkout_done_view(request):
 
             order_data = {
                 "order_id": order.order_id,
-                "customer": order.customer,
                 "shipping_address": order.shipping_address,
                 "complete": True,
                 "created_at": timezone.now(),
@@ -521,7 +463,6 @@ def checkout_done_view(request):
             else:
                 context = {
                     "order": order_data,
-                    "customer": customer,
                     "username": username,
                     "email": email,
                     "password": password,
@@ -529,11 +470,10 @@ def checkout_done_view(request):
                 return render(request, "cart/shop-checkout-complete.html", context)
         else:
             print("No incomplete order found for this customer")
-            completed_order = (
-                Order.objects.filter(customer=customer, complete=True)
-                .order_by("-created_at")
-                .first()
-            )
+            if user.is_authenticated:
+                completed_order = Order.objects.filter(user=user, complete=True).order_by("-created_at").first()
+            else:
+                completed_order = Order.objects.filter(session_key=session_key, complete=True)
             print(completed_order)
             print(f"Completed Order ID: {completed_order.order_id}")
 
@@ -545,7 +485,6 @@ def checkout_done_view(request):
                 total_amount = sum(item.get_total for item in ordered_items)
                 order_data = {
                     "order_id": completed_order.order_id,
-                    "customer": completed_order.customer,
                     "shipping_address": completed_order.shipping_address,
                     "complete": True,
                     "created_at": timezone.now(),
@@ -565,7 +504,6 @@ def checkout_done_view(request):
 
                 context = {
                     "order": order_data,
-                    "customer": customer,
                     "username": username,
                     "email": email,
                     "password": password,
@@ -577,48 +515,3 @@ def checkout_done_view(request):
         print(f"Exception in checkout_done_view: {e}")
 
         return JsonResponse({"error": "An error occurred"}, status=500)
-
-
-# @receiver(user_logged_in)
-# def user_logged_in_handler(request, user, **kwargs):
-#     if user.is_staff:
-#         return redirect('/admin/')
-#     anonymous_orders = request.session.get('anonymous_orders', [])
-    
-#     print("Anonymous Orders:", anonymous_orders)
-    
-#     if anonymous_orders:
-#         latest_order = Order.objects.filter(id__in=anonymous_orders[1:])
-        
-#         print("Latest Orders:", latest_order)
-        
-#         if latest_order.exists():
-#             latest_order = latest_order.latest('created_at')
-
-#             print("Latest Order ID:", latest_order.order_id)
-#             existing_orders = Order.objects.filter(customer=request.user.customer, complete=False)
-#             if existing_orders.exists():
-#                 existing_order = existing_orders.latest('created_at')
-#                 print("Existing Order ID:", existing_order.order_id)
-#                 for item in latest_order.orderitem_set.all():
-#                     order_item, created = OrderItem.objects.get_or_create(order=existing_order, product=item.product)
-#                     order_item.quantity += item.quantity
-#                     order_item.save()
-
-#                 latest_order.delete()
-
-#                 print("Cart items merged successfully.")
-
-#                 messages.success(request, 'Cart items merged successfully.')
-#                 return redirect('cart:cart')
-#             else:
-#                 latest_order.customer = request.user.customer
-#                 latest_order.save()
-
-#                 print("Guest order assigned to the authenticated user.")
-
-#                 messages.success(request, 'Guest order assigned to the authenticated user.')
-#                 return redirect('home_view')
-
-#     print("No anonymous orders found.")
-#     return redirect('home_view')

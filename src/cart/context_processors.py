@@ -1,5 +1,8 @@
 from orders.models import Order
 from user.utils import create_or_get_guest_user
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 def cart_items(request):
     cart_items_count = 0
@@ -9,14 +12,29 @@ def cart_items(request):
     total = 0
     items = []
     order_id = None
+    
+    user = request.user
+    session_orders = request.session.get('anonymous_orders', [])
 
-    if request.user.is_authenticated:
-        customer = request.user.customer if hasattr(request.user, 'customer') else None
-    else:
-        customer = create_or_get_guest_user(request)
+    # if request.user.is_authenticated:
+    #     customer = request.user.customer if hasattr(request.user, 'customer') else None
+    # else:
+    #     # customer = create_or_get_guest_user(request)
+    #     customer = None
 
     try:
-        orders = Order.objects.filter(customer=customer, complete=False)
+        # if customer:
+        #     orders = Order.objects.filter(customer=customer, complete=False)
+        # else:
+        #     anonymous_orders = request.session.get('anonymous_orders', [])
+        #     order_ids = [order.get('order_id') for order in anonymous_orders if 'order_id' in order]
+        #     orders = Order.objects.filter(id__in=order_ids, complete=False)
+        
+        if user.is_authenticated:
+            orders = Order.objects.filter(user=user, complete=False)
+        else:
+            session_key = request.session.session_key
+            orders = Order.objects.filter(session_key=session_key, complete=False)
         
 
         if orders.exists():

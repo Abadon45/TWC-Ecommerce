@@ -207,7 +207,7 @@ $(document).ready(function () {
       type: "GET",
       url: getAddressDetailsUrl,
       data: {
-        'address_id': addressId,
+        address_id: addressId,
       },
       success: function (response) {
         // Populate the form fields in the modal with the retrieved address details
@@ -240,9 +240,8 @@ $(document).ready(function () {
         spinner.removeClass("visible");
         backdrop.removeClass("visible");
 
-        $("#changeAddressModal").modal("hide")
+        $("#changeAddressModal").modal("hide");
         $("#editAddressModal").modal("show");
-
       },
       error: function (xhr, textStatus, errorThrown) {
         console.log("Error:", errorThrown);
@@ -258,11 +257,14 @@ $(document).ready(function () {
 
   function updateTableRow(addressId, newData) {
     var row = $("#address-" + addressId);
-    row.find(".table-list-code").text(newData.first_name + " " + newData.last_name);
-    row.find("td:nth-child(2)").text(newData.line1 + ", " + newData.city + ", " + newData.postcode);
+    row
+      .find(".table-list-code")
+      .text(newData.first_name + " " + newData.last_name);
+    row
+      .find("td:nth-child(2)")
+      .text(newData.line1 + ", " + newData.city + ", " + newData.postcode);
     row.find("td:nth-child(3)").text(newData.phone);
   }
-
 
   // Function to save address changes
   function saveAddressChanges(formData) {
@@ -292,8 +294,80 @@ $(document).ready(function () {
   $("#saveAddressChanges").click(function () {
     var addressId = $("#editAddressModal").data("address-id"); // Retrieve the address ID from modal data attribute
     var formData = new FormData($("#editAddressForm")[0]); // Create FormData object from form
-    formData.append('address_id', addressId); // Append the address ID to the form data
-    formData.append('csrfmiddlewaretoken', csrf); // Append the CSRF token to the form data
+    formData.append("address_id", addressId); // Append the address ID to the form data
+    formData.append("csrfmiddlewaretoken", csrf); // Append the CSRF token to the form data
     saveAddressChanges(formData);
   });
+
+  // Update pagination click event handler
+  $(document).on("click", ".pagination a", function (event) {
+    event.preventDefault();
+    var page = $(this).data("page");
+    spinner.addClass("visible");
+    backdrop.addClass("visible");
+    fetchOrders(page);
+  });
+
+  // AJAX function to fetch orders
+  function fetchOrders(page) {
+    console.log("Fetching orders for page:", page);
+    console.log("Current URL:", window.location.href);
+    console.log("Dashboard URL:", dashboardURL);
+
+    $.ajax({
+      url: dashboardURL,
+      type: "GET",
+      data: { page: page },
+      dataType: "json",
+      success: function (data) {
+        console.log("AJAX Response:", data);
+        console.log("Pagination HTML:", data.pagination_html);
+        $(".pagination").html(data.pagination_html);
+        // Update Order List
+        const orderListContainer = $(".order-list");
+        orderListContainer.empty(); // Clear existing items
+
+        $.each(data.orders, function (index, order) {
+          const newListItem = createOrderItem(order); // Create new list items
+          orderListContainer.append(newListItem);
+        });
+        spinner.removeClass("visible");
+        backdrop.removeClass("visible");
+      },
+      error: function (xhr, status, error) {
+        console.error("AJAX error:", error);
+        console.error("Request Status:", status);
+        console.error("XMLHttpRequest:", xhr);
+      },
+    });
+  }
+  function createOrderItem(order) {
+    const date = new Date(order.created_at);
+    const options = { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true}; // Customize options
+
+    const formattedDate = date.toLocaleString('en-US', options);
+    return $(`
+      <tr>
+        <td><span class="table-list-code">${order.order_id}</span></td>
+        <td>${formattedDate}</td>
+        <td>₱${order.get_cart_items}</td>
+        <td><span id="orderStatus" class="badge badge-${order.status.toLowerCase()}">${order.status.toUpperCase()}</span></td>
+        <td>  
+          <button type="button" 
+                  class="btn btn-outline-secondary btn-sm rounded-2" 
+                  data-bs-toggle="modal" 
+                  data-bs-target="#orderDetailsModal" 
+                  data-order-id="${order.order_id}"
+                  data-order-date="${order.created_at}"
+                  data-order-total="${order.total_amount}"
+                  data-order-status="${order.status}"
+                  data-tooltip="Order Details" 
+                  title="Details">
+            <i class="far fa-eye"></i>
+          </button>      
+        </td>
+      </tr>
+    `); 
+  }
+
 });

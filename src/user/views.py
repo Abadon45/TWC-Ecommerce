@@ -1,24 +1,35 @@
 from django.views.generic import View, TemplateView
-from django.views.generic.edit import FormView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import get_user_model
 from orders.models import Order, OrderItem
 from addresses.models import Address
-from user.utils import get_or_create_customer
-from django.utils import timezone
 from django.urls import reverse
-from billing.models import Customer
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest, HttpResponseNotFound
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
 from django.conf import settings
 from django.views.decorators.cache import cache_page
-from user.forms import ProfileForm, ProfilePictureForm
+from user.forms import ProfileForm
 from addresses.forms import AddressForm
-from django.db.models import Sum, Q
+from django.db.models import Q
+from django.core.paginator import Paginator
+from django.template.loader import render_to_string
+from django.core import serializers
+
+
 
 
 import logging
 
 User = get_user_model()
+
+class RegisterGuestView(View):
+    def get(self, request, *args, **kwargs):
+        # Store the referrer_id in the session
+        request.session['referrer_id'] = kwargs['referrer_id']
+        # Mark the session as modified to make sure it gets saved
+        request.session.modified = True
+        # Redirect to the dashboard
+        return HttpResponseRedirect(f'http://{settings.SITE_DOMAIN}/')
+    
 
 @cache_page(60 * 15)
 def get_order_details(request):
@@ -134,58 +145,74 @@ def delete_address(request):
 class DashboardView(TemplateView):
     template_name = 'user/dashboard.html'
     title = "User Dashboard"
+    paginate_by = 10
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        customer = ""
-        order = ""
+    def get(self, request, *args, **kwargs):
+        user = request.user
         
-        if self.request.user.is_authenticated:
-            customer, created = Customer.get_or_create_customer(self.request.user, self.request)
-            order = Order.objects.filter(customer=customer, complete=True)
-            pending_orders = order.filter(
-                    Q(complete=False) | ~Q(status='received')
-                )
-            completed_orders = Order.objects.filter(customer=customer, complete=True, status='received')
-            pending_orders_count = pending_orders.count()
-            completed_order_count = completed_orders.count()
-                
-                    
-        context = {
-            'title': self.title,
-            'customer': customer,
-            'orders': order,
-            'addresses': Address.objects.filter(customer=customer),
-            'ordered_items': OrderItem.objects.filter(order=order),
-            'pending_orders_count': pending_orders_count,
-            'completed_order_count': completed_order_count,
-            'profile_form': ProfileForm(instance=self.request.user),
-        }
-        
-        return context
+        if request.user.is_authenticated:
+            order = Order.objects.filter(user=user, complete=True).order_by('-created_at')
+            paginator = Paginator(order, self.paginate_by)
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+            pending_orders_count = order.filter(Q(complete=False) | ~Q(status='received')).count()
+            completed_order_count = Order.objects.filter(user=user, complete=True, status='received').count()
+            
+            context = {
+                'title': self.title,
+                'page_obj': page_obj,
+                'order': order,
+                'addresses': Address.objects.filter(user=user),
+                'ordered_items': OrderItem.objects.filter(order=order),
+                'pending_orders_count': pending_orders_count,
+                'completed_order_count': completed_order_count,
+                'profile_form': ProfileForm(instance=request.user),
+            }
+            
+            if request.is_ajax():
+                pagination_html = render_to_string('user/user-order-pagination.html', {'page_obj': page_obj}, request=request)
+                orders_data = []
+                for order in page_obj.object_list:
+                    order_data = {
+                        'order_id': order.order_id,
+                        'created_at': order.created_at, 
+                        'get_cart_items': order.get_cart_items,
+                        'status': order.status,
+                        'total_amount': order.total_amount, # Add if available
+                    }
+                    orders_data.append(order_data)
+                response_data = {
+                    'pagination_html': pagination_html,
+                    'orders': orders_data, 
+                }
+                return JsonResponse(response_data)
+            else:
+                return render(request, self.template_name, context)
     
     def post(self, request, *args, **kwargs):
-        current_user = User.objects.get(id=request.user.id) 
-        profile_form = ProfileForm(request.POST, request.FILES, instance=current_user)
-        address_form = AddressForm(request.POST)
-        
-        if address_form.is_valid():
-            address = address_form.save(commit=False)
-            address.customer = request.user.customer
-            address.save()
-            return HttpResponseRedirect(reverse('dashboard'))
-        else:
-            print("Address form is invalid.")
-            print("Address form is invalid:", address_form.errors)
-        
-        if profile_form.is_valid():
-            profile_form.save()      
-            return HttpResponseRedirect(reverse('dashboard'))
-        else:
-            print("Profile form is invalid.")
-            print("Profile form errors:", profile_form.errors)
+        try:
+            current_user = User.objects.get(id=request.user.id) 
+            profile_form = ProfileForm(request.POST, request.FILES, instance=current_user)
+            address_form = AddressForm(request.POST)
+            
+            if address_form.is_valid():
+                address = address_form.save(commit=False)
+                address.user = request.user
+                address.save()   
+            else:
+                print("Address form is invalid.")
+                print("Address form is invalid:", address_form.errors)
+            
+            if profile_form.is_valid():
+                profile_form.save()      
+            else:
+                print("Profile form is invalid.")
+                print("Profile form errors:", profile_form.errors)
 
-        return self.render_to_response(self.get_context_data())
+            return HttpResponseRedirect(reverse('dashboard'))
+        except Exception as e:
+            print(f"Server error is caused by: {e}")
+            return JsonResponse({'error': "Invalid request."}, status=500)
 
     
 class SellerDashboardView(TemplateView):
@@ -202,19 +229,15 @@ class SellerDashboardView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        customer, created = Customer.get_or_create_customer(self.request.user, self.request)
         referred_users = User.objects.filter(referred_by=user)
-            
-        if not customer:
-            customer = get_or_create_customer(self.request)      
+        
         affiliate_link = self.request.user.generate_affiliate_link()
     
 
         context.update({
             'title': self.title,
-            'customer': customer,
-            'orders': Order.objects.filter(customer=customer),
-            'addresses': Address.objects.filter(customer=customer),
+            'orders': Order.objects.filter(user=user),
+            'addresses': Address.objects.filter(user=user),
             'affiliate_link': affiliate_link,
             'referred_users': referred_users, 
         })
@@ -230,16 +253,40 @@ class SellerDashboardView(TemplateView):
             print("Profile form is invalid. Errors:", profile_form.errors)
         
         return self.get(request, *args, **kwargs)
+    
+class WarehouseDashboardView(TemplateView):
+    template_name = 'admin/warehouse-dashboard.html'
+    title = "Warehouse Dashboard"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+    
+
+        context.update({
+            'title': self.title,
+            'orders': Order.objects.all(),
+        })
+        return context
+    
+class LogisticsDashboardView(TemplateView):
+    template_name = 'admin/logistics-dashboard.html'
+    title = "Logistics Dashboard"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+    
+
+        context.update({
+            'title': self.title,
+            'orders': Order.objects.all(),
+        })
+        return context
+
         
 
-class RegisterGuestView(View):
-    def get(self, request, *args, **kwargs):
-        # Store the referrer_id in the session
-        request.session['referrer_id'] = kwargs['referrer_id']
-        # Mark the session as modified to make sure it gets saved
-        request.session.modified = True
-        # Redirect to the dashboard
-        return HttpResponseRedirect(f'http://{settings.SITE_DOMAIN}/')
+
     
 
     

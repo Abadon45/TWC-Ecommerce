@@ -103,3 +103,8 @@
 
 
 {% endblock %}
+{% block extra_js %}
+<script>
+    const dashboardURL = '{% url "dashboard" %}';
+</script>
+{% endblock %}
