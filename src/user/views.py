@@ -213,6 +213,10 @@ class DashboardView(TemplateView):
         except Exception as e:
             print(f"Server error is caused by: {e}")
             return JsonResponse({'error': "Invalid request."}, status=500)
+        
+def dashboard_redirect(request):
+    # Redirect to the root URL with the appropriate tab path appended
+    return redirect('/')
 
     
 class SellerDashboardView(TemplateView):

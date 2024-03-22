@@ -14,22 +14,9 @@ def cart_items(request):
     order_id = None
     
     user = request.user
-    session_orders = request.session.get('anonymous_orders', [])
-
-    # if request.user.is_authenticated:
-    #     customer = request.user.customer if hasattr(request.user, 'customer') else None
-    # else:
-    #     # customer = create_or_get_guest_user(request)
-    #     customer = None
 
     try:
-        # if customer:
-        #     orders = Order.objects.filter(customer=customer, complete=False)
-        # else:
-        #     anonymous_orders = request.session.get('anonymous_orders', [])
-        #     order_ids = [order.get('order_id') for order in anonymous_orders if 'order_id' in order]
-        #     orders = Order.objects.filter(id__in=order_ids, complete=False)
-        
+
         if user.is_authenticated:
             orders = Order.objects.filter(user=user, complete=False)
         else:

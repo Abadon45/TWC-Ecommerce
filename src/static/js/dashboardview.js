@@ -6,8 +6,95 @@ $(document).ready(function () {
   const navLinkEls = $(".nav__link");
   const contentDivs = $(".content-div");
 
+  const baseURL = window.location.origin;
+
+  const tabPaths = {
+    dashboard: "/",
+    profile: "/profile",
+    address: "/address",
+    "track-order": "/track-order",
+  };
+
+  const dashboardTab = document.querySelector(".dashboard-tab");
+  const profileTab = document.querySelector(".profile-tab");
+  const addressTab = document.querySelector(".address-tab");
+  const trackOrderTab = document.querySelector(".track-order-tab");
+
   var spinner = $(".sk-circle");
   var backdrop = $(".backdrop");
+
+  // Function to update the URL dynamically based on the selected tab
+  function updateURL(tab) {
+    const tabPath = tabPaths[tab];
+    const newURL = baseURL + tabPath;
+    history.pushState({}, "", newURL);
+  }
+
+  dashboardTab.addEventListener("click", function (event) {
+    event.preventDefault();
+    const currentPath = window.location.pathname;
+    let newPath = currentPath.replace(/\/[^\/]*$/, "/");
+    history.pushState({}, "", newPath);
+  });
+
+  profileTab.addEventListener("click", function (event) {
+    event.preventDefault();
+    history.pushState({}, "", "/profile");
+  });
+
+  addressTab.addEventListener("click", function (event) {
+    event.preventDefault();
+    history.pushState({}, "", "/address");
+  });
+
+  trackOrderTab.addEventListener("click", function (event) {
+    event.preventDefault();
+    history.pushState({}, "", "/track-order");
+  });
+
+  // Event listeners for tab clicks
+  $(".dashboard-tab").on("click", function (event) {
+    event.preventDefault();
+    const tab = "dashboard";
+    updateURL(tab);
+    showContent(tab);
+  });
+
+  $(".profile-tab").on("click", function (event) {
+    event.preventDefault();
+    const tab = "profile";
+    updateURL(tab);
+    showContent(tab);
+  });
+
+  $(".address-tab").on("click", function (event) {
+    event.preventDefault();
+    const tab = "address";
+    updateURL(tab);
+    showContent(tab);
+  });
+
+  $(".track-order-tab").on("click", function (event) {
+    event.preventDefault();
+    const tab = "track-order";
+    updateURL(tab);
+    showContent(tab);
+  });
+
+  // Function to show content based on tab selection
+  function showContent(tab) {
+    // Your existing showContent function logic here
+  }
+
+  // Load initial content based on the URL
+  function loadInitialContent() {
+    const currentPath = window.location.pathname;
+    const tab = Object.keys(tabPaths).find(
+      (key) => tabPaths[key] === currentPath
+    );
+    showContent(tab);
+  }
+  loadInitialContent();
 
   function handleNavLinkClick(index, linkElement) {
     if (!linkElement.hasClass("active")) {
@@ -36,6 +123,12 @@ $(document).ready(function () {
 
   // Get the active index from localStorage
   const activeIndex = localStorage.getItem("activeIndex");
+
+  // If there's an active index and the tab matches the active index, append the tab URL to the base URL
+  if (activeIndex !== null && tabPaths[activeIndex]) {
+    const tab = activeIndex;
+    updateURL(tab);
+}
 
   // If there is an active index stored in localStorage, click the corresponding link
   if (activeIndex !== null) {
@@ -343,9 +436,16 @@ $(document).ready(function () {
   }
   function createOrderItem(order) {
     const date = new Date(order.created_at);
-    const options = { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true}; // Customize options
+    const options = {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    }; // Customize options
 
-    const formattedDate = date.toLocaleString('en-US', options);
+    const formattedDate = date.toLocaleString("en-US", options);
     return $(`
       <tr>
         <td><span class="table-list-code">${order.order_id}</span></td>
@@ -367,7 +467,6 @@ $(document).ready(function () {
           </button>      
         </td>
       </tr>
-    `); 
+    `);
   }
-
 });

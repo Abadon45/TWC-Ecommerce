@@ -6,7 +6,6 @@ from products.models import Product
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from user.models import Referral
-from billing.models import Customer
 from django.shortcuts import redirect
 
 import random
@@ -34,21 +33,7 @@ class IndexView(TemplateView):
             request.session['referrer'] = referrer.id
             
             print(f"Referrer: {request.session['referrer']}")
-            
-            # if request.user.is_authenticated and hasattr(request.user, 'is_superuser') and not request.user.is_superuser:
-            #     referred = request.user  # The user who accessed the page
-            #     Referral.objects.create(referrer=referrer, referred=referred)
-            #     print(f"User {referred.username} was successfully referred by {referrer.username}.")
-
-        if referrer:
-            # Create a Customer object for the referred user
-            customer, created = Customer.get_or_create_customer(request.user, request, referrer_code=referrer.id)
-            if created:
-                print(f"Customer {customer.email} was successfully created for user {request.user.username}.")
-            return redirect('home_view')
-            
-        
-            
+                
         guest_user_info = request.session.get('guest_user_data', {})
         new_guest_user = request.session.get('new_guest_user', False)
         

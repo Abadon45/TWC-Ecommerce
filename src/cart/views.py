@@ -14,7 +14,6 @@ from django.conf import settings
 
 from products.models import Product
 from orders.models import *
-from billing.models import Customer
 from addresses.forms import AddressForm
 
 
@@ -189,7 +188,7 @@ def checkout(request):
                                         print("Referrer not found.")
                                 
                                 # PUT THIS ON THE FINAL VERSION
-                                # if User.objects.filter(email=customer.email).exists():
+                                # if User.objects.filter(email=user.email).exists():
                                 #     print("A user with this email already exists.") 
                                 # else:
                                 
