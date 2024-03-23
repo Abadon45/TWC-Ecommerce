@@ -32,7 +32,6 @@ def create_or_get_guest_user(request, referrer_id=None):
     
 @classmethod
 def get_or_create_customer(cls, user, request, referrer_code=None):
-    print("Entering get_or_create_customer method")
     referrer = None
     
     if referrer_code:

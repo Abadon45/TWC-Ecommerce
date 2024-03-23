@@ -1,7 +1,3 @@
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.encoding import force_text
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-from django.utils.crypto import get_random_string
 from django.views.generic import FormView, TemplateView
 from allauth.account.views import LoginView as AllauthLoginView
 from django.contrib.auth.views import LoginView as BaseLoginView
@@ -17,10 +13,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import render, redirect
 
-
-from billing.models import Customer
 from orders.models import Order
-from user.utils import get_or_create_customer
 from user.models import UserManager
 
 from user.forms import CustomUserCreationForm, CustomPasswordChangeForm
@@ -40,15 +33,10 @@ class RegisterView(FormView):
                 raw_password = form.cleaned_data.get('password1')
                 user.set_password(raw_password)
                 user.save()
-
-                # Save the user instance before creating the Customer
                 user.refresh_from_db()
 
                 user = authenticate(username=user.username, password=raw_password)
                 login(self.request, user)
-
-                customer, created = Customer.objects.get_or_create(user=user)
-                # customer, created = Customer.get_or_create_customer(user, self.request)
 
         except IntegrityError as e:
             print(user.__dict__)
@@ -76,7 +64,6 @@ class EcomLoginView(AllauthLoginView):
 #     def get_success_url(self):
 #         User = get_user_model()
 #         user = User.objects.get(username=self.request.user.username)
-#         # customer, created = Customer.objects.get_or_create(user=user)
 #         session_key = self.request.session.session_key
         
 #         if not session_key:
@@ -86,7 +73,6 @@ class EcomLoginView(AllauthLoginView):
 #         anonymous_order = Order.objects.filter(session_key=session_key, complete=False).first()
         
 #         if anonymous_order:
-#             # anonymous_order.customer = customer
 #             anonymous_order.save()
 #             if 'guest_user' in self.request.session:
 #                 del self.request.session['guest_user']

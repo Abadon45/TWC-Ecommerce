@@ -1,5 +1,4 @@
 from orders.models import Order
-from user.utils import create_or_get_guest_user
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
