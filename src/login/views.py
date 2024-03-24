@@ -49,7 +49,8 @@ class EcomLoginView(AllauthLoginView):
     redirect_authenticated_user = False
     template_name = 'login/login.html'
 
-    def get_success_url(self):
+    def get_success_url(self, request):
+        request.session['has_existing_order'] = True
         # Your custom success URL logic here
         return reverse_lazy('home_view')
 

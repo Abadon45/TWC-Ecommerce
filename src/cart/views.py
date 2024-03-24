@@ -402,11 +402,12 @@ def checkout_done_view(request):
     username = ""
     email = ""
     password = ""
+    user  = request.user
     
     try:
         request.session['new_guest_user'] = True
+        request.session['has_existing_order'] = True
         if request.user.is_authenticated:
-            user = request.user   
             order = Order.objects.filter(user=user, complete=False).first()    
         elif request.user.is_anonymous:
             session_key = request.session.session_key
@@ -471,7 +472,7 @@ def checkout_done_view(request):
             if user.is_authenticated:
                 completed_order = Order.objects.filter(user=user, complete=True).order_by("-created_at").first()
             else:
-                completed_order = Order.objects.filter(session_key=session_key, complete=True)
+                completed_order = Order.objects.filter(session_key=session_key, complete=True).first()
             print(completed_order)
             print(f"Completed Order ID: {completed_order.order_id}")
 
