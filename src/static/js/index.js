@@ -7,8 +7,8 @@ $(document).ready(function() {
         
         $.get(window.location.origin, function(data) {
             console.log("Received data from server:", data);
-            if (data.has_existing_order) {
-                console.log("User has existing order");
+            if (data.has_existing_order && data.email) {
+                console.log("User has existing order and email is available");
                 Swal.fire({
                     title: 'Hello!',
                     text: `Hi! is your Email ${data.email}?`,

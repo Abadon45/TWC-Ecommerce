@@ -20,6 +20,12 @@ User = get_user_model()
 
 class CartView(TemplateView):
     template_name = 'cart/shop-cart.html'
+    title = "Cart"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
 
 @transaction.atomic
 def updateItem(request):
@@ -44,7 +50,7 @@ def updateItem(request):
         else:
             print(f"User is not authenticated")
             session_key = request.session.session_key
-            order = Order.objects.filter(session_key=session_key, complete=False).first()
+            order, created = Order.objects.get_or_create(session_key=session_key, complete=False)
             
         if not order:
             if user.is_authenticated:
@@ -94,6 +100,7 @@ def updateItem(request):
 #----------------- Checkout Views -------------------
 
 def checkout(request):
+    title = "Checkout"
     shipping_form = AddressForm()
     order = Order()
     is_authenticated = False
@@ -265,6 +272,7 @@ def checkout(request):
                 'is_authenticated': is_authenticated,
                 'default_address': default_address,
                 'customer_addresses': customer_addresses,
+                'title': title,
             }
             print(f'is_authenticated: {is_authenticated}')
             return render(request, "cart/shop-checkout.html", context)
@@ -398,7 +406,8 @@ def get_checkout_address_details(request):
 #------------------checkout is done---------------------#
 ######################################################### 
 
-def checkout_done_view(request):  
+def checkout_done_view(request): 
+    title = "Checkout Done" 
     username = ""
     email = ""
     password = ""
@@ -465,6 +474,7 @@ def checkout_done_view(request):
                     "username": username,
                     "email": email,
                     "password": password,
+                    "title": title,
                 }
                 return render(request, "cart/shop-checkout-complete.html", context)
         else:
@@ -506,10 +516,11 @@ def checkout_done_view(request):
                     "username": username,
                     "email": email,
                     "password": password,
+                    "title": title,
                 }
                 return render(request, "cart/shop-checkout-complete.html", context)
             else:
-                return render(request, "cart/shop-cart.html")
+                return redirect('home_view')
     except Exception as e:
         print(f"Exception in checkout_done_view: {e}")
 
