@@ -239,10 +239,9 @@
                             <li class="shop-cart-total"><strong>Total:</strong> <span>₱ {{ total }}</span></li>
                         </ul>
                         <div class="text-end mt-40 checkoutBtn">
-                            <form class="form" method="POST" action="">
+                            <form class="form" method="POST" action="{% url 'cart:submit_checkout' %}">
                                 {% csrf_token %}
-                                <a href="{% url 'cart:checkout_complete' %}" class="theme-btn">Checkout Now<i
-                                        class="fas fa-arrow-right-long"></i></a>
+                                <button type="submit" class="theme-btn">Checkout Now<i class="fas fa-arrow-right-long"></i></button>
                             </form>
                         </div>
                     </div>

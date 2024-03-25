@@ -406,6 +406,34 @@ def get_checkout_address_details(request):
             return JsonResponse({'success': False, 'error': 'Address not found'})
     else:
         return JsonResponse({'success': False, 'error': 'Invalid request method'})
+    
+######################### 
+# Set Order to Complete #
+#########################
+
+def submit_checkout(request):
+    user = request.user
+    session_key = request.session.session_key
+    print(f'Session key: {session_key}')
+    if request.method == 'POST':
+        if user.is_authenticated:
+            order = Order.objects.filter(user=user, complete=False).first()
+            print(f'Authenticated User Order: {order}')
+        else:
+            order = Order.objects.filter(session_key=session_key, complete=False).first()
+            print(f'Guest Order: {order}')
+            
+        with transaction.atomic():
+                existing_order_items = order.orderitem_set.all()
+                # Add a method here to calculate the number of products sold
+                ordered_items = list(existing_order_items)
+                order.complete = True
+                existing_order_items.delete()
+                OrderItem.objects.bulk_create(ordered_items)
+        order.save()
+        
+        return redirect('cart:checkout_complete')
+
 
 
 #########################################################  
@@ -424,9 +452,10 @@ def checkout_done_view(request):
         request.session['new_guest_user'] = True
         request.session['has_existing_order'] = True
         if request.user.is_authenticated:
-            order = Order.objects.filter(user=user, complete=False).first()    
+            order = Order.objects.filter(user=user, complete=True).order_by("-created_at").first()  
         elif request.user.is_anonymous:
-            order = Order.objects.filter(session_key=session_key, complete=False).first() 
+            order = Order.objects.filter(session_key=session_key, complete=True).order_by("-created_at").first()
+            
             print(f"Guest User: {session_key}")
             print(f"Order: {order}")
             
@@ -437,98 +466,43 @@ def checkout_done_view(request):
             
             print(f'username: {username}, email: {email}, password: {password}')
 
-        if order is not None:
-            print(f'Shipping Address: {order.shipping_address}')
-            with transaction.atomic():
-                existing_order_items = order.orderitem_set.all()
-                # Add a method here to calculate the number of products sold
-                ordered_items = list(existing_order_items)
-                order.complete = True
-                existing_order_items.delete()
-                OrderItem.objects.bulk_create(ordered_items)
+        print(f'Shipping Address: {order.shipping_address}')
 
-            order.save()
+        # Fetch the ordered items associated with the completed order
+        ordered_items = OrderItem.objects.filter(order=order)
+        total_quantity = sum(item.quantity for item in ordered_items)
+        total_amount = sum(item.get_total for item in ordered_items)
 
-            # Fetch the ordered items associated with the completed order
-            ordered_items = OrderItem.objects.filter(order=order)
-            total_quantity = sum(item.quantity for item in ordered_items)
-            total_amount = sum(item.get_total for item in ordered_items)
+        print("Ordered Items:", ordered_items)
 
-            print("Ordered Items:", ordered_items)
+        order_data = {
+            "order_id": order.order_id,
+            "shipping_address": order.shipping_address,
+            "complete": True,
+            "created_at": timezone.now(),
+            "ordered_items": ordered_items,
+            "total_quantity": total_quantity,
+            "total_amount": total_amount,
+        }
 
-            order_data = {
-                "order_id": order.order_id,
-                "shipping_address": order.shipping_address,
-                "complete": True,
-                "created_at": timezone.now(),
-                "ordered_items": ordered_items,
-                "total_quantity": total_quantity,
-                "total_amount": total_amount,
+        if request.is_ajax():
+            response_data = {
+                "username": username,
+                "email": email,
+                "password": password,
             }
+            print("Response:", response_data)
+            return JsonResponse(response_data)
 
-            if request.is_ajax():
-                response_data = {
-                    "username": username,
-                    "email": email,
-                    "password": password,
-                }
-                print("Response:", response_data)
-                return JsonResponse(response_data)
-
-            else:
-                context = {
-                    "order": order_data,
-                    "username": username,
-                    "email": email,
-                    "password": password,
-                    "title": title,
-                }
-                return render(request, "cart/shop-checkout-complete.html", context)
         else:
-            print(f"Session Key 2: {session_key}")
-            if user.is_authenticated:
-                completed_order = Order.objects.filter(user=user, complete=True).order_by("-created_at").first()
-            else:
-                completed_order = Order.objects.filter(session_key=session_key, complete=True).first()
-                
-            print(f"Completed order: {completed_order}")
-            # print(f"Completed Order ID: {completed_order.order_id}")
-
-            if completed_order:
-                ordered_items = OrderItem.objects.filter(order=completed_order)
-
-                print("Ordered Items:", ordered_items)
-                total_quantity = sum(item.quantity for item in ordered_items)
-                total_amount = sum(item.get_total for item in ordered_items)
-                order_data = {
-                    "order_id": completed_order.order_id,
-                    "shipping_address": completed_order.shipping_address,
-                    "complete": True,
-                    "created_at": timezone.now(),
-                    "ordered_items": ordered_items,
-                    "total_quantity": total_quantity,
-                    "total_amount": total_amount,
-                }
-                
-                if request.is_ajax():
-                    response_data = {
-                        "username": username,
-                        "email": email,
-                        "password": password,
-                    }
-                    print("Response:", response_data)
-                    return JsonResponse(response_data)
-
-                context = {
-                    "order": order_data,
-                    "username": username,
-                    "email": email,
-                    "password": password,
-                    "title": title,
-                }
-                return render(request, "cart/shop-checkout-complete.html", context)
-            else:
-                return redirect('home_view')
+            context = {
+                "order": order_data,
+                "username": username,
+                "email": email,
+                "password": password,
+                "title": title,
+            }
+            return render(request, "cart/shop-checkout-complete.html", context)
     except Exception as e:
         print(f"Exception in checkout_done_view: {e}")
 
