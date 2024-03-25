@@ -109,23 +109,25 @@ def checkout(request):
     order_dict = []
     temporary_username = ""
     temporary_password = ""
-    customer_addresses = ""  
+    customer_addresses = ""
+    shipping_address_created = None  # Add this line to track if shipping address is created successfully
     
     referrer_id = request.session.get('referrer')
     user = request.user
-    session_key = ""
+    session_key = request.session.session_key
 
     try:
         is_authenticated = request.user.is_authenticated
         
         if is_authenticated:
-            is_authenticated=True
+            is_authenticated = True
             user = request.user
             default_address = Address.objects.filter(user=user, is_default=True).first()
             order = Order.objects.filter(user=user, complete=False).first()
-            customer_addresses = Address.objects.filter(user=user).exclude(is_default=True).order_by('-is_default')[:3]      
+            customer_addresses = Address.objects.filter(user=user).exclude(is_default=True).order_by('-is_default')[:3]
         else:
             session_key = request.session.session_key
+            print(f"Session Key: {session_key}")
             order = Order.objects.filter(session_key=session_key, complete=False).first()
         
             if not order:
@@ -150,6 +152,7 @@ def checkout(request):
             
             if shipping_form.is_valid():
                 shipping_address = shipping_form.save(commit=False)
+                print("Form is valid")
                 if user.is_authenticated:
                     shipping_address.user = user
                 else:
@@ -163,7 +166,7 @@ def checkout(request):
                     shipping_address.is_default = True
                     
                 shipping_address.save()
-                print(shipping_address.session_key)
+                shipping_address_created = shipping_address  # Track if shipping address is created successfully
                 print("Shipping address created:", shipping_address)                   
                 if not order.shipping_address:
                     
@@ -173,7 +176,7 @@ def checkout(request):
                 
                     print("Order Information After Address Update:", order.order_id, order.shipping_address)
                     
-                    #Generate a temporary account for the Guest User
+                    # Generate a temporary account for the Guest User
                     if request.user.is_anonymous:
                         temporary_username = request.POST.get('username').lower()  
                         print(f'username retrieved from ajax: {temporary_username}') 
@@ -244,6 +247,7 @@ def checkout(request):
                                 print("Temporary username is null or empty. Handle accordingly.")
                     
             else:
+                print(shipping_form.errors)
                 return render(request, "cart/shop-checkout.html", {
                 'error_message': 'The address form is not valid. Please correct the errors and try again.',
             })
@@ -275,6 +279,7 @@ def checkout(request):
                 'title': title,
             }
             print(f'is_authenticated: {is_authenticated}')
+            print(f'Shipping address created: {shipping_address_created}')  # Print shipping address created
             return render(request, "cart/shop-checkout.html", context)
     except Http404:
         return redirect('cart:cart')
@@ -282,6 +287,7 @@ def checkout(request):
     except Exception as e:
         print(f"Exception in checkout view: {e}")
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
+
  
 #########################################################  
 #----------Change address from list of addresses--------#
@@ -412,6 +418,7 @@ def checkout_done_view(request):
     email = ""
     password = ""
     user  = request.user
+    session_key = request.session.session_key
     
     try:
         request.session['new_guest_user'] = True
@@ -419,9 +426,9 @@ def checkout_done_view(request):
         if request.user.is_authenticated:
             order = Order.objects.filter(user=user, complete=False).first()    
         elif request.user.is_anonymous:
-            session_key = request.session.session_key
             order = Order.objects.filter(session_key=session_key, complete=False).first() 
             print(f"Guest User: {session_key}")
+            print(f"Order: {order}")
             
             guest_user_info = request.session.get('guest_user_data', {})
             username = guest_user_info.get('username')
@@ -478,13 +485,14 @@ def checkout_done_view(request):
                 }
                 return render(request, "cart/shop-checkout-complete.html", context)
         else:
-            print("No incomplete order found for this customer")
+            print(f"Session Key 2: {session_key}")
             if user.is_authenticated:
                 completed_order = Order.objects.filter(user=user, complete=True).order_by("-created_at").first()
             else:
                 completed_order = Order.objects.filter(session_key=session_key, complete=True).first()
-            print(completed_order)
-            print(f"Completed Order ID: {completed_order.order_id}")
+                
+            print(f"Completed order: {completed_order}")
+            # print(f"Completed Order ID: {completed_order.order_id}")
 
             if completed_order:
                 ordered_items = OrderItem.objects.filter(order=completed_order)

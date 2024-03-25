@@ -1,0 +1,68 @@
+Internal Server Error: /favicon.ico/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/TWC/middleware.py", line 32, in __call__
+    if request.subdomain:
+AttributeError: 'WSGIRequest' object has no attribute 'subdomain'
+Internal Server Error: /favicon.ico/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/TWC/middleware.py", line 32, in __call__
+    if request.subdomain:
+AttributeError: 'WSGIRequest' object has no attribute 'subdomain'
+"GET /favicon.ico/ HTTP/1.1" 500 64205
+"GET /favicon.ico/ HTTP/1.1" 500 64205
+You're accessing the development server over HTTPS, but it only supports HTTP.
+
+You're accessing the development server over HTTPS, but it only supports HTTP.
+
+You're accessing the development server over HTTPS, but it only supports HTTP.
+
+You're accessing the development server over HTTPS, but it only supports HTTP.
+
+Internal Server Error: /cart/checkout/complete/
+Internal Server Error: /cart/checkout/complete/
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+Internal Server Error: /cart/checkout/complete/
+Internal Server Error: /cart/checkout/complete/
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+Internal Server Error: /cart/checkout/complete/
+Internal Server Error: /cart/checkout/complete/
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+Internal Server Error: /cart/checkout/complete/
+Internal Server Error: /cart/checkout/complete/
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+Internal Server Error: /cart/checkout/complete/
+Internal Server Error: /cart/checkout/complete/
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+Internal Server Error: /cart/checkout/complete/
+Internal Server Error: /cart/checkout/complete/
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+Internal Server Error: /cart/checkout/complete/
+Internal Server Error: /cart/checkout/complete/
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+Internal Server Error: /cart/checkout/complete/
+Internal Server Error: /cart/checkout/complete/
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+Internal Server Error: /cart/checkout/complete/
+Internal Server Error: /cart/checkout/complete/
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+Internal Server Error: /cart/checkout/complete/
+Internal Server Error: /cart/checkout/complete/
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+Internal Server Error: /cart/checkout/complete/
+Internal Server Error: /cart/checkout/complete/
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
+"GET /cart/checkout/complete/ HTTP/1.1" 500 30
