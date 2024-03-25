@@ -307,7 +307,18 @@ LOGGING = {
             'propagate': True,
         },
     },
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s [%(levelname)s] %(module)s %(process)d %(thread)d %(message)s'
+        },
+    },
+    'root': {
+        'handlers': ['error_file'],
+        'level': 'ERROR',
+        'formatter': 'verbose',
+    },
 }
+
 
 
 ENV = os.getenv('ENV', 'production')
