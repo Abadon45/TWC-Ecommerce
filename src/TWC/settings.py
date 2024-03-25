@@ -289,25 +289,26 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'file': {
-            'level': 'DEBUG',
+        'error_file': {
+            'level': 'ERROR',  # Log only ERROR and above
             'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'login' / 'log' / 'file.log',
+            'filename': BASE_DIR / 'login' / 'log' / 'error.log',
         },
     },
     'loggers': {
         'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
+            'handlers': ['error_file'],
+            'level': 'ERROR',  # Log only ERROR and above
             'propagate': True,
         },
         'login': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
+            'handlers': ['error_file'],
+            'level': 'ERROR',  # Log only ERROR and above
             'propagate': True,
         },
     },
 }
+
 
 ENV = os.getenv('ENV', 'production')
 print("ENV:", ENV)
