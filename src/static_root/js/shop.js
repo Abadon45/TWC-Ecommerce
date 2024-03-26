@@ -66,7 +66,7 @@ $(document).ready(function () {
                                     </div>
                                     <div class="product-bottom">
                                         <div class="product-price">
-                                            <span>${product.price} Php</span>
+                                            <span>₱ ${product.price}</span>
                                         </div>
                                         <button data-product="${product.id}" data-action="add" type="button" class="product-cart-btn add-to-cart-btn update-cart">
                                             <i class="far fa-shopping-bag"></i>
@@ -106,7 +106,7 @@ $(document).ready(function () {
                                     <p>${product.description}</p>
                                     <div class="product-bottom">
                                         <div class="product-price">
-                                            <span>${product.price} Php</span>
+                                            <span>₱ ${product.price}</span>
                                         </div>
                                         <button data-product="${product.id}" data-action="add" type="button" class="product-cart-btn add-to-cart-btn update-cart">
                                             <i class="far fa-shopping-bag"></i>

@@ -174,3 +174,975 @@ Traceback (most recent call last):
 AttributeError: 'NoneType' object has no attribute 'orderitem_set'
 "POST /cart/submit-checkout/ HTTP/1.1" 500 69391
 "POST /cart/submit-checkout/ HTTP/1.1" 500 69391
+Internal Server Error: /shop/single/g-shock-black-rose-gold-watch
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/detail.py", line 107, in get
+    context = self.get_context_data(object=self.object)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/shop/views.py", line 128, in get_context_data
+    related_products = Product.objects.filter(category_1=category_id).exclude(slug=product.slug)
+AttributeError: 'QuerySet' object has no attribute 'slug'
+Internal Server Error: /shop/single/g-shock-black-rose-gold-watch
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/detail.py", line 107, in get
+    context = self.get_context_data(object=self.object)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/shop/views.py", line 128, in get_context_data
+    related_products = Product.objects.filter(category_1=category_id).exclude(slug=product.slug)
+AttributeError: 'QuerySet' object has no attribute 'slug'
+"GET /shop/single/g-shock-black-rose-gold-watch HTTP/1.1" 500 83993
+"GET /shop/single/g-shock-black-rose-gold-watch HTTP/1.1" 500 83993
+Internal Server Error: /shop/single/g-shock-black-rose-gold-watch
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/detail.py", line 107, in get
+    context = self.get_context_data(object=self.object)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/shop/views.py", line 128, in get_context_data
+    related_products = Product.objects.filter(category_1=category_id).exclude(slug=product.slug)
+AttributeError: 'QuerySet' object has no attribute 'slug'
+Internal Server Error: /shop/single/g-shock-black-rose-gold-watch
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/detail.py", line 107, in get
+    context = self.get_context_data(object=self.object)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/shop/views.py", line 128, in get_context_data
+    related_products = Product.objects.filter(category_1=category_id).exclude(slug=product.slug)
+AttributeError: 'QuerySet' object has no attribute 'slug'
+"GET /shop/single/g-shock-black-rose-gold-watch HTTP/1.1" 500 83993
+"GET /shop/single/g-shock-black-rose-gold-watch HTTP/1.1" 500 83993
+Internal Server Error: /shop/single/g-shock-black-rose-gold-watch
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/detail.py", line 107, in get
+    context = self.get_context_data(object=self.object)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/shop/views.py", line 128, in get_context_data
+    related_products = Product.objects.filter(category_1=category_id).exclude(slug=product.slug)
+AttributeError: 'QuerySet' object has no attribute 'slug'
+Internal Server Error: /shop/single/g-shock-black-rose-gold-watch
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/detail.py", line 107, in get
+    context = self.get_context_data(object=self.object)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/shop/views.py", line 128, in get_context_data
+    related_products = Product.objects.filter(category_1=category_id).exclude(slug=product.slug)
+AttributeError: 'QuerySet' object has no attribute 'slug'
+"GET /shop/single/g-shock-black-rose-gold-watch HTTP/1.1" 500 83993
+"GET /shop/single/g-shock-black-rose-gold-watch HTTP/1.1" 500 83993
+Internal Server Error: /shop/single/g-shock-black-rose-gold-watch
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/detail.py", line 107, in get
+    context = self.get_context_data(object=self.object)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/shop/views.py", line 128, in get_context_data
+    related_products = Product.objects.filter(category_1=category_id).exclude(slug=product.slug)
+AttributeError: 'QuerySet' object has no attribute 'slug'
+Internal Server Error: /shop/single/g-shock-black-rose-gold-watch
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/detail.py", line 107, in get
+    context = self.get_context_data(object=self.object)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/shop/views.py", line 128, in get_context_data
+    related_products = Product.objects.filter(category_1=category_id).exclude(slug=product.slug)
+AttributeError: 'QuerySet' object has no attribute 'slug'
+"GET /shop/single/g-shock-black-rose-gold-watch HTTP/1.1" 500 83993
+"GET /shop/single/g-shock-black-rose-gold-watch HTTP/1.1" 500 83993
+Internal Server Error: /shop/single/g-shock-black-rose-gold-watch
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/detail.py", line 107, in get
+    context = self.get_context_data(object=self.object)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/shop/views.py", line 128, in get_context_data
+    related_products = Product.objects.filter(category_1=category_id).exclude(slug=product.slug)
+AttributeError: 'QuerySet' object has no attribute 'slug'
+Internal Server Error: /shop/single/g-shock-black-rose-gold-watch
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/detail.py", line 107, in get
+    context = self.get_context_data(object=self.object)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/shop/views.py", line 128, in get_context_data
+    related_products = Product.objects.filter(category_1=category_id).exclude(slug=product.slug)
+AttributeError: 'QuerySet' object has no attribute 'slug'
+"GET /shop/single/g-shock-black-rose-gold-watch HTTP/1.1" 500 83993
+"GET /shop/single/g-shock-black-rose-gold-watch HTTP/1.1" 500 83993
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 79, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loaders/base.py", line 29, in get_template
+    return Template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 193, in compile_nodelist
+    return parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 278, in do_extends
+    nodelist = parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 216, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 814, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 449, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 447, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 563, in compile_filter
+    return FilterExpression(token, self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 657, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 569, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'get_item'
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 79, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loaders/base.py", line 29, in get_template
+    return Template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 193, in compile_nodelist
+    return parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 278, in do_extends
+    nodelist = parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 216, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 814, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 449, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 447, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 563, in compile_filter
+    return FilterExpression(token, self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 657, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 569, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'get_item'
+"GET / HTTP/1.1" 500 221119
+"GET / HTTP/1.1" 500 221119
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 79, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loaders/base.py", line 29, in get_template
+    return Template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 193, in compile_nodelist
+    return parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 278, in do_extends
+    nodelist = parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 216, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 814, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 449, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 447, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 563, in compile_filter
+    return FilterExpression(token, self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 657, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 569, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'get_item'
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 79, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loaders/base.py", line 29, in get_template
+    return Template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 193, in compile_nodelist
+    return parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 278, in do_extends
+    nodelist = parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 216, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 814, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 449, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 447, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 563, in compile_filter
+    return FilterExpression(token, self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 657, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 569, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'get_item'
+"GET / HTTP/1.1" 500 221146
+"GET / HTTP/1.1" 500 221146
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 79, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loaders/base.py", line 29, in get_template
+    return Template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 193, in compile_nodelist
+    return parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 278, in do_extends
+    nodelist = parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 216, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 814, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 449, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 447, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 563, in compile_filter
+    return FilterExpression(token, self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 657, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 569, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'get_item'
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 79, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loaders/base.py", line 29, in get_template
+    return Template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 193, in compile_nodelist
+    return parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 278, in do_extends
+    nodelist = parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 216, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 814, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 449, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 447, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 563, in compile_filter
+    return FilterExpression(token, self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 657, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 569, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'get_item'
+"GET / HTTP/1.1" 500 221069
+"GET / HTTP/1.1" 500 221069
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 79, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loaders/base.py", line 29, in get_template
+    return Template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 193, in compile_nodelist
+    return parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 278, in do_extends
+    nodelist = parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 216, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 814, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 449, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 447, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 563, in compile_filter
+    return FilterExpression(token, self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 657, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 569, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'get_item'
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 79, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loaders/base.py", line 29, in get_template
+    return Template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 193, in compile_nodelist
+    return parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 278, in do_extends
+    nodelist = parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 216, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 814, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 449, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 447, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 563, in compile_filter
+    return FilterExpression(token, self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 657, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 569, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'get_item'
+"GET / HTTP/1.1" 500 221080
+"GET / HTTP/1.1" 500 221080
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 79, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loaders/base.py", line 29, in get_template
+    return Template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 193, in compile_nodelist
+    return parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 278, in do_extends
+    nodelist = parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 216, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 814, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 449, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 447, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 563, in compile_filter
+    return FilterExpression(token, self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 657, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 569, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'get_item'
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 79, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loaders/base.py", line 29, in get_template
+    return Template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 193, in compile_nodelist
+    return parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 278, in do_extends
+    nodelist = parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 216, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 814, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 449, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 447, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 563, in compile_filter
+    return FilterExpression(token, self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 657, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 569, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'get_item'
+"GET / HTTP/1.1" 500 221080
+"GET / HTTP/1.1" 500 221080
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 79, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loaders/base.py", line 29, in get_template
+    return Template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 193, in compile_nodelist
+    return parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 278, in do_extends
+    nodelist = parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 216, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 814, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 449, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 447, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 563, in compile_filter
+    return FilterExpression(token, self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 657, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 569, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'get_item'
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 79, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loaders/base.py", line 29, in get_template
+    return Template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 193, in compile_nodelist
+    return parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 278, in do_extends
+    nodelist = parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 216, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 478, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 476, in parse
+    compiled_result = compile_func(self, token)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 814, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 449, in parse
+    raise self.error(token, e)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 447, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 563, in compile_filter
+    return FilterExpression(token, self)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 657, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 569, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'get_item'
+"GET / HTTP/1.1" 500 221049
+"GET / HTTP/1.1" 500 221049
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 69, in get
+    filtered_products = products.filter(category_2__in=subcategories)
+AttributeError: 'list' object has no attribute 'filter'
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 69, in get
+    filtered_products = products.filter(category_2__in=subcategories)
+AttributeError: 'list' object has no attribute 'filter'
+"GET / HTTP/1.1" 500 81350
+"GET / HTTP/1.1" 500 81350
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 42, in get
+    random_products = random.sample(products, min(len(products), 4)) if products else []
+  File "/usr/lib/python3.10/random.py", line 466, in sample
+    raise TypeError("Population must be a sequence.  For dicts or sets, use sorted(d).")
+TypeError: Population must be a sequence.  For dicts or sets, use sorted(d).
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 42, in get
+    random_products = random.sample(products, min(len(products), 4)) if products else []
+  File "/usr/lib/python3.10/random.py", line 466, in sample
+    raise TypeError("Population must be a sequence.  For dicts or sets, use sorted(d).")
+TypeError: Population must be a sequence.  For dicts or sets, use sorted(d).
+"GET / HTTP/1.1" 500 84420
+"GET / HTTP/1.1" 500 84420
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 72, in get
+    subcategory_counts_display = {
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 74, in <dictcomp>
+    'name': capfirst(next(name for value, name in PRODUCT_CATEGORY_2_CHOICES if value == subcategory.replace('_', '-'))),
+StopIteration
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 72, in get
+    subcategory_counts_display = {
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 74, in <dictcomp>
+    'name': capfirst(next(name for value, name in PRODUCT_CATEGORY_2_CHOICES if value == subcategory.replace('_', '-'))),
+StopIteration
+"GET / HTTP/1.1" 500 87945
+"GET / HTTP/1.1" 500 87945

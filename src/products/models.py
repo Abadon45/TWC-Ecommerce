@@ -14,14 +14,25 @@ class Product(models.Model):
         ('sante-package', 'Sante | Package'),
     ]
 
+    # PRODUCT_CATEGORY_2_CHOICES = [
+    #     ('sante-nutraceutical', 'Sante | Nutraceutical'),
+    #     ('sante-beverage', 'Sante | Beverage'),
+    #     ('sante-intimate_care', 'Sante | Intimate Care'),
+    #     ('twc-freebie', 'TWC | Freebie'),
+    #     ('chingu-bundle', 'Chingu | Bundle'),
+    #     ('mood-bundle', 'Mood Timepieces | Bundle'),
+    #     ('promo', 'Promos'),
+    # ]
+    
     PRODUCT_CATEGORY_2_CHOICES = [
-        ('sante-nutraceutical', 'Sante | Nutraceutical'),
-        ('sante-beverage', 'Sante | Beverage'),
-        ('sante-intimate_care', 'Sante | Intimate Care'),
-        ('twc-freebie', 'TWC | Freebie'),
-        ('chingu-bundle', 'Chingu | Bundle'),
-        ('mood-bundle', 'Mood Timepieces | Bundle'),
-        ('promo', 'Promos'),
+        ('health_wellness', 'Health and Wellness'),
+        ('healthy_beverages', 'Healthy Beverages'),
+        ('intimate_care', 'Intimate Care'),
+        ('bath_body', 'Bath & Body'),
+        ('watches', 'Watches'),
+        ('bags', 'Bags'),
+        ('accessories', 'Accessories'),
+        ('home_living', 'Home & Living'),
     ]
     
     sku = models.CharField('SKU', max_length=255, null=True, blank=True)

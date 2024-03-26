@@ -15,6 +15,5 @@ urlpatterns = [
     path('search/', ShopView.as_view(), name='search'),
     path('single/<slug:slug>', ShopDetailView.as_view(), name='single'),
     path('', ShopView.as_view(), name='shop'),
-   
 ]
 

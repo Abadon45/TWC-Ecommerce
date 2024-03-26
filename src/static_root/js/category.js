@@ -54,7 +54,7 @@ $(document).ready(function () {
                     </div>
                 </td>
                 <td>${product.stock} ${product.stock_unit}</td>
-                <td>${product.price} Php</td>
+                <td>₱ ${product.price}</td>
                 <td>${product.sales_count || 0}</td>
                 <td><span class="badge badge-success">Active</span></td>
                 <td>

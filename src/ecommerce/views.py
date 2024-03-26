@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from user.models import Referral
 from django.shortcuts import redirect
+from django.utils.text import capfirst
 
 import random
 
@@ -37,12 +38,36 @@ class IndexView(TemplateView):
         guest_user_info = request.session.get('guest_user_data', {})
         new_guest_user = request.session.get('new_guest_user', False)
         
-        products = list(Product.objects.filter(active=True))
-        random_products = random.sample(products, min(len(products), 4)) if products else []
-        rand_on_sale_products = random.sample(products, min(len(products), 3)) if products else []
-        rand_best_seller_products = random.sample(products, min(len(products), 3)) if products else []
-        rand_top_rated_products = random.sample(products, min(len(products), 3)) if products else []
+        products = Product.objects.filter(active=True)
+        products_list = list(products)
+        random_products = random.sample(products_list, min(len(products_list), 4)) if products_list else []
+        rand_on_sale_products = random.sample(products_list, min(len(products_list), 3)) if products_list else []
+        rand_best_seller_products = random.sample(products_list, min(len(products_list), 3)) if products_list else []
+        rand_top_rated_products = random.sample(products_list, min(len(products_list), 3)) if products_list else []
         
+        
+        subcategories_choices = [
+            ('health_wellness', 'Health and Wellness'),
+            ('healthy_beverages', 'Healthy Beverages'),
+            ('intimate_care', 'Intimate Care'),
+            ('bath_body', 'Bath & Body'),
+            ('watches', 'Watches'),
+            ('bags', 'Bags'),
+            ('accessories', 'Accessories'),
+            ('home_living', 'Home & Living'),
+        ]
+        
+        subcategories = [category[0] for category in subcategories_choices]
+        filtered_products = products.filter(category_2__in=subcategories)
+        subcategory_counts = {subcategory: filtered_products.filter(category_2=subcategory).count() for subcategory in subcategories}
+        subcategory_counts_display = {
+            subcategory: {
+                'name': capfirst(next((name for value, name in subcategories_choices if value == subcategory), 'Unknown')),
+                'count': count
+            } for subcategory, count in subcategory_counts.items()
+        }
+            
+            
         context = {
             'title': "HOME",
             'username': guest_user_info.get('username'),
@@ -56,10 +81,10 @@ class IndexView(TemplateView):
             'rand_best_seller_products': rand_best_seller_products,
             'rand_top_rated_products': rand_top_rated_products,
             'referrer': referrer if username and affiliate_code else None,
+            'categories': subcategory_counts_display,
         }
 
         if new_guest_user:
-            # Clear the flag so the notification is not shown again
             del request.session['new_guest_user']
             
         if request.is_ajax():

@@ -37,12 +37,14 @@
                     <div class="shop-widget" id="subcategory-sante" style="display: none;">
                         <h4 class="shop-widget-title">Subcategory</h4>
                         <ul class="shop-category-list category-2">
-                            <li><a href="{% url 'shop:shop' %}?category_id=sante-nutraceutical" 
-                                data-category-id="sante-nutraceutical">Sante Nutraceutical<span>({{ subcategory_counts.sante_nutraceutical }})</span></a></li>
-                            <li><a href="{% url 'shop:shop' %}?category_id=sante-beverage" 
-                                data-category-id="sante-beverage">Sante Beverages<span>({{ subcategory_counts.sante_beverage }})</span></a></li>
-                            <li><a href="{% url 'shop:shop' %}?category_id=sante-intimate_care" 
-                                data-category-id="sante-intimate_care">Sante Intimate Care<span>({{ subcategory_counts.sante_intimate_care }})</span></a></li>
+                            <li><a href="{% url 'shop:shop' %}?category_id=health_wellness" 
+                                data-category-id="health_wellness">Health & Wellness<span>({{ subcategory_counts.health_wellness }})</span></a></li>
+                            <li><a href="{% url 'shop:shop' %}?category_id=healthy_beverages" 
+                                data-category-id="healthy_beverages">Healthy Beverages<span>({{ subcategory_counts.healthy_beverages }})</span></a></li>
+                            <li><a href="{% url 'shop:shop' %}?category_id=intimate_care" 
+                                data-category-id="intimate_care">Intimate Care<span>({{ subcategory_counts.intimate_care }})</span></a></li>
+                            <li><a href="{% url 'shop:shop' %}?category_id=bath_body" 
+                                data-category-id="bath_body">Bath & Body<span>({{ subcategory_counts.bath_body }})</span></a></li>
                         </ul>
                     </div>
                     <div class="shop-widget">

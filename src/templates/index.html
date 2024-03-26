@@ -10,123 +10,21 @@
 <div class="category-area2 pt-20 border-top">
     <div class="container">
         <div class="category-slider owl-carousel owl-theme">
+            {% for category, data in categories.items %}
             <div class="category-item">
-                <a href="#">
+                <a href="{% url 'shop:shop' %}?category_id={{category}}">
                     <div class="category-info">
                         <div class="icon">
                             <img src="{% static 'img/icon/dress.svg' %}" alt="">
                         </div>
                         <div class="content">
-                            <h4>Fashion</h4>
-                            <p>30 Items</p>
+                            <h4>{{data.name}}</h4>
+                            <p>{{data.count}} item(s)</p>
                         </div>
                     </div>
                 </a>
             </div>
-            <div class="category-item">
-                <a href="#">
-                    <div class="category-info">
-                        <div class="icon">
-                            <img src="{% static 'img/icon/laptop.svg' %}" alt="">
-                        </div>
-                        <div class="content">
-                            <h4>Electronics</h4>
-                            <p>30 Items</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="category-item">
-                <a href="#">
-                    <div class="category-info">
-                        <div class="icon">
-                            <img src="{% static 'img/icon/furniture.svg' %}" alt="">
-                        </div>
-                        <div class="content">
-                            <h4>Furniture</h4>
-                            <p>30 Items</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="category-item">
-                <a href="#">
-                    <div class="category-info">
-                        <div class="icon">
-                            <img src="{% static 'img/icon/grocery.svg' %}" alt="">
-                        </div>
-                        <div class="content">
-                            <h4>Grocery</h4>
-                            <p>30 Items</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="category-item">
-                <a href="#">
-                    <div class="category-info">
-                        <div class="icon">
-                            <img src="{% static 'img/icon/toy.svg' %}" alt="">
-                        </div>
-                        <div class="content">
-                            <h4>Toy & Game</h4>
-                            <p>30 Items</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <!-- <div class="category-item">
-                <a href="#">
-                    <div class="category-info">
-                        <div class="icon">
-                            <img src="{% static 'img/icon/gifts.svg' %}" alt="">
-                        </div>
-                        <div class="content">
-                            <h4>Gifts</h4>
-                            <p>30 Items</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="category-item">
-                <a href="#">
-                    <div class="category-info">
-                        <div class="icon">
-                            <img src="{% static 'img/icon/sports.svg' %}" alt="">
-                        </div>
-                        <div class="content">
-                            <h4>Sports</h4>
-                            <p>30 Items</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="category-item">
-                <a href="#">
-                    <div class="category-info">
-                        <div class="icon">
-                            <img src="{% static 'img/icon/garden.svg' %}" alt="">
-                        </div>
-                        <div class="content">
-                            <h4>Garden</h4>
-                            <p>30 Items</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="category-item">
-                <a href="#">
-                    <div class="category-info">
-                        <div class="icon">
-                            <img src="{% static 'img/icon/automotive.svg' %}" alt="">
-                        </div>
-                        <div class="content">
-                            <h4>Automotive</h4>
-                            <p>30 Items</p>
-                        </div>
-                    </div>
-                </a>
-            </div> -->
+            {% endfor %}
         </div>
     </div>
 </div>
@@ -280,7 +178,7 @@
                     <div class="product-bottom">
                         <div class="product-price">
                             <!-- <del>P120</del> -->
-                            <span class="current-product-price">{{ product.customer_price}}</span><span>Php</span>
+                            <span class="current-product-price">₱ {{ product.customer_price}}</span>
                         </div>
                         <button data-product="{{ product.id }}" data-action="add" type="button"
                             class="product-cart-btn add-to-cart-btn update-cart">
@@ -367,7 +265,7 @@
                                 <div class="product-bottom">
                                     <div class="product-price">
                                         <!-- <del>P120</del> -->
-                                        <span class="current-product-price">{{ product.customer_price}}</span><span>Php</span>
+                                        <span class="current-product-price">₱ {{ product.customer_price}}</span>
                                     </div>
                                     <button data-product="{{ product.id }}" data-action="add" type="button"
                                         class="product-cart-btn add-to-cart-btn update-cart">
@@ -417,7 +315,7 @@
                                 <div class="product-bottom">
                                     <div class="product-price">
                                         <!-- <del>P120</del> -->
-                                        <span class="current-product-price">{{ product.customer_price}}</span><span>Php</span>
+                                        <span class="current-product-price">₱ {{ product.customer_price}}</span>
                                     </div>
                                     <button data-product="{{ product.id }}" data-action="add" type="button"
                                         class="product-cart-btn add-to-cart-btn update-cart">
@@ -467,7 +365,7 @@
                                 <div class="product-bottom">
                                     <div class="product-price">
                                         <!-- <del>P120</del> -->
-                                        <span class="current-product-price">{{ product.customer_price}}</span><span>Php</span>
+                                        <span class="current-product-price">₱ {{ product.customer_price}}</span>
                                     </div>
                                     <button data-product="{{ product.id }}" data-action="add" type="button"
                                         class="product-cart-btn add-to-cart-btn update-cart">
@@ -517,7 +415,7 @@
                                 <div class="product-bottom">
                                     <div class="product-price">
                                         <!-- <del>P120</del> -->
-                                        <span class="current-product-price">{{ product.customer_price}}</span><span>Php</span>
+                                        <span class="current-product-price">₱ {{ product.customer_price}}</span>
                                     </div>
                                     <button data-product="{{ product.id }}" data-action="add" type="button"
                                         class="product-cart-btn add-to-cart-btn update-cart">
@@ -604,7 +502,7 @@
                     <div class="product-bottom">
                         <div class="product-price">
                             <!-- <del>P120</del> -->
-                            <span class="current-product-price">{{ product.customer_price}}</span><span>Php</span>
+                            <span class="current-product-price">₱ {{ product.customer_price}}</span>
                         </div>
                         <button data-product="{{ product.id }}" data-action="add" type="button"
                             class="product-cart-btn add-to-cart-btn update-cart">
@@ -682,7 +580,7 @@
                                 <i class="far fa-star"></i>
                             </div>
                             <div class="product-list-price">
-                                <del>60.00Php</del><span>{{ product.customer_price}}Php</span>
+                                <del>₱ 60.00</del><span>₱ {{ product.customer_price}}</span>
                             </div>
                         </div>
                         <a href="#" class="product-list-btn" data-bs-placement="left" data-tooltip="tooltip"
@@ -715,7 +613,7 @@
                                 <i class="far fa-star"></i>
                             </div>
                             <div class="product-list-price">
-                                <del>60.00Php</del><span>{{ product.customer_price}}Php</span>
+                                <del>₱ 60.00</del><span>₱ {{ product.customer_price}}</span>
                             </div>
                         </div>
                         <a href="#" class="product-list-btn" data-bs-placement="left" data-tooltip="tooltip"
@@ -748,7 +646,7 @@
                                 <i class="far fa-star"></i>
                             </div>
                             <div class="product-list-price">
-                                <del>60.00Php</del><span>{{ product.customer_price}}Php</span>
+                                <del>₱ 60.00</del><span>₱ {{ product.customer_price}}</span>
                             </div>
                         </div>
                         <a href="#" class="product-list-btn" data-bs-placement="left" data-tooltip="tooltip"

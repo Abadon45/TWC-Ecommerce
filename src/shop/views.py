@@ -50,7 +50,16 @@ class ShopView(ProductListView):
             }
         context.update(self._product_choices)
         products = self.get_queryset()
-        subcategories = ['sante-nutraceutical', 'sante-beverage', 'sante-intimate_care']
+        subcategories = [
+            'health_wellness',
+            'healthy_beverages',
+            'intimate_care',
+            'bath_body',
+            'watches',
+            'bags',
+            'accessories',
+            'home_living',
+        ]
         
         # Filter products by subcategories
         filtered_products = products.filter(category_2__in=subcategories)

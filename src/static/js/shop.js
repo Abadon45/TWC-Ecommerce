@@ -76,7 +76,7 @@ $(document).ready(function () {
     }
 
     function filterProducts(category_id) {
-        const requestData = { category: category_id };
+        const requestData = { category_id: category_id };
         const url = (category_id === "all") ? "/shop/" : `/shop/?category_id=${category_id}`;
 
         console.log("Filtering products with URL:", url);
@@ -133,7 +133,7 @@ $(document).ready(function () {
                                         </div>
                                         <div class="product-bottom">
                                             <div class="product-price">
-                                                <span>${product.price} Php</span>
+                                                <span>₱ ${product.price}</span>
                                             </div>
                                             <button data-product="${product.id}" data-action="add" type="button" class="product-cart-btn add-to-cart-btn update-cart">
                                                 <i class="far fa-shopping-bag"></i>
@@ -173,7 +173,7 @@ $(document).ready(function () {
                                         <p>${product.description}</p>
                                         <div class="product-bottom">
                                             <div class="product-price">
-                                                <span>${product.price} Php</span>
+                                                <span>₱ ${product.price}</span>
                                             </div>
                                             <button data-product="${product.id}" data-action="add" type="button" class="product-cart-btn add-to-cart-btn update-cart">
                                                 <i class="far fa-shopping-bag"></i>

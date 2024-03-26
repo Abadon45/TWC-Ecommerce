@@ -34,7 +34,7 @@ def updateItem(request):
     quantity = int(request.GET.get('quantity', 1))
     
     user = request.user
-    session_key = ""
+    session_key = request.session.session_key
     
     print('Action: ', action)
     print('Product: ', productId)
@@ -45,18 +45,15 @@ def updateItem(request):
         print('User ID:', request.user.id)
         if user.is_authenticated:
             print(f"User is authenticated: {user.username}")
-            order = Order.objects.filter(user=user, complete=False).first()
+            order = Order.objects.get_or_create(user=user, complete=False).first()
             
         else:
             print(f"User is not authenticated")
-            session_key = request.session.session_key
             order, created = Order.objects.get_or_create(session_key=session_key, complete=False)
             
-        if not order:
-            if user.is_authenticated:
-                order = Order.objects.create(user=user)
-            else:
-                order = Order.objects.create(session_key=session_key)
+        if not order.id:
+            request.session['order_id'] = order.id
+            
         
         product = get_object_or_404(Product, id=productId)
         orderItem, order_item_created = OrderItem.objects.get_or_create(order=order, product=product)
@@ -121,31 +118,24 @@ def checkout(request):
         
         if is_authenticated:
             is_authenticated = True
-            user = request.user
             default_address = Address.objects.filter(user=user, is_default=True).first()
             order = Order.objects.filter(user=user, complete=False).first()
             customer_addresses = Address.objects.filter(user=user).exclude(is_default=True).order_by('-is_default')[:3]
         else:
-            session_key = request.session.session_key
-            print(f"Session Key: {session_key}")
             order = Order.objects.filter(session_key=session_key, complete=False).first()
-        
-            if not order:
-                return redirect('cart:cart')
         
         if default_address:
             print(f"Default Address: {default_address}")
             order.shipping_address = default_address
             order.save()
                 
-        if order:
-            with transaction.atomic():
-                existing_order_items = order.orderitem_set.all()
-                print("Order items:", order.orderitem_set.all())
-                for order_item in existing_order_items:
-                    product = order_item.product
-                    ordered_items.append(OrderItem(order=order, product=product, quantity=order_item.quantity))   
-                order.save()
+        with transaction.atomic():
+            existing_order_items = order.orderitem_set.all()
+            print("Order items:", order.orderitem_set.all())
+            for order_item in existing_order_items:
+                product = order_item.product
+                ordered_items.append(OrderItem(order=order, product=product, quantity=order_item.quantity))   
+            order.save()
         
         if request.method == 'POST':  
             shipping_form = AddressForm(request.POST)
@@ -251,8 +241,6 @@ def checkout(request):
                 return render(request, "cart/shop-checkout.html", {
                 'error_message': 'The address form is not valid. Please correct the errors and try again.',
             })
-            
-
                 
         if request.is_ajax():
             response_data = {
@@ -279,16 +267,17 @@ def checkout(request):
                 'title': title,
             }
             print(f'is_authenticated: {is_authenticated}')
-            print(f'Shipping address created: {shipping_address_created}')  # Print shipping address created
+            print(f'Shipping address created: {shipping_address_created}') 
             return render(request, "cart/shop-checkout.html", context)
-    except Http404:
+    except Order.DoesNotExist:
         return redirect('cart:cart')
-        
+    except Http404:
+        return redirect('cart:cart')  
     except Exception as e:
         print(f"Exception in checkout view: {e}")
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
 
- 
+
 #########################################################  
 #----------Change address from list of addresses--------#
 ######################################################### 
