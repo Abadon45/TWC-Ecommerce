@@ -14,16 +14,6 @@ class Product(models.Model):
         ('sante-package', 'Sante | Package'),
     ]
 
-    # PRODUCT_CATEGORY_2_CHOICES = [
-    #     ('sante-nutraceutical', 'Sante | Nutraceutical'),
-    #     ('sante-beverage', 'Sante | Beverage'),
-    #     ('sante-intimate_care', 'Sante | Intimate Care'),
-    #     ('twc-freebie', 'TWC | Freebie'),
-    #     ('chingu-bundle', 'Chingu | Bundle'),
-    #     ('mood-bundle', 'Mood Timepieces | Bundle'),
-    #     ('promo', 'Promos'),
-    # ]
-    
     PRODUCT_CATEGORY_2_CHOICES = [
         ('health_wellness', 'Health and Wellness'),
         ('healthy_beverages', 'Healthy Beverages'),

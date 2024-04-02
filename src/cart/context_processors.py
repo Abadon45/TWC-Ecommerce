@@ -6,9 +6,6 @@ from django.http import JsonResponse
 User = get_user_model()
 
 def cart_items(request):
-    user = request.user
-    session_key = request.session.session_key
-    
     try: 
         order_ids = request.session.get('checkout_orders', [])
         orders = Order.objects.filter(id__in=order_ids)
@@ -18,18 +15,14 @@ def cart_items(request):
         for order in orders:
             print(f"Existing order_id: {order.order_id}")
         
-        if request.is_ajax():
-            return JsonResponse({'cart_items': cart_items})
-        else:
-            return {'cart_items': cart_items}
+        return {'cart_items': cart_items}
 
     except Order.DoesNotExist:
         return {'cart_items': 0}
     except Exception as e:
         print(f"Error in cart_items view: {e}")
         return {'cart_items': 0}
-        
-        
+                
 def new_guest_user(request):
     return {'new_guest_user': request.session.get('new_guest_user', False)}
 

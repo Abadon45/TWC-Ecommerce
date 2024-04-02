@@ -76,7 +76,7 @@ $(document).ready(function () {
     }
 
     function filterProducts(category_id) {
-        const requestData = { category_id: category_id };
+        const requestData = { category: category_id };
         const url = (category_id === "all") ? "/shop/" : `/shop/?category_id=${category_id}`;
 
         console.log("Filtering products with URL:", url);
@@ -186,7 +186,6 @@ $(document).ready(function () {
                         productListContainerList.append(productListHtml);
                         console.log("Product Object:", product);
                     });
-                    console.log("Appended products to container:", data.products);
                 }
             },
             error: function (xhr, status, error) {
@@ -194,7 +193,6 @@ $(document).ready(function () {
                 if (xhr.readyState == 4) {
                     console.log("XHR Status:", xhr.status);
                     console.log("XHR Status Text:", xhr.statusText);
-                    console.log("Response Text:", xhr.responseText);
                 } else if (xhr.readyState == 0) {
                     console.log("XHR Status: 0 (Request not initialized)");
                 } else {
