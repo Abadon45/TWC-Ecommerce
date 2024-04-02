@@ -10,10 +10,12 @@ from django.contrib.auth.signals import user_logged_in
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.conf import settings
+from django.template.defaultfilters import floatformat
 
 from products.models import Product
 from orders.models import *
 from addresses.forms import AddressForm
+from .utils import sf_calculator
 
 
 User = get_user_model()
@@ -24,7 +26,23 @@ class CartView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = self.title
+            
+        order_ids = self.request.session.get('checkout_orders', [])
+        orders = Order.objects.filter(id__in=order_ids) 
+            
+        ordered_items = {}
+        for order in orders:
+            ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product')
+            
+        total_cart_subtotal = sum(order.calculate_subtotal() for order in orders)
+        
+        context.update({
+            'title': self.title,
+            'orders': orders,
+            'ordered_items': ordered_items,
+            'total_cart_subtotal': total_cart_subtotal,
+        })
+        
         return context
 
 @transaction.atomic
@@ -32,6 +50,7 @@ def updateItem(request):
     productId = request.GET.get('productId')
     action = request.GET.get('action')
     quantity = int(request.GET.get('quantity', 1))
+    cart_items = 0
     
     user = request.user
     session_key = request.session.session_key
@@ -42,22 +61,20 @@ def updateItem(request):
     
     try:
         
+        product = get_object_or_404(Product, id=productId)
+        supplier = product.category_1
+        
         print('User ID:', request.user.id)
+        
+        # Get or create the order based on user authentication and supplier
         if user.is_authenticated:
             print(f"User is authenticated: {user.username}")
-            order = Order.objects.get_or_create(user=user, complete=False).first()
-            
+            order, created = Order.objects.get_or_create(user=user, supplier=supplier, complete=False)
         else:
             print(f"User is not authenticated")
-            order, created = Order.objects.get_or_create(session_key=session_key, complete=False)
-            
-        if not order.id:
-            request.session['order_id'] = order.id
-            
+            order, created = Order.objects.get_or_create(user=None, session_key=session_key, supplier=supplier, complete=False)
         
-        product = get_object_or_404(Product, id=productId)
         orderItem, order_item_created = OrderItem.objects.get_or_create(order=order, product=product)
-
         orderItem.save()
         
         if action == 'add':
@@ -69,16 +86,38 @@ def updateItem(request):
             orderItem.delete()
         else:
             orderItem.save()
+            
+            
+        if order.orderitem_set.all().count() == 0:
+            order.delete()
         
         print(order)
         print(orderItem)
         print(orderItem.quantity)
+        
+        existing_orders = Order.objects.filter(user=user, supplier=supplier, complete=False) if user.is_authenticated else \
+                        Order.objects.filter(session_key=session_key, supplier=supplier, complete=False)
+        
+        ordered_items = {}
+        for order in existing_orders:
+            ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product')
             
-        total_quantity = order.orderitem_set.aggregate(Sum('quantity'))['quantity__sum']
-        cart_items_count = total_quantity if total_quantity is not None else 0
-
+        if user.is_authenticated:
+            orders = Order.objects.filter(user=user, complete=False)
+        else:
+            orders = Order.objects.filter(session_key=session_key, complete=False)
+        
+        request.session['checkout_orders'] = list(orders.values_list('id', flat=True))
+            
+        cart_items = sum(order.total_quantity for order in orders)
+        total_cart_subtotal = sum(order.calculate_subtotal() for order in orders)
+        
+        print(f'total items in cart: {cart_items}')
+        
         return JsonResponse({
-            'cart_items': cart_items_count,
+            'action': action,
+            'cart_items': cart_items,
+            'total_cart_subtotal': total_cart_subtotal,
             'products': [{
                 'id': product.id,
                 'name': product.name,
@@ -86,8 +125,11 @@ def updateItem(request):
                 'quantity': orderItem.quantity,
                 'total': orderItem.get_total,
             }],
-            'action': action
-        }, safe=False)
+            'orders': [{
+                'order_id': o.order_id, 
+                'subtotal': o.subtotal
+                } for o in existing_orders],
+            }, safe=False)
         
     except Exception as e:
         print(f"Exception in updateItem: {e}")
@@ -103,11 +145,10 @@ def checkout(request):
     is_authenticated = False
     default_address = ""
     ordered_items = []
-    order_dict = []
     temporary_username = ""
     temporary_password = ""
     customer_addresses = ""
-    shipping_address_created = None  # Add this line to track if shipping address is created successfully
+    shipping_fee = 0.00
     
     referrer_id = request.session.get('referrer')
     user = request.user
@@ -119,30 +160,50 @@ def checkout(request):
         if is_authenticated:
             is_authenticated = True
             default_address = Address.objects.filter(user=user, is_default=True).first()
-            order = Order.objects.filter(user=user, complete=False).first()
+            # orders = Order.objects.filter(user=user, complete=False)
             customer_addresses = Address.objects.filter(user=user).exclude(is_default=True).order_by('-is_default')[:3]
-        else:
-            order = Order.objects.filter(session_key=session_key, complete=False).first()
+        # else:
+        #     orders = Order.objects.filter(user=None, session_key=session_key, complete=False)
+            
+        order_ids = request.session.get('checkout_orders', [])
+        orders = Order.objects.filter(id__in=order_ids)
         
         if default_address:
-            print(f"Default Address: {default_address}")
-            order.shipping_address = default_address
-            order.save()
+            region = default_address.region
+            print(f"Shipping Fee: {shipping_fee}")
+            print(f"Address Region: {region}")
+            for order in orders:
+                order.shipping_address = default_address
+                qty = order.total_quantity
+                shipping_fee = sf_calculator(region=region, qty=qty)
+                order.shipping_fee = shipping_fee
+                order.save()
                 
-        with transaction.atomic():
-            existing_order_items = order.orderitem_set.all()
-            print("Order items:", order.orderitem_set.all())
-            for order_item in existing_order_items:
-                product = order_item.product
-                ordered_items.append(OrderItem(order=order, product=product, quantity=order_item.quantity))   
-            order.save()
+        
+        for order in orders:        
+            with transaction.atomic():
+                existing_order_items = order.orderitem_set.all()
+                print("Order items:", order.orderitem_set.all())
+                for order_item in existing_order_items:
+                    product = order_item.product
+                    ordered_items.append(OrderItem(order=order, product=product, quantity=order_item.quantity))   
+                order.save()
         
         if request.method == 'POST':  
             shipping_form = AddressForm(request.POST)
             
             if shipping_form.is_valid():
                 shipping_address = shipping_form.save(commit=False)
-                print("Form is valid")
+                
+                region = shipping_form.cleaned_data.get('region')
+                for order in orders:
+                    qty = order.total_quantity
+                    shipping_fee = sf_calculator(region=region, qty=qty)
+                    order.shipping_fee = shipping_fee
+                    order.save()
+                    
+                updated_orders = [{'id': order.id, 'shipping_fee': order.shipping_fee} for order in orders]
+                
                 if user.is_authenticated:
                     shipping_address.user = user
                 else:
@@ -156,15 +217,15 @@ def checkout(request):
                     shipping_address.is_default = True
                     
                 shipping_address.save()
-                shipping_address_created = shipping_address  # Track if shipping address is created successfully
                 print("Shipping address created:", shipping_address)                   
                 if not order.shipping_address:
                     
-                    order.shipping_address = shipping_address
-                    order.contact_number = shipping_address.phone
-                    order.save()
+                    for order in orders:
+                        order.shipping_address = shipping_address
+                        order.contact_number = shipping_address.phone
+                        order.save()
                 
-                    print("Order Information After Address Update:", order.order_id, order.shipping_address)
+                        print("Order Information After Address Update:", order.order_id, order.shipping_address)
                     
                     # Generate a temporary account for the Guest User
                     if request.user.is_anonymous:
@@ -202,8 +263,9 @@ def checkout(request):
                                 temporary_user.save()
                                 shipping_address.user = temporary_user
                                 shipping_address.save()
-                                order.user = temporary_user
-                                order.save()
+                                for order in orders:
+                                    order.user = temporary_user
+                                    order.save()
                                 
                 
                                 print("Temporary user created:", temporary_user)
@@ -241,6 +303,17 @@ def checkout(request):
                 return render(request, "cart/shop-checkout.html", {
                 'error_message': 'The address form is not valid. Please correct the errors and try again.',
             })
+        #put order display here
+                        
+        ordered_items = {}
+        for order in orders:
+            ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product')
+            
+        orders_subtotal = sum(order.subtotal for order in orders)
+        total_shipping = sum(Decimal(order.shipping_fee) for order in orders)
+        total_payment = orders_subtotal + total_shipping
+        print(f'Total Payment: {total_payment}')
+        print(f'Orders are: {orders}')
                 
         if request.is_ajax():
             response_data = {
@@ -255,11 +328,17 @@ def checkout(request):
                 'city': shipping_address.city,
                 'barangay': shipping_address.barangay,
                 'postcode': shipping_address.postcode,
+                'orders': updated_orders,
+                'total_payment': total_payment,
             }
+            
             return JsonResponse(response_data)
         else:
             context = {
-                'order': order_dict,
+                'orders': orders, 
+                'ordered_items': ordered_items,
+                'orders_subtotal': orders_subtotal,
+                'total_payment': total_payment,
                 'shipping_form': shipping_form,
                 'is_authenticated': is_authenticated,
                 'default_address': default_address,
@@ -267,12 +346,11 @@ def checkout(request):
                 'title': title,
             }
             print(f'is_authenticated: {is_authenticated}')
-            print(f'Shipping address created: {shipping_address_created}') 
             return render(request, "cart/shop-checkout.html", context)
     except Order.DoesNotExist:
-        return redirect('cart:cart')
+        return redirect('home_view')
     except Http404:
-        return redirect('cart:cart')  
+        return redirect('home_view')  
     except Exception as e:
         print(f"Exception in checkout view: {e}")
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
@@ -299,10 +377,11 @@ def get_selected_address(request):
     
     try:
         user=request.user
-        order, order_created = Order.objects.get_or_create(user=user, complete=False)
+        orders = Order.objects.filter(user=user, complete=False)
         
-        order.shipping_address = selected_address
-        order.save()
+        for order in orders:
+            order.shipping_address = selected_address
+            order.save()
     except Exception as e:
         print(f"Exception in checkout view: {e}")
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
@@ -401,29 +480,14 @@ def get_checkout_address_details(request):
 #########################
 
 def submit_checkout(request):
-    user = request.user
-    session_key = request.session.session_key
-    print(f'Session key: {session_key}')
+    order_ids = request.session.get('checkout_orders', [])
+    orders = Order.objects.filter(id__in=order_ids)
+    print(f'Orders Submitted: {orders}')
     if request.method == 'POST':
-        if user.is_authenticated:
-            order = Order.objects.filter(user=user, complete=False).first()
-            print(f'Authenticated User Order: {order}')
-        else:
-            order = Order.objects.filter(session_key=session_key, complete=False).first()
-            print(f'Guest Order: {order}')
-            
-        with transaction.atomic():
-                existing_order_items = order.orderitem_set.all()
-                # Add a method here to calculate the number of products sold
-                ordered_items = list(existing_order_items)
-                order.complete = True
-                existing_order_items.delete()
-                OrderItem.objects.bulk_create(ordered_items)
-        order.save()
-        
+        for order in orders:
+            order.complete = True
+            order.save()
         return redirect('cart:checkout_complete')
-
-
 
 #########################################################  
 #------------------checkout is done---------------------#
@@ -434,19 +498,19 @@ def checkout_done_view(request):
     username = ""
     email = ""
     password = ""
-    user  = request.user
-    session_key = request.session.session_key
     
     try:
         request.session['new_guest_user'] = True
         request.session['has_existing_order'] = True
-        if request.user.is_authenticated:
-            order = Order.objects.filter(user=user, complete=True).order_by("-created_at").first()  
-        elif request.user.is_anonymous:
-            order = Order.objects.filter(session_key=session_key, complete=True).order_by("-created_at").first()
-            
-            print(f"Guest User: {session_key}")
-            print(f"Order: {order}")
+        
+        if 'checkout_orders' in request.session: 
+            request.session['checkout_done_view'] = request.session.get('checkout_orders', [])
+            del request.session['checkout_orders']
+
+        order_ids = request.session.get('checkout_done_view', [])
+        orders = Order.objects.filter(id__in=order_ids)
+        
+        if request.user.is_anonymous:
             
             guest_user_info = request.session.get('guest_user_data', {})
             username = guest_user_info.get('username')
@@ -454,25 +518,16 @@ def checkout_done_view(request):
             email = guest_user_info.get('email')
             
             print(f'username: {username}, email: {email}, password: {password}')
-
-        print(f'Shipping Address: {order.shipping_address}')
-
-        # Fetch the ordered items associated with the completed order
-        ordered_items = OrderItem.objects.filter(order=order)
-        total_quantity = sum(item.quantity for item in ordered_items)
-        total_amount = sum(item.get_total for item in ordered_items)
-
-        print("Ordered Items:", ordered_items)
-
-        order_data = {
-            "order_id": order.order_id,
-            "shipping_address": order.shipping_address,
-            "complete": True,
-            "created_at": timezone.now(),
-            "ordered_items": ordered_items,
-            "total_quantity": total_quantity,
-            "total_amount": total_amount,
-        }
+            
+        ordered_items = {}
+        for order in orders:
+            ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product')
+            order.total_amount = order.subtotal + order.shipping_fee
+            order.save()
+                
+        orders_subtotal = sum(order.subtotal for order in orders)
+        total_shipping = sum(Decimal(order.shipping_fee) for order in orders)
+        total_payment = orders_subtotal + total_shipping
 
         if request.is_ajax():
             response_data = {
@@ -482,17 +537,18 @@ def checkout_done_view(request):
             }
             print("Response:", response_data)
             return JsonResponse(response_data)
-
         else:
             context = {
-                "order": order_data,
+                "orders": orders,
+                'ordered_items': ordered_items,
+                "orders_subtotal": orders_subtotal,
                 "username": username,
                 "email": email,
                 "password": password,
                 "title": title,
+                "total_payment": total_payment,
             }
             return render(request, "cart/shop-checkout-complete.html", context)
     except Exception as e:
         print(f"Exception in checkout_done_view: {e}")
-
         return JsonResponse({"error": "An error occurred"}, status=500)

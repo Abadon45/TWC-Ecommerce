@@ -1,5 +1,6 @@
 {% extends "base-shop.html" %}
 {% load static %}
+{% load currency_filters %}
 
 {% block title %} {{ title }} {% endblock %}
 
@@ -14,7 +15,8 @@
     <div class="container">
         <div class="shop-checkout-wrap">
             <div class="row">
-                <div class="col-lg-8">
+                {% if not default_address %}
+                <div class="col-lg-8 mb-20">
                     <div class="shop-checkout-step">
                         <nav class="nav checkout-step-list nav-pills nav-justified mb-3" id="shopCheckout"
                             role="tablist">
@@ -34,44 +36,7 @@
                             <div class="tab-pane fade show active" id="step1" role="tabpanel"
                                 aria-labelledby="step1-tab" tabindex="0">
                                 <div class="shop-checkout-form">
-                                    {% if is_authenticated %}
-                                        {% if default_address %}
-                                        <h6 class="mb-2"><i class="fa-solid fa-location-dot"></i> Delivery Address:</h6>
-
-                                        <p class="selected_address"><b>{{default_address.first_name}} {{default_address.last_name}}
-                                                {{default_address.phone}}</b></p>
-                                        <div class="change-address row mb-20">
-                                            <div class="col-lg-10">
-                                                <p class="address_details">{{ default_address.line1 }} Brgy. {{ default_address.barangay }}, 
-                                                    {{ default_address.city }}, {{ default_address.province }}, 
-                                                    {{ default_address.postcode }} </p>
-                                            </div>
-                                            <div class="col-lg-2 d-flex justify-content-end">
-                                                <span class="is_default">Default</span>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-1">
-                                                    <button type="button" class="change-address-btn">Change</button>
-                                                </div>
-                                            </div>
-                                            <!-- Change / Add Address Modal -->
-                                            {% include 'cart/change-address-modal.html' %}
-                                            {% include 'cart/add-address-modal.html' %}
-                                            {% include 'cart/edit-address-modal.html' %}
-                                        </div>
-                                        <hr class="mt-2 mb-3">
-                                        <div class="col-lg-12 mt-20">
-                                            <a href="{% url 'cart:cart' %}" type="button" class="theme-btn theme-btn2"><span
-                                                    class="fas fa-arrow-left"></span>Back To Cart</a>
-                                            <button class="theme-btn paymentBtn">Next Step<i
-                                                    class="fas fa-arrow-right"></i></button>
-                                        </div>
-                                        {% else %}
-                                            {% include 'cart/address-form.html' %}
-                                        {% endif %}
-                                    {% else %}
-                                        {% include 'cart/address-form.html' %}
-                                    {% endif %}
+                                    {% include 'cart/address-form.html' %}
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="step2" role="tabpanel" aria-labelledby="step2-tab"
@@ -104,8 +69,10 @@
                                                 data-bs-target="#pills-3" type="button" role="tab"
                                                 aria-controls="pills-3" aria-selected="false">
                                                 <div class="checkout-payment-img">
-                                                    <img src="{% static 'img/payment/gcash.svg' %}" alt="" style="width: 95px;">
-                                                    <img src="{% static 'img/payment/maya.svg' %}" alt="" style="width: 95px;">
+                                                    <img src="{% static 'img/payment/gcash.svg' %}" alt=""
+                                                        style="width: 95px;">
+                                                    <img src="{% static 'img/payment/maya.svg' %}" alt=""
+                                                        style="width: 95px;">
                                                 </div>
                                                 <span>Gcash/Maya Payment</span>
                                             </a>
@@ -168,7 +135,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <button type="button" class="theme-btn confirmPaymentBtn">Pay Now<i
+                                                            <button type="button"
+                                                                class="theme-btn confirmPaymentBtn">Pay Now<i
                                                                     class="fas fa-arrow-right"></i></button>
                                                         </div>
                                                     </div>
@@ -203,7 +171,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
-                                                            <button type="button" class="theme-btn confirmPaymentBtn">Submit<i
+                                                            <button type="button"
+                                                                class="theme-btn confirmPaymentBtn">Submit<i
                                                                     class="fas fa-arrow-right"></i></button>
                                                         </div>
                                                     </div>
@@ -220,32 +189,167 @@
                     <div class="shop-cart-summary mt-lg-0">
                         <h5>Cart Summary</h5>
                         <ul>
-                            <li><strong>Order ID:</strong><span>{{ order.order_id|default:order_id }}</span></li>
-                            <li><strong>Sub Total:</strong><span>₱ {{ order.get_cart_items|default:subtotal }}</span></li>
-                            
+                            <li><strong>Merchandise Sub Total:</strong><span>{{ orders_subtotal|currency }}</span></li>
                             {% if discount %}
-                                <li><strong>Discount:</strong>{{ discount }}</li>
+                            <li><strong>Discount:</strong>{{ discount }}</li>
                             {% endif %}
-                            
-                            <li><strong>Shipping:</strong>
-                                <span>
-                                    {% if shipping == 0 %}
-                                    <span>----------</span>
-                                    {% else %}
-                                    ₱{{ shipping }}
-                                    {% endif %}
-                                </span>
+                            {% for order in orders %}
+                            <li id="shipping_fee_{{ order.id }}"><strong>Shipping for {{ order.order_id }}:</strong>
+                                <span>Calculating</span>
                             </li>
-                            <li class="shop-cart-total"><strong>Total:</strong> <span>₱ {{ total }}</span></li>
+                            {% endfor %}
+                            <li class="shop-cart-total" style="display: block!important; text-align: end;">
+                                <h4><strong>Total Payment:</strong>&emsp;<span id="total-payment">{{ total_payment|currency }}</span></h4>
+                            </li>
                         </ul>
                         <div class="text-end mt-40 checkoutBtn">
                             <form class="form" method="POST" action="{% url 'cart:submit_checkout' %}">
                                 {% csrf_token %}
-                                <button type="submit" class="theme-btn">Checkout Now<i class="fas fa-arrow-right-long"></i></button>
+                                <button type="submit" class="theme-btn">Checkout Now<i
+                                        class="fas fa-arrow-right-long"></i></button>
                             </form>
                         </div>
                     </div>
                 </div>
+                {% endif %}
+                {% if is_authenticated %}
+                        {% if default_address %}
+                        <div class="col-lg-12">
+                            <div class="shop-checkout-form">
+                                
+                                <h6 class="mb-2"><i class="fa-solid fa-location-dot"></i> Delivery Address:</h6>
+            
+                                <p class="selected_address"><b>{{default_address.first_name}}
+                                        {{default_address.last_name}}
+                                        {{default_address.phone}}</b></p>
+                                <div class="change-address row mb-20">
+                                    <div class="col-lg-10">
+                                        <p class="address_details">{{ default_address.line1 }} Brgy. 
+                                            {{default_address.barangay }},
+                                            {{ default_address.city }}, {{ default_address.province }},
+                                            {{ default_address.postcode }} </p>
+                                    </div>
+                                    <div class="col-lg-2 d-flex justify-content-end">
+                                        <span class="is_default">Default</span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-1">
+                                            <button type="button" class="change-address-btn">Change</button>
+                                        </div>
+                                    </div>
+                                    <!-- Change / Add Address Modal -->
+                                    {% include 'cart/change-address-modal.html' %}
+                                    {% include 'cart/add-address-modal.html' %}
+                                    {% include 'cart/edit-address-modal.html' %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            {% for order, items in ordered_items.items %}
+                            <div class="card mb-20 shop-cart-summary-twc">
+                                <div class="card-body">
+                                    <div class="card-title">
+                                        <h4>{{ order.order_id }}</h4>
+                                    </div>
+                                    <div class="cart-table card-text">
+                                        <div class="table-responsive">
+                                            <table class="table cart-table" id="product-table-{{ order.order_id }}">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Image</th>
+                                                        <th scope="col">Product Name</th>
+                                                        <th scope="col">Price</th>
+                                                        <th scope="col" style="text-align: center;">Quantity</th>
+                                                        <th scope="col" style="text-align: right;">Sub Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="cart-body">
+                                                    {% for item in items %}
+                                                    <tr class="cart-product" id="product-row-{{ item.product.id }}"
+                                                        style="width: 20%;">
+                                                        <td>
+                                                            <div class="shop-cart-img">
+                                                                <a href="#"><img src="{{ item.product.image_1.url }}"
+                                                                        alt=""></a>
+                                                            </div>
+                                                        </td>
+                                                        <td style="width: 50%;">{{item.product.name}}</td>
+                                                        <td style="width: 10%;">{{item.product.customer_price|currency}}</td>
+                                                        <td style="width: 10%; text-align: center;">{{ item.quantity }}</td>
+                                                        <td style="width: 10%; text-align: right;">{{ item.get_total|currency }}
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                            <ul>
+                                                <li class="shop-cart-subtotal"><strong>Order Total:</strong>&emsp;<span>
+                                                    {{ order.subtotal|currency }}</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="shop-cart-summary" style="margin-left: 0!important;">
+                                <div class="form-check mb-20">
+                                    <h5>Mode of Payment</h5>
+                                    <label class="form-check-label" for="cod">
+                                        <h6>Cash On Delivery</h6>
+                                        <p>Please read our <a href="#">Terms And
+                                                Conditions</a> for cash on delivery.</p>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="shop-cart-summary" style="margin-left: 0!important;">
+                                <h5>Cart Summary</h5>
+                                <ul>
+
+                                    <li><strong>Merchandise Sub Total:</strong><span>{{ orders_subtotal|currency }}</span></li>
+
+                                    {% if discount %}
+                                    <li><strong>Discount:</strong>{{ discount }}</li>
+                                    {% endif %}
+
+                                    {% for order in orders %}
+                                    <li id="pending-subtotal"><strong>Shipping for {{ order.order_id }}:</strong>
+                                        <span>
+                                            {% if shipping == 0 %}
+                                            <span>To be calculated</span>
+                                            {% else %}
+                                            {{ order.shipping_fee|currency }}
+                                            {% endif %}
+                                        </span>
+                                    </li>
+                                    {% endfor %}
+                                    <li class="shop-cart-total" style="display: block!important; text-align: end;">
+                                        <h3><strong>Total Payment:</strong>&emsp;<span>{{ total_payment|currency }}</span></h3>
+                                    </li>
+                                </ul>
+                                <div class="col-lg-12 shop-checkout-form mt-20"
+                                    style="padding: 0!important; border: none!important; ">
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <a href="{% url 'cart:cart' %}" type="button" class="theme-btn theme-btn2"><span
+                                                class="fas fa-arrow-left"></span>Back To Cart</a>
+                                        </div>
+                                        <div class="col-md-2 offset-md-5">
+                                            <form class="form" method="POST" action="{% url 'cart:submit_checkout' %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="theme-btn">Checkout Now<i
+                                                        class="fas fa-arrow-right-long"></i></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                {% endif %}
             </div>
         </div>
     </div>

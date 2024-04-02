@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load currency_filters %} 
 
 {% block title %} {{ title }} {% endblock %}
 
@@ -28,54 +29,63 @@
                             
                         </div> 
                     {% endif %}
+                    {% for order, items in ordered_items.items %}
                     <table class="table">
                         <thead>
-                            <tr class="table-active">
+                            <tr style="text-align: left;">
+                                <th colspan="3"><h4>{{ order.order_id }}</h4></th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr class="table-active" style="text-align: left;">
                                 <th scope="col-6">Product</th>
                                 <th scope="col-2">QTY</th>
                                 <th scope="col-4">Price</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for ordered_item in order.ordered_items.all %}
-                            <tr>
-                                <td>{{ ordered_item.product.name }}</td>
-                                <td>{{ ordered_item.quantity }}</td>
-                                <td>₱{{ ordered_item.get_total }}</td>
+                            {% for item in items %}
+                            <tr style="text-align: left;">
+                                <td style="width: 70%;">{{ item.product.name }}</td>
+                                <td style="width: 10%;">{{ item.quantity }}</td>
+                                <td style="width: 20%">₱{{ item.get_total }}</td>
                             </tr>
                             {% endfor %}
-                            <tr>
-                                <th>Shipping + Handling</th>
+                            <tr style="text-align: left;">
+                                <th>Shipping</th>
                                 <th>---</th>
-                                <th>₱0.00</th>
+                                <th>{{ order.shipping_fee|currency }}</th>
                             </tr>
-                            <tr class="table-active">
+                            <tr class="table-active" style="text-align: left;">
                                 <th>Total:</th>
                                 <th>{{ order.total_quantity }}</th>
-                                <th>₱{{ order.total_amount }}</th>
+                                <th>{{ order.total_amount|currency }}</th>
                             </tr>
                         </tbody>
                     </table>
+                    {% endfor %}
                     <div class="row order-detail">
                         <div class="col-lg-2 col-md-4 sm-order-details">
-                            <h5>ORDER NUMBER:</h5>
+                            <h5>ORDER NUMBER(S):</h5>
+                            {% for order in orders %}
                             <h5>{{ order.order_id }}</h5>
+                            {% endfor %}
                         </div>
                         <div class="col-lg-2 col-md-4 sm-order-details">
                             <h5>DATE:</h5>
-                            <h5>{{order.created_at|date:"Y-m-d"}}</h5>
+                            <h5>{{orders.0.created_at|date:"Y-m-d"}}</h5>
                         </div>
                         <div class="col-lg-3 col-md-4 sm-order-details">
                             <h5>MOBILE:</h5>
-                            <h5>{{order.shipping_address.phone}}</h5>
+                            <h5>{{orders.0.shipping_address.phone}}</h5>
                         </div>
                         <div class="col-lg-2 col-md-6 sm-order-details">
-                            <h5>TOTAL:</h5>
-                            <h5>₱{{ order.total_amount }}</h5>
-                        </div>
-                        <div class="col-lg-3 col-md-6 sm-order-details">
                             <h5>PAYMENT METHOD:</h5>
                             <h5>Cash On Delivery</h5>
+                        </div>
+                        <div class="col-lg-3 col-md-6 sm-order-details">
+                            <h5>TOTAL:</h5>
+                            <h5>{{ total_payment|currency }}</h5>
                         </div>
                     </div>
                     <div class="row order-detail">
@@ -84,13 +94,13 @@
                                 <div class="card-body">
                                     <h5 class="card-title">DELIVERY ADDRESS</h5>
                                     <p class="card-text">
-                                        {{ order.shipping_address.line1 }}
-                                        {% if order.shipping_address.line2 %}
-                                            {{ order.shipping_address.line2 }}
+                                        {{ orders.0.shipping_address.line1 }}
+                                        {% if orders.0.shipping_address.line2 %}
+                                            {{ orders.0.shipping_address.line2 }}
                                         {%endif %}                                 
                                     </p>
                                     <p>
-                                        Brgy. {{ order.shipping_address.barangay }}, {{ order.shipping_address.city }}, {{ order.shipping_address.province }}, {{ order.shipping_address.region }}, {{ order.shipping_address.postcode }}   
+                                        Brgy. {{ orders.0.shipping_address.barangay }}, {{ orders.0.shipping_address.city }}, {{ orders.0.shipping_address.province }}, {{ orders.0.shipping_address.region }}, {{ orders.0.shipping_address.postcode }}   
                                     </p>
                                 </div>
                             </div>

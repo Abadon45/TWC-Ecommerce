@@ -1,52 +1,35 @@
 from orders.models import Order
 from django.contrib.auth import get_user_model
+from django.http import JsonResponse
+
 
 User = get_user_model()
 
 def cart_items(request):
-    cart_items_count = 0
-    subtotal = 0
-    shipping = 0
-    discount = 0
-    total = 0
-    items = []
-    order_id = None
-    
     user = request.user
-
-    try:
-
-        if user.is_authenticated:
-            orders = Order.objects.filter(user=user, complete=False)
-        else:
-            session_key = request.session.session_key
-            orders = Order.objects.filter(session_key=session_key, complete=False)
+    session_key = request.session.session_key
+    
+    try: 
+        order_ids = request.session.get('checkout_orders', [])
+        orders = Order.objects.filter(id__in=order_ids)
         
-
-        if orders.exists():
-            order = orders.first()
-            cart_items_count = order.get_cart_total
-            subtotal = order.get_cart_items
-            shipping = order.shipping_fee
-            total = subtotal - discount + shipping
-            items = order.orderitem_set.all()
-            order_id = order.order_id
+        cart_items = sum(order.total_quantity for order in orders)
+        
+        for order in orders:
+            print(f"Existing order_id: {order.order_id}")
+        
+        if request.is_ajax():
+            return JsonResponse({'cart_items': cart_items})
+        else:
+            return {'cart_items': cart_items}
 
     except Order.DoesNotExist:
-        order = None
-
-    print(f"Existing order_id: {order_id}")
-
-    return {
-        'cart_items': cart_items_count,
-        'items': items,
-        'subtotal': subtotal,
-        'discount': discount,
-        'shipping': shipping,
-        'total': total,
-        'order_id': order_id,
-    }
-
+        return {'cart_items': 0}
+    except Exception as e:
+        print(f"Error in cart_items view: {e}")
+        return {'cart_items': 0}
+        
+        
 def new_guest_user(request):
     return {'new_guest_user': request.session.get('new_guest_user', False)}
 

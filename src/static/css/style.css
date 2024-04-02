@@ -3542,12 +3542,37 @@ label {
   color: var(--color-dark2);
 }
 
+.shop-cart-summary-twc {
+  padding: 30px;
+  border: 1px solid var(--border-info-color);
+  background: var(--theme-bg-light);
+  border-radius: 10px;
+  margin-top: 12px;
+}
+
+.shop-cart-summary-twc li{
+  text-align: end;
+}
+
+.shop-cart-summary-twc table{
+  --bs-table-bg:var(--theme-bg-light);
+}
+
 .shop-cart-total {
   padding-top: 10px;
   border-top: 1px solid var(--border-info-color);
 }
 
 .shop-cart-total span {
+  font-weight: bold;
+  color: var(--theme-color);
+}
+
+.shop-cart-subtotal {
+  padding-top: 10px;
+}
+
+.shop-cart-subtotal span {
   font-weight: bold;
   color: var(--theme-color);
 }

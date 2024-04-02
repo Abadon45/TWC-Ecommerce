@@ -57,6 +57,15 @@ $(document).ready(function () {
         $("#step1-tab").addClass("nav-link done");
         $("#step2").addClass("active show");
         $("#step2-tab").addClass("active done");
+
+        successData.orders.forEach(function (order) {
+          var shippingFeeFormatted = '₱' + parseFloat(order.shipping_fee).toFixed(2);
+          $("#shipping_fee_" + order.id + " span").text(shippingFeeFormatted);
+
+        var totalPayment  = '₱' + parseFloat(successData.total_payment).toFixed(2);
+        var totalPaymentFormatted = totalPayment.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        $('#total-payment').text(totalPaymentFormatted)
+      });
       },
       error: function (errorData) {
         console.log(errorData);

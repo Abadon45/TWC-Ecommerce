@@ -40,7 +40,8 @@ class Order(models.Model):
     total_quantity      = models.IntegerField(default=0, null=True, blank=True)
     total_amount        = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     shipping_fee        = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
-    
+    supplier            = models.CharField(max_length=100, blank=True, null=True)
+    subtotal            = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     
     def __str__(self):
         try:
@@ -53,6 +54,13 @@ class Order(models.Model):
     def get_absolute_url(self):
         return reverse("orders:detail", kwargs={'order_id': self.order_id})
     
+    def calculate_total_qty(self):
+        total_quantity  = sum(item.quantity for item in self.orderitem_set.all())
+        return total_quantity 
+    
+    def calculate_subtotal(self):
+        subtotal = sum(item.get_total for item in self.orderitem_set.all())
+        return subtotal
     
     @classmethod
     def get_or_create_customer(cls, user, email):
@@ -74,6 +82,14 @@ class Order(models.Model):
         total = sum([item.get_total for item in self.orderitem_set.all()])
         return total
     
+    @property
+    def subtotal(self):
+        return self.calculate_subtotal()
+    
+    @property
+    def total_quantity(self):
+        return self.calculate_total_qty()
+    
 def pre_save_create_order_id(sender, instance, *args, **kwargs):
     if not instance.order_id:
         instance.order_id = unique_order_id_generator(instance)
@@ -89,10 +105,10 @@ class OrderItem(models.Model):
     @property
     def get_total(self):
         if self.product is None:
-            logger.error("Product is None for OrderItem id: %d", self.id)
             return Decimal('0.00')
         total = self.product.customer_price * self.quantity
         return total
+        
         
         
 # PAYMENT_STATUS_CHOICES = (
