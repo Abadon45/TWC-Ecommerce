@@ -33,23 +33,31 @@ $(document).ready(function () {
         event.preventDefault();
         var page = $(this).attr('href').split('page=')[1];
         var view = $("#gridBtn").hasClass("active") ? "grid" : "list";
+        console.log("Clicked pagination link. Page:", page);
         fetchProducts(page, view);
     });
-
+    
     function fetchProducts(page, view){
+        console.log("Fetching products for page:", page);
         $.ajax({
             url: '/shop/?page=' + page,
             type: 'get',
+            data: { page: page },
             dataType: 'json',
             success: function(data){
+                console.log("AJAX success. Data:", data);
                 $('#products-grid').html(data.products_grid_html);
                 $('#products-list').html(data.products_list_html);
-                $('.pagination').html(data.pagination_html);
+                $('.pagination').empty().html(data.pagination_html);
                 toggleView(view);
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX error:", error);
+                console.error("Request Status:", status);
+                console.error("XMLHttpRequest:", xhr);
             }
         });
     }
-
     // Search
 
     $('#search-form').on('submit', function(event) {

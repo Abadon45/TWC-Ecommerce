@@ -43,6 +43,7 @@ urlpatterns = [
     path('get_order_details/', get_order_details, name='get_order_details'),
     path('shop/<int:referrer_id>/', RegisterGuestView.as_view(), name='register_guest'),
     
+    
 ]
 
 if settings.DEBUG:

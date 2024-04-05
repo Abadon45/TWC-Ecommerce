@@ -149,6 +149,8 @@ def checkout(request):
     temporary_password = ""
     customer_addresses = ""
     shipping_fee = 0.00
+    orders_subtotal = Decimal('0.00')
+    total_shipping = Decimal('0.00')
     
     referrer_id = request.session.get('referrer')
     user = request.user
@@ -308,9 +310,9 @@ def checkout(request):
         ordered_items = {}
         for order in orders:
             ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product')
-            
-        orders_subtotal = sum(order.subtotal for order in orders)
-        total_shipping = sum(Decimal(order.shipping_fee) for order in orders)
+            orders_subtotal += order.subtotal
+            total_shipping += Decimal(order.shipping_fee)
+        
         total_payment = orders_subtotal + total_shipping
         print(f'Total Payment: {total_payment}')
         print(f'Orders are: {orders}')
@@ -329,6 +331,7 @@ def checkout(request):
                 'barangay': shipping_address.barangay,
                 'postcode': shipping_address.postcode,
                 'orders': updated_orders,
+                'total_shipping': total_shipping,
                 'total_payment': total_payment,
             }
             
@@ -338,6 +341,7 @@ def checkout(request):
                 'orders': orders, 
                 'ordered_items': ordered_items,
                 'orders_subtotal': orders_subtotal,
+                'total_shipping': total_shipping,
                 'total_payment': total_payment,
                 'shipping_form': shipping_form,
                 'is_authenticated': is_authenticated,
@@ -522,7 +526,6 @@ def checkout_done_view(request):
         ordered_items = {}
         for order in orders:
             ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product')
-            order.total_amount = order.subtotal + order.shipping_fee
             order.save()
                 
         orders_subtotal = sum(order.subtotal for order in orders)
@@ -552,3 +555,12 @@ def checkout_done_view(request):
     except Exception as e:
         print(f"Exception in checkout_done_view: {e}")
         return JsonResponse({"error": "An error occurred"}, status=500)
+    
+
+def set_order_id_session_variable(request):
+    if request.method == 'POST' and request.is_ajax():
+        order_id = request.POST.get('order_id')
+        request.session['clicked_order_id'] = order_id
+        print(f'Order ID: {order_id}')
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})

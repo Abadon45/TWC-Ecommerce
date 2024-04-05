@@ -68,7 +68,9 @@ class ShopView(ProductListView):
         subcategory_counts = {subcategory.replace('-', '_'): filtered_products.filter(category_2=subcategory).count() for subcategory in subcategories}
 
         # Print the subcategory_counts dictionary to the console
-        print(subcategory_counts)
+        print("Page:", self.request.GET.get('page'))
+        print("Category ID:", self.request.GET.get('category_id'))
+        print("Subcategory Counts:", subcategory_counts)
 
         context['products'] = products
         context['subcategory_counts'] = subcategory_counts
@@ -76,18 +78,17 @@ class ShopView(ProductListView):
         return context
 
     def render_to_response(self, context, **response_kwargs):
+        page = self.request.GET.get('page', 1)
+        paginator = Paginator(context['products'], self.paginate_by)
+
+        try:
+            paginated_products = paginator.page(page)
+        except PageNotAnInteger:
+            paginated_products = paginator.page(1)
+        except EmptyPage:
+            paginated_products = paginator.page(paginator.num_pages)
+            
         if self.request.is_ajax():
-            # Pagination logic for AJAX requests
-            page = self.request.GET.get('page', 1)
-            paginator = Paginator(context['products'], self.paginate_by)
-
-            try:
-                paginated_products = paginator.page(page)
-            except PageNotAnInteger:
-                paginated_products = paginator.page(1)
-            except EmptyPage:
-                paginated_products = paginator.page(paginator.num_pages)
-
             serialized_products = [
                 {
                     'name': product.name,
@@ -116,6 +117,7 @@ class ShopView(ProductListView):
             
             return JsonResponse(response_data)
         else:
+            context['page_obj'] = paginated_products
             return super().render_to_response(context, **response_kwargs)
         
 

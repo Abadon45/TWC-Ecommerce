@@ -9,7 +9,8 @@
     const registerURL = "{% url 'login:register' %}";
     const selectedAddressUrl = "{% url 'cart:get_selected_address' %}";
     const editCheckoutAddressUrl = "{% url 'cart:edit_checkout_address' %}";
-    const getCheckoutAddressDetailsUrl = "{% url 'cart:get_checkout_address_details' %}";
+    // const getCheckoutAddressDetailsUrl = "{% url 'cart:set_order_id_session_variable' %}";
+    const getOrderId = "{% url 'cart:get_checkout_address_details' %}";
     var csrf = "{{ csrf_token }}";
 </script>
 
@@ -38,6 +39,7 @@
 <script src="{% static 'js/modal.js' %}"></script>
 <script src="{% static 'js/address.js' %}"></script>
 <script src="{% static 'js/category.js' %}"></script>
+<!-- <script src="{% static 'js/view-order.js' %}"></script> -->
 
 
 

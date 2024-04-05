@@ -13,7 +13,9 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 from django.core import serializers
+import logging
 
+logger = logging.getLogger(__name__)
 
 
 
@@ -149,14 +151,19 @@ class DashboardView(TemplateView):
     
     def get(self, request, *args, **kwargs):
         user = request.user
+        clicked_order_id = request.session.get('clicked_order_id')
+        print(f"Order ID fetched: {clicked_order_id}")
+        logger.debug(f"Session Data: {request.session}") 
         
         if request.user.is_authenticated:
             order = Order.objects.filter(user=user, complete=True).order_by('-created_at')
+            order = order.prefetch_related('orderitem_set')
             paginator = Paginator(order, self.paginate_by)
             page_number = request.GET.get('page')
             page_obj = paginator.get_page(page_number)
             pending_orders_count = order.filter(Q(complete=False) | ~Q(status='received')).count()
             completed_order_count = Order.objects.filter(user=user, complete=True, status='received').count()
+            
             
             context = {
                 'title': self.title,
@@ -178,12 +185,13 @@ class DashboardView(TemplateView):
                         'created_at': order.created_at, 
                         'get_cart_items': order.get_cart_items,
                         'status': order.status,
-                        'total_amount': order.total_amount, # Add if available
+                        'total_amount': order.total_amount,
                     }
                     orders_data.append(order_data)
                 response_data = {
                     'pagination_html': pagination_html,
-                    'orders': orders_data, 
+                    'orders': orders_data,
+                    'clicked_order_id': clicked_order_id,
                 }
                 return JsonResponse(response_data)
             else:

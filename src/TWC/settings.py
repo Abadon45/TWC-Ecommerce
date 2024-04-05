@@ -88,10 +88,10 @@ SOCIALACCOUNT_PROVIDERS = {
 MIDDLEWARE = [
     'django_hosts.middleware.HostsRequestMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'TWC.middleware.SubdomainMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'TWC.middleware.SubdomainMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -275,7 +275,11 @@ SESSION_COOKIE_AGE = 60 * 60 * 24 * 14
 SESSION_COOKIE_SECURE = False
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_DOMAIN = '.twconline.store'
+DOMAIN_NAME = 'twconline.store'
+SESSION_COOKIE_NAME = "twccookie"
+SESSION_COOKIE_SAMESITE = 'Lax' 
 CSRF_COOKIE_DOMAIN = SESSION_COOKIE_DOMAIN
+
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [

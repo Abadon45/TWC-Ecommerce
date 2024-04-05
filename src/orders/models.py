@@ -49,6 +49,11 @@ class Order(models.Model):
         except Exception as e:
             logger.error(f"Error in Order.__str__ method: {type(e)}, {e}")
             return f"Order (Error generating string representation)" 
+        
+    def save(self, *args, **kwargs):
+        if self.subtotal is not None and self.shipping_fee is not None:
+            self.total_amount = Decimal(self.subtotal) + Decimal(self.shipping_fee)
+        super().save(*args, **kwargs)
 
     
     def get_absolute_url(self):
@@ -61,6 +66,7 @@ class Order(models.Model):
     def calculate_subtotal(self):
         subtotal = sum(item.get_total for item in self.orderitem_set.all())
         return subtotal
+    
     
     @classmethod
     def get_or_create_customer(cls, user, email):

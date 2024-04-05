@@ -13,6 +13,7 @@ urlpatterns = [
     path('get-checkout-address-details/', get_checkout_address_details, name='get_checkout_address_details'),
     path('submit-checkout/', submit_checkout, name='submit_checkout'),
     path('checkout/complete/', checkout_done_view, name='checkout_complete'),
+    path('checkout/orderid-session/', set_order_id_session_variable, name='set_order_id_session_variable'),
 ]
 
 if settings.DEBUG:

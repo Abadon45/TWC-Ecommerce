@@ -15,8 +15,6 @@ $(document).ready(function () {
     "track-order": "/track-order",
   };
 
-  
-
   var spinner = $(".sk-circle");
   var backdrop = $(".backdrop");
 
@@ -26,8 +24,6 @@ $(document).ready(function () {
     const newURL = baseURL + tabPath;
     history.pushState({}, "", newURL);
   }
-
-  
 
   // Event listeners for tab clicks
   $(".dashboard-tab").on("click", function (event) {
@@ -105,7 +101,7 @@ $(document).ready(function () {
   if (activeIndex !== null && tabPaths[activeIndex]) {
     const tab = activeIndex;
     updateURL(tab);
-}
+  }
 
   // If there is an active index stored in localStorage, click the corresponding link
   if (activeIndex !== null) {
@@ -394,12 +390,12 @@ $(document).ready(function () {
         console.log("Pagination HTML:", data.pagination_html);
         $(".pagination").html(data.pagination_html);
         // Update Order List
-        const orderListContainer = $(".order-list");
-        orderListContainer.empty(); // Clear existing items
+        const orderAccordion = $("#orderAccordion");
+        orderAccordion.empty(); // Clear existing items
 
         $.each(data.orders, function (index, order) {
-          const newListItem = createOrderItem(order); // Create new list items
-          orderListContainer.append(newListItem);
+            const newAccordionItem = createAccordionItem(order); // Create new accordion items
+            orderAccordion.append(newAccordionItem);
         });
         spinner.removeClass("visible");
         backdrop.removeClass("visible");
@@ -411,7 +407,7 @@ $(document).ready(function () {
       },
     });
   }
-  function createOrderItem(order) {
+  function createAccordionItem(order) {
     const date = new Date(order.created_at);
     const options = {
       month: "long",
@@ -424,26 +420,89 @@ $(document).ready(function () {
 
     const formattedDate = date.toLocaleString("en-US", options);
     return $(`
-      <tr>
-        <td><span class="table-list-code">${order.order_id}</span></td>
-        <td>${formattedDate}</td>
-        <td>₱${order.get_cart_items}</td>
-        <td><span id="orderStatus" class="badge badge-${order.status.toLowerCase()}">${order.status.toUpperCase()}</span></td>
-        <td>  
-          <button type="button" 
-                  class="btn btn-outline-secondary btn-sm rounded-2" 
-                  data-bs-toggle="modal" 
-                  data-bs-target="#orderDetailsModal" 
-                  data-order-id="${order.order_id}"
-                  data-order-date="${order.created_at}"
-                  data-order-total="${order.total_amount}"
-                  data-order-status="${order.status}"
-                  data-tooltip="Order Details" 
-                  title="Details">
-            <i class="far fa-eye"></i>
-          </button>      
-        </td>
-      </tr>
-    `);
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" 
+                    data-bs-toggle="collapse" 
+                    data-bs-target="#collapse-${order.order_id}" 
+                    aria-expanded="true" 
+                    aria-controls="collapse-${order.order_id}">
+                <span class="table-list-code">${order.order_id}</span>
+            </button>
+        </h2>
+        <div id="collapse-${
+          order.order_id
+        }" class="accordion-collapse collapse" 
+             aria-labelledby="heading-${order.order_id}" 
+             data-bs-parent="#orderAccordion">
+            <div class="accordion-body">
+                <div class="table-responsive">
+                    <table class="table table-borderless text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Purchased Date</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    ${createImageTag(order)}
+                                </td>
+                                <td>${formattedDate}</td>
+                                <td>₱${order.get_cart_items}</td>
+                                <td><span id="orderStatus" 
+                                          class="badge badge-${order.status.toLowerCase()}">
+                                          ${order.status.toUpperCase()}
+                                    </span>
+                                </td>
+                                <td>
+                                    <button type="button" 
+                                            class="btn btn-outline-secondary btn-sm rounded-2" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#orderDetailsModal" 
+                                            data-order-id="${order.order_id}"
+                                            data-order-date="${
+                                              order.created_at
+                                            }"
+                                            data-order-total="${
+                                              order.total_amount
+                                            }"
+                                            data-order-status="${order.status}"
+                                            data-tooltip="Order Details" 
+                                            title="Details">
+                                        <i class="far fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+  `);
   }
+  function createImageTag(order) {
+    console.log("Order:", order);
+    if (order && order.orderitem_set && Array.isArray(order.orderitem_set) && order.orderitem_set.length > 0) {
+        const firstOrderItem = order.orderitem_set[0];
+        console.log("First Order Item:", firstOrderItem);
+        if (firstOrderItem && firstOrderItem.product && firstOrderItem.product.image_1 && firstOrderItem.product.image_1.url) {
+            console.log("Image URL:", firstOrderItem.product.image_1.url);
+            return `<div class="shop-cart-img">
+                        <a href="#"><img src="${firstOrderItem.product.image_1.url}" alt=""></a>
+                    </div>`;
+        } else {
+            console.log("Image URL not found.");
+        }
+    } else {
+        console.log("Order or order items not found.");
+    }
+    return '';
+  }
+
 });

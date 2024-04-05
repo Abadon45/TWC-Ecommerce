@@ -43,6 +43,9 @@ $(document).ready(function () {
     formData.push({ name: "username", value: userData.username });
     formData.push({ name: "email", value: userData.email });
 
+    // spinner.addClass("visible");
+    // backdrop.addClass("visible");
+
     console.log(formData);
 
     $.ajax({
@@ -65,6 +68,9 @@ $(document).ready(function () {
         var totalPayment  = '₱' + parseFloat(successData.total_payment).toFixed(2);
         var totalPaymentFormatted = totalPayment.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         $('#total-payment').text(totalPaymentFormatted)
+
+        // spinner.removeClass("visible");
+        // backdrop.removeClass("visible");
       });
       },
       error: function (errorData) {

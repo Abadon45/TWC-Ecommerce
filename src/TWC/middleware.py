@@ -3,8 +3,11 @@ from django.contrib.auth import get_user_model
 from django_hosts import host
 from billing.models import Customer
 from user.models import User
+import logging
 
 User = get_user_model()
+
+logger = logging.getLogger(__name__)
 
 class SubdomainMiddleware:
     def __init__(self, get_response):
@@ -42,4 +45,12 @@ class SubdomainMiddleware:
 
         # Continue with the normal request processing
         response = self.get_response(request)
+        logger.debug(f"Subdomain: {request.subdomain}")
+        response.set_cookie(
+            'sessionid', 
+            request.session.session_key, 
+            domain='.twconline.store', 
+            httponly=True
+        )
+        
         return response

@@ -38,6 +38,7 @@
                         </thead>
                         <thead>
                             <tr class="table-active" style="text-align: left;">
+                                <th scope="col-6">Image</th>
                                 <th scope="col-6">Product</th>
                                 <th scope="col-2">QTY</th>
                                 <th scope="col-4">Price</th>
@@ -46,18 +47,23 @@
                         <tbody>
                             {% for item in items %}
                             <tr style="text-align: left;">
-                                <td style="width: 70%;">{{ item.product.name }}</td>
+                                <td style="width: 20%;">
+                                    <div class="shop-cart-img">
+                                        <a href="#"><img src="{{ item.product.image_1.url }}"
+                                                alt=""></a>
+                                    </div>
+                                </td>
+                                <td style="width: 50%;">{{ item.product.name }}</td>
                                 <td style="width: 10%;">{{ item.quantity }}</td>
                                 <td style="width: 20%">₱{{ item.get_total }}</td>
                             </tr>
                             {% endfor %}
                             <tr style="text-align: left;">
-                                <th>Shipping</th>
-                                <th>---</th>
+                                <th colspan="3">Shipping</th>
                                 <th>{{ order.shipping_fee|currency }}</th>
                             </tr>
                             <tr class="table-active" style="text-align: left;">
-                                <th>Total:</th>
+                                <th colspan="2">Total:</th>
                                 <th>{{ order.total_quantity }}</th>
                                 <th>{{ order.total_amount|currency }}</th>
                             </tr>
@@ -123,11 +129,36 @@
                             </div>
                         </div>
                     </div>
-                    <a href="{% url 'shop:shop' %}" class="theme-btn mt-50">Go Back Shopping<i
+                
+                    <a href="{{ DASHBOARD_URL }}" class="view-order theme-btn mt-50" 
+                        data-first-order-id="{{ orders.0.order_id }}">View Order<i
                             class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    $(".view-order").click(function() {
+        var orderId = $(this).data("first-order-id");
+        console.log("Clicked View Order button. Order ID:", orderId);
+        
+        $.ajax({
+            type: "POST",
+            url: '{% url "cart:set_order_id_session_variable" %}',
+            data: {
+                order_id: orderId,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+            },
+            success: function(response) {
+                console.log("Session variable set successfully.");
+            },
+            error: function(xhr, errmsg, err) {
+                console.error("Error setting session variable:", err);
+            }
+        });
+    });
+</script>
 {% endblock %}

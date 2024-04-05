@@ -6,11 +6,6 @@
 
 {% block content %}
 
-<!-- Loading Spinner -->
-
-
-
-<!-- shop checkout -->
 <div class="shop-checkout2 py-100">
     <div class="container">
         <div class="shop-checkout-wrap">
@@ -79,7 +74,6 @@
                                         </li>
                                     </ul>
                                     <div class="tab-content" id="pills-tabContent">
-                                        <!-- payment tab1 -->
                                         <div class="tab-pane fade show active" id="pills-1" role="tabpanel"
                                             aria-labelledby="pills-tab-1" tabindex="0">
                                             <div class="shop-checkout-form cod">
@@ -87,8 +81,6 @@
                                                     <div class="row">
                                                         <div class="col-lg-12">
                                                             <div class="form-check mb-20">
-                                                                <!-- <input class="form-check-input confirmPaymentChk"
-                                                                    type="checkbox" value="" id="cod"> -->
                                                                 <label class="form-check-label" for="cod">
                                                                     Cash On Delivery
                                                                     <span>Please read our <a href="#">Terms And
@@ -100,7 +92,6 @@
                                                 </form>
                                             </div>
                                         </div>
-                                        <!-- payment tab2 -->
                                         <div class="tab-pane fade" id="pills-2" role="tabpanel"
                                             aria-labelledby="pills-tab-2" tabindex="0">
                                             <div class="shop-checkout-form">
@@ -143,7 +134,6 @@
                                                 </form>
                                             </div>
                                         </div>
-                                        <!-- payment tab3 -->
                                         <div class="tab-pane fade" id="pills-3" role="tabpanel"
                                             aria-labelledby="pills-tab-3" tabindex="0">
                                             <div class="shop-checkout-form">
@@ -237,7 +227,6 @@
                                             <button type="button" class="change-address-btn">Change</button>
                                         </div>
                                     </div>
-                                    <!-- Change / Add Address Modal -->
                                     {% include 'cart/change-address-modal.html' %}
                                     {% include 'cart/add-address-modal.html' %}
                                     {% include 'cart/edit-address-modal.html' %}
@@ -283,8 +272,10 @@
                                                 </tbody>
                                             </table>
                                             <ul>
+                                                <li class="shop-cart-subtotal"><strong>Order Shipping Fee:</strong>&emsp;<span>
+                                                    {{ order.shipping_fee|currency }}</span></li>
                                                 <li class="shop-cart-subtotal"><strong>Order Total:</strong>&emsp;<span>
-                                                    {{ order.subtotal|currency }}</span></li>
+                                                    {{ order.total_amount|currency }}</span></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -310,22 +301,11 @@
                                 <ul>
 
                                     <li><strong>Merchandise Sub Total:</strong><span>{{ orders_subtotal|currency }}</span></li>
-
+                                    <li><strong>Merchandise Sub Total:</strong><span>{{ total_shipping|currency }}</span></li>
                                     {% if discount %}
                                     <li><strong>Discount:</strong>{{ discount }}</li>
                                     {% endif %}
 
-                                    {% for order in orders %}
-                                    <li id="pending-subtotal"><strong>Shipping for {{ order.order_id }}:</strong>
-                                        <span>
-                                            {% if shipping == 0 %}
-                                            <span>To be calculated</span>
-                                            {% else %}
-                                            {{ order.shipping_fee|currency }}
-                                            {% endif %}
-                                        </span>
-                                    </li>
-                                    {% endfor %}
                                     <li class="shop-cart-total" style="display: block!important; text-align: end;">
                                         <h3><strong>Total Payment:</strong>&emsp;<span>{{ total_payment|currency }}</span></h3>
                                     </li>
@@ -354,7 +334,6 @@
         </div>
     </div>
 </div>
-<!-- shop checkout end -->
 
 
 {% endblock %}
