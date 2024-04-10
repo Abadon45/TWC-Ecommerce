@@ -32,7 +32,7 @@
                             <ul class="sidebar-list">
                                 <li><a class="nav__link active"><i class="far fa-gauge-high"></i> Dashboard</a></li>
                                 <li><a class="nav__link"><i class="far fa-user"></i> My Profile</a></li>
-                                <li><a class="nav__link"><i class="far fa-shopping-bag"></i> All Orders <span class="badge badge-danger">02</span></a></li>
+                                <li><a class="nav__link"><i class="far fa-shopping-bag"></i> All Orders <span class="badge badge-danger">{{ referred_orders_count|stringformat:"02d" }}</span></a></li>
                                 <li><a class="nav__link"><i class="far fa-wallet"></i> Payout</a></li>
                                 <li><a class="nav__link"><i class="far fa-credit-card"></i> Transaction</a></li>
                                 <li><a class="nav__link"><i class="far fa-bell"></i> Notification <span class="badge badge-danger">02</span></a></li>
@@ -73,11 +73,4 @@
         </div>
         <!-- user dashboard end -->
 
-{% endblock %}
-{% block extra_js %}
-<script>
-    const dashboardURL = '{% url "dashboard" %}';
-</script>
-<script src="{% static 'js/dashboardview.js' %}"></script>
-<script src="{% static 'js/user-dashboard.js' %}"></script>
 {% endblock %}

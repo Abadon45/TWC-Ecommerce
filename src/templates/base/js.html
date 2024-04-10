@@ -9,8 +9,8 @@
     const registerURL = "{% url 'login:register' %}";
     const selectedAddressUrl = "{% url 'cart:get_selected_address' %}";
     const editCheckoutAddressUrl = "{% url 'cart:edit_checkout_address' %}";
-    // const getCheckoutAddressDetailsUrl = "{% url 'cart:set_order_id_session_variable' %}";
-    const getOrderId = "{% url 'cart:get_checkout_address_details' %}";
+    const getOrderId = "{% url 'cart:set_order_id_session_variable' %}";
+    const getCheckoutAddressDetailsUrl = "{% url 'cart:get_checkout_address_details' %}";
     var csrf = "{{ csrf_token }}";
 </script>
 

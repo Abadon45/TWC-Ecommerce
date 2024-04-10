@@ -104,10 +104,6 @@
 
 {% endblock %}
 {% block extra_js %}
-<script>
-    const dashboardURL = '{% url "dashboard" %}';
-</script>
 <script src="{% static 'js/dashboardview.js' %}"></script>
-<script src="{% static 'js/user-dashboardview.js' %}"></script>
 <script src="{% static 'js/view-order.js' %}"></script>
 {% endblock %}

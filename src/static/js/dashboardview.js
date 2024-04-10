@@ -259,9 +259,13 @@ $(document).ready(function () {
   $(".edit-address").click(function (e) {
     e.preventDefault();
     var addressId = $(this).data("address-id");
+    var updateAddressUrl = $(this).data("update-url");
     fetchAddressDetails(addressId);
     spinner.addClass("visible");
     backdrop.addClass("visible");
+
+    $("#saveAddressChanges").data("update-url", updateAddressUrl);
+    $("#saveAddressChanges").data("address-id", addressId);
   });
 
   function updateSelectValueAndTriggerChange(selectId, selectedValue) {
@@ -316,10 +320,58 @@ $(document).ready(function () {
   }
 
   // Handle form submission for updating the address
-  $("#editAddressForm").submit(function (e) {
+  $(".editAddressForm").submit(function (e) {
     e.preventDefault();
-    saveAddressChanges();
+    var formData = new FormData($(this)[0]);
+    saveAddressChanges(formData);
   });
+
+  // Function to save address changes
+  function saveAddressChanges(formData) {
+    var updateAddressUrl = $("#saveAddressChanges").data("update-url");
+    var addressId = $("#editAddressModal").data("address-id");
+
+    console.log("Update Address URL:", updateAddressUrl);
+    console.log("Address ID:", addressId);
+
+    // Retrieve form field values
+    formData.append("first_name", $(".inputFirstName").val());
+    formData.append("last_name", $(".inputLastName").val());
+    formData.append("email", $(".inputEmail").val());
+    formData.append("phone", $(".inputPhone").val());
+    formData.append("region", $(".regionDropdown").val());
+    formData.append("province", $(".provinceDropdown").val());
+    formData.append("city", $(".cityDropdown").val());
+    formData.append("barangay", $(".barangayDropdown").val());
+    formData.append("line1", $(".inputLine1").val());
+    formData.append("line2", $(".inputLine2").val());
+    formData.append("postcode", $(".inputPostcode").val());
+    formData.append("message", $(".inputMessage").val());
+
+    formData.append("address_id", addressId);
+    formData.append("csrfmiddlewaretoken", csrf);
+
+    $.ajax({
+        type: "POST",
+        url: updateAddressUrl,
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            console.log("Success Response:", response);
+
+            $("#editAddressModal").modal("hide");
+
+            updateShippingDetails(response.new_data);
+
+            updateTableRow(response.address_id, response.new_data);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            console.error("Error:", errorThrown);
+            // Handle error
+        },
+    });
+  }
 
   function updateTableRow(addressId, newData) {
     var row = $("#address-" + addressId);
@@ -332,29 +384,12 @@ $(document).ready(function () {
     row.find("td:nth-child(3)").text(newData.phone);
   }
 
-  // Function to save address changes
-  function saveAddressChanges(formData) {
-    formData.append("address_id", $("#editAddressModal").data("address-id")); // Append the address ID to the form data
-    formData.append("csrfmiddlewaretoken", csrf); // Add CSRF token
-    $.ajax({
-      type: "POST",
-      url: updateAddressUrl,
-      data: formData,
-      processData: false, // Ensure formData is not processed as a query string
-      contentType: false, // Ensure correct content type for formData
-      success: function (response) {
-        console.log(response);
-        // Close the modal
-        $("#editAddressModal").modal("hide");
+  function updateShippingDetails(newData) {
+    $("#customer-name").text(newData.first_name + " " + newData.last_name);
+    $("#customer-mobile").text("+" + newData.phone);
+    $("#customer-address").text(newData.postcode + ", " + newData.barangay + ", " + newData.city + ", " + newData.province + ", " + newData.region + ", Philippines");
+  } 
 
-        updateTableRow(response.address_id, response.new_data);
-      },
-      error: function (xhr, textStatus, errorThrown) {
-        console.error("Error:", errorThrown);
-        // Handle error
-      },
-    });
-  }
 
   // Event listener for the "Save changes" button click
   $("#saveAddressChanges").click(function () {
@@ -388,6 +423,7 @@ $(document).ready(function () {
       success: function (data) {
         console.log("AJAX Response:", data);
         console.log("Pagination HTML:", data.pagination_html);
+        console.log("Ordered Items:", data.ordered_items);
         $(".pagination").html(data.pagination_html);
         // Update Order List
         const orderAccordion = $("#orderAccordion");

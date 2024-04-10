@@ -29,7 +29,8 @@
                                     <a href="#" id="editAddressButton" class="btn btn-outline-secondary btn-sm rounded-2 edit-address" 
                                         data-tooltip="tooltip" 
                                         title="Edit" 
-                                        data-address-id="{{ address.id }}">
+                                        data-address-id="{{ address.id }}"
+                                        data-update-url="{% url 'update_address' %}">
                                         <i class="far fa-pen"></i>
                                     </a>
                                     <a href="#" class="btn btn-outline-danger btn-sm rounded-2 delete-address" 

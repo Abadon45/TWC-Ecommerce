@@ -113,6 +113,14 @@
 
     <!-- js -->
     {% include 'base/js.html' %}
+    
+    <script>
+        const dashboardURL = '{% url "dashboard" %}';
+        const confirmOrder = '{% url "confirm_order" %}';
+        const sellerDashboardURL = '{% url "seller_dashboard" %}';
+    </script>
+    <script src="{% static 'js/user-dashboardview.js' %}"></script>
+    <script src="{% static 'js/dashboardview.js' %}"></script>
     {% block extra_js %}{% endblock %}
 
 </body>

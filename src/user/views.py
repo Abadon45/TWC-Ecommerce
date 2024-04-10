@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from orders.models import Order, OrderItem
 from addresses.models import Address
 from django.urls import reverse
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest, HttpResponse
 from django.conf import settings
 from django.views.decorators.cache import cache_page
 from user.forms import ProfileForm
@@ -13,6 +13,8 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 from django.core import serializers
+from decimal import Decimal
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -156,7 +158,7 @@ class DashboardView(TemplateView):
         logger.debug(f"Session Data: {request.session}") 
         
         if request.user.is_authenticated:
-            order = Order.objects.filter(user=user, complete=True).order_by('-created_at')
+            order = Order.objects.filter(user=user, status='pending', complete=True).order_by('-created_at')
             order = order.prefetch_related('orderitem_set')
             paginator = Paginator(order, self.paginate_by)
             page_number = request.GET.get('page')
@@ -243,6 +245,11 @@ class SellerDashboardView(TemplateView):
         user = self.request.user
         referred_users = User.objects.filter(referred_by=user)
         
+        referred_orders = Order.objects.filter(user__in=referred_users, status='pending')
+        referred_orders_count = referred_orders.count()
+        self.request.session['referred_orders_count'] = referred_orders_count
+        
+        
         affiliate_link = self.request.user.generate_affiliate_link()
     
 
@@ -252,6 +259,9 @@ class SellerDashboardView(TemplateView):
             'addresses': Address.objects.filter(user=user),
             'affiliate_link': affiliate_link,
             'referred_users': referred_users, 
+            'referred_orders': referred_orders,
+            'ordered_items': OrderItem.objects.filter(order=referred_orders),
+            'referred_orders_count': referred_orders_count,
         })
         return context
     
@@ -265,6 +275,98 @@ class SellerDashboardView(TemplateView):
             print("Profile form is invalid. Errors:", profile_form.errors)
         
         return self.get(request, *args, **kwargs)
+    
+class ReviewOrderView(View):
+    http_method_names = ['get']
+
+    template_name = 'seller/review-order.html'
+    title = "Review Order"
+    
+    def get(self, request, order_id, *args, **kwargs):
+        try:
+            order = Order.objects.get(order_id=order_id, status='pending')
+        except Order.DoesNotExist:
+            return render(request, '404.html', status=404)
+        
+        max_profit = order.subtotal - order.seller_total
+        
+        context = self.get_context_data(request, order=order)
+        
+        if request.is_ajax():
+            data = {
+            'order': {
+                'id': order.id,
+                'order_id': order.order_id,
+            },
+            'max_profit': max_profit,
+        }
+        
+            return JsonResponse(data)
+        else:
+            return render(request, self.template_name, context)
+    
+    def get_context_data(self, request, order, **kwargs):
+        referred_orders_count = request.session.get('referred_orders_count')
+        transaction_fee = order.distributor_total * Decimal(0.05)
+        cod_amount = order.total_amount - order.discount
+        max_profit = order.subtotal - order.seller_total
+        
+        order.sponsor_profit = order.seller_total - order.distributor_total - transaction_fee
+        order.seller_profit = cod_amount - order.seller_total - order.shipping_fee
+        order.save()
+        
+        address = order.shipping_address
+        print(f'Address ID: {address.id}')
+        
+        context = {
+            'title': self.title,
+            'order': order,
+            'referred_orders_count': referred_orders_count,
+            'transaction_fee': transaction_fee,
+            'cod_amount': cod_amount,
+            'max_profit': max_profit,
+            'address': address,
+        }
+        return context
+    
+
+def update_discount(request):
+    if request.method == 'POST' and request.is_ajax():
+        print("Request is POST")
+        order_id = request.POST.get('order_id')
+        new_discount = request.POST.get('discount')
+
+        print("Order ID:", order_id)
+        print("New Discount:", new_discount)
+        
+        try:
+            order = Order.objects.get(order_id=order_id)
+            order.discount = new_discount
+            order.save()
+            return JsonResponse({'success': True, 'discount_amount': order.discount})
+        except Order.DoesNotExist:
+            print("Order does not exist")
+            return JsonResponse({'success': False})
+    else:
+        print("Invalid request method or not AJAX")
+        return JsonResponse({'success': False})
+    
+def confirm_order(request):
+    if request.method == 'POST':
+        order_id = request.POST.get('order_id')
+        try:
+            order = get_object_or_404(Order, order_id=order_id)
+            print(f"Order filtered: {order}")
+            # Update order status to 'shipping'
+            order.status = 'shipping'
+            order.save()
+            return JsonResponse({'success': True})
+        except Order.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Order not found'})
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+
+    
     
 class WarehouseDashboardView(TemplateView):
     template_name = 'admin/warehouse-dashboard.html'

@@ -40,10 +40,13 @@
                             </div>
                         </div> 
                         <div class="col-lg-2">
-                            <a href="#" id="editAddressBtn" class="edit-checkout-address" 
+                            <button id="editAddressBtn" 
+                                class="edit-checkout-address" 
+                                onclick="editAddress(this)"
                                 data-tooltip="tooltip" 
                                 title="Edit" 
-                                data-address-id="{{ address.id }}">Edit</a>
+                                data-address-id="{{ address.id }}">Edit
+                            </button>
                         </div>
                         <hr class="mt-2 mb-3"> 
                     {% endfor %}

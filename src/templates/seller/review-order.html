@@ -1,0 +1,235 @@
+{% extends "base-dashboard.html" %}
+{% load static %}
+{% load currency_filters %} 
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+<!-- user order -->
+<div class="user-area bg py-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <div class="sidebar-top">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="sidebar-profile-img">
+                                {% if user.image %}
+                                <img src="{{ user.image.url }}" alt="Profile Picture">
+                                {% else %}
+                                <img src="{% static 'img/user/default_profile.png' %}" alt="No Image">
+                                {% endif %}
+                                <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
+                                <!-- Input field to select an image file -->
+                                <input type="file" name="image" accept="image/*" class="profile-img-file">
+                                <button type="submit" class="profile-img-btn"><i class="far fa-camera"></i></button>
+                            </div>
+                        </form>
+                        <h5>{{user.first_name}} {{ user.last_name }}</h5>
+                        <p>{{user.email}}</p>
+                    </div>
+                    <ul class="sidebar-list">
+                        <li><a href="vendor-dashboard.html"><i class="far fa-gauge-high"></i> Dashboard</a></li>
+                        <li><a href="vendor-profile.html"><i class="far fa-user"></i> My Profile</a></li>
+                        <li><a class="active" href="vendor-order.html"><i class="far fa-shopping-bag"></i> All Orders
+                                <span class="badge badge-danger">{{ referred_orders_count }}</span></a></li>
+                        <li><a href="vendor-payout.html"><i class="far fa-wallet"></i> Payout</a></li>
+                        <li><a href="vendor-transaction.html"><i class="far fa-credit-card"></i> Transaction</a></li>
+                        <li><a href="vendor-notification.html"><i class="far fa-bell"></i> Notification <span
+                                    class="badge badge-danger">02</span></a></li>
+                        <li><a href="vendor-message.html"><i class="far fa-envelope"></i> Messages <span
+                                    class="badge badge-danger">02</span></a></li>
+                        <li><a href="vendor-setting.html"><i class="far fa-gear"></i> Settings</a></li>
+                        <li><a href="#"><i class="far fa-sign-out"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="user-wrapper">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="user-card">
+                                <div class="card shadow-sm border-0">
+                                    <div class="card-body">
+                                        <div class="shop-cart">
+                                            <div class="row">
+                                                <div class="col-md-12 mb-3">
+                                                    <h4 style="font-weight: 700; margin-left: 15px">Review Order {{ order.order_id }}</h4>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="order-summary">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <p class="fs-5"><b><i class="bx bx-cart"></i> Shopping Cart</b></p>
+                                                                {% for item in order.orderitem_set.all %}
+                                                                <div class="d-flex align-items-center">
+                                                                    <img class="shop-cart-img" src="{{ item.product.image_1.url }}" alt="{{ item.product.name }}">
+                                                                    <div class="ps-2">
+                                                                        <h6 class="mb-1">{{ item.product.name }}
+                                                                        </h6>
+                                                                        <div class="widget-product-meta">
+                                                                            <span id="product-price-{{ order.order_id }}">{{ item.product.customer_price|currency }}</span>
+                                                                            x <span id="product-quantity-{{ order.order_id }}">{{ item.quantity }}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                    {% if not forloop.last %} 
+                                                                        <div class="my-3 border-top"></div>
+                                                                    {% endif %}
+                                                                
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="order-summary">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <p class="fs-5"><b><i class="bx bx-cart"></i> Order
+                                                                        Summary</b></p>
+                                                                <p class="mb-2">Total Cart Price:
+                                                                    <span class="float-end" id="cart-subtotal">{{ order.subtotal|currency }}</span>
+                                                                </p>
+                                                                <p id="shipping_fee" class="mb-2">Shipping Fee:
+                                                                    <span class="float-end">+ <span
+                                                                            id="review-shipping-fee">{{ order.shipping_fee|currency}}</span></span>
+                                                                </p>
+                                                                <p id="discount" class="mb-2">Discount: 
+                                                                    <button id="btn-add-discount" class="badge bg-warning"
+                                                                        onclick="updateDiscount(this)"
+                                                                        data-update-url="{% url 'update_discount' %}"
+                                                                        data-max-profit="{{ max_profit }}"
+                                                                        data-order-id="{{ order.order_id }}"
+                                                                        data-order-total="{{ order.total_amount }}"
+                                                                        data-seller-total="{{ order.seller_total }}"
+                                                                        data-shipping-fee="{{ order.shipping_fee }}">
+                                                                        <i class="fa fa-edit"></i> Update
+                                                                    </button>
+                                                                    <span class="float-end">- 
+                                                                        <span id="discount-amount">{{ order.discount|currency }}</span>
+                                                                    </span>
+                                                                </p>
+                                                                <div class="my-3 border-top"></div>
+                                                                <h5 class="mb-0" style="font-weight: 900">COD Amount:
+                                                                    <span class="float-end"><span
+                                                                            id="review-cod-amount">{{ cod_amount|currency }}</span></span>
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="shipping-address mt-20">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <div class="mb-3">
+                                                                    <p class="fs-5" style="display: inline">
+                                                                        <b><i class="bx bxs-truck"></i> Shipping to:</b>
+                                                                    </p>
+                                                                    <button id="editAddressButton"
+                                                                        class="badge bg-warning edit-address"
+                                                                        data-address-id="{{ address.id }}"
+                                                                        data-update-url="{% url 'update_address' %}">
+                                                                        <i class="fa fa-edit"></i> Update
+                                                                    </button>
+                                                                </div>
+                                                                <div id="shipping-details">
+                                                                    <p class="mb-1"><span>Customer:</span> <span
+                                                                            class="h6"><b id="customer-name">{{ address.first_name }} {{ address.last_name }}</b></span></p>
+                                                                    <p class="mb-1"><span>Phone:</span> <span
+                                                                            class="h6"><b
+                                                                                id="customer-mobile">+{{ address.phone }}</b></span>
+                                                                    </p>
+                                                                    <p class="mb-1"><span>Shipping Address:
+                                                                        </span><br><span class="h6"><b
+                                                                                id="customer-address">{{ address.postcode }}, {{ address.barangay }},
+                                                                                {{ address.city }}, {{ address.province }}, {{ address.region }}, Philippines, </b></span>
+                                                                    </p>
+
+                                                                </div>
+                                                                <!-- edit address modal -->
+                                                                {% include 'user/address-list-modal.html' %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+
+                                                    <div id="profit-details" class="order-summary">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <p class="fs-5"><b><i class="bx bx-money"></i>Profit
+                                                                        Details</b></p>
+                                                                <div class="divider"></div>
+                                                                <p class="mb-2">Seller's Price:
+                                                                    <span class="float-end">{{ order.seller_total|currency }}</span>
+                                                                </p>
+                                                                <p class="mb-2">Distributor's Price:
+                                                                    <span class="float-end">- {{ order.distributor_total|currency }}</span>
+                                                                </p>
+                                                                <p class="mb-2">Transaction Fee:
+                                                                    <span class="float-end">- {{ transaction_fee|currency }}</span>
+                                                                </p>
+                                                                <div class="my-3 border-top"></div>
+                                                                <h5 class="mb-0" style="font-weight: 900">Sponsor
+                                                                    Profit: <span class="float-end"><span
+                                                                            id="review-sponsor-profit">{{ order.sponsor_profit|currency }}</span></span>
+                                                                </h5>
+
+                                                                <div class="my-3 border-top"></div>
+                                                                <p class="mb-2">COD Amount:
+                                                                    <span class="float-end"><span
+                                                                            id="review-seller-cod-amount">{{ cod_amount|currency }}</span></span>
+                                                                </p>
+                                                                <p class="mb-2">Seller's Price:
+                                                                    <span class="float-end">- {{ order.seller_total|currency }}</span>
+                                                                </p>
+                                                                <p id="shipping_fee" class="mb-2">Shipping Fee:
+                                                                    <span class="float-end">- <span
+                                                                            id="review-profit-shipping-fee">{{ order.shipping_fee|currency }}</span></span>
+                                                                </p>
+                                                                <div class="my-3 border-top"></div>
+                                                                <h5 class="mb-0" style="font-weight: 900">Seller Profit:
+                                                                    <span class="float-end"><span
+                                                                            id="review-seller-profit">{{ order.seller_profit|currency }}</span></span>
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mt-20">
+                                                        <div class="col-md-6" style="padding: 0 0 0 20px;">
+                                                            <button id="cancel-order"
+                                                                class="btn btn-danger" style="font-family: 'Roboto', sans-serif!important;">Cancel Order</button>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <button id="place-order"
+                                                                class="btn btn-success" 
+                                                                style="background-color: #11B76B!important; font-family: 'Roboto', sans-serif!important;"
+                                                                onclick="confirmOrderBtn(this)"
+                                                                data-order-id="{{ order.order_id }}">
+                                                                Confirm Order
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--end row-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- user order end -->
+
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/review-order.js' %}"></script>
+{% endblock %}

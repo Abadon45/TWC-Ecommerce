@@ -564,3 +564,4 @@ def set_order_id_session_variable(request):
         print(f'Order ID: {order_id}')
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
+

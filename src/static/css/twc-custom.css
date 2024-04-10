@@ -19,6 +19,22 @@
     }
 }
 
+/* SELLER DASHBOARD */
+
+.seller-order span{
+    font-size: small;
+}
+
+.seller-order li{
+    font-size: small;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.seller-order a{
+    font-size: small;
+}
+
 /* For small screens (≥576px) */
 @media (min-width: 576px) {
     #checkout-complete {

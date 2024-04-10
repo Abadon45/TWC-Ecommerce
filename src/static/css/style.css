@@ -6989,25 +6989,50 @@ display: flex!important;
   color: red;
 }
 
+
+.user-area .badge-pending{
+  background: #DBF7FD;
+  color: #0DCAF0;
+}
+
+.user-area .badge-shipping{
+  background: #41bff6;
+  color: #FFFFFF;
+}
+
 .user-area .badge-received{
+  background: #DCFCE7;
+  color: #22C79C;
+}
+
+.user-area .badge-paid{
   background: #01be3b;
   color: #FFFFFF;
 }
 
-.user-area .badge-shipped{
-  background: #ee0004;
-  color: #FFFFFF;
+.user-area .badge-bp-encoded{
+  background: #F3E8FF;
+  color: #A855F7;
 }
 
-.user-area .badge-prepared{
+.user-area .badge-rts{
+  background: #DBF7FD;
+  color: #0DCAF0;
+}
+
+.user-area .badge-rts{
   background: #f29404!important;
   color: #FFFFFF;
 }
 
-.user-area .badge-processed{
-  background: #41bff6;
+.user-area .badge-returned{
+  background: #ee0004;
   color: #FFFFFF;
 }
+
+
+
+
 
 /* dashboard */
 .dashboard-widget {

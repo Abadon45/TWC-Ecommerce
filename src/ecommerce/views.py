@@ -8,6 +8,8 @@ from django.shortcuts import get_object_or_404
 from user.models import Referral
 from django.shortcuts import redirect
 from django.utils.text import capfirst
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 import random
 
@@ -34,6 +36,8 @@ class IndexView(TemplateView):
             request.session['referrer'] = referrer.id
             
             print(f"Referrer: {request.session['referrer']}")
+            
+            return HttpResponseRedirect(reverse('home_view'))
                 
         guest_user_info = request.session.get('guest_user_data', {})
         new_guest_user = request.session.get('new_guest_user', False)

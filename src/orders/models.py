@@ -18,10 +18,13 @@ logger = logging.getLogger(__name__)
 
 
 ORDER_STATUS_CHOICES = (
-    ('processed', 'Processed'),
-    ('prepared', 'Prepared'),
-    ('shipped', 'Shipped'),
-    ('received', 'Received'),
+    ('pending', 'Pending'),
+    ('shipping', 'Shipping'),
+    ('delivered', 'Delivered'),
+    ('paid', 'Paid'),
+    ('bp-encoded', 'BP Encoded'),
+    ('rts', 'RTS'),
+    ('returned', 'Returned'),
 )
 
 
@@ -36,12 +39,17 @@ class Order(models.Model):
     active              = models.BooleanField(default=True)
     created_at          = models.DateTimeField(default=timezone.now)
     ordered_items       = models.ManyToManyField(Product, blank=True)
-    status              = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='processed')
+    status              = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='pending')
     total_quantity      = models.IntegerField(default=0, null=True, blank=True)
     total_amount        = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     shipping_fee        = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     supplier            = models.CharField(max_length=100, blank=True, null=True)
     subtotal            = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    seller_total        = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    distributor_total   = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    discount            = models.DecimalField(max_digits=10, decimal_places=2, default=100.00, null=True, blank=True)
+    sponsor_profit      = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    seller_profit       = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     
     def __str__(self):
         try:
@@ -66,6 +74,14 @@ class Order(models.Model):
     def calculate_subtotal(self):
         subtotal = sum(item.get_total for item in self.orderitem_set.all())
         return subtotal
+    
+    def calculate_seller_total(self):
+        seller_total = sum(item.get_seller_total for item in self.orderitem_set.all())
+        return seller_total
+    
+    def calculate_distributor_total(self):
+        distributor_total = sum(item.get_distributor_total for item in self.orderitem_set.all())
+        return distributor_total
     
     
     @classmethod
@@ -93,6 +109,14 @@ class Order(models.Model):
         return self.calculate_subtotal()
     
     @property
+    def seller_total(self):
+        return self.calculate_seller_total()
+    
+    @property
+    def distributor_total(self):
+        return self.calculate_distributor_total()
+    
+    @property
     def total_quantity(self):
         return self.calculate_total_qty()
     
@@ -113,6 +137,20 @@ class OrderItem(models.Model):
         if self.product is None:
             return Decimal('0.00')
         total = self.product.customer_price * self.quantity
+        return total
+    
+    @property
+    def get_seller_total(self):
+        if self.product is None:
+            return Decimal('0.00')
+        total = self.product.seller_price * self.quantity
+        return total
+    
+    @property
+    def get_distributor_total(self):
+        if self.product is None:
+            return Decimal('0.00')
+        total = self.product.distributor_price * self.quantity
         return total
         
         
