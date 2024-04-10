@@ -19,12 +19,18 @@ logger = logging.getLogger(__name__)
 
 ORDER_STATUS_CHOICES = (
     ('pending', 'Pending'),
+    ('sponsor-review', 'Sponsor Review'),
     ('shipping', 'Shipping'),
     ('delivered', 'Delivered'),
     ('paid', 'Paid'),
     ('bp-encoded', 'BP Encoded'),
     ('rts', 'RTS'),
     ('returned', 'Returned'),
+)
+
+PAYMENT_CHOICES = (
+    ('none', 'None'),
+    ('cod', 'Cash On Delivery'),
 )
 
 
@@ -34,8 +40,10 @@ class Order(models.Model):
     order_id            = models.CharField(max_length=120, blank=True, unique=True)
     session_key         = models.CharField(max_length=120, blank=True, null=True)
     shipping_address    = models.ForeignKey(Address, null =True, blank=True, on_delete=models.CASCADE, related_name='shipping_address')
+    payment_method      = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='none')
     contact_number      = models.CharField(max_length=15, blank=True, null=True)
     complete            = models.BooleanField(default=False, null=True, blank=False)
+    delivered           = models.BooleanField(default=False, null=True, blank=False)
     active              = models.BooleanField(default=True)
     created_at          = models.DateTimeField(default=timezone.now)
     ordered_items       = models.ManyToManyField(Product, blank=True)

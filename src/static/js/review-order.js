@@ -66,6 +66,7 @@ function updateDiscount(button) {
     $('.discount-currency').css('width', '2rem');
 }
 
+// Function to handle confirmation of order
 function confirmOrderBtn(button) {
     var orderId = button.getAttribute('data-order-id');
     Swal.fire({
@@ -77,21 +78,45 @@ function confirmOrderBtn(button) {
         cancelButtonText: 'Cancel'
     }).then((result) => {
         if (result.isConfirmed) {
-            $.ajax({
-                type: 'POST',
-                url: confirmOrder, 
-                headers: { "X-CSRFToken": csrf },
-                data: { 'order_id': orderId },
-                success: function(response) {
-                    console.log("Order reviewed and confirmed!");
-                    window.location.href = sellerDashboardURL;
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    console.error('Error:', errorThrown);
-                    // Handle error
+            // Show modal to select payment method
+            Swal.fire({
+                icon: 'warning',
+                title: 'Select Your Payment Method',
+                html: '<select id="id_payment_method" class="form-select form-control mt-3" required>' +
+                        '<option value="select" selected>- Select Payment -</option>' +
+                        '<option value="cod">Cash On Delivery</option>' +
+                        '<option value="prepaid" disabled>Prepaid</option>' +
+                        '</select>',
+                showCancelButton: true,
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                preConfirm: () => {
+                    var paymentMethod = $('#id_payment_method').val();
+                    if (paymentMethod === 'select') {
+                        Swal.showValidationMessage('You must select a payment option');
+                        return false;
+                    }
+                }
+            }).then((paymentResult) => {
+                if (paymentResult.isConfirmed) {
+                    var paymentMethod = $('#id_payment_method').val();
+                    // Send AJAX request to confirm order with payment method
+                    $.ajax({
+                        type: 'POST',
+                        url: confirmOrder, 
+                        headers: { "X-CSRFToken": csrf },
+                        data: { 'order_id': orderId, 'payment_method': paymentMethod },
+                        success: function(response) {
+                            console.log("Order reviewed and confirmed!");
+                            window.location.href = sellerDashboardURL;
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            console.error('Error:', errorThrown);
+                            // Handle error
+                        }
+                    });
                 }
             });
         }
     });
 }
-

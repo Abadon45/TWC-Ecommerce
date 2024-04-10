@@ -6995,6 +6995,11 @@ display: flex!important;
   color: #0DCAF0;
 }
 
+.user-area .badge-sponsor-review{
+  background: #FDE4D0;
+  color: #086972;
+}
+
 .user-area .badge-shipping{
   background: #41bff6;
   color: #FFFFFF;

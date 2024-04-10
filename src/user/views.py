@@ -245,7 +245,7 @@ class SellerDashboardView(TemplateView):
         user = self.request.user
         referred_users = User.objects.filter(referred_by=user)
         
-        referred_orders = Order.objects.filter(user__in=referred_users, status='pending')
+        referred_orders = Order.objects.filter(user__in=referred_users, delivered=False)
         referred_orders_count = referred_orders.count()
         self.request.session['referred_orders_count'] = referred_orders_count
         
@@ -354,11 +354,13 @@ def update_discount(request):
 def confirm_order(request):
     if request.method == 'POST':
         order_id = request.POST.get('order_id')
+        payment_method = request.POST.get('payment_method')
         try:
             order = get_object_or_404(Order, order_id=order_id)
             print(f"Order filtered: {order}")
-            # Update order status to 'shipping'
-            order.status = 'shipping'
+            
+            order.payment_method = payment_method
+            order.status = 'sponsor-review'
             order.save()
             return JsonResponse({'success': True})
         except Order.DoesNotExist:

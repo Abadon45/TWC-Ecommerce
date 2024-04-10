@@ -234,25 +234,43 @@ $(document).ready(function () {
   $(".delete-address").click(function (e) {
     e.preventDefault();
     var addressId = $(this).data("address-id");
-    deleteAddress(addressId);
-  });
-
-  function deleteAddress(addressId) {
-    $.ajax({
-      type: "POST",
-      url: deleteAddressUrl,
-      data: {
-        address_id: addressId,
-        csrfmiddlewaretoken: csrf,
-      },
-      success: function (response) {
-        $("#address-" + addressId).remove();
-      },
-      error: function (xhr, textStatus, errorThrown) {
-        console.log("Error:", errorThrown);
-      },
+    
+    // Display SweetAlert confirmation dialog
+    Swal.fire({
+        icon: 'warning',
+        title: 'Are you sure?',
+        text: 'You are about to delete this address.',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // If user confirms deletion, call deleteAddress function
+            deleteAddress(addressId);
+        }
     });
-  }
+});
+
+function deleteAddress(addressId) {
+    $.ajax({
+        type: "POST",
+        url: deleteAddressUrl,
+        data: {
+            address_id: addressId,
+            csrfmiddlewaretoken: csrf,
+        },
+        success: function (response) {
+            $("#address-" + addressId).remove();
+            spinner.removeClass("visible");
+            backdrop.removeClass("visible");
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            console.log("Error:", errorThrown);
+        },
+    });
+}
 
   //EDIT ADDRESS
 
