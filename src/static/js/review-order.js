@@ -108,7 +108,19 @@ function confirmOrderBtn(button) {
                         data: { 'order_id': orderId, 'payment_method': paymentMethod },
                         success: function(response) {
                             console.log("Order reviewed and confirmed!");
-                            window.location.href = sellerDashboardURL;
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Order Confirmed',
+                                text: 'Redirecting to dashboard...',
+                                timer: 2000,
+                                timerProgressBar: true,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                },
+                                willClose: () => {
+                                    window.location.href = sellerDashboardURL;
+                                }
+                            });
                         },
                         error: function(xhr, textStatus, errorThrown) {
                             console.error('Error:', errorThrown);
