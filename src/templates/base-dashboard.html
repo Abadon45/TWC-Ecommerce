@@ -78,25 +78,10 @@
       <!-- end spinner-2 -->
 
     <!-- header area -->
-    {% include 'base/header.html' %}
+    {% include 'base/dashboard-header.html' %}
     <!-- header area end -->
 
     <main class="main">
-
-        <!-- breadcrumb -->
-        <div class="site-breadcrumb">
-            <div class="site-breadcrumb-bg" style="background: url({% static 'img/breadcrumb/01.jpg' %})"></div>
-            <div class="container">
-                <div class="site-breadcrumb-wrap">
-                    <h4 class="breadcrumb-title">{{ title }}</h4>
-                    <ul class="breadcrumb-menu">
-                        <li><a href="/"><i class="far fa-home"></i> Home</a></li>
-                        <li class="active">{{ title }}</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <!-- breadcrumb end -->
 
         {% block content %}{% endblock content %}
 

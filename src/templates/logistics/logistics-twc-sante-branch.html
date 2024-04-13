@@ -1,0 +1,37 @@
+{% extends "base-dashboard.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+
+<!-- logistics dashboard -->
+<div class="user-area bg py-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                {% include 'logistics/logistics-sidebar.html' %}
+            </div>
+            <div class="col-lg-9">
+                <div class="user-wrapper">
+                    <div class="user-card">
+                        <h4 class="user-card-title">Summary</h4>
+                        <!-- insert content here  -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- logistics dashboard end -->
+
+{% endblock %}
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    $(".active").removeClass("active");
+    $(".branch-sidebar").addClass("active");
+});
+</script>
+{% endblock %}

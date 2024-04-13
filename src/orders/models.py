@@ -33,6 +33,12 @@ PAYMENT_CHOICES = (
     ('cod', 'Cash On Delivery'),
 )
 
+FULLFILLER_CHOICES = (
+    ('other', 'Other'),
+    ('mandaluyong', 'Mandaluyong HUB'),
+    ('sante valenzuela', 'Sante Valenzuela'),
+    ('sante cdo', 'Sante CDO'),
+)
 
 class Order(models.Model):
     customer            = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
@@ -41,6 +47,7 @@ class Order(models.Model):
     session_key         = models.CharField(max_length=120, blank=True, null=True)
     shipping_address    = models.ForeignKey(Address, null =True, blank=True, on_delete=models.CASCADE, related_name='shipping_address')
     payment_method      = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='none')
+    fullfiller          = models.CharField(max_length=20, choices=FULLFILLER_CHOICES, default='other')
     contact_number      = models.CharField(max_length=15, blank=True, null=True)
     complete            = models.BooleanField(default=False, null=True, blank=False)
     delivered           = models.BooleanField(default=False, null=True, blank=False)

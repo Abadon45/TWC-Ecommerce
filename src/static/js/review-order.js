@@ -121,7 +121,7 @@ function confirmOrderBtn(button) {
                                     window.location.href = sellerDashboardURL;
                                 }
                             });
-                        },
+                        }, 
                         error: function(xhr, textStatus, errorThrown) {
                             console.error('Error:', errorThrown);
                             // Handle error

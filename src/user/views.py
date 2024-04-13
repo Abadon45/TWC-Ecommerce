@@ -1,9 +1,10 @@
 from django.views.generic import View, TemplateView
+from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import get_user_model
 from orders.models import Order, OrderItem
 from addresses.models import Address
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest, HttpResponse
 from django.conf import settings
 from django.views.decorators.cache import cache_page
@@ -12,7 +13,6 @@ from addresses.forms import AddressForm
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
-from django.core import serializers
 from decimal import Decimal
 
 import logging
@@ -386,7 +386,7 @@ class WarehouseDashboardView(TemplateView):
         return context
     
 class LogisticsDashboardView(TemplateView):
-    template_name = 'admin/logistics-dashboard.html'
+    template_name = 'logistics/logistics-dashboard.html'
     title = "Logistics Dashboard"
     
     def get_context_data(self, **kwargs):
@@ -399,6 +399,74 @@ class LogisticsDashboardView(TemplateView):
             'orders': Order.objects.all(),
         })
         return context
+    
+class LogisticsUserDatabaseView(TemplateView):
+    template_name = 'logistics/logistics-dashboard.html'
+    title = "Logistics User Database"
+    
+class LogisticsUserDatabaseView(TemplateView):
+    template_name = 'logistics/logistics-user-database.html'
+    title = "Logistics Dashboard"
+    
+class LogisticsBookingView(View):
+    template_name = 'logistics/logistics-booking.html'
+    title = "Logistics Dashboard"
+    
+    def get(self, request, *args, **kwargs):
+        fulfiller = request.GET.get('fulfiller', 'other')
+        queryset = Order.objects.all() 
+        
+        if fulfiller != 'other':
+            queryset = queryset.filter(fullfiller=fulfiller)
+        
+        context = {
+            'title': self.title,
+            'orders': queryset,
+        }
+        return render(request, self.template_name, context)
+    
+class LogisticsPickupView(TemplateView):
+    template_name = 'logistics/logistics-pickup.html'
+    title = "Logistics Pickup"
+
+class LogisticsBPEncodingView(TemplateView):
+    template_name = 'logistics/logistics-bp-encoding.html'
+    title = "Logistics BP Encoding"
+    
+class LogisticsReturnView(TemplateView):
+    template_name = 'logistics/logistics-return.html'
+    title = "Logistics Return"
+    
+class LogisticsVWApprovalView(TemplateView):
+    template_name = 'logistics/logistics-approval.html'
+    title = "Logistics VW Approval"
+    
+class LogisticsReceivingView(TemplateView):
+    template_name = 'logistics/logistics-receiving.html'
+    title = "Logistics Receiving"
+    
+class LogisticsProductView(TemplateView):
+    template_name = 'logistics/logistics-product.html'
+    title = "Logistics Product"
+    
+class LogisticsPackageView(TemplateView):
+    template_name = 'logistics/logistics-package.html'
+    title = "Logistics package"
+    
+class LogisticsSanteBranchView(TemplateView):
+    template_name = 'logistics/logistics-twc-sante-branch.html'
+    title = "Logistics TWC Sante Branch"
+    
+class LogisticsPhysicalStocksView(TemplateView):
+    template_name = 'logistics/logistics-physical-stocks.html'
+    title = "Logistics Physical Stocks"
+    
+class DashboardLogoutView(LogoutView):
+    def dispatch(self, request, *args, **kwargs):
+        response = super().dispatch(request, *args, **kwargs)
+        # Redirect to the specified URL after logout
+        return redirect('https://www.twconline.store')
+
 
         
 

@@ -4,7 +4,6 @@ from django.conf import settings
 from django.views.generic import RedirectView
 from user.views import *
 from TWC.urls import IndexView, BecomeSellerView
-from django.views.generic import TemplateView
 from django.contrib import admin
 from user.views import RegisterGuestView
 from django.conf.urls.static import static
@@ -37,6 +36,17 @@ urlpatterns = [
     path('seller/confirm_order/', confirm_order, name='confirm_order'),
     path('warehouse/', WarehouseDashboardView.as_view(), name='warehouse'),
     path('logistics/', LogisticsDashboardView.as_view(), name='logistics'),
+    path('logistics/member', LogisticsUserDatabaseView.as_view(), name='member'),
+    path('logistics/bp-encoding/', LogisticsBPEncodingView.as_view(), name='bp_encoding'),
+    path('logistics/package/', LogisticsPackageView.as_view(), name='package'),
+    path('logistics/physical-stocks/', LogisticsPhysicalStocksView.as_view(), name='physical_stocks'),
+    path('logistics/pickup/', LogisticsPickupView.as_view(), name='pickup'),
+    path('logistics/product/', LogisticsProductView.as_view(), name='product'),
+    path('logistics/receiving/', LogisticsReceivingView.as_view(), name='receiving'),
+    path('logistics/return/', LogisticsReturnView.as_view(), name='return'),
+    path('logistics/twc-sante-branch/', LogisticsSanteBranchView.as_view(), name='twc_sante_branch'),
+    path('logistics/approval/', LogisticsVWApprovalView.as_view(), name='approval'),
+    path('logistics/booking/', LogisticsBookingView.as_view(), name='booking'),
     path('profile/', dashboard_redirect),
     path('address/', dashboard_redirect),
     path('track-order/', dashboard_redirect),
@@ -45,6 +55,7 @@ urlpatterns = [
     path('get-address-details/', get_address_details, name='get_address_details'),
     path('get_order_details/', get_order_details, name='get_order_details'),
     path('shop/<int:referrer_id>/', RegisterGuestView.as_view(), name='register_guest'),
+    path('logout/', DashboardLogoutView.as_view(), name='logout'),
     
     
 ]
