@@ -7,8 +7,8 @@
 
 
 <!-- logistics dashboard -->
-<div class="user-area bg py-100">
-    <div class="container">
+<div class="user-area bg">
+    <div id="logistics" class="container">
         <div class="row">
             <div class="col-lg-3">
                 {% include 'logistics/logistics-sidebar.html' %}
@@ -16,8 +16,25 @@
             <div class="col-lg-9">
                 <div class="user-wrapper">
                     <div class="user-card">
-                        <h4 class="user-card-title">Summary</h4>
-                        <!-- insert content here  -->
+                        <h4 class="user-card-title">For Return</h4>
+                        <div class="table-responsive table-hover seller-order">
+                            <table id="orders-table" class="table table-bordered table-hover table-striped logistics-table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Pickup Date</th>
+                                        <th>Order #</th>
+                                        <th>Receiver</th>
+                                        <th>Courier</th>
+                                        <th>Products</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -29,9 +46,102 @@
 {% endblock %}
 {% block extra_js %}
 <script>
+    const logisticsReturnData = "{% url 'return_data' %}"
+</script>
+<script>
 $(document).ready(function() {
     $(".active").removeClass("active");
     $(".return-sidebar").addClass("active");
+
+    $('#orders-table').DataTable({
+      "processing": true,
+      "serverSide": false,
+      "paging": true,
+      "ajax": {
+          "url": logisticsReturnData,
+          "type": "GET",
+          "dataType": "json",
+      },
+      "columns": [
+          { "data": "index" },
+          { "data": "pickup_date" },
+          { "data": "order_id" },
+          { "data": "receiver" },
+          { "data": "courier" },
+          { "data": "products" },
+          { "data": "action", "className": "text-center" }
+      ],
+      "responsive": true,
+      "pagingType": "full_numbers",
+      "drawCallback": function (settings) {
+      $('#orders-table').find('tbody tr').each(function() {
+          $(this).children('td:eq(3)').css('max-width', '300px');
+          $(this).children('td:eq(3)').css('max-width', '300px');
+          $(this).children('td:eq(4)').css('max-width', '400px');
+          $(this).children('td:eq(5)').css('width', '20%');
+        });
+      },
+  });
+  console.log("DataTables initialized.");
 });
+
+function returnedOrder(button) {
+  var courierId = $(button).data('courier-id');
+  var spinner = $(".sk-circle");
+  var backdrop = $(".backdrop");
+
+  Swal.fire({
+      title: 'Are you sure that this package was returned?',
+      text: "Warning: You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#11B76B',
+      cancelButtonColor: '#E56975',
+      confirmButtonText: 'Yes, it was returned!',
+      cancelButtonText: 'Cancel'
+  }).then((result) => {
+    if (result.isConfirmed) {
+        spinner.addClass("visible");
+        backdrop.addClass("visible");
+        $.ajax({
+            url: rejectOrderUrl,
+            type: 'POST',
+            data: {
+                courier_id: courierId,
+                new_status: 'returned'
+            },
+            headers: {
+              "X-CSRFToken": csrf
+            },
+            success: function(response) {
+                Swal.fire(
+                    'SUCCESS!',
+                    'The order has been returned.',
+                    'success'
+                );
+                var row = $(button).closest('tr');
+                var dataTable = $('#orders-table').DataTable();
+                var rowIndex = dataTable.row(row).index();
+                dataTable.row(row).remove().draw();
+
+                spinner.removeClass("visible");
+                backdrop.removeClass("visible");
+                console.log("Success:", response);
+                
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                Swal.fire(
+                    'Error!',
+                    'Failed to return the order. Please try again later.',
+                    'error'
+                );
+                spinner.removeClass("visible");
+                backdrop.removeClass("visible");
+            }
+        });
+    }
+});
+}
 </script>
 {% endblock %}

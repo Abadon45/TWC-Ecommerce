@@ -30,3 +30,25 @@ def has_existing_order(request):
     return {
         'has_existing_order': request.session.get('has_existing_order', False)
     }
+    
+def booking_count_notification(request):
+    booking_count = Order.objects.filter(status='for-booking').count()
+    mandaluyong_count = Order.objects.filter(status='for-booking', courier__fulfiller='sante mandaluyong').count()
+    valenzuela_count = Order.objects.filter(status='for-booking', courier__fulfiller='sante valenzuela').count()
+    cdo_count = Order.objects.filter(status='for-booking', courier__fulfiller='sante cdo').count()
+    other_count = Order.objects.filter(status='for-booking', courier__fulfiller='other').count()
+    return {
+        'booking_count': booking_count,
+        'mandaluyong_count': mandaluyong_count,
+        'valenzuela_count':  valenzuela_count,
+        'cdo_count': cdo_count,
+        'other_count': other_count,
+    }
+    
+def pickup_count_notification(request):
+    pickup_count = Order.objects.filter(status='for-pickup').count()
+    return{'pickup_count': pickup_count}
+
+def return_count_notification(request):
+    return_count = Order.objects.filter(status='rts').count()
+    return{'return_count': return_count}

@@ -1,57 +1,164 @@
 #checkout-complete {
-    h3{
+    h3 {
         font-size: 18px;
     }
-    h5{
+
+    h5 {
         font-size: 16px;
     }
-    .sm-order-details{
+
+    .sm-order-details {
         margin-top: 10px;
     }
-    .order-detail{
+
+    .order-detail {
         margin-top: 15px;
     }
-    .sm-delivery{
+
+    .sm-delivery {
         margin-top: 15px;
     }
-    table{
+
+    table {
         margin-top: 30px;
     }
 }
 
 /* SELLER DASHBOARD */
 
-.seller-order span{
+#logistics {
+    display: inline;
+}
+
+#logistics .user-wrapper {
+    padding-right: 20px;
+}
+
+.seller-order span {
     font-size: small;
 }
 
-.seller-order li{
+.seller-order li {
     font-size: small;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
 
-.seller-order a{
+.seller-order a {
     font-size: small;
 }
+
+.seller-order p {
+    font-size: small;
+}
+
+.seller-order h6 {
+    font-size: 15px!important;
+}
+
+.seller-order .nav-link.active {
+    background-color: #11B76B;
+    font-weight: 500;
+
+}
+
+.seller-order .nav-item button {
+    font-size: large;
+    color: #081828;
+    font-weight: 500;
+    
+}
+
+/* LOGISTICS DASBOARD */
+
+.label-left {
+    text-align: justify;
+}
+
+.label-left label {
+    font-size: 11pt;
+}
+
+.label-left select {
+    height: 50px;
+}
+
+.label-left input {
+    height: 50px;
+}
+
+.btn-toggle-label {
+    font-size: 0.8rem;
+}
+
+#yesToggle.active {
+    color: white;
+    background-color: #007bff;
+    /* Blue color for "Yes" */
+}
+
+#noToggle.active {
+    color: white;
+    background-color: #6c757d;
+    /* Gray color for "No" */
+}
+
+#neubar {
+    background: white;
+    box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.4);
+    
+}
+
+
+#logistics-sidebar a{
+    font-size: 15px;
+}
+
+#logistics-sidebar li{
+    margin: 0;
+}
+
+.action-btn {
+    font-size:small!important;
+    padding: 8px 20px!important;
+    border-radius: 10px;
+    min-width: 90px;
+    height: 40px;
+    margin: 0 5px;
+}
+
+/* logistics Table */
+
+.logistics-table thead{
+    --bs-table-bg: #343A40;
+}
+
+.logistics-table th{
+    color: white!important;
+    font-size: medium;
+}
+
 
 /* For small screens (≥576px) */
 @media (min-width: 576px) {
     #checkout-complete {
-        h3{
+        h3 {
             font-size: 20px;
         }
-        h5{
+
+        h5 {
             font-size: 14px;
         }
-        .col-md-6{
+
+        .col-md-6 {
             margin-top: 0;
         }
 
-        .order-detail{
+        .order-detail {
             margin-top: 10px;
         }
-        .sm-delivery{
+
+        .sm-delivery {
             margin-top: 0;
         }
 
@@ -62,16 +169,19 @@
 /* For medium screens (≥768px) */
 @media (min-width: 768px) {
     #checkout-complete {
-        h3{
+        h3 {
             font-size: 20px;
         }
-        h5{
+
+        h5 {
             font-size: 14px;
         }
-        .col-md-6{
+
+        .col-md-6 {
             margin-top: 20px;
         }
-        .sm-order-details{
+
+        .sm-order-details {
             margin-top: 20px;
         }
     }
@@ -82,19 +192,23 @@
 /* For large screens (≥992px) */
 @media (min-width: 992px) {
     #checkout-complete {
-        .order-detail{
+        .order-detail {
             margin-top: 50px;
         }
-        .col-md-6{
+
+        .col-md-6 {
             margin-top: 0;
         }
-        .sm-order-details{
+
+        .sm-order-details {
             margin-top: 0;
         }
-        .order-detail{
+
+        .order-detail {
             margin-top: 30px;
         }
-        table{
+
+        table {
             margin-top: 50px;
         }
     }
@@ -103,16 +217,17 @@
 /* For extra large screens (≥1200px) */
 @media (min-width: 1200px) {
     #checkout-complete {
-        h3{
+        h3 {
             font-size: 28px;
         }
-        h5{
+
+        h5 {
             font-size: 18px;
         }
-        .col-md-6{
+
+        .col-md-6 {
             margin-top: 0;
         }
     }
-        
-}
 
+}

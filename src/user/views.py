@@ -2,13 +2,14 @@ from django.views.generic import View, TemplateView
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import get_user_model
-from orders.models import Order, OrderItem
+from orders.models import Order, OrderItem, Courier
 from addresses.models import Address
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest, HttpResponse
 from django.conf import settings
 from django.views.decorators.cache import cache_page
 from user.forms import ProfileForm
+from orders.forms import CourierBookingForm
 from addresses.forms import AddressForm
 from django.db.models import Q
 from django.core.paginator import Paginator
@@ -16,6 +17,7 @@ from django.template.loader import render_to_string
 from decimal import Decimal
 
 import logging
+from .utils import fulfiller
 
 logger = logging.getLogger(__name__)
 
@@ -245,7 +247,11 @@ class SellerDashboardView(TemplateView):
         user = self.request.user
         referred_users = User.objects.filter(referred_by=user)
         
-        referred_orders = Order.objects.filter(user__in=referred_users, delivered=False)
+        referred_orders = Order.objects.filter(
+                Q(user__in=referred_users),
+                Q(delivered=False),
+                Q(status='pending') | Q(status='for-booking')
+            )
         referred_orders_count = referred_orders.count()
         self.request.session['referred_orders_count'] = referred_orders_count
         
@@ -310,13 +316,18 @@ class ReviewOrderView(View):
         transaction_fee = order.distributor_total * Decimal(0.05)
         cod_amount = order.total_amount - order.discount
         max_profit = order.subtotal - order.seller_total
-        
+        address = order.shipping_address
+        region = address.region
+        fulfiller_name = fulfiller(region)
+        existing_courier = order.courier
+
+        if existing_courier is None:
+            new_courier = Courier.objects.create(fulfiller=fulfiller_name)
+            order.courier = new_courier
+            
         order.sponsor_profit = order.seller_total - order.distributor_total - transaction_fee
         order.seller_profit = cod_amount - order.seller_total - order.shipping_fee
         order.save()
-        
-        address = order.shipping_address
-        print(f'Address ID: {address.id}')
         
         context = {
             'title': self.title,
@@ -360,7 +371,7 @@ def confirm_order(request):
             print(f"Order filtered: {order}")
             
             order.payment_method = payment_method
-            order.status = 'sponsor-review'
+            order.status = 'for-booking'
             order.save()
             return JsonResponse({'success': True})
         except Order.DoesNotExist:
@@ -411,23 +422,145 @@ class LogisticsUserDatabaseView(TemplateView):
 class LogisticsBookingView(View):
     template_name = 'logistics/logistics-booking.html'
     title = "Logistics Dashboard"
-    
+
     def get(self, request, *args, **kwargs):
-        fulfiller = request.GET.get('fulfiller', 'other')
-        queryset = Order.objects.all() 
+        address = None
+        fulfiller = self.request.GET.get('fulfiller')
         
-        if fulfiller != 'other':
-            queryset = queryset.filter(fullfiller=fulfiller)
+        orders = Order.objects.filter(Q(status='for-booking') | Q(status='for-pickup'))
+        
+        if fulfiller:
+            orders = orders.filter(courier__fulfiller=fulfiller)
+        else:
+            orders = Order.objects.filter(Q(status='for-booking') | Q(status='for-pickup'))
+        
+        for order in orders:
+            order.cod_amount = order.total_amount - order.discount
+            address = order.shipping_address
+            order.save()
         
         context = {
             'title': self.title,
-            'orders': queryset,
+            'orders': orders,
+            'address': address,
         }
         return render(request, self.template_name, context)
+    
+def courier_booking_view(request):
+    if request.method == 'POST':
+        courier_id = request.POST.get('courier_id')
+        print(f'Courier ID: {courier_id}')
+        try:
+            if courier_id:
+                courier = get_object_or_404(Courier, id=courier_id)
+                order = Order.objects.filter(courier=courier).first()
+                if order:
+                    order.status = 'for-pickup'
+                    order.save()
+                    print(f'Order Status: {order.status}')
+                else:
+                    return JsonResponse({'error': 'Order not found for the given courier ID.'}, status=404)
+                form = CourierBookingForm(request.POST, instance=courier)
+            else:
+                form = CourierBookingForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return JsonResponse({'message': 'Form submitted successfully!'})
+            else:
+                errors = form.errors.as_json()
+                return JsonResponse({'errors': errors}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        # Handle GET request or render the form page
+        form = CourierBookingForm()
+        return render(request, 'your_template.html', {'form': form})
+    
+def reject_order_view(request):
+    if request.method == 'POST':
+        courier_id = request.POST.get('courier_id')
+        new_status = request.POST.get('new_status')
+        rebooking_notes = request.POST.get('rebooking_notes')
+        new_shipping_fee = request.POST.get('new_shipping_fee')
+        print(f'Booking Notes: {rebooking_notes}')
+        
+        if not (courier_id and new_status):
+            return JsonResponse({'error': 'Invalid request.'}, status=400)
+        
+        try:
+            order = Order.objects.get(courier__id=courier_id)
+        except Order.DoesNotExist:
+            return JsonResponse({'error': 'Order not found.'}, status=404)
+        
+        order.status = new_status
+        order.save()
+        
+        if rebooking_notes:
+            courier = Courier.objects.get(id=courier_id)
+            courier.booking_notes = rebooking_notes
+            courier.save()
+            
+        if new_shipping_fee:
+            courier = Courier.objects.get(id=courier_id)
+            courier.actual_shipping_fee = new_shipping_fee
+            courier.save()
+        
+        
+        return JsonResponse({'message': 'Order status updated successfully.'})
+    
+    return JsonResponse({'error': 'Invalid request method.'}, status=405)
     
 class LogisticsPickupView(TemplateView):
     template_name = 'logistics/logistics-pickup.html'
     title = "Logistics Pickup"
+    
+    def get(self, request, *args, **kwargs):
+        address = None
+        orders = Order.objects.filter(Q(status='for-pickup') | Q(status='shipping'))
+        
+        for order in orders:
+            address = order.shipping_address
+            order.save()
+        
+        context = {
+            'title': self.title,
+            'orders': orders,
+            'address': address,
+            
+        }
+        return render(request, self.template_name, context)
+    
+def logistics_pickup_data(request):
+    orders = Order.objects.filter(status='for-pickup')
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+        address = order.shipping_address
+        products = [f"{item.quantity}x {item.product.name}" for item in order.orderitem_set.all()]
+        order_dict = {
+            'index': index,
+            'pickup_date': f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>',
+            'order_id': f'<span>{order.order_id}</span>',
+            'receiver': f'<h6><u>{address.first_name} {address.last_name}</u></h6><p>Location: {address.province}</p>',
+            'courier': f'<h6><b>{order.courier.courier.upper()}: { order.courier.tracking_number}</b></h6><span>Pouch Size: { order.courier.pouch_size.title()}</span>',
+            'products': "<ul>" + "".join([f"<li>{product}</li>" for product in products]) + "</ul>",
+            'action': f'<button class="btn theme-btn action-btn" onclick="pickupOrder(this)" data-courier-id="{order.courier.id}">PICKED UP</button>'
+                f'<button class="btn btn-danger action-btn" onclick="rebookOrder(this)" data-courier-id="{order.courier.id}">REBOOK</button>'
+
+        }
+        order_data.append(order_dict)
+        
+        # Construct the JSON response
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+
+    return JsonResponse(response, safe=False)
+
 
 class LogisticsBPEncodingView(TemplateView):
     template_name = 'logistics/logistics-bp-encoding.html'
@@ -436,6 +569,36 @@ class LogisticsBPEncodingView(TemplateView):
 class LogisticsReturnView(TemplateView):
     template_name = 'logistics/logistics-return.html'
     title = "Logistics Return"
+    
+def logistics_return_data(request):
+    orders = Order.objects.filter(status='rts')
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+        address = order.shipping_address
+        products = [f"{item.quantity}x {item.product.name}" for item in order.orderitem_set.all()]
+        order_dict = {
+            'index': index,
+            'pickup_date': f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>',
+            'order_id': f'<span>{order.order_id}</span>',
+            'receiver': f'<h6><u>{address.first_name} {address.last_name}</u></h6><p>Location: {address.city}</p>',
+            'courier': f'<h6><b>{order.courier.courier.upper()}: { order.courier.tracking_number}</b></h6><span>Pouch Size: { order.courier.pouch_size.title()}</span>',
+            'products': "<ul>" + "".join([f"<li>{product}</li>" for product in products]) + "</ul>",
+            'action': f'<button class="btn badge badge-returned" onclick="returnedOrder(this)" data-courier-id="{order.courier.id}">RETURNED</button>'
+
+        }
+        order_data.append(order_dict)
+        
+        # Construct the JSON response
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+
+    return JsonResponse(response, safe=False)
     
 class LogisticsVWApprovalView(TemplateView):
     template_name = 'logistics/logistics-approval.html'
@@ -448,6 +611,66 @@ class LogisticsReceivingView(TemplateView):
 class LogisticsProductView(TemplateView):
     template_name = 'logistics/logistics-product.html'
     title = "Logistics Product"
+    
+def logistics_product_orders_data(request):
+    filter_param = request.GET.get('filter')
+    print(f'Filtered Status: {filter_param}')
+    if filter_param:
+        orders = Order.objects.filter(status=filter_param)
+    else:
+        orders = Order.objects.filter(
+            Q(status='for-pickup') | Q(status='shipping') | Q(status='delivered') | 
+            Q(status='paid') | Q(status='bp-encoded') | Q(status='vw-paid') | 
+            Q(status='rts') | Q(status='returned')
+        )
+        
+    print(f'Orders: {orders}')
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+
+
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+        address = order.shipping_address
+        products = [f"[{item.quantity}x]  {item.product.name}" for item in order.orderitem_set.all()]
+        seller = order.user.referred_by
+        
+        pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+        order_id = f'<span>{order.order_id}</span>'
+        receiver = f'<h6><u>{address.first_name} {address.last_name}</u></h6><p>Mobile: {address.phone}</p><p>Location: {address.city}</p><p style="margin-top:5px;"><b><i>**Seller Info</i></b></p><p>Seller Name: {seller.first_name} {seller.last_name}</p><p>Seller Mobile: {seller.mobile}</p>'
+        courier = f'<h6><b>{order.courier.courier.upper()}: <a href="" style="color: #3255AD;">{order.courier.tracking_number}</a></b></h6><p>Amount: <b>₱ {order.cod_amount}</b></p><p>Pouch Size: {order.courier.pouch_size.title()}</p><p>Fulfiller: {order.courier.fulfiller}</p>'
+        if order.courier.booking_notes:
+            courier += f'<p style="margin-top: 10px">***Shipping Notes: {order.courier.booking_notes}</p>'
+        products = "<ul>" + "".join([f"<li>{product}</li>" for product in products]) + "</ul>"
+        
+        if order.status == "for-pickup":
+            status = f'<button class="btn badge badge-{order.status}" onclick="rebookOrder(this)" data-courier-id="{order.courier.id}" data-customer-name="{order.shipping_address.first_name}">FOR PICKUP</button>'
+        elif order.status == "shipping":
+            status = f'<button class="btn badge badge-{order.status}" onclick="shipOrder(this)" data-courier-id="{order.courier.id}" data-courier-tracking="{order.courier.tracking_number}">SHIPPING</button>'
+        elif order.status == "delivered":
+            status = f'<button class="btn badge badge-{order.status}" onclick="deliveredOrder(this)" data-courier-id="{order.courier.id}" data-courier-tracking="{order.courier.tracking_number}" data-courier-actual-sf="{order.courier.actual_shipping_fee}">DELIVERED</button>'
+        else:
+            status = f'<button class="btn badge badge-{order.status}">{order.status.upper().replace("-", " ")}</button>'
+            
+        order_dict = {
+            'index': index,
+            'pickup_date': pickup_date,
+            'order_id': order_id,
+            'receiver': receiver,
+            'courier': courier,
+            'products': products,
+            'status': status,
+        }
+        order_data.append(order_dict)
+
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+
+    return JsonResponse(response, safe=False)
     
 class LogisticsPackageView(TemplateView):
     template_name = 'logistics/logistics-package.html'

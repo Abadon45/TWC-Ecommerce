@@ -1,43 +1,65 @@
 {% load static %}
 
-<div class="sidebar">
+<div id="logistics-sidebar" class="sidebar">
     <ul class="sidebar-list">
         <li><a class="home-sidebar" href="{% url 'logistics' %}"><i class="far fa-gauge-high"></i> Home</a></li>
         <li><a class="user-database-sidebar" href="{% url 'member' %}"><i class="far fa-user"></i> User Database</a></li>
     </ul>
     <hr>
-    <h5>PENDING</h5>
+    <h6>PENDING</h6>
     <ul class="sidebar-list">
         <li><a class="booking-sidebar" data-bs-toggle="collapse" href="#bookingCollapse" role="button" aria-expanded="false" aria-controls="bookingCollapse">
-            <i class="fa-regular fa-book"></i> For Booking <span class="badge badge-danger">02</span></a>
+            <i class="fa-regular fa-book"></i> For Booking 
+            <span class="badge badge-danger">{% if booking_count %}{{ booking_count|stringformat:"02d" }}{% endif %}</span></a>
         </li>
         <div class="collapse" id="bookingCollapse" style="margin-left: 20px; height: 188px!important;">
             <ul class="sidebar-list" style="border-left: 2px solid #494E53; padding-left: 10px;">
-                <li><a class="booking-mandaluyong" href="{% url 'booking' %}?fulfiller=Mandaluyong%20Hub">
-                    <i class="far fa-gear"></i> Mandaluyong Hub <span class="badge badge-danger">02</span></a></li>
-                <li><a class="booking-valenzuela" href="{% url 'booking' %}?fulfiller=Sante%20Valenzuela%20Branch">
-                    <i class="far fa-gear"></i> Sante Valenzuela <span class="badge badge-danger">02</span></a></li>
-                <li><a class="booking-cdo" href="{% url 'booking' %}?fulfiller=Sante%20CDO%20Branch">
-                    <i class="far fa-gear"></i> Sante CDO <span class="badge badge-danger">02</span></a></li>
+                <li><a class="booking-mandaluyong" href="{% url 'booking' %}?fulfiller=mandaluyong%20hub">
+                    <i class="far fa-gear"></i> Mandaluyong Hub 
+                    <span class="badge badge-danger">
+                        {% if mandaluyong_count %}
+                            {{ mandaluyong_count|stringformat:"02d" }}
+                        {% endif %}
+                    </span></a>
+                </li>
+                <li><a class="booking-valenzuela" href="{% url 'booking' %}?fulfiller=sante%20valenzuela">
+                    <i class="far fa-gear"></i> Sante Valenzuela 
+                    <span class="badge badge-danger">
+                        {% if valenzuela_count %}
+                            {{ valenzuela_count|stringformat:"02d" }}
+                        {% endif %}
+                    </span></a>
+                </li>
+                <li><a class="booking-cdo" href="{% url 'booking' %}?fulfiller=sante%20cdo">
+                    <i class="far fa-gear"></i> Sante CDO 
+                    <span class="badge badge-danger">{% if cdo_count %}{{ cdo_count|stringformat:"02d" }}{% endif %}</span></a>
+                </li>
                 <li><a class="booking-other" href="{% url 'booking' %}?fulfiller=other">
-                    <i class="far fa-gear"></i> Other</a></li>
+                    <i class="far fa-gear"></i> Other 
+                    <span class="badge badge-danger">{% if other_count %}{{ other_count|stringformat:"02d" }}{% endif %}</span></a>
+                </li>
             </ul>
             
         </div>
-        <li><a class="pickup-sidebar" href="{% url 'pickup' %}"><i class="far fa-upload"></i> For Pickup</a></li>
+        <li><a class="pickup-sidebar" href="{% url 'pickup' %}">
+            <i class="far fa-upload"></i> For Pickup
+            <span class="badge badge-danger">{% if pickup_count %}{{ pickup_count|stringformat:"02d" }}{% endif %}</span></a>
+        </li>
         <li><a class="bp-encoding-sidebar" href="{% url 'bp_encoding' %}"><i class="far fa-shopping-bag"></i> For BP Encoding </a></li>
-        <li><a class="return-sidebar" href="{% url 'return' %}"><i class="far fa-wallet"></i> For Return</a></li>
+        <li><a class="return-sidebar" href="{% url 'return' %}"><i class="far fa-wallet"></i> For Return 
+            <span class="badge badge-danger">{% if return_count %}{{ return_count|stringformat:"02d" }}{% endif %}</span></a>
+        </li>
         <li><a class="approval-sidebar" href="{% url 'approval' %}"><i class="far fa-credit-card"></i> VW Approval</a></li>
         <li><a class="receiving-sidebar" href="{% url 'receiving' %}"><i class="far fa-bell"></i> For Receiving</a></li>
     </ul>
     <hr>
-    <h5>ORDERS</h5>
+    <h6>ORDERS</h6>
     <ul class="sidebar-list">
         <li><a class="product-sidebar" href="{% url 'product' %}"><i class="far fa-envelope"></i> Product</a></li>
         <li><a class="package-sidebar" href="{% url 'package' %}"><i class="far fa-gear"></i> Package</a></li>
     </ul>
     <hr>
-    <h5>INVENTORY</h5>
+    <h6>INVENTORY</h6>
     <ul class="sidebar-list">
         <li><a class="branch-sidebar" href="{% url 'twc_sante_branch' %}"><i class="far fa-envelope"></i> TWC Sante Branch</a></li>
         <li><a class="stocks-sidebar" href="{% url 'physical_stocks' %}"><i class="far fa-gear"></i> Physical Stocks</a></li>

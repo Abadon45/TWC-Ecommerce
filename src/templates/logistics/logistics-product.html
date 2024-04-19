@@ -7,17 +7,108 @@
 
 
 <!-- logistics dashboard -->
-<div class="user-area bg py-100">
-    <div class="container">
+<div class="user-area bg">
+    <div id="logistics" class="container">
         <div class="row">
             <div class="col-lg-3">
                 {% include 'logistics/logistics-sidebar.html' %}
+
             </div>
             <div class="col-lg-9">
                 <div class="user-wrapper">
-                    <div class="user-card">
-                        <h4 class="user-card-title">Summary</h4>
-                        <!-- insert content here  -->
+                    <div class="user-card seller-order">
+                        <h4 class="user-card-title">Product Order List</h4>
+                        <div class="row">
+                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active all-btn" id="pills-all-tab" data-bs-toggle="pill"
+                                        data-bs-target="#pills-all" type="button" role="tab" aria-controls="pills-all"
+                                        aria-selected="true">All</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link for-pickup-btn" id="pills-for-pickup-tab"
+                                        data-bs-toggle="pill" data-bs-target="#pills-for-pickup" type="button"
+                                        role="tab" aria-controls="pills-for-pickup" aria-selected="false"
+                                        data-order-status="for-pickup">For Pickup</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link shipping-btn" id="pills-shipping-tab" data-bs-toggle="pill"
+                                        data-bs-target="#pills-shipping" type="button" role="tab"
+                                        aria-controls="pills-shipping" aria-selected="false"
+                                        data-order-status="shipping">Shipping</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link delivered-btn" id="pills-delivered-tab" data-bs-toggle="pill"
+                                        data-bs-target="#pills-delivered" type="button" role="tab"
+                                        aria-controls="pills-delivered" aria-selected="false"
+                                        data-order-status="delivered">Delivered</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link paid-btn" id="pills-bp-encoding-tab" data-bs-toggle="pill"
+                                        data-bs-target="#pills-delivered" type="button" role="tab"
+                                        aria-controls="pills-delivered" aria-selected="false"
+                                        data-order-status="paid">For BP Encoding</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link bp-encoded-btn" id="pills-bp-encoded-tab"
+                                        data-bs-toggle="pill" data-bs-target="#pills-bp-encoded" type="button"
+                                        role="tab" aria-controls="pills-bp-encoded" aria-selected="false"
+                                        data-order-status="bp-encoded">BP Encoded</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link vw-paid-btn" id="pills-vw-paid-tab" data-bs-toggle="pill"
+                                        data-bs-target="#pills-vw-paid" type="button" role="tab"
+                                        aria-controls="pills-vw-paid" aria-selected="false"
+                                        data-order-status="vw-paid">VW Paid</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link rts-btn" id="pills-rts-tab" data-bs-toggle="pill"
+                                        data-bs-target="#pills-rts" type="button" role="tab" aria-controls="pills-rts"
+                                        aria-selected="false" data-order-status="rts">RTS</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link returned-btn" id="pills-returned-tab" data-bs-toggle="pill"
+                                        data-bs-target="#pills-returned" type="button" role="tab"
+                                        aria-controls="pills-returned" aria-selected="false"
+                                        data-order-status="returned">Returned</button>
+                                </li>
+
+                            </ul>
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-all" role="tabpanel"
+                                    aria-labelledby="pills-all-tab" tabindex="0">
+
+
+                                </div>
+                            </div>
+
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel"
+                                    aria-labelledby="home-tab">
+
+                                </div>
+                                <!-- Other tab panes -->
+                            </div>
+                            <div class="table-responsive table-hover">
+                                <table id="orders-table"
+                                    class="table table-bordered table-hover table-striped logistics-table"
+                                    cellspacing="0" width="100%">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Pickup Date</th>
+                                            <th>Order #</th>
+                                            <th>Receiver</th>
+                                            <th>Courier</th>
+                                            <th>Products</th>
+                                            <th class="text-center">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -29,9 +120,375 @@
 {% endblock %}
 {% block extra_js %}
 <script>
-$(document).ready(function() {
-    $(".active").removeClass("active");
-    $(".product-sidebar").addClass("active");
+    const logisticsProductData = '{% url "products_data" %}'
+</script>
+<script>
+    $(document).ready(function () {
+        $(".active").removeClass("active");
+        $(".product-sidebar").addClass("active");
+
+        // Initialize DataTable
+        var dataTable = $('#orders-table').DataTable({
+            "processing": true,
+            "serverSide": false,
+            "paging": true,
+            "ajax": {
+                "url": logisticsProductData,
+                "type": "GET",
+                "dataType": "json",
+            },
+            "columns": [
+                { "data": "index" },
+                { "data": "pickup_date" },
+                { "data": "order_id" },
+                { "data": "receiver" },
+                { "data": "courier" },
+                { "data": "products" },
+                { "data": "status", "className": "text-center" }
+            ],
+            "responsive": true,
+            "pagingType": "full_numbers",
+            "drawCallback": function (settings) {
+                $('#orders-table').find('tbody tr').each(function () {
+                    $(this).children('td:eq(1)').css('max-width', '10%');
+                    $(this).children('td:eq(2)').css('max-width', '15%');
+                    $(this).children('td:eq(3)').css('max-width', '300px');
+                    $(this).children('td:eq(4)').css('max-width', '400px');
+                    $(this).children('td:eq(5)').css('width', '20%');
+                });
+            },
+        });
+
+        $(".all-btn").click(function () {
+            var filter = "";
+            filterOrders(filter);
+        });
+
+        // Shipping button click event
+        $(".for-pickup-btn").click(function () {
+            var filter = $(this).data("order-status");
+            filterOrders(filter);
+        });
+
+        $(".shipping-btn").click(function () {
+            var filter = $(this).data("order-status");
+            filterOrders(filter);
+        });
+
+        $(".delivered-btn").click(function () {
+            var filter = $(this).data("order-status");
+            console.log(filter)
+            filterOrders(filter);
+        });
+
+        $(".paid-btn").click(function () {
+            var filter = $(this).data("order-status");
+            filterOrders(filter);
+        });
+
+        $(".bp-encoded-btn").click(function () {
+            var filter = $(this).data("order-status");
+            filterOrders(filter);
+        });
+
+        $(".vw-paid-btn").click(function () {
+            var filter = $(this).data("order-status");
+            filterOrders(filter);
+        });
+
+        $(".rts-btn").click(function () {
+            var filter = $(this).data("order-status");
+            filterOrders(filter);
+        });
+
+        $(".returned-btn").click(function () {
+            var filter = $(this).data("order-status");
+            filterOrders(filter);
+        });
+
+        // Function to filter orders
+        function filterOrders(filter) {
+            $.ajax({
+                url: logisticsProductData,
+                method: "GET",
+                data: { filter: filter },
+                success: function (response) {
+                    // Clear existing rows and add new rows
+                    dataTable.clear().rows.add(response.data).draw();
+                    console.log(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+    });
+
+function rebookOrder(button) {
+    var courierId = $(button).data('courier-id');
+    var customerName = $(button).data('customer-name');
+    var spinner = $(".sk-circle");
+    var backdrop = $(".backdrop");
+
+  Swal.fire({
+        title: 'Dp you want to rebook this order of ' + customerName,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#11B76B',
+        cancelButtonColor: '#E56975',
+        confirmButtonText: 'Yes, rebook it!',
+        cancelButtonText: 'Cancel',
+        html:
+        '<p style="text-align: left; margin-left: 5px;">Rebooking Notes *</p>' +
+        '<textarea id="swal-input1" class="swal2-input" style="width:28rem; height:7rem; margin-top:2px;" placeholder="Ex: Change pouch size to large"></textarea>'
+  }).then((result) => {
+    if (result.isConfirmed) {
+        var rebookingNotes = $('#swal-input1').val();
+        spinner.addClass("visible");
+        backdrop.addClass("visible");
+        $.ajax({
+            url: rejectOrderUrl,
+            type: 'POST',
+            data: {
+                courier_id: courierId,
+                new_status: 'for-booking',
+                rebooking_notes: rebookingNotes,
+            },
+            headers: {
+                "X-CSRFToken": csrf
+            },
+            success: function(response) {
+                Swal.fire(
+                    'Rebooked!',
+                    'The order has been rebooked!',
+                    'success'
+                );
+                var row = $(button).closest('tr');
+                var dataTable = $('#orders-table').DataTable();
+                var rowIndex = dataTable.row(row).index();
+                dataTable.row(row).remove().draw();
+                
+                spinner.removeClass("visible");
+                backdrop.removeClass("visible");
+                console.log("Success:", response);
+                
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                Swal.fire(
+                    'Error!',
+                    'Failed to reject the order. Please try again later.',
+                    'error'
+                );
+                spinner.removeClass("visible");
+                backdrop.removeClass("visible");
+            }
+        });
+    }
 });
+}
+
+function shipOrder(button) {
+    var courierId = $(button).data('courier-id');
+    var courierTracking = $(button).data('courier-tracking');
+    var spinner = $(".sk-circle");
+    var backdrop = $(".backdrop");
+
+    Swal.fire({
+        title: 'Please Select Your Action.',
+        icon: 'warning',
+        html: `<h5 style="color: #545454;">Check Tracking Status: <a href="" class="btn btn-warning">${courierTracking}</a></h5>`,
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Delivered",
+        denyButtonText: `RTS`,
+        focusCancel: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            spinner.addClass("visible");
+            backdrop.addClass("visible");
+            $.ajax({
+                url: rejectOrderUrl,
+                type: 'POST',
+                data: {
+                    courier_id: courierId,
+                    new_status: 'delivered',
+                },
+                headers: {
+                    "X-CSRFToken": csrf
+                },
+                success: function(response) {
+                    Swal.fire(
+                        'Delivered!',
+                        'The order has been delivered!',
+                        'success'
+                    );
+
+                    var row = $(button).closest('tr');
+                    var dataTable = $('#orders-table').DataTable();
+                    var rowIndex = dataTable.row(row).index();
+                    dataTable.row(row).remove().draw();
+
+                    spinner.removeClass("visible");
+                    backdrop.removeClass("visible");
+                    console.log("Success:", response);
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    Swal.fire(
+                        'Error!',
+                        'Failed to reject the order. Please try again later.',
+                        'error'
+                    );
+                    spinner.removeClass("visible");
+                    backdrop.removeClass("visible");
+                }
+            });
+        } else if (result.isDenied) {
+            spinner.addClass("visible");
+            backdrop.addClass("visible");
+            $.ajax({
+                url: rejectOrderUrl,
+                type: 'POST',
+                data: {
+                    courier_id: courierId,
+                    new_status: 'rts',
+                },
+                headers: {
+                    "X-CSRFToken": csrf
+                },
+                success: function(response) {
+                    Swal.fire(
+                        'Returned To Sender!',
+                        'The order has been returned to sender!',
+                        'success'
+                    );
+
+                    var row = $(button).closest('tr');
+                    var dataTable = $('#orders-table').DataTable();
+                    var rowIndex = dataTable.row(row).index();
+                    dataTable.row(row).remove().draw();
+
+                    spinner.removeClass("visible");
+                    backdrop.removeClass("visible");
+                    console.log('RTS button pressed');
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    Swal.fire(
+                        'Error!',
+                        'Failed to process the RTS request. Please try again later.',
+                        'error'
+                    );
+                    spinner.removeClass("visible");
+                    backdrop.removeClass("visible");
+                }
+            });
+        }
+    });
+}
+
+function deliveredOrder(button) {
+    var courierId = $(button).data('courier-id');
+    var courierTracking = $(button).data('courier-tracking');
+    var actualSF = $(button).data('courier-actual-sf');
+    var spinner = $(".sk-circle");
+    var backdrop = $(".backdrop");
+
+    Swal.fire({
+        title: 'Please Select Your Action.',
+        icon: 'warning',
+        html: `<hr><div class="input-group mb-3"><span class="input-group-text">₱</span><input id="id_cod_amount" class="form-control" type="text" name="cod_amount" value="${actualSF}"></div><hr><h5 style="color: #545454;">Check Tracking Status: <a href="" class="btn btn-warning">${courierTracking}</a></h5>`,
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Paid",
+        denyButtonText: `RTS`,
+        focusCancel: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var codAmount = $('#id_cod_amount').val();
+            spinner.addClass("visible");
+            backdrop.addClass("visible");
+            $.ajax({
+                url: rejectOrderUrl,
+                type: 'POST',
+                data: {
+                    courier_id: courierId,
+                    new_status: 'paid',
+                    new_shipping_fee: codAmount,
+                },
+                headers: {
+                    "X-CSRFToken": csrf
+                },
+                success: function(response) {
+                    Swal.fire(
+                        'Paid!',
+                        'The order has been paid!',
+                        'success'
+                    );
+
+                    var row = $(button).closest('tr');
+                    var dataTable = $('#orders-table').DataTable();
+                    var rowIndex = dataTable.row(row).index();
+                    dataTable.row(row).remove().draw();
+
+                    spinner.removeClass("visible");
+                    backdrop.removeClass("visible");
+                    console.log("Success:", response);
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    Swal.fire(
+                        'Error!',
+                        'Failed to reject the order. Please try again later.',
+                        'error'
+                    );
+                    spinner.removeClass("visible");
+                    backdrop.removeClass("visible");
+                }
+            });
+        } else if (result.isDenied) {
+            spinner.addClass("visible");
+            backdrop.addClass("visible");
+            $.ajax({
+                url: rejectOrderUrl,
+                type: 'POST',
+                data: {
+                    courier_id: courierId,
+                    new_status: 'rts',
+                },
+                headers: {
+                    "X-CSRFToken": csrf
+                },
+                success: function(response) {
+                    Swal.fire(
+                        'Returned To Sender!',
+                        'The order has been returned to sender!',
+                        'success'
+                    );
+
+                    var row = $(button).closest('tr');
+                    var dataTable = $('#orders-table').DataTable();
+                    var rowIndex = dataTable.row(row).index();
+                    dataTable.row(row).remove().draw();
+                    
+                    spinner.removeClass("visible");
+                    backdrop.removeClass("visible");
+                    console.log('RTS button pressed');
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    Swal.fire(
+                        'Error!',
+                        'Failed to process the RTS request. Please try again later.',
+                        'error'
+                    );
+                    spinner.removeClass("visible");
+                    backdrop.removeClass("visible");
+                }
+            });
+        }
+    });
+}
 </script>
 {% endblock %}

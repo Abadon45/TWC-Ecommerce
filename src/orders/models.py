@@ -17,13 +17,52 @@ User = get_user_model()
 logger = logging.getLogger(__name__)
 
 
+COURIER_CHOICES = (
+    ('j&t', 'J&T'),
+    ('lbc', 'LBC'),
+    ('gogoxpress', 'GogoXpress'),
+)    
+
+POUCH_CHOICES = (
+    ('sakto pack', 'Sakto Pack'),
+    ('small', 'Small'),
+    ('medium', 'Medium'),
+    ('large', 'Large'),
+    ('box', 'Box'),
+    ('others', 'Others'),
+) 
+
+FULFILLER_CHOICES = (
+    ('other', 'Other'),
+    ('mandaluyong', 'Mandaluyong HUB'),
+    ('sante valenzuela', 'Sante Valenzuela'),
+    ('sante cdo', 'Sante CDO'),
+)
+
+
+class Courier(models.Model):
+    tracking_number         = models.CharField(max_length=120, blank=True, null=True, unique=True)
+    courier                 = models.CharField(max_length=20, choices=COURIER_CHOICES, null=True, blank=True)
+    pouch_size              = models.CharField(max_length=20, choices=POUCH_CHOICES, null=True, blank=True)
+    actual_shipping_fee     = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    pickup_date             = models.DateField(verbose_name='Pickup Date', null=True, blank=True)
+    fulfiller               = models.CharField(max_length=20, choices=FULFILLER_CHOICES, default='other')
+    paid_by_fulfiller       = models.BooleanField(default=True)
+    booking_notes           = models.TextField(blank=True)
+    
+    def __str__(self):
+        return self.fulfiller
+
+
 ORDER_STATUS_CHOICES = (
     ('pending', 'Pending'),
-    ('sponsor-review', 'Sponsor Review'),
+    ('for-booking', 'For Booking'),
+    ('for-pickup', 'For Pickup'),
     ('shipping', 'Shipping'),
     ('delivered', 'Delivered'),
     ('paid', 'Paid'),
     ('bp-encoded', 'BP Encoded'),
+    ('vw-paid', 'VW Paid'),
     ('rts', 'RTS'),
     ('returned', 'Returned'),
 )
@@ -33,12 +72,7 @@ PAYMENT_CHOICES = (
     ('cod', 'Cash On Delivery'),
 )
 
-FULLFILLER_CHOICES = (
-    ('other', 'Other'),
-    ('mandaluyong', 'Mandaluyong HUB'),
-    ('sante valenzuela', 'Sante Valenzuela'),
-    ('sante cdo', 'Sante CDO'),
-)
+
 
 class Order(models.Model):
     customer            = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
@@ -46,8 +80,8 @@ class Order(models.Model):
     order_id            = models.CharField(max_length=120, blank=True, unique=True)
     session_key         = models.CharField(max_length=120, blank=True, null=True)
     shipping_address    = models.ForeignKey(Address, null =True, blank=True, on_delete=models.CASCADE, related_name='shipping_address')
+    courier             = models.ForeignKey(Courier, on_delete=models.SET_NULL, null=True, blank=True)
     payment_method      = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='none')
-    fullfiller          = models.CharField(max_length=20, choices=FULLFILLER_CHOICES, default='other')
     contact_number      = models.CharField(max_length=15, blank=True, null=True)
     complete            = models.BooleanField(default=False, null=True, blank=False)
     delivered           = models.BooleanField(default=False, null=True, blank=False)
@@ -62,9 +96,11 @@ class Order(models.Model):
     subtotal            = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     seller_total        = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     distributor_total   = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
-    discount            = models.DecimalField(max_digits=10, decimal_places=2, default=100.00, null=True, blank=True)
+    discount            = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    cod_amount          = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     sponsor_profit      = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     seller_profit       = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    
     
     def __str__(self):
         try:
@@ -167,7 +203,6 @@ class OrderItem(models.Model):
             return Decimal('0.00')
         total = self.product.distributor_price * self.quantity
         return total
-        
         
         
 # PAYMENT_STATUS_CHOICES = (

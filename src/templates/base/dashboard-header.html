@@ -8,44 +8,37 @@
 
     <!-- header main navigation -->
     <div class="main-navigation">
-        <nav class="navbar navbar-expand-lg">
-            <div class="container position-relative">
-                <a class="navbar-brand" href="index.html">
-                    <img src="{% static 'img/logo/logo.png' %}" class="logo-scrolled" alt="logo">
-                </a>
-                <div class="category-all">
-                    <button class="category-btn" type="button">
-                        <i class="far fa-grid-2-plus"></i><span>All Categories</span>
-                    </button>
-                </div>
-                <div class="collapse navbar-collapse" id="main_nav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="{% url_with_domain 'home_view' %}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url_with_domain 'shop:shop' %}">Shop</a></li>
-                        {% if user.is_seller or user.is_staff %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">Admin Dashboard</a>
-                            <ul class="dropdown-menu fade-down">
-                                {% if user.is_staff %}
-                                    <li><a class="dropdown-item" href="{{ DASHBOARD_URL|add:'/logistics' }}">Logistics Dashboard</a></li>
-                                {% endif %}
-                                {% if user.is_seller %}
-                                    <li><a class="dropdown-item" href="{{ DASHBOARD_URL|add:'/seller' }}">Seller Dashboard</a></li>
-                                {% endif %}
-                            </ul>
-                        </li>
+        
+        <nav class="navbar navbar-expand-sm navbar-light" id="neubar">
+            <div class="container">
+              <a class="navbar-brand" href="#"><img src="{% static 'img/logo/logo.png' %}" height="60" /></a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+          
+              <div class=" collapse navbar-collapse" id="main_nav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url_with_domain 'home_view' %}">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url_with_domain 'shop:shop' %}">Shop</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">Admin Dashboard</a>
+                    <ul class="dropdown-menu fade-down">
+                        {% if user.is_staff %}
+                            <li><a class="dropdown-item" href="{{ DASHBOARD_URL|add:'/logistics' }}">Logistics Dashboard</a></li>
+                        {% endif %}
+                        {% if user.is_seller %}
+                            <li><a class="dropdown-item" href="{{ DASHBOARD_URL|add:'/seller' }}">Seller Dashboard</a></li>
                         {% endif %}
                     </ul>
-                    {% if not user.is_seller %}
-                    <div class="nav-right">
-                        <div class="nav-right-btn">
-                            <a href="{% url_with_domain 'become_seller' %}" class="theme-btn">Become Seller</a>
-                        </div>
-                    </div>
-                    {% endif %}
-                </div>
+                </li>
+                </ul>
+              </div>
             </div>
-        </nav>
+          </nav>
     </div>
 
 </header>

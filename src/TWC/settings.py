@@ -121,11 +121,12 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                # 'allauth.account.context_processors.account',  # Updated Path
-                # 'allauth.socialaccount.context_processors.socialaccount',  # Updated Path
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'cart.context_processors.cart_items',
+                'cart.context_processors.booking_count_notification',
+                'cart.context_processors.pickup_count_notification',
+                'cart.context_processors.return_count_notification',
                 'TWC.context_processors.main_site_url',
                 'TWC.context_processors.site_urls',
             ],

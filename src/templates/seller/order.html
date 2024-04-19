@@ -50,8 +50,8 @@
                                     </ul>
                                 </td>
                                 <td style="width: 10%;">
-                                    {% if order.status == 'sponsor-review' %}
-                                        <span class="badge badge-{{ order.status|lower }}">SPONSOR REVIEW</span>
+                                    {% if order.status == 'for-booking' %}
+                                        <span class="badge badge-{{ order.status|lower }}">FOR BOOKING</span>
                                     {% else %}
                                         <span class="badge badge-{{ order.status|lower }}">{{ order.status|upper }}</span>
                                     {% endif %}

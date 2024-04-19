@@ -1,5 +1,6 @@
 {% extends "base-dashboard.html" %}
 {% load static %}
+{% load currency_filters %} 
 
 {% block title %} {{ title }} {% endblock %}
 
@@ -7,8 +8,8 @@
 
 
 <!-- logistics dashboard -->
-<div class="user-area bg py-100">
-    <div class="container">
+<div class="user-area bg">
+    <div id="logistics" class="container">
         <div class="row">
             <div class="col-lg-3">
                 {% include 'logistics/logistics-sidebar.html' %}
@@ -34,40 +35,79 @@
                                         <table class="table table-borderless">
                                             <thead>
                                                 <tr>
+                                                    <th>#</th>
                                                     <th>Order Date</th>
-                                                    <th>Order Number</th>
-                                                    <th>Seller Name</th>
+                                                    <th>Order Details</th>
+                                                    <th>Shipping Details</th>
                                                     <th>Products</th>
-                                                    <th>Status</th>
                                                     <th class="text-center">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {% for order in referred_orders %}
+                                                {% for order in orders %}
                                                 <tr>
-                                                    <td style="width: 15%;"><span>{{ order.created_at|date:"F d, Y" }}</span></td>
-                                                    <td style="width: 15%;"><span>{{ order.order_id }}</span></span></td>
-                                                    <td style="width: 15%;"><span>{{ order.user.referred_by}}</span></td>
-                                                    <td style="width: 25%;">
+                                                    <td style="width: 3%;"><span>{{ forloop.counter }}</span></td>
+                                                    <td style="width: 10%;"><span>{{ order.created_at|date:"F d, Y" }}</span></td>
+                                                    <td style="width: 15%;">
+                                                        <h6>
+                                                            <u> 
+                                                                {% if order.courier.fulfiller == "sante valenzuela" %}
+                                                                    Valenzuela Branch
+                                                                {% elif order.courier.fulfiller == "sante cdo" %}
+                                                                    CDO Branch
+                                                                {% elif order.courier.fulfiller == "mandaluyong hub" %}
+                                                                    Mandaluyong Hub
+                                                                {% else %}
+                                                                    Other Fulfiller
+                                                                {% endif %}
+                                                            </u>
+                                                        </h6>
+                                                        <p>Order Number: {{ order.order_id }}</p>
+                                                        <p>COD Amount: {{ order.cod_amount|currency }}</p>
+                                                        <div class="divider mt-20"></div>
+                                                        <p>Sponsor: {insert sponsor}</p>
+                                                        <p>Mobile: {insert sponsor phone}</p>
+                                                    </td>
+                                                    <td style="width: 22%;">
+                                                        <h6><u>{{ address.first_name }} {{ address.last_name }}</u></h6>
+                                                        <p>Contact Number: {{ address.phone }}</p>
+                                                        <p>Address: {{ address.line1 }}</p>
+                                                        <p>Barangay: {{ address.barangay }}</p>
+                                                        <p>City: {{ address.city }}</p>
+                                                        <p>Province: {{ address.province }}</p>
+                                                        <p>Region: {{ address.region }}</p>
+                                                        <p>Postal Code: {{ address.postcode }}</p>
+                                                        {% if address.message %}
+                                                            <p class="mt-20"><b>**Shipping Notes: {{ address.message }}</b></p>
+                                                        {% endif %}
+                                                        {% if order.courier.booking_notes %}
+                                                            <p class="mt-20"><b>**Booking Notes: {{ order.courier.booking_notes }}</b></p>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td style="width: 15%;">
                                                         <ul>
                                                             {% for item in order.orderitem_set.all %}
                                                                 <li>{{ item.quantity }}x {{ item.product.name }}</li>  
                                                             {% endfor %}
                                                         </ul>
                                                     </td>
-                                                    <td style="width: 10%;">
-                                                        {% if order.status == 'sponsor-review' %}
-                                                            <span class="badge badge-{{ order.status|lower }}">SPONSOR REVIEW</span>
-                                                        {% else %}
-                                                            <span class="badge badge-{{ order.status|lower }}">{{ order.status|upper }}</span>
-                                                        {% endif %}
-                    
-                                                        </span></td>
+                                                    {% if order.status == 'for-booking' %}
+                                                        <td class="text-center" style="width: 20%;" id="booking-action-status">
+                                                            <button class="btn theme-btn action-btn"
+                                                            onclick="bookOrder(this)"
+                                                            data-courier-id="{{ order.courier.id }}"
+                                                            data-courier-fulfiller="{{ order.courier.fulfiller }}"
+                                                            data-courier-fulfiller_full="{{ order.courier.fulfiller|title }}">BOOK
+                                                        </button>
+                                                            <button class="btn btn-danger action-btn"
+                                                            onclick="rejectOrder(this)"
+                                                            data-courier-id="{{ order.courier.id }}">REJECT</button>
+                                                        </td>
+                                                    {% elif order.status == 'for-pickup' %}
                                                     <td class="text-center" style="width: 20%;">
-                                                        {% if order.status == 'pending' %}
-                                                        <a href="{% url 'review_order' order_id=order.order_id %}" class="theme-btn">REVIEW ORDER</a>
-                                                        {% endif %}
+                                                        <span class="badge badge-{{ order.status|lower }}">BOOKED</span>
                                                     </td>
+                                                    {% endif %}
                                                     
                                                 </tr>
                                                 {% empty %}
@@ -118,11 +158,11 @@ $(document).ready(function() {
     
     $(".active").removeClass("active");
     
-    if (fulfiller === 'Mandaluyong Hub') {
+    if (fulfiller === 'mandaluyong hub') {
         $(".booking-mandaluyong").addClass("active");
-    } else if (fulfiller === 'Sante Valenzuela Branch') {
+    } else if (fulfiller === 'sante valenzuela') {
         $(".booking-valenzuela").addClass("active");
-    } else if (fulfiller === 'Sante CDO Branch') {
+    } else if (fulfiller === 'sante cdo') {
         $(".booking-cdo").addClass("active");
     } else {
         $(".booking-other").addClass("active");

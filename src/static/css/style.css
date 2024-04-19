@@ -6995,9 +6995,14 @@ display: flex!important;
   color: #0DCAF0;
 }
 
-.user-area .badge-sponsor-review{
+.user-area .badge-for-booking{
   background: #FDE4D0;
   color: #086972;
+}
+
+.user-area .badge-for-pickup{
+  background: #18509D;
+  color: #FFFFFF;
 }
 
 .user-area .badge-shipping{
@@ -7005,9 +7010,14 @@ display: flex!important;
   color: #FFFFFF;
 }
 
-.user-area .badge-received{
+.user-area .badge-delivered{
   background: #DCFCE7;
   color: #22C79C;
+}
+
+.user-area .vw-paid{
+  background: #3AC47D;
+  color: #FFFFFF;
 }
 
 .user-area .badge-paid{
