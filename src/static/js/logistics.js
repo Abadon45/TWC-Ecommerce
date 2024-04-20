@@ -125,7 +125,12 @@ function bookOrder(button) {
           success: function(response) {
             spinner.removeClass("visible");
             backdrop.removeClass("visible");
-            $('#booking-action-status').html('<span class="badge badge-for-pickup">BOOKED</span>');
+
+            var row = $(button).closest('tr');
+            var dataTable = $('#orders-table').DataTable();
+            var rowIndex = dataTable.row(row).index();
+            dataTable.row(row).remove().draw();
+
             console.log("Success:", response);
             Swal.fire({
               title: "Success",
