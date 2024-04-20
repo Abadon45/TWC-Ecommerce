@@ -14,7 +14,7 @@
         </li>
         <div class="collapse" id="bookingCollapse" style="margin-left: 20px; height: 188px!important;">
             <ul class="sidebar-list" style="border-left: 2px solid #494E53; padding-left: 10px;">
-                <li><a class="booking-mandaluyong" href="{% url 'booking' %}?fulfiller=mandaluyong%20hub">
+                <li><a class="booking-mandaluyong" href="{% url 'booking_data' %}?fulfiller=mandaluyong%20hub">
                     <i class="far fa-gear"></i> Mandaluyong Hub 
                     <span class="badge badge-danger">
                         {% if mandaluyong_count %}
@@ -22,7 +22,7 @@
                         {% endif %}
                     </span></a>
                 </li>
-                <li><a class="booking-valenzuela" href="{% url 'booking' %}?fulfiller=sante%20valenzuela">
+                <li><a class="booking-valenzuela" href="{% url 'booking_data' %}?fulfiller=sante%20valenzuela">
                     <i class="far fa-gear"></i> Sante Valenzuela 
                     <span class="badge badge-danger">
                         {% if valenzuela_count %}
@@ -30,11 +30,11 @@
                         {% endif %}
                     </span></a>
                 </li>
-                <li><a class="booking-cdo" href="{% url 'booking' %}?fulfiller=sante%20cdo">
+                <li><a class="booking-cdo" href="{% url 'booking_data' %}?fulfiller=sante%20cdo">
                     <i class="far fa-gear"></i> Sante CDO 
                     <span class="badge badge-danger">{% if cdo_count %}{{ cdo_count|stringformat:"02d" }}{% endif %}</span></a>
                 </li>
-                <li><a class="booking-other" href="{% url 'booking' %}?fulfiller=other">
+                <li><a class="booking-other" href="{% url 'booking_data' %}?fulfiller=other">
                     <i class="far fa-gear"></i> Other 
                     <span class="badge badge-danger">{% if other_count %}{{ other_count|stringformat:"02d" }}{% endif %}</span></a>
                 </li>

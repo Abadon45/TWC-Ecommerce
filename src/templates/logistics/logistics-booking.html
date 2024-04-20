@@ -22,18 +22,10 @@
                                 <div class="user-card">
                                     <div class="user-card-header">
                                         <h4 class="user-card-title">Pending - For Booking</h4>
-                                        <div class="user-card-header-right">
-                                            <div class="user-card-search">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Search...">
-                                                    <i class="far fa-search"></i>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="table-responsive seller-order">
-                                        <table class="table table-borderless">
-                                            <thead>
+                                        <table id="orders-table" class="table table-bordered table-hover table-striped logistics-table">
+                                            <thead class="thead-dark">
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Order Date</th>
@@ -43,100 +35,9 @@
                                                     <th class="text-center">Action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                {% for order in orders %}
-                                                <tr>
-                                                    <td style="width: 3%;"><span>{{ forloop.counter }}</span></td>
-                                                    <td style="width: 10%;"><span>{{ order.created_at|date:"F d, Y" }}</span></td>
-                                                    <td style="width: 15%;">
-                                                        <h6>
-                                                            <u> 
-                                                                {% if order.courier.fulfiller == "sante valenzuela" %}
-                                                                    Valenzuela Branch
-                                                                {% elif order.courier.fulfiller == "sante cdo" %}
-                                                                    CDO Branch
-                                                                {% elif order.courier.fulfiller == "mandaluyong hub" %}
-                                                                    Mandaluyong Hub
-                                                                {% else %}
-                                                                    Other Fulfiller
-                                                                {% endif %}
-                                                            </u>
-                                                        </h6>
-                                                        <p>Order Number: {{ order.order_id }}</p>
-                                                        <p>COD Amount: {{ order.cod_amount|currency }}</p>
-                                                        <div class="divider mt-20"></div>
-                                                        <p>Sponsor: {insert sponsor}</p>
-                                                        <p>Mobile: {insert sponsor phone}</p>
-                                                    </td>
-                                                    <td style="width: 22%;">
-                                                        <h6><u>{{ address.first_name }} {{ address.last_name }}</u></h6>
-                                                        <p>Contact Number: {{ address.phone }}</p>
-                                                        <p>Address: {{ address.line1 }}</p>
-                                                        <p>Barangay: {{ address.barangay }}</p>
-                                                        <p>City: {{ address.city }}</p>
-                                                        <p>Province: {{ address.province }}</p>
-                                                        <p>Region: {{ address.region }}</p>
-                                                        <p>Postal Code: {{ address.postcode }}</p>
-                                                        {% if address.message %}
-                                                            <p class="mt-20"><b>**Shipping Notes: {{ address.message }}</b></p>
-                                                        {% endif %}
-                                                        {% if order.courier.booking_notes %}
-                                                            <p class="mt-20"><b>**Booking Notes: {{ order.courier.booking_notes }}</b></p>
-                                                        {% endif %}
-                                                    </td>
-                                                    <td style="width: 15%;">
-                                                        <ul>
-                                                            {% for item in order.orderitem_set.all %}
-                                                                <li>{{ item.quantity }}x {{ item.product.name }}</li>  
-                                                            {% endfor %}
-                                                        </ul>
-                                                    </td>
-                                                    {% if order.status == 'for-booking' %}
-                                                        <td class="text-center" style="width: 20%;" id="booking-action-status">
-                                                            <button class="btn theme-btn action-btn"
-                                                            onclick="bookOrder(this)"
-                                                            data-courier-id="{{ order.courier.id }}"
-                                                            data-courier-fulfiller="{{ order.courier.fulfiller }}"
-                                                            data-courier-fulfiller_full="{{ order.courier.fulfiller|title }}">BOOK
-                                                        </button>
-                                                            <button class="btn btn-danger action-btn"
-                                                            onclick="rejectOrder(this)"
-                                                            data-courier-id="{{ order.courier.id }}">REJECT</button>
-                                                        </td>
-                                                    {% elif order.status == 'for-pickup' %}
-                                                    <td class="text-center" style="width: 20%;">
-                                                        <span class="badge badge-{{ order.status|lower }}">BOOKED</span>
-                                                    </td>
-                                                    {% endif %}
-                                                    
-                                                </tr>
-                                                {% empty %}
-                                                    <p>No orders from referred users.</p>
-                                                {% endfor %}
-                                            </tbody>
+                                            <tbody></tbody>
                                         </table>
                                     </div>
-                                    <!-- pagination -->
-                                    <!-- <div class="pagination-area mt-4 mb-3">
-                                        <div aria-label="Page navigation example">
-                                            <ul class="pagination">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#" aria-label="Previous">
-                                                        <span aria-hidden="true"><i class="far fa-angle-double-left"></i></span>
-                                                    </a>
-                                                </li>
-                                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#" aria-label="Next">
-                                                        <span aria-hidden="true"><i class="far fa-angle-double-right"></i></span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div> -->
-                                    <!-- pagination end -->
                                 </div>
                             </div>
                         </div>
@@ -150,6 +51,9 @@
 
 {% endblock %}
 {% block extra_js %}
+<script>
+    const logisticsBookingData = "{% url 'booking_data' %}"
+</script>
 <script>
 $(document).ready(function() {
     var urlParams = new URLSearchParams(window.location.search);
@@ -173,6 +77,39 @@ $(document).ready(function() {
     if (anyActive) {
         $("#bookingCollapse").collapse('show');
     }
+    
+    $('#orders-table').DataTable({
+      "processing": true,
+      "serverSide": false,
+      "paging": true,
+      "ajax": {
+          "url": logisticsBookingData,
+          "type": "GET",
+          "dataType": "json",
+          "data": {  
+                "fulfiller": fulfiller
+            }
+      },
+      "columns": [
+          { "data": "index" },
+          { "data": "order_date" },
+          { "data": "order_details" },
+          { "data": "shipping_details" },
+          { "data": "products" },
+          { "data": "action", "className": "text-center" }
+      ],
+      "responsive": true,
+      "pagingType": "full_numbers",
+      "drawCallback": function (settings) {
+      $('#orders-table').find('tbody tr').each(function() {
+            $(this).children('td:eq(2)').css('max-width', '12%');
+            $(this).children('td:eq(3)').css('max-width', '25%');
+            $(this).children('td:eq(3)').css('max-width', '300px');
+            $(this).children('td:eq(4)').css('max-width', '400px');
+            $(this).children('td:eq(5)').css('width', '20%');
+        });
+      },
+  });
 });
 </script>
 {% endblock %}

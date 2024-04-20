@@ -419,32 +419,67 @@ class LogisticsUserDatabaseView(TemplateView):
     template_name = 'logistics/logistics-user-database.html'
     title = "Logistics Dashboard"
     
-class LogisticsBookingView(View):
-    template_name = 'logistics/logistics-booking.html'
-    title = "Logistics Dashboard"
+    
+def logistics_booking_data(request):
+    fulfiller = request.GET.get('fulfiller')
+    print(f'Fulfiller: {fulfiller}')
+    
+    orders = Order.objects.filter(status='for-booking')
 
-    def get(self, request, *args, **kwargs):
-        address = None
-        fulfiller = self.request.GET.get('fulfiller')
+    if fulfiller:
+        orders = orders.filter(courier__fulfiller=fulfiller)
+    else:
+        orders = Order.objects.filter(status='for-booking')
+    
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+        address = order.shipping_address
+        products = [f"{item.quantity}x {item.product.name}" for item in order.orderitem_set.all()]
         
-        orders = Order.objects.filter(Q(status='for-booking') | Q(status='for-pickup'))
-        
-        if fulfiller:
-            orders = orders.filter(courier__fulfiller=fulfiller)
+        courier = order.courier
+        if courier.fulfiller == "sante valenzuela":
+            fulfiller_name = "Valenzuela Branch"
+        elif courier.fulfiller == "sante cdo":
+            fulfiller_name = "CDO Branch"
+        elif courier.fulfiller == "mandaluyong hub":
+            fulfiller_name = "Mandaluyong Hub"
         else:
-            orders = Order.objects.filter(Q(status='for-booking') | Q(status='for-pickup'))
+            fulfiller_name = "Other Fulfiller"
+            
+        shipping_details = f'<h6><u>{address.first_name} {address.last_name}</u></h6><p>Location: {address.province}</p>'
+        if address.message:
+            shipping_details += f'class="mt-20"><b>**Shipping Notes: {{ address.message }}</b></p>'
+        if order.courier.booking_notes:
+            shipping_details += f'<p class="mt-20"><b>**Booking Notes: {{ order.courier.booking_notes }}</b></p>'
         
-        for order in orders:
-            order.cod_amount = order.total_amount - order.discount
-            address = order.shipping_address
-            order.save()
-        
-        context = {
-            'title': self.title,
-            'orders': orders,
-            'address': address,
+        order_dict = {
+            'index': index,
+            'order_date': f'<span>{order.created_at.strftime("%B %d, %Y")}</span>',
+            'order_details': f'<h6>{fulfiller_name}</h6><p>Order Number: { order.order_id }</p><p>COD Amount: { order.cod_amount }</p><div class="divider mt-10"></div><p>Sponsor: insert sponsor</p><p>Mobile: insert sponsor phone</p>',
+            'shipping_details': shipping_details,
+            'products': "<ul>" + "".join([f"<li>{product}</li>" for product in products]) + "</ul>",
+            'action': f'<button class="btn theme-btn action-btn" onclick="bookOrder(this)" data-courier-id="{ order.courier.id }" data-courier-fulfiller="{ order.courier.fulfiller }" data-courier-fulfiller_full="{ order.courier.fulfiller.title() }">BOOK</button>'
+                f'<button class="btn btn-danger action-btn" onclick="rejectOrder(this)" data-courier-id="{ order.courier.id }">REJECT</button>'
+                
         }
-        return render(request, self.template_name, context)
+        order_data.append(order_dict)
+        
+        # Construct the JSON response
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+    
+    context = {'title': "Logistics Booking Dashboard"}
+    
+    if request.is_ajax():
+        return JsonResponse(response, safe=False)
+    else:
+        return render(request, 'logistics/logistics-booking.html', context)
     
 def courier_booking_view(request):
     if request.method == 'POST':
