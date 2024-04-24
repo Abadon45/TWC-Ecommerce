@@ -247,11 +247,7 @@ class SellerDashboardView(TemplateView):
         user = self.request.user
         referred_users = User.objects.filter(referred_by=user)
         
-        referred_orders = Order.objects.filter(
-                Q(user__in=referred_users),
-                Q(delivered=False),
-                Q(status='pending') | Q(status='for-booking')
-            )
+        referred_orders = Order.objects.filter(user__in=referred_users, delivered=False)
         referred_orders_count = referred_orders.count()
         self.request.session['referred_orders_count'] = referred_orders_count
         
@@ -281,6 +277,103 @@ class SellerDashboardView(TemplateView):
             print("Profile form is invalid. Errors:", profile_form.errors)
         
         return self.get(request, *args, **kwargs)
+    
+
+class SellerMemberSellersView(TemplateView):
+    template_name = 'seller/seller-member-sellers.html'
+    title = "Member - Sellers"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+    
+class SellerMemberDistributorView(TemplateView):
+    template_name = 'seller/seller-member-distributor.html'
+    title = "Member - Distributor"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+
+class SellerMemberBuildersView(TemplateView):
+    template_name = 'seller/seller-member-builders.html'
+    title = "Member - Builders"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+
+class SellerMemberLeadersView(TemplateView):
+    template_name = 'seller/seller-member-leaders.html'
+    title = "Member - Leaders"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+    
+class SellerMemberExpiredView(TemplateView):
+    template_name = 'seller/seller-member-expired.html'
+    title = "Member - Expired"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+    
+def seller_orders_data(request):
+    user = request.user
+    referred_users = User.objects.filter(referred_by=user)
+    orders = Order.objects.filter(user__in=referred_users, delivered=False)
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+    
+    order_data = []
+    for order in orders:
+        seller = order.user.referred_by
+        
+        if order.status == 'pending':
+            review_order_url = reverse('review_order', kwargs={'order_id': order.order_id})
+            action = f'<a href="{review_order_url}" class="theme-btn">REVIEW ORDER</a>'
+        else:
+            action = ""
+        
+        products = [f"{item.quantity}x {item.product.name}" for item in order.orderitem_set.all()]
+        order_dict = {
+            'order_date': f'<span>{order.created_at.strftime("%B %d, %Y")}</span>',
+            'order_id': f'<span>{order.order_id}</span>',
+            'seller_name': f'<span>{ seller.first_name} { seller.last_name}</span>',
+            'products': "<ul>" + "".join([f"<li>{product}</li>" for product in products]) + "</ul>",
+            'status': f'<span class="badge badge-{ order.status.lower() }">{order.status.upper().replace("-", " ")}</span>',
+            'action': action,
+
+        }
+        order_data.append(order_dict)
+        
+        
+        # Construct the JSON response
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+
+    return JsonResponse(response, safe=False)
+
+
+class SellerPendingOrdersView(TemplateView):
+    template_name = 'seller/pending-orders.html'
+    title = "Pending - Virtual Warehouse"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+    
     
 class ReviewOrderView(View):
     http_method_names = ['get']
@@ -379,23 +472,210 @@ def confirm_order(request):
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 
-    
-    
-class WarehouseDashboardView(TemplateView):
-    template_name = 'admin/warehouse-dashboard.html'
-    title = "Warehouse Dashboard"
+class SellerPendingVirtualWarehouseView(TemplateView):
+    template_name = 'seller/pending-virtual-warehouse.html'
+    title = "Pending - Virtual Warehouse"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = self.request.user
-    
-
-        context.update({
-            'title': self.title,
-            'orders': Order.objects.all(),
-        })
+        context['title'] = self.title
         return context
     
+class SellerPendingEcashView(TemplateView):
+    template_name = 'seller/pending-ecash.html'
+    title = "Pending - eCash"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+    
+class SellerPendingGreeniumView(TemplateView):
+    template_name = 'seller/pending-greenium.html'
+    title = "Pending - Greenium"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+    
+    
+class SellerPendingMembershipView(TemplateView):
+    template_name = 'seller/pending-membership.html'
+    title = "Pending - Membership"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+    
+    
+class SellerPendingOnboardingView(TemplateView):
+    template_name = 'seller/pending-onboarding.html'
+    title = "Pending - Onboarding"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+    
+
+class SellerPendingOnboardingView(TemplateView):
+    template_name = 'seller/pending-onboarding.html'
+    title = "Pending - Onboarding"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+    
+class SellerVWInventoryView(TemplateView):
+    template_name = 'seller/vw-inventory.html'
+    title = "Virtual Warehouse Inventory"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+    
+class SellerVWSalesView(TemplateView):
+    template_name = 'seller/vw-sales.html'
+    title = "Virtual Warehouse Sales"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+
+    
+class SellerOrdersDropshippingView(TemplateView):
+    template_name = 'seller/orders-dropshipping.html'
+    title = "Orders - Dropshipping"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+    
+def orders_dropshipping_data(request):
+    user = request.user
+    referred_users = User.objects.filter(referred_by=user)
+    filter_param = request.GET.get('filter')
+    print(f'Filtered Status: {filter_param}')
+    if filter_param:
+        orders = Order.objects.filter(status=filter_param)
+    else:
+        orders = Order.objects.filter(user__in=referred_users, delivered=False, complete=True)
+        
+    print(f'Orders: {orders}')
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+
+
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+        address = order.shipping_address
+        print(address)
+        products = [f"[{item.quantity}x]  {item.product.name}" for item in order.orderitem_set.all()]
+        seller = order.user.referred_by
+        
+        if order.status == 'pending':
+            pickup_date = "TBA"
+            courier = "TBA"
+        else:
+            pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+            courier = f'<h6><b>{order.courier.courier.upper()}: <a href="" style="color: #3255AD;">{order.courier.tracking_number}</a></b></h6><p>Amount: <b>₱ {order.cod_amount}</b></p><p>Pouch Size: {order.courier.pouch_size.title()}</p><p>Fulfiller: {order.courier.fulfiller}</p>'
+        
+        order_id = f'<span>{order.order_id}</span>'
+        receiver = f'<h6><u>{address.first_name} {address.last_name}</u></h6><p>Mobile: {address.phone}</p><p>Location: {address.city}</p><p style="margin-top:5px;"><b><i>**Seller Info</i></b></p><p>Seller Name: {seller.first_name} {seller.last_name}</p><p>Seller Mobile: {seller.mobile}</p>'
+        
+        if order.courier.booking_notes:
+            courier += f'<p style="margin-top: 10px">***Shipping Notes: {order.courier.booking_notes}</p>'
+        products = "<ul>" + "".join([f"<li>{product}</li>" for product in products]) + "</ul>"
+        
+        if order.status == "for-pickup":
+            status = f'<button class="btn badge badge-{order.status}" onclick="rebookOrder(this)" data-courier-id="{order.courier.id}" data-customer-name="{order.shipping_address.first_name}">FOR PICKUP</button>'
+        elif order.status == "shipping":
+            status = f'<button class="btn badge badge-{order.status}" onclick="shipOrder(this)" data-courier-id="{order.courier.id}" data-courier-tracking="{order.courier.tracking_number}">SHIPPING</button>'
+        elif order.status == "delivered":
+            status = f'<button class="btn badge badge-{order.status}" onclick="deliveredOrder(this)" data-courier-id="{order.courier.id}" data-courier-tracking="{order.courier.tracking_number}" data-courier-actual-sf="{order.courier.actual_shipping_fee}">DELIVERED</button>'
+        else:
+            status = f'<button class="btn badge badge-{order.status}">{order.status.upper().replace("-", " ")}</button>'
+            
+        order_dict = {
+            'index': index,
+            'pickup_date': pickup_date,
+            'order_id': order_id,
+            'receiver': receiver,
+            'courier': courier,
+            'products': products,
+            'status': status,
+        }
+        order_data.append(order_dict)
+
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+
+    return JsonResponse(response, safe=False)
+
+    
+class SellerOrdersMembershipPackageView(TemplateView):
+    template_name = 'seller/orders-membership-package.html'
+    title = "Orders - Membership Package"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+
+
+class SellerEcashView(TemplateView):
+    template_name = 'seller/ecash.html'
+    title = "Seller eCash"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context  
+    
+
+class SellerTopupGreeniumView(TemplateView):
+    template_name = 'seller/topup-greenium.html'
+    title = "Seller Top-Up Greenium"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context  
+    
+class SellerSubscriptionCodesView(TemplateView):
+    template_name = 'seller/subscription-codes.html'
+    title = "Subscription Codes"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context  
+    
+
+class SellerRewardsTWCView(TemplateView):
+    template_name = 'seller/seller-rewards-twc.html'
+    title = "Seller Top-Up Greenium"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context  
+    
+    
+#####################
+#LOGISTICS DASHBOARD#
+#####################
+
 class LogisticsDashboardView(TemplateView):
     template_name = 'logistics/logistics-dashboard.html'
     title = "Logistics Dashboard"

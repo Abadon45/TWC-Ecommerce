@@ -21,11 +21,6 @@
                         <div class="row">
                             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link active all-btn" id="pills-all-tab" data-bs-toggle="pill"
-                                        data-bs-target="#pills-all" type="button" role="tab" aria-controls="pills-all"
-                                        aria-selected="true">All</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
                                     <button class="nav-link for-pickup-btn" id="pills-for-pickup-tab"
                                         data-bs-toggle="pill" data-bs-target="#pills-for-pickup" type="button"
                                         role="tab" aria-controls="pills-for-pickup" aria-selected="false"
@@ -132,6 +127,7 @@
             "processing": true,
             "serverSide": false,
             "paging": true,
+            dom: 'lBfrtip',
             "ajax": {
                 "url": logisticsProductData,
                 "type": "GET",
@@ -146,6 +142,20 @@
                 { "data": "products" },
                 { "data": "status", "className": "text-center" }
             ],
+            buttons: [
+                { 
+                    extend: 'excel', className: 'btn btn-primary' 
+                },
+                {
+                    text: 'Clear Filter',
+                    className: 'btn btn-info',
+                    action: function () {
+                        $(".nav-link").removeClass("active");
+                        var filter = "";
+                        filterOrders(filter);
+                    }
+                }
+            ],
             "responsive": true,
             "pagingType": "full_numbers",
             "drawCallback": function (settings) {
@@ -159,10 +169,8 @@
             },
         });
 
-        $(".all-btn").click(function () {
-            var filter = "";
-            filterOrders(filter);
-        });
+        $(".dt-buttons").addClass("col-sm-6");
+        $(".dt-search").addClass("col-sm-6");
 
         // Shipping button click event
         $(".for-pickup-btn").click(function () {

@@ -127,6 +127,7 @@ TEMPLATES = [
                 'cart.context_processors.booking_count_notification',
                 'cart.context_processors.pickup_count_notification',
                 'cart.context_processors.return_count_notification',
+                'cart.context_processors.pending_orders_notification',
                 'TWC.context_processors.main_site_url',
                 'TWC.context_processors.site_urls',
             ],

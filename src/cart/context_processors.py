@@ -31,6 +31,18 @@ def has_existing_order(request):
         'has_existing_order': request.session.get('has_existing_order', False)
     }
     
+def pending_orders_notification(request):
+    user = request.user
+    referred_users = User.objects.filter(referred_by=user)
+    orders = Order.objects.filter(user__in=referred_users, delivered=False)
+    
+    pending_orders_count = orders.count()
+    orders_count = orders.count()
+    return{
+        'pending_orders_count':pending_orders_count,
+        'orders_count': orders_count,
+    }
+    
 def booking_count_notification(request):
     booking_count = Order.objects.filter(status='for-booking').count()
     mandaluyong_count = Order.objects.filter(status='for-booking', courier__fulfiller='sante mandaluyong').count()

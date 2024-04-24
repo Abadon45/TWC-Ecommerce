@@ -1,6 +1,6 @@
 {% extends "base-dashboard.html" %}
 {% load static %}
-{% load currency_filters %} 
+{% load currency_filters %}
 
 {% block title %} {{ title }} {% endblock %}
 
@@ -24,7 +24,9 @@
                                         <h4 class="user-card-title">Pending - For Booking</h4>
                                     </div>
                                     <div class="table-responsive seller-order">
-                                        <table id="orders-table" class="table table-bordered table-hover table-striped logistics-table">
+                                        <table id="orders-table"
+                                            class="table table-bordered table-hover table-striped logistics-table"
+                                            cellspacing="0" width="100%">
                                             <thead class="thead-dark">
                                                 <tr>
                                                     <th>#</th>
@@ -55,61 +57,69 @@
     const logisticsBookingData = "{% url 'booking_data' %}"
 </script>
 <script>
-$(document).ready(function() {
-    var urlParams = new URLSearchParams(window.location.search);
-    var fulfiller = urlParams.get('fulfiller');
-    var anyActive = $(".sidebar-list a.active").length > 0;
-    
-    $(".active").removeClass("active");
-    
-    if (fulfiller === 'mandaluyong hub') {
-        $(".booking-mandaluyong").addClass("active");
-    } else if (fulfiller === 'sante valenzuela') {
-        $(".booking-valenzuela").addClass("active");
-    } else if (fulfiller === 'sante cdo') {
-        $(".booking-cdo").addClass("active");
-    } else {
-        $(".booking-other").addClass("active");
-    }
+    $(document).ready(function () {
+        var urlParams = new URLSearchParams(window.location.search);
+        var fulfiller = urlParams.get('fulfiller');
+        var anyActive = $(".sidebar-list a.active").length > 0;
 
-    var anyActive = $(".sidebar-list a.active").length > 0;
-    
-    if (anyActive) {
-        $("#bookingCollapse").collapse('show');
-    }
-    
-    $('#orders-table').DataTable({
-      "processing": true,
-      "serverSide": false,
-      "paging": true,
-      "ajax": {
-          "url": logisticsBookingData,
-          "type": "GET",
-          "dataType": "json",
-          "data": {  
-                "fulfiller": fulfiller
-            }
-      },
-      "columns": [
-          { "data": "index" },
-          { "data": "order_date" },
-          { "data": "order_details" },
-          { "data": "shipping_details" },
-          { "data": "products" },
-          { "data": "action", "className": "text-center" }
-      ],
-      "responsive": true,
-      "pagingType": "full_numbers",
-      "drawCallback": function (settings) {
-      $('#orders-table').find('tbody tr').each(function() {
-            $(this).children('td:eq(2)').css('max-width', '12%');
-            $(this).children('td:eq(3)').css('max-width', '25%');
-            $(this).children('td:eq(3)').css('max-width', '300px');
-            $(this).children('td:eq(4)').css('max-width', '400px');
-            $(this).children('td:eq(5)').css('width', '20%');
+        $(".active").removeClass("active");
+
+        if (fulfiller === 'mandaluyong hub') {
+            $(".booking-mandaluyong").addClass("active");
+        } else if (fulfiller === 'sante valenzuela') {
+            $(".booking-valenzuela").addClass("active");
+        } else if (fulfiller === 'sante cdo') {
+            $(".booking-cdo").addClass("active");
+        } else {
+            $(".booking-other").addClass("active");
+        }
+
+        var anyActive = $(".sidebar-list a.active").length > 0;
+
+        if (anyActive) {
+            $("#bookingCollapse").collapse('show');
+        }
+
+        var dataTable = $('#orders-table').DataTable({
+            "processing": true,
+            "serverSide": false,
+            "paging": true,
+            dom: 'lBfrtip',
+            "ajax": {
+                "url": logisticsBookingData,
+                "type": "GET",
+                "dataType": "json",
+                "data": {
+                    "fulfiller": fulfiller
+                }
+            },
+            "columns": [
+                { "data": "index" },
+                { "data": "order_date" },
+                { "data": "order_details" },
+                { "data": "shipping_details" },
+                { "data": "products" },
+                { "data": "action", "className": "text-center" }
+            ],
+            buttons: [
+                { extend: 'excel', className: 'btn btn-primary' }
+            ],
+            "responsive": true,
+            "pagingType": "full_numbers",
+            "drawCallback": function (settings) {
+                $('#orders-table').find('tbody tr').each(function () {
+                    $(this).children('td:eq(2)').css('max-width', '12%');
+                    $(this).children('td:eq(3)').css('max-width', '25%');
+                    $(this).children('td:eq(3)').css('max-width', '300px');
+                    $(this).children('td:eq(4)').css('max-width', '400px');
+                    $(this).children('td:eq(5)').css('width', '20%');
+                });
+            },
         });
-      },
-  });
-});
+
+        $(".dt-buttons").addClass("col-sm-6");
+        $(".dt-search").addClass("col-sm-6");
+
+    });
 </script>
 {% endblock %}

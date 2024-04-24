@@ -1,0 +1,121 @@
+{% load static %}
+
+<div id="logistics-sidebar" class="sidebar">
+    <div class="sidebar-top">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="sidebar-profile-img">
+                {% if user.image %}
+                    <img src="{{ user.image.url }}" alt="Profile Picture">
+                {% else %}
+                    <img src="{% static 'img/user/default_profile.png' %}" alt="No Image">
+                {% endif %}
+                <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
+                <!-- Input field to select an image file -->
+                <input type="file" name="image" accept="image/*" class="profile-img-file">
+                <button type="submit" class="profile-img-btn"><i class="far fa-camera"></i></button>
+            </div>
+        </form>
+        <h5>{{user.first_name}} {{ user.last_name }}</h5>
+        <p>{{user.email}}</p>
+    </div>
+    <ul class="sidebar-list">
+        <li><a class="home-sidebar" href="{% url 'seller_dashboard' %}"><i class="far fa-gauge-high"></i> Home</a></li>
+        <li><a class="mymembers-sidebar" data-bs-toggle="collapse" href="#mymembersCollapse" role="button" aria-expanded="false" aria-controls="mymembersCollapse">
+            <i class="fa-regular fa-book"></i> My Members</a>
+        </li>
+        <div class="collapse" id="mymembersCollapse" style="margin-left: 20px; height: 188px!important;">
+            <ul class="sidebar-list" style="border-left: 2px solid #494E53; padding-left: 10px;">
+                <li><a class="member-sellers" href="{% url 'member_sellers' %}">
+                    <i class="far fa-gear"></i> Sellers</a>
+                </li>
+                <li><a class="member-distributor" href="{% url 'member_distributor' %}">
+                    <i class="far fa-gear"></i> Distributor</a>
+                </li>
+                <li><a class="member-builders" href="{% url 'member_builders' %}">
+                    <i class="far fa-gear"></i> Builders</a>
+                </li>
+                <li><a class="member-leaders" href="{% url 'member_leaders' %}">
+                    <i class="far fa-gear"></i> Leaders</a>
+                </li>
+                <li><a class="member-expired" href="{% url 'member_expired' %}">
+                    <i class="far fa-gear"></i> Expired</a>
+                </li>
+            </ul>
+        </div>
+    </ul>
+    <hr>
+    <h6>PENDING</h6>
+    <ul class="sidebar-list">
+        <li><a class="booking-sidebar" data-bs-toggle="collapse" href="#pendingCollapse" role="button" aria-expanded="false" aria-controls="pendingCollapse">
+            <i class="fa-regular fa-book"></i> Pending
+            <span class="badge badge-danger">{% if pending_orders_count %}{{ pending_orders_count|stringformat:"02d" }}{% endif %}</span></a>
+        </li>
+        <div class="collapse" id="pendingCollapse" style="margin-left: 20px; height: 188px!important;">
+            <ul class="sidebar-list" style="border-left: 2px solid #494E53; padding-left: 10px;">
+                <li><a class="seller_pending_orders" href="{% url 'seller_pending_orders' %}">
+                    <i class="far fa-gear"></i> Order
+                    <span class="badge badge-danger">
+                        {% if orders_count %}
+                            {{ orders_count|stringformat:"02d" }}
+                        {% endif %}
+                    </span></a>
+                </li>
+                <li><a class="pending_virtual_warehouse" href="{% url 'pending_virtual_warehouse' %}">
+                    <i class="far fa-gear"></i> Virtual Warehouse</a>
+                </li>
+                <li><a class="pending_ecash" href="{% url 'pending_ecash' %}">
+                    <i class="far fa-gear"></i> eCash</a>
+                </li>
+                <li><a class="pending_greenium" href="{% url 'pending_greenium' %}">
+                    <i class="far fa-gear"></i> Greenium</a>
+                </li>
+                <li><a class="pending_membership" href="{% url 'pending_membership' %}">
+                    <i class="far fa-gear"></i> Membership</a>
+                </li>
+                <li><a class="pending_onboarding" href="{% url 'pending_onboarding' %}">
+                    <i class="far fa-gear"></i> Onboarding</a>
+                </li>
+            </ul>
+        </div>
+        <li><a class="booking-sidebar" data-bs-toggle="collapse" href="#vwCollapse" role="button" aria-expanded="false" aria-controls="vwCollapse">
+            <i class="fa-regular fa-book"></i> Virtual Warehouse</a>
+        </li>
+        <div class="collapse" id="vwCollapse" style="margin-left: 20px; height: 188px!important;">
+            <ul class="sidebar-list" style="border-left: 2px solid #494E53; padding-left: 10px;">
+                <li><a class="vw-inventory-sidebar" href="{% url 'vw_inventory' %}">
+                    <i class="far fa-gear"></i> VW Inventory</a>
+                </li>
+                <li><a class="vw-sales-sidebar" href="{% url 'vw_sales' %}">
+                    <i class="far fa-gear"></i> Virtual Sales</a>
+                </li>
+            </ul>
+        </div>
+        <li><a class="booking-sidebar" data-bs-toggle="collapse" href="#ordersCollapse" role="button" aria-expanded="false" aria-controls="ordersCollapse">
+            <i class="fa-regular fa-book"></i> Orders</a>
+        </li>
+        <div class="collapse" id="ordersCollapse" style="margin-left: 20px; height: 188px!important;">
+            <ul class="sidebar-list" style="border-left: 2px solid #494E53; padding-left: 10px;">
+                <li><a class="orders-dropshipping-sidebar" href="{% url 'orders_dropshipping' %}">
+                    <i class="far fa-gear"></i> Dropshipping</a>
+                </li>
+                <li><a class="orders-membership-sidebar" href="{% url 'orders_membership_package' %}">
+                    <i class="far fa-gear"></i> Membership Package</a>
+                </li>
+            </ul>
+        </div>
+        <li><a class="ecash-sidebar" href="{% url 'ecash' %}"><i class="far fa-wallet"></i> eCash</a></li>
+        <li><a class="greenium-sidebar" href="{% url 'topup_greenium' %}"><i class="far fa-credit-card"></i> Top-Up Greenium</a></li>
+        <li><a class="subscription-sidebar" href="{% url 'subscription' %}"><i class="far fa-bell"></i> Subscription Codes</a></li>
+    </ul>
+    <hr>
+    <h6>REWARDS PROGRAM</h6>
+    <ul class="sidebar-list">
+        <li><a class="rewards-twc-sidebar" href="{% url 'rewards_twc' %}"><i class="far fa-envelope"></i> TWC</a></li>
+        <li style="margin-left: 14px!important;"><a class="disabled" href=""></a><i class="far fa-gear"></i> Sante</button></li>
+    </ul>
+    <hr>
+    <ul class="sidebar-list">
+        <li><a href="{% url 'logout' %}"><i class="far fa-sign-out"></i> Logout</a></li>
+    </ul>
+</div>

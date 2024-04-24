@@ -34,8 +34,36 @@
     padding-right: 20px;
 }
 
+.dt-buttons,
+.dt-search {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.dt-length,
+.dt-buttons,
+.dt-search {
+    margin-bottom: 10px;
+}
+
+.dt-search {
+    margin-left: auto;
+}
+
+.dt-paging ul.pagination {
+    justify-content: flex-end;
+}
+
 .seller-order span {
     font-size: small;
+}
+
+#seller {
+    display: inline;
+}
+
+#seller .user-wrapper {
+    padding-right: 20px;
 }
 
 .seller-order li {
