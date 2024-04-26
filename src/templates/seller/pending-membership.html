@@ -18,9 +18,24 @@
                         <div class="col-lg-12">
                             <div class="user-card">
                                 <div class="user-card-header">
-                                    <h4 class="user-card-title">Insert Title Here</h4>
+                                    <h4 class="user-card-title">Pending - Membership</h4>
                                 </div>
-                                <h1>INSERT CONTENT HERE</h1>
+                                <div class="table-responsive seller-order">
+                                    <table id="orders-table"
+                                            class="table table-bordered table-hover table-striped logistics-table"
+                                            cellspacing="0" width="100%">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Payment Details</th>
+                                                <th>Name</th>
+                                                <th class="text-center">Status</th>
+                                                <th>Membership</th>
+                                                <th class="text-center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -34,6 +49,7 @@
 {% endblock %}
 {% block extra_js %}
 <script>
+    const pendingMembershipData = "{% url 'pending_membership_data' %}"
     $(document).ready(function () {
         $(".active").removeClass("active");
         $(".pending_membership").addClass("active");
@@ -42,6 +58,44 @@
         if (anyActive) {
             $("#pendingCollapse").collapse('show');
         }
+
+        var dataTable = $('#orders-table').DataTable({
+            "processing": true,
+            "serverSide": false,
+            "paging": true,
+            dom: 'lBfrtip',
+            "ajax": {
+                "url": pendingMembershipData,
+                "type": "GET",
+                "dataType": "json",
+            },
+            "columns": [
+                { "data": "payment_details" },
+                { "data": "name" },
+                { "data": "status", "className": "text-center" },
+                { "data": "membership" },
+                { "data": "action", "className": "text-center" }
+            ],
+            buttons: [
+                { extend: 'copy', className: 'btn btn-primary' },
+                { extend: 'excel', className: 'btn btn-primary' },
+                { extend: 'csv', className: 'btn btn-primary' },
+                { extend: 'print', className: 'btn btn-primary' },
+            ],
+            "responsive": true,
+            "pagingType": "full_numbers",
+            "drawCallback": function (settings) {
+                $('#orders-table').find('tbody tr').each(function () {
+                    $(this).children('td:eq(3)').css('max-width', '300px');
+                    $(this).children('td:eq(3)').css('max-width', '300px');
+                    $(this).children('td:eq(4)').css('max-width', '400px');
+                    $(this).children('td:eq(5)').css('width', '20%');
+                });
+            },
+        });
+
+        $(".dt-buttons").addClass("col-sm-6");
+        $(".dt-search").addClass("col-sm-6");
     });
 </script>
 {% endblock %}

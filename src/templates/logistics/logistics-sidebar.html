@@ -6,7 +6,7 @@
         <li><a class="user-database-sidebar" href="{% url 'member' %}"><i class="far fa-user"></i> User Database</a></li>
     </ul>
     <hr>
-    <h6>PENDING</h6>
+    <h6>PENDING DROPSHIPPING</h6>
     <ul class="sidebar-list">
         <li><a class="booking-sidebar" data-bs-toggle="collapse" href="#bookingCollapse" role="button" aria-expanded="false" aria-controls="bookingCollapse">
             <i class="fa-regular fa-book"></i> For Booking 
@@ -49,8 +49,13 @@
         <li><a class="return-sidebar" href="{% url 'return' %}"><i class="far fa-wallet"></i> For Return 
             <span class="badge badge-danger">{% if return_count %}{{ return_count|stringformat:"02d" }}{% endif %}</span></a>
         </li>
+    </ul>
+    <hr>
+    <h6>PENDING VIRTUAL WAREHOUSE</h6>
+    <ul class="sidebar-list">
         <li><a class="approval-sidebar" href="{% url 'approval' %}"><i class="far fa-credit-card"></i> VW Approval</a></li>
-        <li><a class="receiving-sidebar" href="{% url 'receiving' %}"><i class="far fa-bell"></i> For Receiving</a></li>
+        <li><a class="receiving-sidebar" href="{% url 'receiving' %}"><i class="far fa-bell"></i> Stocks To Receive</a></li>
+        <li><a class="token-redemption-sidebar" href="{% url 'token_redemption' %}"><i class="far fa-gear"></i> Token Redemption</a></li>
     </ul>
     <hr>
     <h6>ORDERS</h6>

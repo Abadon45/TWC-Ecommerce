@@ -14,10 +14,22 @@
             <div class="row">
                 <div class="col-lg-8">
                     {% for order, items in ordered_items.items %}
-                    <div class="card mb-20">
+                    <div id="order-card-{{order.order_id}}" class="card mb-20">
                         <div class="card-body">
                             <div class="card-title">
                                 <h4>{{ order.order_id }}</h4>
+                                <h6 style="margin-top: 10px; color: #11B76B;">Supplier: 
+                                    {% if order.supplier == "sante" %}
+                                        Sante International
+                                    {% endif %}
+                                    {% if order.supplier == "mood" %}
+                                        Mood Timepieces
+                                    {% endif %}
+                                    {% if order.supplier == "chingu" %}
+                                        Chingu
+                                    {% endif %}
+                                </h6>
+                                <hr>
                             </div>
 
                             <div class="cart-table card-text">
@@ -38,13 +50,13 @@
                                             <tr class="cart-product" id="product-row-{{ item.product.id }}">
                                                 <td style="width: 15%;">
                                                     <div class="shop-cart-img">
-                                                        <a href="#"><img src="{{ item.product.image_1.url }}"
+                                                        <a href="{% url 'shop:single' slug=item.product.slug %}"><img src="{{ item.product.image_1.url }}"
                                                                 alt=""></a>
                                                     </div>
                                                 </td>
                                                 <td style="width: 35%;">
                                                     <div class="shop-cart-content">
-                                                        <h5 class="shop-cart-name"><a href="#"><span
+                                                        <h5 class="shop-cart-name"><a href="{% url 'shop:single' slug=item.product.slug %}"><span
                                                                     id="product-name-{{ item.product.id }}">{{item.product.name}}</span></a></h5>
                                                         <div class="shop-cart-info">
                                                         </div>
@@ -74,7 +86,7 @@
                                                     </div>
                                                 </td>
                                                 <td style="width: 5%;">
-                                                    <a href="#" data-product="{{ item.product.id }}"
+                                                    <a href="#" data-product="{{ item.product.id }}" data-order-id="{{order.order_id}}"
                                                         data-action="remove" class="update-cart shop-cart-remove"><i
                                                             class="far fa-times"></i></a>
                                                 </td>
@@ -120,7 +132,7 @@
                         {% endfor %}
                         <ul>
                             <li class="shop-cart-total">
-                                <h4>Cart Total: <span id="cart-total">{{ total_cart_subtotal|currency  }}</span></h4>
+                                <h4>Cart Total: <span id="cart-total">{{ total_cart_subtotal|currency }}</span></h4>
                             </li>
                         </ul>
                         

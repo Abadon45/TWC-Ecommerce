@@ -6,6 +6,7 @@ $(document).ready(function () {
     event.preventDefault();
     var button = $(this);
     var productId = button.data("product");
+    var orderId = button.data("order-id")
     var action = button.data("action");
     var quantityInput = $("#quantity-input-" + productId);
     var quantity = parseInt(quantityInput.val()) || 1;
@@ -32,16 +33,17 @@ $(document).ready(function () {
       });
     }
 
-    updateUserOrder(productId, action, quantity, updateItemUrl, button);
+    updateUserOrder(productId, orderId, action, quantity, updateItemUrl, button);
   });
 
-  function updateUserOrder(productId, action, quantity, url, button) {
+  function updateUserOrder(productId, orderId, action, quantity, url, button) {
     $.ajax({
       url: url,
       method: "GET",
       dataType: "json",
       data: {
         productId: productId,
+        orderId: orderId,
         action: action,
         quantity: quantity,
       },
@@ -55,7 +57,27 @@ $(document).ready(function () {
 
         $("#cart-count").text(data.cart_items);
 
-        // Check if button exists and doesn't have the exclude class
+        if (data.products.length > 0) {
+          // Iterate over each product and append its HTML to the dropdown menu
+          data.products.forEach(function (product) {
+            var productHtml = `
+              <li id="cart-row-${product.id}">
+                <div class="dropdown-cart-item">
+                  <div class="cart-img">
+                    <a href="${product.url}"><img src="${product.image}" alt="${product.name}"></a>
+                  </div>
+                  <div class="cart-info">
+                    <h4><a href="${product.url}">${product.name}</a></h4>
+                    <p class="cart-qty">${product.quantity}x - <span class="cart-amount">${product.total}</span></p>
+                  </div>
+                  <a href="#" data-product="${product.id}" data-action="remove" class="update-cart shop-cart-remove">
+                    <i class="far fa-times-circle"></i>
+                  </a>
+                </div>
+              </li>`;
+            $(".dropdown-cart-list").append(productHtml);
+          });
+        }
 
         if (button && button.length > 0 && !button.hasClass("excludeDisable")) {
           console.log("Before disabling minus button");
@@ -75,15 +97,12 @@ $(document).ready(function () {
 
           if (data.action === "remove") {
             $("#product-row-" + productId).remove();
+            $("#cart-row-" + productId).remove();
           }
 
           if (data.cart_items === 0) {
             // Check if the order table becomes empty
-            var orderId = "product-table-" + data.order_id;
-            var orderTable = $("#" + orderId);
-            if (orderTable.length > 0) {
-              orderTable.remove();
-            }
+            $("#order-card-" + orderId).remove();
           }
 
           if (quantity > 0) {

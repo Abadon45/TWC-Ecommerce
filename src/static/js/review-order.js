@@ -118,7 +118,7 @@ function confirmOrderBtn(button) {
                                     Swal.showLoading();
                                 },
                                 willClose: () => {
-                                    window.location.href = sellerDashboardURL;
+                                    window.location.href = sellerPendingOrderUrl;
                                 }
                             });
                         }, 

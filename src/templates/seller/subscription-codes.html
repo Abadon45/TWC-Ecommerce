@@ -18,9 +18,28 @@
                         <div class="col-lg-12">
                             <div class="user-card">
                                 <div class="user-card-header">
-                                    <h4 class="user-card-title">Insert Title Here</h4>
+                                    <h4 class="user-card-title">Subscription Codes</h4>
                                 </div>
-                                <h1>INSERT CONTENT HERE</h1>
+                                <button class="btn theme-btn" style="margin-left: auto; display: block;">Buy SCodes</button>
+                                <div class="table-responsive seller-order">
+                                    <table id="orders-table"
+                                            class="table table-bordered table-hover table-striped logistics-table"
+                                            cellspacing="0" width="100%">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th class="text-center">Purchase Date</th>
+                                                <th class="text-center">Payment ID</th>
+                                                <th class="text-center">Type</th>
+                                                <th class="text-center">Amount</th>
+                                                <th class="text-center">SCode</th>
+                                                <th class="text-center">Used By</th>
+                                                <th class="text-center">Used Date</th>
+                                                <th class="text-center">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -34,9 +53,51 @@
 {% endblock %}
 {% block extra_js %}
 <script>
+    const subscriptionCodesData = "{% url 'subscription_codes_data' %}"
     $(document).ready(function () {
         $(".active").removeClass("active");
         $(".subscription-sidebar").addClass("active");
+
+        var dataTable = $('#orders-table').DataTable({
+            "processing": true,
+            "serverSide": false,
+            "paging": true,
+            dom: 'lBfrtip',
+            "ajax": {
+                "url": subscriptionCodesData,
+                "type": "GET",
+                "dataType": "json",
+            },
+            "columns": [
+                { "data": "purchase_date", "className": "text-center" },
+                { "data": "payment_id", "className": "text-center" },
+                { "data": "type", "className": "text-center" },
+                { "data": "amount", "className": "text-center" },
+                { "data": "scode", "className": "text-center" },
+                { "data": "used_by", "className": "text-center" },
+                { "data": "used_date", "className": "text-center" },
+                { "data": "status", "className": "text-center" },
+            ],
+            buttons: [
+                { extend: 'copy', className: 'btn btn-primary' },
+                { extend: 'csv', className: 'btn btn-primary' },
+                { extend: 'excel', className: 'btn btn-primary' },
+                { extend: 'print', className: 'btn btn-primary' },
+            ],
+            "responsive": true,
+            "pagingType": "full_numbers",
+            "drawCallback": function (settings) {
+                $('#orders-table').find('tbody tr').each(function () {
+                    $(this).children('td:eq(3)').css('max-width', '300px');
+                    $(this).children('td:eq(3)').css('max-width', '300px');
+                    $(this).children('td:eq(4)').css('max-width', '400px');
+                    $(this).children('td:eq(5)').css('width', '20%');
+                });
+            },
+        });
+
+        $(".dt-buttons").addClass("col-sm-6");
+        $(".dt-search").addClass("col-sm-6");
     });
 </script>
 {% endblock %}

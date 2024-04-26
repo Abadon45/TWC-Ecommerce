@@ -33,8 +33,8 @@
                                         data-order-status="shipping">Shipping</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link delivered-btn" id="pills-delivered-tab" data-bs-toggle="pill"
-                                        data-bs-target="#pills-delivered" type="button" role="tab"
+                                    <button class="nav-link delivered-btn" id="pills-delivered-tab"
+                                        data-bs-toggle="pill" data-bs-target="#pills-delivered" type="button" role="tab"
                                         aria-controls="pills-delivered" aria-selected="false"
                                         data-order-status="delivered">Delivered</button>
                                 </li>
@@ -143,8 +143,8 @@
                 { "data": "status", "className": "text-center" }
             ],
             buttons: [
-                { 
-                    extend: 'excel', className: 'btn btn-primary' 
+                {
+                    extend: 'excel', className: 'btn btn-primary'
                 },
                 {
                     text: 'Clear Filter',
@@ -232,271 +232,271 @@
         }
     });
 
-function rebookOrder(button) {
-    var courierId = $(button).data('courier-id');
-    var customerName = $(button).data('customer-name');
-    var spinner = $(".sk-circle");
-    var backdrop = $(".backdrop");
+    function rebookOrder(button) {
+        var courierId = $(button).data('courier-id');
+        var customerName = $(button).data('customer-name');
+        var spinner = $(".sk-circle");
+        var backdrop = $(".backdrop");
 
-  Swal.fire({
-        title: 'Dp you want to rebook this order of ' + customerName,
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#11B76B',
-        cancelButtonColor: '#E56975',
-        confirmButtonText: 'Yes, rebook it!',
-        cancelButtonText: 'Cancel',
-        html:
-        '<p style="text-align: left; margin-left: 5px;">Rebooking Notes *</p>' +
-        '<textarea id="swal-input1" class="swal2-input" style="width:28rem; height:7rem; margin-top:2px;" placeholder="Ex: Change pouch size to large"></textarea>'
-  }).then((result) => {
-    if (result.isConfirmed) {
-        var rebookingNotes = $('#swal-input1').val();
-        spinner.addClass("visible");
-        backdrop.addClass("visible");
-        $.ajax({
-            url: rejectOrderUrl,
-            type: 'POST',
-            data: {
-                courier_id: courierId,
-                new_status: 'for-booking',
-                rebooking_notes: rebookingNotes,
-            },
-            headers: {
-                "X-CSRFToken": csrf
-            },
-            success: function(response) {
-                Swal.fire(
-                    'Rebooked!',
-                    'The order has been rebooked!',
-                    'success'
-                );
-                var row = $(button).closest('tr');
-                var dataTable = $('#orders-table').DataTable();
-                var rowIndex = dataTable.row(row).index();
-                dataTable.row(row).remove().draw();
-                
-                spinner.removeClass("visible");
-                backdrop.removeClass("visible");
-                console.log("Success:", response);
-                
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-                Swal.fire(
-                    'Error!',
-                    'Failed to reject the order. Please try again later.',
-                    'error'
-                );
-                spinner.removeClass("visible");
-                backdrop.removeClass("visible");
+        Swal.fire({
+            title: 'Dp you want to rebook this order of ' + customerName,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#11B76B',
+            cancelButtonColor: '#E56975',
+            confirmButtonText: 'Yes, rebook it!',
+            cancelButtonText: 'Cancel',
+            html:
+                '<p style="text-align: left; margin-left: 5px;">Rebooking Notes *</p>' +
+                '<textarea id="swal-input1" class="swal2-input" style="width:28rem; height:7rem; margin-top:2px;" placeholder="Ex: Change pouch size to large"></textarea>'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var rebookingNotes = $('#swal-input1').val();
+                spinner.addClass("visible");
+                backdrop.addClass("visible");
+                $.ajax({
+                    url: rejectOrderUrl,
+                    type: 'POST',
+                    data: {
+                        courier_id: courierId,
+                        new_status: 'for-booking',
+                        rebooking_notes: rebookingNotes,
+                    },
+                    headers: {
+                        "X-CSRFToken": csrf
+                    },
+                    success: function (response) {
+                        Swal.fire(
+                            'Rebooked!',
+                            'The order has been rebooked!',
+                            'success'
+                        );
+                        var row = $(button).closest('tr');
+                        var dataTable = $('#orders-table').DataTable();
+                        var rowIndex = dataTable.row(row).index();
+                        dataTable.row(row).remove().draw();
+
+                        spinner.removeClass("visible");
+                        backdrop.removeClass("visible");
+                        console.log("Success:", response);
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                        Swal.fire(
+                            'Error!',
+                            'Failed to reject the order. Please try again later.',
+                            'error'
+                        );
+                        spinner.removeClass("visible");
+                        backdrop.removeClass("visible");
+                    }
+                });
             }
         });
     }
-});
-}
 
-function shipOrder(button) {
-    var courierId = $(button).data('courier-id');
-    var courierTracking = $(button).data('courier-tracking');
-    var spinner = $(".sk-circle");
-    var backdrop = $(".backdrop");
+    function shipOrder(button) {
+        var courierId = $(button).data('courier-id');
+        var courierTracking = $(button).data('courier-tracking');
+        var spinner = $(".sk-circle");
+        var backdrop = $(".backdrop");
 
-    Swal.fire({
-        title: 'Please Select Your Action.',
-        icon: 'warning',
-        html: `<h5 style="color: #545454;">Check Tracking Status: <a href="" class="btn btn-warning">${courierTracking}</a></h5>`,
-        showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: "Delivered",
-        denyButtonText: `RTS`,
-        focusCancel: true
-    }).then((result) => {
-        if (result.isConfirmed) {
-            spinner.addClass("visible");
-            backdrop.addClass("visible");
-            $.ajax({
-                url: rejectOrderUrl,
-                type: 'POST',
-                data: {
-                    courier_id: courierId,
-                    new_status: 'delivered',
-                },
-                headers: {
-                    "X-CSRFToken": csrf
-                },
-                success: function(response) {
-                    Swal.fire(
-                        'Delivered!',
-                        'The order has been delivered!',
-                        'success'
-                    );
+        Swal.fire({
+            title: 'Please Select Your Action.',
+            icon: 'warning',
+            html: `<h5 style="color: #545454;">Check Tracking Status: <a href="" class="btn btn-warning">${courierTracking}</a></h5>`,
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Delivered",
+            denyButtonText: `RTS`,
+            focusCancel: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                spinner.addClass("visible");
+                backdrop.addClass("visible");
+                $.ajax({
+                    url: rejectOrderUrl,
+                    type: 'POST',
+                    data: {
+                        courier_id: courierId,
+                        new_status: 'delivered',
+                    },
+                    headers: {
+                        "X-CSRFToken": csrf
+                    },
+                    success: function (response) {
+                        Swal.fire(
+                            'Delivered!',
+                            'The order has been delivered!',
+                            'success'
+                        );
 
-                    var row = $(button).closest('tr');
-                    var dataTable = $('#orders-table').DataTable();
-                    var rowIndex = dataTable.row(row).index();
-                    dataTable.row(row).remove().draw();
+                        var row = $(button).closest('tr');
+                        var dataTable = $('#orders-table').DataTable();
+                        var rowIndex = dataTable.row(row).index();
+                        dataTable.row(row).remove().draw();
 
-                    spinner.removeClass("visible");
-                    backdrop.removeClass("visible");
-                    console.log("Success:", response);
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                    Swal.fire(
-                        'Error!',
-                        'Failed to reject the order. Please try again later.',
-                        'error'
-                    );
-                    spinner.removeClass("visible");
-                    backdrop.removeClass("visible");
-                }
-            });
-        } else if (result.isDenied) {
-            spinner.addClass("visible");
-            backdrop.addClass("visible");
-            $.ajax({
-                url: rejectOrderUrl,
-                type: 'POST',
-                data: {
-                    courier_id: courierId,
-                    new_status: 'rts',
-                },
-                headers: {
-                    "X-CSRFToken": csrf
-                },
-                success: function(response) {
-                    Swal.fire(
-                        'Returned To Sender!',
-                        'The order has been returned to sender!',
-                        'success'
-                    );
+                        spinner.removeClass("visible");
+                        backdrop.removeClass("visible");
+                        console.log("Success:", response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                        Swal.fire(
+                            'Error!',
+                            'Failed to reject the order. Please try again later.',
+                            'error'
+                        );
+                        spinner.removeClass("visible");
+                        backdrop.removeClass("visible");
+                    }
+                });
+            } else if (result.isDenied) {
+                spinner.addClass("visible");
+                backdrop.addClass("visible");
+                $.ajax({
+                    url: rejectOrderUrl,
+                    type: 'POST',
+                    data: {
+                        courier_id: courierId,
+                        new_status: 'rts',
+                    },
+                    headers: {
+                        "X-CSRFToken": csrf
+                    },
+                    success: function (response) {
+                        Swal.fire(
+                            'Returned To Sender!',
+                            'The order has been returned to sender!',
+                            'success'
+                        );
 
-                    var row = $(button).closest('tr');
-                    var dataTable = $('#orders-table').DataTable();
-                    var rowIndex = dataTable.row(row).index();
-                    dataTable.row(row).remove().draw();
+                        var row = $(button).closest('tr');
+                        var dataTable = $('#orders-table').DataTable();
+                        var rowIndex = dataTable.row(row).index();
+                        dataTable.row(row).remove().draw();
 
-                    spinner.removeClass("visible");
-                    backdrop.removeClass("visible");
-                    console.log('RTS button pressed');
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                    Swal.fire(
-                        'Error!',
-                        'Failed to process the RTS request. Please try again later.',
-                        'error'
-                    );
-                    spinner.removeClass("visible");
-                    backdrop.removeClass("visible");
-                }
-            });
-        }
-    });
-}
+                        spinner.removeClass("visible");
+                        backdrop.removeClass("visible");
+                        console.log('RTS button pressed');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                        Swal.fire(
+                            'Error!',
+                            'Failed to process the RTS request. Please try again later.',
+                            'error'
+                        );
+                        spinner.removeClass("visible");
+                        backdrop.removeClass("visible");
+                    }
+                });
+            }
+        });
+    }
 
-function deliveredOrder(button) {
-    var courierId = $(button).data('courier-id');
-    var courierTracking = $(button).data('courier-tracking');
-    var actualSF = $(button).data('courier-actual-sf');
-    var spinner = $(".sk-circle");
-    var backdrop = $(".backdrop");
+    function deliveredOrder(button) {
+        var courierId = $(button).data('courier-id');
+        var courierTracking = $(button).data('courier-tracking');
+        var actualSF = $(button).data('courier-actual-sf');
+        var spinner = $(".sk-circle");
+        var backdrop = $(".backdrop");
 
-    Swal.fire({
-        title: 'Please Select Your Action.',
-        icon: 'warning',
-        html: `<hr><div class="input-group mb-3"><span class="input-group-text">₱</span><input id="id_cod_amount" class="form-control" type="text" name="cod_amount" value="${actualSF}"></div><hr><h5 style="color: #545454;">Check Tracking Status: <a href="" class="btn btn-warning">${courierTracking}</a></h5>`,
-        showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: "Paid",
-        denyButtonText: `RTS`,
-        focusCancel: true
-    }).then((result) => {
-        if (result.isConfirmed) {
-            var codAmount = $('#id_cod_amount').val();
-            spinner.addClass("visible");
-            backdrop.addClass("visible");
-            $.ajax({
-                url: rejectOrderUrl,
-                type: 'POST',
-                data: {
-                    courier_id: courierId,
-                    new_status: 'paid',
-                    new_shipping_fee: codAmount,
-                },
-                headers: {
-                    "X-CSRFToken": csrf
-                },
-                success: function(response) {
-                    Swal.fire(
-                        'Paid!',
-                        'The order has been paid!',
-                        'success'
-                    );
+        Swal.fire({
+            title: 'Please Select Your Action.',
+            icon: 'warning',
+            html: `<hr><div class="input-group mb-3"><span class="input-group-text">₱</span><input id="id_cod_amount" class="form-control" type="text" name="cod_amount" value="${actualSF}"></div><hr><h5 style="color: #545454;">Check Tracking Status: <a href="" class="btn btn-warning">${courierTracking}</a></h5>`,
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Paid",
+            denyButtonText: `RTS`,
+            focusCancel: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var codAmount = $('#id_cod_amount').val();
+                spinner.addClass("visible");
+                backdrop.addClass("visible");
+                $.ajax({
+                    url: rejectOrderUrl,
+                    type: 'POST',
+                    data: {
+                        courier_id: courierId,
+                        new_status: 'paid',
+                        new_shipping_fee: codAmount,
+                    },
+                    headers: {
+                        "X-CSRFToken": csrf
+                    },
+                    success: function (response) {
+                        Swal.fire(
+                            'Paid!',
+                            'The order has been paid!',
+                            'success'
+                        );
 
-                    var row = $(button).closest('tr');
-                    var dataTable = $('#orders-table').DataTable();
-                    var rowIndex = dataTable.row(row).index();
-                    dataTable.row(row).remove().draw();
+                        var row = $(button).closest('tr');
+                        var dataTable = $('#orders-table').DataTable();
+                        var rowIndex = dataTable.row(row).index();
+                        dataTable.row(row).remove().draw();
 
-                    spinner.removeClass("visible");
-                    backdrop.removeClass("visible");
-                    console.log("Success:", response);
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                    Swal.fire(
-                        'Error!',
-                        'Failed to reject the order. Please try again later.',
-                        'error'
-                    );
-                    spinner.removeClass("visible");
-                    backdrop.removeClass("visible");
-                }
-            });
-        } else if (result.isDenied) {
-            spinner.addClass("visible");
-            backdrop.addClass("visible");
-            $.ajax({
-                url: rejectOrderUrl,
-                type: 'POST',
-                data: {
-                    courier_id: courierId,
-                    new_status: 'rts',
-                },
-                headers: {
-                    "X-CSRFToken": csrf
-                },
-                success: function(response) {
-                    Swal.fire(
-                        'Returned To Sender!',
-                        'The order has been returned to sender!',
-                        'success'
-                    );
+                        spinner.removeClass("visible");
+                        backdrop.removeClass("visible");
+                        console.log("Success:", response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                        Swal.fire(
+                            'Error!',
+                            'Failed to reject the order. Please try again later.',
+                            'error'
+                        );
+                        spinner.removeClass("visible");
+                        backdrop.removeClass("visible");
+                    }
+                });
+            } else if (result.isDenied) {
+                spinner.addClass("visible");
+                backdrop.addClass("visible");
+                $.ajax({
+                    url: rejectOrderUrl,
+                    type: 'POST',
+                    data: {
+                        courier_id: courierId,
+                        new_status: 'rts',
+                    },
+                    headers: {
+                        "X-CSRFToken": csrf
+                    },
+                    success: function (response) {
+                        Swal.fire(
+                            'Returned To Sender!',
+                            'The order has been returned to sender!',
+                            'success'
+                        );
 
-                    var row = $(button).closest('tr');
-                    var dataTable = $('#orders-table').DataTable();
-                    var rowIndex = dataTable.row(row).index();
-                    dataTable.row(row).remove().draw();
-                    
-                    spinner.removeClass("visible");
-                    backdrop.removeClass("visible");
-                    console.log('RTS button pressed');
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                    Swal.fire(
-                        'Error!',
-                        'Failed to process the RTS request. Please try again later.',
-                        'error'
-                    );
-                    spinner.removeClass("visible");
-                    backdrop.removeClass("visible");
-                }
-            });
-        }
-    });
-}
+                        var row = $(button).closest('tr');
+                        var dataTable = $('#orders-table').DataTable();
+                        var rowIndex = dataTable.row(row).index();
+                        dataTable.row(row).remove().draw();
+
+                        spinner.removeClass("visible");
+                        backdrop.removeClass("visible");
+                        console.log('RTS button pressed');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                        Swal.fire(
+                            'Error!',
+                            'Failed to process the RTS request. Please try again later.',
+                            'error'
+                        );
+                        spinner.removeClass("visible");
+                        backdrop.removeClass("visible");
+                    }
+                });
+            }
+        });
+    }
 </script>
 {% endblock %}

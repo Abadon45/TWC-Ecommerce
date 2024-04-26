@@ -481,6 +481,38 @@ class SellerPendingVirtualWarehouseView(TemplateView):
         context['title'] = self.title
         return context
     
+def pending_vw_data(request):
+    orders = Order.objects.filter(complete=True)
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+        address = order.shipping_address
+        products = [f"{item.quantity}x {item.product.name}" for item in order.orderitem_set.all()]
+        order_dict = {
+            'index': index,
+            'date': f'<span>{order.created_at.strftime("%B %d, %Y")}</span>',
+            'so_number': f'',
+            'product': f'',
+            'type': f'',
+            'amount': f'',
+            'paid_thru': f'',
+            'status': f'',
+            'action': f'',
+
+        }
+        order_data.append(order_dict)
+        
+        # Construct the JSON response
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+
+    return JsonResponse(response, safe=False)
+    
 class SellerPendingEcashView(TemplateView):
     template_name = 'seller/pending-ecash.html'
     title = "Pending - eCash"
@@ -490,6 +522,30 @@ class SellerPendingEcashView(TemplateView):
         context['title'] = self.title
         return context
     
+def pending_ecash_data(request):
+    orders = Order.objects.filter(complete=True)
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+        order_dict = {
+            'transaction_date': f'',
+            'transaction_type': f'',
+            'transaction_number': f'',
+            'amount': f'',
+            'status': f'',
+            'action': f'',
+        }
+        order_data.append(order_dict)
+        
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+    return JsonResponse(response, safe=False)
+    
 class SellerPendingGreeniumView(TemplateView):
     template_name = 'seller/pending-greenium.html'
     title = "Pending - Greenium"
@@ -498,6 +554,31 @@ class SellerPendingGreeniumView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = self.title
         return context
+    
+def pending_greenium_data(request):
+    orders = Order.objects.filter(complete=True)
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+        order_dict = {
+            'index': index,
+            'timestamp': f'',
+            'transaction_number': f'',
+            'description': f'',
+            'status': f'',
+            'amount': f'',
+            'action': f'',
+        }
+        order_data.append(order_dict)
+        
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+    return JsonResponse(response, safe=False)
     
     
 class SellerPendingMembershipView(TemplateView):
@@ -509,6 +590,29 @@ class SellerPendingMembershipView(TemplateView):
         context['title'] = self.title
         return context
     
+def pending_membership_data(request):
+    orders = Order.objects.filter(complete=True)
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+        order_dict = {
+            'payment_details': f'',
+            'name': f'',
+            'status': f'',
+            'membership': f'',
+            'action': f'',
+        }
+        order_data.append(order_dict)
+        
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+    return JsonResponse(response, safe=False)
+    
     
 class SellerPendingOnboardingView(TemplateView):
     template_name = 'seller/pending-onboarding.html'
@@ -518,6 +622,33 @@ class SellerPendingOnboardingView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = self.title
         return context
+    
+def pending_onboarding_data(request):
+    orders = Order.objects.filter(complete=True)
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+        order_dict = {
+            'date_activated': f'',
+            'name': f'',
+            'step_1': f'',
+            'step_2': f'',
+            'step_3': f'',
+            'step_4': f'',
+            'step_5': f'',
+            'step_6': f'',
+            'step_7': f'',
+        }
+        order_data.append(order_dict)
+        
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+    return JsonResponse(response, safe=False)
     
 
 class SellerPendingOnboardingView(TemplateView):
@@ -642,6 +773,30 @@ class SellerEcashView(TemplateView):
         context['title'] = self.title
         return context  
     
+def ecash_data(request):
+    orders = Order.objects.filter(complete=True)
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+        order_dict = {
+            'index': index,
+            'transaction_date': f'',
+            'transaction_number': f'',
+            'transaction_type': f'',
+            'description': f'',
+            'amount': f'',
+        }
+        order_data.append(order_dict)
+        
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+    return JsonResponse(response, safe=False)
+    
 
 class SellerTopupGreeniumView(TemplateView):
     template_name = 'seller/topup-greenium.html'
@@ -652,6 +807,31 @@ class SellerTopupGreeniumView(TemplateView):
         context['title'] = self.title
         return context  
     
+def topup_greenium_data(request):
+    orders = Order.objects.filter(complete=True)
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+        order_dict = {
+            'index': index,
+            'timestamp': f'',
+            'transaction_number': f'',
+            'description': f'',
+            'status': f'',
+            'approved_date': f'',
+            'amount': f'',
+        }
+        order_data.append(order_dict)
+        
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+    return JsonResponse(response, safe=False)
+    
 class SellerSubscriptionCodesView(TemplateView):
     template_name = 'seller/subscription-codes.html'
     title = "Subscription Codes"
@@ -660,6 +840,32 @@ class SellerSubscriptionCodesView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = self.title
         return context  
+    
+def subscription_codes_data(request):
+    orders = Order.objects.filter(complete=True)
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+        order_dict = {
+            'purchase_date': f'',
+            'payment_id': f'',
+            'type': f'',
+            'amount': f'',
+            'scode': f'',
+            'used_by': f'',
+            'used_date': f'',
+            'status': f'',
+        }
+        order_data.append(order_dict)
+        
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+    return JsonResponse(response, safe=False)
     
 
 class SellerRewardsTWCView(TemplateView):
@@ -881,6 +1087,36 @@ class LogisticsBPEncodingView(TemplateView):
     template_name = 'logistics/logistics-bp-encoding.html'
     title = "Logistics BP Encoding"
     
+def for_bp_encoding_data(request):
+    orders = Order.objects.filter(status='paid')
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+        address = order.shipping_address
+        products = [f"{item.quantity}x {item.product.name}" for item in order.orderitem_set.all()]
+        order_dict = {
+            'index': index,
+            'order_id': f'<span>{order.order_id}</span>',
+            'sante_id': f'Insert Sante ID Here',
+            'sante_name': f'Insert Sante Name Here',
+            'products': "<ul>" + "".join([f"<li>{product}</li>" for product in products]) + "</ul>",
+            'total_bp': f'Insert Total BP Here'
+
+        }
+        order_data.append(order_dict)
+        
+        # Construct the JSON response
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+    return JsonResponse(response, safe=False)
+    
+
+    
 class LogisticsReturnView(TemplateView):
     template_name = 'logistics/logistics-return.html'
     title = "Logistics Return"
@@ -912,17 +1148,103 @@ def logistics_return_data(request):
         'recordsFiltered': records_total,
         'data': order_data,
     }
-
     return JsonResponse(response, safe=False)
+
     
 class LogisticsVWApprovalView(TemplateView):
     template_name = 'logistics/logistics-approval.html'
     title = "Logistics VW Approval"
     
+def vw_approval_data(request):
+    orders = Order.objects.all()
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+        products = [f"[{item.quantity}x]  {item.product.name}" for item in order.orderitem_set.all()]
+        order_dict = {
+            'index': index,
+            'date': order.created_at,
+            'so_number': "order_id",
+            'product': products,
+            'so_amount': "courier",
+            'paid_thru': "products",
+            'Action': "status",
+        }
+        order_data.append(order_dict)
+
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+    return JsonResponse(response, safe=False)
+    
+    
 class LogisticsReceivingView(TemplateView):
     template_name = 'logistics/logistics-receiving.html'
-    title = "Logistics Receiving"
+    title = "Logistics Stocks To Receive"
     
+def stocks_to_receive_data(request):
+    orders = Order.objects.all()
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+        products = [f"[{item.quantity}x]  {item.product.name}" for item in order.orderitem_set.all()]
+        order_dict = {
+            'index': index,
+            'date': order.created_at,
+            'so_number': "order_id",
+            'product': products,
+            'so_amount': "courier",
+            'Action': "status",
+        }
+        order_data.append(order_dict)
+        
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+    return JsonResponse(response, safe=False)
+    
+    
+class LogisticsTokenRedemptionView(TemplateView):
+    template_name = 'logistics/logistics-token-redemption.html'
+    title = "Logistics Stocks To Receive"
+    
+def token_redemption_data(request):
+    user = request.user
+    orders = Order.objects.all()
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+        address = order.shipping_address
+        products = [f"[{item.quantity}x]  {item.product.name}" for item in order.orderitem_set.all()]
+        order_dict = {
+            'index': index,
+            'payment_details': order.created_at,
+            'user_details': order.user.username,
+            'product_package': "product package",
+            'address': address.line1,
+            'Action': "status",
+        }
+        order_data.append(order_dict)
+        
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+    return JsonResponse(response, safe=False)
+    
+
+
 class LogisticsProductView(TemplateView):
     template_name = 'logistics/logistics-product.html'
     title = "Logistics Product"
@@ -942,7 +1264,6 @@ def logistics_product_orders_data(request):
     print(f'Orders: {orders}')
     records_total = orders.count()
     draw = int(request.GET.get('draw', 1))
-
 
     order_data = []
     for index, order in enumerate(orders, start=1):
@@ -990,6 +1311,61 @@ def logistics_product_orders_data(request):
 class LogisticsPackageView(TemplateView):
     template_name = 'logistics/logistics-package.html'
     title = "Logistics package"
+    
+def logistics_package_data(request):
+    filter_param = request.GET.get('filter')
+    print(f'Filtered Status: {filter_param}')
+    if filter_param:
+        orders = Order.objects.filter(status=filter_param)
+    else:
+        orders = Order.objects.filter( Q(status='for-pickup') | Q(status='shipping') | Q(status='delivered') )
+        
+    print(f'Orders: {orders}')
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+        address = order.shipping_address
+        products = [f"[{item.quantity}x]  {item.product.name}" for item in order.orderitem_set.all()]
+        seller = order.user.referred_by
+        
+        pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+        order_id = f'<span>{order.order_id}</span>'
+        receiver = f'<h6><u>{address.first_name} {address.last_name}</u></h6><p>Mobile: {address.phone}</p><p>Location: {address.city}</p><p style="margin-top:5px;"><b><i>**Seller Info</i></b></p><p>Seller Name: {seller.first_name} {seller.last_name}</p><p>Seller Mobile: {seller.mobile}</p>'
+        courier = f'<h6><b>{order.courier.courier.upper()}: <a href="" style="color: #3255AD;">{order.courier.tracking_number}</a></b></h6><p>Amount: <b>₱ {order.cod_amount}</b></p><p>Pouch Size: {order.courier.pouch_size.title()}</p><p>Fulfiller: {order.courier.fulfiller}</p>'
+        if order.courier.booking_notes:
+            courier += f'<p style="margin-top: 10px">***Shipping Notes: {order.courier.booking_notes}</p>'
+        products = "<ul>" + "".join([f"<li>{product}</li>" for product in products]) + "</ul>"
+        
+        if order.status == "for-pickup":
+            status = f'<button class="btn badge badge-{order.status}" onclick="rebookOrder(this)" data-courier-id="{order.courier.id}" data-customer-name="{order.shipping_address.first_name}">FOR PICKUP</button>'
+        elif order.status == "shipping":
+            status = f'<button class="btn badge badge-{order.status}" onclick="shipOrder(this)" data-courier-id="{order.courier.id}" data-courier-tracking="{order.courier.tracking_number}">SHIPPING</button>'
+        elif order.status == "delivered":
+            status = f'<button class="btn badge badge-{order.status}" onclick="deliveredOrder(this)" data-courier-id="{order.courier.id}" data-courier-tracking="{order.courier.tracking_number}" data-courier-actual-sf="{order.courier.actual_shipping_fee}">DELIVERED</button>'
+        else:
+            status = f'<button class="btn badge badge-{order.status}">{order.status.upper().replace("-", " ")}</button>'
+            
+        order_dict = {
+            'index': index,
+            'pickup_date': pickup_date,
+            'order_id': order_id,
+            'receiver': receiver,
+            'courier': courier,
+            'products': products,
+            'status': status,
+        }
+        order_data.append(order_dict)
+
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+
+    return JsonResponse(response, safe=False)
     
 class LogisticsSanteBranchView(TemplateView):
     template_name = 'logistics/logistics-twc-sante-branch.html'

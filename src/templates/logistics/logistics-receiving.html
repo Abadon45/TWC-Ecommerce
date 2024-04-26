@@ -16,8 +16,26 @@
             <div class="col-lg-9">
                 <div class="user-wrapper">
                     <div class="user-card">
-                        <h4 class="user-card-title">Summary</h4>
-                        <!-- insert content here  -->
+                        <h4 class="user-card-title">Stocks To Receive</h4>
+                        <div class="table-responsive table-hover seller-order">
+                            <table id="orders-table"
+                                class="table table-bordered table-hover table-striped logistics-table"
+                                cellspacing="0" width="100%">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Date</th>
+                                        <th>SO Number</th>
+                                        <th>Product</th>
+                                        <th>SO Amount</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -29,9 +47,40 @@
 {% endblock %}
 {% block extra_js %}
 <script>
-$(document).ready(function() {
-    $(".active").removeClass("active");
-    $(".receiving-sidebar").addClass("active");
-});
+    const stocksToReceiveData = "{% url 'stocks_to_receive_data' %}"
+    $(document).ready(function () {
+        $(".active").removeClass("active");
+        $(".receiving-sidebar").addClass("active");
+
+        var dataTable = $('#orders-table').DataTable({
+            "processing": true,
+            "serverSide": false,
+            "paging": true,
+            "ajax": {
+                "url": stocksToReceiveData,
+                "type": "GET",
+                "dataType": "json",
+            },
+            "columns": [
+                { "data": "index" },
+                { "data": "date" },
+                { "data": "so_number" },
+                { "data": "product" },
+                { "data": "so_amount" },
+                { "data": "action", "className": "text-center" }
+            ],
+            "responsive": true,
+            "pagingType": "full_numbers",
+            "drawCallback": function (settings) {
+                $('#orders-table').find('tbody tr').each(function () {
+                    $(this).children('td:eq(3)').css('max-width', '300px');
+                    $(this).children('td:eq(3)').css('max-width', '300px');
+                    $(this).children('td:eq(4)').css('max-width', '400px');
+                    $(this).children('td:eq(5)').css('width', '20%');
+                });
+            },
+        });
+        console.log("DataTables initialized.");
+    });
 </script>
 {% endblock %}
