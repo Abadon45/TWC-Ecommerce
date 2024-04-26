@@ -55,6 +55,10 @@ def updateItem(request):
     user = request.user
     session_key = request.session.session_key
     
+    if not session_key:
+        request.session.save()
+        session_key = request.session.session_key
+    
     print('Action: ', action)
     print('Product: ', productId)
     print('Quantity: ', quantity)
