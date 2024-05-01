@@ -38,10 +38,14 @@
                             <div class="product-price">
                                 <span class="current-product-price">₱ {{ product.customer_price}}</span>
                             </div>
+                            {% if product.id in products_in_cart %}
+                            <button  type="button" class="btn btn-secondary" disabled>Added to Cart</button>
+                            {% else %}
                             <button data-product="{{ product.id }}" data-action="add" type="button"
-                                class="product-cart-btn add-to-cart-btn update-cart">
-                                <i class="far fa-shopping-bag"></i>
+                                class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
+                                onclick="addToCart(this)">Add to Cart
                             </button>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

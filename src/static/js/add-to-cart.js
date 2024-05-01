@@ -129,16 +129,15 @@ $(document).ready(function () {
               }
         }
 
-        if (button && button.length > 0 && !button.hasClass("excludeDisable")) {
-          console.log("Before disabling minus button");
-          button.prop("disabled", true);
-          button
-            .removeClass("theme-btn add-to-cart-btn")
-            .addClass("btn btn-dark");
-          if (button.text() === "Add To Cart") {
-            button.text("Added To Cart");
-          }
-        }
+        // if (button && button.length > 0 && !button.hasClass("excludeDisable")) {
+        //   button.prop("disabled", true);
+        //   button
+        //     .text("Added To Cart")
+        //     .removeClass("theme-btn add-to-cart-btn")
+        //     .addClass("btn btn-secondary");
+        // }
+
+        $(".item-id-" + productId).text("Added To Cart").removeClass("theme-btn").addClass("btn-secondary").prop("disabled", true)
 
         if (data.products.length > 0) {
           if (data.action !== "remove") {

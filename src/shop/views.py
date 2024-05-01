@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from products.views import ProductListView, ProductDetailView
 from products.models import Product
+from orders.models import Order
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Q
 from django.template.loader import render_to_string
@@ -42,6 +43,11 @@ class ShopView(ProductListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
+        order_ids = self.request.session.get('checkout_orders', [])
+        orders = Order.objects.filter(id__in=order_ids)
+        
+        products_in_cart = [item.product_id for order in orders for item in order.orderitem_set.all()]
 
         if not self._product_choices:
             self._product_choices = {
@@ -72,6 +78,7 @@ class ShopView(ProductListView):
 
         context['products'] = products
         context['subcategory_counts'] =  subcategory_counts
+        context['products_in_cart'] =  products_in_cart
 
         return context
 
@@ -132,6 +139,11 @@ class ShopDetailView(ProductDetailView):
         product = self.get_object()
         category_id = product.category_1
         
+        order_ids = self.request.session.get('checkout_orders', [])
+        orders = Order.objects.filter(id__in=order_ids)
+        
+        products_in_cart = [item.product_id for order in orders for item in order.orderitem_set.all()]
+        
         # Get all related products except the current one
         related_products = Product.objects.filter(category_1=category_id).exclude(slug=product.slug)
         
@@ -143,5 +155,7 @@ class ShopDetailView(ProductDetailView):
         related_products = related_products[:4]
         
         context['related_products'] = related_products
+        context['products_in_cart'] =  products_in_cart
+        
         return context
     
