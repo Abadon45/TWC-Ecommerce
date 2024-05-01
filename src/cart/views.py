@@ -23,9 +23,11 @@ User = get_user_model()
 class CartView(TemplateView):
     template_name = 'cart/shop-cart.html'
     title = "Cart"
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        referrer_id = self.request.session.get('referrer')
             
         order_ids = self.request.session.get('checkout_orders', [])
         orders = Order.objects.filter(id__in=order_ids) 
@@ -41,9 +43,25 @@ class CartView(TemplateView):
             'orders': orders,
             'ordered_items': ordered_items,
             'total_cart_subtotal': total_cart_subtotal,
+            'referrer_id': referrer_id,
         })
         
         return context
+        
+    def post(self, request, *args, **kwargs):
+        username = request.POST.get('username')
+
+        # Check if the username exists in the database
+        try:
+            referrer = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Referrer username does not exist!!'}, status=400)
+
+        # If the username exists, save it to the session
+        request.session['referrer'] = username
+
+        return JsonResponse({'success': True})
+    
 
 @transaction.atomic
 def updateItem(request):
@@ -156,7 +174,8 @@ def checkout(request):
     orders_subtotal = Decimal('0.00')
     total_shipping = Decimal('0.00')
     
-    referrer_id = request.session.get('referrer')
+    referrer = request.session.get('referrer')
+    print(f'Referred ID: {referrer}')
     user = request.user
     session_key = request.session.session_key
 
@@ -245,10 +264,10 @@ def checkout(request):
                                 print(f"User created: {user_created}")
                                 temporary_password = User.objects.make_random_password(length=6)
                                 
-                                if referrer_id:
+                                if referrer:
                                     try:
-                                        referrer = User.objects.get(id=referrer_id)
-                                        temporary_user.referred_by = referrer
+                                        referrer_user = User.objects.get(username=referrer)
+                                        temporary_user.referred_by = referrer_user
                                         temporary_user.save()
                                     except User.DoesNotExist:
                                         print("Referrer not found.")
@@ -490,12 +509,25 @@ def get_checkout_address_details(request):
 def submit_checkout(request):
     order_ids = request.session.get('checkout_orders', [])
     orders = Order.objects.filter(id__in=order_ids)
-    print(f'Orders Submitted: {orders}')
+    
     if request.method == 'POST':
+        referrer_username = request.POST.get('username')
+        referrer = None
+        
+        if referrer_username:
+            try:
+                referrer = User.objects.get(username=referrer_username)
+            except User.DoesNotExist:
+                return JsonResponse({'success': False, 'error': 'Referrer username does not exist'}, status=400)
+        
         for order in orders:
+            order_user = order.user
+            order_user.referred_by = referrer
+            order_user.save()
             order.complete = True
             order.save()
-        return redirect('cart:checkout_complete')
+        
+    return redirect('cart:checkout_complete')
 
 #########################################################  
 #------------------checkout is done---------------------#

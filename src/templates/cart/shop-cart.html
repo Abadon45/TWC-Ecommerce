@@ -1,6 +1,6 @@
 {% extends "base-shop.html" %}
 {% load static %}
-{% load currency_filters %} 
+{% load currency_filters %}
 
 {% block title %} {{ title }} {% endblock %}
 
@@ -18,15 +18,15 @@
                         <div class="card-body">
                             <div class="card-title">
                                 <h4>{{ order.order_id }}</h4>
-                                <h6 style="margin-top: 10px; color: #11B76B;">Supplier: 
+                                <h6 style="margin-top: 10px; color: #11B76B;">Shop:
                                     {% if order.supplier == "sante" %}
-                                        Sante International
+                                    Sante International
                                     {% endif %}
                                     {% if order.supplier == "mood" %}
-                                        Mood Timepieces
+                                    Mood Timepieces
                                     {% endif %}
                                     {% if order.supplier == "chingu" %}
-                                        Chingu
+                                    Chingu
                                     {% endif %}
                                 </h6>
                                 <hr>
@@ -50,21 +50,24 @@
                                             <tr class="cart-product" id="product-row-{{ item.product.id }}">
                                                 <td style="width: 15%;">
                                                     <div class="shop-cart-img">
-                                                        <a href="{% url 'shop:single' slug=item.product.slug %}"><img src="{{ item.product.image_1.url }}"
-                                                                alt=""></a>
+                                                        <a href="{% url 'shop:single' slug=item.product.slug %}"><img
+                                                                src="{{ item.product.image_1.url }}" alt=""></a>
                                                     </div>
                                                 </td>
                                                 <td style="width: 35%;">
                                                     <div class="shop-cart-content">
-                                                        <h5 class="shop-cart-name"><a href="{% url 'shop:single' slug=item.product.slug %}"><span
-                                                                    id="product-name-{{ item.product.id }}">{{item.product.name}}</span></a></h5>
+                                                        <h5 class="shop-cart-name"><a
+                                                                href="{% url 'shop:single' slug=item.product.slug %}"><span
+                                                                    id="product-name-{{ item.product.id }}">{{item.product.name}}</span></a>
+                                                        </h5>
                                                         <div class="shop-cart-info">
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td style="width: 15%;">
                                                     <div class="shop-cart-price">
-                                                        <span id="product-price-{{ item.product.id }}">{{item.product.customer_price|currency}}</span>
+                                                        <span
+                                                            id="product-price-{{ item.product.id }}">{{item.product.customer_price|currency}}</span>
                                                     </div>
                                                 </td>
                                                 <td style="width: 15%;">
@@ -82,12 +85,14 @@
                                                 <td style="width: 15%;">
                                                     <div class="shop-cart-subtotal">
                                                         <span id="product-subtotal-{{ item.product.id }}"
-                                                            class="product-subtotal">{{ item.get_total|currency }}</span>
+                                                            class="product-subtotal">{{ item.get_total|currency }}
+                                                        </span>
                                                     </div>
                                                 </td>
                                                 <td style="width: 5%;">
-                                                    <a href="#" data-product="{{ item.product.id }}" data-order-id="{{order.order_id}}"
-                                                        data-action="remove" class="update-cart shop-cart-remove"><i
+                                                    <a href="#" data-product="{{ item.product.id }}"
+                                                        data-order-id="{{order.order_id}}" data-action="remove"
+                                                        class="update-cart shop-cart-remove"><i
                                                             class="far fa-times"></i></a>
                                                 </td>
                                             </tr>
@@ -124,10 +129,15 @@
                         <h5>Cart Summary</h5>
                         {% for order in orders %}
                         <ul class="mb-20">
-                            <li><h6><strong>Order: </strong><span>{{ order.order_id }}</span></h6></li>
-                            <li><strong>Order Sub Total:</strong> <span id="order-subtotal-{{ order.order_id }}">{{ order.subtotal|currency }}</span></li>
+                            <li>
+                                <h6><strong>Order: </strong><span>{{ order.order_id }}</span></h6>
+                            </li>
+                            <li><strong>Order Sub Total:</strong> 
+                                <span id="order-subtotal-{{ order.order_id }}">{{ order.subtotal|currency }}</span>
+                            </li>
                             <li><strong>Discount:</strong> <span>No discount applied</span></li>
-                            <li class="shop-cart-total"><strong>Order Total:</strong> <span id="order-total-{{ order.order_id }}">{{ order.subtotal|currency }}</span></li>
+                            <li class="shop-cart-total"><strong>Order Total:</strong> <span
+                                    id="order-total-{{ order.order_id }}">{{ order.subtotal|currency }}</span></li>
                         </ul>
                         {% endfor %}
                         <ul>
@@ -135,10 +145,9 @@
                                 <h4>Cart Total: <span id="cart-total">{{ total_cart_subtotal|currency }}</span></h4>
                             </li>
                         </ul>
-                        
+
                         <div class="text-end mt-40">
-                            <a href="{% url 'cart:checkout' %}" class="theme-btn">Checkout Now<i
-                                    class="fas fa-arrow-right-long"></i></a>
+                            <a href="{% url 'cart:checkout' %}" class="theme-btn">Checkout Now<i class="fas fa-arrow-right-long"></i></a>
                         </div>
                     </div>
                 </div>
@@ -148,5 +157,8 @@
 </div>
 <!-- shop cart end -->
 
+
+{% endblock %}
+{% block extra_js %}
 
 {% endblock %}

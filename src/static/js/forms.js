@@ -61,6 +61,8 @@ $(document).ready(function () {
         $("#step2").addClass("active show");
         $("#step2-tab").addClass("active done");
 
+        $('.checkout-btn').removeAttr('hidden');
+
         successData.orders.forEach(function (order) {
           var shippingFeeFormatted = '₱' + parseFloat(order.shipping_fee).toFixed(2);
           $("#shipping_fee_" + order.id + " span").text(shippingFeeFormatted);

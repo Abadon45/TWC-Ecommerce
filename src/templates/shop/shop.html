@@ -47,7 +47,7 @@
                                 data-category-id="bath_body">Bath & Body<span>({{ subcategory_counts.bath_body }})</span></a></li>
                         </ul>
                     </div>
-                    <div class="shop-widget">
+                    <!-- <div class="shop-widget">
                         <h4 class="shop-widget-title">Price Range Filter</h4>
                         <div class="price-range-box">
                             <div class="price-range-input">
@@ -55,8 +55,8 @@
                             </div>
                             <div class="price-range"></div>
                         </div>
-                    </div>
-                    <div class="shop-widget">
+                    </div> -->
+                    <!-- <div class="shop-widget">
                         <h4 class="shop-widget-title">Sales</h4>
                         <ul class="shop-checkbox-list">
                             <li>
@@ -84,8 +84,8 @@
                                 </div>
                             </li>
                         </ul>
-                    </div>
-                    <div class="shop-widget">
+                    </div> -->
+                    <!-- <div class="shop-widget">
                         <h4 class="shop-widget-title">Ratings</h4>
                         <ul class="shop-checkbox-list rating">
                             <li>
@@ -149,8 +149,8 @@
                                 </div>
                             </li>
                         </ul>
-                    </div>
-                    <div class="shop-widget">
+                    </div> -->
+                    <!-- <div class="shop-widget">
                         <h4 class="shop-widget-title">Sizes</h4>
                         <ul class="shop-checkbox-list">
                             <li>
@@ -184,16 +184,7 @@
                                 </div>
                             </li>
                         </ul>
-                    </div>
-                    <div class="shop-widget-banner mt-30 mb-50">
-                        <div class="banner-img" style="background-image:url({% static 'img/banner/shop-banner.jpg' %})">
-                        </div>
-                        <div class="banner-content">
-                            <h6>Get <span>35% Off</span></h6>
-                            <h4>New Collection of Sunglassess</h4>
-                            <a href="#" class="theme-btn">Shop Now</a>
-                        </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="col-lg-9">
@@ -240,4 +231,17 @@
 
 {% block extra_js %}
     <script src="{% static 'js/shop.js' %}"></script>
+    <script>
+        function saveScrollPosition() {
+            sessionStorage.setItem('shopScrollPosition', $(window).scrollTop());
+        }
+        function restoreScrollPosition() {
+            var scrollPosition = sessionStorage.getItem('shopScrollPosition');
+            if (scrollPosition !== null) {
+                $(window).scrollTop(parseInt(scrollPosition));
+            }
+        }
+        $(window).on('beforeunload', saveScrollPosition);
+        $(window).on('load', restoreScrollPosition);
+    </script>
 {% endblock %}

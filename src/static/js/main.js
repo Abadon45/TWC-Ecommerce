@@ -426,11 +426,6 @@ Version         : 1.0
 
 })(jQuery);
 
-window.addEventListener('scroll', function() {
-    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-    console.log("Current Scroll Position:", currentScroll); 
-});
-
 
 
 

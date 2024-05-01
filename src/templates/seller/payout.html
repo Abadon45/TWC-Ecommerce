@@ -1,121 +1,62 @@
-{% load static %}
-<div class="col-lg-9">
-    <div class="user-wrapper">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="user-card user-payout">
-                    <h4 class="user-card-title">Payout</h4>
-                    <div class="user-payout-content">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="payout-item next-payout">
-                                    <h6>Next Payout</h6>
-                                    <p>Your current earnings of <span>$1,260.00</span> will be sent to you <span>09/15/2023</span></p>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="payout-item payout-method">
-                                    <h6>Payout Method</h6>
-                                    <div class="payout-method-img">
-                                        <img src="assets/img/payment/paypal-3.png" alt="">
-                                        <span>antoni@example.com</span>
-                                    </div>
-                                    <a href="#" class="theme-btn">Change Payout Method</a>
-                                </div>
-                            </div>
-                        </div>
+<div id="cart-dropdown">
+    <div class="dropdown-cart-menu">
+        <div class="dropdown-cart-header">
+            <span class="cart-items-count">04</span>
+            <a href="/cart/">View Cart</a>
+        </div>
+        <ul class="dropdown-cart-list">
+            <li id="cart-row-38">
+                <div class="dropdown-cart-item">
+                    <div class="cart-img">
+                        <a href="/shop/single/seiko-5-couple-watch"><img src="/media/admin_images/2024/02/16/091139.png"
+                                alt="#"></a>
                     </div>
+                    <div class="cart-info">
+                        <h4><a href="/shop/single/seiko-5-couple-watch">Seiko 5 Couple Watch</a></h4>
+                        <p class="cart-qty">2x - <span class="cart-amount">₱4,378.00</span></p>
+                    </div>
+                    <a href="#" data-product="38" data-action="remove" class="update-cart shop-cart-remove">
+                        <i class="far fa-times-circle"></i></a>
                 </div>
-            </div>
-            <div class="col-lg-12">
-                <div class="user-card">
-                    <h4 class="user-card-title">Payout History</h4>
-                    <div class="table-responsive">
-                        <table class="table table-borderless text-nowrap">
-                            <thead>
-                                <tr>
-                                    <th>Transaction ID</th>
-                                    <th>Amount</th>
-                                    <th>Payout Method</th>
-                                    <th>Date Processed</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><span class="table-list-code">#1234567</span></td>
-                                    <td>$1,350.60</td>
-                                    <td>PayPal</td>
-                                    <td>January 16, 2023</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="table-list-code">#1234567</span></td>
-                                    <td>$1,350.60</td>
-                                    <td>Payoneer</td>
-                                    <td>January 16, 2023</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="table-list-code">#1234567</span></td>
-                                    <td>$1,350.60</td>
-                                    <td>PayPal</td>
-                                    <td>January 16, 2023</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="table-list-code">#1234567</span></td>
-                                    <td>$1,350.60</td>
-                                    <td>SWIFT</td>
-                                    <td>January 16, 2023</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="table-list-code">#1234567</span></td>
-                                    <td>$1,350.60</td>
-                                    <td>PayPal</td>
-                                    <td>January 16, 2023</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="table-list-code">#1234567</span></td>
-                                    <td>$1,350.60</td>
-                                    <td>PayPal</td>
-                                    <td>January 16, 2023</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="table-list-code">#1234567</span></td>
-                                    <td>$1,350.60</td>
-                                    <td>PayPal</td>
-                                    <td>January 16, 2023</td>
-                                </tr>
-                                <tr>
-                                    <td><span class="table-list-code">#1234567</span></td>
-                                    <td>$1,350.60</td>
-                                    <td>PayPal</td>
-                                    <td>January 16, 2023</td>
-                                </tr>
-                            </tbody>
-                        </table>
+            </li>
+            <li id="cart-row-37">
+                <div class="dropdown-cart-item">
+                    <div class="cart-img">
+                        <a href="undefined"><img src="/media/admin_images/2024/02/16/090741.png"
+                                alt="Naeyon Bundle"></a>
                     </div>
-                    <!-- pagination -->
-                    <div class="pagination-area mt-4 mb-3">
-                        <div aria-label="Page navigation example">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <span aria-hidden="true"><i class="far fa-angle-double-left"></i></span>
-                                    </a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                        <span aria-hidden="true"><i class="far fa-angle-double-right"></i></span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="cart-info">
+                        <h4><a href="undefined">Naeyon Bundle</a></h4>
+                        <p class="cart-qty">1x - <span class="cart-amount">899.00</span></p>
                     </div>
-                    <!-- pagination end -->
+                    <a href="#" data-product="37" data-action="remove" class="update-cart shop-cart-remove">
+                        <i class="far fa-times-circle"></i>
+                    </a>
                 </div>
+            </li>
+            <li id="cart-row-34">
+                <div class="dropdown-cart-item">
+                    <div class="cart-img">
+                        <a href="undefined"><img src="/media/admin_images/2024/02/16/090431.png"
+                                alt="Natureal Toothpaste 100ml"></a>
+                    </div>
+                    <div class="cart-info">
+                        <h4><a href="undefined">Natureal Toothpaste 100ml</a></h4>
+                        <p class="cart-qty">1x - <span class="cart-amount">400.00</span></p>
+                    </div>
+                    <a href="#" data-product="34" data-action="remove" class="update-cart shop-cart-remove">
+                        <i class="far fa-times-circle"></i>
+                    </a>
+                </div>
+            </li>
+        </ul>
+        <div class="dropdown-cart-bottom">
+            <div class="dropdown-cart-total">
+                <span>Total</span>
+                <span class="total-amount">₱4,378.00</span>
             </div>
+            <a href="http://www.twconline.store:8000/cart/" class="theme-btn">Checkout</a>
         </div>
     </div>
+
 </div>
-                

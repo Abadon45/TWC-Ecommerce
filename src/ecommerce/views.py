@@ -33,7 +33,7 @@ class IndexView(TemplateView):
             referrer = get_object_or_404(User, username=username, affiliate_code=affiliate_code)
             print(f"Referrer: {referrer.username}")
             
-            request.session['referrer'] = referrer.id
+            request.session['referrer'] = referrer.username
             
             print(f"Referrer: {request.session['referrer']}")
             
@@ -58,7 +58,7 @@ class IndexView(TemplateView):
             ('watches', 'Watches'),
             ('bags', 'Bags'),
             ('accessories', 'Accessories'),
-            ('home_living', 'Home & Living'),
+            # ('home_living', 'Home & Living'),
         ]
         
         subcategories = [category[0] for category in subcategories_choices]
@@ -86,6 +86,7 @@ class IndexView(TemplateView):
             'rand_top_rated_products': rand_top_rated_products,
             'referrer': referrer if username and affiliate_code else None,
             'categories': subcategory_counts_display,
+            'is_authenticated': self.request.user.is_authenticated,
         }
 
         if new_guest_user:

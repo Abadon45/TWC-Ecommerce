@@ -85,10 +85,6 @@
                     <div class="header-middle-search">
                         <form method="get" action="{% url 'shop:search' %}">
                             <div class="search-content">
-                                <select class="select">
-                                    <option value="">All Category</option>
-                                    <!-- Your other options -->
-                                </select>
                                 <input type="text" class="form-control" name="q" placeholder="Search Here...">
                                 <button type="submit" class="search-btn"><i class="far fa-search"></i></button>
                             </div>
@@ -108,42 +104,44 @@
                             <li id="cart-link" class="dropdown-cart">
                                     <a href="{% url_with_domain 'cart:cart' %}" class="shop-cart list-item"><i class="far fa-shopping-bag"></i>
                                     <span id="cart-count">{{ cart_items }}</span></a>
-                                    {% if cart_items %}
-                                    <div class="dropdown-cart-menu">
-                                        <div class="dropdown-cart-header">
-                                            <span>{{ cart_items|stringformat:"02d" }} Items</span>
-                                            <a href="{% url_with_domain 'cart:cart' %}">View Cart</a>
-                                        </div>
-                                        <ul class="dropdown-cart-list"> 
-                                            {% for order, items in ordered_items.items %}
-                                                {% for item in items %}
-                                                <li id="cart-row-{{item.product.id}}">
-                                                    <div class="dropdown-cart-item">
-                                                        <div class="cart-img">
-                                                            <a href="{% url_with_domain 'shop:single' slug=item.product.slug %}"><img src="{{ item.product.image_1.url }}" alt="#"></a>
-                                                        </div>
-                                                        <div class="cart-info">
-                                                            <h4><a href="{% url_with_domain 'shop:single' slug=item.product.slug %}">{{item.product.name}}</a></h4>
-                                                            <p class="cart-qty">{{ item.quantity }}x - <span
-                                                                    class="cart-amount">{{ item.get_total|currency }}</span></p>
-                                                        </div>
-                                                        <a href="#" data-product="{{ item.product.id }}"
-                                                        data-action="remove" class="update-cart shop-cart-remove">
-                                                        <i class="far fa-times-circle"></i></a>
-                                                    </div>
-                                                </li>
-                                                {% endfor %}
-                                            {% endfor %}
-                                        </ul>
-                                        <div class="dropdown-cart-bottom">
-                                            <div class="dropdown-cart-total">
-                                                <span>Total</span>
-                                                <span class="total-amount">{{ total_cart_subtotal|currency }}</span>
+                                    <div id="cart-dropdown">
+                                        {% if cart_items %}
+                                        <div class="dropdown-cart-menu">
+                                            <div class="dropdown-cart-header">
+                                                <span class="cart-items-count">{{ cart_items|stringformat:"02d" }} Items</span>
+                                                <a href="{% url 'cart:cart' %}">View Cart</a>
                                             </div>
-                                            <a href="{% url_with_domain 'cart:cart' %}" class="theme-btn">Checkout</a>
+                                            <ul class="dropdown-cart-list"> 
+                                                {% for order, items in ordered_items.items %}
+                                                    {% for item in items %}
+                                                    <li id="cart-row-{{item.product.id}}">
+                                                        <div class="dropdown-cart-item">
+                                                            <div class="cart-img">
+                                                                <a href="{% url 'shop:single' slug=item.product.slug %}"><img src="{{ item.product.image_1.url }}" alt="#"></a>
+                                                            </div>
+                                                            <div class="cart-info">
+                                                                <h4><a href="{% url 'shop:single' slug=item.product.slug %}">{{item.product.name}}</a></h4>
+                                                                <p class="cart-qty">{{ item.quantity }}x - <span
+                                                                        class="cart-amount">{{ item.get_total|currency }}</span></p>
+                                                            </div>
+                                                            <a href="#" data-product="{{ item.product.id }}"
+                                                            data-action="remove" class="update-cart shop-cart-remove">
+                                                            <i class="far fa-times-circle"></i></a>
+                                                        </div>
+                                                    </li>
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </ul>
+                                            <div class="dropdown-cart-bottom">
+                                                <div class="dropdown-cart-total">
+                                                    <span>Total</span>
+                                                    <span class="total-amount">{{ total_cart_subtotal|currency }}</span>
+                                                </div>
+                                                <a href="{% url_with_domain 'cart:cart' %}" class="theme-btn">Checkout</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    {% endif %}
+                                        {% endif %}
+                                    </div> 
                             </li>
                         </ul>
                     </div>
@@ -169,9 +167,9 @@
                     <img src="{% static 'img/logo/logo.png' %}" class="logo-scrolled" alt="logo">
                 </a>
                 <div class="category-all">
-                    <button class="category-btn" type="button">
+                    <!-- <button class="category-btn" type="button">
                         <i class="far fa-grid-2-plus"></i><span>All Categories</span>
-                    </button>
+                    </button> -->
                     <ul class="main-category hide-category">
                         <li>
                             <a href="#">
@@ -271,11 +269,13 @@
                             </ul>
                         </li>
                         {% endif %}
+                    {% if not user.is_seller %}
                     <div class="nav-right">
                         <div class="nav-right-btn">
                             <a href="{% url_with_domain 'become_seller' %}" class="theme-btn">Become Seller</a>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </nav>

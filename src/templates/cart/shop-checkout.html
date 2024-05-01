@@ -195,8 +195,11 @@
                         <div class="text-end mt-40 checkoutBtn">
                             <form class="form" method="POST" action="{% url 'cart:submit_checkout' %}">
                                 {% csrf_token %}
-                                <button type="submit" class="theme-btn">Checkout Now<i
-                                        class="fas fa-arrow-right-long"></i></button>
+                                <button type="submit" class="theme-btn checkout-btn" 
+                                        data-referrer-id="{{ referrer_id }}"
+                                        onclick="checkoutBtn(event)" hidden>Checkout Now
+                                        <i class="fas fa-arrow-right-long"></i>
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -336,4 +339,66 @@
 </div>
 
 
+{% endblock %}
+{% block extra_js %}
+<script>
+    function checkoutBtn(event) {
+        event.preventDefault();
+        var referrerId = $(event.currentTarget).data('referrer-id');
+        if (referrerId === "None" || referrerId === '') {
+            Swal.fire({
+                icon: 'warning',
+                title: 'REQUIRED INFORMATION',
+                text: 'To complete checkout, please input the USERNAME of your seller/referrer.',
+                input: 'text',
+                inputPlaceholder: 'Enter username',
+                showCancelButton: true,
+                confirmButtonText: 'Submit',
+                cancelButtonText: 'Cancel',
+                preConfirm: (username) => {
+                    if (!username) {
+                        Swal.showValidationMessage('Username is required');
+                    }
+                    return username;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var username = result.value;
+                    saveReferrerUsername(username);
+                }
+            });
+        } else {
+            redirectToCheckout();
+        }
+    }
+
+    function saveReferrerUsername(username) {
+        $.ajax({
+            url: '{% url "cart:submit_checkout" %}',
+            method: 'POST',
+            data: { 
+                username: username,
+                csrfmiddlewaretoken: csrf,
+            },
+            success: function (response) {
+                redirectToCheckout();
+            },
+            error: function (xhr, status, error) {
+                console.error('Error saving referrer username:', error);
+                var responseData = JSON.parse(xhr.responseText);
+                var errorMessage = responseData.error;
+                Swal.fire({
+                    title: 'Error',
+                    text: errorMessage,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    }
+
+    function redirectToCheckout() {
+        window.location.href = '{% url "cart:submit_checkout" %}';
+    }
+</script>
 {% endblock %}

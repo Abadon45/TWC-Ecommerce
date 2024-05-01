@@ -281,8 +281,8 @@ $(document).ready(function () {
 
   // Function to save address changes
   function saveAddressChanges(formData) {
-    var addressId = $("#editAddressDetailModal").data("address-id"); // Retrieve the address ID from modal data attribute
-    formData.append("address_id", addressId); // Append the address ID to the form data
+    var addressId = $("#editAddressDetailModal").data("address-id");
+    formData.append("address_id", addressId);
     formData.append("csrfmiddlewaretoken", csrf);
 
     $.ajax({

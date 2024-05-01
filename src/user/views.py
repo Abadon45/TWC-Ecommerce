@@ -1251,7 +1251,6 @@ class LogisticsProductView(TemplateView):
     
 def logistics_product_orders_data(request):
     filter_param = request.GET.get('filter')
-    print(f'Filtered Status: {filter_param}')
     if filter_param:
         orders = Order.objects.filter(status=filter_param)
     else:
@@ -1260,8 +1259,6 @@ def logistics_product_orders_data(request):
             Q(status='paid') | Q(status='bp-encoded') | Q(status='vw-paid') | 
             Q(status='rts') | Q(status='returned')
         )
-        
-    print(f'Orders: {orders}')
     records_total = orders.count()
     draw = int(request.GET.get('draw', 1))
 

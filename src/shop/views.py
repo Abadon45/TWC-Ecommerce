@@ -50,6 +50,7 @@ class ShopView(ProductListView):
             }
         context.update(self._product_choices)
         products = self.get_queryset()
+        all_products = Product.objects.all()
         subcategories = [
             'health_wellness',
             'healthy_beverages',
@@ -58,14 +59,11 @@ class ShopView(ProductListView):
             'watches',
             'bags',
             'accessories',
-            'home_living',
+            # 'home_living',
         ]
         
-        # Filter products by subcategories
-        filtered_products = products.filter(category_2__in=subcategories)
+        subcategory_counts = {subcategory: all_products.filter(category_2=subcategory).count() for subcategory in subcategories}
 
-        # Count the number of products in each subcategory and replace hyphens with underscores in the keys
-        subcategory_counts = {subcategory.replace('-', '_'): filtered_products.filter(category_2=subcategory).count() for subcategory in subcategories}
 
         # Print the subcategory_counts dictionary to the console
         print("Page:", self.request.GET.get('page'))
@@ -73,7 +71,7 @@ class ShopView(ProductListView):
         print("Subcategory Counts:", subcategory_counts)
 
         context['products'] = products
-        context['subcategory_counts'] = subcategory_counts
+        context['subcategory_counts'] =  subcategory_counts
 
         return context
 
