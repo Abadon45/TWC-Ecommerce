@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <div class="product-content">
-                        <h3 class="product-title"><a href="{% url 'shop:single' slug=product.slug %}">{{product.name }}</a></h3>
+                        <h3 class="product-title" style="height: 40px;"><a href="{% url 'shop:single' slug=product.slug %}">{{product.name }}</a></h3>
                         <div class="product-rate">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -39,7 +39,7 @@
                                 <span class="current-product-price">₱ {{ product.customer_price}}</span>
                             </div>
                             {% if product.id in products_in_cart %}
-                            <button  type="button" class="btn btn-secondary" disabled>Added to Cart</button>
+                            <button  type="button" class="btn btn-secondary item-id-{{ product.id }}" style="padding: 9px 20px!important;" disabled>Added to Cart</button>
                             {% else %}
                             <button data-product="{{ product.id }}" data-action="add" type="button"
                                 class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"

@@ -69,7 +69,8 @@
     <!-- footer area end -->
 
     <!-- scroll-top -->
-    <a href="#" id="scroll-top"><i class="far fa-arrow-up-from-arc"></i></a>
+    <a href="{% url 'cart:cart' %}" id="scroll-top" class="shop-cart list-item"><i class="fa-solid fa-cart-shopping"></i>
+        <span id="cart-count">{{ cart_items }}</span></a>
     <!-- scroll-top end -->
 
     <!-- js -->

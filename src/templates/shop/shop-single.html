@@ -153,7 +153,7 @@
                                     <div class="col-md-6 col-lg-12 col-xl-6">
                                         <div class="shop-single-share">
                                             <span>Share:</span>
-                                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                            <a href="#" onclick="shareOnFacebook(); return false;"><i class="fab fa-facebook-f"></i></a>
                                             <a href="#"><i class="fa-brands fa-instagram"></i></a>
                                             <a href="#"><i class="fab fa-twitter"></i></a>
                                         </div>
@@ -310,6 +310,30 @@
         <!-- shop single end -->
 
 {% endblock %}
-{% block js %}
+{% block extra_js %}
+<script>
+    function shareOnFacebook() {
+    // Open Graph meta tags
+    var ogUrl = "https://www.twconline.store/shop/single/seiko-5-couple-watch";
+    var ogTitle = "Seiko 5 Couple Watch";
+    var ogDescription = "Seiko 5 Couple Watch (Japan OEM)";
+    var ogImage = "https://www.http://www.twconline.store:8000/media/admin_images/2024/02/16/091139.png";
 
+    // Create a Facebook share dialog
+    FB.ui({
+        method: 'share_open_graph',
+        action_type: 'og.shares',
+        action_properties: JSON.stringify({
+            object: {
+                'og:url': ogUrl,
+                'og:title': ogTitle,
+                'og:description': ogDescription,
+                'og:image': ogImage
+            }
+        })
+    }, function(response){});
+}
+
+
+</script>
 {% endblock %}

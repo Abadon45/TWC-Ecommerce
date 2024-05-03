@@ -149,7 +149,8 @@ def updateItem(request):
             }],
             'orders': [{
                 'order_id': o.order_id, 
-                'subtotal': o.subtotal
+                'subtotal': o.subtotal,
+                'order_count': o.orderitem_set.count(),
                 } for o in existing_orders],
             }, safe=False)
         

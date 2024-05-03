@@ -302,9 +302,10 @@ Version         : 1.0
         }
     });
 
-    $("#scroll-top").on('click', function () {
-        $("html, body").animate({ scrollTop: 0 }, 1500);
-        return false;
+    $("#scroll-top").on('mouseenter', function () {
+        $(this).css("background-color", "black");
+    }).on('mouseleave', function () {
+        $(this).css("background-color", "#11B76B");
     });
 
 

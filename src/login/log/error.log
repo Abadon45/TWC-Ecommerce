@@ -35874,3 +35874,219 @@ Traceback (most recent call last):
 TypeError: CartView.get_context_data() missing 1 required positional argument: 'request'
 "GET /cart/ HTTP/1.1" 500 79120
 "GET /cart/ HTTP/1.1" 500 79120
+Internal Server Error: /cart/update-item/
+Internal Server Error: /cart/update-item/
+"GET /cart/update-item/?productId=34&action=add&quantity=1 HTTP/1.1" 500 34
+"GET /cart/update-item/?productId=34&action=add&quantity=1 HTTP/1.1" 500 34
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 470, in parse
+    compile_func = self.tags[command]
+KeyError: 'url_with_domain'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 101, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 127, in render
+    compiled_parent = self.get_parent(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 124, in get_parent
+    return self.find_template(parent, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 103, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loaders/base.py", line 29, in get_template
+    return Template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 193, in compile_nodelist
+    return parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 472, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 531, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 72: 'url_with_domain'. Did you forget to register or load this tag?
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 470, in parse
+    compile_func = self.tags[command]
+KeyError: 'url_with_domain'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 101, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 127, in render
+    compiled_parent = self.get_parent(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 124, in get_parent
+    return self.find_template(parent, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 103, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loaders/base.py", line 29, in get_template
+    return Template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 193, in compile_nodelist
+    return parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 472, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 531, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 72: 'url_with_domain'. Did you forget to register or load this tag?
+"GET / HTTP/1.1" 500 200550
+"GET / HTTP/1.1" 500 200550
+Internal Server Error: /favicon.ico/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 470, in parse
+    compile_func = self.tags[command]
+KeyError: 'url_with_domain'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 167, in get
+    return HttpResponseNotFound(render(request, '404.html', context=context))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 127, in render
+    compiled_parent = self.get_parent(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 124, in get_parent
+    return self.find_template(parent, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 103, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loaders/base.py", line 29, in get_template
+    return Template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 193, in compile_nodelist
+    return parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 472, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 531, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 72: 'url_with_domain'. Did you forget to register or load this tag?
+Internal Server Error: /favicon.ico/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 470, in parse
+    compile_func = self.tags[command]
+KeyError: 'url_with_domain'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/ecommerce/views.py", line 167, in get
+    return HttpResponseNotFound(render(request, '404.html', context=context))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 127, in render
+    compiled_parent = self.get_parent(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 124, in get_parent
+    return self.find_template(parent, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 103, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loaders/base.py", line 29, in get_template
+    return Template(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 155, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 193, in compile_nodelist
+    return parser.parse()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 472, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 531, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 72: 'url_with_domain'. Did you forget to register or load this tag?
+"GET /favicon.ico/ HTTP/1.1" 500 171333
+"GET /favicon.ico/ HTTP/1.1" 500 171333

@@ -245,14 +245,27 @@ $(document).ready(function () {
         };
 
         addNewAddress(newAddressData);
+
+        selectNewAddress(successData.id);
+
         $("#addAddressModal").modal("hide");
-        $("#changeAddressModal").modal("show");
+        $(".changeAddressBtn").click();
       },
       error: function (errorData) {
         console.log(errorData);
       },
     });
   });
+
+  function selectNewAddress(addressId) {
+    // Deselect any previously selected address
+    $("input[name='addressChoice']").prop("checked", false);
+
+    // Select the newly added address
+    $(`input[data-address-id='${addressId}']`).prop("checked", true);
+}
+
+
 
   //Submitting Edit Form
   $("#editAddressDetailForm").submit(function (e) {

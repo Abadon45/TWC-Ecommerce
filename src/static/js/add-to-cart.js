@@ -1,6 +1,4 @@
 $(document).ready(function () {
-  var spinner = $(".sk-circle");
-  var backdrop = $(".backdrop");
 
   $(document).on("click", ".update-cart", function (event) {
     event.preventDefault();
@@ -10,6 +8,7 @@ $(document).ready(function () {
     var action = button.data("action");
     var quantityInput = $("#quantity-input-" + productId);
     var quantity = parseInt(quantityInput.val()) || 1;
+    
 
     console.log(
       "Product ID:",
@@ -20,18 +19,6 @@ $(document).ready(function () {
       quantity
     );
 
-    spinner.addClass("visible"); // Show the spinner
-    backdrop.addClass("visible");
-
-    if (!isCartPage()) {
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Cart updated successfully!",
-        timer: 2000,
-        showConfirmButton: false,
-      });
-    }
 
     updateUserOrder(
       productId,
@@ -58,14 +45,25 @@ $(document).ready(function () {
         console.log("Server Response Data:", data);
         console.log("Quantity:", quantity);
         console.log("Cart Items Count:", data.cart_items);
+        console.log("Order Count:", data.orders.length);
         console.log("Order ID:", orderId);
 
-        spinner.removeClass("visible");
-        backdrop.removeClass("visible");
-
         $("#cart-count").text(data.cart_items);
-
+        var totalOrders = data.orders.length;
         var formattedCartItems = String(data.cart_items).padStart(2, "0");
+        var subtotal = data.products[0].total;
+        var subtotalNumber = parseFloat(subtotal);
+        var orderTotal = parseFloat(data.total_cart_subtotal).toLocaleString(
+          "en-US",
+          {
+            minimumFractionDigits: 2,
+          }
+        );
+        var formattedSubtotal = subtotalNumber.toLocaleString("en-US", {
+          minimumFractionDigits: 2,
+        });
+
+        //Add to cart create dropdown
         if (data.action === "add") {
           if (data.cart_items === 1) {
             var dropdownHtml = `
@@ -100,12 +98,11 @@ $(document).ready(function () {
                     </div>`;
 
             $("#cart-dropdown").append(dropdownHtml);
-          } else if (data.cart_items > 1) {
-              var existingProduct = $("#cart-row-" + data.products[0].id);
-                // Append each additional product to the dropdown menu list
-                var dropdownMenu = $("#cart-dropdown .dropdown-cart-menu");
-                data.products.forEach(function (product) {
-                  var productHtml = `
+          } else if (data.cart_items > 1 || data.action === "minus") {
+            var existingProduct = $("#cart-row-" + data.products[0].id);
+            var dropdownMenu = $("#cart-dropdown .dropdown-cart-menu");
+            data.products.forEach(function (product) {
+              var productHtml = `
                       <li id="cart-row-${product.id}">
                           <div class="dropdown-cart-item">
                               <div class="cart-img">
@@ -120,64 +117,94 @@ $(document).ready(function () {
                               </a>
                           </div>
                       </li>`;
-                    if (existingProduct.length > 0) {
-                      $("#cart-row-" + productId).remove();
-                    }
-                  dropdownMenu.find(".dropdown-cart-list").append(productHtml);
-                  $(".cart-items-count").text(formattedCartItems + " Items");
-                });
+              if (existingProduct.length > 0) {
+                $("#cart-row-" + productId).remove();
               }
+              dropdownMenu.find(".dropdown-cart-list").append(productHtml);
+              $(".cart-items-count").text(formattedCartItems + " Items");
+              $(".total-amount").text("₱" + orderTotal);
+              $("#cart-total").text("₱" + orderTotal);
+            });
+          }
         }
 
-        // if (button && button.length > 0 && !button.hasClass("excludeDisable")) {
-        //   button.prop("disabled", true);
-        //   button
-        //     .text("Added To Cart")
-        //     .removeClass("theme-btn add-to-cart-btn")
-        //     .addClass("btn btn-secondary");
-        // }
+        //Disable add to cart button after product is added
+        $(".item-id-" + productId)
+          .text("Added To Cart")
+          .removeClass("theme-btn")
+          .addClass("btn-secondary")
+          .prop("disabled", true)
+          .css("padding", "9px 20px");
 
-        $(".item-id-" + productId).text("Added To Cart").removeClass("theme-btn").addClass("btn-secondary").prop("disabled", true)
+        //Remove order table if order items is 0
+        if (data.orders.length === 0){
+          $('#order-card-' + orderId).remove();
+        }
 
+        //Product quantity function
         if (data.products.length > 0) {
           if (data.action !== "remove") {
-            $("#product-subtotal-" + productId).text(data.products[0].total);
+            $("#product-subtotal-" + productId).text("₱" + formattedSubtotal);
+            $(".total-amount").text("₱" + orderTotal);
           }
 
           if (data.action === "remove") {
             console.log("Removing product with ID:", productId);
             $("#product-row-" + productId).remove();
             $("#cart-row-" + productId).remove();
+            $(".total-amount").text("₱" + orderTotal);
+            $(".item-id-" + productId)
+              .text("Added To Cart")
+              .addClass("theme-btn update-cart")
+              .removeClass("btn-secondary")
+              .prop("disabled", false)
+              .attr("data-product", productId)
+              .attr("data-action", "add");
           }
 
+          //If the cart becomes empty
           if (data.cart_items === 0) {
-            // Check if the order table becomes empty
             $(".dropdown-cart-menu").remove();
-            $("#order-card-" + orderId).remove();
           }
 
-          if (quantity > 0) {
+          //disable the minus button if quantity is 0
+          if (quantity === 0) {
             $(".minus-btn").prop("disabled", false);
           }
-
-          console.log("Orders:", data.orders);
 
           // Update cart summary
           data.orders.forEach(function (order) {
             var $orderSubtotal = $(`#order-subtotal-${order.order_id}`);
             var $orderTotal = $(`#order-total-${order.order_id}`);
-            $orderSubtotal.text(`₱${order.subtotal}`);
-            $orderTotal.text(`₱${order.subtotal}`);
+            var subtotalNumber = parseFloat(order.subtotal);
+            var formattedSubtotal = subtotalNumber.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+            });
+            var formattedTotal = subtotalNumber.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+            });
+            $orderSubtotal.text(`₱${formattedSubtotal}`);
+            $orderTotal.text(`₱${formattedTotal}`);
           });
-          // Update cart total
-          $("#cart-total").text("₱" + data.total_cart_subtotal);
         } else {
           console.error("Empty products array in the response.");
-
           Swal.fire({
             icon: "error",
             title: "Error",
             text: "Failed to update cart. Please try again.",
+          });
+        }
+        if (!isCartPage()) {
+          Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: "Cart updated successfully!",
+            timer: 1500,
+            timerProgressBar: true,
+            showConfirmButton: false,
+            didOpen: () => {
+              Swal.showLoading();
+          },
           });
         }
       },

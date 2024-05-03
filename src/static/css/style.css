@@ -799,6 +799,19 @@ label {
   bottom: 20px;
 }
 
+#scroll-top span{
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  color: var(--color-white);
+  background: var(--color-red);
+  border-radius: 50px;
+  font-size: 14px;
+  right: -10px;
+  top: -10px;
+}
+
 
 @media all and (min-width: 768px) and (max-width: 1199px) {
   #scroll-top.active {
