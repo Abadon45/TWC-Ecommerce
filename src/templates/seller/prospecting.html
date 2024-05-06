@@ -1,0 +1,457 @@
+{% extends "base-dashboard.html" %}
+{% load static %}
+{% block title %} {{ title }} {% endblock %}
+{% block content %}
+<!-- user dashboard -->
+<div class="user-area bg">
+    <div id="seller" class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                {% include 'seller/seller-sidebar.html' %}
+            </div>
+            <div class="col-lg-9">
+                <div class="user-wrapper">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="user-card">
+                                <div class="user-card-header">
+                                    <div class="row">
+                                        <h4 class="user-card-title">Your Daily Prospecting Activity</h4>
+                                        <p class="card-subtitle">Your Funnel Links | Script | Leads</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg card" style="width: auto;">
+                                        {% include 'seller/prospecting-sidebar.html' %}
+                                    </div>
+                                    <div class="col-lg-9 card" style="padding-bottom: 50px;">
+                                        <div class="mt-4">
+                                            <div class="app-inner-layout__top-pane d-block d-sm-none">
+                                                <div class="pane-left">
+                                                    <div class="mobile-app-menu-btn">
+                                                        <button type="button" class="hamburger hamburger--elastic">
+                                                            <span class="hamburger-box">
+                                                                <span class="hamburger-inner"></span>
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="avatar-icon-wrapper me-2">
+                                                        <h3>
+                                                            Sales Funnel Links
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="divider d-block d-sm-none"></div>
+                                            <div class="bg-white">
+                                                <div class="px-4 px-md-5">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="row">
+                                                                <h5 class="d-md-none">TWC Seller's Program</h5>
+                                                                <div class="col-md-4">
+                                                                    <img class="img-fluid"
+                                                                        src="https://ap-south-1.linodeobjects.com/twcako-storage/admin/2341369574.png"
+                                                                        alt="twc-sellers-program">
+                                                                    <input type="hidden" id="dfy-ref-link"
+                                                                        value="https://m.me/technowealthcreators?ref=username--{{ user.username }}">
+                                                                        <div class="input-group mb-2 mt-2">
+                                                                            <input type="text" class="form-control" placeholder="DFY Ref Link" aria-label="Landing Page" aria-describedby="button-addon2" disabled>
+                                                                            <button class="btn theme-btn btn-outline-secondary" 
+                                                                                type="button" 
+                                                                                id="dfy-ref-btn" 
+                                                                                onclick="copyToClipboard('dfy-ref-link', 'dfy-ref-btn')">Copy
+                                                                            </button>
+                                                                        </div>
+                                                                    <a href="https://www.facebook.com/everywear.twc"
+                                                                        class="btn theme-btn w-100 my-3"
+                                                                        target="_blank"><i class="fa fa-link"></i> Visit
+                                                                        Sample Page</a>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <h4 class="d-none d-md-block">Scripts</h4>
+                                                                    <div id="accordion" class="accordion-wrapper mb-3">
+                                                                        <div class="card">
+                                                                            <div id="headingOne" class="card-header">
+                                                                                <button type="button"
+                                                                                    data-bs-toggle="collapse"
+                                                                                    data-bs-target="#script-1"
+                                                                                    aria-expanded="false"
+                                                                                    aria-controls="collapseOne"
+                                                                                    class="text-start m-0 p-0 btn btn-link btn-block collapsed"
+                                                                                    style="color: #343a40">
+                                                                                    <h6 class="m-0 p-0">1. For Post
+                                                                                        Reactions (Like, Heart, Wow)
+                                                                                    </h6>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div data-parent="#accordion" id="script-1"
+                                                                                aria-labelledby="headingOne"
+                                                                                class="collapse" style="">
+                                                                                <div class="card-body">
+                                                                                    <p>“Hi Name, salamat sa pag react sa
+                                                                                        post ko. 😊”</p>
+                                                                                    <p>Then follow below script</p>
+                                                                                    <p>For Comments – Reply to their
+                                                                                        comments and send a message
+                                                                                        directly</p>
+                                                                                    <p>“Hi Name, Nakita ko yung comment
+                                                                                        mo sa post ko. Thank you pala sa
+                                                                                        comment mo. 😊</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="card">
+                                                                            <div id="headingOne" class="card-header">
+                                                                                <button type="button"
+                                                                                    data-bs-toggle="collapse"
+                                                                                    data-bs-target="#script-2"
+                                                                                    aria-expanded="false"
+                                                                                    aria-controls="collapseOne"
+                                                                                    class="text-start m-0 p-0 btn btn-link btn-block collapsed"
+                                                                                    style="color: #343a40">
+                                                                                    <h6 class="m-0 p-0">2. Asking For
+                                                                                        Support To Like the Page</h6>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div data-parent="#accordion" id="script-2"
+                                                                                aria-labelledby="headingOne"
+                                                                                class="collapse" style="">
+                                                                                <div class="card-body">
+                                                                                    <p>Kumusta Friend! </p>
+                                                                                    <p>May hingin sana akong favor sayo.
+                                                                                        Connected kasi ako ngayon sa
+                                                                                        Techno Wealth Creators as one of
+                                                                                        their Distributor. </p>
+                                                                                    <p>I've been doing the business for
+                                                                                        quite some time now and sobrang
+                                                                                        OK kasi may mga automation tools
+                                                                                        ang company when it comes to
+                                                                                        selling online.</p>
+                                                                                    <p>Part of our task kasi is to build
+                                                                                        our business page and need ko at
+                                                                                        least 500 page likes and 100
+                                                                                        comments sa marketing video
+                                                                                        before ako mag run ng Facebook
+                                                                                        Advertisement. If pwede sana pa
+                                                                                        like ng page and pa comment lang
+                                                                                        ng “HOW” doon sa marketing video
+                                                                                        ko. Sobrang laking tulong na ito
+                                                                                        sa business ko friend. </p>
+                                                                                    <p>WAIT FOR RESPONSE AND IF OK,</p>
+                                                                                    <p>Ito yung links.</p>
+                                                                                    <p>FACEBOOK PAGE : Your Page
+                                                                                        Link<br>MARKETING VIDEO: Your
+                                                                                        Marketing Video Link</p>
+                                                                                    <p>Thank you friend, I really
+                                                                                        appreciate your support. If
+                                                                                        pwede mo din ma share yung page
+                                                                                        sa mga friends mo, that would be
+                                                                                        a big help sa business ko
+                                                                                        friend.</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12 mt-3">
+                                                                    <div class="divider"></div>
+                                                                    <div class="row mb-3">
+                                                                        <div class="col-md-3">
+                                                                            <div class="form-group">
+                                                                                <label for="id_ty_page"
+                                                                                    class="form-label">Video 1</label>
+                                                                                <input type="text" name="first_name"
+                                                                                    value="0" maxlength="100"
+                                                                                    class="textinput textInput form-control"
+                                                                                    id="id_ty_page" readonly="">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="form-group">
+                                                                                <label for="id_presentation_page"
+                                                                                    class="form-label">Video 2</label>
+                                                                                <input type="text" name="first_name"
+                                                                                    value="0" maxlength="100"
+                                                                                    class="textinput textInput form-control"
+                                                                                    id="id_presentation_page"
+                                                                                    readonly="">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="form-group">
+                                                                                <label for="id_first_name"
+                                                                                    class="form-label">Video 3</label>
+                                                                                <input type="text" name="first_name"
+                                                                                    value="0" maxlength="100"
+                                                                                    class="textinput textInput form-control"
+                                                                                    id="id_offer_page" readonly="">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="form-group">
+                                                                                <label for="id_first_name"
+                                                                                    class="form-label">Checkout</label>
+                                                                                <input type="text" name="first_name"
+                                                                                    value="0" maxlength="100"
+                                                                                    class="textinput textInput form-control"
+                                                                                    id="id_checkout_page" readonly="">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="tsp-datatable_wrapper"
+                                                                        class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                                                        <div class="dataTables_length"
+                                                                            id="tsp-datatable_length"><label>Show
+                                                                                <select name="tsp-datatable_length"
+                                                                                    aria-controls="tsp-datatable"
+                                                                                    class="custom-select custom-select-sm form-control form-control-sm">
+                                                                                    <option value="30">30</option>
+                                                                                    <option value="40">40</option>
+                                                                                    <option value="50">50</option>
+                                                                                    <option value="100">100</option>
+                                                                                </select> entries</label></div>
+                                                                        <div class="dt-buttons"> <button
+                                                                                class="dt-button buttons-copy buttons-html5"
+                                                                                tabindex="0"
+                                                                                aria-controls="tsp-datatable"
+                                                                                type="button"><span>Copy</span></button>
+                                                                            <button
+                                                                                class="dt-button buttons-csv buttons-html5"
+                                                                                tabindex="0"
+                                                                                aria-controls="tsp-datatable"
+                                                                                type="button"><span>CSV</span></button>
+                                                                            <button
+                                                                                class="dt-button buttons-excel buttons-html5"
+                                                                                tabindex="0"
+                                                                                aria-controls="tsp-datatable"
+                                                                                type="button"><span>Excel</span></button>
+                                                                            <button class="dt-button buttons-print"
+                                                                                tabindex="0"
+                                                                                aria-controls="tsp-datatable"
+                                                                                type="button"><span>Print</span></button>
+                                                                        </div>
+                                                                        <div id="tsp-datatable_filter"
+                                                                            class="dataTables_filter">
+                                                                            <label>Search:<input type="search"
+                                                                                    class="form-control form-control-sm"
+                                                                                    placeholder=""
+                                                                                    aria-controls="tsp-datatable"></label>
+                                                                        </div>
+                                                                        <div id="tsp-datatable_processing"
+                                                                            class="dataTables_processing card"
+                                                                            style="display: none;">Processing...</div>
+                                                                        <div class="dataTables_scroll">
+                                                                            <div class="dataTables_scrollHead"
+                                                                                style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                                                                                <div class="dataTables_scrollHeadInner"
+                                                                                    style="box-sizing: content-box; width: 969px; padding-right: 0px;">
+                                                                                    <table
+                                                                                        class="table table-hover table-striped table-bordered nowrap dataTable no-footer"
+                                                                                        style="overflow: hidden; margin-left: 0px; width: 969px;"
+                                                                                        aria-describedby="myTable_info"
+                                                                                        role="grid">
+                                                                                        <thead
+                                                                                            class="bg-dark text-light">
+                                                                                            <tr role="row">
+                                                                                                <th class="sorting_disabled"
+                                                                                                    rowspan="1"
+                                                                                                    colspan="1"
+                                                                                                    style="width: 17.6094px;">
+                                                                                                    #</th>
+                                                                                                <th class="sorting_disabled"
+                                                                                                    rowspan="1"
+                                                                                                    colspan="1"
+                                                                                                    style="width: 48.5625px;">
+                                                                                                    Date</th>
+                                                                                                <th class="sorting_disabled"
+                                                                                                    rowspan="1"
+                                                                                                    colspan="1"
+                                                                                                    style="width: 152.031px;">
+                                                                                                    Prospect Details
+                                                                                                </th>
+                                                                                                <th class="sorting_disabled"
+                                                                                                    rowspan="1"
+                                                                                                    colspan="1"
+                                                                                                    style="width: 74.9688px;">
+                                                                                                    Video 1</th>
+                                                                                                <th class="sorting_disabled"
+                                                                                                    rowspan="1"
+                                                                                                    colspan="1"
+                                                                                                    style="width: 74.9688px;">
+                                                                                                    Video 2</th>
+                                                                                                <th class="sorting_disabled"
+                                                                                                    rowspan="1"
+                                                                                                    colspan="1"
+                                                                                                    style="width: 74.9688px;">
+                                                                                                    Video 3</th>
+                                                                                                <th class="sorting_disabled"
+                                                                                                    rowspan="1"
+                                                                                                    colspan="1"
+                                                                                                    style="width: 90.8906px;">
+                                                                                                    Checkout</th>
+                                                                                                <th class="sorting_disabled"
+                                                                                                    rowspan="1"
+                                                                                                    colspan="1"
+                                                                                                    style="width: 300px;">
+                                                                                                    Checkout Link</th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="dataTables_scrollBody"
+                                                                                style="position: relative; overflow: auto; width: 100%;">
+                                                                                <table id="tsp-datatable"
+                                                                                    class="table table-hover table-striped table-bordered nowrap dataTable no-footer"
+                                                                                    style="overflow: hidden"
+                                                                                    aria-describedby="tsp-datatable_info"
+                                                                                    role="grid">
+                                                                                    <thead class="bg-dark text-light">
+                                                                                        <tr role="row"
+                                                                                            style="height: 2px;">
+                                                                                            <th class="sorting_disabled"
+                                                                                                rowspan="1" colspan="1"
+                                                                                                style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 17.6094px;">
+                                                                                                <div class="dataTables_sizing"
+                                                                                                    style="height: 0px; overflow: hidden;">
+                                                                                                    #</div>
+                                                                                            </th>
+                                                                                            <th class="sorting_disabled"
+                                                                                                rowspan="1" colspan="1"
+                                                                                                style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 48.5625px;">
+                                                                                                <div class="dataTables_sizing"
+                                                                                                    style="height: 0px; overflow: hidden;">
+                                                                                                    Date</div>
+                                                                                            </th>
+                                                                                            <th class="sorting_disabled"
+                                                                                                rowspan="1" colspan="1"
+                                                                                                style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 152.031px;">
+                                                                                                <div class="dataTables_sizing"
+                                                                                                    style="height: 0px; overflow: hidden;">
+                                                                                                    Prospect Details
+                                                                                                </div>
+                                                                                            </th>
+                                                                                            <th class="sorting_disabled"
+                                                                                                rowspan="1" colspan="1"
+                                                                                                style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 74.9688px;">
+                                                                                                <div class="dataTables_sizing"
+                                                                                                    style="height: 0px; overflow: hidden;">
+                                                                                                    Video 1</div>
+                                                                                            </th>
+                                                                                            <th class="sorting_disabled"
+                                                                                                rowspan="1" colspan="1"
+                                                                                                style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 74.9688px;">
+                                                                                                <div class="dataTables_sizing"
+                                                                                                    style="height: 0px; overflow: hidden;">
+                                                                                                    Video 2</div>
+                                                                                            </th>
+                                                                                            <th class="sorting_disabled"
+                                                                                                rowspan="1" colspan="1"
+                                                                                                style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 74.9688px;">
+                                                                                                <div class="dataTables_sizing"
+                                                                                                    style="height: 0px; overflow: hidden;">
+                                                                                                    Video 3</div>
+                                                                                            </th>
+                                                                                            <th class="sorting_disabled"
+                                                                                                rowspan="1" colspan="1"
+                                                                                                style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 90.8906px;">
+                                                                                                <div class="dataTables_sizing"
+                                                                                                    style="height: 0px; overflow: hidden;">
+                                                                                                    Checkout</div>
+                                                                                            </th>
+                                                                                            <th class="sorting_disabled"
+                                                                                                rowspan="1" colspan="1"
+                                                                                                style="width: 300px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
+                                                                                                <div class="dataTables_sizing"
+                                                                                                    style="height: 0px; overflow: hidden;">
+                                                                                                    Checkout Link</div>
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr class="odd">
+                                                                                            <td valign="top" colspan="8"
+                                                                                                class="dataTables_empty">
+                                                                                                No data available in
+                                                                                                table</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="dataTables_info"
+                                                                            id="tsp-datatable_info" role="status"
+                                                                            aria-live="polite">Showing 0 to 0 of 0
+                                                                            entries</div>
+                                                                        <div class="dataTables_paginate paging_simple_numbers"
+                                                                            id="tsp-datatable_paginate">
+                                                                            <ul class="pagination">
+                                                                                <li class="paginate_button page-item previous disabled"
+                                                                                    id="tsp-datatable_previous"><a
+                                                                                        href="#"
+                                                                                        aria-controls="tsp-datatable"
+                                                                                        data-dt-idx="0" tabindex="0"
+                                                                                        class="page-link">Previous</a>
+                                                                                </li>
+                                                                                <li class="paginate_button page-item next disabled"
+                                                                                    id="tsp-datatable_next"><a href="#"
+                                                                                        aria-controls="tsp-datatable"
+                                                                                        data-dt-idx="1" tabindex="0"
+                                                                                        class="page-link">Next</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- user dashboard end -->
+{% endblock %}
+{% block extra_js %}
+<script>
+    $(document).ready(function () {
+        $(".active").removeClass("active");
+        $(".prospecting").addClass("active");
+        $(".twc-program").addClass("active");
+        var anyActive = $(".sidebar-list a.active").length > 0;
+        if (anyActive) {
+            $("#dailygrindsCollapse").collapse('show');
+        }
+
+        function updateProspectingColWidth() {
+            const prospectingCol = $('#prospecting-col');
+            const viewportWidth = $(window).width();
+
+            // Calculate the dynamic max-width based on viewport width
+            let maxWidth;
+            if (viewportWidth <= 1857) {
+                maxWidth = (viewportWidth / 1.85) - 20;
+            } else if (viewportWidth <= 1920) {
+                maxWidth = (viewportWidth / 1.65) - 20;
+            } else {
+                maxWidth = (viewportWidth / 1.66) - 20;
+            }
+            prospectingCol.css('width', maxWidth + 'px');
+        }
+
+        // Call the function initially and on window resize
+        updateProspectingColWidth();
+        $(window).on('resize', updateProspectingColWidth);
+    });
+
+</script>
+{% endblock %}

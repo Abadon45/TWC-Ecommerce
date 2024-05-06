@@ -277,7 +277,84 @@ class SellerDashboardView(TemplateView):
             print("Profile form is invalid. Errors:", profile_form.errors)
         
         return self.get(request, *args, **kwargs)
+  
+  
+class MediaLibraryView(TemplateView):
+    template_name = 'seller/media-library.html'
+    title = "Daily Grinds - Media Library"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+    
+
+class ProspectingView(TemplateView):
+    template_name = 'seller/prospecting.html'
+    title = "Daily Grinds - Prospecting"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+    
+
+class BarleyForCancerView(TemplateView):
+    template_name = 'seller/prospecting-barley-for-cancer.html'
+    title = "Daily Grinds - Prospecting"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+    
+    
+class BarleyForDiabetesView(TemplateView):
+    template_name = 'seller/prospecting-barley-for-diabetes.html'
+    title = "Daily Grinds - Prospecting"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+
+    
+class BarleyForHighBloodView(TemplateView):
+    template_name = 'seller/prospecting-barley-for-highblood.html'
+    title = "Daily Grinds - Prospecting"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+    
+class FusionOldAgeView(TemplateView):
+    template_name = 'seller/prospecting-old-age.html'
+    title = "Daily Grinds - Prospecting"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+    
+class FusionWeightLossView(TemplateView):
+    template_name = 'seller/prospecting-weight-loss.html'
+    title = "Daily Grinds - Prospecting"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+    
+class SanteBoostCoffeeView(TemplateView):
+    template_name = 'seller/prospecting-boost-coffee.html'
+    title = "Daily Grinds - Prospecting"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+
 
 class SellerMemberSellersView(TemplateView):
     template_name = 'seller/seller-member-sellers.html'

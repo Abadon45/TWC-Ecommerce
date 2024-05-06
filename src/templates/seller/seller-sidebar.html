@@ -21,6 +21,19 @@
     </div>
     <ul class="sidebar-list">
         <li><a class="home-sidebar" href="{% url 'seller_dashboard' %}"><i class="far fa-gauge-high"></i> Home</a></li>
+        <li><a class="dailygrinds-sidebar" data-bs-toggle="collapse" href="#dailygrindsCollapse" role="button" aria-expanded="false" aria-controls="dailygrindsCollapse">
+            <i class="fa-regular fa-book"></i> Daily Grinds</a>
+        </li>
+        <div class="collapse" id="dailygrindsCollapse" style="margin-left: 20px; height: 188px!important;">
+            <ul class="sidebar-list" style="border-left: 2px solid #494E53; padding-left: 10px;">
+                <li><a class="media-library" href="{% url 'media_library' %}">
+                    <i class="far fa-gear"></i> Media Library</a>
+                </li>
+                <li><a class="prospecting" href="{% url 'prospecting' %}">
+                    <i class="far fa-gear"></i> Prospecting</a>
+                </li>
+            </ul>
+        </div>
         <li><a class="mymembers-sidebar" data-bs-toggle="collapse" href="#mymembersCollapse" role="button" aria-expanded="false" aria-controls="mymembersCollapse">
             <i class="fa-regular fa-book"></i> My Members</a>
         </li>

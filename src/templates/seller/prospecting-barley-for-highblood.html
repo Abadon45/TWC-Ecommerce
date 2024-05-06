@@ -1,0 +1,216 @@
+{% extends "base-dashboard.html" %}
+{% load static %}
+{% block title %} {{ title }} {% endblock %}
+{% block content %}
+<!-- user dashboard -->
+<div class="user-area bg">
+    <div id="seller" class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                {% include 'seller/seller-sidebar.html' %}
+            </div>
+            <div class="col-lg-9">
+                <div class="user-wrapper">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="user-card">
+                                <div class="user-card-header">
+                                    <div class="row">
+                                        <h4 class="user-card-title">Your Daily Prospecting Activity</h4>
+                                        <p class="card-subtitle">Your Funnel Links | Script | Leads</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2 card" style="width: auto;">
+                                        {% include 'seller/prospecting-sidebar.html' %}
+                                    </div>
+                                    <div id="prospecting-col" class="col-sm-9 card" style="padding-bottom: 50px;">
+                                        <div class="mt-4">
+                                            <div class="app-inner-layout__top-pane d-block d-sm-none">
+                                                <div class="pane-left">
+                                                    <div class="mobile-app-menu-btn">
+                                                        <button type="button" class="hamburger hamburger--elastic">
+                                                            <span class="hamburger-box">
+                                                                <span class="hamburger-inner"></span>
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="avatar-icon-wrapper me-2">
+                                                        <h3>
+                                                            Sales Funnel Links
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="divider d-block d-sm-none"></div>
+                                            <div class="bg-white">
+                                                <div class="px-4 px-md-5">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="row">
+                                                                <h5 class="d-md-none">Barley for High Blood</h5>
+                                                                <div class="col-md-4">
+                                                                    <img class="img-fluid"
+                                                                        src="https://ap-south-1.linodeobjects.com/twcako-storage/admin/3149817002.jpeg"
+                                                                        alt="twc-sellers-program">
+                                                                    <input type="hidden" id="landing-page"
+                                                                        value="https://{{ user.username }}.barleyforhighblood.com">
+                                                                    <div class="input-group mb-2 mt-2">
+                                                                        <input type="text" class="form-control" placeholder="Landing Page" aria-label="Landing Page" aria-describedby="button-addon2" disabled>
+                                                                        <button class="btn theme-btn btn-outline-secondary" 
+                                                                            type="button" 
+                                                                            id="landing-page-btn" 
+                                                                            onclick="copyToClipboard('landing-page', 'landing-page-btn')">Copy
+                                                                        </button>
+                                                                    </div>
+                                                                    <a href="https://www.facebook.com/barleyforhighblood"
+                                                                        class="btn theme-btn w-100 my-3"
+                                                                        target="_blank"><i class="fa fa-link"></i> Visit
+                                                                        Sample Page</a>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <h4 class="d-none d-md-block">Scripts</h4>
+                                                                    <div id="accordion" class="accordion-wrapper mb-3">
+
+                                                                        <div class="card">
+                                                                            <div id="headingOne" class="card-header">
+                                                                                <button type="button"
+                                                                                    data-bs-toggle="collapse"
+                                                                                    data-bs-target="#script-9"
+                                                                                    aria-expanded="false"
+                                                                                    aria-controls="collapseOne"
+                                                                                    class="text-start m-0 p-0 btn btn-link btn-block collapsed"
+                                                                                    style="color: #343a40">
+                                                                                    <h6 class="m-0 p-0">1. 14 Day
+                                                                                        Challenge</h6>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div data-parent="#accordion" id="script-9"
+                                                                                aria-labelledby="headingOne"
+                                                                                class="collapse" style="">
+                                                                                <div class="card-body">
+                                                                                    <p>Kumusta (Prospect’s Name)! </p>
+
+                                                                                    <p>(Start with topics that might
+                                                                                        interest your prospect. Build
+                                                                                        rapport then segue to your
+                                                                                        business)</p>
+
+                                                                                    <p>By the way, Im a
+                                                                                        seller/distributor ni Sante.
+                                                                                        Baka you might be interested
+                                                                                        with our products?” </p>
+
+                                                                                    <p>“Name, meron kasi kaming
+                                                                                        incentive program ngayon sa
+                                                                                        company and kunti na lang ma
+                                                                                        hihit ko na yung incentive
+                                                                                        reward. Need ko lang maka at
+                                                                                        least 4999 worth of sales in 14
+                                                                                        days para makuha ko yung
+                                                                                        incentive. Baka pwede mo ako
+                                                                                        bilhan ng 1 box ng barley or 2
+                                                                                        box ng coffee. Sobrang laking
+                                                                                        help na ito sa akin friend.”
+                                                                                    </p>
+
+                                                                                    <p>-Wait for response. (If
+                                                                                        interested – send product funnel
+                                                                                        link and answer inquiries
+                                                                                        accordingly)</p>
+
+                                                                                    <p>-If not interested, ask for
+                                                                                        referral.</p>
+
+                                                                                    <p>“Thank you friend, baka may
+                                                                                        kakilala ka na who might be
+                                                                                        interested or may mga health
+                                                                                        issue, baka makatulong sa kanila
+                                                                                        yung products. Refer mo ako sa
+                                                                                        kanila. <span
+                                                                                            class="emoji-outer emoji-sizer"><span
+                                                                                                class="emoji-inner"
+                                                                                                style="background: url(chrome-extension://gaoflciahikhligngeccdecgfjngejlh/emoji-data/sheet_apple_32.png);background-position:59.9882491186839% 77.96709753231492%;background-size:5418.75% 5418.75%"
+                                                                                                data-codepoints="1f60a"></span></span>”
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="card">
+                                                                            <div id="headingOne" class="card-header">
+                                                                                <button type="button"
+                                                                                    data-bs-toggle="collapse"
+                                                                                    data-bs-target="#script-13"
+                                                                                    aria-expanded="false"
+                                                                                    aria-controls="collapseOne"
+                                                                                    class="text-start m-0 p-0 btn btn-link btn-block collapsed"
+                                                                                    style="color: #343a40">
+                                                                                    <h6 class="m-0 p-0">2. For Post
+                                                                                        Reactions and Comments</h6>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div data-parent="#accordion" id="script-13"
+                                                                                aria-labelledby="headingOne"
+                                                                                class="collapse" style="">
+                                                                                <div class="card-body">
+                                                                                    <p>-For Post Reactions (Like, Heart,
+                                                                                        Wow) – Send them a message
+                                                                                        directly</p>
+
+                                                                                    <p>“Hi Name, salamat sa pag react sa
+                                                                                        post ko. 😊”</p>
+
+                                                                                    <p>Then follow above script</p>
+
+                                                                                    <p>For Comments – Reply to their
+                                                                                        comments and send a message
+                                                                                        directly</p>
+
+                                                                                    <p>“Hi Name, Nakita ko yung comment
+                                                                                        mo sa post ko. Thank you pala sa
+                                                                                        comment mo. 😊</p>
+
+                                                                                    <p>Then follow above script</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12 mt-3">
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- user dashboard end -->
+{% endblock %}
+{% block extra_js %}
+<script>
+    $(document).ready(function () {
+        $(".active").removeClass("active");
+        $(".prospecting").addClass("active");
+        $(".barley-highblood").addClass("active");
+        var anyActive = $(".sidebar-list a.active").length > 0;
+        if (anyActive) {
+            $("#dailygrindsCollapse").collapse('show');
+        }
+    });
+
+</script>
+{% endblock %}
