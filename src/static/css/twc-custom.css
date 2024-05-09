@@ -30,9 +30,9 @@
     display: inline;
 }
 
-#logistics .user-wrapper {
+/* #logistics .user-wrapper {
     padding-right: 20px;
-}
+} */
 
 .dt-buttons,
 .dt-search {
@@ -59,12 +59,13 @@
 }
 
 #seller {
-    display: inline;
+    margin: 30px 10px;
 }
 
-#seller .user-wrapper {
+
+/* #seller .user-wrapper {
     padding-right: 20px;
-}
+} */
 
 .seller-order li {
     font-size: small;
@@ -139,6 +140,10 @@
 
 }
 
+#logistics-sidebar {
+    padding: 10px 15px;
+    background-color: white;
+}
 
 #logistics-sidebar a {
     font-size: 15px;

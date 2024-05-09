@@ -119,7 +119,7 @@ class User(AbstractBaseUser):
         return super().clean()    
 
     def generate_affiliate_link(self):
-        return f'http://www.{settings.SITE_DOMAIN}/{self.username}/{self.affiliate_code}/'
+        return f'http://www.{settings.SITE_DOMAIN}/{self.username}'
         
     def get_referred_customers(self):
         try:

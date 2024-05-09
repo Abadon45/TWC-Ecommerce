@@ -7,12 +7,12 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="far fa-xmark"></i></button>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                        <img src="{% static 'img/product/p1.png' %}" alt="#">
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 ">
+                        <img class="product-img" src="{% static 'img/product/p1.png' %}" alt="#">
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                         <div class="quickview-content">
-                            <h4 class="quickview-title">Beats Bluetooth Earphones</h4>
+                            <h4 class="quickview-title">This are the best of times</h4>
                             <div class="quickview-rating">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -25,13 +25,13 @@
                                 <h5><del>$690</del><span>$650</span></h5>
                             </div>
                             <ul class="quickview-list">
-                                <li>Brand:<span>Beats</span></li>
-                                <li>Category:<span>Headphones</span></li>
+                                <li>Shop:<span class="modal-shop"></span></li>
+                                <li>Category:<span class="modal-category">Headphones</span></li>
                                 <li>Stock:<span class="stock">Available</span></li>
-                                <li>Code:<span>676TYWV</span></li>
+                                <li>SKU:<span class="modal-sku">676TYWV</span></li>
                             </ul>
                             <div class="quickview-cart">
-                                <a href="#" class="theme-btn">Add to cart</a>
+                                <button class="modal-btn">Add to cart</button>
                             </div>
                             <div class="quickview-social">
                                 <span>Share:</span>

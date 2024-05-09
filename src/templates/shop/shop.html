@@ -252,6 +252,37 @@
     }
     $(window).on('beforeunload', saveScrollPosition);
     $(window).on('load', restoreScrollPosition);
-
 </script>
+<script>
+    $(document).ready(function() {
+        $('.quickview-btn').on('click', function() {
+            var productId = $(this).data('product-id');
+            var productName = $(this).data('product-name');
+            var productImage = $(this).data('product-image');
+            var productPrice = $(this).data('product-price');
+            var productShop = $(this).data('product-shop');
+            var productCategory = $(this).data('product-category');
+            var productSku = $(this).data('product-sku');
+            var productBtnClass = $(this).data('button');
+            var productBtnAction = $(this).data('action');
+            var productBtnText = $(this).data('text');
+
+            $('#quickview .modal-title').text(productName);
+            $('#quickview .product-img').attr('src', productImage);
+            $('#quickview .quickview-title').text(productName);
+            $('#quickview .quickview-price').html('<span>₱' + productPrice + '</span>');
+            $('#quickview .quickview-list .modal-shop').text(productShop);
+            $('#quickview .quickview-list .modal-category').text(productCategory);
+            $('#quickview .quickview-list .modal-sku').text(productSku);
+            $('.quickview-cart .modal-btn')
+                .removeAttr('class')
+                .addClass('modal-btn')
+                .addClass(productBtnClass)
+                .text(productBtnText)
+                .attr('data-product', productId)
+                .attr('data-action', productBtnAction);
+        });
+    });
+</script>
+
 {% endblock %}

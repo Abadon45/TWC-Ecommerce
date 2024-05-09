@@ -5,7 +5,7 @@
   <div class="main-navigation">
     <nav class="navbar navbar-expand-sm navbar-light" id="neubar">
       <div class="container">
-        <a class="navbar-brand" href="#"><img src="{% static 'img/logo/logo.png' %}" height="60" /></a>
+        <a class="navbar-brand" href="{% url_with_domain 'home_view' %}"><img src="{% static 'img/logo/logo.png' %}" height="60" /></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
           aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>

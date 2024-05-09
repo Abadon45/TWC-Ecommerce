@@ -298,6 +298,35 @@ class ProspectingView(TemplateView):
         context['title'] = self.title
         return context
     
+def twc_sellers_program_data(request):
+    orders = Order.objects.filter(complete=True)
+    records_total = orders.count()
+    draw = int(request.GET.get('draw', 1))
+    order_data = []
+    for index, order in enumerate(orders, start=1):
+
+        order_dict = {
+            'index': index,
+            'date': f'<span>{order.created_at.strftime("%B %d, %Y")}</span>',
+            'prospect_details': f'',
+            'video_1': f'',
+            'video_2': f'',
+            'video_3': f'',
+            'checkout': f'',
+            'checkout_link': f'',
+        }
+        order_data.append(order_dict)
+        
+        # Construct the JSON response
+    response = {
+        'draw': draw,
+        'recordsTotal': records_total,
+        'recordsFiltered': records_total,
+        'data': order_data,
+    }
+
+    return JsonResponse(response, safe=False)
+    
 
 class BarleyForCancerView(TemplateView):
     template_name = 'seller/prospecting-barley-for-cancer.html'

@@ -4,7 +4,7 @@
 {% block content %}
 <!-- user dashboard -->
 <div class="user-area bg">
-    <div id="seller" class="container">
+    <div id="seller">
         <div class="row">
             <div class="col-lg-3">
                 {% include 'seller/seller-sidebar.html' %}
@@ -44,7 +44,7 @@
                                             </div>
                                             <div class="divider d-block d-sm-none"></div>
                                             <div class="bg-white">
-                                                <div class="px-4 px-md-5">
+                                                <div class="px-2 px-md-3">
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="row">
@@ -54,7 +54,7 @@
                                                                         src="https://ap-south-1.linodeobjects.com/twcako-storage/admin/3149817002.jpeg"
                                                                         alt="twc-sellers-program">
                                                                     <input type="hidden" id="landing-page"
-                                                                        value="https://{{ user.username }}.barleyforhighblood.com">
+                                                                        value="https://www.twconline.store/funnel/{{ user.username}}&barleyforhighblood">
                                                                     <div class="input-group mb-2 mt-2">
                                                                         <input type="text" class="form-control" placeholder="Landing Page" aria-label="Landing Page" aria-describedby="button-addon2" disabled>
                                                                         <button class="btn theme-btn btn-outline-secondary" 

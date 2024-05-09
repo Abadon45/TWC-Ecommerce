@@ -1,6 +1,6 @@
 {% load static %}
 
-<div id="logistics-sidebar" class="sidebar">
+<div id="logistics-sidebar">
     <div class="sidebar-top">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
@@ -26,7 +26,7 @@
         </li>
         <div class="collapse" id="dailygrindsCollapse" style="margin-left: 20px; height: 188px!important;">
             <ul class="sidebar-list" style="border-left: 2px solid #494E53; padding-left: 10px;">
-                <li><a class="media-library" href="{% url 'media_library' %}">
+                <li style="margin-left: 14px!important;"><a class="disabled" href=""></a>
                     <i class="far fa-gear"></i> Media Library</a>
                 </li>
                 <li><a class="prospecting" href="{% url 'prospecting' %}">

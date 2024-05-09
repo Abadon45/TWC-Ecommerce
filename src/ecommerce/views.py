@@ -1,5 +1,5 @@
 from django.views.generic import View, TemplateView
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.shortcuts import render
 from django.http import HttpResponseNotFound
 from products.models import Product
@@ -27,10 +27,10 @@ class AboutUsView(TemplateView):
 class IndexView(TemplateView):
     template_name = 'index.html'
     
-    def get(self, request, username=None, affiliate_code=None, *args, **kwargs):
+    def get(self, request, username=None, *args, **kwargs):
         referrer = None
-        if username and affiliate_code:
-            referrer = get_object_or_404(User, username=username, affiliate_code=affiliate_code)
+        if username:
+            referrer = get_object_or_404(User, username=username)
             print(f"Referrer: {referrer.username}")
             
             request.session['referrer'] = referrer.username
@@ -84,7 +84,7 @@ class IndexView(TemplateView):
             'rand_on_sale_products': rand_on_sale_products,
             'rand_best_seller_products': rand_best_seller_products,
             'rand_top_rated_products': rand_top_rated_products,
-            'referrer': referrer if username and affiliate_code else None,
+            'referrer': referrer if username else None,
             'categories': subcategory_counts_display,
             'is_authenticated': self.request.user.is_authenticated,
         }
@@ -99,6 +99,34 @@ class IndexView(TemplateView):
         })
 
         return render(request, self.template_name, context)
+    
+class ProductFunnelView(TemplateView):
+    title = "Product Funnel"
+    context = {'title': title}
+
+    def get_template_names(self):
+        product = self.kwargs.get('product', None)
+        if product == 'barleyforcancer':
+            return ['funnels/products/barley/cancer.html']
+        elif product == 'barleyfordiabetes':
+            return ['funnels/products/barley/diabetes.html']
+        elif product == 'barleyforhighblood':
+            return ['funnels/products/barley/high-blood.html']
+        elif product == 'old-age':
+            return ['funnels/products/fusion-coffee/old-age.html']
+        elif product == 'weight-loss':
+            return ['funnels/products/fusion-coffee/weight-loss.html']
+        elif product == 'boost-coffee':
+            return ['funnels/products/boost_coffee/index.html']
+        else:
+            return ['404.html']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        username = self.kwargs.get('username')
+        product = self.kwargs.get('product')
+        context.update({'username': username, 'product': product})
+        return context
     
     
 class ContactView(TemplateView):

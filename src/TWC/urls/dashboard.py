@@ -37,6 +37,7 @@ urlpatterns = [
     path('seller/confirm_order/', confirm_order, name='confirm_order'),
     path('seller/daily-grinds/media-library', MediaLibraryView.as_view(), name='media_library'),
     path('seller/daily-grinds/prospecting/tsp', ProspectingView.as_view(), name='prospecting'),
+    path('seller/daily-grinds/prospecting/twc-seller-data', twc_sellers_program_data, name='twc_sellers_program_data'),
     path('seller/daily-grinds/prospecting/barley-for-cancer', BarleyForCancerView.as_view(), name='barley_for_cancer'),
     path('seller/daily-grinds/prospecting/barley-for-diabetes', BarleyForDiabetesView.as_view(), name='barley_for_diabetes'),
     path('seller/daily-grinds/prospecting/barley-for-highblood', BarleyForHighBloodView.as_view(), name='barley_for_highblood'),

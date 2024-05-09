@@ -19,14 +19,17 @@
                     <h5>For any concern, please feel free to contact us at +639565885998.</h5>
                     
                     {% if not user.is_authenticated %}
-                        <div class="card mt-20 col-6 text-left">
+                        <div class="card mt-20 offset-3 col-6 text-left">
                             <div class="card-body">
-                                <h5 class="card-title">Temporary Login Credentials:</h5>              
-                                <h6>Email: {{ email }}</h6>
+                                <h4 class="card-title">Please save your login details to track your order.</h4>
                                 <h6>Username: {{ username }}</h6>
-                                <h6>Password: {{ password }}</h6>
+                                <h6>Password: <span class="password-hidden" data-password="{{ password }}">********</span> 
+                                    <a href="#" class="password-toggle" style="font-size: 12px; color: #11b76b;"><u>show</u></a>
+                                </h6>
+
+                                <h6>Affiliate Link: http://www.twconline.store/{{ username }}</h6>
+                                <h6>Email: {{ email }}</h6>
                             </div>
-                            
                         </div> 
                     {% endif %}
                     {% for order, items in ordered_items.items %}
@@ -164,5 +167,17 @@
             }
         });
     });
+</script>
+<script>
+    $(document).ready(function() {
+    $('.password-toggle').on('click', function(e) {
+        e.preventDefault();
+        var passwordSpan = $(this).prev('.password-hidden');
+        var password = passwordSpan.data('password');
+        var passwordType = passwordSpan.hasClass('password-visible') ? 'password' : 'text';
+        passwordSpan.text(passwordType === 'password' ? '********' : password).toggleClass('password-visible');
+        $(this).html(passwordType === 'password' ? '<u>show</u>' : '<u>hide</u>');
+    });
+});
 </script>
 {% endblock %}

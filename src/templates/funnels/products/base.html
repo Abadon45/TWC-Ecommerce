@@ -1,0 +1,267 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'funnel/products/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700;900&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+    <!-- Social Proof -->
+    <link rel="stylesheet" href="{% static 'funnel/products/custom_css/social_proof.min.css' %}">
+
+    <!-- Custom CSS -->
+    {% block custom_css %}{% endblock %}
+
+    <!-- Sweetalert css -->
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+
+    <style>
+        .swal2-content {
+            padding: 0 10px!important;
+        }
+        .swal2-html-container {
+            overflow: hidden;
+            margin-top: 30px;
+            text-align: left;
+        }
+        .swal-wide {
+            width:850px !important;
+        }
+        .swal2-validation-message {
+            justify-content: center;
+            width: 100%;
+            margin: 30px auto 0!important;
+        }
+        
+        .sweetalert-loading-container h3 {
+            font-weight: 700;
+        }
+        {% block css %}{% endblock %}
+    </style>
+
+    <title>{% block head_title %}{% endblock %}</title>
+
+    {% if sponsor_fb_pixel %}
+        <!-- Meta Pixel Code -->
+        <script>
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '{{ sponsor_fb_pixel }}');
+            fbq('track', 'PageView');
+        </script>
+        <noscript>
+            <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{ sponsor_fb_pixel }}&ev=PageView&noscript=1" />
+        </noscript>
+        <!-- End Meta Pixel Code -->
+    {% endif %}
+
+    {% if sponsor_mc_pixel %}
+        <!-- ManyChat -->
+        <script src="//widget.manychat.com/{{ sponsor_mc_pixel }}.js" defer="defer"></script>
+        <script src="https://mccdn.me/assets/js/widget.js" defer="defer"></script>
+    {% endif %}
+
+    {% if sponsor_gtm_pixel %}
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-{{ sponsor_gtm_pixel }}');</script>
+        <!-- End Google Tag Manager -->
+    {% endif %}
+</head>
+
+<body {% if sponsor_mc_pixel %}{% block mc_pixel_event %}{% endblock %}{% endif %} >
+    <!-- FB PIXEL Tracking Custom Event -->
+    {% if sponsor_fb_pixel %}
+        {% block fb_pixel_event %} {% endblock %}
+    {% endif %}
+
+    <!-- Google Tag Manager -->
+    {% if sponsor_gtm_pixel %}
+        <noscript>
+            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-{{ sponsor_gtm_pixel }}" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+        </noscript>
+    {% endif %}
+    <button onclick="topFunction()" id="myBtn" title="Go to top" style="display: none">Top</button>
+    <div class="container-fluid">
+        {% block content %}{% endblock %}
+        <footer>
+            <div>
+                <p>Copyright &copy; Techno Wealth Creators. All Rights Reserved {% now "Y" %}.</p>
+            </div>
+        </footer>
+        <section class="custom-social-proof">
+            <div class="custom-notification">
+                <div class="custom-notification-container">
+                    <div class="custom-notification-image-wrapper">
+                        <img class="img-fluid" src="{{ owner_image }}" alt="profile-pic">
+                    </div>
+                    <div class="custom-notification-content-wrapper">
+                        <p class="custom-notification-content">
+                            Franz Te Eng Fo recently <br>
+                            purchased Sante Barley
+                            <small>
+                                <i class="fa fa-check-circle"></i> Verified by <a class="poweredby" href="#" target="_blank">Techno Wealth Creators</a><br>
+                                <span id="time">1</span> hour ago
+                            </small>
+                        </p>
+                    </div>
+                </div>
+                <div class="custom-close"></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- JQuery -->
+    <script type="text/javascript" src="{% static 'architectui/vendors/jquery/dist/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="{% static 'funnel/products/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- sweetalert js -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+
+    <script type="text/javascript">
+        // Social Proof
+        {% comment %}setInterval(function () {
+            $(".custom-social-proof").stop().slideToggle('slow');
+        }, 8000);
+
+        $(".custom-close").click(function () {
+            $(".custom-social-proof").stop().slideToggle('slow');
+        });{% endcomment %}
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
+        // auto scroll up
+        //Get the button
+        var mybutton = document.getElementById("myBtn");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {
+            scrollFunction()
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // Product Hover Script
+        function transform(active) {
+            if (active === "one") {
+                document.getElementById('two').style.transform = "scale(1)";
+                document.getElementById('three').style.transform = "scale(1)";
+            } else if (active === "two") {
+                document.getElementById('one').style.transform = "scale(1)";
+                document.getElementById('three').style.transform = "scale(1)";
+            } else if (active === "three") {
+                document.getElementById('two').style.transform = "scale(1)";
+                document.getElementById('one').style.transform = "scale(1)";
+            }
+        }
+
+        function againtransform(active) {
+        if (active === "one") {
+                document.getElementById('two').style.transform = "scale(1.08)";
+                document.getElementById('three').style.transform = "scale(1.03)";
+            } else if (active === "two") {
+                document.getElementById('one').style.transform = "scale(1.03)";
+                document.getElementById('three').style.transform = "scale(1.03)";
+            } else if (active === "three") {
+                document.getElementById('two').style.transform = "scale(1.08)";
+                document.getElementById('one').style.transform = "scale(1.03)";
+            }
+        }
+
+        <!-- carousel -->
+        document.addEventListener("DOMContentLoaded", function() {
+            var element = document.getElementById("myCarousel");
+            var myCarousel = new bootstrap.Carousel(element, {
+                interval: false
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var element = document.getElementById("myCarousel2");
+            var myCarousel2 = new bootstrap.Carousel(element, {
+                interval: 5000
+            });
+        });
+        
+        function sweetAlertShowLoading(text=""){
+            let html_display = ''+
+                '<div style="text-align: center">' +
+                    '<div class="loader-wrapper d-flex justify-content-center align-items-center mx-auto">' +
+                        '<div class="loader">' +
+                            '<div class="spinner-border">' +
+                                '<div></div>' +
+                                '<div></div>' +
+                                '<div></div>' +
+                                '<div></div>' +
+                                '<div></div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<h3>Please Wait...</h3>' +
+                    '<span class="mb-3" style="text-align: center!important;">'+ text +'</span>' +
+                '</div>';
+
+            Swal.fire({
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                customClass: {
+                    container: 'sweetalert-loading-container'
+                },
+                html: html_display
+            });
+        }
+        
+        function sweetAlertShowSuccess(text=""){
+            let html_display = '' +
+                '<div style="text-align: center">' +
+                    '<span class="mb-3" style="text-align: center!important;">'+ text +'</span>' +
+                '</div>';
+            
+            Swal.fire({
+                title: "Request Processed Successfully.",
+                icon: "success",
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                html: html_display
+            });
+        }
+            
+        {% block js %}{% endblock %}
+    </script>
+</body>
+</html>
