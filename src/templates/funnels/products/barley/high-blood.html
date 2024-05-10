@@ -925,9 +925,8 @@
             </div>
         </section>
 {% endblock %}
-
+{% block js %}
 <script>
-    {% block js %}
     function checkout(promo) {
         let summary
         let promo1_summary = '' +
@@ -1113,5 +1112,5 @@
             }
         })
     }
-    {% endblock %}
 </script>
+{% endblock %}
