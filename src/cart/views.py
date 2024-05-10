@@ -513,6 +513,7 @@ def submit_checkout(request):
     
     if request.method == 'POST':
         referrer_username = request.POST.get('username')
+        request.session['referrer'] = referrer_username
         referrer = None
         
         if referrer_username:
@@ -539,8 +540,10 @@ def checkout_done_view(request):
     username = ""
     email = ""
     password = ""
+    referrer = ""
     
     try:
+        referrer = request.session['referrer']
         request.session['new_guest_user'] = True
         request.session['has_existing_order'] = True
         
@@ -568,6 +571,7 @@ def checkout_done_view(request):
         orders_subtotal = sum(order.subtotal for order in orders)
         total_shipping = sum(Decimal(order.shipping_fee) for order in orders)
         total_payment = orders_subtotal + total_shipping
+        
 
         if request.is_ajax():
             response_data = {
@@ -585,6 +589,7 @@ def checkout_done_view(request):
                 "username": username,
                 "email": email,
                 "password": password,
+                "referrer": referrer,
                 "title": title,
                 "total_payment": total_payment,
             }

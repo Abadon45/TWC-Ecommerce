@@ -1,0 +1,322 @@
+.container-fluid {
+    padding-right: var(--bs-gutter-x, .0rem);
+    padding-left: var(--bs-gutter-x, .0rem);
+}
+
+h1,
+p,
+span,
+td {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.banner {
+    background-image: url("../img/barley_for_diabetes/thank_you_banner.jpg");
+    height: 340px;
+
+    /* parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: top center;
+    background-repeat: no-repeat;
+}
+
+.banner h1 {
+    color: black;
+    font-weight: bold;
+}
+
+.order {
+    background-color: #3d835f;
+    padding: 50px 0 30px;
+    color: #fff
+}
+
+.order h1 {
+    font-weight: 300;
+    font-size: 100px;
+}
+
+.order p {
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 0;
+    margin-top: 15px;
+}
+
+.order span {
+    font-size: 18px;
+}
+
+.order-summary {
+    margin-bottom: 70px
+}
+
+.ps-5 {
+    padding-left: 2rem !important;
+}
+
+.details {
+    padding: 100px;
+}
+
+.details h1 {
+    text-align: center;
+    font-size: 30px;
+    color: green;
+    font-weight: 600;
+}
+
+.details p {
+    font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.verticalLine1 {
+    border-right: 1px solid #6c757d69;
+}
+
+.table > :not(:first-child) {
+    border-top: none;
+}
+
+.details div.row.row-two h1 {
+    margin-bottom: 20px;
+    margin-top: 70px;
+    color: black;
+}
+
+.details th {
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.details td {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.details .boxed {
+    border: 3px solid dimgrey;
+    padding: 1em;
+}
+
+.details .boxed p {
+    text-align: left;
+}
+
+.delivery .boxed:first-child {
+    margin-right: 10px;
+}
+
+.delivery h1 {
+    font-size: 24px;
+}
+
+.delivery p {
+    font-size: 16px;
+}
+
+/* Footer CSS */
+footer {
+    padding: 25px;
+    background-color: #3d835f;
+    color: white;
+    text-align: center;
+}
+
+footer p {
+    font-weight: 300;
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+/* // Mobile Large */
+@media only screen and (max-width: 428px) {
+    .banner {
+        background-position: 70% 0;
+    }
+    .order {
+        padding: 20px;
+    }
+
+    .order p {
+        font-size: 20px;
+    }
+
+    .order span {
+        font-size: 17px;
+    }
+
+    .order h1 {
+        font-size: 60px;
+    }
+
+    .details {
+        padding: 50px 20px;
+    }
+
+    .details p {
+        font-size: 12px;
+        margin-bottom: 0;
+    }
+
+    .details p:nth-child(2) {
+        margin-bottom: 20px;
+    }
+
+    .details th {
+        font-size: 18px;
+    }
+
+    .details td {
+        font-size: 16px;
+    }
+
+    .verticalLine1 {
+        border-right: none;
+    }
+
+    .verticalLine2 {
+        border-bottom: 1px solid #6c757d69;
+        margin-bottom: 20px;
+    }
+
+    footer p {
+        font-size: 15px;
+    }
+
+    .delivery .boxed:first-child {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .order-summary {
+        margin-bottom: 20px
+    }
+}
+
+/* // Mobile Medium */
+@media only screen and (max-width: 375px) {
+    .order h1 {
+        font-size: 60px;
+    }
+
+    .order p {
+        font-size: 16px;
+    }
+
+    .order span {
+        font-size: 14px;
+    }
+
+    .details h1 {
+        font-size: 24px;
+    }
+
+    footer p {
+        font-size: 13px;
+    }
+}
+
+/* // Mobile Small */
+@media only screen and (max-width: 320px) {
+    .order p {
+        font-size: 13px;
+    }
+
+    .order h1 {
+        font-size: 62px;
+    }
+
+    .order span {
+        font-size: 12px;
+    }
+
+    .ps-5 {
+        padding-left: 24px !important;
+    }
+
+    footer p {
+        font-size: 11px;
+    }
+}
+
+/*// Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .order {
+        padding: 100px 20px;
+    }
+
+    .order h1 {
+        font-size: 40px;
+    }
+
+    .order p {
+        font-size: 12px;
+        margin-top: 8px;
+    }
+
+    .order span {
+        font-size: 14px;
+    }
+
+    .ps-5 {
+        padding-left: 25px !important;
+    }
+
+    .details h1 {
+        font-size: 24px;
+    }
+
+    .details {
+        padding: 100px 0;
+    }
+
+    .details p {
+        font-size: 10px;
+    }
+
+    .details p:nth-child(2) {
+        font-size: 11px;
+    }
+
+    .details div.row.row-two h1 {
+        font-size: 24px;
+    }
+
+    .details td {
+        font-size: 12px;
+    }
+
+    .details th {
+        font-size: 18px;
+    }
+}
+
+/*// Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .order h1 {
+        font-size: 71px;
+    }
+
+    .order p {
+        font-size: 14px;
+    }
+
+    .order span {
+        font-size: 12px;
+    }
+
+    .details p {
+        font-size: 11px;
+    }
+
+    .details p:nth-child(2) {
+        font-size: 13px;
+    }
+
+    .details .boxed p {
+        font-size: 18px;
+    }
+}

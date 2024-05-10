@@ -23,11 +23,8 @@
                             <div class="card-body">
                                 <h4 class="card-title">Please save your login details to track your order.</h4>
                                 <h6>Username: {{ username }}</h6>
-                                <h6>Password: <span class="password-hidden" data-password="{{ password }}">********</span> 
-                                    <a href="#" class="password-toggle" style="font-size: 12px; color: #11b76b;"><u>show</u></a>
-                                </h6>
-
-                                <h6>Affiliate Link: http://www.twconline.store/{{ username }}</h6>
+                                <h6>Password: {{ password }}</h6>
+                                <h6>Affiliate Link: http://www.twconline.store/{{ referrer }}</h6>
                                 <h6>Email: {{ email }}</h6>
                             </div>
                         </div> 

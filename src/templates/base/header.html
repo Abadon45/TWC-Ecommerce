@@ -109,7 +109,7 @@
                                         <div class="dropdown-cart-menu">
                                             <div class="dropdown-cart-header">
                                                 <span class="cart-items-count">{{ cart_items|stringformat:"02d" }} Items</span>
-                                                <a href="{% url 'cart:cart' %}">View Cart</a>
+                                                <a href="{% url_with_domain 'cart:cart' %}">View Cart</a>
                                             </div>
                                             <ul class="dropdown-cart-list"> 
                                                 {% for order, items in ordered_items.items %}
