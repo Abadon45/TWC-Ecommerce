@@ -1,3 +1,5 @@
+{% load static %}
+
 <div class="shop-item-wrapper item-list shop-list product-list">
     <div class="row">
         {% if products %}
@@ -11,9 +13,10 @@
                 <div class="product-img">
                     <span class="type">Trending</span>
                     {% if product.image_1 %}
-                    <img src="{{ product.image_1.url }}" alt="{{ product.name }}">
+                        <img src="{{ product.image_1.url }}" alt="{{ product.name }}">
                     {% else %}
-                    no image
+                        <img src="{% static 'img\product\default-product-image.png' %}" alt="{{ product.name }}"
+                                id="product-image">
                     {% endif %}
                     <div class="product-action-wrap">
                         <div class="product-action">

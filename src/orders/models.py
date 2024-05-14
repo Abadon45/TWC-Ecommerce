@@ -134,7 +134,7 @@ class Order(models.Model):
         distributor_total = sum(item.get_distributor_total for item in self.orderitem_set.all())
         return distributor_total
     
-    
+
     @classmethod
     def get_or_create_customer(cls, user, email):
         if user is not None:

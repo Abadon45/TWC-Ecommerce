@@ -33,6 +33,7 @@ urlpatterns = [
     path('<str:username>', IndexView.as_view(), name='affiliate_redirect'),
     path('funnel/', ProductFunnelView.as_view(), name='product_funnel'),
     path('funnel/<str:username>&<str:product>/', ProductFunnelView.as_view(), name='product_funnel_with_params'),
+    path('funnel/create-order', create_order, name='create_order'),
     path('dummy-list/', TemplateView.as_view(template_name='dummy_list.html'), name='list'),
     re_path(r'^.*/$', Handle404View.as_view(), name='handle_404'),
 ]

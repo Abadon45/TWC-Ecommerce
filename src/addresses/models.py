@@ -20,7 +20,7 @@ class Address(models.Model):
     line1           = models.CharField(max_length=255, null=True, blank=True)
     line2           = models.CharField(max_length=255, null=True, blank=True)
     postcode        = models.CharField(max_length=20, null=True, blank=True)
-    message         = models.TextField(blank=True)
+    message         = models.TextField(blank=True, null=True)
     is_default      = models.BooleanField(default=False)
     
     def __str__(self):

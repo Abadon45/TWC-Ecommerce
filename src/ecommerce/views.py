@@ -10,8 +10,17 @@ from django.shortcuts import redirect
 from django.utils.text import capfirst
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.views.decorators.http import require_POST
+from orders.models import Order
+from addresses.models import Address
+from django.contrib.auth import authenticate
+from django.core.mail import send_mail
+from django.conf import settings
+from cart.utils import sf_calculator
+
 
 import random
+import string
 
 
 User = get_user_model()
@@ -125,8 +134,112 @@ class ProductFunnelView(TemplateView):
         context = super().get_context_data(**kwargs)
         username = self.kwargs.get('username')
         product = self.kwargs.get('product')
+        
+        self.request.session['funnel_referrer'] = username
         context.update({'username': username, 'product': product})
+        
+        
         return context
+    
+def create_order(request):
+    try:
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        email = request.POST.get("email")
+        phone = request.POST.get("phone")
+        line1 = request.POST.get("line1")
+        barangay = request.POST.get("barangay")
+        city = request.POST.get("city")
+        province = request.POST.get("province")
+        region = request.POST.get("region")
+        postcode = request.POST.get("postcode")
+        message = request.POST.get("message")
+        
+        cod_amount = request.POST.get("bundle_price")
+        total_quantity = request.POST.get("bundle_qty")
+        
+        referrer = request.session['funnel_referrer']
+        referrer_user = User.objects.get(username=referrer)
+        print(f'Order Item Quantity: {total_quantity}')
+
+        shipping_fee = sf_calculator(region=region, qty=total_quantity)
+
+        print(f'Referrer: {referrer}')
+        
+        random_suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=3))
+        
+        temporary_username = first_name.lower()[0] + last_name.lower() + random_suffix
+        temporary_password = User.objects.make_random_password(length=6)
+        
+        temporary_user, user_created = User.objects.get_or_create(
+            username = temporary_username, 
+            password = temporary_password,
+            first_name = first_name,
+            last_name = last_name,
+            email = email,
+            referred_by = referrer_user
+            )
+
+        # Create or get the shipping address
+        shipping_address, created = Address.objects.get_or_create(
+            user=temporary_user,
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            phone=phone,
+            line1=line1,
+            barangay=barangay,
+            city=city,
+            province=province,
+            region=region,
+            postcode=postcode,
+            message=message,
+        )
+        
+        order = Order.objects.create(
+            user=temporary_user,
+            shipping_address=shipping_address, 
+            cod_amount=cod_amount,
+            shipping_fee=shipping_fee,
+            complete=False
+        )
+        
+        # send email to the user after creating temporary user
+        
+        print(f'Order ID: {order.order_id}')
+        request.session['bundle_order'] = order.order_id
+        
+        request.session['guest_user_data'] = {
+            'username': temporary_username,
+            'password': temporary_password,
+            'email': temporary_user.email,
+        } 
+        
+        user = authenticate(request, username=temporary_username, password=temporary_password)
+        
+        if user: 
+            subject = 'TWC Online Store Temporary Account'
+            message = f'Good Day {first_name},\n\n\nYou have successfully registered an account on TWConline.store!!\n\n\nHere are your temporary account details:\n\nUsername: {temporary_username}\nPassword: {temporary_password}\n\n\nThank you for your order!'
+            from_email = settings.EMAIL_MAIN
+            recipient_list = [temporary_user.email]
+            
+            try:
+                send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+                print("Email sent successfully!")
+            except Exception as e:   
+                print(f"Error sending email: {e}")
+
+        return JsonResponse({
+            'message': 'Order created successfully',
+            'order_id': order.order_id,
+        }, status=200)
+        
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Referrer user not found'}, status=400)
+    
+    except Exception as e:
+        print(f"Exception in create_order: {e}")
+        return JsonResponse({'error': 'Internal Server Error'}, status=500)
     
     
 class ContactView(TemplateView):

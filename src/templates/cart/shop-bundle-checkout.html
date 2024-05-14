@@ -1,0 +1,139 @@
+{% extends "base-shop.html" %}
+{% load static %}
+{% load currency_filters %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+<div class="shop-checkout2 py-100">
+    <div class="container">
+        <div class="shop-checkout-wrap">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shop-checkout-form">
+                        
+                        <h6 class="mb-2"><i class="fa-solid fa-location-dot"></i> Delivery Address:</h6>
+    
+                        <p class="selected_address"><b>{{address.first_name}}
+                                {{default_address.last_name}}
+                                {{default_address.phone}}</b></p>
+                        <div class="change-address row mb-20">
+                            <div class="col-lg-10">
+                                <p class="address_details">{{ default_address.line1 }} Brgy. 
+                                    {{default_address.barangay }},
+                                    {{ default_address.city }}, {{ default_address.province }},
+                                    {{ default_address.postcode }} </p>
+                            </div>
+                            <div class="col-lg-2 d-flex justify-content-end">
+                                <span class="is_default">Default</span>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-1">
+                                    <button type="button" class="change-address-btn">Change</button>
+                                </div>
+                            </div>
+                            {% include 'cart/change-address-modal.html' %}
+                            {% include 'cart/add-address-modal.html' %}
+                            {% include 'cart/edit-address-modal.html' %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">            
+                    <div class="card mb-20 shop-cart-summary-twc">
+                        <div class="card-body">
+                            <div class="card-title">
+                                <h4>Order Number: {{ order.order_id }}</h4>
+                            </div>
+                            <div class="cart-table card-text">
+                                <div class="table-responsive">
+                                    <table class="table cart-table" id="product-table-{{ order.order_id }}">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Image</th>
+                                                <th scope="col">Product Name</th>
+                                                <th scope="col">Price</th>
+                                                <th scope="col" style="text-align: center;">Quantity</th>
+                                                <th scope="col" style="text-align: right;">Sub Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="cart-body">
+                                            {% for item in ordered_items %}
+                                                <tr class="cart-product" id="product-row-{{ item.product.id }}" style="width: 20%;">
+                                                    <td>
+                                                        <div class="shop-cart-img">
+                                                            <a href="#">
+                                                                {% if item.product.image_1 %}
+                                                                    {% if item.product.image_1.url %}
+                                                                        <img src="{{ item.product.image_1.url }}" alt="{{ item.product.name }}">
+                                                                    {% else %}
+                                                                        <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ item.product.name }}">
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                    <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ item.product.name }}">
+                                                                {% endif %}
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                    <td style="width: 50%;">{{ item.product.name }}</td>
+                                                    <td style="width: 10%;">{{ item.product.customer_price|currency }}</td>
+                                                    <td style="width: 10%; text-align: center;">{{ item.quantity }}</td>
+                                                    <td style="width: 10%; text-align: right;">{{ item.get_total|currency }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>                                        
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="shop-cart-summary" style="margin-left: 0!important;">
+                        <div class="form-check mb-20">
+                            <h5>Mode of Payment</h5>
+                            <label class="form-check-label" for="cod">
+                                <h6>Cash On Delivery</h6>
+                                <p>Please read our <a href="#">Terms And
+                                        Conditions</a> for cash on delivery.</p>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="shop-cart-summary" style="margin-left: 0!important;">
+                        <h5>Cart Summary</h5>
+                        <ul>
+
+                            <li><strong>Order Subtotal:</strong><span>{{ order.subtotal|currency }}</span></li>
+                            <li><strong>Shipping Fee:</strong><span>{{ order.shipping_fee|currency }}</span></li>
+                            <li><strong>Bundle Discount:</strong><span>({{ order.discount|currency }})</span></li>
+                            <li class="shop-cart-total" style="display: block!important; text-align: end;">
+                                <h3><strong>Total Payment:</strong>&emsp;<span>{{ order.cod_amount|currency }}</span></h3>
+                            </li>
+                        </ul>
+                        <div class="col-lg-12 shop-checkout-form mt-20"
+                            style="padding: 0!important; border: none!important; ">
+                            <div class="row">
+                                <div class="col-lg-5">
+                                    <a href="{% url 'cart:cart' %}" type="button" class="theme-btn theme-btn2"><span
+                                        class="fas fa-arrow-left"></span>Back To Cart</a>
+                                </div>
+                                <div class="col-md-2 offset-md-5">
+                                    <form class="form" method="POST" action="{% url 'cart:submit_checkout' %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="theme-btn">Checkout Now<i
+                                                class="fas fa-arrow-right-long"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

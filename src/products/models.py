@@ -59,6 +59,7 @@ class Product(models.Model):
     is_for_autoship  = models.BooleanField(default=False)
     is_for_vw        = models.BooleanField(default=False)
     is_digital       = models.BooleanField(default=False)
+    is_hidden        = models.BooleanField(default=False)
 
     active = models.BooleanField('Active', default=True)
     timestamp = models.DateTimeField(auto_now_add=True)

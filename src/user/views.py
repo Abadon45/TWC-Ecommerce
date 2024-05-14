@@ -15,6 +15,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 from decimal import Decimal
+from django.views.decorators.http import require_POST
 
 import logging
 from .utils import fulfiller
@@ -326,7 +327,7 @@ def twc_sellers_program_data(request):
     }
 
     return JsonResponse(response, safe=False)
-    
+
 
 class BarleyForCancerView(TemplateView):
     template_name = 'seller/prospecting-barley-for-cancer.html'

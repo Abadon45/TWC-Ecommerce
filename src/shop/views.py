@@ -36,9 +36,9 @@ class ShopView(ProductListView):
             queryset = Product.objects.filter(name__icontains=search_query)
             print(f"Search results: {queryset}")  # Print the search results
         elif category_id is None or category_id.lower() == 'all':
-            queryset = Product.objects.all()
+            queryset = Product.objects.filter(is_hidden=False)
         else:
-            queryset = Product.objects.filter(category_1=category_id) | Product.objects.filter(category_2=category_id)
+            queryset = Product.objects.filter(category_1=category_id, is_hidden=False) | Product.objects.filter(category_2=category_id)
         return queryset
 
     def get_context_data(self, **kwargs):

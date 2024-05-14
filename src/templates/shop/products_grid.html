@@ -1,3 +1,4 @@
+{% load static %}
 
     <div class="shop-item-wrapper shop-grid product-list">
         <div class="row">
@@ -11,7 +12,8 @@
                             <img src="{{ product.image_1.url }}" alt="{{ product.name }}"
                                 id="product-image">
                             {% else %}
-                            no image
+                            <img src="{% static 'img\product\default-product-image.png' %}" alt="{{ product.name }}"
+                                id="product-image">
                             {% endif %}
                         </a>
                         <div class="product-action-wrap">
@@ -19,7 +21,11 @@
                                 <a href="#" class="quickview-btn"
                                     data-product-id="{{ product.id }}"
                                     data-product-name="{{ product.name }}"
-                                    data-product-image="{{ product.image_1.url }}"
+                                    {% if product.image_1 %}
+                                        data-product-image="{{ product.image_1.url }}"
+                                    {% else %}
+                                        data-product-image="{% static 'img/product/default_product_image.png' %}"
+                                    {% endif %}
                                     data-product-price="{{ product.customer_price }}"
                                     data-product-shop="{{ product.category_1|title }}"
                                     data-product-category="{{ product.category_2|title }}"

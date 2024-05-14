@@ -1,21 +1,20 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.utils import timezone
 from django.http import Http404
+from django.views import View
 from django.views.generic import TemplateView
 from django.db import transaction
-from django.db.models import Sum
 from django.http import JsonResponse
 from django.contrib.auth import authenticate
-from django.contrib.auth.signals import user_logged_in
-from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.conf import settings
-from django.template.defaultfilters import floatformat
+from django.contrib.auth import get_user_model
 
 from products.models import Product
 from orders.models import *
 from addresses.forms import AddressForm
 from .utils import sf_calculator
+
+import json
 
 
 User = get_user_model()
@@ -24,7 +23,6 @@ class CartView(TemplateView):
     template_name = 'cart/shop-cart.html'
     title = "Cart"
     
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         referrer_id = self.request.session.get('referrer')
@@ -65,13 +63,17 @@ class CartView(TemplateView):
 
 @transaction.atomic
 def updateItem(request):
+    bundleDetails = json.loads(request.GET.get('bundleDetails', '{}'))
     productId = request.GET.get('productId')
     action = request.GET.get('action')
     quantity = int(request.GET.get('quantity', 1))
     cart_items = 0
+    supplier = None
     
     user = request.user
     session_key = request.session.session_key
+    
+    print(f'Products for sales funnel: {bundleDetails}')
     
     if not session_key:
         request.session.save()
@@ -82,36 +84,50 @@ def updateItem(request):
     print('Quantity: ', quantity)
     
     try:
-        
-        product = get_object_or_404(Product, id=productId)
-        supplier = product.category_1
-        
-        print('User ID:', request.user.id)
-        
-        # Get or create the order based on user authentication and supplier
-        if user.is_authenticated:
-            print(f"User is authenticated: {user.username}")
-            order, created = Order.objects.get_or_create(user=user, supplier=supplier, complete=False)
-        else:
-            print(f"User is not authenticated")
-            order, created = Order.objects.get_or_create(user=None, session_key=session_key, supplier=supplier, complete=False)
-        
-        orderItem, order_item_created = OrderItem.objects.get_or_create(order=order, product=product)
-        orderItem.save()
-        
-        if action == 'add':
-            orderItem.quantity += quantity
-        elif action == 'minus':
-            orderItem.quantity -= quantity
+        if bundleDetails:
+            order_id = request.session['bundle_order']
+            order = Order.objects.get(order_id=order_id)
             
-        if action == 'remove' or orderItem.quantity <= 0:
-            orderItem.delete()
+            print(f'Order in UpdateItem: {order}')
+            
+            for productId in bundleDetails.get('productIds', []):
+                product = get_object_or_404(Product, id=productId)
+                print(productId)
+                print('Product: ', productId)
+                
+                orderItem, order_item_created = OrderItem.objects.get_or_create(order=order, product=product)
+                
+                orderItem.quantity = 1
+                orderItem.save() 
+                
         else:
+            product = get_object_or_404(Product, id=productId)
+            supplier = product.category_1
+        
+            # Get or create the order based on user authentication and supplier
+            if user.is_authenticated:
+                print(f"User is authenticated: {user.username}")
+                order, created = Order.objects.get_or_create(user=user, supplier=supplier, complete=False)
+            else:
+                print(f"User is not authenticated")
+                order, created = Order.objects.get_or_create(user=None, session_key=session_key, supplier=supplier, complete=False)
+        
+            orderItem, order_item_created = OrderItem.objects.get_or_create(order=order, product=product)
             orderItem.save()
             
-            
-        if order.orderitem_set.all().count() == 0:
-            order.delete()
+            if action == 'add':
+                orderItem.quantity += quantity
+            elif action == 'minus':
+                orderItem.quantity -= quantity
+                
+            if action == 'remove' or orderItem.quantity <= 0:
+                orderItem.delete()
+            else:
+                orderItem.save()
+                
+                
+            if order.orderitem_set.all().count() == 0:
+                order.delete()
         
         print(order)
         print(orderItem)
@@ -503,31 +519,67 @@ def get_checkout_address_details(request):
     else:
         return JsonResponse({'success': False, 'error': 'Invalid request method'})
     
+###################
+# Bundle Checkout #
+###################
+
+class BundleCheckoutView(View):
+    title = "Bundle Checkout"
+    template_name = 'cart/shop-bundle-checkout.html'
+    
+    def get(self, request, *args, **kwargs):
+        order_id = request.session['bundle_order']
+        order = Order.objects.get(order_id=order_id)
+        default_address = order.shipping_address
+        
+        ordered_items = OrderItem.objects.filter(order=order).select_related('product').order_by('-product__customer_price')
+    
+        discount = order.subtotal + Decimal(order.shipping_fee) - order.cod_amount
+        order.discount = discount
+        order.save()
+        
+        context = {
+            'title': self.title,
+            'order': order,
+            'default_address': default_address,
+            'ordered_items': ordered_items,
+            }
+        return render(request, self.template_name, context)
+    
 ######################### 
 # Set Order to Complete #
 #########################
 
 def submit_checkout(request):
-    order_ids = request.session.get('checkout_orders', [])
-    orders = Order.objects.filter(id__in=order_ids)
     
-    if request.method == 'POST':
-        referrer_username = request.POST.get('username')
-        request.session['referrer'] = referrer_username
-        referrer = None
+    if "bundle_order" in request.session:
+        order_id = request.session['bundle_order']
+        order = Order.objects.get(order_id=order_id)
+        order.complete = True
+        order.save()
         
-        if referrer_username:
-            try:
-                referrer = User.objects.get(username=referrer_username)
-            except User.DoesNotExist:
-                return JsonResponse({'success': False, 'error': 'Referrer username does not exist'}, status=400)
-        
-        for order in orders:
-            order_user = order.user
-            order_user.referred_by = referrer
-            order_user.save()
-            order.complete = True
-            order.save()
+        request.session['referrer'] = order.user.referred_by.username
+    else:
+        order_ids = request.session.get('checkout_orders', [])
+        orders = Order.objects.filter(id__in=order_ids)
+    
+        if request.method == 'POST':
+            referrer_username = request.POST.get('username')
+            request.session['referrer'] = referrer_username
+            referrer = None
+            
+            if referrer_username:
+                try:
+                    referrer = User.objects.get(username=referrer_username)
+                except User.DoesNotExist:
+                    return JsonResponse({'success': False, 'error': 'Referrer username does not exist'}, status=400)
+            
+            for order in orders:
+                order_user = order.user
+                order_user.referred_by = referrer
+                order_user.save()
+                order.complete = True
+                order.save()
         
     return redirect('cart:checkout_complete')
 
@@ -541,18 +593,36 @@ def checkout_done_view(request):
     email = ""
     password = ""
     referrer = ""
+    ordered_items = {}
     
     try:
         referrer = request.session['referrer']
         request.session['new_guest_user'] = True
         request.session['has_existing_order'] = True
         
+        if 'bundle_order' in request.session:
+            request.session['checkout_done_bundle'] = request.session['bundle_order']
+            del request.session['bundle_order']
+        
         if 'checkout_orders' in request.session: 
             request.session['checkout_done_view'] = request.session.get('checkout_orders', [])
             del request.session['checkout_orders']
+            
+        orders = []
 
-        order_ids = request.session.get('checkout_done_view', [])
-        orders = Order.objects.filter(id__in=order_ids)
+        if 'checkout_done_bundle' in request.session:
+            order_id = request.session['checkout_done_bundle']
+            order = Order.objects.get(order_id=order_id)
+            orders = [order]
+            ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product') 
+        else:
+            order_ids = request.session.get('checkout_done_view', [])
+            orders = Order.objects.filter(id__in=order_ids)
+            
+            ordered_items = {}
+            for order in orders:
+                ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product')
+                order.save()
         
         if request.user.is_anonymous:
             
@@ -563,14 +633,12 @@ def checkout_done_view(request):
             
             print(f'username: {username}, email: {email}, password: {password}')
             
-        ordered_items = {}
-        for order in orders:
-            ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product')
-            order.save()
-                
         orders_subtotal = sum(order.subtotal for order in orders)
         total_shipping = sum(Decimal(order.shipping_fee) for order in orders)
-        total_payment = orders_subtotal + total_shipping
+        if 'checkout_done_bundle' in request.session:
+            total_payment = sum(order.cod_amount for order in orders)
+        else:
+            total_payment = orders_subtotal + total_shipping
         
 
         if request.is_ajax():

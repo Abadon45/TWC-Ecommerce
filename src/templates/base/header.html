@@ -117,7 +117,17 @@
                                                     <li id="cart-row-{{item.product.id}}">
                                                         <div class="dropdown-cart-item">
                                                             <div class="cart-img">
-                                                                <a href="{% url 'shop:single' slug=item.product.slug %}"><img src="{{ item.product.image_1.url }}" alt="#"></a>
+                                                                <a href="{% url 'shop:single' slug=item.product.slug %}">
+                                                                    {% if item.product.image_1 %}
+                                                                        {% if item.product.image_1.url %}
+                                                                            <img src="{{ item.product.image_1.url }}" alt="{{ item.product.name }}">
+                                                                        {% else %}
+                                                                            <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ item.product.name }}">
+                                                                        {% endif %}
+                                                                    {% else %}
+                                                                        <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ item.product.name }}">
+                                                                    {% endif %}
+                                                                </a>
                                                             </div>
                                                             <div class="cart-info">
                                                                 <h4><a href="{% url 'shop:single' slug=item.product.slug %}">{{item.product.name}}</a></h4>
