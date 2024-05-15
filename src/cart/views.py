@@ -75,6 +75,11 @@ def updateItem(request):
     
     print(f'Products for sales funnel: {bundleDetails}')
     
+    if 'checkout_done_bundle' in request.session:
+        del request.session['checkout_done_bundle']
+    if 'checkout_done_view' in request.session:
+        del request.session['checkout_done_view']
+    
     if not session_key:
         request.session.save()
         session_key = request.session.session_key
@@ -90,14 +95,17 @@ def updateItem(request):
             
             print(f'Order in UpdateItem: {order}')
             
-            for productId in bundleDetails.get('productIds', []):
+            for productDetail in bundleDetails.get('products', []):
+                productId = productDetail['id']
+                quantity = productDetail.get('quantity', 1)
+                
                 product = get_object_or_404(Product, id=productId)
                 print(productId)
                 print('Product: ', productId)
                 
                 orderItem, order_item_created = OrderItem.objects.get_or_create(order=order, product=product)
                 
-                orderItem.quantity = 1
+                orderItem.quantity = quantity
                 orderItem.save() 
                 
         else:
@@ -559,9 +567,12 @@ def submit_checkout(request):
         order.save()
         
         request.session['referrer'] = order.user.referred_by.username
+        print("Order is a bundle")
     else:
         order_ids = request.session.get('checkout_orders', [])
         orders = Order.objects.filter(id__in=order_ids)
+        
+        print(f'Order in Submit Checkout: {orders}')
     
         if request.method == 'POST':
             referrer_username = request.POST.get('username')
@@ -600,8 +611,6 @@ def checkout_done_view(request):
         request.session['new_guest_user'] = True
         request.session['has_existing_order'] = True
         
-        print(request.session)
-        
         if 'bundle_order' in request.session:
             request.session['checkout_done_bundle'] = request.session['bundle_order']
             del request.session['bundle_order']
@@ -617,14 +626,17 @@ def checkout_done_view(request):
             order = Order.objects.get(order_id=order_id)
             orders = [order]
             ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product').order_by('-product__customer_price')
-        else:
+        elif 'checkout_done_view' in request.session:
             order_ids = request.session.get('checkout_done_view', [])
             orders = Order.objects.filter(id__in=order_ids)
             
             ordered_items = {}
             for order in orders:
+                order.cod_amount = order.subtotal + Decimal(order.shipping_fee) - order.discount
                 ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product')
                 order.save()
+                
+        print(f'Orders: {orders}')
         
         if request.user.is_anonymous:
             

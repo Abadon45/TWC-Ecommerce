@@ -301,61 +301,43 @@ let promo9_summary = '' +
 }
 
 function addBundle(bundleId) {
-  // Define the bundle details based on the bundleId
   console.log("Promo is: ", bundleId);
   let bundleDetails = {};
   if (bundleId === "promo1") {
     bundleDetails = {
-      productIds: ["26", "40"],
-      quantity: 1,
-      action: "add",
+      products: [{id: "26", quantity: 1}, {id: "40", quantity: 1}],
     };
   } else if (bundleId === "promo2") {
     bundleDetails = {
-      productIds: ["42", "40", "41"],
-      action: "add",
+      products: [{id: "42", quantity: 1}, {id: "40", quantity: 1}, {id: "41", quantity: 1}],
     };
   } else if (bundleId === "promo3") {
     bundleDetails = {
-      productIds: ["23", "40", "41"],
-      quantity: 1,
-      action: "add",
+      products: [{id: "23", quantity: 1}, {id: "40", quantity: 1}, {id: "41", quantity: 1}],
     };
   } else if (bundleId === "promo4") {
     bundleDetails = {
-      productIds: ["23"],
-      quantity: 1,
-      action: "add",
-    }; 
+      products: [{id: "30", quantity: 2}], 
+    };
   } else if (bundleId === "promo5") {
     bundleDetails = {
-      productIds: ["23", "40", "41"],
-      quantity: 1,
-      action: "add",
+      products: [{id: "30", quantity: 3}, {id: "40", quantity: 1}, {id: "43", quantity: 1}],
     };
   } else if (bundleId === "promo6") {
     bundleDetails = {
-      productIds: ["23", "40", "41"],
-      quantity: 1,
-      action: "add",
+      products: [{id: "30", quantity: 4}, {id: "40", quantity: 1}, {id: "43", quantity: 1}, {id: "41", quantity: 1}],
     };
   } else if (bundleId === "promo7") {
     bundleDetails = {
-      productIds: ["23", "40", "41"],
-      quantity: 1,
-      action: "add",
+      products: [{id: "29", quantity: 2}],
     };
   } else if (bundleId === "promo8") {
     bundleDetails = {
-      productIds: ["23", "40", "41"],
-      quantity: 1,
-      action: "add",
+      products: [{id: "29", quantity: 3}, {id: "40", quantity: 1}, {id: "43", quantity: 1}],
     };
   } else if (bundleId === "promo9") {
     bundleDetails = {
-      productIds: ["23", "40", "41"],
-      quantity: 1,
-      action: "add",
+      products: [{id: "29", quantity: 4}, {id: "40", quantity: 1}, {id: "43", quantity: 1}, {id: "41", quantity: 1}],
     };
   }
 
