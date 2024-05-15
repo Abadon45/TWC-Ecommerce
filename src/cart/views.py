@@ -600,6 +600,8 @@ def checkout_done_view(request):
         request.session['new_guest_user'] = True
         request.session['has_existing_order'] = True
         
+        print(request.session)
+        
         if 'bundle_order' in request.session:
             request.session['checkout_done_bundle'] = request.session['bundle_order']
             del request.session['bundle_order']
@@ -614,7 +616,7 @@ def checkout_done_view(request):
             order_id = request.session['checkout_done_bundle']
             order = Order.objects.get(order_id=order_id)
             orders = [order]
-            ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product') 
+            ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product').order_by('-product__customer_price')
         else:
             order_ids = request.session.get('checkout_done_view', [])
             orders = Order.objects.filter(id__in=order_ids)

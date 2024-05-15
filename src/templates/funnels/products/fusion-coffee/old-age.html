@@ -768,7 +768,7 @@
                             </tr>
                         </table>
                         <div class="col-sm-12 d-block d-sm-none">
-                            <div class="btn-group-toggle" data-toggle="buttons" onclick="checkout('promo1')">
+                            <div class="btn-group-toggle" data-toggle="buttons" onclick="checkout('promo4')">
                                 <label class="btn btn-secondary">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">SELECT
                                 </label>
@@ -789,7 +789,11 @@
                                 <p>₱799.00</p>
                                 <p>Coffee Mix with Barley per sachet 1 box = 10 sachets</p>
                                 <p>20 DAYS SUPPLY</p>
-                                <div class="btn-group-toggle" data-toggle="buttons" onclick="checkout('promo1')">
+                                <div class="btn-group-toggle" 
+                                data-toggle="buttons"
+                                data-price="799"
+                                data-quantity="2"
+                                onclick="checkout(this, 'promo4')">
                                     <label class="btn btn-secondary">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">SELECT
                                     </label>
@@ -821,7 +825,7 @@
                             </tr>
                         </table>
                         <div class="col-sm-12 d-block d-sm-none">
-                            <div class="btn-group-toggle" data-toggle="buttons" onclick="checkout('promo2')">
+                            <div class="btn-group-toggle" data-toggle="buttons" onclick="checkout('promo5')">
                                 <label class="btn btn-secondary">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">SELECT
                                 </label>
@@ -851,7 +855,11 @@
                                 <p>₱1,249.00</p>
                                 <p>FREE Water Bottle and Watch</p>
                                 <p>30 DAYS SUPPLY</p>
-                                <div class="btn-group-toggle" data-toggle="buttons" onclick="checkout('promo2')">
+                                <div class="btn-group-toggle" 
+                                data-toggle="buttons" 
+                                data-price="1249"
+                                data-quantity="5"
+                                onclick="checkout(this, 'promo5')">
                                     <label class="btn btn-secondary">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">SELECT
                                     </label>
@@ -882,7 +890,7 @@
                             </tr>
                         </table>
                         <div class="col-sm-12 d-block d-sm-none">
-                            <div class="btn-group-toggle" data-toggle="buttons" onclick="checkout('promo3')">
+                            <div class="btn-group-toggle" data-toggle="buttons" onclick="checkout('promo6')">
                                 <label class="btn btn-secondary">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">SELECT
                                 </label>
@@ -905,7 +913,11 @@
                                 <p>₱1,649.00</p>
                                 <p>FREE Electric Stirrer, Water Bottle and Watch</p>
                                 <p>40 DAYS SUPPLY</p>
-                                <div class="btn-group-toggle" data-toggle="buttons" onclick="checkout('promo3')">
+                                <div class="btn-group-toggle" 
+                                data-toggle="buttons" 
+                                data-price="1649"
+                                data-quantity="7"
+                                onclick="checkout(this, 'promo6')">
                                     <label class="btn btn-secondary">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">SELECT
                                     </label>
@@ -1079,219 +1091,4 @@
             </div>
         </div>
     </section>
-{% endblock %}
-
-{% block js %}
-<script>  
-        function checkout(promo) {
-            let summary
-            let promo1_summary = '' +
-                '<div class="text-white card-border bg-warning card" style="margin-top: 20px;">' +
-                '<div class="card-header text-dark">Order Summary:</div>' +
-                '<div class="card-body text-dark">' +
-                '<span class="mb-2 d-block" style="font-size: 12pt">Product: Fusion Coffee | Promo 1</span>' +
-                '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 2 Boxes</span>' +
-                '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱799.00</span>' +
-                '</div>' +
-                '</div>'
-
-            let promo2_summary = '' +
-                '<div class="text-white card-border bg-warning card" style="margin-top: 20px;">' +
-                '<div class="card-header text-dark">Order Summary:</div>' +
-                '<div class="card-body text-dark">' +
-                '<span class="mb-2 d-block" style="font-size: 12pt">Product: Fusion Coffee | Promo 2</span>' +
-                '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 3 Boxes</span>' +
-                '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱1,249.00</span>' +
-                '<span class="mb-2 d-block" style="font-size: 12pt">Freebies: Watch and Water Bottle</span>' +
-                '</div>' +
-                '</div>'
-
-            let promo3_summary = '' +
-                '<div class="text-white card-border bg-warning card" style="margin-top: 20px;">' +
-                '<div class="card-header text-dark">Order Summary:</div>' +
-                '<div class="card-body text-dark">' +
-                '<span class="mb-2 d-block" style="font-size: 12pt">Product: Fusion Coffee | Promo 3</span>' +
-                '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 4 Boxes</span>' +
-                '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱1,649.00</span>' +
-                '<span class="mb-2 d-block" style="font-size: 12pt">Freebies: Stirrer, Watch and Water Bottle</span>' +
-                '</div>' +
-                '</div>'
-
-            if (promo === "promo1") {
-                summary = promo1_summary
-            } else if (promo === "promo2") {
-                summary = promo2_summary
-            } else if (promo === "promo3") {
-                summary = promo3_summary
-            } else {
-                summary = "PROMO ERROR"
-            }
-
-            Swal.fire({
-                title: 'Encode Your Shipping Details',
-                showCancelButton: true,
-                confirmButtonColor: '#2a5298',
-                cancelButtonColor: '#d92550',
-                confirmButtonText: 'Place Order',
-                customClass: 'swal-wide',
-                didClose: function () {
-                    let checkbox
-                    let checkboxes = document.getElementsByClassName("form-check-input");
-                    for (checkbox of checkboxes) {
-                        checkbox.checked = false;
-                    }
-                },
-                html:
-                    '<div class="row">' +
-                    '<div class="col-md-6">' +
-                    '<label for="id_name" class="form-label">Receiver Name *</label>' +
-                    '<input id="id_name" name="name" class="form-control mb-3" type="text" autocomplete="off" style="height: 50px" placeholder="Juan Dela Cruz" required>' +
-                    '</div>' +
-                    '<div class="col-md-6">' +
-                    '<label for="id_mobile" class="form-label">Receiver Mobile *</label>' +
-                    '<input id="id_mobile" name="mobile" class="form-control mb-3" type="text" autocomplete="off" style="height: 50px" placeholder="+63 999 678 1234" required>' +
-                    '</div>' +
-                    '<div class="col-md-12">' +
-                    '<label for="id_address" class="form-label">Address *</label>' +
-                    '<input id="id_address" name="address" class="form-control mb-3" type="text" autocomplete="off" style="height: 50px" placeholder="House Number, Subdivision (Landmark)" required>' +
-                    '</div>' +
-                    '<div class="col-md-6">' +
-                    '<label for="id_barangay" class="form-label">Barangay / Street *</label>' +
-                    '<input id="id_barangay" name="barangay" class="form-control mb-3" type="text" autocomplete="off" style="height: 50px" placeholder="Barangay Bankal" required>' +
-                    '</div>' +
-                    '<div class="col-md-6">' +
-                    '<label for="id_city" class="form-label">Town / City *</label>' +
-                    '<input id="id_city" name="city" class="form-control mb-3" type="text" autocomplete="off" style="height: 50px" placeholder="Davao City" required>' +
-                    '</div>' +
-                    '<div class="col-md-6">' +
-                    '<label for="id_province" class="form-label">State / Province *</label>' +
-                    '<input id="id_province" name="province" class="form-control mb-3" type="text" autocomplete="off" style="height: 50px" placeholder="Davao del Sur" required>' +
-                    '</div>' +
-                    '<div class="col-md-6">' +
-                    '<label for="id_region" class="form-label">Region *</label>' +
-                    '<select id="id_region" name="region" class="form-select form-control custom-select mb-3" style="height: 50px" required>' +
-                    '<option value="">-------</option>' +
-                    '<option value="13">NATIONAL CAPITAL REGION (NCR)</option>' +
-                    '<option value="04">REGION IV-A (CALABARZON)</option>' +
-                    '<option value="01">REGION I (ILOCOS REGION)</option>' +
-                    '<option value="02">REGION II (CAGAYAN VALLEY)</option>' +
-                    '<option value="03">REGION III (CENTRAL LUZON)</option>' +
-                    '<option value="17">REGION IV-B (MIMAROPA)</option>' +
-                    '<option value="05">REGION V (BICOL REGION)</option>' +
-                    '<option value="06">REGION VI (WESTERN VISAYAS)</option>' +
-                    '<option value="07">REGION VII (CENTRAL VISAYAS)</option>' +
-                    '<option value="08">REGION VIII (EASTERN VISAYAS)</option>' +
-                    '<option value="09">REGION IX (ZAMBOANGA PENINSULA)</option>' +
-                    '<option value="10">REGION X (NORTHERN MINDANAO)</option>' +
-                    '<option value="11">REGION XI (DAVAO REGION)</option>' +
-                    '<option value="12">REGION XII (SOCCSKSARGEN)</option>' +
-                    '<option value="14">CORDILLERA ADMINISTRATIVE REGION (CAR)</option>' +
-                    '<option value="15">AUTONOMOUS REGION IN MUSLIM MINDANAO (ARMM)</option>' +
-                    '<option value="16">REGION XIII (Caraga)</option>' +
-                    '</select>' +
-                    '</div>' +
-                    '<div class="col-md-6">' +
-                    '<label for="id_country" class="form-label">Country *</label>' +
-                    '<input id="id_country" name="country" class="form-control mb-3" type="text" autocomplete="off" style="height: 50px" value="Philippines" disabled>' +
-                    '</div>' +
-                    '<div class="col-md-6">' +
-                    '<label for="id_postal_code" class="form-label">Postal Code / ZIP</label>' +
-                    '<input id="id_postal_code" name="postal_code" class="form-control mb-3" type="text" autocomplete="off" style="height: 50px" placeholder="8000">' +
-                    '</div>' +
-                    '<div class="col-md-6">' +
-                    '<label for="id_notes" class="form-label text-left" style="margin-top: 20px;">Shipping Notes</label>' +
-                    '<textarea class="form-control form-control-solid" rows="4" name="notes" id="id_notes" placeholder="E.g. Deliver only weekdays."></textarea>' +
-                    '</div>' +
-                    '<div class="col-md-6">' + summary + '</div>' +
-                    '</div>' +
-                    '',
-                preConfirm: () => {
-                    if (document.getElementById('id_name').value && document.getElementById('id_mobile').value && document.getElementById('id_address').value && document.getElementById('id_barangay').value && document.getElementById('id_city').value && document.getElementById('id_province').value && document.getElementById('id_region').value)
-                        return new Promise((resolve, reject) => {
-                            resolve({
-                                name: document.getElementById('id_name').value,
-                                mobile: document.getElementById('id_mobile').value,
-                                address: document.getElementById('id_address').value,
-                                barangay: document.getElementById('id_barangay').value,
-                                city: document.getElementById('id_city').value,
-                                province: document.getElementById('id_province').value,
-                                region: document.getElementById('id_region').value,
-                                postal_code: document.getElementById('id_postal_code').value,
-                                notes: document.getElementById('id_notes').value,
-                                promo: promo,
-                            });
-                        });
-                    else
-                        Swal.showValidationMessage('Please provide all required information. Thank you!');
-                    return false;
-                }
-            }).then((data) => {
-                if (data.isConfirmed) {
-                    if (data.value.name && data.value.mobile && data.value.address && data.value.barangay && data.value.city && data.value.province && data.value.region) {
-                        $.ajax({
-                            url: '/checkout/product/fusion-coffee/',
-                            dataType: 'json',
-                            data: {
-                                name: data.value.name,
-                                funnel_slug: "{{ funnel_slug }}",
-                                mobile: data.value.mobile,
-                                address: data.value.address,
-                                barangay: data.value.barangay,
-                                city: data.value.city,
-                                province: data.value.province,
-                                region: data.value.region,
-                                postal_code: data.value.postal_code,
-                                notes: data.value.notes,
-                                promo: data.value.promo,
-                            },
-                            beforeSend: function () {
-                                swal.fire({
-                                    html:
-                                        '<div class="mb-3" style="text-align: center">' +
-                                        '<div class="loader-wrapper d-flex justify-content-center align-items-center mx-auto">' +
-                                        '<div class="loader">' +
-                                        '<div class="spinner-border">' +
-                                        '<div></div>' +
-                                        '<div></div>' +
-                                        '<div></div>' +
-                                        '<div></div>' +
-                                        '<div></div>' +
-                                        '</div>' +
-                                        '</div>' +
-                                        '</div>' +
-                                        '<h4 class="mt-3">Please Wait...</h4>' +
-                                        '</div>',
-                                    showConfirmButton: false,
-                                });
-                            },
-                            success: function (data) {
-                                Swal.fire({
-                                    title: 'Order Successfully Placed!',
-                                    icon: 'success',
-                                    didClose: function () {
-                                        window.location.href = '/checkout/product/thank-you/' + data.order_number + '/?funnel=old-age';
-                                    },
-                                })
-                            },
-                            failure: function (response) {
-                                swal(
-                                    "Internal Error",
-                                    "Oops, your note was not saved.", // had a missing comma
-                                    "error"
-                                )
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Please provide all required information. Thank you!',
-                            icon: 'error',
-                            didClose: function () {
-                                checkout(promo)
-                            },
-                        })
-                    }
-                }
-            })
-        }
-</script>
 {% endblock %}

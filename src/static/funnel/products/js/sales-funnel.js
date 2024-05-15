@@ -1,7 +1,6 @@
 function checkout(element, promo) {
-
-  var bundlePrice = $(element).data('price');
-  var bundleQty = $(element).data('quantity');
+  var bundlePrice = $(element).data("price");
+  var bundleQty = $(element).data("quantity");
 
   let summary;
   let promo1_summary =
@@ -40,6 +39,72 @@ function checkout(element, promo) {
     "</div>" +
     "</div>";
 
+  let promo4_summary =
+    "" +
+    '<div class="text-white card-border bg-warning card" style="margin-top: 20px;">' +
+    '<div class="card-header text-dark">Order Summary:</div>' +
+    '<div class="card-body text-dark">' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Product: Fusion Coffee | Promo 1</span>' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 2 Boxes</span>' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱799.00</span>' +
+    "</div>" +
+    "</div>";
+
+  let promo5_summary =
+    "" +
+    '<div class="text-white card-border bg-warning card" style="margin-top: 20px;">' +
+    '<div class="card-header text-dark">Order Summary:</div>' +
+    '<div class="card-body text-dark">' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Product: Fusion Coffee | Promo 2</span>' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 3 Boxes</span>' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱1,249.00</span>' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Freebies: Watch and Water Bottle</span>' +
+    "</div>" +
+    "</div>";
+
+  let promo6_summary =
+    "" +
+    '<div class="text-white card-border bg-warning card" style="margin-top: 20px;">' +
+    '<div class="card-header text-dark">Order Summary:</div>' +
+    '<div class="card-body text-dark">' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Product: Fusion Coffee | Promo 3</span>' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 4 Boxes</span>' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱1,649.00</span>' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Freebies: Stirrer, Watch and Water Bottle</span>' +
+    "</div>" +
+    "</div>";
+
+    let promo7_summary = '' +
+    '<div class="text-white card-border bg-warning card" style="margin-top: 20px;">' +
+    '<div class="card-header text-dark">Order Summary:</div>' +
+    '<div class="card-body text-dark">' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Product: Boost Coffee | Promo 1</span>' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 2 Boxes</span>' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱899.00</span>' +
+    '</div>' +
+    '</div>'
+
+let promo8_summary = '' +
+    '<div class="text-white card-border bg-warning card" style="margin-top: 20px;">' +
+    '<div class="card-header text-dark">Order Summary:</div>' +
+    '<div class="card-body text-dark">' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Product: Boost Coffee | Promo 2</span>' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 3 Boxes</span>' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱1,349.00</span>' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Freebies: Watch and Water Bottle</span>' +
+    '</div>' +
+    '</div>'
+
+let promo9_summary = '' +
+    '<div class="text-white card-border bg-warning card" style="margin-top: 20px;">' +
+    '<div class="card-header text-dark">Order Summary:</div>' +
+    '<div class="card-body text-dark">' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Product: Boost Coffee | Promo 3</span>' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 4 Boxes</span>' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱1,799.00</span>' +
+    '<span class="mb-2 d-block" style="font-size: 12pt">Freebie: Stirrer, Watch and Water Bottle</span>' +
+    '</div>' +
+    '</div>'
 
   if (promo === "promo1") {
     summary = promo1_summary;
@@ -47,6 +112,18 @@ function checkout(element, promo) {
     summary = promo2_summary;
   } else if (promo === "promo3") {
     summary = promo3_summary;
+  } else if (promo === "promo4") {
+    summary = promo4_summary;
+  } else if (promo === "promo5") {
+    summary = promo5_summary;
+  } else if (promo === "promo6") {
+    summary = promo6_summary;
+  } else if (promo === "promo7") {
+    summary = promo7_summary;
+  } else if (promo === "promo8") {
+    summary = promo8_summary;
+  } else if (promo === "promo9") {
+    summary = promo9_summary;
   } else {
     summary = "PROMO ERROR";
   }
@@ -203,7 +280,6 @@ function checkout(element, promo) {
             sweetAlertShowLoading("We are processing your order...");
           },
           success: function (data) {
-            
             sweetAlertShowSuccess("Order Successfully Placed!");
             setTimeout(function () {
               sweetAlertShowLoading("Redirecting to Thank You Page...");
@@ -225,44 +301,78 @@ function checkout(element, promo) {
 }
 
 function addBundle(bundleId) {
-    // Define the bundle details based on the bundleId
-    console.log("Promo is: ", bundleId)
-    let bundleDetails = {};
-    if (bundleId === 'promo1') {
-        bundleDetails = {
-            productIds: ['26', '40'],
-            quantity: 1,
-            action: 'add'
-        };
-    } else if (bundleId === 'promo2') {
-        bundleDetails = {
-            productIds: ['42', '40', '41'],
-            action: 'add'
-        };
-    } else if (bundleId === 'promo3') {
-        bundleDetails = {
-            productIds: ['23', '40', '41'],
-            quantity: 1,
-            action: 'add'
-        };
-    }
+  // Define the bundle details based on the bundleId
+  console.log("Promo is: ", bundleId);
+  let bundleDetails = {};
+  if (bundleId === "promo1") {
+    bundleDetails = {
+      productIds: ["26", "40"],
+      quantity: 1,
+      action: "add",
+    };
+  } else if (bundleId === "promo2") {
+    bundleDetails = {
+      productIds: ["42", "40", "41"],
+      action: "add",
+    };
+  } else if (bundleId === "promo3") {
+    bundleDetails = {
+      productIds: ["23", "40", "41"],
+      quantity: 1,
+      action: "add",
+    };
+  } else if (bundleId === "promo4") {
+    bundleDetails = {
+      productIds: ["23"],
+      quantity: 1,
+      action: "add",
+    }; 
+  } else if (bundleId === "promo5") {
+    bundleDetails = {
+      productIds: ["23", "40", "41"],
+      quantity: 1,
+      action: "add",
+    };
+  } else if (bundleId === "promo6") {
+    bundleDetails = {
+      productIds: ["23", "40", "41"],
+      quantity: 1,
+      action: "add",
+    };
+  } else if (bundleId === "promo7") {
+    bundleDetails = {
+      productIds: ["23", "40", "41"],
+      quantity: 1,
+      action: "add",
+    };
+  } else if (bundleId === "promo8") {
+    bundleDetails = {
+      productIds: ["23", "40", "41"],
+      quantity: 1,
+      action: "add",
+    };
+  } else if (bundleId === "promo9") {
+    bundleDetails = {
+      productIds: ["23", "40", "41"],
+      quantity: 1,
+      action: "add",
+    };
+  }
 
-    $.ajax({
-        url: updateItem,
-        type: 'GET',
-        data: {
-          bundleDetails: JSON.stringify(bundleDetails),
-      },
-        success: function(response) {
-            console.log(response);
-            setTimeout(function () {
-              window.location.href = bundleCheckout;
-          }, 2000);
-        },
-        error: function(xhr, status, error) {
-            console.error(xhr.responseText);
-        }
-    });
+  $.ajax({
+    url: updateItem,
+    type: "GET",
+    data: {
+      bundleDetails: JSON.stringify(bundleDetails),
+    },
+    success: function (response) {
+      console.log(response);
+      setTimeout(function () {
+        window.location.href = bundleCheckout;
+      }, 2000);
+    },
+    error: function (xhr, status, error) {
+      console.error(xhr.responseText);
+    },
+  });
 }
-
-

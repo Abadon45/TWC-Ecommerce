@@ -51,7 +51,7 @@ class IndexView(TemplateView):
         guest_user_info = request.session.get('guest_user_data', {})
         new_guest_user = request.session.get('new_guest_user', False)
         
-        products = Product.objects.filter(active=True)
+        products = Product.objects.filter(active=True, is_hidden=False)
         products_list = list(products)
         random_products = random.sample(products_list, min(len(products_list), 4)) if products_list else []
         rand_on_sale_products = random.sample(products_list, min(len(products_list), 3)) if products_list else []

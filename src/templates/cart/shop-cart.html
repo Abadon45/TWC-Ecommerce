@@ -28,6 +28,9 @@
                                     {% if order.supplier == "chingu" %}
                                     Chingu
                                     {% endif %}
+                                    {% if order.supplier == None %}
+                                    Promo Bundle
+                                    {% endif %}
                                 </h6>
                                 <hr>
                             </div>
@@ -50,8 +53,13 @@
                                             <tr class="cart-product" id="product-row-{{ item.product.id }}">
                                                 <td style="width: 15%;">
                                                     <div class="shop-cart-img">
-                                                        <a href="{% url 'shop:single' slug=item.product.slug %}"><img
-                                                                src="{{ item.product.image_1.url }}" alt=""></a>
+                                                        <a href="{% url 'shop:single' slug=item.product.slug %}">
+                                                            {% if item.product.image_1 %}
+                                                                <img src="{{ item.product.image_1.url }}" alt="">
+                                                            {% else %}
+                                                                No image
+                                                            {% endif %}
+                                                        </a>
                                                     </div>
                                                 </td>
                                                 <td style="width: 35%;">
