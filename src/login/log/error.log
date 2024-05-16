@@ -43236,3 +43236,11 @@ Traceback (most recent call last):
 KeyError: 'checkout_done_bundle'
 "GET /cart/update-item/?bundleDetails=%7B%22productIds%22%3A%5B%2223%22%2C%2240%22%2C%2241%22%5D%2C%22quantity%22%3A1%2C%22action%22%3A%22add%22%7D HTTP/1.1" 500 78819
 "GET /cart/update-item/?bundleDetails=%7B%22productIds%22%3A%5B%2223%22%2C%2240%22%2C%2241%22%5D%2C%22quantity%22%3A1%2C%22action%22%3A%22add%22%7D HTTP/1.1" 500 78819
+You're accessing the development server over HTTPS, but it only supports HTTP.
+
+You're accessing the development server over HTTPS, but it only supports HTTP.
+
+You're accessing the development server over HTTPS, but it only supports HTTP.
+
+You're accessing the development server over HTTPS, but it only supports HTTP.
+

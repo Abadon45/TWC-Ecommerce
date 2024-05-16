@@ -74,7 +74,7 @@
                                         </div>
                                     </div>
                                     {% if product.category_1 != 'sante' %}
-                                    <div class="col-md-3 col-lg-4 col-xl-3">
+                                    <!-- <div class="col-md-3 col-lg-4 col-xl-3">
                                         <div class="shop-single-size">
                                             <h6>Size</h6>
                                            <select class="select">
@@ -122,7 +122,7 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     {% endif %}
                                 </div>
                             </div>
@@ -141,10 +141,10 @@
                                     <div class="col-md-6 col-lg-12 col-xl-6">
                                         <div class="shop-single-btn">
                                             {% if product.id in products_in_cart %}
-                                                <button  type="button" class="btn btn-secondary" disabled>Added to Cart</button>
+                                                <button  type="button" class="btn btn-secondary item-id-{{ product.id }}" style="padding: 9px 20px!important;" disabled>Added to Cart</button>
                                             {% else %}
                                                 <button data-product="{{ product.id }}" data-action="add" type="button"
-                                                    class="btn theme-btn add-to-cart-btn update-cart"
+                                                    class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
                                                     onclick="addToCart(this)">Add to Cart
                                                 </button>
                                             {% endif %}
@@ -288,11 +288,11 @@
                                             <div class="product-price">
                                                 <span class="current-product-price">₱ {{ related_product.customer_price}}</span>
                                             </div>
-                                            {% if product.id in products_in_cart %}
-                                                <button  type="button" class="btn btn-secondary" disabled>Added to Cart</button>
+                                            {% if related_product.id in products_in_cart %}
+                                                <button  type="button" class="btn btn-secondary item-id-{{ related_product.id }}" style="padding: 9px 20px!important;" disabled>Added to Cart</button>
                                             {% else %}
-                                                <button data-product="{{ product.id }}" data-action="add" type="button"
-                                                    class="btn theme-btn add-to-cart-btn update-cart"
+                                                <button data-product="{{ related_product.id }}" data-action="add" type="button"
+                                                    class="btn theme-btn add-to-cart-btn update-cart item-id-{{ related_product.id }}"
                                                     onclick="addToCart(this)">Add to Cart
                                                 </button>
                                             {% endif %}

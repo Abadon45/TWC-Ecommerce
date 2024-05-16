@@ -295,11 +295,12 @@ Version         : 1.0
 
     // scroll to top
     $(window).scroll(function () {
-        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-            $("#scroll-top").addClass('active');
-        } else {
-            $("#scroll-top").removeClass('active');
-        }
+        $("#scroll-top").addClass('active');
+        // if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        //     $("#scroll-top").addClass('active');
+        // } else {
+        //     $("#scroll-top").removeClass('active');
+        // }
     });
 
     $("#scroll-top").on('mouseenter', function () {

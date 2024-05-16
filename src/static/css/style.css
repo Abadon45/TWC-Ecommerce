@@ -772,8 +772,8 @@ label {
 
 #scroll-top {
   position: fixed;
-  bottom: -20px;
-  right: 30px;
+  bottom: 20px; /* Move the button to the bottom of the screen */
+  right: 30px; /* Move the button to the left of the screen */
   z-index: 99;
   font-size: 20px;
   border: none;
@@ -788,16 +788,14 @@ label {
   text-align: center;
   box-shadow: var(--box-shadow2);
   transition: var(--transition);
-  opacity: 0;
-  visibility: hidden;
-  z-index: 1;
+  opacity: 1; /* Ensure the button is always visible */
+  visibility: visible; /* Ensure the button is always visible */
 }
 
 #scroll-top.active{
-  opacity: 1;
-  visibility: visible;
   bottom: 20px;
 }
+
 
 #scroll-top span{
   position: absolute;

@@ -10,24 +10,33 @@ $(document).ready(function () {
     var quantity = parseInt(quantityInput.val()) || 1;
     
 
-    console.log(
-      "Product ID:",
-      productId,
-      "Action:",
-      action,
-      "Quantity:",
-      quantity
-    );
-
-
-    updateUserOrder(
-      productId,
-      orderId,
-      action,
-      quantity,
-      updateItemUrl,
-      button
-    );
+    if (action === 'remove') {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to remove this item from your cart?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, remove it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: 'Removing...',
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading();
+            }
+          });
+          setTimeout(() => {
+            updateUserOrder(productId, orderId, action, quantity, updateItemUrl, button);
+            Swal.close();
+          }, 1000);
+        }
+      });
+    } else {
+      updateUserOrder(productId, orderId, action, quantity, updateItemUrl, button);
+    }
   });
 
   function updateUserOrder(productId, orderId, action, quantity, url, button) {
@@ -42,14 +51,6 @@ $(document).ready(function () {
         quantity: quantity,
       },
       success: function (data) {
-        console.log("Server Response Data:", data);
-        console.log("Quantity:", quantity);
-        console.log("Cart Items Count:", data.cart_items);
-        console.log("Order Count:", data.orders.length);
-        console.log("Order ID:", orderId);
-
-        $("#cart-count").text(data.cart_items);
-        var totalOrders = data.orders.length;
         var formattedCartItems = String(data.cart_items).padStart(2, "0");
         var subtotal = data.products[0].total;
         var subtotalNumber = parseFloat(subtotal);
@@ -62,6 +63,12 @@ $(document).ready(function () {
         var formattedSubtotal = subtotalNumber.toLocaleString("en-US", {
           minimumFractionDigits: 2,
         });
+        var totalOrders = data.orders.length;
+
+        //Update Cart Count
+        $("#upper-cart-count").text(data.cart_items);
+        $("#lower-cart-count").text(data.cart_items);
+        
 
         //Add to cart create dropdown
         if (data.action === "add") {
@@ -161,6 +168,7 @@ $(document).ready(function () {
               .attr("data-product", productId)
               .attr("data-action", "add");
           }
+          
 
           //If the cart becomes empty
           if (data.cart_items === 0) {

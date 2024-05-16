@@ -103,7 +103,7 @@
                             
                             <li id="cart-link" class="dropdown-cart">
                                     <a href="{% url_with_domain 'cart:cart' %}" class="shop-cart list-item"><i class="far fa-shopping-bag"></i>
-                                    <span id="cart-count">{{ cart_items }}</span></a>
+                                    <span id="upper-cart-count">{{ cart_items }}</span></a>
                                     <div id="cart-dropdown">
                                         {% if cart_items %}
                                         <div class="dropdown-cart-menu">
