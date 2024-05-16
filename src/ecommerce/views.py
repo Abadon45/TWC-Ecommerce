@@ -115,11 +115,11 @@ class ProductFunnelView(TemplateView):
 
     def get_template_names(self):
         product = self.kwargs.get('product', None)
-        if product == 'barleyforcancer':
+        if product == 'barley-for-cancer':
             return ['funnels/products/barley/cancer.html']
-        elif product == 'barleyfordiabetes':
+        elif product == 'barley-for-diabetes':
             return ['funnels/products/barley/diabetes.html']
-        elif product == 'barleyforhighblood':
+        elif product == 'barley-for-high-blood':
             return ['funnels/products/barley/high-blood.html']
         elif product == 'old-age':
             return ['funnels/products/fusion-coffee/old-age.html']
@@ -132,14 +132,23 @@ class ProductFunnelView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        username = self.kwargs.get('username')
+        username = self.request.GET.get('username')
         product = self.kwargs.get('product')
+        
+        print(username)
         
         self.request.session['funnel_referrer'] = username
         context.update({'username': username, 'product': product})
         
         
         return context
+    
+def generate_funnel_username(request):
+    product = 'barley-for-cancer'
+    username = request.user.username
+    url = reverse('product_funnel_with_params', kwargs={'product': product})
+    full_url = f"{url}?username={username}"
+    return HttpResponseRedirect(full_url)
     
 def create_order(request):
     try:
