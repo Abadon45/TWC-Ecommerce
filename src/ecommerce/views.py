@@ -17,6 +17,7 @@ from django.contrib.auth import authenticate
 from django.core.mail import send_mail
 from django.conf import settings
 from cart.utils import sf_calculator
+from .utils import is_valid_username
 
 
 import random
@@ -115,6 +116,13 @@ class ProductFunnelView(TemplateView):
 
     def get_template_names(self):
         product = self.kwargs.get('product', None)
+        username = self.request.GET.get('username')
+        if not is_valid_username(username):
+            return ['404.html']
+        else:
+            self.request.session['funnel_referrer'] = username
+            print(username)
+        
         if product == 'barley-for-cancer':
             return ['funnels/products/barley/cancer.html']
         elif product == 'barley-for-diabetes':
@@ -135,11 +143,7 @@ class ProductFunnelView(TemplateView):
         username = self.request.GET.get('username')
         product = self.kwargs.get('product')
         
-        print(username)
-        
-        self.request.session['funnel_referrer'] = username
         context.update({'username': username, 'product': product})
-        
         
         return context
     

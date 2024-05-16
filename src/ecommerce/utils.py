@@ -1,15 +1,16 @@
-
 import datetime 
 import os
 import random
 import string
 import uuid
 
-
+from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.utils.text import slugify
 from datetime import datetime
 import string
+
+User = get_user_model()
 
 
 def random_string_generator(size=10, chars=string.ascii_uppercase + string.digits):
@@ -31,8 +32,6 @@ def unique_order_id_generator(instance, size=6, chars=string.ascii_uppercase + s
     else:
         return random_string_generator(size=size, chars=chars)
 
-
-    
 def unique_slug_generator(instance, new_slug=None):
     """
     This is for a Django project and it assumes your instance 
@@ -52,3 +51,11 @@ def unique_slug_generator(instance, new_slug=None):
         )
         return unique_slug_generator(instance, new_slug=new_slug)
     return slug
+
+
+def is_valid_username(username):
+    try:
+        User.objects.get(username=username)
+        return True
+    except User.DoesNotExist:
+        return False
