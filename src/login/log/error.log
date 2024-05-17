@@ -44124,3 +44124,31 @@ Traceback (most recent call last):
 django.template.exceptions.TemplateSyntaxError: Invalid filter: 'replace_underscore_to_space'
 "GET /shop/ HTTP/1.1" 500 203150
 "GET /shop/ HTTP/1.1" 500 203150
+Internal Server Error: /cart/update-item/
+Internal Server Error: /cart/update-item/
+"GET /cart/update-item/?productId=34&action=add&quantity=1 HTTP/1.1" 500 34
+"GET /cart/update-item/?productId=34&action=add&quantity=1 HTTP/1.1" 500 34
+Internal Server Error: /cart/update-item/
+Internal Server Error: /cart/update-item/
+"GET /cart/update-item/?productId=33&action=add&quantity=1 HTTP/1.1" 500 34
+"GET /cart/update-item/?productId=33&action=add&quantity=1 HTTP/1.1" 500 34
+Internal Server Error: /cart/update-item/
+Internal Server Error: /cart/update-item/
+"GET /cart/update-item/?productId=33&action=add&quantity=1 HTTP/1.1" 500 34
+"GET /cart/update-item/?productId=33&action=add&quantity=1 HTTP/1.1" 500 34
+Internal Server Error: /cart/update-item/
+Internal Server Error: /cart/update-item/
+"GET /cart/update-item/?productId=33&action=add&quantity=1 HTTP/1.1" 500 34
+"GET /cart/update-item/?productId=33&action=add&quantity=1 HTTP/1.1" 500 34
+Internal Server Error: /cart/update-item/
+Internal Server Error: /cart/update-item/
+"GET /cart/update-item/?productId=32&action=add&quantity=1 HTTP/1.1" 500 34
+"GET /cart/update-item/?productId=32&action=add&quantity=1 HTTP/1.1" 500 34
+Internal Server Error: /cart/update-item/
+Internal Server Error: /cart/update-item/
+"GET /cart/update-item/?productId=32&action=add&quantity=1 HTTP/1.1" 500 34
+"GET /cart/update-item/?productId=32&action=add&quantity=1 HTTP/1.1" 500 34
+Internal Server Error: /cart/update-item/
+Internal Server Error: /cart/update-item/
+"GET /cart/update-item/?productId=34&orderId=TWC1715922794573&action=remove&quantity=1 HTTP/1.1" 500 34
+"GET /cart/update-item/?productId=34&orderId=TWC1715922794573&action=remove&quantity=1 HTTP/1.1" 500 34

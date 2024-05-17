@@ -178,17 +178,27 @@
                 <div class="col-lg-4">
                     <div class="shop-cart-summary mt-lg-0">
                         <h5>Cart Summary</h5>
+                        {% for order in orders %}
                         <ul>
-                            <li><strong>Merchandise Sub Total:</strong><span>{{ orders_subtotal|currency }}</span></li>
+                            <li>
+                                <h6><strong>Order: </strong><span>{{ order.order_id }}</span></h6>
+                            </li>
+                            <li><strong>Order Sub Total:</strong> 
+                                <span>{{ order.subtotal|currency }}</span>
+                            </li>
                             {% if discount %}
                             <li><strong>Discount:</strong>{{ discount }}</li>
                             {% endif %}
-                            {% for order in orders %}
-                            <li><strong>{{ order.order_id }}</strong></li>
-                            <li id="shipping_fee_{{ order.id }}" style="margin-left:10px!important"><strong>Shipping: </strong>
+                            <li id="shipping_fee_{{ order.id }}"><strong>Shipping: </strong>
                                 <span>Calculated at next step</span>
                             </li>
-                            {% endfor %}
+                            <li class="shop-cart-total"><strong>Order Total:</strong> 
+                                <span id="order-total-{{ order.id }}">{{ order.subtotal|currency }}</span>
+                            </li>
+                            <hr style="border: 1px; color: solid black;">
+                        </ul>
+                        {% endfor %}
+                        <ul>
                             <li class="shop-cart-total" style="display: block!important; text-align: end;">
                                 <h4><strong>Total Payment:</strong>&emsp;<span id="total-payment">{{ total_payment|currency }}</span></h4>
                             </li>

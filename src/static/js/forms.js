@@ -48,6 +48,16 @@ $(document).ready(function () {
 
     console.log(formData);
 
+    // Show SweetAlert with loading message
+    Swal.fire({
+      title: "Processing...",
+      html: "Calculating orders and shipping fees. Please wait.",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     $.ajax({
       url: actionEndpoint,
       method: httpMethod,
@@ -64,38 +74,42 @@ $(document).ready(function () {
         $(".checkout-btn").removeAttr("hidden");
 
         successData.orders.forEach(function (order) {
-          var shippingFeeFormatted = "₱" + parseFloat(order.shipping_fee).toFixed(2);
+          var shippingFeeFormatted =
+            "₱" + parseFloat(order.shipping_fee).toFixed(2);
           var shippingFeeElement = $("#shipping_fee_" + order.id + " span");
+          var orderTotalFormatted =
+            "₱" +
+            parseFloat(order.total_amount)
+              .toFixed(2)
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          var orderTotalUpdate = $("#order-total-" + order.id);
 
-          shippingFeeElement.text("Calculating...")
-        
-          Swal.fire({
-            title: "Calculating Shipping Fee...",
-            html: "Please wait while we calculate your shipping fee.",
-            allowOutsideClick: false,
-            didOpen: () => {
-              Swal.showLoading();
+          shippingFeeElement.text("Calculating...");
 
-              setTimeout(() => {
-                
-                shippingFeeElement.text(shippingFeeFormatted);
+          // Update shipping fee and total amount after a delay
+          setTimeout(() => {
+            shippingFeeElement.text(shippingFeeFormatted);
+            orderTotalUpdate.text(orderTotalFormatted);
 
-                var totalPayment =
-                  "₱" + parseFloat(successData.total_payment).toFixed(2);
-                var totalPaymentFormatted = totalPayment.replace(
-                  /\B(?=(\d{3})+(?!\d))/g,
-                  ","
-                );
-                $("#total-payment").text(totalPaymentFormatted);
+            var totalPayment =
+              "₱" + parseFloat(successData.total_payment).toFixed(2);
+            var totalPaymentFormatted = totalPayment.replace(
+              /\B(?=(\d{3})+(?!\d))/g,
+              ","
+            );
+            $("#total-payment").text(totalPaymentFormatted);
 
-                Swal.close();
-              }, 2000);
-            },
-          });
+            Swal.close();
+          }, 2000);
         });
       },
       error: function (errorData) {
         console.log(errorData);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong! Please try again later.",
+        });
       },
     });
   });

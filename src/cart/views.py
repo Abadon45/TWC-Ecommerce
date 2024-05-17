@@ -246,13 +246,19 @@ def checkout(request):
                 shipping_address = shipping_form.save(commit=False)
                 
                 region = shipping_form.cleaned_data.get('region')
+                updated_orders = []
                 for order in orders:
                     qty = order.total_quantity
                     shipping_fee = sf_calculator(region=region, qty=qty)
                     order.shipping_fee = shipping_fee
+                    order.total_amount = order.subtotal + Decimal(order.shipping_fee)
                     order.save()
                     
-                updated_orders = [{'id': order.id, 'shipping_fee': order.shipping_fee} for order in orders]
+                    updated_orders.append({
+                        'id': order.id, 
+                        'shipping_fee': order.shipping_fee,
+                        'total_amount': order.total_amount
+                    })
                 
                 if user.is_authenticated:
                     shipping_address.user = user
