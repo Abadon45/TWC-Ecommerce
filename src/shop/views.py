@@ -38,7 +38,7 @@ class ShopView(ProductListView):
         elif category_id is None or category_id.lower() == 'all':
             queryset = Product.objects.filter(is_hidden=False)
         else:
-            queryset = Product.objects.filter(category_1=category_id, is_hidden=False) | Product.objects.filter(category_2=category_id)
+            queryset = Product.objects.filter(category_1=category_id, is_hidden=False) | Product.objects.filter(category_2=category_id, is_hidden=False)
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -56,7 +56,7 @@ class ShopView(ProductListView):
             }
         context.update(self._product_choices)
         products = self.get_queryset()
-        all_products = Product.objects.all()
+        all_products = Product.objects.filter(is_hidden=False)
         subcategories = [
             'health_wellness',
             'healthy_beverages',
@@ -69,6 +69,11 @@ class ShopView(ProductListView):
         ]
         
         subcategory_counts = {subcategory: all_products.filter(category_2=subcategory).count() for subcategory in subcategories}
+        
+        subcategory_names = {
+            subcategory: subcategory.replace('_', ' ')
+            for subcategory in subcategories
+        }
 
 
         # Print the subcategory_counts dictionary to the console
@@ -78,6 +83,7 @@ class ShopView(ProductListView):
 
         context['products'] = products
         context['subcategory_counts'] =  subcategory_counts
+        context['subcategory_names'] = subcategory_names
         context['products_in_cart'] =  products_in_cart
 
         return context

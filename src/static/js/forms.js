@@ -61,19 +61,38 @@ $(document).ready(function () {
         $("#step2").addClass("active show");
         $("#step2-tab").addClass("active done");
 
-        $('.checkout-btn').removeAttr('hidden');
+        $(".checkout-btn").removeAttr("hidden");
 
         successData.orders.forEach(function (order) {
-          var shippingFeeFormatted = '₱' + parseFloat(order.shipping_fee).toFixed(2);
-          $("#shipping_fee_" + order.id + " span").text(shippingFeeFormatted);
+          var shippingFeeFormatted = "₱" + parseFloat(order.shipping_fee).toFixed(2);
+          var shippingFeeElement = $("#shipping_fee_" + order.id + " span");
 
-        var totalPayment  = '₱' + parseFloat(successData.total_payment).toFixed(2);
-        var totalPaymentFormatted = totalPayment.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        $('#total-payment').text(totalPaymentFormatted)
+          shippingFeeElement.text("Calculating...")
+        
+          Swal.fire({
+            title: "Calculating Shipping Fee...",
+            html: "Please wait while we calculate your shipping fee.",
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading();
 
-        // spinner.removeClass("visible");
-        // backdrop.removeClass("visible");
-      });
+              setTimeout(() => {
+                
+                shippingFeeElement.text(shippingFeeFormatted);
+
+                var totalPayment =
+                  "₱" + parseFloat(successData.total_payment).toFixed(2);
+                var totalPaymentFormatted = totalPayment.replace(
+                  /\B(?=(\d{3})+(?!\d))/g,
+                  ","
+                );
+                $("#total-payment").text(totalPaymentFormatted);
+
+                Swal.close();
+              }, 2000);
+            },
+          });
+        });
       },
       error: function (errorData) {
         console.log(errorData);
@@ -98,7 +117,8 @@ $(document).ready(function () {
     userDetails.last_name = $(".inputLastName").val();
     userDetails.email = $(".inputEmail").val();
 
-    userName = userDetails.first_name + userDetails.last_name + generateRandomString(3);
+    userName =
+      userDetails.first_name + userDetails.last_name + generateRandomString(3);
     userEmail = userDetails.email;
 
     console.log("User Details:", userDetails);
