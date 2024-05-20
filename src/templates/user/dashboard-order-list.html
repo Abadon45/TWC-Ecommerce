@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% load url_with_domain %}
+{% load currency_filters %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+
+<!-- breadcrumb -->
+<div class="site-breadcrumb">
+    <div class="site-breadcrumb-bg" style="background: url({% static 'img\breadcrumb\01.jpg' %})"></div>
+    <div class="container">
+        <div class="site-breadcrumb-wrap">
+            <h4 class="breadcrumb-title">Dashboard</h4>
+            <ul class="breadcrumb-menu">
+                <li><a href="index.html"><i class="far fa-home"></i> Home</a></li>
+                <li class="active">Dashboard Address</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb end -->
+
+<!-- user dashboard -->
+<div id="dashboard-content" class="user-area bg py-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                {% include 'user/dashboard-user-sidebar.html' %}
+            </div>
+            <div class="col-lg-9">
+                <div class="user-wrapper">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="user-card">
+                                <div class="user-card-header">
+                                    <h4 class="user-card-title">My Orders List</h4>
+                                    <div class="user-card-header-right">
+                                        <form method="GET" action="{% url 'dashboard_order_list' %}">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="user-card-filter d-inline-block">
+                                                        <select name="status" class="select" onchange="this.form.submit()">
+                                                            <option value="default" {% if request.GET.status == 'default' or request.GET.status == '' %}selected{% endif %}>Default</option>
+                                                            <option value="pending" {% if request.GET.status == 'pending' %}selected{% endif %}>Pending</option>
+                                                            <option value="for-booking" {% if request.GET.status == 'for-booking' %}selected{% endif %}>For Booking</option>
+                                                            <option value="for-pickup" {% if request.GET.status == 'for-pickup' %}selected{% endif %}>For Pickup</option>
+                                                            <option value="shipping" {% if request.GET.status == 'shipping' %}selected{% endif %}>Shipping</option>
+                                                            <option value="delivered" {% if request.GET.status == 'delivered' %}selected{% endif %}>Delivered</option>
+                                                            <option value="paid" {% if request.GET.status == 'paid' %}selected{% endif %}>Paid</option>
+                                                            <option value="bp-encoded" {% if request.GET.status == 'bp-encoded' %}selected{% endif %}>BP Encoded</option>
+                                                            <option value="rts" {% if request.GET.status == 'rts' %}selected{% endif %}>RTS</option>
+                                                            <option value="returned" {% if request.GET.status == 'returned' %}selected{% endif %}>Returned</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8" style="margin-left: 5px;">
+                                                    <div class="user-card-search d-inline-block">
+                                                        <div class="form-group">
+                                                            <input type="text" name="search" class="form-control" placeholder="Search..." value="{{ request.GET.search }}">
+                                                            <i class="far fa-search"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary d-none">Filter</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-borderless text-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th>#Order No</th>
+                                                <th>Purchased Date</th>
+                                                <th>Total</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if orders %}
+                                                {% for order in orders %}
+                                                <tr>
+                                                    <td><span class="table-list-code">{{ order.order_id }}</span></td>
+                                                    <td>{{ order.created_at }}</td>
+                                                    <td>{{ order.get_cart_items|currency }}</td>
+                                                    <td>
+                                                        <span id="orderStatus" class="badge badge-{{ order.status|lower }}">
+                                                            {% if order.status == "for-booking" %}
+                                                                FOR BOOKING
+                                                            {% elif order.status == "for-pickup" %}
+                                                                FOR PICKUP
+                                                            {% else %}
+                                                                {{ order.status|upper }}
+                                                            {% endif %}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <a href="{% url 'dashboard_order_detail' %}?order_id={{order.order_id}}"
+                                                            class="btn btn-outline-secondary btn-sm rounded-2">
+                                                            <i class="far fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                                <tr>
+                                                    <td colspan="5" class="text-center">There are no orders in this query</td>
+                                                </tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- pagination -->
+                                <!-- <div class="pagination-area mt-4 mb-3">
+                                    <div aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Previous">
+                                                    <span aria-hidden="true"><i class="far fa-angle-double-left"></i></span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Next">
+                                                    <span aria-hidden="true"><i class="far fa-angle-double-right"></i></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div> -->
+                                <!-- pagination end -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/dashboardview.js' %}"></script>
+<script src="{% static 'js/view-order.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $(".active").removeClass("active");
+        $(".order-list-tab").addClass("active");
+    });
+</script>
+{% endblock %}

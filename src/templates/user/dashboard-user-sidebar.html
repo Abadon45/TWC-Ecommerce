@@ -1,0 +1,42 @@
+{% load static %}
+{% load url_with_domain %}
+
+<div class="sidebar">
+    <div class="sidebar-top">
+        <form method="post" enctype="multipart/form-data" action="{% url 'dashboard' %}">
+            {% csrf_token %}
+            <div class="sidebar-profile-img">
+                {% if user.image %}
+                <img src="{{ user.image.url }}" alt="Profile Picture">
+                {% else %}
+                <img src="{% static 'img/user/default_profile.png' %}" alt="No Image">
+                {% endif %}
+                <!-- <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
+                <input type="file" name="image" accept="image/*" class="profile-img-file"> -->
+            </div>
+            <!-- Separate submit button for the image form -->
+        </form>
+        <h5>{{user.first_name}} {{ user.last_name }}</h5>
+        <p>{{user.email}}</p>
+    </div>
+    <ul class="sidebar-list">
+        <li><a class="dashboard-tab" href="{% url 'dashboard' %}"><i class="far fa-gauge-high"></i> Dashboard</a></li>
+        <li><a class="profile-tab" href="{% url 'dashboard_profile' %}"><i class="far fa-user"></i> My Profile</a></li>
+        <li><a class="order-list-tab" href="{% url 'dashboard_order_list' %}"><i class="far fa-shopping-bag"></i> My Order List <span
+                    class="badge badge-danger">02</span></a></li>
+        <li hidden><a class="nav__link"><i class="far fa-heart"></i> My Wishlist <span
+                    class="badge badge-danger">02</span></a></li>
+        <li><a class="address-tab" href="{% url 'dashboard_address' %}"><i class="far fa-location-dot"></i> Address List</a></li>
+        <li hidden><a class="nav__link comming-soon"><i class="far fa-headset"></i> Support Tickets <span
+                    class="badge badge-danger">02</span></a></li>
+        <li><a class="order-history-tab" href="{% url 'dashboard_order' %}"><i class="far fa-map-location-dot"></i> Order History</a></li>
+        <li hidden><a class="nav__link"><i class="far fa-wallet"></i> Payment Methods</a></li>
+        <li hidden><a class="nav__link"><i class="far fa-bell"></i> Notification <span
+                    class="badge badge-danger">02</span></a></li>
+        <li hidden><a class="nav__link comming-soon"><i class="far fa-envelope"></i> Messages <span
+                    class="badge badge-danger">02</span></a></li>
+        <li hidden><a class="nav__link"><i class="far fa-gear"></i> Settings</a></li>
+        <li><a class="nav__link" href="{% url_with_domain 'login:logout' %}"><i class="far fa-sign-out"></i> Logout</a>
+        </li>
+    </ul>
+</div>

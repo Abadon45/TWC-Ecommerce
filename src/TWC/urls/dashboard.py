@@ -23,6 +23,12 @@ app_name='dashboard'
 
 urlpatterns = [
     path('', DashboardView.as_view(), name='dashboard'),
+    path('profile/', DashboardProfileView.as_view(), name='dashboard_profile'),
+    path('address/', DashboardAddressView.as_view(), name='dashboard_address'),
+    path('address/add-address', DashboardAddAddressView.as_view(), name='dashboard_add_address'),
+    path('order-history/', DashboardOrderHistoryView.as_view(), name='dashboard_order'),
+    path('order/', DashboardOrderListView.as_view(), name='dashboard_order_list'),
+    path('order/order-detail/', DashboardOrderDetailView.as_view(), name='dashboard_order_detail'),
     path('login/', include('login.urls')),
     path('cart/', include('cart.urls')),
     path('', IndexView.as_view(), name='home_view'),

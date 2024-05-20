@@ -9979,6 +9979,7 @@ display: flex!important;
   background: transparent;
   color: var(--color-dark);
   margin-left: 15px;
+  font-size: larger;
 }
 
 .home-6 .header-middle-list .list-item:hover{

@@ -5,11 +5,12 @@ from django.contrib.auth import get_user_model
 from orders.models import Order, OrderItem, Courier
 from addresses.models import Address
 from django.urls import reverse, reverse_lazy
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest, HttpResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest, HttpResponse, Http404
 from django.conf import settings
 from django.views.decorators.cache import cache_page
 from user.forms import ProfileForm
 from orders.forms import CourierBookingForm
+from addresses.utils import detect_region
 from addresses.forms import AddressForm
 from django.db.models import Q
 from django.core.paginator import Paginator
@@ -169,7 +170,6 @@ class DashboardView(TemplateView):
             pending_orders_count = order.filter(Q(complete=False) | ~Q(status='received')).count()
             completed_order_count = Order.objects.filter(user=user, complete=True, status='received').count()
             
-            
             context = {
                 'title': self.title,
                 'page_obj': page_obj,
@@ -202,30 +202,216 @@ class DashboardView(TemplateView):
             else:
                 return render(request, self.template_name, context)
     
+        
+class DashboardProfileView(View):
+    template_name = 'user/dashboard-profile.html'
+    title = "Dashboard Profile"
+    
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
+    
     def post(self, request, *args, **kwargs):
         try:
-            current_user = User.objects.get(id=request.user.id) 
+            current_user = request.user
             profile_form = ProfileForm(request.POST, request.FILES, instance=current_user)
-            address_form = AddressForm(request.POST)
-            
-            if address_form.is_valid():
-                address = address_form.save(commit=False)
-                address.user = request.user
-                address.save()   
-            else:
-                print("Address form is invalid.")
-                print("Address form is invalid:", address_form.errors)
-            
+
             if profile_form.is_valid():
-                profile_form.save()      
+                profile_form.save()
+                return HttpResponseRedirect(reverse('dashboard_profile'))
             else:
                 print("Profile form is invalid.")
                 print("Profile form errors:", profile_form.errors)
 
-            return HttpResponseRedirect(reverse('dashboard'))
+            context = self.get_context_data(form=profile_form)
+            return render(request, self.template_name, context)
+
         except Exception as e:
             print(f"Server error is caused by: {e}")
             return JsonResponse({'error': "Invalid request."}, status=500)
+
+    def get_context_data(self, **kwargs):
+        context = {
+            'title': self.title,
+            'user': self.request.user,
+            'form': kwargs.get('form', ProfileForm(instance=self.request.user)),
+        }
+        return context
+    
+class DashboardAddressView(View):
+    template_name = 'user/dashboard-address.html'
+    title = "Dashboard Address"
+    
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        user = request.user
+        
+        if user.is_authenticated:
+            addresses = Address.objects.filter(user=user)[:5]
+            address_form = AddressForm()
+
+            context.update({
+                'addresses': addresses,
+                'address_form': address_form,
+            })
+            
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        if not user.is_authenticated:
+            return JsonResponse({'error': "User not authenticated."}, status=403)
+
+        address_form = AddressForm(request.POST)
+        
+        if address_form.is_valid():
+            address = address_form.save(commit=False)
+            address.user = user
+            address.save()
+            
+            return HttpResponseRedirect(reverse('dashboard_address'))
+        else:
+            print("Address form is invalid:", address_form.errors)
+            return JsonResponse({'error': "Invalid address form."}, status=400)
+    
+    def get_context_data(self, **kwargs):
+        context = {
+            'title': self.title,
+        }
+        context.update(kwargs)
+        return context
+    
+class DashboardAddAddressView(View):
+    template_name = 'user/dashboard-add-address.html'
+    title = "Add Address"
+    
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return JsonResponse({'error': "User not authenticated."}, status=401)
+        
+        address_form = AddressForm(request.POST)
+        user = request.user
+
+        if address_form.is_valid():
+            address_count = Address.objects.filter(user=user).count()
+            if address_count >= 5:
+                return JsonResponse({'error': "You cannot add more than 5 addresses."}, status=400)
+            
+            address = address_form.save(commit=False)
+            address.user = request.user
+            address.save()
+            return HttpResponseRedirect(reverse('dashboard_address'))
+        else:
+            return JsonResponse({'error': "Address form is invalid.", 'errors': address_form.errors}, status=400)
+
+    def get_context_data(self, **kwargs):
+        context = {
+            'title': self.title,
+        }
+        return context
+    
+class DashboardOrderHistoryView(View):
+    template_name = 'user/dashboard-order-history.html'
+    title = "Dashboard Order History"
+    
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        orders = Order.objects.filter(user=user).select_related('courier', 'shipping_address')
+        
+        for order in orders:
+            region = order.shipping_address.region if order.shipping_address else None
+            order.region_group = detect_region(region) if region else "unknown"
+            
+        context = self.get_context_data(orders=orders)
+        return render(request, self.template_name, context)
+    
+    def get_context_data(self, **kwargs):
+        context = {
+            'title': self.title,
+            'orders': kwargs.get('orders', [])
+        }
+        return context
+    
+class DashboardOrderListView(View):
+    template_name = 'user/dashboard-order-list.html'
+    title = "Dashboard Order List"
+    
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        search_query = request.GET.get('search', '')
+        status_filter = request.GET.get('status', 'default')
+
+        orders = Order.objects.filter(user=user, complete=True)
+        
+        if status_filter == 'default':
+            orders = orders.filter(
+                Q(status='pending') | Q(status='for-booking') | 
+                Q(status='for-pickup') | Q(status='shipping') | Q(status='delivered') | 
+                Q(status='paid') | Q(status='bp-encoded') | Q(status='rts') | Q(status='returned')
+            )
+        else:
+            # Apply the status filter if selected
+            if status_filter:
+                orders = orders.filter(status=status_filter)
+        
+        # Apply search filter if a search query is provided
+        if search_query:
+            orders = orders.filter(
+                Q(order_id__icontains=search_query) |
+                Q(created_at__icontains=search_query) |  
+                Q(status__icontains=search_query)
+            )
+        
+        # Order by creation date in descending order
+        orders = orders.order_by('-created_at')
+        
+        context = self.get_context_data(orders=orders)
+        return render(request, self.template_name, context)
+    
+    def get_context_data(self, orders, **kwargs):
+        context = {
+            'title': self.title,
+            'orders': orders,
+        }
+        return context
+    
+    
+class DashboardOrderDetailView(View):
+    template_name = 'user/dashboard-order-detail.html'
+    title = "Order Detail"
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        order_id = request.GET.get('order_id')
+        if order_id:
+            try:
+                order = Order.objects.get(user=user, order_id=order_id, complete=True)
+                region = order.shipping_address.region if order.shipping_address else None
+                order.region_group = detect_region(region) if region else "unknown"
+                order.save()
+                
+                context = self.get_context_data(order)
+                return render(request, self.template_name, context)
+            except Order.DoesNotExist:
+                return render(request, '404.html', status=404)
+        else:
+            return HttpResponseRedirect(reverse('dashboard_order_list'))
+
+    def get_context_data(self, order, **kwargs):
+        order.cod_amount = order.subtotal + Decimal(order.shipping_fee) - order.discount
+        order.save()
+        order_items = order.orderitem_set.all()
+        context = {
+            'title': self.title,
+            'order': order,
+            'order_items': order_items,
+        }
+        return context
+    
         
 def dashboard_redirect(request):
     # Redirect to the root URL with the appropriate tab path appended

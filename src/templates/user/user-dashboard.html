@@ -27,17 +27,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="dashboard-widget color-3">
-                    <div class="dashboard-widget-info">
-                        <h1>$15.80k</h1>
-                        <span>My Balance (for proposal)</span>
-                    </div>
-                    <div class="dashboard-widget-icon">
-                        <i class="fal fa-wallet"></i>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     <div class="row">
@@ -91,9 +80,11 @@
                                                             <td>
                                                                 <button type="button" class="btn btn-outline-secondary btn-sm rounded-2"
                                                                     data-bs-toggle="modal" data-bs-target="#orderDetailsModal"
-                                                                    data-order-id="{{ order.order_id }}" data-order-date="{{ order.created_at }}"
+                                                                    data-order-id="{{ order.order_id }}" 
+                                                                    data-order-date="{{ order.created_at }}"
                                                                     data-order-total="{{ order.total_amount }}"
-                                                                    data-order-status="{{ order.status }}" data-tooltip="Order Details"
+                                                                    data-order-status="{{ order.status }}" 
+                                                                    data-tooltip="Order Details"
                                                                     title="Details">
                                                                     <i class="far fa-eye"></i>
                                                                 </button>

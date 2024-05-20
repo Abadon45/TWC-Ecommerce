@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load url_with_domain %}
+{% load currency_filters %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+
+<!-- breadcrumb -->
+<div class="site-breadcrumb">
+    <div class="site-breadcrumb-bg" style="background: url({% static 'img\breadcrumb\01.jpg' %})"></div>
+    <div class="container">
+        <div class="site-breadcrumb-wrap">
+            <h4 class="breadcrumb-title">Dashboard</h4>
+            <ul class="breadcrumb-menu">
+                <li><a href="index.html"><i class="far fa-home"></i> Home</a></li>
+                <li class="active">Dashboard Profile</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb end -->
+
+<!-- user dashboard -->
+<div id="dashboard-content" class="user-area bg py-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                {% include 'user/dashboard-user-sidebar.html' %}
+            </div>
+            <div class="col-lg-9">
+                <div class="user-wrapper">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="user-card">
+                                <h4 class="user-card-title">Profile Info</h4>
+                                <div class="user-form">
+                                    {% if form.errors %}
+                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                        <div id="form_errors">
+                                            {% for key, value in form.errors.items %}
+                                            <strong>{{ value }}</strong>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    <form method="post" enctype="multipart/form-data" action="{% url 'dashboard_profile' %}">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>First Name</label>
+                                                            <input type="text" class="form-control"
+                                                                value="{{ user.first_name }}"
+                                                                placeholder="{{ user.first_name }}" name="first_name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Last Name</label>
+                                                            <input type="text" class="form-control" value="{{ user.last_name }}"
+                                                                placeholder="{{ user.last_name }}" name="last_name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Username</label>
+                                                            <input type="text" class="form-control" value="{{ user.username }}"
+                                                                placeholder="{{ user.username }}" name="username">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Email</label>
+                                                            <input type="text" class="form-control" value="{{ user.email }}"
+                                                                placeholder="{{ user.email }}" name="email">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Phone</label>
+                                                            <input type="text" class="form-control" value="{{ user.mobile }}"
+                                                                placeholder="{{ user.mobile }}" name="mobile">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4" style="margin: auto; border-left: 1px solid lightgray;">
+                                                <div class="form-group mt-3">
+                                                    <div class="sidebar-profile-img">
+                                                        {% if user.image %}
+                                                        <img src="{{ user.image.url }}" alt="Profile Picture" id="profilePicture">
+                                                        {% else %}
+                                                        <img src="{% static 'img/user/default_profile.png' %}" alt="No Image" id="profilePicture">
+                                                        {% endif %}
+                                                    </div>
+                                                    <label for="formFile" class="form-label text-center" style="display: block;">Choose a Profile
+                                                        Picture</label>
+                                                    <input class="form-control" type="file" id="formFile" name="image">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="theme-btn"><span class="far fa-user"></span> Save
+                                            Changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="user-card">
+                                <h4 class="user-card-title">Change Password</h4>
+                                <div class="col-lg-12">
+                                    <div class="user-form">
+                                        <a href="{% url 'login:change_password' %}" class="theme-btn"><span
+                                                class="far fa-key"></span> Change Password</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/dashboardview.js' %}"></script>
+<script src="{% static 'js/view-order.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $(".active").removeClass("active");
+        $(".profile-tab").addClass("active");
+
+        $('#formFile').on('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#profilePicture').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+</script>
+
+{% endblock %}

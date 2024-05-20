@@ -1,4 +1,5 @@
 {% load static %}
+{% load url_with_domain %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -69,7 +70,7 @@
     <!-- footer area end -->
 
     <!-- scroll-top -->
-    <a href="{% url 'cart:cart' %}" id="scroll-top" class="shop-cart list-item"><i class="fa-solid fa-cart-shopping"></i>
+    <a href="{% url_with_domain 'cart:cart' %}" id="scroll-top" class="shop-cart list-item"><i class="fa-solid fa-cart-shopping"></i>
         <span id="lower-cart-count">{{ cart_items }}</span></a>
     <!-- scroll-top end -->
 

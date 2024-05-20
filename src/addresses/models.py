@@ -14,6 +14,7 @@ class Address(models.Model):
     email           = models.EmailField(max_length=20, null=True, blank=True)
     phone           = models.CharField(max_length=20, null=True, blank=True)
     region          = models.CharField(max_length=255, null=True, blank=True)
+    region_group    = models.CharField(max_length=255, null=True, blank=True)
     province        = models.CharField(max_length=255, null=True, blank=True)
     city            = models.CharField(max_length=255, null=True, blank=True)
     barangay        = models.CharField(max_length=255, null=True, blank=True)

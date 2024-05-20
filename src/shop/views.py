@@ -20,6 +20,7 @@ class ShopView(ProductListView):
     context_object_name = 'products'
     paginate_by = 9
     _product_choices = None
+    title = "Shop"
     
     def get(self, request, *args, **kwargs):
         try:
@@ -85,6 +86,7 @@ class ShopView(ProductListView):
         context['subcategory_counts'] =  subcategory_counts
         context['subcategory_names'] = subcategory_names
         context['products_in_cart'] =  products_in_cart
+        context['title'] = self.title
 
         return context
 
