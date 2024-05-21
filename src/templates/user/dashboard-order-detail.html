@@ -39,7 +39,7 @@
                                     <h4 class="user-card-title">Order Detail</h4>
                                     <div class="user-card-header-right">
                                         <a href="{% url 'dashboard_order_list' %}" class="theme-btn">
-                                            <span class="fas fa-arrow-left"></span>Order List
+                                            <span class="fas fa-arrow-left"></span>Order History
                                         </a>
                                     </div>
                                 </div>
@@ -183,7 +183,7 @@
 <script>
     $(document).ready(function () {
         $(".active").removeClass("active");
-        $(".order-list-tab").addClass("active");
+        $(".order-history-tab").addClass("active");
     });
 </script>
 {% endblock %}

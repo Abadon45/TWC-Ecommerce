@@ -98,6 +98,33 @@
 
 }
 
+.seller-order .nav-link.active {
+    background-color: #11B76B;
+    font-weight: 500;
+    color: #fff;
+}
+
+.seller-order .nav-link {
+    font-size: large;
+    color: #081828;
+    font-weight: 500;
+    padding: 10px 15px;
+}
+
+.seller-order .nav-link:hover {
+    background-color: #11B76B;
+    color: #fff; 
+}
+
+.seller-order .nav-item a {
+    font-size: large;
+    color: #081828;
+    font-weight: 500;
+    width: 10vw;
+    text-align: center;
+
+}
+
 
 
 /* LOGISTICS DASBOARD */

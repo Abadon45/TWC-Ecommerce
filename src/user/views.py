@@ -153,54 +153,23 @@ def delete_address(request):
 class DashboardView(TemplateView):
     template_name = 'user/dashboard.html'
     title = "User Dashboard"
-    paginate_by = 10
     
     def get(self, request, *args, **kwargs):
         user = request.user
-        clicked_order_id = request.session.get('clicked_order_id')
-        print(f"Order ID fetched: {clicked_order_id}")
-        logger.debug(f"Session Data: {request.session}") 
         
         if request.user.is_authenticated:
-            order = Order.objects.filter(user=user, status='pending', complete=True).order_by('-created_at')
-            order = order.prefetch_related('orderitem_set')
-            paginator = Paginator(order, self.paginate_by)
-            page_number = request.GET.get('page')
-            page_obj = paginator.get_page(page_number)
-            pending_orders_count = order.filter(Q(complete=False) | ~Q(status='received')).count()
-            completed_order_count = Order.objects.filter(user=user, complete=True, status='received').count()
+            orders = Order.objects.filter(user=user, status='pending', complete=True).order_by('-created_at')
+            pending_orders_count = orders.filter(Q(complete=False) | ~Q(status='received')).count()
             
             context = {
                 'title': self.title,
-                'page_obj': page_obj,
-                'order': order,
-                'addresses': Address.objects.filter(user=user),
-                'ordered_items': OrderItem.objects.filter(order=order),
+                'orders': orders,
+                'ordered_items': OrderItem.objects.filter(order=orders),
                 'pending_orders_count': pending_orders_count,
-                'completed_order_count': completed_order_count,
-                'profile_form': ProfileForm(instance=request.user),
+                'completed_order_count': Order.objects.filter(user=user, status='delivered').count(),
             }
             
-            if request.is_ajax():
-                pagination_html = render_to_string('user/user-order-pagination.html', {'page_obj': page_obj}, request=request)
-                orders_data = []
-                for order in page_obj.object_list:
-                    order_data = {
-                        'order_id': order.order_id,
-                        'created_at': order.created_at, 
-                        'get_cart_items': order.get_cart_items,
-                        'status': order.status,
-                        'total_amount': order.total_amount,
-                    }
-                    orders_data.append(order_data)
-                response_data = {
-                    'pagination_html': pagination_html,
-                    'orders': orders_data,
-                    'clicked_order_id': clicked_order_id,
-                }
-                return JsonResponse(response_data)
-            else:
-                return render(request, self.template_name, context)
+        return render(request, self.template_name, context)
     
         
 class DashboardProfileView(View):
@@ -317,24 +286,49 @@ class DashboardAddAddressView(View):
 class DashboardOrderHistoryView(View):
     template_name = 'user/dashboard-order-history.html'
     title = "Dashboard Order History"
-    
+
     def get(self, request, *args, **kwargs):
         user = request.user
-        orders = Order.objects.filter(user=user).select_related('courier', 'shipping_address')
-        
-        for order in orders:
-            region = order.shipping_address.region if order.shipping_address else None
-            order.region_group = detect_region(region) if region else "unknown"
-            
-        context = self.get_context_data(orders=orders)
+        status_filter = request.GET.get('status', 'all')
+
+        # Base queryset for orders
+        orders = Order.objects.filter(user=user, complete=True)
+
+        # Apply status filter if not 'all'
+        if status_filter != 'all':
+            orders = orders.filter(status=status_filter)
+
+        # Create a dictionary to hold orders and their items
+        ordered_items = {order: order.orderitem_set.all() for order in orders}
+
+        # Calculate counts for each status
+        pending_count = Order.objects.filter(user=user, status='pending', complete=True).count()
+        to_ship_count = Order.objects.filter(user=user, complete=True).filter(Q(status='for-booking') | Q(status='for-pickup')).count()
+        shipping_count = Order.objects.filter(user=user, status='shipping', complete=True).count()
+        delivered_count = Order.objects.filter(user=user, status='delivered', complete=True).count()
+
+        context = self.get_context_data(
+            ordered_items=ordered_items,
+            pending_count=pending_count,
+            to_ship_count=to_ship_count,
+            shipping_count=shipping_count,
+            delivered_count=delivered_count,
+            status_filter=status_filter
+        )
         return render(request, self.template_name, context)
-    
+
     def get_context_data(self, **kwargs):
         context = {
             'title': self.title,
-            'orders': kwargs.get('orders', [])
+            'ordered_items': kwargs.get('ordered_items', {}),
+            'pending_count': kwargs.get('pending_count', 0),
+            'to_ship_count': kwargs.get('to_ship_count', 0),
+            'shipping_count': kwargs.get('shipping_count', 0),
+            'delivered_count': kwargs.get('delivered_count', 0),
+            'status_filter': kwargs.get('status_filter', 'all')
         }
         return context
+
     
 class DashboardOrderListView(View):
     template_name = 'user/dashboard-order-list.html'

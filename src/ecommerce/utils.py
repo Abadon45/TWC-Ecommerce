@@ -13,18 +13,17 @@ import string
 User = get_user_model()
 
 
-def random_string_generator(size=10, chars=string.ascii_uppercase + string.digits):
-    current_time_ms = int(datetime.now().timestamp() * 1000)
-    date_string = f"{current_time_ms:0>10}"
-    random_letters = "".join(random.choice(chars) for _ in range(size - len(date_string)))
-    combined_string = f"TWC{date_string}{random_letters.upper()}"
-    return combined_string
+def random_string_generator(size=6, chars=string.digits):
+    # Generate a random 6-digit number as a string
+    random_digits = ''.join(random.choice(chars) for _ in range(size))
+    return f"TWC{random_digits}"
 
-def unique_order_id_generator(instance, size=6, chars=string.ascii_uppercase + string.digits):
+def unique_order_id_generator(instance, size=6, chars=string.digits):
     if instance:
         order_new_id = random_string_generator(size=size, chars=chars)
         Klass = instance.__class__
 
+        # Ensure the generated order ID is unique
         while Klass.objects.filter(order_id=order_new_id).exists():
             order_new_id = random_string_generator(size=size, chars=chars)
 

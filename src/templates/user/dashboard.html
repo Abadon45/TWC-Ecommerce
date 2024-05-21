@@ -68,60 +68,51 @@
                                         <a href="{% url 'dashboard_order_list' %}" class="theme-btn">View All Orders</a>
                                     </div>
                                 </div>
-                                {% if order %}
-                                    
-                                    <div class="table-responsive">
-                                        <table class="table table-borderless text-nowrap">
-                                            <thead>
+                                <div class="table-responsive">
+                                    <table class="table table-borderless text-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th>#Order No</th>
+                                                <th>Purchased Date</th>
+                                                <th>Total</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if orders %}
+                                                {% for order in orders %}
                                                 <tr>
-                                                    <th>Image</th>
-                                                    <th>Purchased Date</th>
-                                                    <th>Total</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="order-list">
-                                                {% for order in page_obj %}
-                                                <tr>
-                                                    <td>
-                                                        {% for item in order.orderitem_set.all %}
-                                                        {% if forloop.first %}
-                                                        <img class="shop-cart-img"
-                                                            src="{{ item.product.image_1.url }}"
-                                                            alt="{{ item.product.name }}">
-                                                        {% endif %}
-                                                        {% endfor %}
-                                                    </td>
+                                                    <td><span class="table-list-code">{{ order.order_id }}</span></td>
                                                     <td>{{ order.created_at }}</td>
                                                     <td>{{ order.get_cart_items|currency }}</td>
-                                                    <td><span id="orderStatus"
-                                                            class="badge badge-{{ order.status|lower }}">{{order.status|upper}}</span></td>
                                                     <td>
-                                                        <button type="button"
-                                                            class="btn btn-outline-secondary btn-sm rounded-2"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#orderDetailsModal"
-                                                            data-order-id="{{ order.order_id }}"
-                                                            data-order-date="{{ order.created_at }}"
-                                                            data-order-total="{{ order.total_amount }}"
-                                                            data-order-status="{{ order.status }}"
-                                                            data-tooltip="Order Details" title="Details">
+                                                        <span id="orderStatus" class="badge badge-{{ order.status|lower }}">
+                                                            {% if order.status == "for-booking" %}
+                                                                FOR BOOKING
+                                                            {% elif order.status == "for-pickup" %}
+                                                                FOR PICKUP
+                                                            {% else %}
+                                                                {{ order.status|upper }}
+                                                            {% endif %}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <a href="{% url 'dashboard_order_detail' %}?order_id={{order.order_id}}"
+                                                            class="btn btn-outline-secondary btn-sm rounded-2">
                                                             <i class="far fa-eye"></i>
-                                                        </button>
+                                                        </a>
                                                     </td>
                                                 </tr>
                                                 {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    
-                                {% else %}
-                                <h5 class="text-center">No orders completed found</h5>
-                                {% endif %}
-
-                                {% include 'user/user-order-pagination.html' %}
-
+                                            {% else %}
+                                                <tr>
+                                                    <td colspan="5" class="text-center">There are no orders in this query</td>
+                                                </tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

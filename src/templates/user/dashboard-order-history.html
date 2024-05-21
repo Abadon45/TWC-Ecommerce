@@ -31,69 +31,123 @@
                 {% include 'user/dashboard-user-sidebar.html' %}
             </div>
             <div class="col-lg-9">
-                <div class="user-wrapper">
+                <div class="user-card seller-order">
                     <div class="row">
-                        <div class="col-lg-12">
-                            <div class="user-card user-track-order">
-                                <h4 class="user-card-title">Track My Order</h4>
-                                {% for order in orders %}
-                                <div class="track-order-content">
-                                    <h5>Tracking Order Number: <span>{{ order.order_id }}</span></h5>
-                                    <div class="track-order-info">
-                                        <a href="#"><span>Shipped Via:</span>
-                                            {% if order.courier.courier %}
-                                            {{ order.courier.courier }}
-                                            {% else %}
-                                            TBA
-                                            {% endif %}
-                                        </a>
-                                        <a href="#">Status: <span id="order-status-{{ order.id }}">{{ order.status|title }}</span></a>
-                                        <a href="#"><span>ESTIMATED DELIVERY:</span>
-                                            {% if order.region_group == 'ncr' %}
-                                            NCR: 2-3 Days
-                                            {% elif order.region_group == 'luzon' %}
-                                            Luzon: 3-5 Days
-                                            {% elif order.region_group == 'visayas' %}
-                                            Visayas: 5-7 Days
-                                            {% elif order.region_group == 'mindanao' %}
-                                            Mindanao: 7-10 Days
-                                            {% else %}
-                                            To be estimated
-                                            {% endif %}
-                                        </a>
-                                    </div>
-                                    <div class="track-order-step">
-                                        <div class="step-item completed">
-                                            <div class="step-icon">
-                                                <i class="fal fa-shopping-cart"></i>
-                                            </div>
-                                            <h6>Order Placed</h6>
-                                        </div>
-                                        <div class="step-item {% if order.status == 'for-booking' or order.status == 'for-pickup' or order.status == 'shipping' or order.status == 'delivered' %}completed{% endif %}">
-                                            <div class="step-icon">
-                                                <i class="fal fa-cog"></i>
-                                            </div>
-                                            <h6>Preparing to Ship</h6>
-                                        </div>
-                                        <div class="step-item {% if order.status == 'shipping' or order.status == 'delivered' %}completed{% endif %}">
-                                            <div class="step-icon">
-                                                <i class="fal fa-truck-fast"></i>
-                                            </div>
-                                            <h6>Shipping</h6>
-                                        </div>
-                                        <div class="step-item {% if order.status == 'delivered' %}completed{% endif %}">
-                                            <div class="step-icon">
-                                                <i class="fal fa-home"></i>
-                                            </div>
-                                            <h6>Delivered</h6>
-                                        </div>
-                                    </div>
+                        <ul class="nav nav-pills" id="pills-tab" role="tablist" style="margin-left: 20px;">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link {% if not request.GET.status or request.GET.status == 'all' %}active{% endif %}" 
+                                href="{% url 'dashboard_order' %}?status=all">All</a>
+                            </li>
+                            <li class="nav-item pending-btn" role="presentation" style="margin-right: 10px;">
+                                <a class="nav-link {% if request.GET.status == 'pending' %}active{% endif %}" 
+                                href="{% url 'dashboard_order' %}?status=pending">Pending<span>({{ pending_count }})</span></a>
+                            </li>
+                            <li class="nav-item to-ship-btn" role="presentation">
+                                <a class="nav-link {% if request.GET.status == 'for-pickup' or request.GET.status == 'for-booking' %}active{% endif %}" 
+                                    href="{% url 'dashboard_order' %}?status=for-pickup">
+                                    To Ship<span>({{ to_ship_count }})</span>
+                                </a>
+                            </li>
+                            <li class="nav-item shipping-btn" role="presentation">
+                                <a class="nav-link {% if request.GET.status == 'shipping' %}active{% endif %}" 
+                                href="{% url 'dashboard_order' %}?status=shipping">To Receive<span>({{ shipping_count }})</span></a>
+                            </li>
+                            <li class="nav-item delivered-btn" role="presentation">
+                                <a class="nav-link {% if request.GET.status == 'delivered' %}active{% endif %}" 
+                                href="{% url 'dashboard_order' %}?status=delivered">Received<span>({{ delivered_count }})</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                {% for order, items in ordered_items.items %}
+                <div id="order-card-{{order.order_id}}" class="card mb-20">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <div class="row">
+                                <div class="col-6 text-left">
+                                    <a href="{% url_with_domain 'shop:shop' %}?category_id={{order.supplier}}" style="margin-top: 10px; color: #11B76B;">
+                                        <i class="fa-solid fa-store"></i> Shop:
+                                        {% if order.supplier == "sante" %}
+                                        Sante International
+                                        {% endif %}
+                                        {% if order.supplier == "mood" %}
+                                        Mood Timepieces
+                                        {% endif %}
+                                        {% if order.supplier == "chingu" %}
+                                        Chingu
+                                        {% endif %}
+                                        {% if order.supplier == None %}
+                                        Promo Bundle
+                                        {% endif %}
+                                    </a>
                                 </div>
-                                {% endfor %}
+                                <div class="col-6 text-right">
+                                    <h6 class="badge badge-{{ order.status|lower }}">
+                                        {% if order.status == "for-booking" %}
+                                            FOR BOOKING
+                                        {% elif order.status == "for-pickup" %}
+                                            FOR PICKUP
+                                        {% else %}
+                                            {{ order.status|upper }}
+                                        {% endif %}
+                                    </h6>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+
+                        <div class="cart-table card-text">
+                            <h6>Order Number: {{ order.order_id }}</h6>
+                            <div class="table-responsive">
+                                <table class="table cart-table" id="product-table-{{ order.order_id }}">
+                                    <tbody class="cart-body">
+                                        {% for item in items %}
+                                        <tr class="cart-product" id="product-row-{{ item.product.id }}">
+                                            <td>
+                                                <div class="table-list-info">
+                                                    <a href="{% url 'dashboard_order_detail' %}?order_id={{order.order_id}}">
+                                                        <div class="table-list-img">
+                                                            {% if item.product.image_1 %}
+                                                                <img src="{{ item.product.image_1.url }}" alt="{{ item.product.name }}">
+                                                            {% else %}
+                                                                No image
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="table-list-content">
+                                                            <h6>{{ item.product.name }}</h6>
+                                                            <p>Item SKU: {{ item.product.sku }}</p>
+                                                            <p>Qty: x{{ item.quantity }}</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td style="width: 15%;">
+                                                <div class="shop-cart-subtotal">
+                                                    <span class="product-subtotal">
+                                                        {{item.product.customer_price|currency}}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div>
+                            <ul>
+                                <li class="shop-cart-total">
+                                    <h6 class="text-right mr-3" >Order Total: <span id="cart-total" style="font-size: 24px;">{{ order.cod_amount|currency }}</span></h6>
+                                </li>
+                            </ul>
+                            <div class="text-end mt-40">
+                                <a href="{% url_with_domain 'shop:shop' %}?category_id={{order.supplier}}" class="theme-btn">Buy Again</a>
                             </div>
                         </div>
                     </div>
                 </div>
+                    
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -105,7 +159,7 @@
 <script src="{% static 'js/view-order.js' %}"></script>
 <script>
     $(document).ready(function () {
-        $(".active").removeClass("active");
+        $(".sidebar-list .active").removeClass("active");
         $(".order-history-tab").addClass("active");
     });
 </script>
