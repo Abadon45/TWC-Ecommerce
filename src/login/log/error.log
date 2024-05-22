@@ -46790,3 +46790,291 @@ Traceback (most recent call last):
 TypeError: 'decimal.Decimal' object is not callable
 "GET /order-history/ HTTP/1.1" 500 80002
 "GET /order-history/ HTTP/1.1" 500 80002
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 361, in load_more_orders
+    'shop_url': f'www.twconline.store:/shop/?category_id={order.supplioer}',  # Replace with the actual URL to the shop
+AttributeError: 'Order' object has no attribute 'supplioer'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 361, in load_more_orders
+    'shop_url': f'www.twconline.store:/shop/?category_id={order.supplioer}',  # Replace with the actual URL to the shop
+AttributeError: 'Order' object has no attribute 'supplioer'
+"GET /load-more-orders/?page=1&status=pending HTTP/1.1" 500 71679
+"GET /load-more-orders/?page=1&status=pending HTTP/1.1" 500 71679
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 361, in load_more_orders
+    'shop_url': f'www.twconline.store:/shop/?category_id={order.supplioer}',  # Replace with the actual URL to the shop
+AttributeError: 'Order' object has no attribute 'supplioer'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 361, in load_more_orders
+    'shop_url': f'www.twconline.store:/shop/?category_id={order.supplioer}',  # Replace with the actual URL to the shop
+AttributeError: 'Order' object has no attribute 'supplioer'
+"GET /load-more-orders/?page=1&status=pending HTTP/1.1" 500 71679
+"GET /load-more-orders/?page=1&status=pending HTTP/1.1" 500 71679
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 361, in load_more_orders
+    'shop_url': f'www.twconline.store:/shop/?category_id={order.supplioer}',  # Replace with the actual URL to the shop
+AttributeError: 'Order' object has no attribute 'supplioer'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 361, in load_more_orders
+    'shop_url': f'www.twconline.store:/shop/?category_id={order.supplioer}',  # Replace with the actual URL to the shop
+AttributeError: 'Order' object has no attribute 'supplioer'
+"GET /load-more-orders/?page=1&status=pending HTTP/1.1" 500 71679
+"GET /load-more-orders/?page=1&status=pending HTTP/1.1" 500 71679
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 361, in load_more_orders
+    'shop_url': f'www.twconline.store:/shop/?category_id={order.supplioer}',  # Replace with the actual URL to the shop
+AttributeError: 'Order' object has no attribute 'supplioer'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 361, in load_more_orders
+    'shop_url': f'www.twconline.store:/shop/?category_id={order.supplioer}',  # Replace with the actual URL to the shop
+AttributeError: 'Order' object has no attribute 'supplioer'
+"GET /load-more-orders/?page=1&status=pending HTTP/1.1" 500 71679
+"GET /load-more-orders/?page=1&status=pending HTTP/1.1" 500 71679
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1600, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1600, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+"GET /logistics/product/logistics-product-orders-data?_=1716346199326 HTTP/1.1" 500 78237
+"GET /logistics/product/logistics-product-orders-data?_=1716346199326 HTTP/1.1" 500 78237
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 368, in load_more_orders
+    print(f'Items: {item}')
+UnboundLocalError: local variable 'item' referenced before assignment
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 368, in load_more_orders
+    print(f'Items: {item}')
+UnboundLocalError: local variable 'item' referenced before assignment
+"GET /load-more-orders/?page=1&status=all HTTP/1.1" 500 74749
+"GET /load-more-orders/?page=1&status=all HTTP/1.1" 500 74749
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 368, in load_more_orders
+    print(f'Items: {item}')
+UnboundLocalError: local variable 'item' referenced before assignment
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 368, in load_more_orders
+    print(f'Items: {item}')
+UnboundLocalError: local variable 'item' referenced before assignment
+"GET /load-more-orders/?page=1&status=all HTTP/1.1" 500 74749
+"GET /load-more-orders/?page=1&status=all HTTP/1.1" 500 74749
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 368, in load_more_orders
+    print(f'Items: {item}')
+UnboundLocalError: local variable 'item' referenced before assignment
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 368, in load_more_orders
+    print(f'Items: {item}')
+UnboundLocalError: local variable 'item' referenced before assignment
+"GET /load-more-orders/?page=1&status=all HTTP/1.1" 500 74749
+"GET /load-more-orders/?page=1&status=all HTTP/1.1" 500 74749
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 368, in load_more_orders
+    print(f'Items: {item}')
+UnboundLocalError: local variable 'item' referenced before assignment
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 368, in load_more_orders
+    print(f'Items: {item}')
+UnboundLocalError: local variable 'item' referenced before assignment
+"GET /load-more-orders/?page=1&status=for-pickup HTTP/1.1" 500 70787
+"GET /load-more-orders/?page=1&status=for-pickup HTTP/1.1" 500 70787
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 368, in load_more_orders
+    print(f'Items: {item}')
+UnboundLocalError: local variable 'item' referenced before assignment
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 368, in load_more_orders
+    print(f'Items: {item}')
+UnboundLocalError: local variable 'item' referenced before assignment
+"GET /load-more-orders/?page=1&status=pending HTTP/1.1" 500 74751
+"GET /load-more-orders/?page=1&status=pending HTTP/1.1" 500 74751
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 368, in load_more_orders
+    print(f'Items: {item}')
+UnboundLocalError: local variable 'item' referenced before assignment
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 368, in load_more_orders
+    print(f'Items: {item}')
+UnboundLocalError: local variable 'item' referenced before assignment
+"GET /load-more-orders/?page=1&status=shipping HTTP/1.1" 500 71476
+"GET /load-more-orders/?page=1&status=shipping HTTP/1.1" 500 71476
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 367, in load_more_orders
+    print(f'Item: {item}')
+UnboundLocalError: local variable 'item' referenced before assignment
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 367, in load_more_orders
+    print(f'Item: {item}')
+UnboundLocalError: local variable 'item' referenced before assignment
+"GET /load-more-orders/?page=1&status=shipping HTTP/1.1" 500 71495
+"GET /load-more-orders/?page=1&status=shipping HTTP/1.1" 500 71495
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 367, in load_more_orders
+    print(f'Item: {item}')
+UnboundLocalError: local variable 'item' referenced before assignment
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 367, in load_more_orders
+    print(f'Item: {item}')
+UnboundLocalError: local variable 'item' referenced before assignment
+"GET /load-more-orders/?page=1&status=shipping HTTP/1.1" 500 71760
+"GET /load-more-orders/?page=1&status=shipping HTTP/1.1" 500 71760
+Internal Server Error: /order-history/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 312, in get
+    context = self.get_context_data(
+TypeError: DashboardOrderHistoryView.get_context_data() missing 1 required positional argument: 'orders'
+Internal Server Error: /order-history/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 312, in get
+    context = self.get_context_data(
+TypeError: DashboardOrderHistoryView.get_context_data() missing 1 required positional argument: 'orders'
+"GET /order-history/?status=all HTTP/1.1" 500 84461
+"GET /order-history/?status=all HTTP/1.1" 500 84461

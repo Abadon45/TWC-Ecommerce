@@ -27,6 +27,7 @@ urlpatterns = [
     path('address/', DashboardAddressView.as_view(), name='dashboard_address'),
     path('address/add-address', DashboardAddAddressView.as_view(), name='dashboard_add_address'),
     path('order-history/', DashboardOrderHistoryView.as_view(), name='dashboard_order'),
+    path('load-more-orders/', load_more_orders, name='load_more_orders'),
     path('order/', DashboardOrderListView.as_view(), name='dashboard_order_list'),
     path('order/order-detail/', DashboardOrderDetailView.as_view(), name='dashboard_order_detail'),
     path('login/', include('login.urls')),

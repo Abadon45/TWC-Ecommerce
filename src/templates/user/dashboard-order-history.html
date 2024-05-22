@@ -35,123 +35,106 @@
                     <div class="row">
                         <ul class="nav nav-pills" id="pills-tab" role="tablist" style="margin-left: 20px;">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link {% if not request.GET.status or request.GET.status == 'all' %}active{% endif %}" 
-                                href="{% url 'dashboard_order' %}?status=all">All</a>
+                                <a class="nav-link {% if not request.GET.status or request.GET.status == 'all' %}active{% endif %}"
+                                    href="{% url 'dashboard_order' %}?status=all">All</a>
                             </li>
                             <li class="nav-item pending-btn" role="presentation" style="margin-right: 10px;">
-                                <a class="nav-link {% if request.GET.status == 'pending' %}active{% endif %}" 
-                                href="{% url 'dashboard_order' %}?status=pending">Pending<span>({{ pending_count }})</span></a>
+                                <a class="nav-link {% if request.GET.status == 'pending' %}active{% endif %}"
+                                    href="{% url 'dashboard_order' %}?status=pending">Pending
+                                    <span>({{ pending_count }})</span>
+                                </a>
                             </li>
                             <li class="nav-item to-ship-btn" role="presentation">
-                                <a class="nav-link {% if request.GET.status == 'for-pickup' or request.GET.status == 'for-booking' %}active{% endif %}" 
+                                <a class="nav-link {% if request.GET.status == 'for-pickup' or request.GET.status == 'for-booking' %}active{% endif %}"
                                     href="{% url 'dashboard_order' %}?status=for-pickup">
                                     To Ship<span>({{ to_ship_count }})</span>
                                 </a>
                             </li>
                             <li class="nav-item shipping-btn" role="presentation">
-                                <a class="nav-link {% if request.GET.status == 'shipping' %}active{% endif %}" 
-                                href="{% url 'dashboard_order' %}?status=shipping">To Receive<span>({{ shipping_count }})</span></a>
+                                <a class="nav-link {% if request.GET.status == 'shipping' %}active{% endif %}"
+                                    href="{% url 'dashboard_order' %}?status=shipping">To Receive
+                                    <span>({{ shipping_count }})</span></a>
                             </li>
                             <li class="nav-item delivered-btn" role="presentation">
-                                <a class="nav-link {% if request.GET.status == 'delivered' %}active{% endif %}" 
-                                href="{% url 'dashboard_order' %}?status=delivered">Received<span>({{ delivered_count }})</span></a>
+                                <a class="nav-link {% if request.GET.status == 'delivered' %}active{% endif %}"
+                                    href="{% url 'dashboard_order' %}?status=delivered">Received
+                                    <span>({{ delivered_count }})</span></a>
                             </li>
                         </ul>
                     </div>
                 </div>
-                {% for order, items in ordered_items.items %}
-                <div id="order-card-{{order.order_id}}" class="card mb-20">
-                    <div class="card-body">
-                        <div class="card-title">
-                            <div class="row">
-                                <div class="col-6 text-left">
-                                    <a href="{% url_with_domain 'shop:shop' %}?category_id={{order.supplier}}" style="margin-top: 10px; color: #11B76B;">
-                                        <i class="fa-solid fa-store"></i> Shop:
-                                        {% if order.supplier == "sante" %}
-                                        Sante International
-                                        {% endif %}
-                                        {% if order.supplier == "mood" %}
-                                        Mood Timepieces
-                                        {% endif %}
-                                        {% if order.supplier == "chingu" %}
-                                        Chingu
-                                        {% endif %}
-                                        {% if order.supplier == None %}
-                                        Promo Bundle
-                                        {% endif %}
-                                    </a>
-                                </div>
-                                <div class="col-6 text-right">
-                                    <h6 class="badge badge-{{ order.status|lower }}">
-                                        {% if order.status == "for-booking" %}
-                                            FOR BOOKING
-                                        {% elif order.status == "for-pickup" %}
-                                            FOR PICKUP
-                                        {% else %}
-                                            {{ order.status|upper }}
-                                        {% endif %}
-                                    </h6>
-                                </div>
-                            </div>
-                            <hr>
-                        </div>
-
-                        <div class="cart-table card-text">
-                            <h6>Order Number: {{ order.order_id }}</h6>
-                            <div class="table-responsive">
-                                <table class="table cart-table" id="product-table-{{ order.order_id }}">
-                                    <tbody class="cart-body">
-                                        {% for item in items %}
-                                        <tr class="cart-product" id="product-row-{{ item.product.id }}">
-                                            <td>
-                                                <div class="table-list-info">
-                                                    <a href="{% url 'dashboard_order_detail' %}?order_id={{order.order_id}}">
-                                                        <div class="table-list-img">
-                                                            {% if item.product.image_1 %}
-                                                                <img src="{{ item.product.image_1.url }}" alt="{{ item.product.name }}">
-                                                            {% else %}
-                                                                No image
-                                                            {% endif %}
-                                                        </div>
-                                                        <div class="table-list-content">
-                                                            <h6>{{ item.product.name }}</h6>
-                                                            <p>Item SKU: {{ item.product.sku }}</p>
-                                                            <p>Qty: x{{ item.quantity }}</p>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                            <td style="width: 15%;">
-                                                <div class="shop-cart-subtotal">
-                                                    <span class="product-subtotal">
-                                                        {{item.product.customer_price|currency}}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div>
-                            <ul>
-                                <li class="shop-cart-total">
-                                    <h6 class="text-right mr-3" >Order Total: <span id="cart-total" style="font-size: 24px;">{{ order.cod_amount|currency }}</span></h6>
-                                </li>
-                            </ul>
-                            <div class="text-end mt-40">
-                                <a href="{% url_with_domain 'shop:shop' %}?category_id={{order.supplier}}" class="theme-btn">Buy Again</a>
-                            </div>
-                        </div>
-                    </div>
+                {% if orders %}
+                <div id="orders-container">
+                    <!-- list order items here via ajax -->
                 </div>
-                    
-                {% endfor %}
+                <div id="loading" style="display: none;">
+                    <div class="loading-circle"></div>
+                    <div class="loading-circle"></div>
+                    <div class="loading-circle"></div>
+                </div>
+                {% else %}
+                <div class="card no-orders">
+                    <img src="{% static 'img/orders/01.png' %}" alt="No Orders" class="no-orders-image">
+                    <h6 class="no-orders-text">No Orders Yet</h6>
+                </div>                
+                {% endif %}
             </div>
         </div>
     </div>
 </div>
+
+{% endblock %}
+{% block extra_css %}
+<style>
+    #loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0;
+    }
+    
+    .loading-circle {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #11B76B;
+        margin: 0 5px;
+        animation: bounce 1s infinite;
+    }
+
+    .loading-circle:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .loading-circle:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+
+    @keyframes bounce {
+        0%, 80%, 100% {
+            transform: scale(0);
+        }
+        40% {
+            transform: scale(1);
+        }
+    }
+
+    .no-orders {
+        text-align: center;
+        margin: 200px auto 0;
+    }
+
+    .no-orders-image {
+        max-width: 10%;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .no-orders-text {
+        margin: 5px 0 200px;
+    }
+</style>
+
 
 {% endblock %}
 {% block extra_js %}
@@ -161,6 +144,137 @@
     $(document).ready(function () {
         $(".sidebar-list .active").removeClass("active");
         $(".order-history-tab").addClass("active");
+
+        var page = 1;
+        var loading = false; // Flag to prevent multiple AJAX requests
+        var allOrdersLoaded = false; // Flag to track if all orders have been loaded
+
+        // Function to load more orders via AJAX
+        function loadMoreOrders() {
+            if (!loading && !allOrdersLoaded) {
+                loading = true; // Set loading flag to true to prevent multiple requests
+
+                $('#loading').show();
+
+                // Make AJAX request to load more orders
+                $.ajax({
+                    url: '{% url "load_more_orders" %}',
+                    data: {
+                        page: page,
+                        status: '{{ status_filter }}' // Pass current status filter
+                    },
+                    success: function (data) {
+                        console.log('Data received from server:', data);  // Debugging line
+                        if (data.orders.length > 0) {
+                            // Append newly loaded orders to orders-container
+                            data.orders.forEach(orderData => {
+                                const orderHtml = generateOrderHTML(orderData);
+                                $('#orders-container').append(orderHtml);
+                            });
+
+                            page++; // Increment page number for next request
+
+                            if (!data.has_next) {
+                                allOrdersLoaded = true; // Set flag indicating all orders are loaded
+                            }
+                        } else {
+                            allOrdersLoaded = true; // Set flag indicating all orders are loaded
+                        }
+                        // Hide loading indicator
+                        $('#loading').hide();
+                        loading = false; // Reset loading flag
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error
+                        console.error(error);
+                        // Hide loading indicator
+                        $('#loading').hide();
+                        loading = false; // Reset loading flag
+                    }
+                });
+            }
+        }
+
+        function generateOrderHTML(orderData) {
+            let orderHtml = `
+            <div class="card mb-20">
+                <div class="card-body">
+                    <div class="card-title">
+                        <div class="row">
+                            <div class="col-6 text-left">
+                                <a href="${orderData.shop_url}" style="margin-top: 10px; color: #11B76B;">
+                                    <i class="fa-solid fa-store"></i> Shop: ${orderData.supplier_name}
+                                </a>
+                            </div>
+                            <div class="col-6 text-right">
+                                <h6 class="badge badge-${orderData.status.toLowerCase()}">${orderData.status}</h6>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="cart-table card-text">
+                        <h6>Order Number: ${orderData.order_id}</h6>
+                        <div class="table-responsive">
+                            <table class="table cart-table">
+                                <tbody class="cart-body">
+                `;
+            // Iterate over order items
+            orderData.items.forEach(item => {
+                orderHtml += `
+                    <tr class="cart-product">
+                        <td>
+                            <div class="table-list-info">
+                                <a href="${item.product_url}">
+                                    <div class="table-list-img">
+                                        <img src="${item.product_image}" alt="${item.product_name}">
+                                    </div>
+                                    <div class="table-list-content">
+                                        <h6>${item.product_name}</h6>
+                                        <p>Item SKU: ${item.product_sku}</p>
+                                        <p>Qty: x${item.quantity}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </td>
+                        <td style="text-align: right;">
+                            <div class="shop-cart-subtotal">
+                                <span class="product-subtotal">${item.product_price_formatted}</span>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            orderHtml += `
+                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div>
+                            <ul>
+                                <li class="shop-cart-total">
+                                    <h6 class="text-right mr-3">Order Total: <span id="cart-total" style="font-size: 24px;">${orderData.total_amount_formatted}</span></h6>
+                                </li>
+                            </ul>
+                            <div class="text-end mt-40">
+                                <a href="${orderData.shop_url}" class="theme-btn">Buy Again</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return orderHtml;
+        }
+
+        // Load more orders when user scrolls to bottom of the page
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+                loadMoreOrders();
+            }
+        });
+
+        // Initial load of orders
+        loadMoreOrders();
     });
 </script>
+
 {% endblock %}

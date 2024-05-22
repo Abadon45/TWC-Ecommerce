@@ -17,6 +17,7 @@ from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 from decimal import Decimal
 from django.views.decorators.http import require_POST
+from django.contrib.humanize.templatetags.humanize import intcomma
 
 import logging
 from .utils import fulfiller
@@ -307,27 +308,62 @@ class DashboardOrderHistoryView(View):
         shipping_count = Order.objects.filter(user=user, status='shipping', complete=True).count()
         delivered_count = Order.objects.filter(user=user, status='delivered', complete=True).count()
 
-        context = self.get_context_data(
-            ordered_items=ordered_items,
-            pending_count=pending_count,
-            to_ship_count=to_ship_count,
-            shipping_count=shipping_count,
-            delivered_count=delivered_count,
-            status_filter=status_filter
-        )
-        return render(request, self.template_name, context)
-
-    def get_context_data(self, **kwargs):
         context = {
             'title': self.title,
-            'ordered_items': kwargs.get('ordered_items', {}),
-            'pending_count': kwargs.get('pending_count', 0),
-            'to_ship_count': kwargs.get('to_ship_count', 0),
-            'shipping_count': kwargs.get('shipping_count', 0),
-            'delivered_count': kwargs.get('delivered_count', 0),
-            'status_filter': kwargs.get('status_filter', 'all')
+            'orders': orders,
+            'ordered_items': ordered_items,
+            'pending_count': pending_count,
+            'to_ship_count': to_ship_count,
+            'shipping_count': shipping_count,
+            'delivered_count': delivered_count,
+            'status_filter': status_filter
         }
-        return context
+        return render(request, self.template_name, context)
+
+def load_more_orders(request):
+    user = request.user
+    status = request.GET.get('status', 'all')
+    page = int(request.GET.get('page', 1))
+
+    allowed_statuses = ['pending', 'for-booking', 'for-pickup', 'shipping', 'delivered']
+    if status == 'all':
+        orders = Order.objects.filter(user=user, complete=True).filter(Q(status__in=allowed_statuses))
+    else:
+        orders = Order.objects.filter(user=user, complete=True, status=status, status__in=allowed_statuses)
+
+    paginator = Paginator(orders, 10)
+    orders_page = paginator.get_page(page)
+
+    orders_data = []
+    for order in orders_page:
+        items = []
+        for item in order.orderitem_set.all():  # Use the related manager properly
+            items.append({
+                'product_url': f'https://dashboard.twconline.store/order/order-detail/?order_id={order.order_id}',
+                'product_image': item.product.image_1.url if item.product.image_1 else None,
+                'product_name': item.product.name,
+                'product_sku': item.product.sku,
+                'quantity': item.quantity,
+                'product_price_formatted': f'₱{intcomma(item.product.customer_price)}',
+            })
+            print(f'Order ID: {order.order_id}, Item ID: {item.id}, Item Name: {item.product.name}, Product URL: {items[-1]["product_url"]}')  # Debugging line
+        print(f'Order ID: {order.order_id}, Items Count: {len(items)}')  # Debugging line
+        orders_data.append({
+            'order_id': order.order_id,
+            'shop_url': f'https://www.twconline.store/shop/?category_id={order.supplier}',
+            'supplier_name': (order.supplier).title(),
+            'status': order.status,
+            'total_amount_formatted': f'₱{intcomma(order.cod_amount)}',
+            'items': items,
+        })
+
+    data = {
+        'orders': orders_data,
+        'has_next': orders_page.has_next()
+    }
+    return JsonResponse(data)
+
+
 
     
 class DashboardOrderListView(View):
