@@ -43,7 +43,7 @@ class IndexView(TemplateView):
         if username:
             try:
                 referrer = User.objects.get(username=username)
-                if referrer == user:
+                if referrer == user or referrer.username == "admin":
                     return HttpResponseRedirect(reverse('handle_404'))
             except User.DoesNotExist:
                 return HttpResponseRedirect(reverse('handle_404'))

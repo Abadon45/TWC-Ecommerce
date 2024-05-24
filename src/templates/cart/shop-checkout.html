@@ -375,7 +375,9 @@
                     if (!username) {
                         Swal.showValidationMessage('Username is required');
                     } else if (username.toLowerCase() === userData.toLowerCase()) {
-                        Swal.showValidationMessage('You cannot refer yourself');
+                        Swal.showValidationMessage('You cannot refer yourself!');
+                    } else if (username.toLowerCase() === 'admin') {
+                        Swal.showValidationMessage('You cannot use this username!');
                     } else {
                         return username;
                     }
