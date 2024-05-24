@@ -199,10 +199,14 @@ def checkout(request):
     orders_subtotal = Decimal('0.00')
     total_shipping = Decimal('0.00')
     
-    referrer = request.session.get('referrer')
-    print(f'Referred ID: {referrer}')
     user = request.user
     session_key = request.session.session_key
+    
+    if user.is_authenticated:
+        referrer = user.referred_by
+    else:
+        referrer = request.session.get('referrer')
+    print(f'Referred ID: {referrer}')
 
     try:
         is_authenticated = request.user.is_authenticated
@@ -210,10 +214,7 @@ def checkout(request):
         if is_authenticated:
             is_authenticated = True
             default_address = Address.objects.filter(user=user, is_default=True).first()
-            # orders = Order.objects.filter(user=user, complete=False)
             customer_addresses = Address.objects.filter(user=user).exclude(is_default=True).order_by('-is_default')[:3]
-        # else:
-        #     orders = Order.objects.filter(user=None, session_key=session_key, complete=False)
             
         order_ids = request.session.get('checkout_orders', [])
         orders = Order.objects.filter(id__in=order_ids)

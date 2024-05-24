@@ -339,7 +339,7 @@ def load_more_orders(request):
         items = []
         for item in order.orderitem_set.all():  # Use the related manager properly
             items.append({
-                'product_url': f'https://dashboard.twconline.store/order/order-detail/?order_id={order.order_id}',
+                'product_url': f'{settings.MAIN_SITE_URL}/shop/order-detail/?order_id={order.order_id}',
                 'product_image': item.product.image_1.url if item.product.image_1 else None,
                 'product_name': item.product.name,
                 'product_sku': item.product.sku,
@@ -350,9 +350,10 @@ def load_more_orders(request):
         print(f'Order ID: {order.order_id}, Items Count: {len(items)}')  # Debugging line
         orders_data.append({
             'order_id': order.order_id,
-            'shop_url': f'https://www.twconline.store/shop/?category_id={order.supplier}',
+            'shop_url': f'{settings.MAIN_SITE_URL}/shop/?category_id={order.supplier}',
+            'product_url': f'{settings.DASHBOARD_URL}/order/order-detail/?order_id={order.order_id}',
             'supplier_name': (order.supplier).title(),
-            'status': order.status,
+            'status': (order.status).upper().replace("-", " "),
             'total_amount_formatted': f'₱{intcomma(order.cod_amount)}',
             'items': items,
         })

@@ -47078,3 +47078,27 @@ Traceback (most recent call last):
 TypeError: DashboardOrderHistoryView.get_context_data() missing 1 required positional argument: 'orders'
 "GET /order-history/?status=all HTTP/1.1" 500 84461
 "GET /order-history/?status=all HTTP/1.1" 500 84461
+Internal Server Error: /cart/checkout/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/cart/views.py", line 206, in checkout
+    referrer = user.referred_by
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/utils/functional.py", line 247, in inner
+    return func(self._wrapped, *args)
+AttributeError: 'User' object has no attribute 'referred'
+Internal Server Error: /cart/checkout/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/cart/views.py", line 206, in checkout
+    referrer = user.referred_by
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/utils/functional.py", line 247, in inner
+    return func(self._wrapped, *args)
+AttributeError: 'User' object has no attribute 'referred'
+"GET /cart/checkout/ HTTP/1.1" 500 75000
+"GET /cart/checkout/ HTTP/1.1" 500 75000

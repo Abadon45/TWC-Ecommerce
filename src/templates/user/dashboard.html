@@ -85,7 +85,7 @@
                                                 <tr>
                                                     <td><span class="table-list-code">{{ order.order_id }}</span></td>
                                                     <td>{{ order.created_at }}</td>
-                                                    <td>{{ order.get_cart_items|currency }}</td>
+                                                    <td>{{ order.cod_amount|currency }}</td>
                                                     <td>
                                                         <span id="orderStatus" class="badge badge-{{ order.status|lower }}">
                                                             {% if order.status == "for-booking" %}
