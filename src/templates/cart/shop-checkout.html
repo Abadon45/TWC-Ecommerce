@@ -207,7 +207,7 @@
                             <form class="form" method="POST" action="{% url 'cart:submit_checkout' %}">
                                 {% csrf_token %}
                                 <button type="submit" class="theme-btn checkout-btn" 
-                                        data-referrer-id="{{ referrer_id }}"
+                                        data-referrer-id="{{ referred_by }}"
                                         onclick="checkoutBtn(event)" hidden>Checkout Now
                                         <i class="fas fa-arrow-right-long"></i>
                                 </button>
@@ -334,8 +334,11 @@
                                         <div class="col-md-2 offset-md-5">
                                             <form class="form" method="POST" action="{% url 'cart:submit_checkout' %}">
                                                 {% csrf_token %}
-                                                <button type="submit" class="theme-btn">Checkout Now<i
-                                                        class="fas fa-arrow-right-long"></i></button>
+                                                <button type="submit" class="theme-btn checkout-btn" 
+                                                        data-referrer-id="{{ referred_by }}" data-user="{{ user }}"
+                                                        onclick="checkoutBtn(event)">Checkout Now
+                                                        <i class="fas fa-arrow-right-long"></i>
+                                                </button>
                                             </form>
                                         </div>
                                     </div>
@@ -356,6 +359,8 @@
     function checkoutBtn(event) {
         event.preventDefault();
         var referrerId = $(event.currentTarget).data('referrer-id');
+        var userData = $(event.currentTarget).data('user');
+        
         if (referrerId === "None" || referrerId === '') {
             Swal.fire({
                 icon: 'warning',
@@ -369,8 +374,11 @@
                 preConfirm: (username) => {
                     if (!username) {
                         Swal.showValidationMessage('Username is required');
+                    } else if (username.toLowerCase() === userData.toLowerCase()) {
+                        Swal.showValidationMessage('You cannot refer yourself');
+                    } else {
+                        return username;
                     }
-                    return username;
                 }
             }).then((result) => {
                 if (result.isConfirmed) {

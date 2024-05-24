@@ -39,12 +39,16 @@ class IndexView(TemplateView):
     
     def get(self, request, username=None, *args, **kwargs):
         referrer = None
+        user = request.user
         if username:
-            referrer = get_object_or_404(User, username=username)
-            print(f"Referrer: {referrer.username}")
+            try:
+                referrer = User.objects.get(username=username)
+                if referrer == user:
+                    return HttpResponseRedirect(reverse('handle_404'))
+            except User.DoesNotExist:
+                return HttpResponseRedirect(reverse('handle_404'))
             
             request.session['referrer'] = referrer.username
-            
             print(f"Referrer: {request.session['referrer']}")
             
             return HttpResponseRedirect(reverse('home_view'))

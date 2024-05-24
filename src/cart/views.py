@@ -201,13 +201,8 @@ def checkout(request):
     
     user = request.user
     session_key = request.session.session_key
+    referrer = None
     
-    if user.is_authenticated:
-        referrer = user.referred_by
-    else:
-        referrer = request.session.get('referrer')
-    print(f'Referred ID: {referrer}')
-
     try:
         is_authenticated = request.user.is_authenticated
         
@@ -215,7 +210,11 @@ def checkout(request):
             is_authenticated = True
             default_address = Address.objects.filter(user=user, is_default=True).first()
             customer_addresses = Address.objects.filter(user=user).exclude(is_default=True).order_by('-is_default')[:3]
+            referred_by = user.referred_by
+        else:
+            referred_by = request.session.get('referrer')
             
+        print(f'Referred by: {referred_by}')
         order_ids = request.session.get('checkout_orders', [])
         orders = Order.objects.filter(id__in=order_ids)
         
@@ -403,6 +402,8 @@ def checkout(request):
                 'default_address': default_address,
                 'customer_addresses': customer_addresses,
                 'title': title,
+                'user': user,
+                'referred_by': referred_by,
             }
             print(f'is_authenticated: {is_authenticated}')
             return render(request, "cart/shop-checkout.html", context)
