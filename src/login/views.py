@@ -25,13 +25,28 @@ class RegisterView(FormView):
     template_name = 'login/register.html'
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('home_view')
+    
+    def get(self, request, *args, **kwargs):
+        referrer = self.request.session.get('referrer')
+        print(f'Referrer: {referrer}')
+        return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
         try:
+            referrer_username = self.request.session.get('referrer')
+            referrer = None
+            if referrer_username:
+                try:
+                    referrer = User.objects.get(username=referrer_username)
+                except User.DoesNotExist:
+                    print(f'No user found with username: {referrer_username}')
+                    referrer = None
+                    
             with transaction.atomic():
                 user = form.save(commit=False)
                 raw_password = form.cleaned_data.get('password1')
                 user.set_password(raw_password)
+                user.referred_by = referrer
                 user.save()
                 user.refresh_from_db()
 
