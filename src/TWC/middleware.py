@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.contrib.auth import get_user_model
+from django.http import HttpResponsePermanentRedirect
 from django_hosts import host
 from billing.models import Customer
 from user.models import User
@@ -16,6 +17,7 @@ class SubdomainMiddleware:
     def __call__(self, request):
         host_patterns = [
             host(r'www', 'TWC.urls', name='www'),
+            host(r'', 'TWC.urls', name='www'),
             host(r'admin', 'TWC.urls.admin', name='admin'),
             host(r'dashboard', 'TWC.urls.dashboard', name='dashboard'),
             host(r'(\w+)', 'TWC.urls', name='wildcard'),
@@ -53,4 +55,15 @@ class SubdomainMiddleware:
             httponly=True
         )
         
+        return response
+    
+class RedirectToWWW:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        host = request.get_host()
+        if host == 'twconline.store':
+            return HttpResponsePermanentRedirect(f'http://www.twconline.store{request.get_full_path()}')
+        response = self.get_response(request)
         return response

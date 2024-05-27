@@ -86,6 +86,7 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 MIDDLEWARE = [
+    'TWC.middleware.RedirectToWWW',
     'django_hosts.middleware.HostsRequestMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'TWC.middleware.SubdomainMiddleware',

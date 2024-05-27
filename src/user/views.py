@@ -333,9 +333,19 @@ def load_more_orders(request):
 
     paginator = Paginator(orders, 10)
     orders_page = paginator.get_page(page)
+    
+    
 
     orders_data = []
     for order in orders_page:
+        if order.status == "pending":
+            status = "ORDER PLACED"
+        elif order.status == 'for-booking' or order.status == "for-pickup":
+            status = "PREPARING TO SHIP"
+        elif order.status == "shipping":
+            status = "IN TRANSIT"
+        else:
+            status = order.status
         items = []
         for item in order.orderitem_set.all():  # Use the related manager properly
             items.append({
@@ -353,7 +363,8 @@ def load_more_orders(request):
             'shop_url': f'{settings.MAIN_SITE_URL}/shop/?category_id={order.supplier}',
             'product_url': f'{settings.DASHBOARD_URL}/order/order-detail/?order_id={order.order_id}',
             'supplier_name': (order.supplier).title(),
-            'status': (order.status).upper().replace("-", " "),
+            'status': status.upper().replace("-", " "),
+            'status_css': order.status,
             'total_amount_formatted': f'₱{intcomma(order.cod_amount)}',
             'items': items,
         })

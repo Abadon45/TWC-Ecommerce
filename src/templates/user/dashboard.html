@@ -65,7 +65,7 @@
                                 <div class="user-card-header">
                                     <h4 class="user-card-title">Recent Orders</h4>
                                     <div class="user-card-header-right">
-                                        <a href="{% url 'dashboard_order_list' %}" class="theme-btn">View All Orders</a>
+                                        <a href="{% url 'dashboard_order' %}" class="theme-btn">View All Orders</a>
                                     </div>
                                 </div>
                                 <div class="table-responsive">
@@ -75,7 +75,7 @@
                                                 <th>#Order No</th>
                                                 <th>Purchased Date</th>
                                                 <th>Total</th>
-                                                <th>Status</th>
+                                                <th class="text-center">Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -86,12 +86,16 @@
                                                     <td><span class="table-list-code">{{ order.order_id }}</span></td>
                                                     <td>{{ order.created_at }}</td>
                                                     <td>{{ order.cod_amount|currency }}</td>
-                                                    <td>
+                                                    <td class="text-center">
                                                         <span id="orderStatus" class="badge badge-{{ order.status|lower }}">
                                                             {% if order.status == "for-booking" %}
-                                                                FOR BOOKING
+                                                                PREPARING TO SHIP
                                                             {% elif order.status == "for-pickup" %}
-                                                                FOR PICKUP
+                                                                PREPARING TO SHIP
+                                                            {% elif order.status == "pending" %}
+                                                                ORDER PLACED
+                                                            {% elif order.status == "shipping" %}
+                                                                IN TRANSIT
                                                             {% else %}
                                                                 {{ order.status|upper }}
                                                             {% endif %}

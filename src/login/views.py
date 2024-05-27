@@ -36,10 +36,10 @@ class RegisterView(FormView):
             referrer_username = self.request.session.get('referrer')
             referrer = None
             if referrer_username:
-                try:
+                try: 
                     referrer = User.objects.get(username=referrer_username)
                 except User.DoesNotExist:
-                    print(f'No user found with username: {referrer_username}')
+                    print(f'No user found with username: {referrer_username}') 
                     referrer = None
                     
             with transaction.atomic():
