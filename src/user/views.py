@@ -1213,6 +1213,167 @@ class SellerRewardsTWCView(TemplateView):
         return context  
     
     
+####################
+#SUPPLIER DASHBOARD#
+####################
+    
+class SupplierDashboardView(TemplateView):
+    template_name = 'supplier/supplier-dashboard.html'
+    title = "Supplier Dashboard"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+    
+        context.update({
+            'title': self.title,
+            'orders': Order.objects.all(),
+        })
+        return context
+    
+    
+class SupplierProfileView(TemplateView):
+    template_name = 'supplier/supplier-profile.html'
+    title = "Supplier Profile"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+    
+        context.update({
+            'title': self.title,
+            'orders': Order.objects.all(),
+        })
+        return context
+    
+class SupplierProductsView(TemplateView):
+    template_name = 'supplier/supplier-products.html'
+    title = "Supplier Products"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+    
+        context.update({
+            'title': self.title,
+            'orders': Order.objects.all(),
+        })
+        return context
+    
+class SupplierAddProductsView(TemplateView):
+    template_name = 'supplier/supplier-add-products.html'
+    title = "Supplier Add Products"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+    
+        context.update({
+            'title': self.title,
+            'orders': Order.objects.all(),
+        })
+        return context
+    
+class SupplierOrdersView(TemplateView):
+    template_name = 'supplier/supplier-orders.html'
+    title = "Supplier Orders"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+    
+        context.update({
+            'title': self.title,
+            'orders': Order.objects.all(),
+        })
+        return context
+    
+class SupplierOrdersDetailView(TemplateView):
+    template_name = 'supplier/supplier-order-detail.html'
+    title = "Supplier Order Detail"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+    
+        context.update({
+            'title': self.title,
+            'orders': Order.objects.all(),
+        })
+        return context
+    
+class SupplierPayoutView(TemplateView):
+    template_name = 'supplier/supplier-payout.html'
+    title = "Supplier Payout"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+    
+        context.update({
+            'title': self.title,
+            'orders': Order.objects.all(),
+        })
+        return context
+    
+class SupplierTransactionView(TemplateView):
+    template_name = 'supplier/supplier-transaction.html'
+    title = "Supplier Transaction"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+    
+        context.update({
+            'title': self.title,
+            'orders': Order.objects.all(),
+        })
+        return context
+    
+class SupplierNotificationView(TemplateView):
+    template_name = 'supplier/supplier-notification.html'
+    title = "Supplier Notification"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+    
+        context.update({
+            'title': self.title,
+            'orders': Order.objects.all(),
+        })
+        return context
+    
+class SupplierMessagesView(TemplateView):
+    template_name = 'supplier/supplier-messages.html'
+    title = "Supplier Messages"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+    
+        context.update({
+            'title': self.title,
+            'orders': Order.objects.all(),
+        })
+        return context
+    
+class SupplierSettingsView(TemplateView):
+    template_name = 'supplier/supplier-settings.html'
+    title = "Supplier Settings"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+    
+        context.update({
+            'title': self.title,
+            'orders': Order.objects.all(),
+        })
+        return context
+    
+
+    
 #####################
 #LOGISTICS DASHBOARD#
 #####################

@@ -54,18 +54,20 @@
     justify-content: flex-end;
 }
 
-.seller-order span {
-    font-size: small;
+#supplier {
+    margin: 30px 10px;
+    padding: 25px 10px;
+
 }
 
 #seller {
     margin: 30px 10px;
 }
 
+.seller-order span {
+    font-size: small;
+}
 
-/* #seller .user-wrapper {
-    padding-right: 20px;
-} */
 
 .seller-order li {
     font-size: small;
@@ -200,6 +202,19 @@
     font-size: medium;
 }
 
+/* parallax */
+
+.dashboard-parallax {
+    background-image: url("../img/banner/supplier-dashboard.jpg");
+    padding: 70px;
+
+    /* parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+}
 
 /* For small screens (≥576px) */
 @media (min-width: 576px) {

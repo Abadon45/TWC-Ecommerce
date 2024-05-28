@@ -1,0 +1,257 @@
+{% extends "base-dashboard.html" %}
+{% load url_with_domain %}
+{% load currency_filters %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+
+    <main class="main">
+
+        <!-- breadcrumb -->
+        <div class="site-breadcrumb">
+            <div class="site-breadcrumb-bg" style="background: url({% static 'img/breadcrumb/01.jpg' %})"></div>
+            <div class="container">
+                <div class="site-breadcrumb-wrap">
+                    <h4 class="breadcrumb-title">Supplier Dashboard</h4>
+                    <ul class="breadcrumb-menu">
+                        <li><a href="index.html"><i class="far fa-home"></i> Home</a></li>
+                        <li class="active">Dashboard</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- breadcrumb end -->
+
+
+        <!-- user dashboard -->
+        <div class="user-area bg">
+            <div id="supplier">
+                <div class="row">
+                    <div class="col-lg-3">
+                        {% include 'supplier/supplier-sidebar.html' %}
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="user-wrapper">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="user-card">
+                                        <div class="user-card-header">
+                                            <h4 class="user-card-title">All Orders</h4>
+                                            <div class="user-card-header-right">
+                                                <div class="user-card-filter">
+                                                    <select class="select">
+                                                        <option value="">Default</option>
+                                                        <option value="1">Pending</option>
+                                                        <option value="2">Processing</option>
+                                                        <option value="3">Completed</option>
+                                                        <option value="3">Cancelled</option>
+                                                    </select>
+                                                </div>
+                                                <div class="user-card-search">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" placeholder="Search...">
+                                                        <i class="far fa-search"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table table-borderless text-nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#Order No</th>
+                                                        <th>Purchased Date</th>
+                                                        <th>Total</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><span class="table-list-code">#35VR5K54</span></td>
+                                                        <td>January 21, 2023</td>
+                                                        <td>$3,650</td>
+                                                        <td><span class="badge badge-info">Pending</span></td>
+                                                        <td>
+                                                            <div class="user-action-dropdown dropdown">
+                                                                <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i class="far fa-ellipsis"></i>
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                                    <li><a class="dropdown-item" href="{% url 'supplier_orders_detail' %}"><i class="far fa-eye"></i> Order Details</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-pen-swirl"></i> Pending</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-circle-dashed"></i> Processing</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-check-circle"></i> Completed</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-xmark-circle"></i> Cancel</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="table-list-code">#35VR5K54</span></td>
+                                                        <td>January 21, 2023</td>
+                                                        <td>$3,650</td>
+                                                        <td><span class="badge badge-primary">Processing</span></td>
+                                                        <td>
+                                                            <div class="user-action-dropdown dropdown">
+                                                                <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i class="far fa-ellipsis"></i>
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                                    <li><a class="dropdown-item" href="{% url 'supplier_orders_detail' %}"><i class="far fa-eye"></i> Order Details</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-pen-swirl"></i> Pending</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-circle-dashed"></i> Processing</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-check-circle"></i> Completed</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-xmark-circle"></i> Cancel</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="table-list-code">#35VR5K54</span></td>
+                                                        <td>January 21, 2023</td>
+                                                        <td>$3,650</td>
+                                                        <td><span class="badge badge-success">Completed</span></td>
+                                                        <td>
+                                                            <div class="user-action-dropdown dropdown">
+                                                                <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i class="far fa-ellipsis"></i>
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                                    <li><a class="dropdown-item" href="{% url 'supplier_orders_detail' %}"><i class="far fa-eye"></i> Order Details</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-pen-swirl"></i> Pending</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-circle-dashed"></i> Processing</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-check-circle"></i> Completed</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-xmark-circle"></i> Cancel</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="table-list-code">#35VR5K54</span></td>
+                                                        <td>January 21, 2023</td>
+                                                        <td>$3,650</td>
+                                                        <td><span class="badge badge-danger">Cancelled</span></td>
+                                                        <td>
+                                                            <div class="user-action-dropdown dropdown">
+                                                                <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i class="far fa-ellipsis"></i>
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                                    <li><a class="dropdown-item" href="{% url 'supplier_orders_detail' %}"><i class="far fa-eye"></i> Order Details</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-pen-swirl"></i> Pending</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-circle-dashed"></i> Processing</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-check-circle"></i> Completed</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-xmark-circle"></i> Cancel</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="table-list-code">#35VR5K54</span></td>
+                                                        <td>January 21, 2023</td>
+                                                        <td>$3,650</td>
+                                                        <td><span class="badge badge-success">Completed</span></td>
+                                                        <td>
+                                                            <div class="user-action-dropdown dropdown">
+                                                                <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i class="far fa-ellipsis"></i>
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                                    <li><a class="dropdown-item" href="{% url 'supplier_orders_detail' %}"><i class="far fa-eye"></i> Order Details</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-pen-swirl"></i> Pending</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-circle-dashed"></i> Processing</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-check-circle"></i> Completed</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-xmark-circle"></i> Cancel</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="table-list-code">#35VR5K54</span></td>
+                                                        <td>January 21, 2023</td>
+                                                        <td>$3,650</td>
+                                                        <td><span class="badge badge-success">Completed</span></td>
+                                                        <td>
+                                                            <div class="user-action-dropdown dropdown">
+                                                                <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i class="far fa-ellipsis"></i>
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                                    <li><a class="dropdown-item" href="{% url 'supplier_orders_detail' %}"><i class="far fa-eye"></i> Order Details</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-pen-swirl"></i> Pending</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-circle-dashed"></i> Processing</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-check-circle"></i> Completed</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-xmark-circle"></i> Cancel</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="table-list-code">#35VR5K54</span></td>
+                                                        <td>January 21, 2023</td>
+                                                        <td>$3,650</td>
+                                                        <td><span class="badge badge-success">Completed</span></td>
+                                                        <td>
+                                                            <div class="user-action-dropdown dropdown">
+                                                                <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i class="far fa-ellipsis"></i>
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                                    <li><a class="dropdown-item" href="{% url 'supplier_orders_detail' %}"><i class="far fa-eye"></i> Order Details</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-pen-swirl"></i> Pending</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-circle-dashed"></i> Processing</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-check-circle"></i> Completed</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="far fa-xmark-circle"></i> Cancel</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- pagination -->
+                                        <div class="pagination-area mt-4 mb-3">
+                                            <div aria-label="Page navigation example">
+                                                <ul class="pagination">
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#" aria-label="Previous">
+                                                            <span aria-hidden="true"><i class="far fa-angle-double-left"></i></span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#" aria-label="Next">
+                                                            <span aria-hidden="true"><i class="far fa-angle-double-right"></i></span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- pagination end -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- user dashboard end -->
+
+    </main>
+
+{% endblock %}
+{% block extra_js %}
+<script>
+    $(document).ready(function () {
+        $(".active").removeClass("active");
+        $(".orders-sidebar").addClass("active");
+    });
+</script>
+{% endblock %}

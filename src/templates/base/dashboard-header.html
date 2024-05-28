@@ -22,10 +22,13 @@
               <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">Admin Dashboard</a>
               <ul class="dropdown-menu fade-down">
                 {% if user.is_seller %}
-                <li><a class="dropdown-item" href="{{ DASHBOARD_URL|add:'/seller' }}">Seller Dashboard</a></li>
+                  <li><a class="dropdown-item" href="{{ DASHBOARD_URL|add:'/seller' }}">Seller Dashboard</a></li>
                 {% endif %}
                 {% if user.is_staff %}
-                <li><a class="dropdown-item" href="{{ DASHBOARD_URL|add:'/logistics' }}">Logistics Dashboard</a></li>
+                  <li><a class="dropdown-item" href="{{ DASHBOARD_URL|add:'/logistics' }}">Logistics Dashboard</a></li>
+                {% endif %}
+                {% if user.is_supplier %}
+                  <li><a class="dropdown-item" href="{{ DASHBOARD_URL|add:'/supplier' }}">Supplier Dashboard</a></li>
                 {% endif %}
               </ul>
             </li>

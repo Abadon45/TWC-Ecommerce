@@ -1,0 +1,31 @@
+{% load static %}
+
+<div class="sidebar">
+    <div class="sidebar-top">
+        <form method="post" enctype="multipart/form-data" action="{% url 'dashboard' %}">
+            {% csrf_token %}
+            <div class="sidebar-profile-img">
+                {% if user.image %}
+                <img src="{{ user.image.url }}" alt="Profile Picture">
+                {% else %}
+                <img src="{% static 'img/user/default_profile.png' %}" alt="No Image">
+                {% endif %}
+            </div>
+        </form>
+        <h5>{{user.first_name}} {{ user.last_name }}</h5>
+        <p>{{user.email}}</p>
+    </div>
+    <ul class="sidebar-list">
+        <li><a class="dashboard-sidebar" href="{% url 'supplier_dashboard' %}"><i class="far fa-gauge-high"></i> Dashboard</a></li>
+        <li><a class="profile-sidebar" href="{% url 'supplier_profile' %}"><i class="far fa-user"></i> My Profile</a></li>
+        <li><a class="products-sidebar" href="{% url 'supplier_products' %}"><i class="far fa-layer-group"></i> Products</a></li>
+        <li><a class="add-products-sidebar" href="{% url 'add_products' %}"><i class="far fa-upload"></i> Add New Product</a></li>
+        <li><a class="orders-sidebar" href="{% url 'supplier_orders' %}"><i class="far fa-shopping-bag"></i> All Orders <span class="badge badge-danger">02</span></a></li>
+        <li><a class="payout-sidebar" href="{% url 'supplier_payout' %}"><i class="far fa-wallet"></i> Payout</a></li>
+        <li><a class="transaction-sidebar" href="{% url 'supplier_transaction' %}"><i class="far fa-credit-card"></i> Transaction</a></li>
+        <li><a class="notification-sidebar" href="{% url 'supplier_notification' %}"><i class="far fa-bell"></i> Notification <span class="badge badge-danger">02</span></a></li>
+        <li><a class="messages-sidebar" href="{% url 'supplier_messages' %}"><i class="far fa-envelope"></i> Messages <span class="badge badge-danger">02</span></a></li>
+        <li><a class="settings-sidebar" href="{% url 'supplier_settings' %}"><i class="far fa-gear"></i> Settings</a></li>
+        <li><a class="logout" href="{% url 'logout' %}"><i class="far fa-sign-out"></i> Logout</a></li>
+    </ul>
+</div>
