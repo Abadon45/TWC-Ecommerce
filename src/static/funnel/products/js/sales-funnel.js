@@ -153,8 +153,8 @@ let promo9_summary = '' +
       '<input id="id_last_name" name="last_name" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" placeholder="Dela Cruz" required>' +
       "</div>" +
       '<div class="col-md-6">' +
-      '<label for="id_email" class="form-label">Receiver Mobile *</label>' +
-      '<input id="id_email" name="email" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" placeholder="+63 999 678 1234" required>' +
+      '<label for="id_email" class="form-label">Receiver Email *</label>' +
+      '<input id="id_email" name="email" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" placeholder="twconline@store.com" required>' +
       "</div>" +
       '<div class="col-md-6">' +
       '<label for="id_mobile" class="form-label">Receiver Mobile *</label>' +
@@ -227,8 +227,7 @@ let promo9_summary = '' +
         $("#id_city").val() &&
         $("#id_province").val() &&
         $("#id_region").val() &&
-        $("#id_postcode").val() &&
-        $("#id_message").val()
+        $("#id_postcode").val()
       ) {
         return new Promise((resolve, reject) => {
           resolve({
@@ -242,7 +241,7 @@ let promo9_summary = '' +
             province: $("#id_province").val(),
             region: $("#id_region").val(),
             postcode: $("#id_postcode").val(),
-            message: $("#id_message").val(),
+            message: $("#id_message").val()|| "",
           });
         });
       } else {
