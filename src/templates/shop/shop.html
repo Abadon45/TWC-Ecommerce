@@ -37,6 +37,9 @@
                                     onclick="showSubcategories('chingu')">Chingu</a></li>
                             <li><a href="{% url 'shop:shop' %}?category_id=mood" data-category-id="mood"
                                     onclick="showSubcategories('mood')">Mood Timepieces</a></li>
+                            {% if user.is_admin %}
+                            <li><a href="{% url 'shop:promo' %}">Promo Bundles</a></li>
+                            {% endif %}
                         </ul>
                     </div>
                     <div class="shop-widget" id="product-categories">

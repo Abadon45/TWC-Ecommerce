@@ -853,6 +853,7 @@
                         <div id="sweetalert1" class="btn-group-toggle" 
                             data-price="2199"
                             data-quantity="2"
+                            data-auth="{{ user.is_authenticated }}"
                             data-toggle="buttons"
                             onclick="checkout(this, 'promo1')">
                             <label class="btn btn-secondary">
@@ -925,6 +926,7 @@
                         <div class="btn-group-toggle" 
                             data-price="2299"
                             data-quantity="3"
+                            data-auth="{{ user.is_authenticated }}"
                             data-toggle="buttons" 
                             onclick="checkout(this, 'promo2')">
                             <label class="btn btn-secondary">
@@ -991,6 +993,7 @@
                         <div class="btn-group-toggle" 
                             data-price="2840" 
                             data-quantity="3" 
+                            data-auth="{{ user.is_authenticated }}"
                             data-toggle="buttons"
                             onclick="checkout(this, 'promo3')">
                             <label class="btn btn-secondary">

@@ -7,7 +7,7 @@ class OrderItemInline(admin.TabularInline):
     
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('order_id', 'customer', 'user', 'complete')
+    list_display = ('order_id', 'id', 'user', 'complete')
     inlines = [OrderItemInline]
     exclude = ('ordered_items',)
     

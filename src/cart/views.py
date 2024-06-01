@@ -69,49 +69,52 @@ def updateItem(request):
     quantity = int(request.GET.get('quantity', 1))
     cart_items = 0
     supplier = None
-    
+
     user = request.user
     session_key = request.session.session_key
-    
+
     print(f'Products for sales funnel: {bundleDetails}')
-    
+
     if 'checkout_done_bundle' in request.session:
         del request.session['checkout_done_bundle']
     if 'checkout_done_view' in request.session:
         del request.session['checkout_done_view']
-    
+
     if not session_key:
         request.session.save()
         session_key = request.session.session_key
-    
+
     print('Action: ', action)
     print('Product: ', productId)
     print('Quantity: ', quantity)
-    
+
     try:
+        order = None
+        orderItem = None
+
         if bundleDetails:
             order_id = request.session['bundle_order']
             order = Order.objects.get(order_id=order_id)
-            
+
             print(f'Order in UpdateItem: {order}')
-            
+
             for productDetail in bundleDetails.get('products', []):
                 productId = productDetail['id']
                 quantity = productDetail.get('quantity', 1)
-                
+
                 product = get_object_or_404(Product, id=productId)
                 print(productId)
                 print('Product: ', productId)
-                
+
                 orderItem, order_item_created = OrderItem.objects.get_or_create(order=order, product=product)
-                
+
                 orderItem.quantity = quantity
-                orderItem.save() 
-                
+                orderItem.save()
+
         else:
             product = get_object_or_404(Product, id=productId)
             supplier = product.category_1
-        
+
             # Get or create the order based on user authentication and supplier
             if user.is_authenticated:
                 print(f"User is authenticated: {user.username}")
@@ -119,47 +122,48 @@ def updateItem(request):
             else:
                 print(f"User is not authenticated")
                 order, created = Order.objects.get_or_create(user=None, session_key=session_key, supplier=supplier, complete=False)
-        
+
             orderItem, order_item_created = OrderItem.objects.get_or_create(order=order, product=product)
             orderItem.save()
-            
+
             if action == 'add':
                 orderItem.quantity += quantity
             elif action == 'minus':
                 orderItem.quantity -= quantity
-                
+
             if action == 'remove' or orderItem.quantity <= 0:
                 orderItem.delete()
             else:
                 orderItem.save()
-                
-                
+
             if order.orderitem_set.all().count() == 0:
                 order.delete()
-        
-        print(order)
-        print(orderItem)
-        print(orderItem.quantity)
-        
+
+        if order:
+            print(order)
+        if orderItem:
+            print(orderItem)
+            print(orderItem.quantity)
+
         existing_orders = Order.objects.filter(user=user, supplier=supplier, complete=False) if user.is_authenticated else \
                         Order.objects.filter(session_key=session_key, supplier=supplier, complete=False)
-        
+
         ordered_items = {}
         for order in existing_orders:
             ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product')
-            
+
         if user.is_authenticated:
             orders = Order.objects.filter(user=user, complete=False)
         else:
             orders = Order.objects.filter(session_key=session_key, complete=False)
-        
+
         request.session['checkout_orders'] = list(orders.values_list('id', flat=True))
-            
+
         cart_items = sum(order.total_quantity for order in orders)
         total_cart_subtotal = sum(order.calculate_subtotal() for order in orders)
-        
+
         print(f'total items in cart: {cart_items}')
-        
+
         return JsonResponse({
             'action': action,
             'cart_items': cart_items,
@@ -168,20 +172,20 @@ def updateItem(request):
                 'id': product.id,
                 'name': product.name,
                 'image': getattr(product.image_1, 'url', None) if product.image_1 else None,
-                'quantity': orderItem.quantity,
-                'total': orderItem.get_total,
+                'quantity': orderItem.quantity if orderItem else 0,
+                'total': orderItem.get_total if orderItem else 0,
             }],
             'orders': [{
-                'order_id': o.order_id, 
+                'order_id': o.order_id,
                 'subtotal': o.subtotal,
                 'order_count': o.orderitem_set.count(),
-                } for o in existing_orders],
-            }, safe=False)
-        
+            } for o in existing_orders],
+        }, safe=False)
+
     except Exception as e:
         print(f"Exception in updateItem: {e}")
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
-    
+
 
 #----------------- Checkout Views -------------------
 
@@ -198,6 +202,7 @@ def checkout(request):
     shipping_fee = 0.00
     orders_subtotal = Decimal('0.00')
     total_shipping = Decimal('0.00')
+    total_discount = Decimal('0.00')
     
     user = request.user
     session_key = request.session.session_key
@@ -365,11 +370,20 @@ def checkout(request):
         for order in orders:
             ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product')
             orders_subtotal += order.subtotal
+            total_discount += order.discount
             total_shipping += Decimal(order.shipping_fee)
+            if order.cod_amount:
+                order.discount = order.cod_amount - order.subtotal - Decimal(order.shipping_fee)
+            order.cod_amount = order.subtotal + Decimal(order.shipping_fee) - order.discount
+            order.save()
         
-        total_payment = orders_subtotal + total_shipping
+        total_payment = orders_subtotal + total_shipping - total_discount
         print(f'Total Payment: {total_payment}')
+        print(f'Total Discount: {total_discount}')
         print(f'Orders are: {orders}')
+        
+        if 'bundle_order' in request.session:
+            del request.session['bundle_order']
                 
         if request.is_ajax():
             response_data = {
@@ -396,6 +410,7 @@ def checkout(request):
                 'ordered_items': ordered_items,
                 'orders_subtotal': orders_subtotal,
                 'total_shipping': total_shipping,
+                'total_discount': total_discount,
                 'total_payment': total_payment,
                 'shipping_form': shipping_form,
                 'is_authenticated': is_authenticated,
@@ -561,6 +576,7 @@ class BundleCheckoutView(View):
             'ordered_items': ordered_items,
             }
         return render(request, self.template_name, context)
+
     
 ######################### 
 # Set Order to Complete #
@@ -574,7 +590,10 @@ def submit_checkout(request):
         order.complete = True
         order.save()
         
-        request.session['referrer'] = order.user.referred_by.username
+        if order.user.referred_by:
+            request.session['referrer'] = order.user.referred_by.username
+        else:
+            request.session['referrer'] = None
         print("Order is a bundle")
     else:
         order_ids = request.session.get('checkout_orders', [])
@@ -584,6 +603,7 @@ def submit_checkout(request):
     
         if request.method == 'POST':
             referrer_username = request.POST.get('username')
+            print(f'Referrer is: {referrer_username}')
             request.session['referrer'] = referrer_username
             referrer = None
             
@@ -599,6 +619,7 @@ def submit_checkout(request):
                 order_user.save()
                 order.complete = True
                 order.save()
+                print(f'Order {order} saved!')
         
     return redirect('cart:checkout_complete')
 
@@ -607,7 +628,7 @@ def submit_checkout(request):
 ######################################################### 
 
 def checkout_done_view(request): 
-    title = "Checkout Done" 
+    title = "Checkout Done"
     username = ""
     email = ""
     password = ""
@@ -615,7 +636,7 @@ def checkout_done_view(request):
     ordered_items = {}
     
     try:
-        referrer = request.session['referrer']
+        referrer = request.session.get('referrer', '')
         request.session['new_guest_user'] = True
         request.session['has_existing_order'] = True
         
@@ -623,46 +644,44 @@ def checkout_done_view(request):
             request.session['checkout_done_bundle'] = request.session['bundle_order']
             del request.session['bundle_order']
         
-        if 'checkout_orders' in request.session: 
+        if 'checkout_orders' in request.session:
             request.session['checkout_done_view'] = request.session.get('checkout_orders', [])
             del request.session['checkout_orders']
             
         orders = []
+        ordered_items = {}
 
-        if 'checkout_done_bundle' in request.session:
+        if 'checkout_done_bundle' in request.session and 'checkout_done_view' in request.session:
+            order_ids = [request.session['checkout_done_bundle']] + request.session.get('checkout_done_view', [])
+            orders = Order.objects.filter(order_id__in=order_ids)
+        elif 'checkout_done_bundle' in request.session:
             order_id = request.session['checkout_done_bundle']
             order = Order.objects.get(order_id=order_id)
             orders = [order]
-            ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product').order_by('-product__customer_price')
         elif 'checkout_done_view' in request.session:
             order_ids = request.session.get('checkout_done_view', [])
             orders = Order.objects.filter(id__in=order_ids)
-            
-            ordered_items = {}
-            for order in orders:
-                order.cod_amount = order.subtotal + Decimal(order.shipping_fee) - order.discount
-                ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product')
-                order.save()
-                
+        
+        # Process orders and order items
+        for order in orders:
+            order.cod_amount = order.subtotal + Decimal(order.shipping_fee) - order.discount
+            ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product').order_by('-product__customer_price')
+            order.save()
+
         print(f'Orders: {orders}')
         
         if request.user.is_anonymous:
-            
             guest_user_info = request.session.get('guest_user_data', {})
-            username = guest_user_info.get('username')
-            password = guest_user_info.get('password')
-            email = guest_user_info.get('email')
+            username = guest_user_info.get('username', '')
+            password = guest_user_info.get('password', '')
+            email = guest_user_info.get('email', '')
             
             print(f'username: {username}, email: {email}, password: {password}')
             
         orders_subtotal = sum(order.subtotal for order in orders)
         total_shipping = sum(Decimal(order.shipping_fee) for order in orders)
-        if 'checkout_done_bundle' in request.session:
-            total_payment = sum(order.cod_amount for order in orders)
-        else:
-            total_payment = orders_subtotal + total_shipping
+        total_payment = sum(order.cod_amount for order in orders)
         
-
         if request.is_ajax():
             response_data = {
                 "username": username,
@@ -684,9 +703,13 @@ def checkout_done_view(request):
                 "total_payment": total_payment,
             }
             return render(request, "cart/shop-checkout-complete.html", context)
+    except Order.DoesNotExist:
+        print("Order not found")
+        return JsonResponse({"error": "Order not found"}, status=404)
     except Exception as e:
         print(f"Exception in checkout_done_view: {e}")
         return JsonResponse({"error": "An error occurred"}, status=500)
+
     
 
 def set_order_id_session_variable(request):

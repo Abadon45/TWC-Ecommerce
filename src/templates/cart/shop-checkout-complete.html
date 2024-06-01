@@ -181,16 +181,4 @@
         });
     });
 </script>
-<script>
-    $(document).ready(function() {
-    $('.password-toggle').on('click', function(e) {
-        e.preventDefault();
-        var passwordSpan = $(this).prev('.password-hidden');
-        var password = passwordSpan.data('password');
-        var passwordType = passwordSpan.hasClass('password-visible') ? 'password' : 'text';
-        passwordSpan.text(passwordType === 'password' ? '********' : password).toggleClass('password-visible');
-        $(this).html(passwordType === 'password' ? '<u>show</u>' : '<u>hide</u>');
-    });
-});
-</script>
 {% endblock %}

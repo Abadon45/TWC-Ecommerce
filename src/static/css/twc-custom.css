@@ -202,6 +202,17 @@
     font-size: medium;
 }
 
+a.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    color: grey;
+    text-decoration: none;
+}
+
+a.disabled:hover {
+    text-decoration: none;
+}
+
 /* parallax */
 
 .dashboard-parallax {

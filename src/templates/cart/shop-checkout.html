@@ -272,8 +272,17 @@
                                                         style="width: 20%;">
                                                         <td>
                                                             <div class="shop-cart-img">
-                                                                <a href="#"><img src="{{ item.product.image_1.url }}"
-                                                                        alt=""></a>
+                                                                <a href="#">
+                                                                {% if item.product.image_1 %}
+                                                                    {% if item.product.image_1.url %}
+                                                                        <img src="{{ item.product.image_1.url }}" alt="{{ item.product.name }}">
+                                                                    {% else %}
+                                                                        <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ item.product.name }}">
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                    <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ item.product.name }}">
+                                                                {% endif %}
+                                                                </a>
                                                             </div>
                                                         </td>
                                                         <td style="width: 50%;">{{item.product.name}}</td>
@@ -288,8 +297,12 @@
                                             <ul>
                                                 <li class="shop-cart-subtotal"><strong>Order Shipping Fee:</strong>&emsp;<span>
                                                     {{ order.shipping_fee|currency }}</span></li>
+                                                {% if order.discount %}
+                                                    <li class="shop-cart-subtotal"><strong>Order Discount:</strong>&emsp;<span>
+                                                        {{ order.discount|currency }}</span></li>
+                                                {% endif %}
                                                 <li class="shop-cart-subtotal"><strong>Order Total:</strong>&emsp;<span>
-                                                    {{ order.total_amount|currency }}</span></li>
+                                                    {{ order.cod_amount|currency }}</span></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -316,8 +329,8 @@
 
                                     <li><strong>Merchandise Sub Total:</strong><span>{{ orders_subtotal|currency }}</span></li>
                                     <li><strong>Shipping Fee Total:</strong><span>{{ total_shipping|currency }}</span></li>
-                                    {% if discount %}
-                                    <li><strong>Discount:</strong>{{ discount }}</li>
+                                    {% if total_discount %}
+                                        <li><strong>Total Discount:</strong><span>-{{ total_discount|currency }}</span></li>
                                     {% endif %}
 
                                     <li class="shop-cart-total" style="display: block!important; text-align: end;">
@@ -332,7 +345,7 @@
                                                 class="fas fa-arrow-left"></span>Back To Cart</a>
                                         </div>
                                         <div class="col-md-2 offset-md-5">
-                                            <form class="form" method="POST" action="{% url 'cart:submit_checkout' %}">
+                                            <form id="checkoutForm" class="form" method="POST" action="{% url 'cart:submit_checkout' %}">
                                                 {% csrf_token %}
                                                 <button type="submit" class="theme-btn checkout-btn" 
                                                         data-referrer-id="{{ referred_by }}" data-user="{{ user }}"
@@ -389,7 +402,8 @@
                 }
             });
         } else {
-            redirectToCheckout();
+            var username = referrerId;
+            saveReferrerUsername(username);
         }
     }
 
@@ -402,7 +416,7 @@
                 csrfmiddlewaretoken: csrf,
             },
             success: function (response) {
-                redirectToCheckout();
+                $('#checkoutForm').submit();
             },
             error: function (xhr, status, error) {
                 console.error('Error saving referrer username:', error);
@@ -416,10 +430,6 @@
                 });
             }
         });
-    }
-
-    function redirectToCheckout() {
-        window.location.href = '{% url "cart:submit_checkout" %}';
     }
 </script>
 {% endblock %}

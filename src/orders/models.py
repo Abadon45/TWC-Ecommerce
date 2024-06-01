@@ -85,6 +85,7 @@ class Order(models.Model):
     contact_number      = models.CharField(max_length=15, blank=True, null=True)
     complete            = models.BooleanField(default=False, null=True, blank=False)
     delivered           = models.BooleanField(default=False, null=True, blank=False)
+    is_bundle           = models.BooleanField(default=False)
     active              = models.BooleanField(default=True)
     created_at          = models.DateTimeField(default=timezone.now)
     ordered_items       = models.ManyToManyField(Product, blank=True)

@@ -142,7 +142,11 @@
                             <li><strong>Order Sub Total:</strong> 
                                 <span id="order-subtotal-{{ order.order_id }}">{{ order.subtotal|currency }}</span>
                             </li>
-                            <li><strong>Discount:</strong> <span>No discount applied</span></li>
+                            {% if order.discount %}
+                                <li><strong>Discount:</strong> <span>{{ order.discount|currency }}</span></li>
+                            {% else %}
+                                <li><strong>Discount:</strong> <span>No discount applied</span></li>
+                            {% endif %}
                             <li class="shop-cart-total"><strong>Order Total:</strong> <span
                                     id="order-total-{{ order.order_id }}">{{ order.subtotal|currency }}</span></li>
                         </ul>

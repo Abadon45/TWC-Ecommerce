@@ -15,7 +15,7 @@
                         
                         <h6 class="mb-2"><i class="fa-solid fa-location-dot"></i> Delivery Address:</h6>
     
-                        <p class="selected_address"><b>{{address.first_name}}
+                        <p class="selected_address"><b>{{default_address.first_name}}
                                 {{default_address.last_name}}
                                 {{default_address.phone}}</b></p>
                         <div class="change-address row mb-20">
@@ -83,6 +83,10 @@
                                             {% endfor %}
                                         </tbody>                                        
                                     </table>
+                                    <ul>
+                                        <li class="shop-cart-subtotal"><strong>Order Subtotal:</strong>&emsp;<span>
+                                            {{ order.subtotal|currency }}</span></li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>

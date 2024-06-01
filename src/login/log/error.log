@@ -48308,3 +48308,1741 @@ Traceback (most recent call last):
 NameError: name 'SupplierNotidicationView' is not defined
 "GET /favicon.ico HTTP/1.1" 500 165349
 "GET /favicon.ico HTTP/1.1" 500 165349
+Internal Server Error: /logistics/approval/token-redemption-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1729, in token_redemption_data
+    'address': address.line1,
+AttributeError: 'NoneType' object has no attribute 'line1'
+Internal Server Error: /logistics/approval/token-redemption-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1729, in token_redemption_data
+    'address': address.line1,
+AttributeError: 'NoneType' object has no attribute 'line1'
+"GET /logistics/approval/token-redemption-data?_=1716908643958 HTTP/1.1" 500 75163
+"GET /logistics/approval/token-redemption-data?_=1716908643958 HTTP/1.1" 500 75163
+Internal Server Error: /logistics/approval/token-redemption-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1729, in token_redemption_data
+    'address': address.line1,
+AttributeError: 'NoneType' object has no attribute 'line1'
+Internal Server Error: /logistics/approval/token-redemption-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1729, in token_redemption_data
+    'address': address.line1,
+AttributeError: 'NoneType' object has no attribute 'line1'
+"GET /logistics/approval/token-redemption-data?_=1716909045864 HTTP/1.1" 500 75163
+"GET /logistics/approval/token-redemption-data?_=1716909045864 HTTP/1.1" 500 75163
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+"GET /logistics/product/logistics-product-orders-data?_=1716909870403 HTTP/1.1" 500 78338
+"GET /logistics/product/logistics-product-orders-data?_=1716909870403 HTTP/1.1" 500 78338
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+"GET /logistics/product/logistics-product-orders-data?filter=shipping HTTP/1.1" 500 72273
+"GET /logistics/product/logistics-product-orders-data?filter=shipping HTTP/1.1" 500 72273
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+"GET /logistics/product/logistics-product-orders-data?filter=shipping HTTP/1.1" 500 72273
+"GET /logistics/product/logistics-product-orders-data?filter=shipping HTTP/1.1" 500 72273
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+"GET /logistics/product/logistics-product-orders-data?filter=shipping HTTP/1.1" 500 72273
+"GET /logistics/product/logistics-product-orders-data?filter=shipping HTTP/1.1" 500 72273
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+"GET /logistics/product/logistics-product-orders-data?filter=shipping HTTP/1.1" 500 72273
+"GET /logistics/product/logistics-product-orders-data?filter=shipping HTTP/1.1" 500 72273
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+"GET /logistics/product/logistics-product-orders-data?filter=shipping HTTP/1.1" 500 72273
+"GET /logistics/product/logistics-product-orders-data?filter=shipping HTTP/1.1" 500 72273
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+"GET /logistics/product/logistics-product-orders-data?filter= HTTP/1.1" 500 78247
+"GET /logistics/product/logistics-product-orders-data?filter= HTTP/1.1" 500 78247
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+"GET /logistics/product/logistics-product-orders-data?filter= HTTP/1.1" 500 78247
+"GET /logistics/product/logistics-product-orders-data?filter= HTTP/1.1" 500 78247
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+"GET /logistics/product/logistics-product-orders-data?filter=shipping HTTP/1.1" 500 72273
+"GET /logistics/product/logistics-product-orders-data?filter=shipping HTTP/1.1" 500 72273
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+"GET /logistics/product/logistics-product-orders-data?_=1716911156140 HTTP/1.1" 500 78338
+"GET /logistics/product/logistics-product-orders-data?_=1716911156140 HTTP/1.1" 500 78338
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+"GET /logistics/product/logistics-product-orders-data?_=1716913711529 HTTP/1.1" 500 78338
+"GET /logistics/product/logistics-product-orders-data?_=1716913711529 HTTP/1.1" 500 78338
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+"GET /logistics/product/logistics-product-orders-data?filter=shipping HTTP/1.1" 500 72273
+"GET /logistics/product/logistics-product-orders-data?filter=shipping HTTP/1.1" 500 72273
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+Internal Server Error: /logistics/product/logistics-product-orders-data
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 1767, in logistics_product_orders_data
+    pickup_date = f'<span>{order.courier.pickup_date.strftime("%B %d, %Y")}</span>'
+AttributeError: 'NoneType' object has no attribute 'pickup_date'
+"GET /logistics/product/logistics-product-orders-data?_=1716913928543 HTTP/1.1" 500 77727
+"GET /logistics/product/logistics-product-orders-data?_=1716913928543 HTTP/1.1" 500 77727
+Internal Server Error: /shop/promos/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/shop/views.py", line 176, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/urls/base.py", line 86, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/urls/resolvers.py", line 694, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'single' with keyword arguments '{'slug': ''}' not found. 1 pattern(s) tried: ['shop/single/(?P<slug>[-a-zA-Z0-9_]+)$']
+Internal Server Error: /shop/promos/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/shop/views.py", line 176, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/urls/base.py", line 86, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/urls/resolvers.py", line 694, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'single' with keyword arguments '{'slug': ''}' not found. 1 pattern(s) tried: ['shop/single/(?P<slug>[-a-zA-Z0-9_]+)$']
+"GET /shop/promos/ HTTP/1.1" 500 181093
+"GET /shop/promos/ HTTP/1.1" 500 181093
+Internal Server Error: /shop/promos/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/shop/views.py", line 176, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/urls/base.py", line 86, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/urls/resolvers.py", line 694, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'single' with keyword arguments '{'slug': ''}' not found. 1 pattern(s) tried: ['shop/single/(?P<slug>[-a-zA-Z0-9_]+)$']
+Internal Server Error: /shop/promos/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/shop/views.py", line 176, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/urls/base.py", line 86, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/urls/resolvers.py", line 694, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'single' with keyword arguments '{'slug': ''}' not found. 1 pattern(s) tried: ['shop/single/(?P<slug>[-a-zA-Z0-9_]+)$']
+"GET /shop/promos/ HTTP/1.1" 500 180755
+"GET /shop/promos/ HTTP/1.1" 500 180755
+Internal Server Error: /shop/promos/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/shop/views.py", line 176, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/urls/base.py", line 86, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/urls/resolvers.py", line 694, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'single' with keyword arguments '{'slug': ''}' not found. 1 pattern(s) tried: ['shop/single/(?P<slug>[-a-zA-Z0-9_]+)$']
+Internal Server Error: /shop/promos/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/shop/views.py", line 176, in get
+    return render(request, self.template_name, context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/urls/base.py", line 86, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/urls/resolvers.py", line 694, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'single' with keyword arguments '{'slug': ''}' not found. 1 pattern(s) tried: ['shop/single/(?P<slug>[-a-zA-Z0-9_]+)$']
+"GET /shop/promos/ HTTP/1.1" 500 180755
+"GET /shop/promos/ HTTP/1.1" 500 180755
+Internal Server Error: /order/order-detail/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 434, in get
+    order = Order.objects.get(user=user, order_id=order_id, complete=True).order_by('-product__customer_price')
+AttributeError: 'Order' object has no attribute 'order_by'
+Internal Server Error: /order/order-detail/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 434, in get
+    order = Order.objects.get(user=user, order_id=order_id, complete=True).order_by('-product__customer_price')
+AttributeError: 'Order' object has no attribute 'order_by'
+"GET /order/order-detail/?order_id=TWC561086 HTTP/1.1" 500 79710
+"GET /order/order-detail/?order_id=TWC561086 HTTP/1.1" 500 79710
+Internal Server Error: /cart/checkout/
+Internal Server Error: /cart/checkout/
+"GET /cart/checkout/ HTTP/1.1" 500 34
+"GET /cart/checkout/ HTTP/1.1" 500 34
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+"GET /load-more-orders/?page=2&status=all HTTP/1.1" 500 76201
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 365, in load_more_orders
+    'supplier_name': (order.supplier).title(),
+AttributeError: 'NoneType' object has no attribute 'title'
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+"GET /load-more-orders/?page=2&status=pending HTTP/1.1" 500 76244
+Internal Server Error: /funnel/create-order
+Internal Server Error: /funnel/create-order
+"POST /funnel/create-order HTTP/1.1" 500 34
+Internal Server Error: /funnel/create-order
+"POST /funnel/create-order HTTP/1.1" 500 34
+Internal Server Error: /funnel/create-order
+"POST /funnel/create-order HTTP/1.1" 500 34
+"POST /funnel/create-order HTTP/1.1" 500 34
+Internal Server Error: /cart/update-item/
+Internal Server Error: /cart/update-item/
+"GET /cart/update-item/?productId=53&action=add&quantity=1 HTTP/1.1" 500 34
+"GET /cart/update-item/?productId=53&action=add&quantity=1 HTTP/1.1" 500 34
+Internal Server Error: /cart/bundle-checkout/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/cart/views.py", line 547, in get
+    order_id = request.session['bundle_order']
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/contrib/sessions/backends/base.py", line 65, in __getitem__
+    return self._session[key]
+KeyError: 'bundle_order'
+Internal Server Error: /cart/bundle-checkout/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/cart/views.py", line 547, in get
+    order_id = request.session['bundle_order']
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/contrib/sessions/backends/base.py", line 65, in __getitem__
+    return self._session[key]
+KeyError: 'bundle_order'
+"GET /cart/bundle-checkout/ HTTP/1.1" 500 82638
+"GET /cart/bundle-checkout/ HTTP/1.1" 500 82638
+Internal Server Error: /cart/submit-checkout/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/fields/__init__.py", line 1823, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: 'TWC509500'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/cart/views.py", line 576, in submit_checkout
+    orders = Order.objects.filter(id__in=order_ids)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/query.py", line 941, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/query.py", line 961, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/query.py", line 968, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1396, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1415, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1350, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1196, in build_lookup
+    lookup = lookup_class(lhs, rhs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/lookups.py", line 25, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/lookups.py", line 240, in get_prep_lookup
+    rhs_value = self.lhs.output_field.get_prep_value(rhs_value)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/fields/__init__.py", line 1825, in get_prep_value
+    raise e.__class__(
+ValueError: Field 'id' expected a number but got 'TWC509500'.
+Internal Server Error: /cart/submit-checkout/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/fields/__init__.py", line 1823, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: 'TWC509500'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/cart/views.py", line 576, in submit_checkout
+    orders = Order.objects.filter(id__in=order_ids)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/query.py", line 941, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/query.py", line 961, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/query.py", line 968, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1396, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1415, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1350, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/sql/query.py", line 1196, in build_lookup
+    lookup = lookup_class(lhs, rhs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/lookups.py", line 25, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/lookups.py", line 240, in get_prep_lookup
+    rhs_value = self.lhs.output_field.get_prep_value(rhs_value)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/db/models/fields/__init__.py", line 1825, in get_prep_value
+    raise e.__class__(
+ValueError: Field 'id' expected a number but got 'TWC509500'.
+"GET /cart/submit-checkout/ HTTP/1.1" 500 130703
+"GET /cart/submit-checkout/ HTTP/1.1" 500 130703
+Internal Server Error: /cart/update-item/
+Internal Server Error: /cart/update-item/
+"GET /cart/update-item/?productId=53&action=add&quantity=1 HTTP/1.1" 500 34
+"GET /cart/update-item/?productId=53&action=add&quantity=1 HTTP/1.1" 500 34
+Internal Server Error: /cart/checkout/
+Internal Server Error: /cart/checkout/
+"GET /cart/checkout/ HTTP/1.1" 500 34
+"GET /cart/checkout/ HTTP/1.1" 500 34
+Internal Server Error: /cart/submit-checkout/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/cart/views.py", line 591, in submit_checkout
+    request.session['referrer'] = order.user.referred_by.username
+AttributeError: 'NoneType' object has no attribute 'username'
+Internal Server Error: /cart/submit-checkout/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/cart/views.py", line 591, in submit_checkout
+    request.session['referrer'] = order.user.referred_by.username
+AttributeError: 'NoneType' object has no attribute 'username'
+"POST /cart/submit-checkout/ HTTP/1.1" 500 69709
+"POST /cart/submit-checkout/ HTTP/1.1" 500 69709
+Internal Server Error: /cart/submit-checkout/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/cart/views.py", line 591, in submit_checkout
+    request.session['referrer'] = order.user.referred_by.username
+AttributeError: 'NoneType' object has no attribute 'username'
+Internal Server Error: /cart/submit-checkout/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/cart/views.py", line 591, in submit_checkout
+    request.session['referrer'] = order.user.referred_by.username
+AttributeError: 'NoneType' object has no attribute 'username'
+"POST /cart/submit-checkout/ HTTP/1.1" 500 69709
+"POST /cart/submit-checkout/ HTTP/1.1" 500 69709
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 350, in load_more_orders
+    'product_url': f'{settings.MAIN_SITE_URL}/shop/{item.product.sku}',
+NameError: name 'product' is not defined
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 350, in load_more_orders
+    'product_url': f'{settings.MAIN_SITE_URL}/shop/{item.product.sku}',
+NameError: name 'product' is not defined
+"GET /load-more-orders/?page=1&status=all HTTP/1.1" 500 71983
+"GET /load-more-orders/?page=1&status=all HTTP/1.1" 500 71983
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 350, in load_more_orders
+    'product_url': f'{settings.MAIN_SITE_URL}/shop/{item.product.sku}',
+NameError: name 'product' is not defined
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 350, in load_more_orders
+    'product_url': f'{settings.MAIN_SITE_URL}/shop/{item.product.sku}',
+NameError: name 'product' is not defined
+"GET /load-more-orders/?page=1&status=all HTTP/1.1" 500 71983
+"GET /load-more-orders/?page=1&status=all HTTP/1.1" 500 71983
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 350, in load_more_orders
+    'product_url': f'{settings.MAIN_SITE_URL}/shop/{item.product.sku}',
+NameError: name 'product' is not defined
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 350, in load_more_orders
+    'product_url': f'{settings.MAIN_SITE_URL}/shop/{item.product.sku}',
+NameError: name 'product' is not defined
+"GET /load-more-orders/?page=1&status=all HTTP/1.1" 500 71983
+"GET /load-more-orders/?page=1&status=all HTTP/1.1" 500 71983
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 350, in load_more_orders
+    'product_url': f'{settings.MAIN_SITE_URL}/shop/{item.product.sku}',
+NameError: name 'product' is not defined
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 350, in load_more_orders
+    'product_url': f'{settings.MAIN_SITE_URL}/shop/{item.product.sku}',
+NameError: name 'product' is not defined
+"GET /load-more-orders/?page=1&status=pending HTTP/1.1" 500 72015
+"GET /load-more-orders/?page=1&status=pending HTTP/1.1" 500 72015
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 350, in load_more_orders
+    'product_url': f'{settings.MAIN_SITE_URL}/shop/{item.product.sku}',
+NameError: name 'product' is not defined
+Internal Server Error: /load-more-orders/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/user/views.py", line 350, in load_more_orders
+    'product_url': f'{settings.MAIN_SITE_URL}/shop/{item.product.sku}',
+NameError: name 'product' is not defined
+"GET /load-more-orders/?page=1&status=pending HTTP/1.1" 500 72015
+"GET /load-more-orders/?page=1&status=pending HTTP/1.1" 500 72015
+Internal Server Error: /funnel/create-order
+Internal Server Error: /funnel/create-order
+"POST /funnel/create-order HTTP/1.1" 500 34
+"POST /funnel/create-order HTTP/1.1" 500 34
+Internal Server Error: /cart/update-item/
+Internal Server Error: /cart/update-item/
+"GET /cart/update-item/?bundleDetails=%7B%22products%22%3A%5B%7B%22id%22%3A%2226%22%2C%22quantity%22%3A1%7D%2C%7B%22id%22%3A%2240%22%2C%22quantity%22%3A1%7D%5D%7D HTTP/1.1" 500 34
+"GET /cart/update-item/?bundleDetails=%7B%22products%22%3A%5B%7B%22id%22%3A%2226%22%2C%22quantity%22%3A1%7D%2C%7B%22id%22%3A%2240%22%2C%22quantity%22%3A1%7D%5D%7D HTTP/1.1" 500 34

@@ -334,8 +334,6 @@ def load_more_orders(request):
     paginator = Paginator(orders, 10)
     orders_page = paginator.get_page(page)
     
-    
-
     orders_data = []
     for order in orders_page:
         if order.status == "pending":
@@ -349,7 +347,7 @@ def load_more_orders(request):
         items = []
         for item in order.orderitem_set.all():  # Use the related manager properly
             items.append({
-                'product_url': f'{settings.MAIN_SITE_URL}/shop/order-detail/?order_id={order.order_id}',
+                'product_url': f'{settings.MAIN_SITE_URL}/shop/single/{item.product.slug}',
                 'product_image': item.product.image_1.url if item.product.image_1 else None,
                 'product_name': item.product.name,
                 'product_sku': item.product.sku,
@@ -446,7 +444,7 @@ class DashboardOrderDetailView(View):
     def get_context_data(self, order, **kwargs):
         order.cod_amount = order.subtotal + Decimal(order.shipping_fee) - order.discount
         order.save()
-        order_items = order.orderitem_set.all()
+        order_items = order.orderitem_set.all().order_by('-product__customer_price')
         context = {
             'title': self.title,
             'order': order,

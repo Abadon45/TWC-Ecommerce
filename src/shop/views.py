@@ -167,3 +167,12 @@ class ShopDetailView(ProductDetailView):
         
         return context
     
+class ShopPromoBundleView(View):
+    template_name = "shop/shop-promo-bundle.html"
+
+    def get(self, request, *args, **kwargs):
+        # You can add context data here if needed
+        context = {}
+        return render(request, self.template_name, context)
+
+    
