@@ -382,6 +382,12 @@ def checkout(request):
         print(f'Total Discount: {total_discount}')
         print(f'Orders are: {orders}')
         
+        current_user = ""
+        if user.is_authenticated:
+            current_user = user
+        else:
+            current_user = "anonymoususer"
+        
         if 'bundle_order' in request.session:
             del request.session['bundle_order']
                 
@@ -418,6 +424,7 @@ def checkout(request):
                 'customer_addresses': customer_addresses,
                 'title': title,
                 'user': user,
+                'current_user': current_user,
                 'referred_by': referred_by,
             }
             print(f'is_authenticated: {is_authenticated}')

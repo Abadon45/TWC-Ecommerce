@@ -204,10 +204,11 @@
                             </li>
                         </ul>
                         <div class="text-end mt-40 checkoutBtn">
-                            <form class="form" method="POST" action="{% url 'cart:submit_checkout' %}">
+                            <form id="checkoutForm" class="form" method="POST" action="{% url 'cart:submit_checkout' %}">
                                 {% csrf_token %}
                                 <button type="submit" class="theme-btn checkout-btn" 
                                         data-referrer-id="{{ referred_by }}"
+                                        data-username="{{ current_user }}"
                                         onclick="checkoutBtn(event)" hidden>Checkout Now
                                         <i class="fas fa-arrow-right-long"></i>
                                 </button>
@@ -345,10 +346,12 @@
                                                 class="fas fa-arrow-left"></span>Back To Cart</a>
                                         </div>
                                         <div class="col-md-2 offset-md-5">
+                                            {{ current_user }}
                                             <form id="checkoutForm" class="form" method="POST" action="{% url 'cart:submit_checkout' %}">
                                                 {% csrf_token %}
                                                 <button type="submit" class="theme-btn checkout-btn" 
-                                                        data-referrer-id="{{ referred_by }}" data-user="{{ user }}"
+                                                        data-referrer-id="{{ referred_by }}" 
+                                                        data-username="{{ current_user }}"
                                                         onclick="checkoutBtn(event)">Checkout Now
                                                         <i class="fas fa-arrow-right-long"></i>
                                                 </button>
@@ -372,7 +375,7 @@
     function checkoutBtn(event) {
         event.preventDefault();
         var referrerId = $(event.currentTarget).data('referrer-id');
-        var userData = $(event.currentTarget).data('user');
+        var userData = $(event.currentTarget).data('username');
         
         if (referrerId === "None" || referrerId === '') {
             Swal.fire({
@@ -417,6 +420,7 @@
             },
             success: function (response) {
                 $('#checkoutForm').submit();
+
             },
             error: function (xhr, status, error) {
                 console.error('Error saving referrer username:', error);

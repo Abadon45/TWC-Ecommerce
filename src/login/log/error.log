@@ -50046,3 +50046,7 @@ Internal Server Error: /cart/update-item/
 Internal Server Error: /cart/update-item/
 "GET /cart/update-item/?bundleDetails=%7B%22products%22%3A%5B%7B%22id%22%3A%2226%22%2C%22quantity%22%3A1%7D%2C%7B%22id%22%3A%2240%22%2C%22quantity%22%3A1%7D%5D%7D HTTP/1.1" 500 34
 "GET /cart/update-item/?bundleDetails=%7B%22products%22%3A%5B%7B%22id%22%3A%2226%22%2C%22quantity%22%3A1%7D%2C%7B%22id%22%3A%2240%22%2C%22quantity%22%3A1%7D%5D%7D HTTP/1.1" 500 34
+Internal Server Error: /cart/checkout/
+Internal Server Error: /cart/checkout/
+"GET /cart/checkout/ HTTP/1.1" 500 34
+"GET /cart/checkout/ HTTP/1.1" 500 34
