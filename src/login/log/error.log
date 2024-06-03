@@ -50050,3 +50050,43 @@ Internal Server Error: /cart/checkout/
 Internal Server Error: /cart/checkout/
 "GET /cart/checkout/ HTTP/1.1" 500 34
 "GET /cart/checkout/ HTTP/1.1" 500 34
+Internal Server Error: /cart/submit-checkout/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/cart/views.py", line 630, in submit_checkout
+    print(f"Referrer is: {request.session.get['referrer']}")
+TypeError: 'method' object is not subscriptable
+Internal Server Error: /cart/submit-checkout/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/cart/views.py", line 630, in submit_checkout
+    print(f"Referrer is: {request.session.get['referrer']}")
+TypeError: 'method' object is not subscriptable
+"POST /cart/submit-checkout/ HTTP/1.1" 500 70204
+"POST /cart/submit-checkout/ HTTP/1.1" 500 70204
+Internal Server Error: /cart/submit-checkout/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/cart/views.py", line 630, in submit_checkout
+    print(f"Referrer is: {request.session.get['referrer']}")
+TypeError: 'method' object is not subscriptable
+Internal Server Error: /cart/submit-checkout/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/cart/views.py", line 630, in submit_checkout
+    print(f"Referrer is: {request.session.get['referrer']}")
+TypeError: 'method' object is not subscriptable
+"POST /cart/submit-checkout/ HTTP/1.1" 500 70204
+"POST /cart/submit-checkout/ HTTP/1.1" 500 70204

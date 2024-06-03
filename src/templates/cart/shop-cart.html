@@ -148,7 +148,13 @@
                                 <li><strong>Discount:</strong> <span>No discount applied</span></li>
                             {% endif %}
                             <li class="shop-cart-total"><strong>Order Total:</strong> <span
-                                    id="order-total-{{ order.order_id }}">{{ order.subtotal|currency }}</span></li>
+                                    id="order-total-{{ order.order_id }}">
+                                    {% if cod_amount %}
+                                        {{ order.cod_amount|currency }}
+                                    {% else %}
+                                        {{ order.subtotal|currency }}
+                                    {% endif %}
+                                </span></li>
                         </ul>
                         {% endfor %}
                         <ul>

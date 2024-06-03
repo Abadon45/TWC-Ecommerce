@@ -372,9 +372,20 @@ def checkout(request):
             orders_subtotal += order.subtotal
             total_discount += order.discount
             total_shipping += Decimal(order.shipping_fee)
-            if order.cod_amount:
-                order.discount = order.cod_amount - order.subtotal - Decimal(order.shipping_fee)
+            
+            print(f'{order} initial cod = {order.cod_amount}')
+            print(f'{order} subtotal = {order.subtotal}')
+            print(f'{order} shipping = {order.shipping_fee}')
+            
+            if order.shipping_fee != 0 and order.discount == 0:
+                if order.cod_amount != 0 and order.cod_amount != order.subtotal:
+                    order.discount = (order.subtotal + Decimal(order.shipping_fee)) - order.cod_amount
+                    print(f'{order} discount calculated  = {order.discount}')
+                else:
+                    print(f'{order} discount remains  = {order.discount}')
+                    
             order.cod_amount = order.subtotal + Decimal(order.shipping_fee) - order.discount
+            print(f'{order} cod = {order.cod_amount}')
             order.save()
         
         total_payment = orders_subtotal + total_shipping - total_discount
@@ -569,11 +580,8 @@ class BundleCheckoutView(View):
         order_id = request.session['bundle_order']
         order = Order.objects.get(order_id=order_id)
         default_address = order.shipping_address
-        
         ordered_items = OrderItem.objects.filter(order=order).select_related('product').order_by('-product__customer_price')
-    
-        discount = order.subtotal + Decimal(order.shipping_fee) - order.cod_amount
-        order.discount = discount
+        order.discount = order.subtotal + Decimal(order.shipping_fee) - order.cod_amount
         order.save()
         
         context = {
@@ -605,14 +613,13 @@ def submit_checkout(request):
     else:
         order_ids = request.session.get('checkout_orders', [])
         orders = Order.objects.filter(id__in=order_ids)
+        referrer_username = ""
+        referrer = None
         
         print(f'Order in Submit Checkout: {orders}')
     
         if request.method == 'POST':
             referrer_username = request.POST.get('username')
-            print(f'Referrer is: {referrer_username}')
-            request.session['referrer'] = referrer_username
-            referrer = None
             
             if referrer_username:
                 try:
@@ -639,11 +646,11 @@ def checkout_done_view(request):
     username = ""
     email = ""
     password = ""
-    referrer = ""
+    referrer_username = ""
     ordered_items = {}
     
     try:
-        referrer = request.session.get('referrer', '')
+        referrer_username = request.session.get('referrer_username', '')
         request.session['new_guest_user'] = True
         request.session['has_existing_order'] = True
         
@@ -671,7 +678,6 @@ def checkout_done_view(request):
         
         # Process orders and order items
         for order in orders:
-            order.cod_amount = order.subtotal + Decimal(order.shipping_fee) - order.discount
             ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product').order_by('-product__customer_price')
             order.save()
 
@@ -705,7 +711,7 @@ def checkout_done_view(request):
                 "username": username,
                 "email": email,
                 "password": password,
-                "referrer": referrer,
+                "referrer_username": referrer_username,
                 "title": title,
                 "total_payment": total_payment,
             }

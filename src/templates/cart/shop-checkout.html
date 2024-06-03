@@ -327,13 +327,11 @@
                             <div class="shop-cart-summary" style="margin-left: 0!important;">
                                 <h5>Cart Summary</h5>
                                 <ul>
-
                                     <li><strong>Merchandise Sub Total:</strong><span>{{ orders_subtotal|currency }}</span></li>
                                     <li><strong>Shipping Fee Total:</strong><span>{{ total_shipping|currency }}</span></li>
                                     {% if total_discount %}
                                         <li><strong>Total Discount:</strong><span>-{{ total_discount|currency }}</span></li>
                                     {% endif %}
-
                                     <li class="shop-cart-total" style="display: block!important; text-align: end;">
                                         <h3><strong>Total Payment:</strong>&emsp;<span>{{ total_payment|currency }}</span></h3>
                                     </li>
@@ -346,7 +344,6 @@
                                                 class="fas fa-arrow-left"></span>Back To Cart</a>
                                         </div>
                                         <div class="col-md-2 offset-md-5">
-                                            {{ current_user }}
                                             <form id="checkoutForm" class="form" method="POST" action="{% url 'cart:submit_checkout' %}">
                                                 {% csrf_token %}
                                                 <button type="submit" class="theme-btn checkout-btn" 
@@ -368,7 +365,6 @@
     </div>
 </div>
 
-
 {% endblock %}
 {% block extra_js %}
 <script>
@@ -389,7 +385,9 @@
                 cancelButtonText: 'Cancel',
                 preConfirm: (username) => {
                     if (!username) {
-                        Swal.showValidationMessage('Username is required');
+                        Swal.showValidationMessage('Username is required!');
+                    } else if (username.toLowerCase() === 'None') {
+                        Swal.showValidationMessage('Username is required!');
                     } else if (username.toLowerCase() === userData.toLowerCase()) {
                         Swal.showValidationMessage('You cannot refer yourself!');
                     } else if (username.toLowerCase() === 'admin') {

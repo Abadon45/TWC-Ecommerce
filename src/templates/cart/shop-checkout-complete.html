@@ -24,7 +24,7 @@
                                 <h4 class="card-title">Please save your login details to track your order.</h4>
                                 <h6>Username: {{ username }}</h6>
                                 <h6>Password: {{ password }}</h6>
-                                <h6>Affiliate Link: http://www.twconline.store/{{ referrer }}</h6>
+                                <h6>Affiliate Link: http://www.twconline.store/{{ orders.0.user.referred_by }}</h6>
                                 <h6>Email: {{ email }}</h6>
                             </div>
                         </div> 
