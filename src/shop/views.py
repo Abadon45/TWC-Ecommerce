@@ -171,8 +171,98 @@ class ShopPromoBundleView(View):
     template_name = "shop/shop-promo-bundle.html"
 
     def get(self, request, *args, **kwargs):
-        # You can add context data here if needed
-        context = {}
-        return render(request, self.template_name, context)
+        products = [
+            {
+                'promo': 'promo1',
+                'name': 'barley-for-cancer',
+                'price': 2199,
+                'quantity': 2,
+                'image': 'img/product/promos/barley/barley-promo-1.png',
+                'alt': 'promo 1',
+                'name': 'Barley Promo 1',
+            },
+            {
+                'promo': 'promo2',
+                'name': 'barley-for-cancer',
+                'price': 2299,
+                'quantity': 3,
+                'image': 'img/product/promos/barley/barley-promo-1.png',
+                'alt': 'promo 2',
+                'name': 'Barley Promo 2',
+            },
+            {
+                'promo': 'promo3',
+                'name': 'barley-for-cancer',
+                'price': 2840,
+                'quantity': 3,
+                'image': 'img/product/promos/barley/barley-promo-1.png',
+                'alt': 'promo 3',
+                'name': 'Barley Promo 3',
+            },
+            {
+                'promo': 'promo4',
+                'name': 'weight-loss',
+                'price': 799,
+                'quantity': 2,
+                'image': 'img/product/promos/barley/barley-promo-1.png',
+                'alt': 'promo 4',
+                'name': 'Fusion Coffee Promo 1',
+            },
+            {
+                'promo': 'promo5',
+                'name': 'weight-loss',
+                'price': 1249,
+                'quantity': 5,
+                'image': 'img/product/promos/barley/barley-promo-1.png',
+                'alt': 'promo 5',
+                'name': 'Fusion Coffee Promo 2',
+            },
+            {
+                'promo': 'promo6',
+                'name': 'weight-loss',
+                'price': 1649,
+                'quantity': 7,
+                'image': 'img/product/promos/barley/barley-promo-1.png',
+                'alt': 'promo 6',
+                'name': 'Fusion Coffee Promo 3',
+            },
+            {
+                'promo': 'promo7',
+                'name': 'boost-coffee',
+                'price': 899,
+                'quantity': 2,
+                'image': 'img/product/promos/barley/barley-promo-1.png',
+                'alt': 'promo 7',
+                'name': 'Boost Coffee Promo 1',
+            },
+            {
+                'promo': 'promo8',
+                'name': 'boost-coffee',
+                'price': 1349,
+                'quantity': 5,
+                'image': 'img/product/promos/barley/barley-promo-1.png',
+                'alt': 'promo 8',
+                'name': 'Boost Coffee Promo 2',
+            },
+            {
+                'promo': 'promo9',
+                'name': 'boost-coffee',
+                'price': 1799,
+                'quantity': 7,
+                'image': 'img/product/promos/barley/barley-promo-1.png',
+                'alt': 'promo 9',
+                'name': 'Boost Coffee Promo 3',
+            },
 
+        ]
+
+        # Example list of products in the cart
+        products_in_cart = ['promo1'] 
+
+        context = {
+            'products': products,
+            'products_in_cart': products_in_cart,
+            'user': request.user,
+        }
+        return render(request, self.template_name, context)
     

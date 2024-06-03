@@ -369,9 +369,6 @@ def checkout(request):
         ordered_items = {}
         for order in orders:
             ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product')
-            orders_subtotal += order.subtotal
-            total_discount += order.discount
-            total_shipping += Decimal(order.shipping_fee)
             
             print(f'{order} initial cod = {order.cod_amount}')
             print(f'{order} subtotal = {order.subtotal}')
@@ -385,6 +382,9 @@ def checkout(request):
                     print(f'{order} discount remains  = {order.discount}')
                     
             order.cod_amount = order.subtotal + Decimal(order.shipping_fee) - order.discount
+            orders_subtotal += order.subtotal
+            total_discount += order.discount
+            total_shipping += Decimal(order.shipping_fee)
             print(f'{order} cod = {order.cod_amount}')
             order.save()
         
