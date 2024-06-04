@@ -31,7 +31,7 @@ class CustomUserCreationForm(UserCreationForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username','first_name', 'last_name', 'email', 'mobile', 'image']
+        fields = ['username', 'first_name', 'last_name', 'email', 'mobile', 'messenger_link','image']
         
 class ProfilePictureForm(forms.ModelForm):
     class Meta:

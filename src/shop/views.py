@@ -13,7 +13,6 @@ from django.db.models import Count
 import random
 
 
-
 class ShopView(ProductListView):
     model = Product
     template_name = 'shop/shop.html'
@@ -21,7 +20,7 @@ class ShopView(ProductListView):
     paginate_by = 9
     _product_choices = None
     title = "Shop"
-    
+
     def get(self, request, *args, **kwargs):
         try:
             return super().get(request, *args, **kwargs)
@@ -35,7 +34,6 @@ class ShopView(ProductListView):
 
         if search_query:
             queryset = Product.objects.filter(name__icontains=search_query)
-            print(f"Search results: {queryset}")  # Print the search results
         elif category_id is None or category_id.lower() == 'all':
             queryset = Product.objects.filter(is_hidden=False)
         else:
@@ -76,17 +74,13 @@ class ShopView(ProductListView):
             for subcategory in subcategories
         }
 
-
-        # Print the subcategory_counts dictionary to the console
-        print("Page:", self.request.GET.get('page'))
-        print("Category ID:", self.request.GET.get('category_id'))
-        print("Subcategory Counts:", subcategory_counts)
-
         context['products'] = products
         context['subcategory_counts'] =  subcategory_counts
         context['subcategory_names'] = subcategory_names
         context['products_in_cart'] =  products_in_cart
         context['title'] = self.title
+        context['category_id'] = self.request.GET.get('category_id', '')
+        context['q'] = self.request.GET.get('q', '')
 
         return context
 
@@ -110,7 +104,6 @@ class ShopView(ProductListView):
                     'image': product.image_1.url if product.image_1 else '',
                     'slug': product.slug,
                     'id': product.id,
-
                 }
                 for product in paginated_products
             ]
@@ -132,7 +125,7 @@ class ShopView(ProductListView):
         else:
             context['page_obj'] = paginated_products
             return super().render_to_response(context, **response_kwargs)
-        
+
 
 class ShopDetailView(ProductDetailView):
     template_name = "shop/shop-single.html"

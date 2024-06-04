@@ -87,6 +87,18 @@
                                                                 placeholder="{{ user.mobile }}" name="mobile">
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Phone</label>
+                                                            <input type="text" class="form-control" 
+                                                            {% if user.messenger_link %}
+                                                                value="{{ user.messenger_link }}"
+                                                            {% else %}
+                                                                value="Enter your FB Messenger Link"
+                                                            {% endif %}
+                                                                placeholder="{{ user.messenger_link }}" name="messenger_link">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-4" style="margin: auto; border-left: 1px solid lightgray;">

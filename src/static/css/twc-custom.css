@@ -54,6 +54,51 @@
     justify-content: flex-end;
 }
 
+
+/* CHAT WITH SELLER */
+
+#chat-seller {
+    position: fixed;
+    bottom: -10px; /* Positioned off-screen initially */
+    right: 110px;
+    z-index: 99;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    border-radius: 10px 10px 0 0;
+    color: var(--color-white);
+    background-color: var(--theme-color);
+    cursor: pointer;
+    width: 12vw; /* Increased width */
+    height: 50px; /* Increased height */
+    line-height: 60px;
+    text-align: center;
+    box-shadow: var(--box-shadow2);
+    transition: bottom 0.3s, background-color 0.3s;
+    opacity: 1;
+    visibility: visible;
+}
+
+#chat-seller:hover {
+    bottom: 0; /* Move to the bottom of the screen on hover */
+    background-color: #0056b3; /* Darker shade for hover */
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+
+/* SUPPLIER DASHBOARD */
+
 #supplier {
     margin: 30px 10px;
     padding: 25px 10px;
