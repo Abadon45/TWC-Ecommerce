@@ -99,7 +99,6 @@ class IndexView(TemplateView):
             'rand_on_sale_products': rand_on_sale_products,
             'rand_best_seller_products': rand_best_seller_products,
             'rand_top_rated_products': rand_top_rated_products,
-            'referrer': referrer if username else None,
             'categories': subcategory_counts_display,
             'is_authenticated': self.request.user.is_authenticated,
         }

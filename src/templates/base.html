@@ -71,8 +71,8 @@
     <!-- footer area end -->
 
     <!-- chat -->
-    {% if user.is_authenticated %}
-        <a href="{{ user.referred_by.messenger_link }}" id="chat-seller" aria-label="Chat with seller">
+    {% if referrer %}
+        <a href="{{ referrer.messenger_link }}" id="chat-seller" aria-label="Chat with seller">
             <i class="fa-solid fa-message" aria-hidden="true"></i> Chat
         </a>
     {% endif %}

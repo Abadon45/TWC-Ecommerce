@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#chat-seller').on('click', function(event) {
+    $('#chat-seller, #user-chat-seller').on('click', function(event) {
         event.preventDefault();
         const chatLink = $(this).attr('href');
 

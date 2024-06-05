@@ -1,6 +1,5 @@
 from orders.models import *
 from django.contrib.auth import get_user_model
-from django.http import JsonResponse
 
 
 User = get_user_model()
