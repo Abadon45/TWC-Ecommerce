@@ -50090,3 +50090,19 @@ Traceback (most recent call last):
 TypeError: 'method' object is not subscriptable
 "POST /cart/submit-checkout/ HTTP/1.1" 500 70204
 "POST /cart/submit-checkout/ HTTP/1.1" 500 70204
+Internal Server Error: /admin/billing/customer/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/TWC/middleware.py", line 37, in __call__
+    if request.subdomain:
+AttributeError: 'WSGIRequest' object has no attribute 'subdomain'
+Internal Server Error: /admin/billing/customer/
+Traceback (most recent call last):
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/mnt/c/Users/noypa/Dev/TWC-ecommerce/src/TWC/middleware.py", line 37, in __call__
+    if request.subdomain:
+AttributeError: 'WSGIRequest' object has no attribute 'subdomain'
+"GET /admin/billing/customer/ HTTP/1.1" 500 64747
+"GET /admin/billing/customer/ HTTP/1.1" 500 64747

@@ -9,8 +9,11 @@ from django.db.models import Q
 from django.template.loader import render_to_string
 from django.urls import NoReverseMatch
 from django.db.models import Count
+from django.contrib.auth import get_user_model
 
 import random
+
+User = get_user_model()
 
 
 class ShopView(ProductListView):
@@ -23,10 +26,13 @@ class ShopView(ProductListView):
 
     def get(self, request, *args, **kwargs):
         try:
+            referrer_username = request.GET.get('username', None)
+            if referrer_username:
+                request.session['referrer'] = referrer_username
+                print(f"Username in shop session: {request.session.get('referrer')}")
             return super().get(request, *args, **kwargs)
-        except NoReverseMatch:
-            # Handle the exception here
-            return HttpResponse("An error occurred")
+        except Exception as e:
+            return HttpResponse(f"An error occurred: {str(e)}")
 
     def get_queryset(self):
         category_id = self.request.GET.get('category_id')
