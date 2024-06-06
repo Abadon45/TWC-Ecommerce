@@ -4,12 +4,15 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from products.views import ProductListView, ProductDetailView
 from products.models import Product
 from orders.models import Order
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.urls import NoReverseMatch
 from django.db.models import Count
 from django.contrib.auth import get_user_model
+
 
 import random
 
@@ -27,9 +30,15 @@ class ShopView(ProductListView):
     def get(self, request, *args, **kwargs):
         try:
             referrer_username = request.GET.get('username', None)
+            
             if referrer_username:
+                referrer = User.objects.filter(username=referrer_username).first()
+                if not referrer or referrer_username == 'admin':
+                    return redirect(reverse_lazy('handle_404'))
+
                 request.session['referrer'] = referrer_username
                 print(f"Username in shop session: {request.session.get('referrer')}")
+            
             return super().get(request, *args, **kwargs)
         except Exception as e:
             return HttpResponse(f"An error occurred: {str(e)}")
