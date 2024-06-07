@@ -302,6 +302,7 @@
                 success: function (response) {
                     console.log('Rating submitted successfully');
                     updateStarRating($this.closest('.product-rate'), response.average_rating);
+                    updateStarRatingInBothViews(productId, response.average_rating);
                 },
                 error: function (response) {
                     console.log('Error in submitting rating');
@@ -319,6 +320,16 @@
                     $star.removeClass('fas').addClass('far');
                 }
             });
+        }
+
+        function updateStarRatingInBothViews(productId, ratingIndex) {
+            // Update star rating in list view
+            var $listRatingElement = $('.product-list .product-rate[data-product-id="' + productId + '"]');
+            updateStarRating($listRatingElement, ratingIndex);
+
+            // Update star rating in grid view
+            var $gridRatingElement = $('.product-grid .product-rate[data-product-id="' + productId + '"]');
+            updateStarRating($gridRatingElement, ratingIndex);
         }
     });
 </script>
