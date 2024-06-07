@@ -1,9 +1,16 @@
 from django.db import models
 from django.utils.text import slugify
 from TWC.utils import upload_image_path_admin
-from django.urls import reverse
+from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.db.models import Avg
+
+
+
+User = get_user_model()
                             
-    
+                            
 class Product(models.Model):
     PRODUCT_CATEGORY_1_CHOICES = [
         ('promos', 'Promos'),
@@ -63,6 +70,8 @@ class Product(models.Model):
 
     active = models.BooleanField('Active', default=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+    
+    aggregate_rating = models.DecimalField('Aggregate Rating', default=3.0, max_digits=3, decimal_places=2)
 
     def __str__(self):
         return self.sku
@@ -87,8 +96,27 @@ class Product(models.Model):
             return True
         else:
             return False
-    
-    # def get_absolute_url(self):
-    #     # Replace 'product_detail' with the name of your view for displaying a single product
-    #     return reverse('product_detail', args=[str(self.id)])
+        
+    def get_user_rating(self, user):
+        rating = self.rating_set.filter(user=user).first()
+        return rating.score if rating else None
+
+    def update_aggregate_rating(self):
+        aggregate = self.rating_set.aggregate(Avg('score'))['score__avg']
+        self.aggregate_rating = aggregate if aggregate else 0
+        self.save()
+        
+
+class Rating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    score = models.IntegerField(default=3)
+
+    class Meta:
+        unique_together = ('user', 'product')
+
+@receiver(post_save, sender=Rating)
+def update_product_aggregate_rating(sender, instance, **kwargs):
+    instance.product.update_aggregate_rating()   
+
 

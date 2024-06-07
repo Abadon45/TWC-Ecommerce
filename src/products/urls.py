@@ -8,6 +8,7 @@ urlpatterns = [
     path('', ProductListView.as_view(), name='product_list'),
     path('add-product/', ProductCreateView.as_view(), name='add_product'),
     path('<slug:slug>/', ProductDetailView.as_view(), name='product_detail'),
+    path('rate-product/<int:product_id>/', RateProductView.as_view(), name='rate_product'),
 ]
 
 if settings.DEBUG:

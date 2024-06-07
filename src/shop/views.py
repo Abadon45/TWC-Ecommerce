@@ -88,6 +88,10 @@ class ShopView(ProductListView):
             subcategory: subcategory.replace('_', ' ')
             for subcategory in subcategories
         }
+        
+        user_ratings = {}
+        if self.request.user.is_authenticated:
+            user_ratings = {product.id: product.get_user_rating(self.request.user) for product in products}
 
         context['products'] = products
         context['subcategory_counts'] =  subcategory_counts
@@ -96,6 +100,7 @@ class ShopView(ProductListView):
         context['title'] = self.title
         context['category_id'] = self.request.GET.get('category_id', '')
         context['q'] = self.request.GET.get('q', '')
+        context['user_ratings'] = user_ratings
 
         return context
 

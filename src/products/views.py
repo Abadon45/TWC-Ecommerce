@@ -1,15 +1,15 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, ListView, DetailView
-from django.core.serializers import serialize
-from django.urls import reverse_lazy, reverse
+from django.views import View
 from django.http import JsonResponse
-from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from django.views.generic import ListView
 
-from .models import Product
+from .models import Product, Rating
 from .forms import ProductForm
 
-import json
+from django.db.models import Avg
+
 
 
 
@@ -40,37 +40,6 @@ class ProductCreateView(CreateView):
         print("Form Errors:", form.errors)
 
         return response
-    
-    # def product_create_view(request):
-#     template_name = 'products/add-product.html'
-#     success_url = reverse_lazy('products:product_list')
-
-#     if request.method == 'POST':
-#         form = ProductForm(request.POST, request.FILES)
-
-#         # For debugging purposes, print form data
-#         print("Form Data:", request.POST)
-
-#         if form.is_valid():
-#             print("Form is valid")
-
-#             product_instance = form.save()
-
-#             if request.is_ajax():
-#                 return JsonResponse({'redirect_url': success_url})
-#             else:
-#                 return redirect(success_url)
-
-#         else:
-#             print("Form is not valid")
-#             print("Form Errors:", form.errors)
-
-#     else:
-#         form = ProductForm()
-
-#     products = Product.objects.all().values('name', 'sku', 'image_1')
-
-#     return render(request, template_name, {'form': form, 'products': products})
 
 
 class ProductListView(ListView):
@@ -95,4 +64,19 @@ class ProductDetailView(DetailView):
         return get_object_or_404(Product, slug=self.kwargs['slug'])
 
 
-    
+class RateProductView(View):
+    def post(self, request, *args, **kwargs):
+        product_id = kwargs.get('product_id')
+        product = get_object_or_404(Product, id=product_id)
+        score = request.POST.get('score')
+
+        if score is not None and request.user.is_authenticated:
+            rating, created = Rating.objects.get_or_create(user=request.user, product=product)
+            rating.score = score
+            rating.save()
+
+            # Calculate the new average rating
+            average_rating = Rating.objects.filter(product=product).aggregate(Avg('score'))['score__avg']
+            return JsonResponse({'average_rating': average_rating})
+
+        return JsonResponse({'error': 'Invalid data'}, status=400)

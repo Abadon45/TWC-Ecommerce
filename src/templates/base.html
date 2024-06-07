@@ -71,10 +71,12 @@
     <!-- footer area end -->
 
     <!-- chat -->
-    {% if referrer %}
-        <a href="{{ referrer.messenger_link }}" id="chat-seller" aria-label="Chat with seller">
-            <i class="fa-solid fa-message" aria-hidden="true"></i> Chat
-        </a>
+    {% if not user.is_authenticated %}
+        {% if referrer %}
+            <a href="{{ referrer.messenger_link }}" id="chat-seller" aria-label="Chat with seller">
+                <i class="fa-solid fa-message" aria-hidden="true"></i> Chat
+            </a>
+        {% endif %}
     {% endif %}
     <!-- chat end -->
 
