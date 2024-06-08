@@ -291,27 +291,30 @@
             var $this = $(this);
             var ratingIndex = $this.data('index');
             var productId = $this.closest('.product-rate').data('product-id');
+            var $productRate = $this.closest('.product-rate');
 
-            $.ajax({
-                url: "{% url 'products:rate_product' 0 %}".replace('0', productId),
-                type: 'POST',
-                data: {
-                    'score': ratingIndex,
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                success: function (response) {
-                    console.log('Rating submitted successfully');
-                    updateStarRating($this.closest('.product-rate'), response.average_rating);
-                    updateStarRatingInBothViews(productId, response.average_rating);
-                },
-                error: function (response) {
-                    console.log('Error in submitting rating');
-                }
-            });
+            updateStarRating($productRate, ratingIndex);
+
+            if (productId !== undefined) {
+                $.ajax({
+                    url: "{% url 'products:rate_product' 0 %}".replace('0', productId),
+                    type: 'POST',
+                    data: {
+                        'score': ratingIndex,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function (response) {
+                        console.log('Rating submitted successfully');
+                    },
+                    error: function (response) {
+                        console.log('Error in submitting rating');
+                    }
+                });
+            }
         });
 
         function updateStarRating($ratingElement, ratingIndex) {
-            $ratingElement.find('.fa-star').each(function() {
+            $ratingElement.find('.fa-star').each(function () {
                 var $star = $(this);
                 var starIndex = parseInt($star.data('index'));
                 if (starIndex <= ratingIndex) {
@@ -320,16 +323,6 @@
                     $star.removeClass('fas').addClass('far');
                 }
             });
-        }
-
-        function updateStarRatingInBothViews(productId, ratingIndex) {
-            // Update star rating in list view
-            var $listRatingElement = $('.product-list .product-rate[data-product-id="' + productId + '"]');
-            updateStarRating($listRatingElement, ratingIndex);
-
-            // Update star rating in grid view
-            var $gridRatingElement = $('.product-grid .product-rate[data-product-id="' + productId + '"]');
-            updateStarRating($gridRatingElement, ratingIndex);
         }
     });
 </script>

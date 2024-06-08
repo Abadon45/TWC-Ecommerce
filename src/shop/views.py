@@ -2,7 +2,7 @@ from django.views.generic import View
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from products.views import ProductListView, ProductDetailView
-from products.models import Product
+from products.models import Product, Rating
 from orders.models import Order
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -91,8 +91,15 @@ class ShopView(ProductListView):
         
         user_ratings = {}
         if self.request.user.is_authenticated:
-            user_ratings = {product.id: product.get_user_rating(self.request.user) for product in products}
-
+            for product in products:
+                user_ratings[product.id] = None  # Default value in case no rating exists for a product
+                try:
+                    rating = Rating.objects.get(product=product, user=self.request.user)
+                    user_ratings[product.id] = rating.score 
+                except Rating.DoesNotExist:
+                    pass  
+        print(f'User Ratings: {user_ratings}')
+        
         context['products'] = products
         context['subcategory_counts'] =  subcategory_counts
         context['subcategory_names'] = subcategory_names
