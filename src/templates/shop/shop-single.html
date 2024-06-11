@@ -1,5 +1,6 @@
 {% extends "base-shop.html" %}
 {% load static %}
+{% load custom_filters %}
 
 {% block title %} {{ title }} {% endblock %}
 
@@ -46,12 +47,31 @@
                         <div class="shop-single-info">
                             <h4 class="shop-single-title">{{ product.name }}</h4>
                             <div class="shop-single-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                                <i class="far fa-star"></i>
-                                <span class="rating-count"> (4 Customer Reviews)</span>
+                                {% if user.is_authenticated %}
+                                    {% if user_ratings %}
+                                    {% else %}
+                                        {% for i in 1|to:6 %}
+                                            {% if product.aggregate_rating >= i %}
+                                                <i class="fas fa-star" data-index="{{ forloop.counter }}"></i>
+                                            {% elif product.aggregate_rating >= i|subtract:0.5 %}
+                                                <i class="fas fa-star-half-alt" data-index="{{ forloop.counter }}"></i>
+                                            {% else %}
+                                                <i class="far fa-star" data-index="{{ forloop.counter }}"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% else %}
+                                    {% for i in 1|to:6 %}
+                                        {% if product.aggregate_rating >= i %}
+                                            <i class="fas fa-star" data-index="{{ forloop.counter }}"></i>
+                                        {% elif product.aggregate_rating >= i|subtract:0.5 %}
+                                            <i class="fas fa-star-half-alt" data-index="{{ forloop.counter }}"></i>
+                                        {% else %}
+                                            <i class="far fa-star" data-index="{{ forloop.counter }}"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                                <span class="rating-count"> ({{ product.review_count }} Customer Reviews)</span>
                             </div>
                             <div class="shop-single-price">
                                 <!-- <del>{{ product.discount_price }}</del> -->

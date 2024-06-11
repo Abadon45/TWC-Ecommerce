@@ -14,6 +14,10 @@ def to(value, end):
     return range(value, end)
 
 @register.filter
+def subtract(value, arg):
+    return value - arg
+
+@register.filter
 def round_rating(value):
     try:
         return int(math.ceil(value) if value - int(value) >= 0.5 else math.floor(value))

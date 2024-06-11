@@ -55,6 +55,18 @@ class ShopView(ProductListView):
             queryset = Product.objects.filter(category_1=category_id, is_hidden=False) | Product.objects.filter(category_2=category_id, is_hidden=False)
         return queryset
 
+    def get_user_ratings(self, products):
+        user_ratings = {}
+        if self.request.user.is_authenticated:
+            for product in products:
+                user_ratings[product.id] = None  # Default value in case no rating exists for a product
+                try:
+                    rating = Rating.objects.get(product=product, user=self.request.user)
+                    user_ratings[product.id] = rating.score 
+                except Rating.DoesNotExist:
+                    pass  
+        return user_ratings
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
@@ -69,7 +81,10 @@ class ShopView(ProductListView):
                 'categories_2': Product.PRODUCT_CATEGORY_2_CHOICES,
             }
         context.update(self._product_choices)
-        products = self.get_queryset()
+
+        # This line ensures that `self.get_queryset()` is called to update the context with the queryset of products
+        context['products'] = self.get_queryset()
+
         all_products = Product.objects.filter(is_hidden=False)
         subcategories = [
             'health_wellness',
@@ -89,21 +104,13 @@ class ShopView(ProductListView):
             for subcategory in subcategories
         }
         
-        user_ratings = {}
-        if self.request.user.is_authenticated:
-            for product in products:
-                user_ratings[product.id] = None  # Default value in case no rating exists for a product
-                try:
-                    rating = Rating.objects.get(product=product, user=self.request.user)
-                    user_ratings[product.id] = rating.score 
-                except Rating.DoesNotExist:
-                    pass  
+        # Get the user ratings for products on the current page
+        user_ratings = self.get_user_ratings(context['page_obj'])
         print(f'User Ratings: {user_ratings}')
         
-        context['products'] = products
-        context['subcategory_counts'] =  subcategory_counts
+        context['subcategory_counts'] = subcategory_counts
         context['subcategory_names'] = subcategory_names
-        context['products_in_cart'] =  products_in_cart
+        context['products_in_cart'] = products_in_cart
         context['title'] = self.title
         context['category_id'] = self.request.GET.get('category_id', '')
         context['q'] = self.request.GET.get('q', '')
@@ -182,8 +189,18 @@ class ShopDetailView(ProductDetailView):
         # Limit the queryset to 4 items
         related_products = related_products[:4]
         
+        user_rating = {}
+        if self.request.user.is_authenticated:
+            user_rating[product.id] = None 
+            try:
+                rating = Rating.objects.get(product=product, user=self.request.user)
+                user_rating[product.id] = rating.score 
+            except Rating.DoesNotExist:
+                pass  
+        
         context['related_products'] = related_products
         context['products_in_cart'] =  products_in_cart
+        context['user_rating'] =  user_rating
         
         return context
     

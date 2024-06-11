@@ -96,6 +96,9 @@ class Product(models.Model):
             return True
         else:
             return False
+    
+    def review_count(self):
+        return self.rating_set.count()
         
     def get_user_rating(self, user):
         rating = self.rating_set.filter(user=user).first()
