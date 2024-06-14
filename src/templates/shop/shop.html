@@ -250,7 +250,7 @@
         if (scrollPosition !== null) {
             $(window).scrollTop(parseInt(scrollPosition));
         }
-    }
+    } 
     $(window).on('beforeunload', saveScrollPosition);
     $(window).on('load', restoreScrollPosition);
 </script>
@@ -283,51 +283,6 @@
                 .attr('data-product', productId)
                 .attr('data-action', productBtnAction);
         });
-
-        ////////////////////
-        // Product Rating //
-        ///////////////////
-        $('.product-rate .fa-star, .product-rate .fa-star-half-alt').on('click', function () {
-            var $this = $(this);
-            var ratingIndex = $this.data('index'); // Get the data-index of the clicked star
-            var productId = $this.closest('.product-rate').data('product-id'); // Get the product ID from the closest product-rate container
-            var $productRate = $this.closest('.product-rate'); // Get the closest product-rate container
-
-            // Update the star rating display
-            updateStarRating($productRate, ratingIndex);
-
-            // Send the rating to the server if productId is defined
-            if (productId !== undefined) {
-                $.ajax({
-                    url: "{% url 'products:rate_product' 0 %}".replace('0', productId), // Replace '0' with the actual product ID
-                    type: 'POST',
-                    data: {
-                        'score': ratingIndex, // Send the rating index as the score
-                        'csrfmiddlewaretoken': '{{ csrf_token }}' // CSRF token for security
-                    },
-                    success: function (response) {
-                        console.log('Rating submitted successfully');
-                    },
-                    error: function (response) {
-                        console.log('Error in submitting rating');
-                    }
-                });
-            }
-        });
-
-        // Function to update star rating display
-        function updateStarRating($ratingElement, ratingIndex) {
-            $ratingElement.find('.fa-star, .fa-star-half-alt').each(function () {
-                var $star = $(this);
-                var starIndex = parseInt($star.data('index')); // Get the index of the current star
-                if (starIndex <= ratingIndex) {
-                    $star.removeClass('far fa-star fa-star-half-alt').addClass('fas fa-star'); // Set star to full
-                } else {
-                    $star.removeClass('fas fa-star').addClass('far fa-star'); // Set star to empty
-                }
-            });
-        }
-
     });
 </script>
 

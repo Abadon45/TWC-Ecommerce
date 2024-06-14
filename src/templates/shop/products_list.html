@@ -33,22 +33,42 @@
                 <div class="product-content">
                     <h3 class="product-title"><a href="{% url 'shop:single' slug=product.slug %}">{{product.name }}</a></h3>
                     <div class="product-rate" data-product-id="{{ product.id }}">
-                        {% if user_rating %}
-                            {% for i in 1|to:6 %}
-                                {% if i <= user_rating %}
-                                    <i class="fas fa-star" data-index="{{ forloop.counter }}"></i>
-                                {% else %}
-                                    <i class="far fa-star" data-index="{{ forloop.counter }}"></i>
-                                {% endif %}
-                            {% endfor %}
+                        {% if user.is_authenticated %}
+                            {% if user_ratings|get_item:product.id %}
+                                <div class="product-rate" data-product-id="{{ product.id }}">
+                                    {% for i in 1|to:6 %}
+                                        {% if i <= user_ratings|get_item:product.id %}
+                                            <i class="fas fa-star" data-index="{{ forloop.counter }}"></i>
+                                        {% else %}
+                                            <i class="far fa-star" data-index="{{ forloop.counter }}"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="product-rate" data-product-id="{{ product.id }}">
+                                    {% for i in 1|to:6 %}
+                                        {% if i <= product.aggregate_rating %}
+                                            <i class="fas fa-star" data-index="{{ forloop.counter }}"></i>
+                                        {% elif product.aggregate_rating >= i|subtract:0.5 %}
+                                            <i class="fas fa-star-half-alt" data-index="{{ forloop.counter }}"></i>
+                                        {% else %}
+                                            <i class="far fa-star" data-index="{{ forloop.counter }}"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         {% else %}
-                            {% for i in 1|to:6 %}
-                                {% if i <= product.aggregate_rating %}
-                                    <i class="fas fa-star" data-index="{{ forloop.counter }}"></i>
-                                {% else %}
-                                    <i class="far fa-star" data-index="{{ forloop.counter }}"></i>
-                                {% endif %}
-                            {% endfor %}
+                            <div class="product-rate">
+                                {% for i in 1|to:6 %}
+                                    {% if i <= product.aggregate_rating %}
+                                        <i class="fas fa-star" data-index="{{ forloop.counter }}"></i>
+                                    {% elif product.aggregate_rating >= i|subtract:0.5 %}
+                                        <i class="fas fa-star-half-alt" data-index="{{ forloop.counter }}"></i>
+                                    {% else %}
+                                        <i class="far fa-star" data-index="{{ forloop.counter }}"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
                         {% endif %}
                     </div>
                     <p>{{ product.description_1 }}</p>

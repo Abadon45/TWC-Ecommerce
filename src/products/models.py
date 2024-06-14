@@ -98,28 +98,43 @@ class Product(models.Model):
             return False
     
     def review_count(self):
-        return self.rating_set.count()
+        return self.ratings.count()
         
     def get_user_rating(self, user):
-        rating = self.rating_set.filter(user=user).first()
+        rating = self.ratings.filter(user=user).first()
         return rating.score if rating else None
 
     def update_aggregate_rating(self):
-        aggregate = self.rating_set.aggregate(Avg('score'))['score__avg']
+        aggregate = self.ratings.aggregate(Avg('score'))['score__avg']
         self.aggregate_rating = aggregate if aggregate else 0
         self.save()
         
 
 class Rating(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='ratings')
     score = models.IntegerField(default=3)
 
     class Meta:
         unique_together = ('user', 'product')
 
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews', blank=True, null=True)
+    rating = models.OneToOneField(Rating, on_delete=models.CASCADE, related_name='review')
+    content = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Review by {self.user} on {self.product}'
+    
+    
+@receiver(post_save, sender=Rating)
+def create_review_for_rating(sender, instance, created, **kwargs):
+    if created:
+        Review.objects.create(user=instance.user, product=instance.product, rating=instance)
+
 @receiver(post_save, sender=Rating)
 def update_product_aggregate_rating(sender, instance, **kwargs):
-    instance.product.update_aggregate_rating()   
-
+    instance.product.update_aggregate_rating()
 

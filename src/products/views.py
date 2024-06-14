@@ -62,6 +62,18 @@ class ProductDetailView(DetailView):
     
     def get_object(self, queryset=None):
         return get_object_or_404(Product, slug=self.kwargs['slug'])
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.object
+        user_rating = None
+        if self.request.user.is_authenticated:
+            try:
+                user_rating = Rating.objects.get(product=product, user=self.request.user)
+            except Rating.DoesNotExist:
+                user_rating = None
+        context['user_rating'] = user_rating
+        return context
 
 
 class RateProductView(View):

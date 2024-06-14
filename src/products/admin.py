@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django import forms
-from .models import Product, Rating
+from .models import Product, Rating, Review
 
 # admin.site.register(Product)
 
@@ -33,3 +33,8 @@ class RatingAdmin(admin.ModelAdmin):
     list_display = ['user', 'product', 'score']
 
 admin.site.register(Rating, RatingAdmin)
+
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ['user', 'product', 'rating', 'created_at']
+    
+admin.site.register(Review, ReviewAdmin)

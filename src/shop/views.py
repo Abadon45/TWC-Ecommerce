@@ -1,9 +1,6 @@
 from django.views.generic import View
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from products.views import ProductListView, ProductDetailView
-from products.models import Product, Rating
-from orders.models import Order
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.http import JsonResponse, HttpResponse
@@ -12,7 +9,16 @@ from django.template.loader import render_to_string
 from django.urls import NoReverseMatch
 from django.db.models import Count
 from django.contrib.auth import get_user_model
+from django.utils.timezone import now
 
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+from products.views import ProductListView, ProductDetailView
+from products.models import Product, Rating, Review
+from products.forms import RatingForm, ReviewForm
+from orders.models import Order
 
 import random
 
@@ -163,46 +169,140 @@ class ShopView(ProductListView):
 
 class ShopDetailView(ProductDetailView):
     template_name = "shop/shop-single.html"
-    model = Product
     context_object_name = 'product'
-    
-    def get_object(self, queryset=None):
-        return get_object_or_404(Product, slug=self.kwargs['slug'])
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         product = self.get_object()
-        category_id = product.category_1
-        
+
+        # Get related products
+        related_products = Product.objects.filter(category_1=product.category_1).exclude(slug=product.slug).order_by('?')[:4]
+
+        # Get products in cart
         order_ids = self.request.session.get('checkout_orders', [])
         orders = Order.objects.filter(id__in=order_ids)
-        
         products_in_cart = [item.product_id for order in orders for item in order.orderitem_set.all()]
-        
-        # Get all related products except the current one
-        related_products = Product.objects.filter(category_1=category_id).exclude(slug=product.slug)
-        
-        # Shuffle the queryset
-        related_products = list(related_products)
-        random.shuffle(related_products)
-        
-        # Limit the queryset to 4 items
-        related_products = related_products[:4]
-        
-        user_rating = {}
+
+        # Get user rating for the product if authenticated
+        rating = None
+        user_reviewed = False
         if self.request.user.is_authenticated:
-            user_rating[product.id] = None 
             try:
                 rating = Rating.objects.get(product=product, user=self.request.user)
-                user_rating[product.id] = rating.score 
             except Rating.DoesNotExist:
-                pass  
+                rating = None
+            
+        user_reviewed = Rating.objects.filter(product=product, user=self.request.user).exists()
+
+        # Get all product ratings
+        product_ratings = Rating.objects.filter(product=product)
         
+
+        # Get product reviews
+        product_reviews = product.reviews.select_related('rating').all()
+        for review in product_reviews:
+            if review.created_at is None:
+                review.created_at = now()
+                print(review.create_at)
+                review.save()
+
+        # Forms
+        context['rating_form'] = RatingForm()
+        context['review_form'] = ReviewForm()
+
+        # Context variables
         context['related_products'] = related_products
-        context['products_in_cart'] =  products_in_cart
-        context['user_rating'] =  user_rating
-        
+        context['products_in_cart'] = products_in_cart
+        context['rating'] = rating
+        context['user_reviewed'] = user_reviewed
+        context['product_reviews'] = product_reviews
+        context['product_ratings'] = product_ratings
+
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        # Handle Rating Form submission
+        rating_form = RatingForm(request.POST)
+        review_form = ReviewForm(request.POST)
+
+        if rating_form.is_valid() and review_form.is_valid():
+            # Ensure a unique rating and review pair
+            try:
+                rating = Rating.objects.get(product=self.object, user=request.user)
+                rating.score = rating_form.cleaned_data['score']
+                rating.save()
+            except Rating.DoesNotExist:
+                rating = rating_form.save(commit=False)
+                rating.user = request.user
+                rating.product = self.object
+                rating.save()
+
+            try:
+                review = Review.objects.get(product=self.object, user=request.user)
+                review.content = review_form.cleaned_data['content']
+                review.rating = rating
+                review.save()
+            except Review.DoesNotExist:
+                review = review_form.save(commit=False)
+                review.user = request.user
+                review.product = self.object
+                review.rating = rating
+                review.save()
+
+            return redirect('shop:single', slug=self.object.slug)
+
+        # If neither form is valid, render the context with errors
+        context = self.get_context_data(object=self.object)
+        context['rating_form'] = rating_form
+        context['review_form'] = review_form
+        return self.render_to_response(context)
+    
+@login_required
+def get_review_details(request, review_id):
+    review = get_object_or_404(Review, id=review_id, user=request.user)
+    rating = Rating.objects.get(review=review)
+    return JsonResponse({'content': review.content, 'rating': rating.score})
+    
+@login_required
+@require_POST
+def edit_review(request, review_id):
+    try:
+        print(f"Request Method: {request.method}")
+        print(f"Review ID: {review_id}")
+        
+        review = get_object_or_404(Review, id=review_id, user=request.user)
+        print(f"Review found: {review}")
+        
+        # Update the review content
+        review.content = request.POST.get('content')
+        review.save()
+        
+        # Update the rating
+        rating = review.rating
+        rating.score = request.POST.get('rating')
+        rating.save()
+        
+        print("Form is valid and saved")
+        return JsonResponse({'success': True, 'message': 'Review updated successfully!'})
+    except Exception as e:
+        print(f"Exception: {e}")
+        return JsonResponse({'success': False, 'message': str(e)})
+
+
+@login_required
+@require_POST
+def remove_review(request, review_id):
+    try:
+        review = get_object_or_404(Review, id=review_id, user=request.user)
+        if hasattr(review, 'rating'):
+            review.rating.delete()
+        review.delete()
+        return JsonResponse({'success': True, 'message': 'Review removed successfully!'})
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)})
+
     
 class ShopPromoBundleView(View):
     template_name = "shop/shop-promo-bundle.html"
