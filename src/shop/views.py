@@ -183,27 +183,24 @@ class ShopDetailView(ProductDetailView):
         orders = Order.objects.filter(id__in=order_ids)
         products_in_cart = [item.product_id for order in orders for item in order.orderitem_set.all()]
 
-        # Get user rating for the product if authenticated
+        # Get user rating and review status for the product if authenticated
         rating = None
         user_reviewed = False
         if self.request.user.is_authenticated:
             try:
                 rating = Rating.objects.get(product=product, user=self.request.user)
+                user_reviewed = True
             except Rating.DoesNotExist:
                 rating = None
-            
-        user_reviewed = Rating.objects.filter(product=product, user=self.request.user).exists()
 
         # Get all product ratings
         product_ratings = Rating.objects.filter(product=product)
-        
 
         # Get product reviews
         product_reviews = product.reviews.select_related('rating').all()
         for review in product_reviews:
             if review.created_at is None:
                 review.created_at = now()
-                print(review.create_at)
                 review.save()
 
         # Forms
