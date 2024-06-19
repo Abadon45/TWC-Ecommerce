@@ -306,7 +306,7 @@ Version         : 1.0
     $("#scroll-top").on('mouseenter', function () {
         $(this).css("background-color", "black");
     }).on('mouseleave', function () {
-        $(this).css("background-color", "#11B76B");
+        $(this).css("background-color", "#0C4779");
     });
 
 
