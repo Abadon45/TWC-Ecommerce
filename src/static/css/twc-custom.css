@@ -24,6 +24,215 @@
     }
 }
 
+/* HEADER */
+
+.header-list {
+    display: flex;
+    align-items: center;
+}
+
+.header-list .nav-item {
+    display: flex;
+    align-items: center;
+}
+
+.header-list .nav-link {
+    display: flex;
+    align-items: center;
+}
+
+
+.header-list .shop-cart{
+    font-size: 20px!important;
+}
+
+.header-list .list-item span{
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    color: var(--color-white);
+    background: var(--color-red);
+    border-radius: 50px;
+    font-size: 12px;
+    right: -14px;
+    top: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-container{
+    display: inline!important;
+    margin: auto;
+}
+
+/* Index */
+
+.index-category{
+    display: grid!important;
+}
+
+.index-category .icon {
+    width: 75px!important;
+    height: 75px!important;
+    border: 1px solid
+}
+
+.index-category .icon .img {
+    width: 52px!important;
+}
+
+.index-category .content h4{
+    display: grid!important;
+    margin-top: 10px;
+    text-align-last: center;
+}
+
+.index-card .card{
+    border-radius: 12px;
+}
+
+.index-card .card-header{
+    background-color: var(--theme-color);
+    border-radius: 12px 12px 0 0;
+}
+
+.index-card .card-header h2{
+    color: var(--color-white);
+}
+
+.index-card .card-header a{
+    color: var(--color-white);
+    outline: 1px solid
+}
+
+.index-card .card-header a:hover{
+    color: var(--theme-color);
+}
+
+.index-card .card-body{
+    background-color: var(--theme-bg-light5);
+    padding: 30px 15px;
+    border-radius: 0 0 10px 10px;
+}
+
+.index-card .product-body{
+    background-color: var(--color-white)!important;
+    border-radius: 0 0 10px 10px;
+}
+
+.product-body .product-item{
+    background-color: var(--color-white)!important;
+}
+
+.index-card .product-img{
+    display: grid;
+    height: 280.5px;
+    background-color: #E1E4EB;
+    align-content: center;
+}
+
+.index-card .product-item{
+    padding: 0 10px;
+    background-color: var(--theme-bg-light5);
+    margin-bottom: 5px;
+}
+
+.index-card .product-content{
+    margin: 0;
+    padding: 10px;
+    background-color: var(--color-white);
+    height: 125px;
+}
+
+.index-card .product-price span{
+    color: var(--color-dark);
+    font-weight: 600;
+    font-size: larger;
+}
+
+.index-card .product-button{
+    margin-top: 8px;
+    display: grid;
+}
+
+
+.index-card .bottom-list{
+    background-color: var(--color-white)!important;
+    padding: 15px!important;
+}
+
+.index-card .product-list-item{
+    background-color: var(--color-white)!important;
+    height: 180px;
+    margin: 10px 0;
+}
+
+.index-card .product-list-content button{
+    margin-top: 8px!important;
+    width: 100%;
+}
+
+.index-deal-area2 .deal-content{
+    height: 525px;
+}
+
+
+.index-deal-area2 .deal-content h2{
+    color: var(--color-yellow2);
+    font-size: 70px;
+    font-weight: 700;
+    line-height: 40px;
+    margin-top: 5vh;
+}
+
+.index-deal-area2 .deal-content h1{
+    color: var(--color-yellow2);
+    font-size: 115px;
+    font-weight: 800;
+    line-height: 110px;
+}
+
+.index-deal-area2 .deal-content h3{
+    color: var(--color-white);
+    font-weight: 500;
+    font-size: 48px;
+}
+
+.index-deal-area2 .deal-content p{
+    color: var(--color-white);
+    margin-top: 20px;
+    font-size:x-large;
+    font-weight: 400;
+}
+
+.index-deal-area2 .deal-btn {
+    margin-top: 5px;
+}
+
+.index-deal-area2 .deal-btn a{
+    color: var(--color-pink)!important;
+    background-color: var(--color-yellow2);
+    font-weight: 900;
+    font-size: xx-large;
+    padding: 5px 30px;
+    border-radius: 5px;
+}
+
+.twc-big-banner {
+    position: relative;
+    width: 100%;
+}
+
+.twc-big-banner .banner-wrap {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 37vh;
+}
+
+
 /* SELLER DASHBOARD */
 
 #logistics {

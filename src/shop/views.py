@@ -49,18 +49,25 @@ class ShopView(ProductListView):
         except Exception as e:
             return HttpResponse(f"An error occurred: {str(e)}")
 
+
     def get_queryset(self):
         category_id = self.request.GET.get('category_id')
         search_query = self.request.GET.get('q')
 
         if search_query:
-            queryset = Product.objects.filter(name__icontains=search_query)
+            queryset = Product.objects.filter(
+                Q(name__icontains=search_query) |
+                Q(category_1__icontains=search_query) |
+                Q(category_2__icontains=search_query)
+            )
         elif category_id is None or category_id.lower() == 'all':
             queryset = Product.objects.filter(is_hidden=False)
         else:
-            queryset = Product.objects.filter(category_1=category_id, is_hidden=False) | Product.objects.filter(category_2=category_id, is_hidden=False)
+            queryset = Product.objects.filter(
+                Q(category_1=category_id, is_hidden=False) | Q(category_2=category_id, is_hidden=False)
+            )
         return queryset
-
+    
     def get_user_ratings(self, products):
         user_ratings = {}
         if self.request.user.is_authenticated:

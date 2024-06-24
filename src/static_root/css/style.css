@@ -972,7 +972,7 @@ label {
   padding: 5.5px 15px 4.5px 15px;
   border: none;
   background: none;
-  color: var(--body-text-color);
+  color: var(--theme-color);
   font-size: 18px;
   transition: var(--transition);
 }

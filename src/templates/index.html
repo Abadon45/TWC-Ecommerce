@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load custom_filters %}
 
 
 {% block content %}
@@ -9,17 +10,18 @@
 
 <div class="category-area2 pt-20 border-top">
     <div class="container">
-        <div class="category-slider owl-carousel owl-theme">
+        <div class="category-slider owl-carousel owl-theme mt-2">
             {% for category, data in categories.items %}
             <div class="category-item">
                 <a href="{% url 'shop:shop' %}?category_id={{category}}">
-                    <div class="category-info">
+                    <div class="category-info index-category">
                         <div class="icon">
-                            <img src="{% static 'img/icon/dress.svg' %}" alt="">
+                            {% with 'img/icon/categories/'|add:category|replace_underscore_to_dash|add:'.svg' as icon_path %}
+                                <img src="{% static icon_path %}" alt="{{ category }}">
+                            {% endwith %}
                         </div>
                         <div class="content">
                             <h4>{{data.name}}</h4>
-                            <p>{{data.count}} item(s)</p>
                         </div>
                     </div>
                 </a>
@@ -33,18 +35,22 @@
 <!-- hero slider -->
 <div class="hero-section3 hs3-2">
     <div class="container">
-        <div class="hero-slider owl-carousel owl-theme">
+        <div class="hero-slider owl-carousel owl-theme mt-3">
             <div class="hero-single">
-                <div class="hero-single-bg" style="background-image: url({% static 'img/banner/home-page-banner-01.webp' %})"></div>
+                <div class="hero-single-bg"
+                    style="background-image: url({% static 'img/banner/home-page-banner-01.webp' %})"></div>
             </div>
             <div class="hero-single">
-                <div class="hero-single-bg" style="background-image: url({% static 'img/banner/home-page-banner-02.webp' %})"></div>
+                <div class="hero-single-bg"
+                    style="background-image: url({% static 'img/banner/home-page-banner-02.webp' %})"></div>
             </div>
             <div class="hero-single">
-                <div class="hero-single-bg" style="background-image: url({% static 'img/banner/home-page-banner-03.webp' %})"></div>
+                <div class="hero-single-bg"
+                    style="background-image: url({% static 'img/banner/home-page-banner-03.webp' %})"></div>
             </div>
             <div class="hero-single">
-                <div class="hero-single-bg" style="background-image: url({% static 'img/banner/home-page-banner-04.webp' %})"></div>
+                <div class="hero-single-bg"
+                    style="background-image: url({% static 'img/banner/home-page-banner-04.webp' %})"></div>
             </div>
         </div>
     </div>
@@ -54,64 +60,72 @@
 
 <!-- product area -->
 <div class="product-area pt-80">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="site-heading-inline">
-                    <h2 class="site-title">Trending Items</h2>
-                    <a href="{% url 'shop:shop' %}">View More <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="product-slider owl-carousel owl-theme">
-            {% for product in products %}
-            <div class="product-item">
-                <div class="product-img">
-                    <span class="type">Trending</span><!-- make this class dynamic-->
-                    <a href="{% url 'shop:single' slug=product.slug %}">
-                        {% if product.image_1 %}
-                        <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
-                        {% else %}
-                        no image
-                        {% endif %}
-                    </a>
-                    <div class="product-action-wrap">
-                        <div class="product-action">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
-                                title="Quick View"><i class="far fa-eye"></i></a>
-                            <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i class="far fa-heart"></i></a>
-                            <a href="#" data-tooltip="tooltip" title="Add To Compare"><i
-                                    class="far fa-arrows-repeat"></i></a>
-                        </div>
+    <div class="container index-card">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="p-2">
+                        <h2 class="site-title">Trending Items</h2>
                     </div>
-                </div>
-                <div class="product-content">
-                    <h3 class="product-title"><a href="{% url 'shop:single' slug=product.slug %}">{{product.name }}</a>
-                    </h3>
-                    <div class="product-rate">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                    </div>
-                    <div class="product-bottom">
-                        <div class="product-price">
-                            <!-- <del>P120</del> -->
-                            <span class="current-product-price">₱ {{ product.customer_price}}</span>
-                        </div>
-                        {% if product.id in products_in_cart %}
-                            <button  type="button" class="btn btn-secondary item-id-{{ product.id }}" style="padding: 9px 20px!important;" disabled>Added to Cart</button>
-                        {% else %}
-                        <button data-product="{{ product.id }}" data-action="add" type="button"
-                            class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                            onclick="addToCart(this)">Add to Cart
-                        </button>
-                        {% endif %}
+                    <div class="p-2">
+                        <a class="theme-btn" href="{% url 'shop:shop' %}">View More</a>
                     </div>
                 </div>
             </div>
-            {% endfor %}
+            <div class="card-body">
+                <div class="product-slider owl-carousel owl-theme">
+                    {% for product in products %}
+                    <div class="product-item">
+                        <div class="product-img">
+                            <a href="{% url 'shop:single' slug=product.slug %}">
+                                {% if product.image_1 %}
+                                <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
+                                {% else %}
+                                no image
+                                {% endif %}
+                            </a>
+                            <div class="product-action-wrap">
+                                <div class="product-action">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
+                                        title="Quick View"><i class="far fa-eye"></i></a>
+                                    <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i class="far fa-heart"></i></a>
+                                    <a href="#" data-tooltip="tooltip" title="Add To Compare"><i
+                                            class="far fa-arrows-repeat"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="product-title"><a href="{% url 'shop:single' slug=product.slug %}">{{product.name }}</a>
+                            </h3>
+                            <div class="product-rate">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <div class="product-bottom">
+                                <div class="product-price">
+                                    <!-- <del>P120</del> -->
+                                    <span class="current-product-price">₱ {{ product.customer_price}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-button">
+                            {% if product.id in products_in_cart %}
+                            <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
+                                style="padding: 9px 20px!important;" disabled>Added to Cart</button>
+                            {% else %}
+                            <button data-product="{{ product.id }}" data-action="add" type="button"
+                                class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
+                                onclick="addToCart(this)">Add to Cart
+                            </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -120,157 +134,24 @@
 
 <!-- popular item -->
 <div class="product-area pt-80">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="site-heading-inline item-tab">
-                    <h2 class="site-title">Popular Items</h2>
-                    <ul class="nav nav-pills" id="item-tab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="item-tab1" data-bs-toggle="pill"
-                                data-bs-target="#pill-item-tab1" type="button" role="tab" aria-controls="pill-item-tab1"
-                                aria-selected="true">Fashion</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="item-tab2" data-bs-toggle="pill"
-                                data-bs-target="#pill-item-tab2" type="button" role="tab" aria-controls="pill-item-tab2"
-                                aria-selected="false">Electronics</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="item-tab3" data-bs-toggle="pill"
-                                data-bs-target="#pill-item-tab3" type="button" role="tab" aria-controls="pill-item-tab3"
-                                aria-selected="false">Grocery</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="item-tab4" data-bs-toggle="pill"
-                                data-bs-target="#pill-item-tab4" type="button" role="tab" aria-controls="pill-item-tab4"
-                                aria-selected="false">All</button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="tab-content" id="item-tabContent">
-            <div class="tab-pane fade show active" id="pill-item-tab1" role="tabpanel" aria-labelledby="item-tab1"
-                tabindex="0">
-                <div class="row">
-                    {% for product in random_products %}
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="product-item">
-                            <div class="product-img">
-                                <span class="type">Trending</span><!-- make this class dynamic-->
-                                <a href="{% url 'shop:single' slug=product.slug %}">
-                                    {% if product.image_1 %}
-                                    <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
-                                    {% else %}
-                                    no image
-                                    {% endif %}
-                                </a>
-                                <div class="product-action-wrap">
-                                    <div class="product-action">
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"
-                                            data-tooltip="tooltip" title="Quick View"><i class="far fa-eye"></i></a>
-                                        <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i
-                                                class="far fa-heart"></i></a>
-                                        <a href="#" data-tooltip="tooltip" title="Add To Compare"><i
-                                                class="far fa-arrows-repeat"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-content">
-                                <h3 class="product-title"><a
-                                        href="{% url 'shop:single' slug=product.slug %}">{{product.name }}</a>
-                                </h3>
-                                <div class="product-rate">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                                <div class="product-bottom">
-                                    <div class="product-price">
-                                        <!-- <del>P120</del> -->
-                                        <span class="current-product-price">₱ {{ product.customer_price}}</span>
-                                    </div>
-                                    {% if product.id in products_in_cart %}
-                                        <button  type="button" class="btn btn-secondary item-id-{{ product.id }}" style="padding: 9px 20px!important;" disabled>Added to Cart</button>
-                                    {% else %}
-                                        <button data-product="{{ product.id }}" data-action="add" type="button"
-                                            class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                            onclick="addToCart(this)">Add to Cart
-                                        </button>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
+    <div class="container index-card">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="p-2">
+                        <h2 class="site-title">Popular Items</h2>
                     </div>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="tab-pane fade" id="pill-item-tab2" role="tabpanel" aria-labelledby="item-tab2" tabindex="0">
-                <div class="row">
-                    {% for product in random_products %}
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="product-item">
-                            <div class="product-img">
-                                <span class="type">Trending</span><!-- make this class dynamic-->
-                                <a href="{% url 'shop:single' slug=product.slug %}">
-                                    {% if product.image_1 %}
-                                    <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
-                                    {% else %}
-                                    no image
-                                    {% endif %}
-                                </a>
-                                <div class="product-action-wrap">
-                                    <div class="product-action">
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"
-                                            data-tooltip="tooltip" title="Quick View"><i class="far fa-eye"></i></a>
-                                        <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i
-                                                class="far fa-heart"></i></a>
-                                        <a href="#" data-tooltip="tooltip" title="Add To Compare"><i
-                                                class="far fa-arrows-repeat"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-content">
-                                <h3 class="product-title"><a
-                                        href="{% url 'shop:single' slug=product.slug %}">{{product.name }}</a>
-                                </h3>
-                                <div class="product-rate">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                                <div class="product-bottom">
-                                    <div class="product-price">
-                                        <!-- <del>P120</del> -->
-                                        <span class="current-product-price">₱ {{ product.customer_price}}</span>
-                                    </div>
-                                    {% if product.id in products_in_cart %}
-                                        <button  type="button" class="btn btn-secondary item-id-{{ product.id }}" style="padding: 9px 20px!important;" disabled>Added to Cart</button>
-                                    {% else %}
-                                        <button data-product="{{ product.id }}" data-action="add" type="button"
-                                            class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                            onclick="addToCart(this)">Add to Cart
-                                        </button>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
+                    <div class="p-2">
+                        <a class="theme-btn" href="{% url 'shop:shop' %}">View More</a>
                     </div>
-                    {% endfor %}
                 </div>
             </div>
-            <div class="tab-pane fade" id="pill-item-tab3" role="tabpanel" aria-labelledby="item-tab3" tabindex="0">
+            <div class="card-body product-body">
                 <div class="row">
                     {% for product in random_products %}
-                    <div class="col-md-6 col-lg-4 col-xl-3">
+                    <div class="col-sm-3">
                         <div class="product-item">
                             <div class="product-img">
-                                <span class="type">Trending</span><!-- make this class dynamic-->
                                 <a href="{% url 'shop:single' slug=product.slug %}">
                                     {% if product.image_1 %}
                                     <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
@@ -280,18 +161,16 @@
                                 </a>
                                 <div class="product-action-wrap">
                                     <div class="product-action">
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"
-                                            data-tooltip="tooltip" title="Quick View"><i class="far fa-eye"></i></a>
-                                        <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i
-                                                class="far fa-heart"></i></a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
+                                            title="Quick View"><i class="far fa-eye"></i></a>
+                                        <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i class="far fa-heart"></i></a>
                                         <a href="#" data-tooltip="tooltip" title="Add To Compare"><i
                                                 class="far fa-arrows-repeat"></i></a>
                                     </div>
                                 </div>
                             </div>
                             <div class="product-content">
-                                <h3 class="product-title"><a
-                                        href="{% url 'shop:single' slug=product.slug %}">{{product.name }}</a>
+                                <h3 class="product-title"><a href="{% url 'shop:single' slug=product.slug %}">{{product.name }}</a>
                                 </h3>
                                 <div class="product-rate">
                                     <i class="fas fa-star"></i>
@@ -305,71 +184,18 @@
                                         <!-- <del>P120</del> -->
                                         <span class="current-product-price">₱ {{ product.customer_price}}</span>
                                     </div>
-                                    {% if product.id in products_in_cart %}
-                                        <button  type="button" class="btn btn-secondary item-id-{{ product.id }}" style="padding: 9px 20px!important;" disabled>Added to Cart</button>
-                                    {% else %}
-                                        <button data-product="{{ product.id }}" data-action="add" type="button"
-                                            class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                            onclick="addToCart(this)">Add to Cart
-                                        </button>
-                                    {% endif %}
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="tab-pane fade" id="pill-item-tab4" role="tabpanel" aria-labelledby="item-tab4" tabindex="0">
-                <div class="row">
-                    {% for product in random_products %}
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="product-item">
-                            <div class="product-img">
-                                <span class="type">Trending</span><!-- make this class dynamic-->
-                                <a href="{% url 'shop:single' slug=product.slug %}">
-                                    {% if product.image_1 %}
-                                    <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
-                                    {% else %}
-                                    no image
-                                    {% endif %}
-                                </a>
-                                <div class="product-action-wrap">
-                                    <div class="product-action">
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"
-                                            data-tooltip="tooltip" title="Quick View"><i class="far fa-eye"></i></a>
-                                        <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i
-                                                class="far fa-heart"></i></a>
-                                        <a href="#" data-tooltip="tooltip" title="Add To Compare"><i
-                                                class="far fa-arrows-repeat"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-content">
-                                <h3 class="product-title"><a
-                                        href="{% url 'shop:single' slug=product.slug %}">{{product.name }}</a>
-                                </h3>
-                                <div class="product-rate">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                                <div class="product-bottom">
-                                    <div class="product-price">
-                                        <!-- <del>P120</del> -->
-                                        <span class="current-product-price">₱ {{ product.customer_price}}</span>
-                                    </div>
-                                    {% if product.id in products_in_cart %}
-                                        <button  type="button" class="btn btn-secondary item-id-{{ product.id }}" style="padding: 9px 20px!important;" disabled>Added to Cart</button>
-                                    {% else %}
-                                        <button data-product="{{ product.id }}" data-action="add" type="button"
-                                            class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                            onclick="addToCart(this)">Add to Cart
-                                        </button>
-                                    {% endif %}
-                                </div>
+                            <div class="product-button">
+                                {% if product.id in products_in_cart %}
+                                <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
+                                    style="padding: 9px 20px!important;" disabled>Added to Cart</button>
+                                {% else %}
+                                <button data-product="{{ product.id }}" data-action="add" type="button"
+                                    class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
+                                    onclick="addToCart(this)">Add to Cart
+                                </button>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -383,18 +209,16 @@
 
 
 <!-- big banner -->
-<div class="big-banner pt-80">
+<div class="twc-big-banner pt-80">
     <div class="container">
-        <div class="banner-wrap" style="background-image: url({% static 'img/slider/banner-image-1.jpg' %});">
+        <div class="banner-wrap" style="background-image: url({% static 'img/banner/home-page-middle-banner.webp' %});">
             <div class="row">
                 <div class="col-lg-8 mx-auto">
                     <div class="banner-content">
                         <div class="banner-info">
-                            <!-- <h6>Mega Collections</h6>
-                            <h2>Huge Sale Up To <span>40%</span> Off</h2>
-                            <p>at our outlet stores</p> -->
+                            
                         </div>
-                        <a href="#" class="theme-btn">Shop Now<i class="fas fa-arrow-right"></i></a>
+                        
                     </div>
                 </div>
             </div>
@@ -406,64 +230,71 @@
 
 <!-- product area -->
 <div class="product-area pt-80">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="site-heading-inline">
-                    <h2 class="site-title">New Items</h2>
-                    <a href="{% url 'shop:shop' %}">View More <i class="fas fa-arrow-right"></i></a>
+    <div class="container index-card">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="p-2">
+                        <h2 class="site-title">New Items</h2>
+                    </div>
+                    <div class="p-2">
+                        <a class="theme-btn" href="{% url 'shop:shop' %}">View More</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="product-slider owl-carousel owl-theme">
-            {% for product in products %}
-            <div class="product-item">
-                <div class="product-img">
-                    <span class="type">Trending</span><!-- make this class dynamic-->
-                    <a href="{% url 'shop:single' slug=product.slug %}">
-                        {% if product.image_1 %}
-                        <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
-                        {% else %}
-                        no image
-                        {% endif %}
-                    </a>
-                    <div class="product-action-wrap">
-                        <div class="product-action">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
-                                title="Quick View"><i class="far fa-eye"></i></a>
-                            <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i class="far fa-heart"></i></a>
-                            <a href="#" data-tooltip="tooltip" title="Add To Compare"><i
-                                    class="far fa-arrows-repeat"></i></a>
+            <div class="card-body product-body">
+                <div class="product-slider owl-carousel owl-theme">
+                    {% for product in products %}
+                    <div class="product-item">
+                        <div class="product-img">
+                            <a href="{% url 'shop:single' slug=product.slug %}">
+                                {% if product.image_1 %}
+                                <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
+                                {% else %}
+                                no image
+                                {% endif %}
+                            </a>
+                            <div class="product-action-wrap">
+                                <div class="product-action">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
+                                        title="Quick View"><i class="far fa-eye"></i></a>
+                                    <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i class="far fa-heart"></i></a>
+                                    <a href="#" data-tooltip="tooltip" title="Add To Compare"><i
+                                            class="far fa-arrows-repeat"></i></a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="product-content">
-                    <h3 class="product-title"><a href="{% url 'shop:single' slug=product.slug %}">{{product.name }}</a>
-                    </h3>
-                    <div class="product-rate">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                    </div>
-                    <div class="product-bottom">
-                        <div class="product-price">
-                            <!-- <del>P120</del> -->
-                            <span class="current-product-price">₱ {{ product.customer_price}}</span>
+                        <div class="product-content">
+                            <h3 class="product-title"><a href="{% url 'shop:single' slug=product.slug %}">{{product.name }}</a>
+                            </h3>
+                            <div class="product-rate">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <div class="product-bottom">
+                                <div class="product-price">
+                                    <span class="current-product-price">₱ {{ product.customer_price}}</span>
+                                </div>
+                            </div>
                         </div>
-                        {% if product.id in products_in_cart %}
-                            <button  type="button" class="btn btn-secondary item-id-{{ product.id }}" style="padding: 9px 20px!important;" disabled>Added to Cart</button>
-                        {% else %}
+                        <div class="product-button">
+                            {% if product.id in products_in_cart %}
+                            <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
+                                style="padding: 9px 20px!important;" disabled>Added to Cart</button>
+                            {% else %}
                             <button data-product="{{ product.id }}" data-action="add" type="button"
                                 class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
                                 onclick="addToCart(this)">Add to Cart
                             </button>
-                        {% endif %}
+                            {% endif %}
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
-            {% endfor %}
         </div>
     </div>
 </div>
@@ -471,28 +302,28 @@
 
 
 <!-- deal area -->
-<div class="deal-area2 pt-90">
+<div class="deal-area2 pt-90 index-deal-area2">
     <div class="container">
         <div class="deal-wrap">
             <div class="row g-0">
                 <div class="col-12 col-lg-6">
                     <div class="deal-img">
-                        <img src="{% static 'img/banner/surprised-banner.jpg' %}" alt="" #">
+                        <img src="{% static 'img/banner/home-page-bottom-banner.webp' %}" alt="">
                     </div>
                 </div>
                 <div class="col-12 col-lg-6 align-self-center">
                     <div class="deal-content">
-                        <span class="deal-sub-title">TODAYS DEAL [10%] OFF</span>
-                        <h3 class="deal-title">Limited Time Offer!</h3>
-                        <p class="deal-text">[10%] off!</p>
-                        <h3 class="deal-price">Use discount code [code]</h3>
-                        <div class="col-lg-12 col-xl-8 mx-auto">
+                        <h2>TODAYS DEAL</h2>
+                        <h1>10% OFF</h1>
+                        <h3>LIMITED TIME OFFER!</h3>
+                        <!-- <div class="col-lg-12 col-xl-8 mx-auto">
                             <div class="deal-countdown">
                                 <div class="countdown" data-countdown="2030/12/30"></div>
                             </div>
-                        </div>
+                        </div> -->
+                        <p>Use discount code</p>
                         <div class="deal-btn">
-                            <a href="#" class="theme-btn">Buy Now<i class="fas fa-arrow-right"></i></a>
+                            <a href="#" class="theme-btn">DISCOUNT CODE</i></a>
                         </div>
                     </div>
                 </div>
@@ -504,124 +335,148 @@
 
 
 <!-- product list -->
-<div class="product-list pt-100">
-    <div class="container">
+<div class="product-list pt-100 mb-5">
+    <div class="container index-card">
         <div class="row">
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="product-list-box">
-                    <h2 class="product-list-title">On sale</h2>
-                    {% for product in rand_on_sale_products %}
-                    <div class="product-list-item">
-                        <div class="product-list-img">
-                            <a href="{% url 'shop:single' slug=product.slug %}">
-                                {% if product.image_1 %}
-                                <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
-                                {% else %}
-                                no image
-                                {% endif %}
-                            </a>
+                <div class="card">
+                    <div class="product-list-box">
+                        <div class="card-header">
+                            <h2 class="site-title">On sale</h2>
                         </div>
-                        <div class="product-list-content">
-                            <h4><a href="">{{product.name }}</a></h4>
-                            <div class="product-list-rate">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
-                            <div class="product-list-price">
-                                <del>₱ 60.00</del><span>₱ {{ product.customer_price}}</span>
-                            </div>
+                        <div class="card-body bottom-list">
+                            {% for product in rand_on_sale_products %}
+                                <div class="product-list-item">
+                                    <div class="product-list-img">
+                                        <a href="{% url 'shop:single' slug=product.slug %}">
+                                            {% if product.image_1 %}
+                                                <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
+                                            {% else %}
+                                                no image
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                    <div class="product-list-content">
+                                        <h4><a href="">{{product.name }}</a></h4>
+                                        <div class="product-list-rate">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="product-list-price">
+                                            <span>₱ {{ product.customer_price}}</span>
+                                        </div>
+                                        {% if product.id in products_in_cart %}
+                                            <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
+                                                style="padding: 9px 20px!important;" disabled>Added to Cart
+                                            </button>
+                                        {% else %}
+                                            <button data-product="{{ product.id }}" data-action="add" type="button"
+                                                class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
+                                                onclick="addToCart(this)">Add to Cart
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
                         </div>
-                        {% if product.id in products_in_cart %}
-                            <button  type="button" class="btn btn-secondary item-id-{{ product.id }}" style="padding: 9px 20px!important;" disabled>Added to Cart</button>
-                        {% else %}
-                            <button data-product="{{ product.id }}" data-action="add" type="button"
-                                class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                onclick="addToCart(this)">Add to Cart
-                            </button>
-                        {% endif %}
                     </div>
-                    {% endfor %}
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="product-list-box">
-                    <h2 class="product-list-title">Best Seller</h2>
-                    {% for product in rand_best_seller_products %}
-                    <div class="product-list-item">
-                        <div class="product-list-img">
-                            <a href="{% url 'shop:single' slug=product.slug %}">
-                                {% if product.image_1 %}
-                                <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
-                                {% else %}
-                                no image
-                                {% endif %}
-                            </a>
+                <div class="card">
+                    <div class="product-list-box">
+                        <div class="card-header">
+                            <h2 class="site-title">Best Seller</h2>
                         </div>
-                        <div class="product-list-content">
-                            <h4><a href="">{{product.name }}</a></h4>
-                            <div class="product-list-rate">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
-                            <div class="product-list-price">
-                                <del>₱ 60.00</del><span>₱ {{ product.customer_price}}</span>
-                            </div>
+                        <div class="card-body bottom-list">
+                            {% for product in rand_best_seller_products %}
+                                <div class="product-list-item">
+                                    <div class="product-list-img">
+                                        <a href="{% url 'shop:single' slug=product.slug %}">
+                                            {% if product.image_1 %}
+                                            <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
+                                            {% else %}
+                                            no image
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                    <div class="product-list-content">
+                                        <h4><a href="">{{product.name }}</a></h4>
+                                        <div class="product-list-rate">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="product-list-price">
+                                            <span>₱ {{ product.customer_price}}</span>
+                                        </div>
+                                        {% if product.id in products_in_cart %}
+                                            <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
+                                                style="padding: 9px 20px!important;" disabled>Added to Cart
+                                            </button>
+                                        {% else %}
+                                            <button data-product="{{ product.id }}" data-action="add" type="button"
+                                                class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
+                                                onclick="addToCart(this)">Add to Cart
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
                         </div>
-                        {% if product.id in products_in_cart %}
-                            <button  type="button" class="btn btn-secondary item-id-{{ product.id }}" style="padding: 9px 20px!important;" disabled>Added to Cart</button>
-                        {% else %}
-                            <button data-product="{{ product.id }}" data-action="add" type="button"
-                                class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                onclick="addToCart(this)">Add to Cart
-                            </button>
-                        {% endif %}
                     </div>
-                    {% endfor %}
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="product-list-box">
-                    <h2 class="product-list-title">Top Rated</h2>
-                    {% for product in rand_top_rated_products %}
-                    <div class="product-list-item">
-                        <div class="product-list-img">
-                            <a href="{% url 'shop:single' slug=product.slug %}">
-                                {% if product.image_1 %}
-                                <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
-                                {% else %}
-                                no image
-                                {% endif %}
-                            </a>
+                <div class="card">
+                    <div class="product-list-box">
+                        <div class="card-header">
+                            <h2 class="site-title">Top Rated</h2>
                         </div>
-                        <div class="product-list-content">
-                            <h4><a href="">{{product.name }}</a></h4>
-                            <div class="product-list-rate">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
-                            <div class="product-list-price">
-                                <del>₱ 60.00</del><span>₱ {{ product.customer_price}}</span>
-                            </div>
+                        <div class="card-body bottom-list">
+                            {% for product in rand_top_rated_products %}
+                                <div class="product-list-item">
+                                    <div class="product-list-img">
+                                        <a href="{% url 'shop:single' slug=product.slug %}">
+                                            {% if product.image_1 %}
+                                            <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
+                                            {% else %}
+                                            no image
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                    <div class="product-list-content">
+                                        <h4><a href="">{{product.name }}</a></h4>
+                                        <div class="product-list-rate">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="product-list-price">
+                                            <span>₱ {{ product.customer_price}}</span>
+                                        </div>
+                                        {% if product.id in products_in_cart %}
+                                        <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
+                                            style="padding: 9px 20px!important;" disabled>Added to Cart
+                                        </button>
+                                        {% else %}
+                                            <button data-product="{{ product.id }}" data-action="add" type="button"
+                                                class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
+                                                onclick="addToCart(this)">Add to Cart
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
                         </div>
-                        {% if product.id in products_in_cart %}
-                            <button  type="button" class="btn btn-secondary item-id-{{ product.id }}" style="padding: 9px 20px!important;" disabled>Added to Cart</button>
-                        {% else %}
-                            <button data-product="{{ product.id }}" data-action="add" type="button"
-                                class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                onclick="addToCart(this)">Add to Cart
-                            </button>
-                        {% endif %}
                     </div>
-                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -632,16 +487,16 @@
 {% endblock %}
 {% block extra_js %}
 <script>
-    $(document).ready(function() {
-    console.log("Document is ready");
-    console.log({{ is_authenticated|lower }})
+    $(document).ready(function () {
+        console.log("Document is ready");
+        console.log({{ is_authenticated| lower }})
 
     // Check if the alert has already been shown in this session
-    if (!sessionStorage.getItem('alertShown') && !{{ is_authenticated|lower }}) {
+    if (!sessionStorage.getItem('alertShown') && !{{ is_authenticated | lower }}) {
         console.log("Alert has not been shown in this session and user is anonymous");
-        
-        
-        $.get(window.location.origin, function(data) {
+
+
+        $.get(window.location.origin, function (data) {
             console.log("Received data from server:", data);
             if (data.has_existing_order && data.email) {
                 console.log("User has existing order and email is available");
