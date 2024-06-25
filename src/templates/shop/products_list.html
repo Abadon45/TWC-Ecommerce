@@ -10,28 +10,55 @@
         {% endif %}
         {% for product in page_obj %}
         <div class="col-md-12">
-            <div class="product-item">
-                <div class="product-img">
-                    <span class="type">Trending</span>
+            <div class="products-list product-item">
+                <div class="product-img list-type">
                     {% if product.image_1 %}
                         <img src="{{ product.image_1.url }}" alt="{{ product.name }}">
                     {% else %}
                         <img src="{% static 'img\product\default-product-image.png' %}" alt="{{ product.name }}"
                                 id="product-image">
                     {% endif %}
-                    <div class="product-action-wrap">
-                        <div class="product-action">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"
-                                data-tooltip="tooltip" title="Quick View"><i class="far fa-eye"></i></a>
-                            <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i
-                                    class="far fa-heart"></i></a>
-                            <a href="#" data-tooltip="tooltip" title="Add To Compare"><i
-                                    class="far fa-arrows-repeat"></i></a>
+                </div>
+                <div class="product-content products-list-view">
+                    <div class="d-flex">
+                        <h3 class="product-title"><a href="{% url 'shop:single' slug=product.slug %}">{{product.name }}</a></h3>
+                        <div class="ms-auto">
+                            {% if not product.id in products_in_cart %}
+                            <div class="product-action">
+                                <a href="#" class="quickview-btn"
+                                    data-tooltip="tooltip" title="Quick View"
+                                    data-product-id="{{ product.id }}"
+                                    data-product-name="{{ product.name }}"
+                                    {% if product.image_1 %}
+                                        data-product-image="{{ product.image_1.url }}"
+                                    {% else %}
+                                        data-product-image="{% static 'img/product/default_product_image.png' %}"
+                                    {% endif %}
+                                    data-product-price="{{ product.customer_price }}"
+                                    data-product-shop="{{ product.category_1|title }}"
+                                    data-product-category="{{ product.category_2|title }}"
+                                    data-product-sku="{{ product.sku }}"
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#quickview"
+                                    {% if product.id in products_in_cart %}
+                                        data-button="btn btn-secondary item-id-{{ product.id }}"
+                                        data-text="Added To Cart"
+                                    {% else %}
+                                        data-button="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
+                                        data-action="add"
+                                        data-text="Add To Cart"
+                                    {% endif %}>
+                                    <i class="far fa-eye"></i>
+                                </a>
+                                <a href="#" data-tooltip="tooltip" title="Add To Wishlist" hidden><i
+                                        class="far fa-heart"></i></a>
+                                <a href="#" data-tooltip="tooltip" title="Add To Compare" hidden><i
+                                        class="far fa-arrows-repeat"></i></a>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
-                </div>
-                <div class="product-content">
-                    <h3 class="product-title"><a href="{% url 'shop:single' slug=product.slug %}">{{product.name }}</a></h3>
+                    
                     <div class="product-rate" data-product-id="{{ product.id }}">
                         {% if user.is_authenticated %}
                             {% if user_ratings|get_item:product.id %}
@@ -74,15 +101,18 @@
                     <p>{{ product.description_1 }}</p>
                     <div class="product-bottom">
                         <div class="product-price">
-                            <span>₱ {{ product.customer_price }}</span>
+                            <span class="current-product-price">₱ {{ product.customer_price }}</span>
                         </div>
+                    </div>
+                    <div class="product-button">
                         {% if product.id in products_in_cart %}
-                            <button type="button" class="btn btn-secondary item-id-{{ product.id }}" style="padding: 9px 20px!important;" disabled>Added to Cart</button>
+                        <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
+                            style="padding: 9px 20px!important;" disabled>Added to Cart</button>
                         {% else %}
-                            <button data-product="{{ product.id }}" data-action="add" type="button"
-                                class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                onclick="addToCart(this)">Add to Cart
-                            </button>
+                        <button data-product="{{ product.id }}" data-action="add" type="button"
+                            class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
+                            onclick="addToCart(this)">Add to Cart
+                        </button>
                         {% endif %}
                     </div>
                 </div>

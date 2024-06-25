@@ -13,47 +13,62 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
-                <div class="shop-sidebar">
-                    <div class="shop-widget">
-                        <div class="shop-search-form">
-                            <h4 class="shop-widget-title">Search</h4>
-                            <form method="get" action="{% url 'shop:search' %}">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="q" placeholder="Search">
-                                    <button type="submit"><i class="far fa-search"></i></button>
-                                </div>
-                            </form>
+                <div class="shop-sidebar index-card">
+                    <div class="shop-search-form">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Search</h4>
+                            </div>
+                            <div class="card-body index-card-body">
+                                <form method="get" action="{% url 'shop:search' %}">
+                                    <div class="row">
+                                        <div class="col-9" style="padding: 0 0 0 15px;">
+                                            <input type="text" class="form-control card-search" name="q" placeholder="Search">
+                                        </div>
+                                        <div class="col-3" style="padding: 0 0 0 7px;">
+                                            <button class="theme-btn" type="submit"><i class="far fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>    
+                    </div>
+                    <div class="card mt-2">
+                        <div class="card-header">
+                            <h4>Shops</h4>
+                        </div>
+                        <div class="card-body index-card-body">
+                            <ul class="shop-category-list category-1">
+                                <li><a href="{% url 'shop:shop' %}?category_id=all" data-category-id="all"
+                                        onclick="showSubcategories('all')">All</a></li>
+                                <li><a href="{% url 'shop:shop' %}?category_id=sante" data-category-id="sante"
+                                        onclick="showSubcategories('sante')">Sante International</a></li>
+                                <li><a href="{% url 'shop:shop' %}?category_id=chingu" data-category-id="chingu"
+                                        onclick="showSubcategories('chingu')">Chingu</a></li>
+                                <li><a href="{% url 'shop:shop' %}?category_id=mood" data-category-id="mood"
+                                        onclick="showSubcategories('mood')">Mood Timepieces</a></li>
+                                {% if user.is_admin %}
+                                <li><a href="{% url 'shop:promo' %}">Promo Bundles</a></li>
+                                {% endif %}
+                            </ul>
                         </div>
                     </div>
-
-                    <div class="shop-widget">
-                        <h4 class="shop-widget-title">Shops</h4>
-                        <ul class="shop-category-list category-1">
-                            <li><a href="{% url 'shop:shop' %}?category_id=all" data-category-id="all"
-                                    onclick="showSubcategories('all')">All</a></li>
-                            <li><a href="{% url 'shop:shop' %}?category_id=sante" data-category-id="sante"
-                                    onclick="showSubcategories('sante')">Sante International</a></li>
-                            <li><a href="{% url 'shop:shop' %}?category_id=chingu" data-category-id="chingu"
-                                    onclick="showSubcategories('chingu')">Chingu</a></li>
-                            <li><a href="{% url 'shop:shop' %}?category_id=mood" data-category-id="mood"
-                                    onclick="showSubcategories('mood')">Mood Timepieces</a></li>
-                            {% if user.is_admin %}
-                            <li><a href="{% url 'shop:promo' %}">Promo Bundles</a></li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                    <div class="shop-widget" id="product-categories">
-                        <h4 class="shop-widget-title">Category</h4>
-                        <ul class="shop-category-list category-2">
-                            {% for subcategory, count in subcategory_counts.items %}
-                            <li>
-                                <a href="{% url 'shop:shop' %}?category_id={{ subcategory }}"
-                                    data-category-id="{{ subcategory }}">
-                                    {{ subcategory|replace_underscore_to_space|title }} <span>({{ count }})</span>
-                                </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
+                    <div class="card mt-3" id="product-categories">
+                        <div class="card-header">
+                            <h4>Category</h4>
+                        </div>
+                        <div class="card-body index-card-body">
+                            <ul class="shop-category-list category-2">
+                                {% for subcategory, count in subcategory_counts.items %}
+                                <li>
+                                    <a href="{% url 'shop:shop' %}?category_id={{ subcategory }}"
+                                        data-category-id="{{ subcategory }}">
+                                        {{ subcategory|replace_underscore_to_space|title }} <span>({{ count }})</span>
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                     <!-- <div class="shop-widget">
                         <h4 class="shop-widget-title">Price Range Filter</h4>

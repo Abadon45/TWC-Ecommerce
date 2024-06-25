@@ -102,6 +102,10 @@
     color: var(--color-white);
 }
 
+.index-card .card-header h4{
+    color: var(--color-white);
+}
+
 .index-card .card-header a{
     color: var(--color-white);
     outline: 1px solid
@@ -122,8 +126,15 @@
     border-radius: 0 0 10px 10px;
 }
 
-.product-body .product-item{
+
+.index-card .product-body .product-item{
     background-color: var(--color-white)!important;
+}
+
+.index-card .index-card-body{
+    background-color: var(--color-white)!important;
+    padding: 15px;
+    border-radius: 0 0 10px 10px;
 }
 
 .index-card .product-img{
@@ -200,6 +211,8 @@
     font-size: 48px;
 }
 
+
+
 .index-deal-area2 .deal-content p{
     color: var(--color-white);
     margin-top: 20px;
@@ -231,6 +244,122 @@
     background-repeat: no-repeat;
     height: 37vh;
 }
+
+/* SHOP */
+
+.index-card .index-card-body button{
+    background-color: var(--theme-color);
+    color: var(--color-white);
+    border-radius: 7px;
+    position: relative!important;
+}
+
+.index-card .index-card-body .form-control{
+    padding: 12px 45px 8px 5px;
+}
+
+
+.index-card .index-card-body .theme-btn i{
+    margin: 0;
+}
+
+.index-card .index-card-body input{
+    padding-bottom: 8px;
+    border-radius: 0;
+    border: unset;
+    border-bottom: 1px solid var(--body-text-color);
+}
+
+.index-card .index-card-body button:hover{
+    background-color: var(--color-white);
+    color: var(--theme-color);
+    outline: 1px solid var(--theme-color);
+}
+
+.products-list{
+    background-color: unset;
+}
+
+.products-list.product-item{
+    background-color: unset;
+    margin-bottom: 10px!important;
+}
+
+.products-list .product-img{
+    display: grid;
+    background-color: #E1E4EB;
+    align-content: center;
+}
+
+.products-list .product-img.grid-type{
+    height: 266px;
+}
+
+.products-list .product-img.list-type{
+    height: 220px;
+}
+
+.products-list .product-title{
+    margin-top: 8px;
+}
+
+.products-list .current-product-price{
+    color: var(--color-dark);
+    font-size: large;
+    font-weight: 800;
+}
+
+.products-list button{
+    margin-top: 10px;
+    width: 100%;
+}
+
+.products-list .btn-secondary{
+    background-color: var(--color-white);
+    color: var(--theme-color);
+    font-weight: 600;
+    outline: 1px solid;
+}
+
+.products-list .products-list-view button{
+    width: 40%;
+    margin-top: 7px;
+    border-radius: 7px;
+}
+
+.products-list .product-action {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s; 
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.products-list:hover .product-action {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    transition-delay: 0s;
+}
+.products-list .product-action a{
+    background-color: var(--color-white);
+    color: var(--color-gray2);
+    outline: 1px solid
+}
+
+.products-list .product-action a:hover{
+    background-color: var(--theme-color);
+    color: var(--color-white);
+}
+
+
+.modal-btn.btn.btn-secondary{
+    background-color: var(--color-white)!important;
+    color: var(--theme-color)!important;
+    font-weight: 600!important;
+    outline: 1px solid!important;
+    cursor: default;
+}
+
 
 
 /* SELLER DASHBOARD */

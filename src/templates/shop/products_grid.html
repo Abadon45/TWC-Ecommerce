@@ -5,9 +5,8 @@
         <div class="row">
             {% for product in page_obj %}
             <div class="col-md-6 col-lg-4">
-                <div class="product-item">
-                    <div class="product-img">
-                        <span class="type">Trending</span>
+                <div class="products-list product-item ">
+                    <div class="product-img grid-type">
                         <a href="{% url 'shop:single' slug=product.slug %}">
                             {% if product.image_1 %}
                             <img src="{{ product.image_1.url }}" alt="{{ product.name }}"
@@ -18,8 +17,10 @@
                             {% endif %}
                         </a>
                         <div class="product-action-wrap">
+                            {% if not product.id in products_in_cart %}
                             <div class="product-action">
                                 <a href="#" class="quickview-btn"
+                                    data-tooltip="tooltip" title="Quick View"
                                     data-product-id="{{ product.id }}"
                                     data-product-name="{{ product.name }}"
                                     {% if product.image_1 %}
@@ -44,11 +45,12 @@
                                     <i class="far fa-eye"></i>
                                 </a>
 
-                                <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i
+                                <a href="#" data-tooltip="tooltip" title="Add To Wishlist" hidden><i
                                         class="far fa-heart"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="Add To Compare"><i
+                                <a href="#" data-tooltip="tooltip" title="Add To Compare" hidden><i
                                         class="far fa-arrows-repeat"></i></a>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="product-content">
@@ -94,8 +96,11 @@
                             <div class="product-price">
                                 <span class="current-product-price">₱ {{ product.customer_price}}</span>
                             </div>
+                        </div>
+                        <div class="product-button">
                             {% if product.id in products_in_cart %}
-                            <button  type="button" class="btn btn-secondary item-id-{{ product.id }}" style="padding: 9px 20px!important;" disabled>Added to Cart</button>
+                            <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
+                                style="padding: 9px 20px!important;" disabled>Added to Cart</button>
                             {% else %}
                             <button data-product="{{ product.id }}" data-action="add" type="button"
                                 class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
