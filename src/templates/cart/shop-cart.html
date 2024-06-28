@@ -15,10 +15,10 @@
                 <div class="col-lg-8">
                     {% for order, items in ordered_items.items %}
                     <div id="order-card-{{order.order_id}}" class="card mb-20">
-                        <div class="card-body">
-                            <div class="card-title">
-                                <h4>Order Number: {{ order.order_id }}</h4>
-                                <h6 style="margin-top: 10px; color: #11B76B;">Shop:
+                        <div class="card index-card">
+                            <div class="card-header p20">
+                                <h4>ORDER NUMBER: {{ order.order_id }}</h4>
+                                <h6><i class="fa-solid fa-shop"></i> Shop:
                                     {% if order.supplier == "sante" %}
                                     Sante International
                                     {% endif %}
@@ -32,19 +32,18 @@
                                     Promo Bundle
                                     {% endif %}
                                 </h6>
-                                <hr>
                             </div>
 
-                            <div class="cart-table card-text">
+                            <div class="cart-table card-body">
                                 <div class="table-responsive">
                                     <table class="table cart-table" id="product-table-{{ order.order_id }}">
-                                        <thead>
-                                            <tr>
-                                                <th>Image</th>
-                                                <th>Product Name</th>
-                                                <th>Price</th>
+                                        <thead style="border-style: unset;">
+                                            <tr style="border-style: unset;">
+                                                <th></th>
+                                                <th>Product</th>
+                                                <th>Unit Price</th>
                                                 <th>Quantity</th>
-                                                <th>Sub Total</th>
+                                                <th>Subtotal</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -98,10 +97,12 @@
                                                     </div>
                                                 </td>
                                                 <td style="width: 5%;">
-                                                    <a href="#" data-product="{{ item.product.id }}"
+                                                    <a href="#" data-tooltip="tooltip" title="Remove Item"
+                                                        data-product="{{ item.product.id }}"
                                                         data-order-id="{{order.order_id}}" data-action="remove"
-                                                        class="update-cart shop-cart-remove"><i
-                                                            class="far fa-times"></i></a>
+                                                        class="update-cart shop-cart-remove">
+                                                        <i class="far fa-times font-color-gray" style="color: var(--color-gray2); border: var(--color-gray2);"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                             {% endfor %}
@@ -112,59 +113,70 @@
                         </div>
                     </div>
                     {% endfor %}
-                    <div class="shop-cart-footer">
-                        <div class="row">
-                            <div class="col-md-7 col-lg-6">
-                                <div class="shop-cart-coupon">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Your Coupon Code">
-                                        <button class="theme-btn" type="submit">Apply Coupon</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-5 col-lg-6">
-                                <div class="shop-cart-btn text-md-end">
-                                    <a href="{% url 'shop:shop' %}" class="theme-btn"><span
-                                            class="fas fa-arrow-left"></span> Continue Shopping</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="shop-cart-summary">
-                        <h5>Cart Summary</h5>
-                        {% for order in orders %}
-                        <ul class="mb-20">
-                            <li>
-                                <h6><strong>Order: </strong><span>{{ order.order_id }}</span></h6>
-                            </li>
-                            <li><strong>Order Sub Total:</strong> 
-                                <span id="order-subtotal-{{ order.order_id }}">{{ order.subtotal|currency }}</span>
-                            </li>
-                            {% if order.discount %}
-                                <li><strong>Discount:</strong> <span>{{ order.discount|currency }}</span></li>
-                            {% else %}
-                                <li><strong>Discount:</strong> <span>No discount applied</span></li>
-                            {% endif %}
-                            <li class="shop-cart-total"><strong>Order Total:</strong> <span
-                                    id="order-total-{{ order.order_id }}">
-                                    {% if cod_amount %}
-                                        {{ order.cod_amount|currency }}
+                    <div class="shop-cart-summary" style="padding: 0;">
+                        <div class="card index-card">
+                            <div class="card-header p20">
+                                <h3>Cart Summary</h3>
+                            </div>
+                            <div class="card-body">
+                                {% for order in orders %}
+                                <ul class="bordered-bottom {% if not forloop.last %} mb-20 {% endif %}">
+                                    <li>
+                                        <h6>
+                                            Shop:
+                                            {% if order.supplier == "sante" %}
+                                            Sante International
+                                            {% endif %}
+                                            {% if order.supplier == "mood" %}
+                                            Mood Timepieces
+                                            {% endif %}
+                                            {% if order.supplier == "chingu" %}
+                                            Chingu
+                                            {% endif %}
+                                            {% if order.supplier == None %}
+                                            Promo Bundle
+                                            {% endif %}
+                                        </h6>
+                                    </li>
+                                    <li>
+                                        <div class="shop-cart-coupon">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Your Coupon Code">
+                                                <button class="theme-btn custom-btn-1" type="submit">APPLY</button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>Order: <span>{{ order.order_id }}</span></li>
+                                    <li>Order Sub Total:
+                                        <span id="order-subtotal-{{ order.order_id }}">{{ order.subtotal|currency }}</span>
+                                    </li>
+                                    {% if order.discount %}
+                                        <li>Discount: <span>{{ order.discount|currency }}</span></li>
                                     {% else %}
-                                        {{ order.subtotal|currency }}
+                                        <li>Discount: <span>No discount applied</span></li>
                                     {% endif %}
-                                </span></li>
-                        </ul>
-                        {% endfor %}
-                        <ul>
-                            <li class="shop-cart-total">
-                                <h4>Cart Total: <span id="cart-total">{{ total_cart_subtotal|currency }}</span></h4>
-                            </li>
-                        </ul>
+                                    <li class="shop-cart-total">Order Total: <span
+                                            id="order-total-{{ order.order_id }}">
+                                            {% if cod_amount %}
+                                                {{ order.cod_amount|currency }}
+                                            {% else %}
+                                                {{ order.subtotal|currency }}
+                                            {% endif %}
+                                        </span></li>
+                                </ul>
+                                {% endfor %}
+                                <ul>
+                                    <li class="shop-cart-total">
+                                        <h4>Cart Total: <span id="cart-total">{{ total_cart_subtotal|currency }}</span></h4>
+                                    </li>
+                                </ul>
 
-                        <div class="text-end mt-40">
-                            <a href="{% url 'cart:checkout' %}" class="theme-btn">Checkout Now<i class="fas fa-arrow-right-long"></i></a>
+                                <div class="checkout-btn mt-20">
+                                    <a href="{% url 'cart:checkout' %}" class="theme-btn">CHECKOUT NOW</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

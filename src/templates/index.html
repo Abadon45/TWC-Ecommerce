@@ -72,10 +72,10 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body">
+            <div class="card-body bg-light-blue">
                 <div class="product-slider owl-carousel owl-theme">
                     {% for product in products %}
-                    <div class="product-item">
+                    <div class="product-item bg-light-blue">
                         <div class="product-img">
                             <a href="{% url 'shop:single' slug=product.slug %}">
                                 {% if product.image_1 %}
