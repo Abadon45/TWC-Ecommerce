@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<div class="shop-checkout2 py-100">
+<div class="shop-checkout2 twc-checkout py-100">
     <div class="container">
         <div class="shop-checkout-wrap">
             <div class="row">
@@ -19,12 +19,12 @@
                                 data-bs-target="#step1" type="button" role="tab" aria-controls="step1"
                                 aria-selected="true">
                                 <span class="step-count">1</span>
-                                <i class="far fa-user-circle"></i>Shipping Address
+                                <i class="far fa-user-circle"></i>SHIPPING ADDRESS
                             </a>
                             <a href="#" class="nav-link" id="step2-tab" data-bs-toggle="pill" data-bs-target="#step2"
                                 type="button" role="tab" aria-controls="step2" aria-selected="false">
                                 <span class="step-count">2</span>
-                                <i class="far fa-box-taped"></i>Payment
+                                <i class="far fa-box-taped"></i>PAYMENT
                             </a>
                         </nav>
                         <div class="tab-content" id="pills-tabContent">
@@ -177,186 +177,221 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="shop-cart-summary mt-lg-0">
-                        <h5>Cart Summary</h5>
-                        {% for order in orders %}
-                        <ul>
-                            <li>
-                                <h6><strong>Order: </strong><span>{{ order.order_id }}</span></h6>
-                            </li>
-                            <li><strong>Order Sub Total:</strong> 
-                                <span>{{ order.subtotal|currency }}</span>
-                            </li>
-                            {% if discount %}
-                            <li><strong>Discount:</strong>{{ discount }}</li>
-                            {% endif %}
-                            <li id="shipping_fee_{{ order.id }}"><strong>Shipping: </strong>
-                                <span>Calculated at next step</span>
-                            </li>
-                            <li class="shop-cart-total"><strong>Order Total:</strong> 
-                                <span id="order-total-{{ order.id }}">{{ order.subtotal|currency }}</span>
-                            </li>
-                            <hr style="border: 1px; color: solid black;">
-                        </ul>
-                        {% endfor %}
-                        <ul>
-                            <li class="shop-cart-total" style="display: block!important; text-align: end;">
-                                <h4><strong>Total Payment:</strong>&emsp;<span id="total-payment">{{ total_payment|currency }}</span></h4>
-                            </li>
-                        </ul>
-                        <div class="text-end mt-40 checkoutBtn">
-                            <form id="checkoutForm" class="form" method="POST" action="{% url 'cart:submit_checkout' %}">
-                                {% csrf_token %}
-                                <button type="submit" class="theme-btn checkout-btn" 
-                                        data-referrer-id="{{ referred_by }}"
-                                        data-username="{{ current_user }}"
-                                        onclick="checkoutBtn(event)" hidden>Checkout Now
-                                        <i class="fas fa-arrow-right-long"></i>
-                                </button>
-                            </form>
+                        <div class="card index-card"> 
+                            <div class="card-header">
+                                <h3>CART SUMMARY</h3>
+                            </div>
+                            <div class="card-body">
+                                {% for order in orders %}
+                                <ul>
+                                    <li>
+                                        <h6>
+                                            Shop:
+                                            {% if order.supplier == "sante" %}
+                                            Sante International
+                                            {% endif %}
+                                            {% if order.supplier == "mood" %}
+                                            Mood Timepieces
+                                            {% endif %}
+                                            {% if order.supplier == "chingu" %}
+                                            Chingu
+                                            {% endif %}
+                                            {% if order.supplier == None %}
+                                            Promo Bundle
+                                            {% endif %}
+                                        </h6>
+                                    </li>
+                                    <li>
+                                        <div class="shop-cart-coupon">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Your Coupon Code">
+                                                <button class="theme-btn custom-btn-1" type="submit">APPLY</button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <h6>Order: <span>{{ order.order_id }}</span></h6>
+                                    </li>
+                                    <li><h6>Order Sub Total: <span>{{ order.subtotal|currency }}</span></h6>
+                                    </li>
+                                    {% if discount %}
+                                    <li><h6>Discount:</h6>{{ discount }}</li>
+                                    {% endif %}
+                                    <li id="shipping_fee_{{ order.id }}" class="pb15"><h6>Shipping fee: <span>Calculated at next step</span></h6>
+                                    </li>
+                                    <li class="shop-cart-total"><strong>Order Total:</strong> 
+                                        <span id="order-total-{{ order.id }}">{{ order.subtotal|currency }}</span>
+                                    </li>
+                                </ul>
+                                {% endfor %}
+                                <h4 class="cart-total mt-3">
+                                    <strong>
+                                        <span class="cart-label">Cart Total:</span>
+                                        <span class="cart-value" id="total-payment">{{ total_payment|currency }}</span>
+                                    </strong>
+                                </h4>
+                                <div class="text-end mt-40 checkoutBtn">
+                                    <form id="checkoutForm" class="form" method="POST" action="{% url 'cart:submit_checkout' %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="theme-btn checkout-btn" 
+                                                data-referrer-id="{{ referred_by }}"
+                                                data-username="{{ current_user }}"
+                                                onclick="checkoutBtn(event)" hidden>CHECKOUT NOW
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
                 {% endif %}
                 {% if is_authenticated %}
                         {% if default_address %}
-                        <div class="col-lg-12">
-                            <div class="shop-checkout-form">
-                                
-                                <h6 class="mb-2"><i class="fa-solid fa-location-dot"></i> Delivery Address:</h6>
-            
-                                <p class="selected_address"><b>{{default_address.first_name}}
-                                        {{default_address.last_name}}
-                                        {{default_address.phone}}</b></p>
-                                <div class="change-address row mb-20">
-                                    <div class="col-lg-10">
-                                        <p class="address_details">{{ default_address.line1 }} Brgy. 
-                                            {{default_address.barangay }},
-                                            {{ default_address.city }}, {{ default_address.province }},
-                                            {{ default_address.postcode }} </p>
-                                    </div>
-                                    <div class="col-lg-2 d-flex justify-content-end">
-                                        <span class="is_default">Default</span>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-1">
-                                            <button type="button" class="change-address-btn">Change</button>
-                                        </div>
-                                    </div>
-                                    {% include 'cart/change-address-modal.html' %}
-                                    {% include 'cart/add-address-modal.html' %}
-                                    {% include 'cart/edit-address-modal.html' %}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            {% for order, items in ordered_items.items %}
-                            <div class="card mb-20 shop-cart-summary-twc">
-                                <div class="card-body">
-                                    <div class="card-title">
-                                        <h4>{{ order.order_id }}</h4>
-                                    </div>
-                                    <div class="cart-table card-text">
-                                        <div class="table-responsive">
-                                            <table class="table cart-table" id="product-table-{{ order.order_id }}">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">Image</th>
-                                                        <th scope="col">Product Name</th>
-                                                        <th scope="col">Price</th>
-                                                        <th scope="col" style="text-align: center;">Quantity</th>
-                                                        <th scope="col" style="text-align: right;">Sub Total</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="cart-body">
-                                                    {% for item in items %}
-                                                    <tr class="cart-product" id="product-row-{{ item.product.id }}"
-                                                        style="width: 20%;">
-                                                        <td>
-                                                            <div class="shop-cart-img">
-                                                                <a href="#">
-                                                                {% if item.product.image_1 %}
-                                                                    {% if item.product.image_1.url %}
-                                                                        <img src="{{ item.product.image_1.url }}" alt="{{ item.product.name }}">
-                                                                    {% else %}
-                                                                        <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ item.product.name }}">
-                                                                    {% endif %}
-                                                                {% else %}
-                                                                    <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ item.product.name }}">
-                                                                {% endif %}
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                        <td style="width: 50%;">{{item.product.name}}</td>
-                                                        <td style="width: 10%;">{{item.product.customer_price|currency}}</td>
-                                                        <td style="width: 10%; text-align: center;">{{ item.quantity }}</td>
-                                                        <td style="width: 10%; text-align: right;">{{ item.get_total|currency }}
-                                                        </td>
-                                                    </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
-                                            <ul>
-                                                <li class="shop-cart-subtotal"><strong>Order Shipping Fee:</strong>&emsp;<span>
-                                                    {{ order.shipping_fee|currency }}</span></li>
-                                                {% if order.discount %}
-                                                    <li class="shop-cart-subtotal"><strong>Order Discount:</strong>&emsp;<span>
-                                                        {{ order.discount|currency }}</span></li>
-                                                {% endif %}
-                                                <li class="shop-cart-subtotal"><strong>Order Total:</strong>&emsp;<span>
-                                                    {{ order.cod_amount|currency }}</span></li>
-                                            </ul>
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="shop-checkout-form address-area">
+                                        
+                                        <h6 class="mb-2"><i class="fa-solid fa-location-dot"></i> Delivery Address:</h6>
+                    
+                                        <p class="selected_address"><b>{{default_address.first_name}}
+                                                {{default_address.last_name}}
+                                                {{default_address.phone}}</b></p>
+                                        <div class="change-address row mb-20">
+                                            <div class="col-lg-10">
+                                                <p class="address_details">{{ default_address.line1 }} Brgy. 
+                                                    {{default_address.barangay }},
+                                                    {{ default_address.city }}, {{ default_address.province }},
+                                                    {{ default_address.postcode }} </p>
+                                            </div>
+                                            <div class="col-lg-2 d-flex justify-content-end">
+                                                <span class="is_default">Default</span>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-1">
+                                                    <button type="button" class="change-address-btn">Change</button>
+                                                </div>
+                                            </div>
+                                            {% include 'cart/change-address-modal.html' %}
+                                            {% include 'cart/add-address-modal.html' %}
+                                            {% include 'cart/edit-address-modal.html' %}
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-lg-12">
+                                    {% for order, items in ordered_items.items %}
+                                    <div class="card index-card mb-20 shop-cart-summary-twc">
+                                        <div class="card-header">
+                                            <h3>ORDER NUMBER: {{ order.order_id }}</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="cart-table card-text">
+                                                <div class="table-responsive">
+                                                    <table class="table cart-table" id="product-table-{{ order.order_id }}">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col"></th>
+                                                                <th scope="col">Product Name</th>
+                                                                <th scope="col">Price</th>
+                                                                <th scope="col" style="text-align: center;">Quantity</th>
+                                                                <th scope="col" style="text-align: right;">Sub Total</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="cart-body">
+                                                            {% for item in items %}
+                                                            <tr class="cart-product" id="product-row-{{ item.product.id }}"
+                                                                style="width: 20%;">
+                                                                <td>
+                                                                    <div class="shop-cart-img">
+                                                                        <a href="#">
+                                                                        {% if item.product.image_1 %}
+                                                                            {% if item.product.image_1.url %}
+                                                                                <img src="{{ item.product.image_1.url }}" alt="{{ item.product.name }}">
+                                                                            {% else %}
+                                                                                <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ item.product.name }}">
+                                                                            {% endif %}
+                                                                        {% else %}
+                                                                            <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ item.product.name }}">
+                                                                        {% endif %}
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                                <td style="width: 45%;">{{item.product.name}}</td>
+                                                                <td style="width: 10%;">{{item.product.customer_price|currency}}</td>
+                                                                <td style="width: 10%; text-align: center;">{{ item.quantity }}</td>
+                                                                <td style="width: 15%; text-align: right;">{{ item.get_total|currency }}
+                                                                </td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                    <ul class="bt">
+                                                        <li class="shop-cart-subtotal"><strong>Order Shipping Fee:</strong>&emsp;<span>
+                                                            {{ order.shipping_fee|currency }}</span></li>
+                                                        {% if order.discount %}
+                                                            <li class="shop-cart-subtotal"><strong>Order Discount:</strong>&emsp;<span>
+                                                                {{ order.discount|currency }}</span></li>
+                                                        {% endif %}
+                                                        <li class="shop-cart-subtotal"><strong>Order Total:</strong>&emsp;<span>
+                                                            {{ order.cod_amount|currency }}</span></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="shop-cart-summary payment-area" style="margin-left: 0!important;">
+                                        <h5>Mode of Payment</h5>
+                                        <label class="form-check-label" for="cod">
+                                            <h6>Cash On Delivery</h6>
+                                            <p>Please read our <a href="#">Terms And
+                                                    Conditions</a> for cash on delivery.</p>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
-                            {% endfor %}
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-4">
                             <div class="shop-cart-summary" style="margin-left: 0!important;">
-                                <div class="form-check mb-20">
-                                    <h5>Mode of Payment</h5>
-                                    <label class="form-check-label" for="cod">
-                                        <h6>Cash On Delivery</h6>
-                                        <p>Please read our <a href="#">Terms And
-                                                Conditions</a> for cash on delivery.</p>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="shop-cart-summary" style="margin-left: 0!important;">
-                                <h5>Cart Summary</h5>
-                                <ul>
-                                    <li><strong>Merchandise Sub Total:</strong><span>{{ orders_subtotal|currency }}</span></li>
-                                    <li><strong>Shipping Fee Total:</strong><span>{{ total_shipping|currency }}</span></li>
-                                    {% if total_discount %}
-                                        <li><strong>Total Discount:</strong><span>-{{ total_discount|currency }}</span></li>
-                                    {% endif %}
-                                    <li class="shop-cart-total" style="display: block!important; text-align: end;">
-                                        <h3><strong>Total Payment:</strong>&emsp;<span>{{ total_payment|currency }}</span></h3>
-                                    </li>
-                                </ul>
-                                <div class="col-lg-12 shop-checkout-form mt-20"
-                                    style="padding: 0!important; border: none!important; ">
-                                    <div class="row">
-                                        <div class="col-lg-5">
-                                            <a href="{% url 'cart:cart' %}" type="button" class="theme-btn theme-btn2"><span
-                                                class="fas fa-arrow-left"></span>Back To Cart</a>
-                                        </div>
-                                        <div class="col-md-2 offset-md-5">
+                                <div class="card index-card">
+                                    <div class="card-header">
+                                        <h3>CART SUMMARY</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul>
+                                            <li><strong>Merchandise Sub Total:</strong><span>{{ orders_subtotal|currency }}</span></li>
+                                            <li><strong>Shipping Fee Total:</strong><span>{{ total_shipping|currency }}</span></li>
+                                            {% if total_discount %}
+                                                <li><strong>Total Discount:</strong><span>-{{ total_discount|currency }}</span></li>
+                                            {% endif %}
+                                        </ul>
+                                        <h4 class=" cart-total mt-3 bb bt py20">
+                                            <strong>
+                                                <span class="cart-label">Cart Total:</span>
+                                                <span class="cart-value" id="total-payment">{{ total_payment|currency }}</span>
+                                            </strong>
+                                        </h4>
+                                        <div class="col-lg-12 shop-checkout-form mt-20"
+                                            style="padding: 0!important; border: none!important; ">
                                             <form id="checkoutForm" class="form" method="POST" action="{% url 'cart:submit_checkout' %}">
                                                 {% csrf_token %}
                                                 <button type="submit" class="theme-btn checkout-btn" 
                                                         data-referrer-id="{{ referred_by }}" 
                                                         data-username="{{ current_user }}"
-                                                        onclick="checkoutBtn(event)">Checkout Now
-                                                        <i class="fas fa-arrow-right-long"></i>
+                                                        onclick="checkoutBtn(event)">CHECKOUT NOW
                                                 </button>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
+                            
                             </div>
+                        </div>
+                        <div class="col-lg-12 mt-20 continue-shop">
+                            <a href="{% url 'cart:cart' %}" type="button" class="theme-btn theme-btn2">CONTINUE SHOPPING</a>
                         </div>
                         {% endif %}
                 {% endif %}

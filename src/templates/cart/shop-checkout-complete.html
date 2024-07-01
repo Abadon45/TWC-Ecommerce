@@ -9,153 +9,157 @@
 
 
 <!-- shop checkout complete -->
-<div id="checkout-complete" class="shop-checkout-complete py-120">
+<div id="checkout-complete" class="shop-checkout-complete twc-checkout-complete py-120">
     <div class="container">
-        <div class="row">
-            <div class="col mx-auto">
-                <div class="checkout-complete-content">
-                    <div class="checkout-complete-icon"><i class="far fa-check"></i></div>
-                    <h3>THANK YOU {{ order.shipping_address.first_name|upper }}! YOUR ORDER HAS BEEN RECEIVED.</h3>
-                    <h5>For any concern, please feel free to contact us at +639565885998.</h5>
-                    
-                    {% if not user.is_authenticated %}
-                        <div class="card mt-20 offset-3 col-6 text-left">
-                            <div class="card-body">
-                                <h4 class="card-title">Please save your login details to track your order.</h4>
-                                <h6>Username: {{ username }}</h6>
-                                <h6>Password: {{ password }}</h6>
-                                <h6>Affiliate Link: http://www.twconline.store/{{ orders.0.user.referred_by }}</h6>
-                                <h6>Email: {{ email }}</h6>
+        <div class="card index-card">
+            <div class="card-header">
+                <h2>CART SUMMARY</h2>
+            </div>
+            <div class="card-body cart-summary text-center">
+                <h1>THANK YOU</h1>
+                <h3>YOUR ORDER HAS BEEN RECEIVED</h3>
+                <p>For any concern, please feel free to contact us at +639565885998.</p>
+                
+                {% if not user.is_authenticated %}
+                    <div class="card mt-20 offset-3 col-6 text-left">
+                        <div class="card-body">
+                            <h4 class="card-title">Please save your login details to track your order.</h4>
+                            <h6>Username: {{ username }}</h6>
+                            <h6>Password: {{ password }}</h6>
+                            <h6>Affiliate Link: http://www.twconline.store/{{ orders.0.user.referred_by }}</h6>
+                            <h6>Email: {{ email }}</h6>
+                        </div>
+                    </div> 
+                {% endif %}
+                
+            </div>
+        </div>
+        {% for order, items in ordered_items.items %}
+        <div class="row mt-20">
+            <div class="col-sm-6">
+                <div class="card index-card h-100">
+                    <div class="card-header order-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="p-2">
+                                <h4>ORDER NUMBER: {{ order.order_id }}</h4>
                             </div>
-                        </div> 
-                    {% endif %}
-                    {% for order, items in ordered_items.items %}
-                    <table class="table">
-                        <thead>
-                            <tr style="text-align: left;">
-                                <th colspan="4"><h4>Order Number: {{ order.order_id }}</h4></th>
-                            </tr>
-                        </thead>
-                        <thead>
-                            <tr class="table-active" style="text-align: left;">
-                                <th scope="col-6">Image</th>
-                                <th scope="col-6">Product</th>
-                                <th scope="col-2">QTY</th>
-                                <th scope="col-4">Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in items %}
-                            <tr style="text-align: left;">
-                                <td style="width: 20%;">
-                                    <div class="shop-cart-img">
-                                        <a href="#">
-                                            {% if item.product.image_1 %}
-                                                {% if item.product.image_1.url %}
-                                                    <img src="{{ item.product.image_1.url }}" alt="{{ item.product.name }}">
+                            <div class="view-order">
+                                <a href="{{ DASHBOARD_URL }}/order/order-detail/?order_id={{ order.order_id }}" target="_blank">
+                                    View Order</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body fixed-height">
+                        <table class="table">
+                            <thead>
+                                <tr class="table-active" style="text-align: left;">
+                                    <th scope="col-6"></th>
+                                    <th scope="col-6">Product</th>
+                                    <th scope="col-2">Quantity</th>
+                                    <th scope="col-4">Unit Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                <tr class="center-text">
+                                    <td style="width: 20%;">
+                                        <div class="shop-cart-img">
+                                            <a href="#">
+                                                {% if item.product.image_1 %}
+                                                    {% if item.product.image_1.url %}
+                                                        <img src="{{ item.product.image_1.url }}" alt="{{ item.product.name }}">
+                                                    {% else %}
+                                                        <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ item.product.name }}">
+                                                    {% endif %}
                                                 {% else %}
                                                     <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ item.product.name }}">
                                                 {% endif %}
-                                            {% else %}
-                                                <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ item.product.name }}">
-                                            {% endif %}
-                                        </a>
-                                    </div>
-                                </td>
-                                <td style="width: 50%;">{{ item.product.name }}</td>
-                                <td style="width: 10%;">{{ item.quantity }}</td>
-                                <td style="width: 20%">₱{{ item.get_total }}</td>
-                            </tr>
-                            {% endfor %}
-                            <tr style="text-align: left;">
-                                <th colspan="3">Shipping</th>
-                                <th>{{ order.shipping_fee|currency }}</th>
-                            
-                            </tr>
-                            {% if order.discount %}
-                            <tr style="text-align: left;">
-                                <th colspan="3">Discount</th>
-                                <th>({{ order.discount|currency }})</th>
-                            </tr>
-                            {% endif %}
-                            <tr class="table-active" style="text-align: left;">
-                                <th colspan="2">Total:</th>
-                                <th>{{ order.total_quantity }}</th>
-                                <th>{{ order.cod_amount|currency }}</th>
-                            </tr>
-                        </tbody>
-                    </table>
-                    {% endfor %}
-                    <div class="row order-detail">
-                        <div class="col-lg-2 col-md-4 sm-order-details">
-                            <h5>ORDER NUMBER(S):</h5>
-                            {% for order in orders %}
-                            <h5>{{ order.order_id }}</h5>
-                            {% endfor %}
-                        </div>
-                        <div class="col-lg-2 col-md-4 sm-order-details">
-                            <h5>DATE:</h5>
-                            <h5>{{orders.0.created_at|date:"Y-m-d"}}</h5>
-                        </div>
-                        <div class="col-lg-3 col-md-4 sm-order-details">
-                            <h5>MOBILE:</h5>
-                            <h5>{{orders.0.shipping_address.phone}}</h5>
-                        </div>
-                        <div class="col-lg-2 col-md-6 sm-order-details">
-                            <h5>PAYMENT METHOD:</h5>
-                            <h5>Cash On Delivery</h5>
-                        </div>
-                        <div class="col-lg-3 col-md-6 sm-order-details">
-                            <h5>TOTAL:</h5>
-                            <h5>{{ total_payment|currency }}</h5>
-                        </div>
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td style="width: 50%;">{{ item.product.name }}</td>
+                                    <td style="width: 10%;">{{ item.quantity }}</td>
+                                    <td style="width: 20%;">₱{{ item.get_total }}</td>
+                                </tr>
+                                {% endfor %}
+                                <tr style="height: 10px;"><td colspan="4"></td></tr>
+                                <tr class="shipping-row" style="text-align: left;">
+                                    <th colspan="3">Shipping</th>
+                                    <th>{{ order.shipping_fee|currency }}</th>
+                                </tr>
+                                {% if order.discount %}
+                                <tr style="text-align: left;">
+                                    <th colspan="3">Discount</th>
+                                    <th>({{ order.discount|currency }})</th>
+                                </tr>
+                                {% endif %}
+                                <tr class="total-row table-active" style="text-align: left;">
+                                    <th colspan="2">Total:</th>
+                                    <th>{{ order.total_quantity }}</th>
+                                    <th>{{ order.cod_amount|currency }}</th>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="row order-detail">
-                        <div class="col-md-6 d-flex justify-content-center">
-                            <div class="card" style="width: 35rem;">
-                                <div class="card-body">
-                                    <h5 class="card-title">DELIVERY ADDRESS</h5>
-                                    <p class="card-text">
-                                        {{ orders.0.shipping_address.line1 }}
-                                        {% if orders.0.shipping_address.line2 %}
-                                            {{ orders.0.shipping_address.line2 }}
-                                        {%endif %}                                 
-                                    </p>
-                                    <p>
-                                        Brgy. {{ orders.0.shipping_address.barangay }}, {{ orders.0.shipping_address.city }}, {{ orders.0.shipping_address.province }}, {{ orders.0.shipping_address.region }}, {{ orders.0.shipping_address.postcode }}   
-                                    </p>
-                                </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card index-card h-100">
+                    <div class="card-header">
+                        <h2>SUMMARY</h2>
+                    </div>
+                    <div class="card-body fixed-height">
+                        <div class="row justify-content-between bb mb-10">
+                            <div class="col-3">
+                                <ul>
+                                    <li>Date</li>
+                                    <li>Mobile Number</li>
+                                    <li>Payment Method</li>
+                                    <li>Total</li>
+                                </ul>
+                            </div>
+                            <div class="col-3">
+                                <ul>
+                                    <li>{{ order.created_at|date:"Y-m-d" }}</li>
+                                    <li>{{ order.shipping_address.phone }}</li>
+                                    <li>Cash On Delivery</li>
+                                    <li>{{ order.cod_amount|currency }}</li>
+                                </ul>
                             </div>
                         </div>
-                        <div class="col-md-6 d-flex justify-content-center sm-delivery">
-                            <div class="card" style="width: 35rem;">
-                                <div class="card-body">
-                                    <h5 class="card-title">ESTIMATED DELIVERY</h5>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <span>NCR: 2-3 Days</span><br>
-                                            <span>Luzon: 3-5 Days</span>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <span>Visayas: 5-7 Days</span><br>
-                                            <span>Mindanao: 7-10 Days</span>
-                                        </div>
-                                    </div> 
-                                </div>
-                            </div>
+                        <div class="bb mb-10">
+                            <p>
+                                Address:<br>
+                                {{ order.shipping_address.line1 }},
+                                {% if order.shipping_address.line2 %}
+                                    {{ order.shipping_address.line2 }},
+                                {% endif %}
+                                Brgy. {{ orders.0.shipping_address.barangay }},
+                                {{ order.shipping_address.city }},
+                                {{ order.shipping_address.province }},
+                                {{ order.shipping_address.region }},
+                                {{ order.shipping_address.postcode }}
+                            </p>
+                        </div>
+                        <div>
+                            <p>Estimated Delivery</p>
+                            <ul>
+                                <li>NCR: 2-3 Days</li>
+                                <li>Luzon: 3-5 Days</li>
+                                <li>Visayas: 5-7 Days</li>
+                                <li>Mindanao: 7-10 Days</li>
+                            </ul>
                         </div>
                     </div>
-                    {% if user.is_authenticated %}
-                    <a href="{{ DASHBOARD_URL }}/order/order-detail/?order_id={{ orders.0.order_id }}" class="view-order theme-btn mt-50" 
-                        data-first-order-id="{{ orders.0.order_id }}">View Order<i
-                            class="fas fa-arrow-right"></i></a>
-                    {% else %}
-                    <a href="{% url 'shop:shop' %}" class="theme-btn mt-50">Go Back Shopping
-                        <i class="fas fa-arrow-right"></i></a>
-                    {% endif %}
                 </div>
             </div>
         </div>
+        {% endfor %}
+
+    </div>
+    <div class="text-center">
+        <a href="{% url 'shop:shop' %}" class="theme-btn mt-50">Go Back Shopping
+            <i class="fas fa-arrow-right"></i></a>
     </div>
 </div>
 {% endblock %}
