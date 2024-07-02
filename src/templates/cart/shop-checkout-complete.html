@@ -23,8 +23,8 @@
                 {% if not user.is_authenticated %}
                     <div class="card mt-20 offset-3 col-6 text-left">
                         <div class="card-body">
-                            <h4 class="card-title">Please save your login details to track your order.</h4>
-                            <h6>Username: {{ username }}</h6>
+                            <h4 style="color: var(--color-dark);">Please save your login details to track your order.</h4>
+                            <h6 class="mt-2">Username: {{ username }}</h6>
                             <h6>Password: {{ password }}</h6>
                             <h6>Affiliate Link: http://www.twconline.store/{{ orders.0.user.referred_by }}</h6>
                             <h6>Email: {{ email }}</h6>
@@ -43,10 +43,12 @@
                             <div class="p-2">
                                 <h4>ORDER NUMBER: {{ order.order_id }}</h4>
                             </div>
+                            {% if user.is_authenticated %}
                             <div class="view-order">
                                 <a href="{{ DASHBOARD_URL }}/order/order-detail/?order_id={{ order.order_id }}" target="_blank">
                                     View Order</a>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="card-body fixed-height">

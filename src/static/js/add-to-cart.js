@@ -131,6 +131,7 @@ $(document).ready(function () {
               $(".cart-items-count").text(formattedCartItems + " Items");
               $(".total-amount").text("₱" + orderTotal);
               $("#cart-total").text("₱" + orderTotal);
+              
             });
           }
         }

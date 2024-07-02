@@ -419,6 +419,13 @@
     outline: 1px solid;
 }
 
+.index-card .btn-secondary{
+    background-color: var(--color-white);
+    color: var(--theme-color);
+    font-weight: 600;
+    outline: 1px solid;
+}
+
 
 .products-list .products-list-view button{
     width: 40%;
@@ -827,6 +834,13 @@
     color: var(--theme-color);
     outline: 1px solid;
 }
+
+.twc-checkout .theme-btn::before {
+    content: "";
+    height: 400px;
+    width: 400px;
+}
+
 /* CHECKOUT COMPLETE */
 
 .twc-checkout-complete .index-card {

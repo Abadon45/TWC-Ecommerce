@@ -41,6 +41,12 @@ class IndexView(TemplateView):
     def get(self, request, username=None, *args, **kwargs):
         referrer = None
         user = request.user
+        
+        order_ids = self.request.session.get('checkout_orders', [])
+        orders = Order.objects.filter(id__in=order_ids)
+        
+        products_in_cart = [item.product_id for order in orders for item in order.orderitem_set.all()]
+        
         if username:
             try:
                 referrer = User.objects.get(username=username)
@@ -101,6 +107,7 @@ class IndexView(TemplateView):
             'rand_top_rated_products': rand_top_rated_products,
             'categories': subcategory_counts_display,
             'is_authenticated': self.request.user.is_authenticated,
+            'products_in_cart': products_in_cart,
         }
 
         if new_guest_user:
