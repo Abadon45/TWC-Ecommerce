@@ -122,12 +122,12 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">My Account</a>
                                     <ul class="dropdown-menu fade-down">
+                                        <li><a class="dropdown-item" href="{{ DASHBOARD_URL }}" class="list-item">My Profile</a></li>
                                         <li>
                                             <a class="dropdown-item" href="{{ user.referred_by.messenger_link }}"
                                                 id="user-chat-seller">
                                                 Chat With Seller</a>
                                         </li>
-                                        <li><a class="dropdown-item" href="{{ DASHBOARD_URL }}" class="list-item">My Profile</a></li>
                                         {% if user.is_seller %}
                                         <li><a class="dropdown-item" href="{{ DASHBOARD_URL|add:'/seller' }}">Seller
                                                 Dashboard</a></li>

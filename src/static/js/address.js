@@ -360,6 +360,13 @@ $(document).ready(function () {
     ) {
       return municipality.prov_code === selectedProvinceCode;
     });
+
+    // Add the "Other (Specify City)" option
+    municipalitiesInProvince.push({
+      name: "Other (Specify City)",
+      prov_code: ""
+    });
+
     populateDropdown(".cityDropdown", municipalitiesInProvince);
     $(".barangayDropdown").empty(); // Clear barangay dropdown
   });
@@ -368,6 +375,19 @@ $(document).ready(function () {
   $(".cityDropdown").change(function () {
     var selectedMunicipalityCode = $(this).find(":selected").data("code");
     console.log("Selected Municipality Code: " + selectedMunicipalityCode);
+
+    // Show/hide the city input box based on the selected option
+    var selectedCity = $(this).val();
+    $(".cityInputBox").toggle(selectedCity === "Other (Specify City)");
+    if (selectedCity === "Other (Specify City)") {
+        $(".cityDropdown").attr("name", "city_input");
+        $(".cityInputBox input").attr("name", "city");
+        $(".cityInputBox input").prop("required", true);
+    } else {
+        $(".cityDropdown").attr("name", "city");
+        $(".cityInputBox input").attr("name", "city_input");
+        $(".cityInputBox input").removeAttr("required");
+    }
 
     // Filter barangays based on the selected municipality
     var barangaysInMunicipality = Philippines.barangays.filter(function (
