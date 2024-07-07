@@ -368,7 +368,7 @@ $(document).ready(function () {
     });
 
     populateDropdown(".cityDropdown", municipalitiesInProvince);
-    $(".barangayDropdown").empty(); // Clear barangay dropdown
+    $(".barangayDropdown").empty(); // Clear barangay dropdochown
   });
 
   // Handle municipality selection

@@ -906,12 +906,12 @@ label {
 }
 
 
-@media all and (max-width: 1199px) {
+/* @media all and (max-width: 1199px) {
   .header-top-right .header-top-list li.account,
   .header-top-right .header-top-list li.login{
     display: none;
   }
-}
+} */
 
 @media all and (max-width: 991px) {
   .header-top-list li{

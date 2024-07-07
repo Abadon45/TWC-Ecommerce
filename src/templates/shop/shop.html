@@ -9,7 +9,7 @@
 
 
 <!-- shop-area -->
-<div class="shop-area py-100">
+<div class="shop-area py-100 shop-page">
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
@@ -21,11 +21,11 @@
                             </div>
                             <div class="card-body index-card-body">
                                 <form method="get" action="{% url 'shop:search' %}">
-                                    <div class="row">
-                                        <div class="col-9" style="padding: 0 0 0 15px;">
+                                    <div class="row justify-content-center">
+                                        <div class="col-xl-9 col-lg-8 col-md-10 search-form">
                                             <input type="text" class="form-control card-search" name="q" placeholder="Search">
                                         </div>
-                                        <div class="col-3" style="padding: 0 0 0 7px;">
+                                        <div class="col-lg-3 col-md-1" style="padding: 0 0 0 7px;">
                                             <button class="theme-btn" type="submit"><i class="far fa-search"></i></button>
                                         </div>
                                     </div>

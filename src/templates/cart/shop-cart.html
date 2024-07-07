@@ -8,11 +8,11 @@
 
 
 <!-- shop cart -->
-<div class="shop-cart py-100">
+<div class="shop-cart py-100 cart-page">
     <div class="container">
         <div class="shop-cart-wrap">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-xl-8">
                     {% for order, items in ordered_items.items %}
                     <div id="order-card-{{order.order_id}}" class="card mb-20">
                         <div class="card index-card">
@@ -114,7 +114,7 @@
                     </div>
                     {% endfor %}
                 </div>
-                <div class="col-lg-4">
+                <div class="col-xl-4">
                     <div class="shop-cart-summary" style="padding: 0;">
                         <div class="card index-card">
                             <div class="card-header p20">

@@ -1,0 +1,22 @@
+{
+  "name": "twconline.store",
+  "version": "1.0.0",
+  "description": "TWC Online Store",
+  "main": "postcss.config.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "build:css": "tailwindcss build static/css/twc-styles.css -o static/css/index.css",
+    "watch:css": "tailwindcss build static/css/twc-styles.css -o static/css/index.css --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.39"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.4"
+  }
+}
