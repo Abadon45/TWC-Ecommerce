@@ -380,14 +380,22 @@ $(document).ready(function () {
     var selectedCity = $(this).val();
     $(".cityInputBox").toggle(selectedCity === "Other (Specify City)");
     if (selectedCity === "Other (Specify City)") {
+        $(".cityDropdownBox").hide();
         $(".cityDropdown").attr("name", "city_input");
-        $(".cityInputBox input").attr("name", "city");
-        $(".cityInputBox input").prop("required", true);
+        $(".cityInputBox input").attr("name", "city").prop("required", true).focus();
     } else {
+      $(".cityDropdownBox").show();
         $(".cityDropdown").attr("name", "city");
-        $(".cityInputBox input").attr("name", "city_input");
-        $(".cityInputBox input").removeAttr("required");
+        $(".cityInputBox input").attr("name", "city_input").removeAttr("required");
     }
+
+    $(".city-dropdown").click(function() {
+      $(".cityInputBox").hide();
+      $(".cityDropdownBox").show();
+      $(".cityDropdown").attr("name", "city");
+      $(".cityInputBox input").attr("name", "city_input").removeAttr("required");
+      $(".cityDropdown").val("");
+    });
 
     // Filter barangays based on the selected municipality
     var barangaysInMunicipality = Philippines.barangays.filter(function (
@@ -409,15 +417,26 @@ $(document).ready(function () {
         selectedOption === "Other (Specify Barangay)"
       );
       if (selectedOption === "Other (Specify Barangay)") {
+        $(".barangayDropdownBox").hide();
         $(".barangayDropdown").attr("name", "barangay_input");
-        $(".barangayInputBox input").attr("name", "barangay");
-        $(".barangayInputBox input").prop("required", true);
+        $(".barangayInputBox input").attr("name", "barangay").prop("required", true).focus();
       } else {
+        $(".barangayDropdownBox").show();
         $(".barangayDropdown").attr("name", "barangay");
-        $(".barangayInputBox input").attr("name", "barangay_input");
-        $(".barangayInputBox input").removeAttr("required");
+        $(".barangayInputBox input").attr("name", "barangay_input").removeAttr("required");
       }
-    });
+
+      
+      });
+
+      $(".barangay-dropdown").click(function() {
+        $(".barangayInputBox").hide();
+        $(".barangayDropdownBox").show();
+        $(".barangayDropdown").attr("name", "city");
+        $(".barangayInputBox input").attr("name", "city_input").removeAttr("required");
+        $(".barangayDropdown").val("");
+      });
+
   });
 
   // Function to populate a dropdown based on data

@@ -736,8 +736,16 @@
     padding-top: 30px;
 }
 
-.twc-checkout {
+/* .twc-checkout {
     max-width: ;
+} */
+
+.twc-checkout {
+    .back-to-dropdown {
+        font-size: 24px;
+        border-radius: 0 5px 5px 0;
+        border-color: 1px solid var(--border-info-color);
+    }
 }
 
 .twc-checkout .shop-checkout-form {
