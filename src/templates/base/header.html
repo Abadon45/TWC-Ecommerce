@@ -40,7 +40,7 @@
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div>0
                 {% else %}
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-6 col-xl-5">
@@ -57,11 +57,9 @@
                         <div class="header-top-right">
                             <ul class="header-top-list">
                                 {% if user.is_authenticated %}
-                                <li class="login"><a href="{% url_with_domain 'login:logout' %}"><i
-                                            class="far fa-arrow-right-to-arc"></i> Logout</a></li>
+                                <li class="login"><a href="{% url_with_domain 'login:logout' %}">Logout</a></li>
                                 {% else %}
-                                <li class="login"><a href="{% url_with_domain 'login:login' %}"><i
-                                            class="far fa-arrow-right-to-arc"></i> Login</a></li>
+                                <li class="login"><a href="{% url_with_domain 'login:login' %}">Login</a></li>
                                 {% endif %}
                                 <li class="social">
                                     <div class="header-top-social">
@@ -83,12 +81,12 @@
         <nav class="navbar navbar-expand-lg">
             <div class="container header-container">
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-lg-3 col-md-2">
                         <a class="navbar-brand" href="{{ MAIN_SITE_URL }}">
                             <img src="{% static 'img/logo/logo.png' %}" alt="logo">
                         </a>
                     </div>
-                    <div class="col-sm-5" style="margin: auto;">
+                    <div class="col-lg-5 col-md-5" style="margin: auto;">
                         <div class="header-middle-search">
                             <form method="get" action="{% url 'shop:search' %}">
                                 <div class="search-content">
@@ -98,7 +96,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="col-sm-4" style="align-content: center;">
+                    <div class="col-md-4 col-sm-6 navigation-col" style="align-content: center;">
                         <div class="mobile-menu-right">
                             <div class="search-btn">
                                 <button type="button" class="nav-right-link"><i class="far fa-search"></i></button>

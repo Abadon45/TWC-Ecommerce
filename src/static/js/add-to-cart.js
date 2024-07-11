@@ -138,11 +138,11 @@ $(document).ready(function () {
 
         //Disable add to cart button after product is added
         $(".item-id-" + productId)
-          .text("Added To Cart")
+          .text("ADDED TO CART")
           .removeClass("theme-btn")
           .addClass("btn-secondary")
           .prop("disabled", true)
-          .css("padding", "9px 20px");
+          // .css("padding", "9px 20px");
 
         //Remove order table if order items is 0
         if (data.orders.length === 0){

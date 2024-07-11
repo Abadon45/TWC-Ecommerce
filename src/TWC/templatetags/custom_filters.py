@@ -2,6 +2,7 @@
 
 from django import template
 import math
+import logging
 
 register = template.Library()
 
@@ -31,3 +32,14 @@ def round_rating(value):
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
+
+@register.filter
+def increase_by_10_percent(value):
+    try:
+        value = float(value)
+        new_value = value * 1.10
+        logging.warning(f"Original value: {value}, Increased value: {new_value}")
+        return new_value
+    except (ValueError, TypeError) as e:
+        logging.error(f"Error in increase_by_10_percent: {e}")
+        return value

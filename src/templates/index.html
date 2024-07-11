@@ -2,13 +2,13 @@
 
 {% load static %}
 {% load custom_filters %}
-
+{% load currency_filters %}
 
 {% block content %}
 
 <!-- category area -->
 
-<div class="category-area2 pt-20 border-top">
+<div class="category-area2 pt-20 border-top twc-category-slider">
     <div class="container">
         <div class="category-slider owl-carousel owl-theme mt-2">
             {% for category, data in categories.items %}
@@ -65,15 +65,15 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="p-2">
-                        <h2 class="site-title">Trending Items</h2>
+                        <h2 class="site-title">TRENDING ITEMS</h2>
                     </div>
                     <div class="p-2">
                         <a class="theme-btn" href="{% url 'shop:shop' %}">View More</a>
                     </div>
                 </div>
             </div>
-            <div class="card-body bg-light-blue">
-                <div class="product-slider owl-carousel owl-theme">
+            <div class="card-body product-body carousel-body bg-light-blue">
+                <div class="product-slider owl-carousel owl-theme product-column">
                     {% for product in products %}
                     <div class="product-item bg-light-blue">
                         <div class="product-img">
@@ -107,18 +107,18 @@
                             <div class="product-bottom">
                                 <div class="product-price">
                                     <!-- <del>P120</del> -->
-                                    <span class="current-product-price">₱ {{ product.customer_price}}</span>
+                                    <span class="current-product-price">{{ product.customer_price|currency}}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="product-button">
                             {% if product.id in products_in_cart %}
                             <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
-                                style="padding: 9px 20px!important;" disabled>Added to Cart</button>
+                                disabled>ADDED TO CART</button>
                             {% else %}
                             <button data-product="{{ product.id }}" data-action="add" type="button"
                                 class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                onclick="addToCart(this)">Add to Cart
+                                onclick="addToCart(this)">ADD TO CART
                             </button>
                             {% endif %}
                         </div>
@@ -149,7 +149,7 @@
             <div class="card-body product-body">
                 <div class="row">
                     {% for product in random_products %}
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                    <div class="col-md-3 col-12 product-column">
                         <div class="product-item">
                             <div class="product-img">
                                 <a href="{% url 'shop:single' slug=product.slug %}">
@@ -182,18 +182,18 @@
                                 <div class="product-bottom">
                                     <div class="product-price">
                                         <!-- <del>P120</del> -->
-                                        <span class="current-product-price">₱ {{ product.customer_price}}</span>
+                                        <span class="current-product-price">{{ product.customer_price|currency }}</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="product-button">
                                 {% if product.id in products_in_cart %}
                                 <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
-                                    style="padding: 9px 20px!important;" disabled>Added to Cart</button>
+                                    disabled>ADDED TO CART</button>
                                 {% else %}
                                 <button data-product="{{ product.id }}" data-action="add" type="button"
                                     class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                    onclick="addToCart(this)">Add to Cart
+                                    onclick="addToCart(this)">ADD TO CART
                                 </button>
                                 {% endif %}
                             </div>
@@ -242,8 +242,8 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body product-body">
-                <div class="product-slider owl-carousel owl-theme">
+            <div class="card-body product-body carousel-body">
+                <div class="product-slider owl-carousel owl-theme product-column">
                     {% for product in products %}
                     <div class="product-item">
                         <div class="product-img">
@@ -276,18 +276,18 @@
                             </div>
                             <div class="product-bottom">
                                 <div class="product-price">
-                                    <span class="current-product-price">₱ {{ product.customer_price}}</span>
+                                    <span class="current-product-price">{{ product.customer_price|currency }}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="product-button">
                             {% if product.id in products_in_cart %}
                             <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
-                                style="padding: 9px 20px!important;" disabled>Added to Cart</button>
+                                disabled>ADDED TO CART</button>
                             {% else %}
                             <button data-product="{{ product.id }}" data-action="add" type="button"
                                 class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                onclick="addToCart(this)">Add to Cart
+                                onclick="addToCart(this)">ADD TO CART
                             </button>
                             {% endif %}
                         </div>
@@ -306,12 +306,12 @@
     <div class="container">
         <div class="deal-wrap">
             <div class="row g-0">
-                <div class="col-12 col-lg-6">
+                <div class="col-12 col-md-6">
                     <div class="deal-img">
                         <img src="{% static 'img/banner/home-page-bottom-banner.webp' %}" alt="">
                     </div>
                 </div>
-                <div class="col-12 col-lg-6 align-self-center">
+                <div class="col-12 col-md-6 align-self-center">
                     <div class="deal-content">
                         <h2>TODAYS DEAL</h2>
                         <h1>10% OFF</h1>
@@ -338,7 +338,7 @@
 <div class="product-list pt-100 mb-5">
     <div class="container index-card">
         <div class="row">
-            <div class="col-12 col-md-6 col-lg-4">
+            <div class="col-12 col-md-4 product-list-column">
                 <div class="card">
                     <div class="product-list-box">
                         <div class="card-header">
@@ -366,26 +366,28 @@
                                             <i class="far fa-star"></i>
                                         </div>
                                         <div class="product-list-price">
-                                            <span>₱ {{ product.customer_price}}</span>
+                                            <span>{{ product.customer_price|currency }}</span>
+                                            <del>{{ product.customer_price|increase_by_10_percent|currency }}</del>
                                         </div>
                                         {% if product.id in products_in_cart %}
                                             <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
-                                                style="padding: 9px 20px!important;" disabled>Added to Cart
+                                                disabled>ADDED TO CART
                                             </button>
                                         {% else %}
                                             <button data-product="{{ product.id }}" data-action="add" type="button"
                                                 class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                                onclick="addToCart(this)">Add to Cart
+                                                onclick="addToCart(this)">ADD TO CART
                                             </button>
                                         {% endif %}
                                     </div>
                                 </div>
                             {% endfor %}
+                            <a href="" class="view-all">View All</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-6 col-lg-4">
+            <div class="col-12 col-md-4 product-list-column">
                 <div class="card">
                     <div class="product-list-box">
                         <div class="card-header">
@@ -413,26 +415,28 @@
                                             <i class="far fa-star"></i>
                                         </div>
                                         <div class="product-list-price">
-                                            <span>₱ {{ product.customer_price}}</span>
+                                            <span>{{ product.customer_price|currency }}</span>
+                                            <del>{{ product.customer_price|increase_by_10_percent|currency }}</del>
                                         </div>
                                         {% if product.id in products_in_cart %}
                                             <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
-                                                style="padding: 9px 20px!important;" disabled>Added to Cart
+                                                disabled>ADDED TO CART
                                             </button>
                                         {% else %}
                                             <button data-product="{{ product.id }}" data-action="add" type="button"
                                                 class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                                onclick="addToCart(this)">Add to Cart
+                                                onclick="addToCart(this)">ADD TO CART
                                             </button>
                                         {% endif %}
                                     </div>
                                 </div>
                             {% endfor %}
+                            <a href="" class="view-all">View All</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-6 col-lg-4">
+            <div class="col-12 col-md-4 product-list-column">
                 <div class="card">
                     <div class="product-list-box">
                         <div class="card-header">
@@ -460,21 +464,23 @@
                                             <i class="far fa-star"></i>
                                         </div>
                                         <div class="product-list-price">
-                                            <span>₱ {{ product.customer_price}}</span>
+                                            <span>{{ product.customer_price|currency }}</span>
+                                            <del>{{ product.customer_price|increase_by_10_percent|currency }}</del>
                                         </div>
                                         {% if product.id in products_in_cart %}
                                         <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
-                                            style="padding: 9px 20px!important;" disabled>Added to Cart
+                                            disabled>ADDED TO CART
                                         </button>
                                         {% else %}
                                             <button data-product="{{ product.id }}" data-action="add" type="button"
                                                 class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                                onclick="addToCart(this)">Add to Cart
+                                                onclick="addToCart(this)">ADD TO CART
                                             </button>
                                         {% endif %}
                                     </div>
                                 </div>
                             {% endfor %}
+                            <a href="" class="view-all">View All</a>
                         </div>
                     </div>
                 </div>

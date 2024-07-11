@@ -159,10 +159,10 @@ Version         : 1.0
                 items: 1
             },
             600:{
-                items: 2
+                items: 4
             },
             1000:{
-                items: 3
+                items: 4
             },
             1200:{
                 items: 4
@@ -229,10 +229,10 @@ Version         : 1.0
                 items: 2
             },
             600: {
-                items: 4
+                items: 7
             },
             1000: {
-                items: 6
+                items: 7
             },
             1200: {
                 items: 7
