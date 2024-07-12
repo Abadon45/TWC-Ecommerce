@@ -128,7 +128,7 @@ Version         : 1.0
         ],
         responsive:{
             0:{
-                items: 1
+                items: 2
             },
             600:{
                 items: 2
@@ -156,7 +156,7 @@ Version         : 1.0
         ],
         responsive:{
             0:{
-                items: 1
+                items: 2
             },
             600:{
                 items: 4
@@ -226,7 +226,7 @@ Version         : 1.0
         autoplay: false,
         responsive: {
             0: {
-                items: 2
+                items: 3
             },
             600: {
                 items: 7

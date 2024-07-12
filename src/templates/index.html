@@ -149,7 +149,7 @@
             <div class="card-body product-body">
                 <div class="row">
                     {% for product in random_products %}
-                    <div class="col-md-3 col-12 product-column">
+                    <div class="col-md-3 col-6 product-column">
                         <div class="product-item">
                             <div class="product-img">
                                 <a href="{% url 'shop:single' slug=product.slug %}">
@@ -345,43 +345,47 @@
                             <h2 class="site-title">On sale</h2>
                         </div>
                         <div class="card-body bottom-list">
-                            {% for product in rand_on_sale_products %}
-                                <div class="product-list-item">
-                                    <div class="product-list-img">
-                                        <a href="{% url 'shop:single' slug=product.slug %}">
-                                            {% if product.image_1 %}
-                                                <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
+                            <div class="row">
+                                {% for product in rand_on_sale_products %}
+                                <div class="col-md-12 col-6 product-column">
+                                    <div class="product-list-item">
+                                        <div class="product-list-img">
+                                            <a href="{% url 'shop:single' slug=product.slug %}">
+                                                {% if product.image_1 %}
+                                                    <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
+                                                {% else %}
+                                                    no image
+                                                {% endif %}
+                                            </a>
+                                        </div>
+                                        <div class="product-list-content">
+                                            <h4><a href="">{{product.name }}</a></h4>
+                                            <div class="product-list-rate">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                            </div>
+                                            <div class="product-list-price">
+                                                <span>{{ product.customer_price|currency }}</span>
+                                                <del>{{ product.customer_price|increase_by_10_percent|currency }}</del>
+                                            </div>
+                                            {% if product.id in products_in_cart %}
+                                                <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
+                                                    disabled>ADDED TO CART
+                                                </button>
                                             {% else %}
-                                                no image
+                                                <button data-product="{{ product.id }}" data-action="add" type="button"
+                                                    class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
+                                                    onclick="addToCart(this)">ADD TO CART
+                                                </button>
                                             {% endif %}
-                                        </a>
-                                    </div>
-                                    <div class="product-list-content">
-                                        <h4><a href="">{{product.name }}</a></h4>
-                                        <div class="product-list-rate">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
                                         </div>
-                                        <div class="product-list-price">
-                                            <span>{{ product.customer_price|currency }}</span>
-                                            <del>{{ product.customer_price|increase_by_10_percent|currency }}</del>
-                                        </div>
-                                        {% if product.id in products_in_cart %}
-                                            <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
-                                                disabled>ADDED TO CART
-                                            </button>
-                                        {% else %}
-                                            <button data-product="{{ product.id }}" data-action="add" type="button"
-                                                class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                                onclick="addToCart(this)">ADD TO CART
-                                            </button>
-                                        {% endif %}
                                     </div>
                                 </div>
-                            {% endfor %}
+                                {% endfor %}
+                            </div>
                             <a href="" class="view-all">View All</a>
                         </div>
                     </div>
@@ -394,43 +398,47 @@
                             <h2 class="site-title">Best Seller</h2>
                         </div>
                         <div class="card-body bottom-list">
-                            {% for product in rand_best_seller_products %}
-                                <div class="product-list-item">
-                                    <div class="product-list-img">
-                                        <a href="{% url 'shop:single' slug=product.slug %}">
-                                            {% if product.image_1 %}
-                                            <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
+                            <div class="row">
+                                {% for product in rand_best_seller_products %}
+                                <div class="col-md-12 col-6 product-column">
+                                    <div class="product-list-item">
+                                        <div class="product-list-img">
+                                            <a href="{% url 'shop:single' slug=product.slug %}">
+                                                {% if product.image_1 %}
+                                                <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
+                                                {% else %}
+                                                no image
+                                                {% endif %}
+                                            </a>
+                                        </div>
+                                        <div class="product-list-content">
+                                            <h4><a href="">{{product.name }}</a></h4>
+                                            <div class="product-list-rate">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                            </div>
+                                            <div class="product-list-price">
+                                                <span>{{ product.customer_price|currency }}</span>
+                                                <del>{{ product.customer_price|increase_by_10_percent|currency }}</del>
+                                            </div>
+                                            {% if product.id in products_in_cart %}
+                                                <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
+                                                    disabled>ADDED TO CART
+                                                </button>
                                             {% else %}
-                                            no image
+                                                <button data-product="{{ product.id }}" data-action="add" type="button"
+                                                    class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
+                                                    onclick="addToCart(this)">ADD TO CART
+                                                </button>
                                             {% endif %}
-                                        </a>
-                                    </div>
-                                    <div class="product-list-content">
-                                        <h4><a href="">{{product.name }}</a></h4>
-                                        <div class="product-list-rate">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
                                         </div>
-                                        <div class="product-list-price">
-                                            <span>{{ product.customer_price|currency }}</span>
-                                            <del>{{ product.customer_price|increase_by_10_percent|currency }}</del>
-                                        </div>
-                                        {% if product.id in products_in_cart %}
-                                            <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
-                                                disabled>ADDED TO CART
-                                            </button>
-                                        {% else %}
-                                            <button data-product="{{ product.id }}" data-action="add" type="button"
-                                                class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                                onclick="addToCart(this)">ADD TO CART
-                                            </button>
-                                        {% endif %}
                                     </div>
                                 </div>
                             {% endfor %}
+                            </div>
                             <a href="" class="view-all">View All</a>
                         </div>
                     </div>
@@ -443,43 +451,47 @@
                             <h2 class="site-title">Top Rated</h2>
                         </div>
                         <div class="card-body bottom-list">
-                            {% for product in rand_top_rated_products %}
-                                <div class="product-list-item">
-                                    <div class="product-list-img">
-                                        <a href="{% url 'shop:single' slug=product.slug %}">
-                                            {% if product.image_1 %}
-                                            <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
-                                            {% else %}
-                                            no image
-                                            {% endif %}
-                                        </a>
-                                    </div>
-                                    <div class="product-list-content">
-                                        <h4><a href="">{{product.name }}</a></h4>
-                                        <div class="product-list-rate">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
+                            <div class="row">
+                                {% for product in rand_top_rated_products %}
+                                <div class="col-md-12 col-6 product-column">
+                                    <div class="product-list-item">
+                                        <div class="product-list-img">
+                                            <a href="{% url 'shop:single' slug=product.slug %}">
+                                                {% if product.image_1 %}
+                                                <img src="{{ product.image_1.url }}" alt="{{ product.name }}" id="product-image">
+                                                {% else %}
+                                                no image
+                                                {% endif %}
+                                            </a>
                                         </div>
-                                        <div class="product-list-price">
-                                            <span>{{ product.customer_price|currency }}</span>
-                                            <del>{{ product.customer_price|increase_by_10_percent|currency }}</del>
-                                        </div>
-                                        {% if product.id in products_in_cart %}
-                                        <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
-                                            disabled>ADDED TO CART
-                                        </button>
-                                        {% else %}
-                                            <button data-product="{{ product.id }}" data-action="add" type="button"
-                                                class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                                onclick="addToCart(this)">ADD TO CART
+                                        <div class="product-list-content">
+                                            <h4><a href="">{{product.name }}</a></h4>
+                                            <div class="product-list-rate">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                            </div>
+                                            <div class="product-list-price">
+                                                <span>{{ product.customer_price|currency }}</span>
+                                                <del>{{ product.customer_price|increase_by_10_percent|currency }}</del>
+                                            </div>
+                                            {% if product.id in products_in_cart %}
+                                            <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
+                                                disabled>ADDED TO CART
                                             </button>
-                                        {% endif %}
+                                            {% else %}
+                                                <button data-product="{{ product.id }}" data-action="add" type="button"
+                                                    class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
+                                                    onclick="addToCart(this)">ADD TO CART
+                                                </button>
+                                            {% endif %}
+                                        </div>
                                     </div>
                                 </div>
                             {% endfor %}
+                            </div>
                             <a href="" class="view-all">View All</a>
                         </div>
                     </div>
