@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    $(".checkoutBtn").hide();
 
     $(".paymentBtn").on("click", function (e) {
         e.preventDefault();
@@ -11,41 +10,4 @@ $(document).ready(function() {
         $("#step2-tab").addClass("active done");
     });
 
-    $(".confirmPaymentChk").on("change", function () { 
-        // Add blur class to SweetAlert backdrop
-        showLoading();
-
-        if ($(this).prop("checked")) {
-            $(".checkoutBtn").show();
-        } else {
-            $(".checkoutBtn").hide();
-        }
-    });
-
-    $(".confirmPaymentBtn").on("click", function () { 
-        // Add blur class to SweetAlert backdrop
-        showLoading();
-
-        $(".checkoutBtn").show();
-    });
-
-    function showLoading() {
-        Swal.fire({
-            title: 'Loading...',
-            allowOutsideClick: false,
-            showConfirmButton: false,
-            onBeforeOpen: () => {
-                Swal.showLoading()
-            },
-        });
-
-        // Set a 2-second timeout to hide SweetAlert
-        setTimeout(function() {
-            hideLoading();
-        }, 1000);
-    }
-
-    function hideLoading() {
-        Swal.close();
-    }
 });

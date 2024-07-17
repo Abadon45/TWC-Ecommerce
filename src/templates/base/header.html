@@ -235,7 +235,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-2">
+                    <div class="col-2 toggler mobile-only">
                         <div class="container-fluid">
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown"
@@ -244,17 +244,19 @@
                             </button>
                         </div>
                     </div>
-                    <div class="col-12 navbar-column">
+                    <div class="col-12 navbar-column mobile-only">
                         <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
                             <ul class="navbar-nav">
                                 <li class="nav-item dropdown">
-                                    <div class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink"
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink"
                                         role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         <ul class="navbar-nav header-list">
-                                            <li class="nav-item"><a class="nav-link"
-                                                    href="{% url_with_domain 'home_view' %}">Home</a></li>
-                                            <li class="nav-item"><a class="nav-link"
-                                                    href="{% url_with_domain 'shop:shop' %}">Shop</a></li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{% url_with_domain 'home_view' %}">Home</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{% url_with_domain 'shop:shop' %}">Shop</a>
+                                            </li>
                                             {% if user.is_authenticated %}
                                             <li class="nav-item dropdown">
                                                 <a class="nav-link" href="{{ DASHBOARD_URL }}">
@@ -262,17 +264,15 @@
                                                 </a>
                                             </li>
                                             {% endif %}
-                                            {% if not user.is_seller %}
-                                            <div class="nav-right">
-                                                <div class="nav-right-btn">
-                                                    <a href="{% url_with_domain 'become_seller' %}"
+                                        </ul>
+                                        {% if not user.is_seller %}
+                                            <li class="nav-item">
+                                                <a href="{% url_with_domain 'become_seller' %}"
                                                         class="theme-btn">Become
                                                         Seller</a>
-                                                </div>
-                                            </div>
-                                            {% endif %}
-                                        </ul>
-                                    </div>
+                                            </li>
+                                        {% endif %}
+                                    </a>
                                 </li>
                             </ul>
                         </div>

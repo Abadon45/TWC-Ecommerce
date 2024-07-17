@@ -128,7 +128,7 @@ Version         : 1.0
         ],
         responsive:{
             0:{
-                items: 1
+                items: 2
             },
             600:{
                 items: 2
@@ -156,13 +156,13 @@ Version         : 1.0
         ],
         responsive:{
             0:{
-                items: 1
+                items: 2
             },
             600:{
                 items: 2
             },
             1000:{
-                items: 3
+                items: 4
             },
             1200:{
                 items: 4
@@ -226,13 +226,13 @@ Version         : 1.0
         autoplay: false,
         responsive: {
             0: {
-                items: 2
+                items: 3
             },
             600: {
-                items: 4
+                items: 7
             },
             1000: {
-                items: 6
+                items: 7
             },
             1200: {
                 items: 7
@@ -295,16 +295,18 @@ Version         : 1.0
 
     // scroll to top
     $(window).scroll(function () {
-        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-            $("#scroll-top").addClass('active');
-        } else {
-            $("#scroll-top").removeClass('active');
-        }
+        $("#scroll-top").addClass('active');
+        // if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        //     $("#scroll-top").addClass('active');
+        // } else {
+        //     $("#scroll-top").removeClass('active');
+        // }
     });
 
-    $("#scroll-top").on('click', function () {
-        $("html, body").animate({ scrollTop: 0 }, 1500);
-        return false;
+    $("#scroll-top").on('mouseenter', function () {
+        $(this).css("background-color", "black");
+    }).on('mouseleave', function () {
+        $(this).css("background-color", "#0C4779");
     });
 
 
@@ -348,7 +350,7 @@ Version         : 1.0
         i > 0 && c.removeAttr("disabled");
     }),
     $(".minus-btn").on("click", function () {
-        2 == $(this).closest(".shop-cart-qty").children(".quantity").get(0).value-- && $(this).attr("disabled", "disabled");
+        0 == $(this).closest(".shop-cart-qty").children(".quantity").get(0).value-- && $(this).attr("disabled", "disabled");
     })
 
 
@@ -397,11 +399,11 @@ Version         : 1.0
 
 
     // modal popup banner
-    $(window).on('load', function () {
-        setTimeout(function () {
-            $("#popup-banner").modal("show");
-        }, 3000)
-    });
+    // $(window).on('load', function () {
+    //     setTimeout(function () {
+    //         $("#popup-banner").modal("show");
+    //     }, 3000)
+    // });
 
 
     // shop checkout 2 step

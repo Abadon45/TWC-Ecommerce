@@ -1,0 +1,1731 @@
+/* Global CSS */
+.container-fluid {
+    padding-right: var(--bs-gutter-x,.0rem);
+    padding-left: var(--bs-gutter-x,.0rem);
+}
+
+p, li, span, h1, h2, h3 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Section CSS */
+.rowone {
+    background-image: url("../img/barley_for_cancer/xl-cancer/bg-1-xl.jpg");
+    padding: 70px;
+
+    /* parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+}
+.rowone h3 {
+    font-size: 45px;
+    color: #FFF200;
+    font-weight: 900;
+    margin-bottom: 10px;
+    margin-top: 25px;
+}
+.rowone h2 {
+    font-size: 45px;
+    color: #FFFFFF;
+    font-weight: 700;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+.rowone h1 {
+    font-size: 45px;
+    color: #c85985;
+    font-weight: 900;
+}
+.rowone ul {
+    list-style-image: url("../img/barley_for_cancer/xl-cancer/white-check-xl.png");
+    padding-left: 17%;
+    padding-right: 18%;
+}
+.rowone li span {
+    color: #FFFFFF;
+    font-size: 24px;
+    font-weight: 300;
+    text-align: left;
+    padding-left: 15px;
+    display:inline-block;
+    margin-top: 15px;
+}
+.pr-li {
+    padding-right: 46px;
+}
+.rowone button {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    color: #FFFFFF;
+    font-weight: 900;
+    background-color: #c85985;
+    border-color: #c85985;
+    margin-top: 35px;
+}
+.rowone .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+    color: #fff;
+    background-color: #7e325f;
+    border-color: #7e325f;
+}
+.rowone .embed-responsive .embed-responsive-item,
+.embed-responsive embed,
+.embed-responsive iframe,
+.embed-responsive object,
+.embed-responsive video {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 60%;
+    height: 438px;
+    border: 0;
+}
+a, a:hover {
+    color: white;
+    text-decoration: none;
+}
+/*--------------------------------------------*/
+.rowtwo {
+    background-color: white;
+    padding: 70px;
+}
+.rowtwo img {
+    display: block;
+    margin: auto;
+}
+/*--------------------------------------------*/
+.rowthree {
+    background-color: #F7F7F7;
+    padding: 70px;
+}
+.rowthree img {
+    margin: 5rem auto auto;
+    display: block;
+}
+.rowthree center p{
+    margin-top: -30px;
+}
+.rowthree h1 {
+    font-size: 85px;
+    color: #7e325f;
+    font-weight: 900;
+    margin-bottom: 0;
+    text-align: center;
+}
+.rowthree h3 {
+    font-size: 24px;
+    color: #7e325f;
+    font-weight: 900;
+    line-height: 1;
+    text-align: center;
+}
+.rowthree .col p {
+    font-size: 24px;
+    margin-bottom: 0;
+    font-weight: 300;
+    margin-top: 2rem;
+    color: #000000;
+    margin-right: 32px;
+}
+.rowthree div.col.line-height p:nth-child(2) {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight: 300;
+    color: #000000;
+    line-height: normal;
+    margin-top: auto;
+}
+.rowthree .circle {
+    width: auto;
+    height: 50px;
+    margin-top: 40px;
+}
+.rowthree picture {
+    display: contents;
+}
+/*--------------------------------------------*/
+.rowfour {
+    background-color: #7e325f;
+    padding: 70px;
+}
+.rowfour img.img-fluid {
+    margin: 6rem auto auto;
+    display: block;
+}
+.rowfour li {
+    list-style-type: none;
+}
+.rowfour h1 {
+    color: #ffffff;
+    font-size: 34px;
+    font-weight: 900;
+    line-height: 40px;
+    letter-spacing: 1px;
+}
+.rowfour li span {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 300;
+    padding-left: 1rem;
+}
+.rowfour ul {
+    padding-left: 0;
+}
+/*--------------------------------------------*/
+.rowfive {
+    background-color: white;
+    padding: 70px;
+}
+.rowfive img {
+    margin: 7rem auto auto;
+    display: block;
+}
+.rowfive h1 {
+    font-size: 60px;
+    font-weight: 900;
+    color: #7e325f;
+    text-align: center;
+    line-height: 1;
+}
+.rowfive h2 {
+    font-size: 35px;
+    font-weight: 900;
+    color: #7e325f;
+    text-align: center;
+    line-height: 1;
+}
+.rowfive div.col-xl-6.col-md-7.col-sm-12 p {
+    font-size: 24px;
+    font-weight: 300;
+    color: #000000;
+    text-align: left;
+    line-height: normal;
+    margin-top: 2rem;
+}
+/*--------------------------------------------*/
+.rowseven {
+    background-image: url("../img/barley_for_cancer/xl-cancer/bg-2-xl.jpg");
+    padding: 70px;
+
+    /* parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.rowseven h1 {
+    font-size: 44px;
+    font-weight: 900;
+    color: #c85985;
+    line-height: normal;
+    margin: 20px 0;
+}
+.rowseven h2 {
+    font-size: 24px;
+    font-weight: 900;
+    color: #ffffff;
+    padding-right: 42px;
+    margin-bottom: 2rem;
+}
+.rowseven ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+.rowseven li span {
+    font-size: 24px;
+    font-weight: 300;
+    color: #ffffff;
+    padding-left: 1rem;
+}
+.rowseven .embed-responsive .embed-responsive-item,
+.embed-responsive embed,
+.embed-responsive iframe,
+.embed-responsive object,
+.embed-responsive video {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 358px;
+    border: 0;
+}
+/*--------------------------------------------*/
+.roweight {
+    background-color: #F7F7F7;
+    padding: 70px;
+}
+.roweight h1 {
+    font-size: 60px;
+    font-weight: 900;
+    color: #7e325f;
+    text-align: center;
+}
+.roweight img {
+    display: block;
+    margin: auto;
+}
+/*--------------------------------------------*/
+.rownine {
+    background-color: white;
+    padding: 50px;
+}
+.rownine img {
+    display: block;
+    margin: auto;
+}
+/*--------------------------------------------*/
+.rowten {
+    background-image: url("../img/barley_for_cancer/xl-cancer/bg-3-xl.jpg");
+    padding: 70px;
+
+    /* parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.rowten img {
+    margin: auto;
+    display: block;
+}
+.rowten h1 {
+    font-size: 50px;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 35px;
+    margin-top: 45px;
+}
+.rowten p {
+    font-size: 24px;
+    font-weight: 300;
+    padding-right: 2rem;
+    margin-top: 0;
+    color: #ffffff;
+}
+.rowten button {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    color: #FFFFFF;
+    font-weight: 900;
+    background-color: #c85985;
+    border-color: #c85985;
+    margin-top: 2rem;
+}
+.rowten .btn-primary:hover {
+    color: #fff;
+    background-color: #7e325f;
+    border-color: #7e325f;
+}
+/*--------------------------------------------*/
+.roweleven {
+    background-color: #c85985;
+    padding-top: 70px;
+}
+.roweleven h1 {
+    font-size: 72px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 1px;
+    text-align: center;
+}
+.roweleven div.row:nth-child(4) {
+    margin-top: 3rem;
+}
+.roweleven .row:nth-child(3) {
+    margin-top: 60px;
+    margin-bottom: 30px;
+}
+.roweleven img.img-fluid {
+    display: block;
+    height: 40rem;
+    padding-bottom: 10rem;
+    margin: auto;
+}
+.roweleven div.card-body {
+    padding: 45px;
+    font-size: 22px;
+}
+.roweleven div.box1 {
+    transform: rotate(-8deg);
+}
+.roweleven div.box2 {
+    transform: rotate(4deg);
+}
+.roweleven div.box3 {
+    transform: rotate(8deg);
+}
+.roweleven div.box4 {
+    transform: rotate(-4deg);
+}
+.mt-40 {
+    margin-top: 40px;
+}
+/*--------------------------------------------*/
+.rowtwelve {
+    background-image: url("../img/barley_for_cancer/xl-cancer/bg-4-xl.jpg");
+    padding: 70px;
+
+    /* parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+.rowtwelve img {
+    display: block;
+    margin: auto;
+}
+.rowtwelve .btm-0 {
+    position: absolute;
+    bottom: 0;
+}
+.rowtwelve h1 {
+    font-size: 45px;
+    font-weight: 900;
+    color: #c85985;
+    margin-top: 1rem;
+}
+.rowtwelve p {
+    font-size: 24px;
+    font-weight: 300;
+    color: #ffffff;
+    margin-top: 5px;
+}
+.rowtwelve picture {
+    display: contents;
+}
+/*--------------------------------------------*/
+#rowthirteen {
+    background-color: #F7F7F7;
+    padding: 70px 70px 100px;
+}
+#rowthirteen h1 {
+    font-weight: 900;
+    font-size: 73px;
+    color: #7e325f;
+    line-height: 4rem;
+    padding-bottom: 50px;
+    text-align: center;
+}
+#rowthirteen img {
+    display: block;
+    margin: auto;
+}
+label.btn.btn-secondary {
+    font-weight: 900;
+    font-size: 24px;
+    color: #ffffff;
+    width: 100%;
+    margin-bottom: 2px;
+}
+.zoom1,.zoom2,.zoom3 {
+    padding: 50px;
+    background-color: white;
+    transition: transform .2s;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, .08), 0 0 6px rgba(0, 0, 0, .05);
+    /* Animation */
+    width: 26rem;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+}
+.zoom1,.zoom3 {
+    transform: scale(1.03);
+    cursor: pointer;
+}
+.zoom2 {
+    transform: scale(1.08);
+    cursor: pointer;
+}
+.best-seller {
+    position: absolute;
+    top: 0;
+    right: 1rem;
+}
+#rowthirteen div.zoom2 div picture img {
+    margin-top: 165px;
+}
+#rowthirteen div.zoom1 div.row img {
+    margin-top: 8rem;
+}
+#rowthirteen div.zoom3 div.row img {
+    margin-top: 8rem;
+}
+#rowthirteen div.zoom2 div.col img {
+    margin-top: 0;
+}
+#rowthirteen div.zoom2 label.btn.btn-secondary {
+    margin-bottom: 15px;
+}
+#rowthirteen div#one.zoom1 p {
+    font-size: 24px;
+    font-weight: 900;
+    color: #7e325f;
+    margin-top: 9.1rem;
+}
+#rowthirteen div#two.zoom2 p {
+    font-size: 24px;
+    font-weight: 900;
+    color: #7e325f;
+}
+#rowthirteen div#three.zoom3 p {
+    font-size: 24px;
+    font-weight: 900;
+    color: #7e325f;
+    margin-top: 9.1rem;
+}
+#rowthirteen div#one.zoom1 p:nth-child(2) {
+    font-size: 48px;
+    color: #000000;
+    margin-bottom: 0;
+    margin-top: 20px;
+    line-height: normal;
+}
+#rowthirteen div#two.zoom2 p:nth-child(2) {
+    font-size: 48px;
+    color: #000000;
+    margin-bottom: 0;
+    line-height: normal;
+}
+#rowthirteen div#three.zoom3 p:nth-child(2) {
+    font-size: 48px;
+    color: #000000;
+    margin-bottom: 0;
+    line-height: normal;
+    margin-top: 20px;
+}
+#rowthirteen div#one.zoom1 p:nth-child(3) {
+    font-size: 18px;
+    font-weight: 300;
+    color: #000000;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+#rowthirteen div#two.zoom2 p:nth-child(3) {
+    font-size: 18px;
+    font-weight: 300;
+    color: #000000;
+    margin-bottom: 0;
+}
+#rowthirteen div#three.zoom3 p:nth-child(3) {
+    font-size: 18px;
+    font-weight: 300;
+    color: #000000;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+#rowthirteen div#one.zoom1 p:nth-child(4) {
+    font-size: 24px;
+    font-weight: 900;
+    color: #000000;
+    margin-bottom: 31px;
+    margin-top: 0;
+}
+#rowthirteen div#two.zoom2 p:nth-child(4) {
+    font-size: 18px;
+    font-weight: 300;
+    color: #000000;
+    margin-bottom: 0;
+}
+#rowthirteen div#three.zoom3 p:nth-child(4) {
+    font-size: 24px;
+    font-weight: 900;
+    color: #000000;
+    margin-bottom: 0;
+    margin-top: 4px;
+}
+#rowthirteen div#two.zoom2 p:nth-child(5) {
+    font-size: 24px;
+    font-weight: 900;
+    color: #000000;
+    margin-bottom: 0;
+}
+.btn-secondary {
+    width: 21rem;
+    background-color: #7e325f;
+    border-color: #7e325f;
+}
+.btn-secondary:hover, .btn-secondary:active, .btn-secondary:focus {
+    color: #fff;
+    background-color: #c85985;
+    border-color: #c85985;
+}
+.form-check-input[type=checkbox] {
+    margin-right: 5px;
+}
+.form-check-input:checked {
+    background-color: #82ca9c;
+    border-color: white;
+}
+.form-check-input:checked:after {
+    background-color: #82ca9c;
+    border-color: #82ca9c;
+}
+/*--------------------------------------------*/
+.rowfourteen {
+    background-color: #7e325f;
+    padding: 70px;
+}
+#delivery1 {
+    text-align: end;
+}
+#delivery2 {
+    padding-right: 23rem;
+}
+/*--------------------------------------------*/
+.rowfifteen {
+    background-color: #F7F7F7;
+    padding: 70px;
+}
+.rowfifteen h1 {
+    font-weight: 900;
+    font-size: 72px;
+    color: #7e325f;
+    text-align: center;
+}
+.rowfifteen p {
+    font-weight: 300;
+    color: #000000;
+    font-size: 24px;
+}
+.collapsible {
+    background-color: white;
+    padding: 25px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+.collapsible p {
+    font-size: 45px;
+    font-weight: 900;
+    color: #000000;
+}
+.rowfifteen button.accordion-button, div.accordion-body {
+    font-weight: 300;
+    color: #000000;
+    font-size: 24px;
+    font-family: 'Montserrat', sans-serif;
+}
+.rowfifteen div.accordion-body {
+    margin-left: 2rem;
+}
+.accordion-item.no-border {
+    border: none;
+}
+/*--------------------------------------------*/
+/* Auto scroll up */
+#myBtn {
+  display: none;
+  position: fixed;
+  bottom: 12px;
+  right: 30px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: #cd6991;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+#myBtn:hover {
+  background-color: #a2407b;
+}
+/* Foorter Css */
+footer {
+    padding: 25px;
+    background-color: #7e325f;
+    color: white;
+    text-align: center;
+}
+footer p {
+    font-weight: 300;
+    font-size: 16px;
+    margin-bottom: 0;
+}
+/*--------------------------------------------*/
+
+/* Responsive Media queries */
+
+/* // Mobile Large */
+@media only screen and (max-width: 428px) {
+    .rowone {
+        background-image: url("../img/barley_for_cancer/mobile-cancer/bg1-mobile.jpg");
+        padding: 20px;
+    }
+    .rowone li span {
+        font-size: 14px;
+        padding-left: 0;
+    }
+    .rowone .embed-responsive .embed-responsive-item,
+    .embed-responsive embed,
+    .embed-responsive iframe,
+    .embed-responsive object,
+    .embed-responsive video {
+        width: 100%;
+        height: 203px;
+    }
+    .rowone h3 {
+        font-size: 18px;
+        margin-top: 20px;
+        margin-bottom: 5px;
+    }
+    .rowone h2 {
+        font-size: 18px;
+        margin: 0;
+    }
+    .rowone h1 {
+        font-size: 24px;
+        margin-top: -3px;
+        line-height: 25px;
+    }
+    .rowone button {
+        font-size: 14px;
+        margin-top: 0;
+    }
+    .rowone ul {
+        list-style-image: url("../img/barley_for_cancer/mobile-cancer/white-check-mobile.png");
+        padding-left: 9%;
+        padding-right: 0;
+    }
+    .rowtwo {
+        padding: 20px;
+    }
+    .rowthree center p {
+        margin-top: 0;
+    }
+    .rowthree {
+        padding: 20px 20px 0;
+    }
+    .rowthree h1 {
+        font-size: 28px;
+        line-height: 1;
+    }
+    .rowthree h3 {
+        font-size: 16px;
+        margin: 0
+    }
+    .rowthree .circle {
+        height: 30px;
+        margin-top: 5px;
+        margin-left: 15px;
+    }
+    .rowthree .col p {
+        font-size: 14px;
+        margin-top: 0;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    .rowthree div.col.line-height p:nth-child(2) {
+        font-size: 13px;
+    }
+    .rowthree img {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .rowfour {
+        padding: 20px;
+    }
+    .first {
+        order: 1;
+    }
+    .second {
+        order: 2;
+    }
+    .rowfour img.img-fluid {
+        margin-top: 0;
+    }
+    .rowfour h1 {
+        font-size: 16px;
+        margin-top: 20px;
+        line-height: 15px;
+        text-align: center;
+    }
+    .rowfour li {
+        margin-left: 0;
+    }
+    .rowfour li span {
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 300;
+        padding-left: 0;
+    }
+    .rowfour ul {
+        margin-bottom: 0;
+    }
+    .rowfive {
+        padding: 20px;
+    }
+    .rowfive img {
+        margin-top: 2rem;
+    }
+    .rowfive h1 {
+        font-size: 28px;
+        text-align: center;
+        line-height: normal;
+        margin-top: 1rem;
+        margin-bottom: 5px;
+    }
+    .rowfive h2 {
+        font-size: 16px;
+        line-height: normal;
+        text-align: center;
+        padding-right: 0;
+        margin-bottom: 0;
+    }
+    .rowfive div.col-xl-6.col-md-7.col-sm-12 p {
+        font-size: 14px;
+        line-height: normal;
+    }
+    .rowseven {
+        background-image: url("../img/barley_for_cancer/mobile-cancer/bg2-mobile.jpg");
+        padding: 20px;
+    }
+    .rowseven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
+        height: 204px;
+    }
+    .rowseven div.row p:nth-child(1) {
+        font-size: 13px;
+        text-align: center;
+        margin-top: 15px;
+        line-height: normal;
+        padding: 0 72px;
+    }
+    .rowseven li span {
+        font-size: 14px;
+    }
+    .rowseven li {
+        margin-bottom: 5px;
+    }
+    .rowseven h1 {
+        font-size: 25px;
+        margin-top: 10px;
+        line-height: 1;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+    .rowseven h2 {
+        font-size: 16px;
+        text-align: center;
+        padding-right: 12px;
+    }
+    .roweight {
+        padding: 20px;
+    }
+    .roweight h1 {
+        font-size: 28px;
+        line-height: normal;
+    }
+    .rownine {
+        padding: 20px;
+    }
+    .rowten {
+        background-image: url("../img/barley_for_cancer/mobile-cancer/bg3-mobile.jpg");
+        padding: 20px;
+    }
+    .rowten h1 {
+        font-size: 18px;
+        text-align: center;
+        line-height: 5px;
+        margin-top: 25px;
+    }
+    .rowten p {
+        line-height: normal;
+        font-size: 14px;
+        padding-right: 0;
+        text-align: center;
+    }
+    .rowten button {
+        font-size: 14px;
+        width: 100%;
+        margin-top: 0;
+    }
+    .roweleven .mt-40 {
+        margin-top: -20px;
+    }
+    .roweleven {
+        padding: 20px 20px 1px;
+    }
+    .roweleven h1 {
+        font-size: 29px;
+        margin-bottom: 10px;
+    }
+    .roweleven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
+        height: 204px;
+    }
+    .roweleven .row:nth-child(3) {
+        margin-top: 0!important;
+    }
+    .roweleven .card {
+        width: auto;
+        height: 22rem;
+        display: flex;
+        background-color: transparent;
+        border: none;
+    }
+    .roweleven .card-body.card-body-1 {
+        padding: 1rem 1rem;
+    }
+    .roweleven p.card-text {
+        font-size: 12px;
+    }
+    .roweleven div.card-body {
+        font-size: 5px;
+    }
+    .roweleven .carousel {
+        margin-bottom: 40px;
+    }
+    .roweleven .carousel-indicators.mb-60 {
+        bottom: -60px;
+    }
+    .roweleven img.img-fluid {
+        height: 109%;
+    }
+    .rowtwelve {
+        background-image: url("../img/barley_for_cancer/mobile-cancer/bg4-mobile.jpg");
+        padding: 20px;
+    }
+    .rowtwelve .mt-5 {
+        margin-top: 0!important;
+        margin-bottom: 8px;
+    }
+    .rowtwelve .col-xl-6.col-md-5.col-sm-6, .col-xl-6.col-md-7.col-sm-6 {
+        width: 185px;
+    }
+    .rowtwelve .circle {
+        height: 20px;
+        margin-top: 0!important;
+        margin-left: 10px;
+    }
+    .rowtwelve img:nth-child(1) {
+        margin-top: 42px;
+    }
+    .rowtwelve h1 {
+        font-size: 13px;
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
+    .rowtwelve p {
+        font-size: 13px;
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
+    .rowtwelve img:nth-child(2) {
+        margin-bottom: 6px;
+    }
+    #rowthirteen {
+        padding: 20px;
+    }
+    #rowthirteen td:nth-child(1) {
+        width: 114px;
+    }
+    #rowthirteen h1 {
+        font-size: 22px;
+        line-height: 1;
+        padding-bottom: 10px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    #rowthirteen div#one.zoom1 p:nth-child(1) {
+        font-size: 16px;
+        margin: 0;
+        line-height: normal;
+        text-align: left;
+    }
+    #rowthirteen div#two.zoom2 p:nth-child(1) {
+        font-size: 16px;
+        margin: 0;
+        line-height: normal;
+        text-align: left;
+    }
+    #rowthirteen div#three.zoom3 p:nth-child(1) {
+        font-size: 16px;
+        margin: 0;
+        line-height: normal;
+        text-align: left;
+    }
+    #rowthirteen div.zoom1 div.row img {
+        margin-top: 0;
+    }
+    #rowthirteen div#one.zoom1 p:nth-child(2) {
+        font-size: 24px;
+        line-height: normal;
+        margin-bottom: 0;
+        text-align: left;
+    }
+    #rowthirteen div#two.zoom2 p:nth-child(2) {
+        font-size: 24px;
+        line-height: normal;
+        margin-bottom: 0;
+        text-align: left;
+        margin-top: 20px;
+    }
+    #rowthirteen div#three.zoom3 p:nth-child(2) {
+        font-size: 24px;
+        line-height: normal;
+        margin-bottom: 0;
+        text-align: left;
+    }
+    #rowthirteen div#one.zoom1 p:nth-child(4) {
+        font-size: 14px;
+        margin-bottom: 0;
+    }
+    #rowthirteen div#two.zoom2 p:nth-child(4) {
+        font-size: 14px;
+        margin-bottom: 0;
+        font-weight: 900;
+        text-align: left;
+    }
+    #rowthirteen div#three.zoom3 p:nth-child(2) {
+        font-size: 22px;
+        line-height: normal;
+        margin-bottom: 0;
+    }
+    #rowthirteen .col-xl.col-sm-6 {
+        width: 20px;
+    }
+    #rowthirteen div#one.zoom1 p:nth-child(3) {
+        font-size: 14px;
+        font-weight: 300;
+        color: #000000;
+        margin-bottom: 0;
+        line-height: normal;
+        text-align: left;
+    }
+    #rowthirteen div#two.zoom2 p:nth-child(3) {
+        font-size: 14px;
+        margin-bottom: 0;
+        text-align: left;
+    }
+    #rowthirteen div#three.zoom3 p:nth-child(3) {
+        font-size: 14px;
+        margin-bottom: 0;
+        line-height: unset;
+        text-align: left;
+    }
+    #rowthirteen div#three.zoom3 p:nth-child(4) {
+        font-size: 14px;
+        margin-bottom: 0;
+        text-align: left;
+    }
+    #rowthirteen .col-sm-6 center {
+        text-align: left;
+    }
+    .zoom1, .zoom2, .zoom3 {
+        width: 22rem;
+        transform: none!important;
+        margin-top: 15px!important;
+        padding: 20px;
+    }
+    #rowthirteen label.btn.btn-secondary {
+        width: 100%;
+        font-size: 12px;
+        margin-bottom: 0!important;
+        margin-top: 5px;
+    }
+    .best-seller {
+        right: 7px;
+        height: 50px;
+    }
+    .rowfourteen {
+        padding: 20px;
+    }
+    .rowfourteen .col-xl-6.col-md-6.col-xs-6 {
+        width: 50%;
+    }
+    #delivery2 {
+        padding-right: unset;
+    }
+    .rowfifteen {
+        padding: 20px;
+    }
+    .rowfifteen p {
+        font-size: 13px;
+    }
+    .rowfifteen div.collapsible p {
+        font-size: 15px;
+    }
+    .rowfifteen h1 {
+        font-size: 22px;
+    }
+    .rowfifteen button.accordion-button, div.accordion-body {
+        font-size: 13px;
+        padding: 10px;
+    }
+    .rowfifteen.collapsible {
+        padding: 20px;
+    }
+    #myBtn {
+        font-size: 10px;
+        bottom: 10px;
+        right: 10px;
+    }
+    footer p {
+        font-size: 11px;
+    }
+}
+
+/* // Iphone 11 pro max */
+@media only screen and (max-width: 414px) {
+    .rowone button, .rowten button {
+        font-size: 13px;
+    }
+    .roweleven h1 {
+        font-size: 28px;
+    }
+}
+
+/* // Iphone 12 pro */
+@media only screen and (max-width: 390px) {
+    .rowone button, .rowten button {
+        font-size: 12px;
+    }
+    .rowtwelve h1 {
+        font-size: 12px;
+    }
+    .rowtwelve .col-xl-6.col-md-5.col-sm-6, .col-xl-6.col-md-7.col-sm-6 {
+        width: 50%;
+    }
+    .rowtwelve p:nth-last-child(1) {
+        font-size: 8px;
+    }
+    .zoom1, .zoom2, .zoom3 {
+        width: 100%;
+    }
+}
+
+/* // Mobile Medium */
+@media only screen and (max-width: 375px) {
+    .rowone .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
+        height: 177px;
+    }
+    .pr-li {
+        padding-right: 0;
+    }
+    .rowfour li span {
+        font-size: 13px;
+    }
+    .rowfive h1 {
+        font-size: 25px;
+    }
+    .rowseven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
+        height: 177px;
+    }
+    .rowseven li span {
+        font-size: 13px;
+    }
+    .roweleven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
+        height: 177px;
+    }
+    .roweleven h1 {
+        font-size: 24px;
+    }
+    .roweleven img.img-fluid {
+        height: 103%;
+    }
+    .rowtwelve p:nth-last-child(1) {
+        font-size: 11px;
+    }
+    .rowtwelve h1 {
+        font-size: 12px;
+    }
+    .rowtwelve .btm-0 {
+        height: 80%;
+    }
+    .carousel-indicators.carou {
+        bottom: 0;
+    }
+    .roweleven .carousel {
+        margin-bottom: 0;
+    }
+}
+
+/* // Mobile Small */
+@media only screen and (max-width: 320px) {
+    .rowone .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
+        height: 144px;
+    }
+    .rowone h3 {
+        font-size: 16px;
+    }
+    .rowone h1 {
+        font-size: 21px;
+    }
+    .rowone button, .rowten button {
+        font-size: 9px;
+    }
+    .rowthree h1 {
+        font-size: 23px;
+    }
+    .rowfour li span {
+        font-size: 10px;
+    }
+    .rowseven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
+        height: 147px;
+    }
+    .rowseven li span {
+        font-size: 10px;
+    }
+    .rowten h1 {
+        font-size: 17px;
+    }
+    .roweleven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
+        height: 147px;
+    }
+    .roweleven h1 {
+        font-size: 20px;
+    }
+    .roweleven img.img-fluid {
+        height: 118%;
+    }
+    .rowtwelve .btm-0 {
+        height: 75%;
+    }
+    .rowtwelve img.img-fluid {
+        margin-top: 5px;
+    }
+    .rowtwelve img.img-fluid:nth-child(2) {
+        margin-top: 0;
+    }
+    .rowtwelve h1 {
+        font-size: 9px;
+    }
+    .rowtwelve p:nth-last-child(1) {
+        font-size: 7px;
+    }
+    #rowthirteen h1 {
+        font-size: 15px;
+    }
+    #rowthirteen div#one.zoom1 p:nth-child(3) {
+        font-size: 13px;
+    }
+    #rowthirteen div#one.zoom1 p:nth-child(4) {
+        font-size: 13px;
+    }
+    #rowthirteen div#two.zoom2 p:nth-child(3) {
+        font-size: 13px;
+    }
+    #rowthirteen div#two.zoom2 p:nth-child(4) {
+        font-size: 13px;
+    }
+    #rowthirteen div#three.zoom3 p:nth-child(3) {
+        font-size: 13px;
+    }
+    #rowthirteen div#three.zoom3 p:nth-child(4) {
+        font-size: 12px;
+    }
+    #rowthirteen div#two.zoom2 p:nth-child(2) {
+        margin-top: 20px;
+    }
+    .rowfifteen h1 {
+        font-size: 19px;
+    }
+    .rowfifteen p {
+        font-size: 11px;
+    }
+}
+
+/*// Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .rowone {
+        background-image: url("../img/barley_for_cancer/tablet-cancer/bg1-tablet.jpg");
+    }
+    .rowone h3 {
+        font-size: 24px;
+        margin-top: 14px;
+    }
+    .rowone h2 {
+        font-size: 24px;
+    }
+    .rowone h1 {
+        font-size: 31px;
+        line-height: 1;
+    }
+    .pr-li {
+        padding-right: 84px;
+    }
+    .rowone ul {
+        list-style-image: url("../img/barley_for_cancer/tablet-cancer/white-check-tablet.png");
+        padding-left: 2%;
+        padding-right: 0;
+    }
+    .rowone li span {
+        font-size: 16px;
+        line-height: normal;
+        padding-left: 0;
+    }
+    .rowone button {
+        font-size: 16px;
+    }
+    .rowone .embed-responsive .embed-responsive-item,
+    .embed-responsive embed,
+    .embed-responsive iframe,
+    .embed-responsive object,
+    .embed-responsive video {
+        width: 75%;
+        height: 255px;
+    }
+    .rowthree h1 {
+        font-size: 42px;
+        margin-bottom: -2px;
+    }
+    .rowthree h3 {
+        font-size: 18px;
+        margin-top: 1px;
+        line-height: normal;
+    }
+    .rowthree .col p {
+        font-size: 14px;
+        margin-top: 25px;
+        line-height: 18px;
+        margin-right: 0;
+    }
+    .rowthree div.col.line-height p:nth-child(2) {
+        font-size: 16px;
+    }
+    .rowthree picture {
+        display: contents;
+    }
+    .rowthree .circle {
+        height: 2rem;
+        margin-top: 25px;
+    }
+    .rowthree img {
+        margin-top: 6.5rem;
+    }
+    .rowfour h1 {
+        font-size: 24px;
+        margin-top: 0;
+        line-height: 25px;
+        letter-spacing: 0;
+    }
+    .rowfour li span {
+        font-size: 16px;
+        line-height: 8px;
+    }
+    .rowfour li {
+        list-style-type: none;
+    }
+    .rowfive h1 {
+        font-size: 35px;
+        line-height: 1;
+        letter-spacing: 0;
+    }
+    .rowfive h2 {
+        font-size: 20px;
+        line-height: 20px;
+    }
+    .rowfive div.col-xl-6.col-md-7.col-sm-12 p {
+        font-size: 16px;
+        margin-top: 1rem;
+    }
+    .rowseven {
+        background-image: url("../img/barley_for_cancer/tablet-cancer/bg2-tablet.jpg");
+    }
+    .rowseven h1 {
+        font-size: 27px;
+        line-height: 1;
+    }
+    .rowseven h2 {
+        font-size: 14px;
+        padding-right: 44px;
+    }
+    .rowseven li span {
+        font-size: 12px;
+        padding-left: 0;
+    }
+    .rowseven li {
+        margin-bottom: 5px;
+    }
+    .rowseven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
+        height: 223px;
+        width: 100%;
+    }
+    .roweight h1 {
+        font-size: 30px;
+        margin-bottom: 15px;
+    }
+    .rowten {
+        background-image: url("../img/barley_for_cancer/tablet-cancer/bg3-tablet.jpg");
+    }
+    .rowten h1 {
+        font-size: 26px;
+        line-height: 1;
+        margin-top: 20px;
+    }
+    .rowten p {
+        font-size: 16px;
+        line-height: normal;
+        padding-right: 0;
+    }
+    .rowten button {
+        font-size: 15px;
+        margin-top: 0;
+    }
+    .roweleven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video .roweleven img.img-fluid {
+        height: 189px;
+    }
+    .roweleven img.img-fluid {
+        height: 23rem;
+        padding-bottom: 6rem;
+    }
+    .roweleven div.row:nth-child(4) {
+        margin-top: 1rem;
+    }
+    .roweleven h1 {
+        font-size: 42px;
+    }
+    .roweleven p.card-text {
+        font-size: 16px;
+    }
+    .roweleven .card {
+        width: 20rem;
+        height: 12rem;
+    }
+    .roweleven div.card-body {
+        padding: 10px;
+        font-size: unset;
+    }
+    .rowtwelve {
+        background-image: url("../img/barley_for_cancer/tablet-cancer/bg4-tablet.jpg");
+        padding: 30px;
+    }
+    .rowtwelve h1 {
+        font-size: 24px;
+        margin: 5px 0 15px;
+    }
+    .rowtwelve p {
+        font-size: 16px;
+        margin-top: -9px;
+    }
+    .rowtwelve picture {
+        display: contents;
+    }
+    .rowtwelve .circle {
+        height: auto;
+        margin-top: -8px !important;
+        margin-left: 11px;
+    }
+    #rowthirteen div.zoom1 div.row img {
+        margin-top: 4rem;
+    }
+    #rowthirteen div.zoom3 div.row img {
+        margin-top: 5rem;
+    }
+    #rowthirteen h1 {
+        font-size: 37px;
+        line-height: 1;
+    }
+    #rowthirteen div#one.zoom1 p {
+        font-size: 16px;
+        margin-top: 31px;
+    }
+    #rowthirteen div#two.zoom2 p {
+        font-size: 16px;
+    }
+    #rowthirteen div#three.zoom3 p {
+        font-size: 16px;
+        margin-top: 21px;
+    }
+    #rowthirteen div#one.zoom1 p:nth-child(2) {
+        font-size: 24px;
+    }
+    #rowthirteen div#two.zoom2 p:nth-child(2) {
+        font-size: 24px;
+    }
+    #rowthirteen div#three.zoom3 p:nth-child(2) {
+        font-size: 24px;
+    }
+    #rowthirteen div#one.zoom1 p:nth-child(3) {
+        font-size: 12px;
+    }
+    #rowthirteen div#two.zoom2 p:nth-child(3) {
+        font-size: 11px;
+    }
+    #rowthirteen div#three.zoom3 p:nth-child(3) {
+        font-size: 12px;
+    }
+    #rowthirteen div#two.zoom2 p:nth-child(4) {
+        font-size: 12px;
+    }
+    #rowthirteen div#one.zoom1 p:nth-child(4) {
+        font-size: 14px;
+        margin-bottom: 22px;
+    }
+    #rowthirteen div#two.zoom2 p:nth-child(5) {
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+    #rowthirteen div#three.zoom3 p:nth-child(4) {
+        font-size: 14px;
+    }
+    .padding-right-0 {
+        padding-right: 0;
+    }
+    .padding-left-0 {
+        padding-left: 0;
+    }
+    label.btn.btn-secondary {
+        font-size: 14px;
+    }
+    .zoom1, .zoom2, .zoom3 {
+        padding: 10px;
+        width: auto;
+    }
+    .best-seller {
+        right: 6px;
+    }
+    #rowthirteen div.zoom2 div picture img {
+        margin-top: 85px;
+    }
+    div#two.zoom2 div.row {
+        margin-right: calc(-.0 * var(--bs-gutter-x));
+        margin-left: calc(-.0 * var(--bs-gutter-x));
+    }
+    .padding-0 {
+        padding-right: 0;
+        padding-left: 0;
+    }
+    #rowthirteen div.zoom2 label.btn.btn-secondary {
+            margin-bottom: 15px;
+    }
+    #delivery2 {
+        padding-right: unset;
+    }
+    .rowfifteen h1 {
+        font-size: 42px;
+    }
+    .rowfifteen p {
+        font-size: 16px;
+    }
+    .collapsible p {
+        font-size: 24px;
+    }
+    .rowfifteen button.accordion-button, div.accordion-body {
+        font-size: 16px;
+    }
+    footer p {
+        font-size: 12px;
+    }
+    #myBtn {
+        font-size: 12px;
+    }
+}
+
+/*// Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .rowone h3 {
+        font-size: 35px;
+    }
+    .rowone h2 {
+        font-size: 33px;
+    }
+    .rowone h1 {
+        font-size: 34px;
+    }
+    .rowone .embed-responsive .embed-responsive-item,
+    .embed-responsive embed,
+    .embed-responsive iframe,
+    .embed-responsive object,
+    .embed-responsive video {
+        width: 100%;
+    }
+    .rowone ul {
+        padding-left: 7%;
+        padding-right: 0;
+    }
+    .rowthree h1 {
+        font-size: 53px;
+    }
+    .rowthree h3 {
+        font-size: 22px;
+    }
+    .rowthree .col p {
+        font-size: 21px;
+    }
+    .rowthree span {
+        font-size: 26px;
+    }
+    .rowfour li span {
+        font-size: 22px;
+    }
+    .rowfour p {
+        margin-top: auto;
+    }
+    .rowfive h1 {
+        font-size: 47px;
+    }
+    .rowfive h2 {
+        font-size: 23px;
+    }
+    .rowsix p {
+        font-size: 25px;
+    }
+    .rowsix span {
+        font-size: 22px;
+    }
+    .rowseven li span {
+        font-size: 17px;
+    }
+    .rowseven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
+        height: 318px;
+    }
+    .roweight h1 {
+        font-size: 43px;
+    }
+    .rowten h1 {
+        font-size: 35px;
+    }
+    .rowten p {
+        font-size: 22px;
+    }
+    .rowten button {
+        font-size: 23px;
+        margin-top: 0;
+    }
+    .roweleven img.img-fluid {
+        height: 32rem;
+    }
+    .roweleven .card {
+        width: 433px;
+    }
+    .roweleven .embed-responsive .embed-responsive-item,
+    .embed-responsive embed,
+    .embed-responsive iframe,
+    .embed-responsive object,
+    .embed-responsive video {
+        height: 257px;
+    }
+    div.row.mt-5 {
+        margin-top: auto!important;
+    }
+    .zoom1, .zoom2, .zoom3 {
+        width: 16rem;
+        padding: 25px;
+    }
+    #rowthirteen h1 {
+        font-size: 53px;
+    }
+    #rowthirteen div#one.zoom1 p {
+        margin-top: 91px;
+    }
+    #rowthirteen div#three.zoom3 p {
+        margin-top: 103px;
+    }
+    #rowthirteen div#one.zoom1 p:nth-child(2) {
+        font-size: 40px;
+    }
+    #rowthirteen div#two.zoom2 p:nth-child(2) {
+        font-size: 40px;
+    }
+    #rowthirteen div#three.zoom3 p:nth-child(2) {
+        font-size: 40px;
+    }
+    #rowthirteen div#one.zoom1 p:nth-child(4) {
+        font-size: 22px;
+        margin-bottom: 25px;
+    }
+    #rowthirteen div#two.zoom2 p:nth-child(5) {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+    #rowthirteen div#three.zoom3 p:nth-child(4) {
+        font-size: 22px;
+    }
+    #rowthirteen div#two.zoom2 p:nth-child(3) {
+        font-size: 13px;
+    }
+    #rowthirteen div#two.zoom2 p:nth-child(4) {
+        font-size: 13px;
+    }
+    #rowthirteen div.zoom1 div.row img {
+        margin-top: 4rem;
+    }
+    #rowthirteen div.zoom3 div.row img {
+        margin-top: 5rem;
+    }
+    label.btn.btn-secondary {
+        font-size: 18px;
+        width: 100%;
+    }
+    .best-seller {
+        left: 5rem;
+        height: 100px;
+        top: -25px;
+    }
+    #rowthirteen div.zoom2 div.row img {
+        margin-top: auto;
+    }
+    #delivery1 {
+        padding-left: 11rem;
+    }
+    #delivery2 {
+        padding-right: unset;
+    }
+    .rowfifteen h1 {
+        font-size: 64px;
+    }
+}
+
+/*// Laptop Large 1440 by 980 */
+@media (min-width: 1399.98px) {
+    .zoom1, .zoom2, .zoom3 {
+        width: 25.5rem;
+    }
+}
+
+/*// 1366 by 768 */
+@media (min-width: 1200px) and (max-width: 1366px) {
+    .rowone .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
+        height: 378px;
+    }
+    .rowfour li span {
+        font-size: 21px;
+    }
+    .rowseven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
+        height: 307px;
+    }
+    .rowten h1 {
+        font-size: 49px;
+    }
+    .zoom1, .zoom2, .zoom3 {
+        width: 22rem;
+    }
+    #rowthirteen div#one.zoom1 p {
+        margin-top: 137px;
+    }
+    #rowthirteen div#three.zoom3 p {
+        margin-top: 154px;
+    }
+    #rowthirteen div#one.zoom1 p:nth-child(3) {
+        margin-bottom: 31px;
+    }
+    #rowthirteen div#two.zoom2 p:nth-child(3) {
+        font-size: 16px;
+    }
+    #rowthirteen div#one.zoom1 p:nth-child(4) {
+        margin-bottom: 0;
+    }
+    .padding-right-0 {
+        padding-right: 0;
+    }
+    .padding-left-0 {
+         padding-left: 0;
+    }
+}
+
+/*// Carousel */
+.carousel-indicators [data-bs-target] {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+}
+.carousel-indicators {
+    bottom: -40px;
+}
+.carousel {
+    margin-bottom: 20px;
+}

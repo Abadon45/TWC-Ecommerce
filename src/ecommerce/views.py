@@ -72,7 +72,7 @@ class IndexView(TemplateView):
         
         
         subcategories_choices = [
-            ('health_wellness', 'Health and Wellness'),
+            ('health_wellness', 'Health & Wellness'),
             ('healthy_beverages', 'Healthy Beverages'),
             ('intimate_care', 'Intimate Care'),
             ('bath_body', 'Bath & Body'),

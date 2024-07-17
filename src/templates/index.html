@@ -63,7 +63,7 @@
     <div class="container index-card">
         <div class="card">
             <div class="card-header">
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-center header-group">
                     <div class="p-2">
                         <h2 class="site-title">TRENDING ITEMS</h2>
                     </div>
@@ -137,7 +137,7 @@
     <div class="container index-card">
         <div class="card">
             <div class="card-header">
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-center header-group">
                     <div class="p-2">
                         <h2 class="site-title">Popular Items</h2>
                     </div>
@@ -233,9 +233,9 @@
     <div class="container index-card">
         <div class="card">
             <div class="card-header">
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-center header-group">
                     <div class="p-2">
-                        <h2 class="site-title">New Items</h2>
+                        <h2 class="site-title">New Arrival</h2>
                     </div>
                     <div class="p-2">
                         <a class="theme-btn" href="{% url 'shop:shop' %}">View More</a>
@@ -311,7 +311,7 @@
                         <img src="{% static 'img/banner/home-page-bottom-banner.webp' %}" alt="">
                     </div>
                 </div>
-                <div class="col-12 col-md-6 align-self-center">
+                <div class="col-12 col-md-6 align-self-center bg-white">
                     <div class="deal-content">
                         <h2>TODAYS DEAL</h2>
                         <h1>10% OFF</h1>
@@ -345,7 +345,7 @@
                             <h2 class="site-title">On sale</h2>
                         </div>
                         <div class="card-body bottom-list">
-                            <div class="row">
+                            <div class="row justify-content-evenly">
                                 {% for product in rand_on_sale_products %}
                                 <div class="col-md-12 col-6 product-column">
                                     <div class="product-list-item">
@@ -398,7 +398,7 @@
                             <h2 class="site-title">Best Seller</h2>
                         </div>
                         <div class="card-body bottom-list">
-                            <div class="row">
+                            <div class="row justify-content-evenly">
                                 {% for product in rand_best_seller_products %}
                                 <div class="col-md-12 col-6 product-column">
                                     <div class="product-list-item">
@@ -451,7 +451,7 @@
                             <h2 class="site-title">Top Rated</h2>
                         </div>
                         <div class="card-body bottom-list">
-                            <div class="row">
+                            <div class="row justify-content-evenly">
                                 {% for product in rand_top_rated_products %}
                                 <div class="col-md-12 col-6 product-column">
                                     <div class="product-list-item">
