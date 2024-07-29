@@ -4,7 +4,7 @@
     <div class="shop-item-wrapper shop-grid product-list">
         <div class="row">
             {% for product in page_obj %}
-            <div class="col-md-6 col-lg-4 products-column">
+            <div class="col-md-4 col-6 products-column">
                 <div class="products-list product-item ">
                     <div class="product-img grid-type">
                         <a href="{% url 'shop:single' slug=product.slug %}">
@@ -100,7 +100,7 @@
                         <div class="product-button">
                             {% if product.id in products_in_cart %}
                             <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
-                                style="padding: 9px 20px!important;" disabled>Added to Cart</button>
+                                disabled>ADDED TO CART</button>
                             {% else %}
                             <button data-product="{{ product.id }}" data-action="add" type="button"
                                 class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"

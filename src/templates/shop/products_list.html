@@ -107,11 +107,11 @@
                     <div class="product-button">
                         {% if product.id in products_in_cart %}
                         <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
-                            style="padding: 9px 20px!important;" disabled>Added to Cart</button>
+                            disabled>ADDED TO CART</button>
                         {% else %}
                         <button data-product="{{ product.id }}" data-action="add" type="button"
                             class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                            onclick="addToCart(this)">Add to Cart
+                            onclick="addToCart(this)">ADD TO CART
                         </button>
                         {% endif %}
                     </div>

@@ -152,13 +152,14 @@ $(document).ready(function () {
         //Product quantity function
         if (data.products.length > 0) {
           if (data.action !== "remove") {
-            $("#product-subtotal-" + productId).text("₱" + formattedSubtotal);
+            $(".product-subtotal-" + productId).text("₱" + formattedSubtotal);
             $(".total-amount").text("₱" + orderTotal);
           }
 
           if (data.action === "remove") {
             console.log("Removing product with ID:", productId);
             $("#product-row-" + productId).remove();
+            $("#product-row-mobile-" + productId).remove();
             $("#cart-row-" + productId).remove();
             $(".total-amount").text("₱" + orderTotal);
             $(".item-id-" + productId)

@@ -10,7 +10,7 @@
 <div class="shop-single product-detail-page py-100">
     <div class="container">
         <div class="row">
-            <div class="col-md-9 col-lg-6 col-xxl-5">
+            <div class="col-md-6">
                 <div class="shop-single-gallery">
                     <div class="flexslider-thumbnails">
                         <ul class="slides">
@@ -43,7 +43,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-lg-6 col-xxl-6">
+            <div class="col-md-6">
                 <div class="shop-single-info">
                     <h4 class="shop-single-title">{{ product.name }}</h4>
                     <div class="shop-single-rating" data-product-id="{{ product.id }}">
@@ -118,11 +118,11 @@
                                 <div class="shop-single-btn">
                                     {% if product.id in products_in_cart %}
                                     <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
-                                        style="padding: 9px 20px!important;" disabled>Added to Cart</button>
+                                        style="padding: 9px 20px!important;" disabled>ADD TO CART</button>
                                     {% else %}
                                     <button data-product="{{ product.id }}" data-action="add" type="button"
                                         class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                        onclick="addToCart(this)">Add to Cart
+                                        onclick="addToCart(this)">ADD TO CART
                                     </button>
                                     {% endif %}
                                 </div>
@@ -301,8 +301,8 @@
 
         <!-- related item -->
         <div class="product-area pt-80">
-            <div class="container index-card">
-                <div class="card">
+            <div class="container">
+                <div class="card index-card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="p-2">
@@ -355,11 +355,11 @@
                                 <div class="product-button">
                                     {% if related_product.id in products_in_cart %}
                                     <button type="button" class="btn btn-secondary item-id-{{ related_product.id }}"
-                                        style="padding: 9px 20px!important;" disabled>Added to Cart</button>
+                                        disabled>ADDED TO CART</button>
                                     {% else %}
                                     <button data-product="{{ related_product.id }}" data-action="add" type="button"
                                         class="btn theme-btn add-to-cart-btn update-cart item-id-{{ related_product.id }}"
-                                        onclick="addToCart(this)">Add to Cart
+                                        onclick="addToCart(this)">ADD TO CART
                                     </button>
                                     {% endif %}
                                 </div>

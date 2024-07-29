@@ -201,8 +201,7 @@
                                                                     href="{% url 'shop:single' slug=item.product.slug %}">{{item.product.name}}</a>
                                                             </h4>
                                                             <p class="cart-qty">{{ item.quantity }}x - <span
-                                                                    class="cart-amount">{{ item.get_total|currency
-                                                                    }}</span></p>
+                                                                    class="cart-amount">{{ item.get_total|currency }}</span></p>
                                                         </div>
                                                         <a href="#" data-product="{{ item.product.id }}"
                                                             data-action="remove" class="update-cart shop-cart-remove">
@@ -264,14 +263,13 @@
                                                 </a>
                                             </li>
                                             {% endif %}
-                                        </ul>
-                                        {% if not user.is_seller %}
-                                            <li class="nav-item">
-                                                <a href="{% url_with_domain 'become_seller' %}"
-                                                        class="theme-btn">Become
+                                            {% if not user.is_seller %}
+                                                <li class="nav-item">
+                                                    <a href="{% url_with_domain 'become_seller' %}" class="theme-btn nav-link become-seller">Become
                                                         Seller</a>
-                                            </li>
-                                        {% endif %}
+                                                </li>
+                                            {% endif %}
+                                        </ul>
                                     </a>
                                 </li>
                             </ul>

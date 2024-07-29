@@ -12,20 +12,20 @@
 <div class="shop-area py-100 shop-page">
     <div class="container">
         <div class="row">
-            <div class="col-lg-3">
+            <div class="col-sm-3">
                 <div class="shop-sidebar index-card">
                     <div class="shop-search-form">
-                        <div class="card">
+                        <div class="card mobile-hidden">
                             <div class="card-header">
                                 <h4>Search</h4>
                             </div>
-                            <div class="card-body index-card-body">
+                            <div class="card-body index-card-body search-body">
                                 <form method="get" action="{% url 'shop:search' %}">
                                     <div class="row justify-content-center">
-                                        <div class="col-xl-9 col-lg-8 col-md-10 search-form">
+                                        <div class="col-xl-9 col-sm-8 search-form">
                                             <input type="text" class="form-control card-search" name="q" placeholder="Search">
                                         </div>
-                                        <div class="col-lg-3 col-md-1" style="padding: 0 0 0 7px;">
+                                        <div class="col-lg-3 col-sm-2" style="padding: 0 0 0 7px;">
                                             <button class="theme-btn" type="submit"><i class="far fa-search"></i></button>
                                         </div>
                                     </div>
@@ -33,7 +33,7 @@
                             </div>
                         </div>    
                     </div>
-                    <div class="card mt-2">
+                    <div class="card mt-2 mobile-hidden">
                         <div class="card-header">
                             <h4>Shops</h4>
                         </div>
@@ -53,7 +53,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="card mt-3" id="product-categories">
+                    <div class="card mt-3 mobile-hidden" id="product-categories">
                         <div class="card-header">
                             <h4>Category</h4>
                         </div>
@@ -70,147 +70,9 @@
                             </ul>
                         </div>
                     </div>
-                    <!-- <div class="shop-widget">
-                        <h4 class="shop-widget-title">Price Range Filter</h4>
-                        <div class="price-range-box">
-                            <div class="price-range-input">
-                                <input type="text" id="price-amount" readonly>
-                            </div>
-                            <div class="price-range"></div>
-                        </div>
-                    </div> -->
-                    <!-- <div class="shop-widget">
-                        <h4 class="shop-widget-title">Sales</h4>
-                        <ul class="shop-checkbox-list">
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="sale1">
-                                    <label class="form-check-label" for="sale1">On Sale</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="sale2">
-                                    <label class="form-check-label" for="sale2">In Stock</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="sale3">
-                                    <label class="form-check-label" for="sale3">Out Of Stock</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="sale4">
-                                    <label class="form-check-label" for="sale4">Discount</label>
-                                </div>
-                            </li>
-                        </ul>
-                    </div> -->
-                    <!-- <div class="shop-widget">
-                        <h4 class="shop-widget-title">Ratings</h4>
-                        <ul class="shop-checkbox-list rating">
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="rate1">
-                                    <label class="form-check-label" for="rate1">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="rate2">
-                                    <label class="form-check-label" for="rate2">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fal fa-star"></i>
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="rate3">
-                                    <label class="form-check-label" for="rate3">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fal fa-star"></i>
-                                        <i class="fal fa-star"></i>
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="rate4">
-                                    <label class="form-check-label" for="rate4">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fal fa-star"></i>
-                                        <i class="fal fa-star"></i>
-                                        <i class="fal fa-star"></i>
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="rate5">
-                                    <label class="form-check-label" for="rate5">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fal fa-star"></i>
-                                        <i class="fal fa-star"></i>
-                                        <i class="fal fa-star"></i>
-                                        <i class="fal fa-star"></i>
-                                    </label>
-                                </div>
-                            </li>
-                        </ul>
-                    </div> -->
-                    <!-- <div class="shop-widget">
-                        <h4 class="shop-widget-title">Sizes</h4>
-                        <ul class="shop-checkbox-list">
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="size1">
-                                    <label class="form-check-label" for="size1">Extra Small</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="size2">
-                                    <label class="form-check-label" for="size2">Small</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="size3">
-                                    <label class="form-check-label" for="size3">Medium</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="size4">
-                                    <label class="form-check-label" for="size4">Large</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="size5">
-                                    <label class="form-check-label" for="size5">Extra Large</label>
-                                </div>
-                            </li>
-                        </ul>
-                    </div> -->
                 </div>
             </div>
-            <div class="col-lg-9">
+            <div class="col-sm-9 mobile-width">
                 <div class="col-md-12">
                     <div class="shop-sort">
                         <div class="shop-sort-box">
@@ -225,7 +87,7 @@
                             <div class="shop-sort-show">Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of
                                 {{ page_obj.paginator.count }} Results</div>
                         </div>
-                        <div class="shop-sort-gl">
+                        <div class="shop-sort-gl mobile-hidden">
                             <button id="gridBtn" class="shop-sort-grid active"><i
                                     class="far fa-grid-round-2"></i></button>
                             <button id="listBtn" class="shop-sort-list"><i class="far fa-list-ul"></i></button>

@@ -8,11 +8,11 @@
 
 
 <!-- shop cart -->
-<div class="shop-cart py-100 cart-page">
+<div class="shop-cart py-100 cart-page mobile-width">
     <div class="container">
         <div class="shop-cart-wrap">
             <div class="row">
-                <div class="col-xl-8">
+                <div class="col-sm-8">
                     {% for order, items in ordered_items.items %}
                     <div id="order-card-{{order.order_id}}" class="card mb-20">
                         <div class="card index-card">
@@ -34,8 +34,8 @@
                                 </h6>
                             </div>
 
-                            <div class="cart-table card-body">
-                                <div class="table-responsive">
+                            <div class="card-body">
+                                <div class="table-responsive mobile-hidden">
                                     <table class="table cart-table" id="product-table-{{ order.order_id }}">
                                         <thead style="border-style: unset;">
                                             <tr style="border-style: unset;">
@@ -65,7 +65,7 @@
                                                     <div class="shop-cart-content">
                                                         <h5 class="shop-cart-name"><a
                                                                 href="{% url 'shop:single' slug=item.product.slug %}"><span
-                                                                    id="product-name-{{ item.product.id }}">{{ item.product.name }}</span></a>
+                                                                    class="product-name-{{ item.product.id }}">{{ item.product.name }}</span></a>
                                                         </h5>
                                                         <div class="shop-cart-info">
                                                         </div>
@@ -73,8 +73,9 @@
                                                 </td>
                                                 <td style="width: 15%;">
                                                     <div class="shop-cart-price">
-                                                        <span
-                                                            id="product-price-{{ item.product.id }}">{{item.product.customer_price|currency}}</span>
+                                                        <span class="product-price-{{ item.product.id }}">
+                                                            {{item.product.customer_price|currency}}
+                                                        </span>
                                                     </div>
                                                 </td>
                                                 <td style="width: 15%;">
@@ -91,8 +92,7 @@
                                                 </td>
                                                 <td style="width: 15%;">
                                                     <div class="shop-cart-subtotal">
-                                                        <span id="product-subtotal-{{ item.product.id }}"
-                                                            class="product-subtotal">{{ item.get_total|currency }}
+                                                        <span class="product-subtotal product-subtotal-{{ item.product.id }}">{{ item.get_total|currency }}
                                                         </span>
                                                     </div>
                                                 </td>
@@ -109,16 +109,72 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <div class="mobile-only cart-items">
+                                    {% for item in items %}
+                                    <div class="mobile-product bb" id="product-row-mobile-{{ item.product.id }}">
+                                        <div class="d-flex">
+                                            <div>
+                                                <div class="shop-cart-img">
+                                                    <a href="{% url 'shop:single' slug=item.product.slug %}">
+                                                        {% if item.product.image_1 %}
+                                                            <img src="{{ item.product.image_1.url }}" alt="{{ item.product.name }}">
+                                                        {% else %}
+                                                            No image
+                                                        {% endif %}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="shop-cart-product-info">
+                                                <h6>Product</h6>
+                                                <h5 class="shop-cart-name">
+                                                    <a href="{% url 'shop:single' slug=item.product.slug %}"><span
+                                                        class="product-name-{{ item.product.id }}">{{ item.product.name }}</span>
+                                                    </a>
+                                                </h5>
+                                                <h6>Unit Price</h6>
+                                                <span class="product-price-{{ item.product.id }}">
+                                                    {{item.product.customer_price|currency}}
+                                                </span>
+                                                <div class="shop-cart-qty">
+                                                    <button data-product="{{ item.product.id }}" data-action="minus"
+                                                        class="update-cart excludeDisable minus-btn"><i
+                                                            class="fal fa-minus"></i></button>
+                                                    <input class="quantity" type="text" value="{{ item.quantity }}"
+                                                        disabled="">
+                                                    <button data-product="{{ item.product.id }}" data-action="add"
+                                                        class="update-cart excludeDisable plus-btn"><i
+                                                            class="fal fa-plus"></i></button>
+                                                </div>
+                                                <h6>Subtotal</h6>
+                                                <div class="shop-cart-subtotal">
+                                                    <span class="product-subtotal product-subtotal-{{ item.product.id }}">
+                                                        {{ item.get_total|currency }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="remove-product">
+                                                <a href="#" data-tooltip="tooltip" title="Remove Item"
+                                                    data-product="{{ item.product.id }}"
+                                                    data-order-id="{{order.order_id}}" data-action="remove"
+                                                    class="update-cart shop-cart-remove">
+                                                    <i class="far fa-times font-color-gray" style="color: var(--color-gray2); border: var(--color-gray2);"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
-                <div class="col-xl-4">
+                <div class="col-sm-4">
                     <div class="shop-cart-summary" style="padding: 0;">
                         <div class="card index-card">
                             <div class="card-header p20">
-                                <h3>Cart Summary</h3>
+                                <h3>CART SUMMARY</h3>
                             </div>
                             <div class="card-body">
                                 {% for order in orders %}
@@ -153,9 +209,9 @@
                                         <span id="order-subtotal-{{ order.order_id }}">{{ order.subtotal|currency }}</span>
                                     </li>
                                     {% if order.discount %}
-                                        <li>Discount: <span>{{ order.discount|currency }}</span></li>
+                                        <li class="list-discount">Discount: <span>{{ order.discount|currency }}</span></li>
                                     {% else %}
-                                        <li>Discount: <span>No discount applied</span></li>
+                                        <li class="list-discount">Discount: <span>No discount applied</span></li>
                                     {% endif %}
                                     <li class="shop-cart-total">Order Total: <span
                                             id="order-total-{{ order.order_id }}">
@@ -179,6 +235,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="continue-shopping">
+                    <button class="btn theme-btn cont-shop-btn">CONTINUE SHOPPING</button>
                 </div>
             </div>
         </div>
