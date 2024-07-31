@@ -9,11 +9,11 @@
 
 
 <!-- shop checkout complete -->
-<div id="checkout-complete" class="shop-checkout-complete twc-checkout-complete py-120">
+<div id="checkout-complete" class="shop-checkout-complete twc-checkout-complete py-120 mobile-width">
     <div class="container">
-        <div class="card index-card">
+        <div class="card index-card order-completed-card">
             <div class="card-header">
-                <h2>CART SUMMARY</h2>
+                <h2>ORDER COMPLETED</h2>
             </div>
             <div class="card-body cart-summary text-center">
                 <h1>THANK YOU</h1>
@@ -51,65 +51,104 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="card-body fixed-height">
-                        <table class="table">
-                            <thead>
-                                <tr class="table-active" style="text-align: left;">
-                                    <th scope="col-6"></th>
-                                    <th scope="col-6">Product</th>
-                                    <th scope="col-2">Quantity</th>
-                                    <th scope="col-4">Unit Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in items %}
-                                <tr class="center-text">
-                                    <td style="width: 20%;">
-                                        <div class="shop-cart-img">
-                                            <a href="#">
-                                                {% if item.product.image_1 %}
-                                                    {% if item.product.image_1.url %}
-                                                        <img src="{{ item.product.image_1.url }}" alt="{{ item.product.name }}">
+                    <div class="card-body fixed-height checkout-complete">
+                        <div class="table-responsive mobile-hidden">
+                            <table class="table">
+                                <thead>
+                                    <tr class="table-active" style="text-align: left;">
+                                        <th scope="col-6"></th>
+                                        <th scope="col-6">Product</th>
+                                        <th scope="col-2">Quantity</th>
+                                        <th scope="col-4">Unit Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in items %}
+                                    <tr class="center-text">
+                                        <td style="width: 20%;">
+                                            <div class="shop-cart-img">
+                                                <a href="#">
+                                                    {% if item.product.image_1 %}
+                                                        {% if item.product.image_1.url %}
+                                                            <img src="{{ item.product.image_1.url }}" alt="{{ item.product.name }}">
+                                                        {% else %}
+                                                            <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ item.product.name }}">
+                                                        {% endif %}
                                                     {% else %}
                                                         <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ item.product.name }}">
                                                     {% endif %}
-                                                {% else %}
-                                                    <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ item.product.name }}">
-                                                {% endif %}
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td style="width: 50%;">{{ item.product.name }}</td>
+                                        <td style="width: 10%; text-align: center;">{{ item.quantity }}</td>
+                                        <td style="width: 20%;">₱{{ item.get_total }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    <tr style="height: 10px;"><td colspan="4"></td></tr>
+                                    <tr class="shipping-row" style="text-align: left;">
+                                        <th colspan="3">Shipping</th>
+                                        <th>{{ order.shipping_fee|currency }}</th>
+                                    </tr>
+                                    {% if order.discount %}
+                                    <tr style="text-align: left;">
+                                        <th colspan="3">Discount</th>
+                                        <th>({{ order.discount|currency }})</th>
+                                    </tr>
+                                    {% endif %}
+                                    <tr class="total-row table-active" style="text-align: left;">
+                                        <th colspan="2">Total:</th>
+                                        <th style="text-align: center;">{{ order.total_quantity }}</th>
+                                        <th>{{ order.cod_amount|currency }}</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mobile-only checkout-items bb">
+                            {% for item in items %}
+                            <div class="mobile-product">
+                                <div class="d-flex">
+                                    <div class="shop-cart-img">
+                                        <a href="{% url 'shop:single' slug=item.product.slug %}">
+                                            {% if item.product.image_1 %}
+                                                <img src="{{ item.product.image_1.url }}" alt="{{ item.product.name }}">
+                                            {% else %}
+                                                No image
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                    <div class="shop-cart-product-info">
+                                        <h6>Product</h6>
+                                        <h5 class="shop-cart-name mt5">
+                                            <a href="{% url 'shop:single' slug=item.product.slug %}"><span
+                                                class="product-name-{{ item.product.id }}">{{ item.product.name }}</span>
                                             </a>
-                                        </div>
-                                    </td>
-                                    <td style="width: 50%;">{{ item.product.name }}</td>
-                                    <td style="width: 10%; text-align: center;">{{ item.quantity }}</td>
-                                    <td style="width: 20%;">₱{{ item.get_total }}</td>
-                                </tr>
-                                {% endfor %}
-                                <tr style="height: 10px;"><td colspan="4"></td></tr>
-                                <tr class="shipping-row" style="text-align: left;">
-                                    <th colspan="3">Shipping</th>
-                                    <th>{{ order.shipping_fee|currency }}</th>
-                                </tr>
-                                {% if order.discount %}
-                                <tr style="text-align: left;">
-                                    <th colspan="3">Discount</th>
-                                    <th>({{ order.discount|currency }})</th>
-                                </tr>
-                                {% endif %}
-                                <tr class="total-row table-active" style="text-align: left;">
-                                    <th colspan="2">Total:</th>
-                                    <th style="text-align: center;">{{ order.total_quantity }}</th>
-                                    <th>{{ order.cod_amount|currency }}</th>
-                                </tr>
-                            </tbody>
-                        </table>
+                                        </h5>
+                                        <h6 class="mt10">Quantity</h6>
+                                        <h5 class="mt5">{{ item.quantity }}</h5>
+                                        <h6 class="mt10">Unit Price</h6>
+                                        <h5 class="mt5">{{item.product.customer_price|currency}}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="checkout-payment">
+                            <h5 class="checkout-shipping bb">
+                                Shipping Fee <span>{{ order.shipping_fee|currency }}</span>
+                            </h5>
+                            <h4>
+                                Total <span>{{ order.cod_amount|currency }}</span>
+                            </h4>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 delivery-card mobile-hidden">
                 <div class="card index-card h-100">
                     <div class="card-header order-header">
                         <div class="p-2">
-                            <h4>SUMMARY</h4>
+                            <h4>DELIVERY</h4>
                         </div>
                     </div>
                     <div class="card-body fixed-height">
@@ -159,11 +198,59 @@
             </div>
         </div>
         {% endfor %}
-
+        <div class="col-sm-6 delivery-card mobile-only">
+            <div class="card index-card h-100">
+                <div class="card-header delivery-header">
+                    <h4>DELIVERY</h4>
+                </div>
+                <div class="card-body fixed-height">
+                    <div class="row justify-content-between bb mb-10 summary-details-row">
+                        <div class="col-7">
+                            <ul class="address-list">
+                                <li>Date</li>
+                                <li>Mobile Number</li>
+                                <li>Payment Method</li>
+                                <li>Total</li>
+                            </ul>
+                        </div>
+                        <div class="col-5">
+                            <ul class="address-list">
+                                <li>{{ orders.0.created_at|date:"Y-m-d" }}</li>
+                                <li>{{ orders.0.shipping_address.phone }}</li>
+                                <li>Cash On Delivery</li>
+                                <li>{{ total_payment|currency }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bb mb-10">
+                        <p class="pb10">
+                            Address:<br>
+                            {{ orders.0.shipping_address.line1 }},
+                            {% if orders.0.shipping_address.line2 %}
+                                {{ orders.0.shipping_address.line2 }},
+                            {% endif %}
+                            Brgy. {{ orders.0.shipping_address.barangay }},
+                            {{ orders.0.shipping_address.city }},
+                            {{ orders.0.shipping_address.province }},
+                            {{ orders.0.shipping_address.region }},
+                            {{ orders.0.shipping_address.postcode }}
+                        </p>
+                    </div>
+                    <div class="region-list">
+                        <p>Estimated Delivery</p>
+                        <ul>
+                            <li>NCR: 2-3 Days</li>
+                            <li>Luzon: 3-5 Days</li>
+                            <li>Visayas: 5-7 Days</li>
+                            <li>Mindanao: 7-10 Days</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="text-center">
-        <a href="{% url 'shop:shop' %}" class="theme-btn mt-50">Go Back Shopping
-            <i class="fas fa-arrow-right"></i></a>
+    <div class="col-lg-12 mt-20 continue-shopping">
+        <a href="{% url 'shop:shop' %}" type="button" class="theme-btn theme-btn2">CONTINUE SHOPPING</a>
     </div>
 </div>
 {% endblock %}

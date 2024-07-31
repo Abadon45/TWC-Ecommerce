@@ -90,8 +90,8 @@ $(document).ready(function () {
           });
         } else {
           $(".is_default").css({
-            "border-color": "orange",
-            color: "orange",
+            "border-color": "var(--theme-color)",
+            color: "var(--theme-color)",
           });
         }
 

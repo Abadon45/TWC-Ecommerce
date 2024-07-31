@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<div class="shop-checkout2 twc-checkout py-100">
+<div class="shop-checkout2 twc-checkout py-100 mobile-width">
     <div class="container">
         <div class="shop-checkout-wrap">
             <div class="row">
@@ -37,42 +37,6 @@
                             <div class="tab-pane fade" id="step2" role="tabpanel" aria-labelledby="step2-tab"
                                 tabindex="0">
                                 <div class="shop-checkout-payment">
-                                    <!-- <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                            <a class="nav-link active" id="pills-tab-1" data-bs-toggle="pill"
-                                                data-bs-target="#pills-1" type="button" role="tab"
-                                                aria-controls="pills-1" aria-selected="true">
-                                                <div class="checkout-payment-img cod">
-                                                    <img src="{% static 'img/payment/cod-3.svg' %}" alt="">
-                                                </div>
-                                                <span>Cash On Delivery</span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" role="presentation" style="display: none;">
-                                            <a class="nav-link" id="pills-tab-2" data-bs-toggle="pill"
-                                                data-bs-target="#pills-2" type="button" role="tab"
-                                                aria-controls="pills-2" aria-selected="false">
-                                                <div class="checkout-card-img">
-                                                    <img src="{% static 'img/payment/mastercard.svg' %}" alt="">
-                                                    <img src="{% static 'img/payment/visa.svg' %}" alt="">
-                                                </div>
-                                                <span>Credit/Debit Payments</span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" role="presentation" style="display: none;">
-                                            <a class="nav-link" id="pills-tab-3" data-bs-toggle="pill"
-                                                data-bs-target="#pills-3" type="button" role="tab"
-                                                aria-controls="pills-3" aria-selected="false">
-                                                <div class="checkout-payment-img">
-                                                    <img src="{% static 'img/payment/gcash.svg' %}" alt=""
-                                                        style="width: 95px;">
-                                                    <img src="{% static 'img/payment/maya.svg' %}" alt=""
-                                                        style="width: 95px;">
-                                                </div>
-                                                <span>Gcash/Maya Payment</span>
-                                            </a>
-                                        </li>
-                                    </ul> -->
                                     <div class="tab-content" id="pills-tabContent">
                                         <div class="tab-pane fade show active" id="pills-1" role="tabpanel"
                                             aria-labelledby="pills-tab-1" tabindex="0">
@@ -248,24 +212,24 @@
                 {% endif %}
                 {% if is_authenticated %}
                         {% if default_address %}
-                        <div class="col-lg-8">
+                        <div class="col-md-8">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="shop-checkout-form address-area">
                                         
-                                        <h6 class="mb-2"><i class="fa-solid fa-location-dot"></i> Delivery Address:</h6>
+                                        <h6 class="mb-2">Delivery Address</h6>
                     
                                         <p class="selected_address"><b>{{default_address.first_name}}
                                                 {{default_address.last_name}}
                                                 {{default_address.phone}}</b></p>
                                         <div class="change-address row mb-20">
-                                            <div class="col-lg-10">
+                                            <div class="col-md-10 col-10">
                                                 <p class="address_details">{{ default_address.line1 }} Brgy. 
                                                     {{default_address.barangay }},
                                                     {{ default_address.city }}, {{ default_address.province }},
                                                     {{ default_address.postcode }} </p>
                                             </div>
-                                            <div class="col-lg-2 d-flex justify-content-end">
+                                            <div class="col-2 d-flex justify-content-end">
                                                 <span class="is_default">Default</span>
                                             </div>
                                             <div class="row">
@@ -280,69 +244,6 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    {% for order, items in ordered_items.items %}
-                                    <div class="card index-card mb-20 shop-cart-summary-twc">
-                                        <div class="card-header">
-                                            <h3>ORDER NUMBER: {{ order.order_id }}</h3>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="cart-table card-text">
-                                                <div class="table-responsive">
-                                                    <table class="table cart-table" id="product-table-{{ order.order_id }}">
-                                                        <thead>
-                                                            <tr>
-                                                                <th scope="col"></th>
-                                                                <th scope="col">Product Name</th>
-                                                                <th scope="col">Price</th>
-                                                                <th scope="col" style="text-align: center;">Quantity</th>
-                                                                <th scope="col" style="text-align: right;">Sub Total</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody class="cart-body">
-                                                            {% for item in items %}
-                                                            <tr class="cart-product" id="product-row-{{ item.product.id }}"
-                                                                style="width: 20%;">
-                                                                <td>
-                                                                    <div class="shop-cart-img">
-                                                                        <a href="#">
-                                                                        {% if item.product.image_1 %}
-                                                                            {% if item.product.image_1.url %}
-                                                                                <img src="{{ item.product.image_1.url }}" alt="{{ item.product.name }}">
-                                                                            {% else %}
-                                                                                <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ item.product.name }}">
-                                                                            {% endif %}
-                                                                        {% else %}
-                                                                            <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ item.product.name }}">
-                                                                        {% endif %}
-                                                                        </a>
-                                                                    </div>
-                                                                </td>
-                                                                <td style="width: 45%;">{{item.product.name}}</td>
-                                                                <td style="width: 10%;">{{item.product.customer_price|currency}}</td>
-                                                                <td style="width: 10%; text-align: center;">{{ item.quantity }}</td>
-                                                                <td style="width: 15%; text-align: right;">{{ item.get_total|currency }}
-                                                                </td>
-                                                            </tr>
-                                                            {% endfor %}
-                                                        </tbody>
-                                                    </table>
-                                                    <ul class="bt">
-                                                        <li class="shop-cart-subtotal"><strong>Order Shipping Fee:</strong>&emsp;<span>
-                                                            {{ order.shipping_fee|currency }}</span></li>
-                                                        {% if order.discount %}
-                                                            <li class="shop-cart-subtotal"><strong>Order Discount:</strong>&emsp;<span>
-                                                                {{ order.discount|currency }}</span></li>
-                                                        {% endif %}
-                                                        <li class="shop-cart-subtotal"><strong>Order Total:</strong>&emsp;<span>
-                                                            {{ order.cod_amount|currency }}</span></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% endfor %}
-                                </div>
-                                <div class="col-lg-12">
                                     <div class="shop-cart-summary payment-area" style="margin-left: 0!important;">
                                         <h5>Mode of Payment</h5>
                                         <label class="form-check-label" for="cod">
@@ -354,21 +255,61 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-md-4">
                             <div class="shop-cart-summary" style="margin-left: 0!important;">
                                 <div class="card index-card">
                                     <div class="card-header">
                                         <h3>CART SUMMARY</h3>
                                     </div>
                                     <div class="card-body">
-                                        <ul>
-                                            <li><strong>Merchandise Sub Total:</strong><span>{{ orders_subtotal|currency }}</span></li>
-                                            <li><strong>Shipping Fee Total:</strong><span>{{ total_shipping|currency }}</span></li>
-                                            {% if total_discount %}
-                                                <li><strong>Total Discount:</strong><span>-{{ total_discount|currency }}</span></li>
+                                        {% for order in orders %}
+                                        <ul class="bordered-bottom {% if not forloop.last %} mb-20 {% endif %}">
+                                            <li>
+                                                <h6>
+                                                    Shop:
+                                                    {% if order.supplier == "sante" %}
+                                                    Sante International
+                                                    {% endif %}
+                                                    {% if order.supplier == "mood" %}
+                                                    Mood Timepieces
+                                                    {% endif %}
+                                                    {% if order.supplier == "chingu" %}
+                                                    Chingu
+                                                    {% endif %}
+                                                    {% if order.supplier == None %}
+                                                    Promo Bundle
+                                                    {% endif %}
+                                                </h6>
+                                            </li>
+                                            <li>
+                                                <div class="shop-cart-coupon">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" placeholder="Your Coupon Code">
+                                                        <button class="theme-btn custom-btn-1" type="submit">APPLY</button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>Order: <span>{{ order.order_id }}</span></li>
+                                            <li>Order Sub Total:
+                                                <span id="order-subtotal-{{ order.order_id }}">{{ order.subtotal|currency }}</span>
+                                            </li>
+                                            {% if order.discount %}
+                                                <li class="list-discount">Discount: <span>{{ order.discount|currency }}</span></li>
+                                            {% else %}
+                                                <li class="list-discount">Discount: <span>No discount applied</span></li>
                                             {% endif %}
+                                            <li class="list-shipping">Shipping Fee: <span>{{ order.shipping_fee|currency }}</span></li>
+                                            <li class="shop-cart-total">Order Total: <span
+                                                    id="order-total-{{ order.order_id }}">
+                                                    {% if order.cod_amount %}
+                                                        {{ order.cod_amount|currency }}
+                                                    {% else %}
+                                                        {{ order.subtotal|currency }}
+                                                    {% endif %}
+                                                </span></li>
                                         </ul>
-                                        <h4 class=" cart-total mt-3 bb bt py20">
+                                        {% endfor %}
+                                        <h4 class=" cart-total mt-3 py20">
                                             <strong>
                                                 <span class="cart-label">Cart Total:</span>
                                                 <span class="cart-value" id="total-payment">{{ total_payment|currency }}</span>
@@ -390,8 +331,8 @@
                             
                             </div>
                         </div>
-                        <div class="col-lg-12 mt-20 continue-shop">
-                            <a href="{% url 'cart:cart' %}" type="button" class="theme-btn theme-btn2">CONTINUE SHOPPING</a>
+                        <div class="col-lg-12 mt-20 continue-shopping">
+                            <a href="{% url 'shop:shop' %}" type="button" class="theme-btn theme-btn2">CONTINUE SHOPPING</a>
                         </div>
                         {% endif %}
                 {% endif %}
