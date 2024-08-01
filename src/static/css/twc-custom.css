@@ -2098,6 +2098,9 @@ a.disabled:hover {
     .pt-90, .pt-100 {
         padding-top: 60px;
     }
+    .py-100 {
+        padding: 30px 0!important;
+    }
     .collapse.navbar-collapse .navbar-nav .nav-item.dropdown .dropdown-menu.fade-down {
         display: none;
     }
@@ -2210,7 +2213,7 @@ a.disabled:hover {
     }
     .index-card {
         .card-header{
-            padding: 5px;
+            padding: 10px 12px 6px;
             .site-title, h2 {
                 font-size: 20px;
             }
@@ -2391,17 +2394,32 @@ a.disabled:hover {
         }
     }
 
-    /* SHOP PAGE */
+    /* SHOP TABLET */
 
     .shop-page {
-        .shop-sort-box, .nice-select {
-            font-size: 12px;
+        .shop-sort {
+            margin-bottom: 15px;
+            .shop-sort-box, .nice-select {
+                display: flex;
+                align-items: center;
+                height: 30px;
+                border-radius: 8px;
+                font-size: 10px;
+            }
+            .shop-sort-gl{
+                button {
+                    height: 25px;
+                    width: 25px;
+                    line-height: 25px;
+                    font-size: 12px;
+                }
+            }
         }
         .card-header {
-            border-radius: 10px 10px 0 0;
+            border-radius: 8px 8px 0 0;
             h4 {
-                padding: 5px;
                 font-size: 14px;
+                font-weight: 500;
             }
         }
         .index-card-body {
@@ -2418,24 +2436,10 @@ a.disabled:hover {
             .shop-category-list {
                 li {
                     font-size: 12px;
+                    a {
+                        margin: 2px 0;
+                    }
                 }
-            }
-        }
-        .index-card-body.search-body{ 
-            padding: 15px 7px 10px;
-            .search-form {
-                width: 100px;
-                input {
-                    padding: 5px;
-                    font-size: 12px;
-                }
-                
-            }
-            button {
-                position: absolute!important;
-                top: 50px;
-                right: 10px;
-                padding: 7px 10px;
             }
         }
         #products-grid {
@@ -2445,25 +2449,27 @@ a.disabled:hover {
                         height: 156px;
                     }
                     .product-title {
-                        height: 30px;
+                        height: 30px!important;
                         a {
                             height: 30px;
                             font-size: 12px;
+                            font-weight: 500;
                             overflow: hidden;
                             text-overflow: ellipsis;
                         }
                     }
                     .product-rate {
-                        font-size: 12px;
+                        font-size: 10px;
                     }
                     .product-bottom {
                         span {
-                            font-size: 16px;
+                            font-size: 15px;
                         }
                     }
                     .product-button {
                         button {
                             border-radius: 5px;
+                            margin-top: 5px;
                             font-size: 16px;
                             padding: 3px 10px;
                         }
