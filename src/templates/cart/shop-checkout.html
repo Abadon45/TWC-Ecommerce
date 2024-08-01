@@ -19,12 +19,12 @@
                                 data-bs-target="#step1" type="button" role="tab" aria-controls="step1"
                                 aria-selected="true">
                                 <span class="step-count">1</span>
-                                <i class="far fa-user-circle"></i>SHIPPING ADDRESS
+                                SHIPPING ADDRESS
                             </a>
                             <a href="#" class="nav-link" id="step2-tab" data-bs-toggle="pill" data-bs-target="#step2"
                                 type="button" role="tab" aria-controls="step2" aria-selected="false">
                                 <span class="step-count">2</span>
-                                <i class="far fa-box-taped"></i>PAYMENT
+                                PAYMENT
                             </a>
                         </nav>
                         <div class="tab-content" id="pills-tabContent">
@@ -147,7 +147,7 @@
                             </div>
                             <div class="card-body">
                                 {% for order in orders %}
-                                <ul>
+                                <ul class="bordered-bottom {% if not forloop.last %} mb-20 {% endif %}">
                                     <li>
                                         <h6>
                                             Shop:
@@ -173,15 +173,16 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li>
-                                        <h6>Order: <span>{{ order.order_id }}</span></h6>
+                                    <li>Order: <span>{{ order.order_id }}</span>
                                     </li>
-                                    <li><h6>Order Sub Total: <span>{{ order.subtotal|currency }}</span></h6>
+                                    <li>Order Sub Total: <span>{{ order.subtotal|currency }}</span>
                                     </li>
-                                    {% if discount %}
-                                    <li><h6>Discount:</h6>{{ discount }}</li>
+                                    {% if order.discount %}
+                                        <li class="list-discount">Discount: <span>{{ order.discount|currency }}</span></li>
+                                    {% else %}
+                                        <li class="list-discount">Discount: <span>No discount applied</span></li>
                                     {% endif %}
-                                    <li id="shipping_fee_{{ order.id }}" class="pb15"><h6>Shipping fee: <span>Calculated at next step</span></h6>
+                                    <li id="shipping_fee_{{ order.id }}" class="pb15">Shipping fee: <span>Calculated at next step</span>
                                     </li>
                                     <li class="shop-cart-total"><strong>Order Total:</strong> 
                                         <span id="order-total-{{ order.id }}">{{ order.subtotal|currency }}</span>
@@ -334,7 +335,11 @@
                         <div class="col-lg-12 mt-20 continue-shopping">
                             <a href="{% url 'shop:shop' %}" type="button" class="theme-btn theme-btn2">CONTINUE SHOPPING</a>
                         </div>
+                        {% else %}
+                        <div class="bottom-space"></div>
                         {% endif %}
+                {% else %}
+                <div class="bottom-space"></div>
                 {% endif %}
             </div>
         </div>
