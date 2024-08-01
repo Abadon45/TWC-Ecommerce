@@ -3558,8 +3558,11 @@ a.disabled:hover {
     }
 
     /* CHECKOUT COMPLETE */
-
+    .twc-checkout-complete.py-120 {
+        padding: 15px 0 30px!important;
+    }
     .twc-checkout-complete {
+        
         .row.mt-20 {
             margin-top: 15px;
         }
