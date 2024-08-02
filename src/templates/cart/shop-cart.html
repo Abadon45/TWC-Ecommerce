@@ -12,7 +12,7 @@
     <div class="container">
         <div class="shop-cart-wrap">
             <div class="row">
-                <div class="col-sm-8">
+                <div class="col-sm-8 table-col">
                     {% for order, items in ordered_items.items %}
                     <div id="order-card-{{order.order_id}}" class="card mb-20">
                         <div class="card index-card">
@@ -33,14 +33,13 @@
                                     {% endif %}
                                 </h6>
                             </div>
-
-                            <div class="card-body">
+                            <div class="card-body table-body">
                                 <div class="table-responsive mobile-hidden">
                                     <table class="table cart-table" id="product-table-{{ order.order_id }}">
-                                        <thead style="border-style: unset;">
+                                        <thead class="cart-head" style="border-style: unset;">
                                             <tr style="border-style: unset;">
                                                 <th></th>
-                                                <th>Product</th>
+                                                <th class="product-head">Product</th>
                                                 <th>Unit Price</th>
                                                 <th>Quantity</th>
                                                 <th>Subtotal</th>
@@ -50,7 +49,7 @@
                                         <tbody class="cart-body">
                                             {% for item in items %}
                                             <tr class="cart-product" id="product-row-{{ item.product.id }}">
-                                                <td style="width: 15%;">
+                                                <td class="image-column" style="width: 15%;">
                                                     <div class="shop-cart-img">
                                                         <a href="{% url 'shop:single' slug=item.product.slug %}">
                                                             {% if item.product.image_1 %}
@@ -61,7 +60,7 @@
                                                         </a>
                                                     </div>
                                                 </td>
-                                                <td style="width: 35%;">
+                                                <td class="product-name-column" style="width: 35%;">
                                                     <div class="shop-cart-content">
                                                         <h5 class="shop-cart-name"><a
                                                                 href="{% url 'shop:single' slug=item.product.slug %}"><span
@@ -170,13 +169,13 @@
                     </div>
                     {% endfor %}
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-4 summary-col">
                     <div class="shop-cart-summary" style="padding: 0;">
                         <div class="card index-card">
                             <div class="card-header p20">
                                 <h3>CART SUMMARY</h3>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body summary-body">
                                 {% for order in orders %}
                                 <ul class="bordered-bottom {% if not forloop.last %} mb-20 {% endif %}">
                                     <li>

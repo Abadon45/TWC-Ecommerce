@@ -335,11 +335,14 @@
                         <div class="col-lg-12 mt-20 continue-shopping">
                             <a href="{% url 'shop:shop' %}" type="button" class="theme-btn theme-btn2">CONTINUE SHOPPING</a>
                         </div>
-                        {% else %}
-                        <div class="bottom-space"></div>
-                        {% endif %}
-                {% else %}
-                <div class="bottom-space"></div>
+                        {% endif %}                
+                {% endif %}
+                {% if not is_authenticated or not default_address %}
+                <div class="d-flex justify-content-between align-items-center dummy-submit mobile-only">
+                    <a href="{% url 'cart:cart' %}" type="button" class="theme-btn">CONTINUE SHOPPING</a>
+                    <input type="hidden" name="submit_type" value="shipping">
+                    <button type="button" class="theme-btn" onclick="submitForm()">NEXT STEP</button>
+                </div>
                 {% endif %}
             </div>
         </div>
@@ -349,6 +352,13 @@
 {% endblock %}
 {% block extra_js %}
 <script>
+    // dummy button for submitting form
+    function submitForm() {
+        $('#addUserData').click();
+    }
+
+    $('.dummy-submit button').click(submitForm);
+
     function checkoutBtn(event) {
         event.preventDefault();
         var referrerId = $(event.currentTarget).data('referrer-id');
