@@ -11,7 +11,7 @@
         <div class="shop-checkout-wrap">
             <div class="row">
                 {% if not default_address %}
-                <div class="col-sm-8 mb-20">
+                <div class="col-sm-7 col-md-8 mb-20">
                     <div class="shop-checkout-step">
                         <nav class="nav checkout-step-list nav-pills nav-justified mb-3" id="shopCheckout"
                             role="tablist">
@@ -139,7 +139,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-5 col-md-4">
                     <div class="shop-cart-summary mt-lg-0">
                         <div class="card index-card"> 
                             <div class="card-header">
@@ -338,11 +338,14 @@
                         {% endif %}                
                 {% endif %}
                 {% if not is_authenticated or not default_address %}
-                <div class="d-flex justify-content-between align-items-center dummy-submit mobile-only">
-                    <a href="{% url 'cart:cart' %}" type="button" class="theme-btn">CONTINUE SHOPPING</a>
-                    <input type="hidden" name="submit_type" value="shipping">
-                    <button type="button" class="theme-btn" onclick="submitForm()">NEXT STEP</button>
+                <div class="mobile-only">
+                    <div class="d-flex justify-content-between align-items-center dummy-submit">
+                        <a href="{% url 'cart:cart' %}" type="button" class="theme-btn">CONTINUE SHOPPING</a>
+                        <input type="hidden" name="submit_type" value="shipping">
+                        <button type="button" class="theme-btn" onclick="submitForm()">NEXT STEP</button>
+                    </div>
                 </div>
+                
                 {% endif %}
             </div>
         </div>
