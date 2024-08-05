@@ -21,10 +21,10 @@
                 <p>For any concern, please feel free to contact us at +639565885998.</p>
                 
                 {% if not user.is_authenticated %}
-                    <div class="card mt-20 offset-xl-3 col-xl-6 offset-md-3 col-md-6 text-left login-info">
+                    <div class="card login-info">
                         <div class="card-body track-order-body">
                             <h4 style="color: var(--color-dark);">Please save your login details to track your order.</h4>
-                            <h6 class="mt-2">Username: {{ username }}</h6>
+                            <h6>Username: {{ username }}</h6>
                             <h6>Password: {{ password }}</h6>
                             <h6>Affiliate Link: <span class="link-color">http://www.twconline.store/{{ orders.0.user.referred_by }}</span></h6>
                             <h6>Email: {{ email }}</h6>
