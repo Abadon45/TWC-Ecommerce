@@ -3699,10 +3699,10 @@ label {
   border-color: var(--theme-color);
 }
 
-.shop-checkout-form .theme-btn{
+/* .shop-checkout-form .theme-btn{
   margin-top: 15px;
   margin-bottom: 10px;
-}
+} */
 
 .shop-checkout-form .theme-btn2{
   background: var(--theme-color2);

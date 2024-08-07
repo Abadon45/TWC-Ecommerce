@@ -1075,7 +1075,11 @@ input, textarea {
         border-radius: 8px;
     }
     .address-form-btn-grp {
-        padding: 0;
+        .theme-btn {
+            margin-top: 25px;
+            padding: 8px 18px;
+            font-size: 16px!important;
+        }
     }
     .shop-cart-summary {
         padding: 0;
@@ -1692,6 +1696,15 @@ a.disabled:hover {
 
 /* For Desktop Large */
 @media (max-width: 1199.98px) {
+    .twc-category-slider {
+        .category-info {
+            .content {
+                h4 {
+                    font-size: 13px!important;
+                }
+            }
+        }
+    }
     .index-card {
         .product-img {
             height: 188px;
@@ -2036,9 +2049,8 @@ a.disabled:hover {
                     font-size: 14px;
                 }
             }
-
             .cart-total {
-                margin-top: 0!important;
+                margin-top: 15px!important;
                 .cart-label, .cart-value {
                     font-size: 16px;
                     font-weight: 700;
@@ -2064,26 +2076,25 @@ a.disabled:hover {
                         border-radius: 8px 0 0 8px;
                     }
                 }
-                .address-form-btn-grp {
-                    a, button {
-                        padding: 8px 18px;
-                        font-size: 14px;
-                    }
-                }
                 .checkout-btn {
                     font-size: 20px!important;
                 }
-            .checkoutBtn {
-                margin-top: 35px!important;
-                .checkout-btn {
-                    font-size: 16px;
-                    padding: 8px 15px;
+                .checkoutBtn {
+                    margin-top: 35px!important;
+                    .checkout-btn {
+                        font-size: 16px;
+                        padding: 8px 15px;
+                    }
                 }
             }
-            
         }
-    }
-
+        .address-form-btn-grp {
+            .theme-btn {
+                margin-top: 20px;
+                padding: 8px 18px;
+                font-size: 14px!important;
+            }
+        }
     .twc-checkout-complete {
         li, p {
             font-size: 14px;
@@ -2205,6 +2216,7 @@ a.disabled:hover {
     #scroll-top.active {
         bottom: 5px;
     }
+    }
 }
 
 /* Medium devices (tablets, less than 992px) */
@@ -2217,6 +2229,15 @@ a.disabled:hover {
     }
     .py-100 {
         padding: 30px 0!important;
+    }
+    .twc-category-slider {
+        .category-info {
+            .content {
+                h4 {
+                    font-size: 9px!important;
+                }
+            }
+        }
     }
     .collapse.navbar-collapse .navbar-nav .nav-item.dropdown .dropdown-menu.fade-down {
         display: none;
@@ -2514,6 +2535,7 @@ a.disabled:hover {
     /* SHOP TABLET */
 
     .shop-page {
+        min-height: 75vh;
         .shop-sort {
             margin-bottom: 15px;
             .shop-sort-box, .nice-select {
@@ -3021,15 +3043,6 @@ a.disabled:hover {
                         border-radius: 8px 0 0 8px;
                     }
                 }
-                
-                .address-form-btn-grp {
-                    a, button {
-                        width: 130px;
-                        border-radius: 6px;
-                        padding: 8px 14px;
-                        font-size: 10px;
-                    }
-                }
                 .checkout-btn {
                     margin: 15px 0 5px;
                     padding: 7px;
@@ -3089,6 +3102,14 @@ a.disabled:hover {
                     font-size: 15px;
                     font-weight: 600;
                 }
+            }
+        }
+        .address-form-btn-grp {
+            .theme-btn {
+                margin-top: 15px;
+                padding: 8px 18px;
+                border-radius: 6px;
+                font-size: 12px!important;
             }
         }
     }
@@ -3291,7 +3312,6 @@ a.disabled:hover {
 
 /* Small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) {
-
     /* MISC */
     .bt2-m {
         border-top: 2px solid var(--border-info-color);
@@ -3631,6 +3651,7 @@ a.disabled:hover {
     /* SHOP MOBILE */
 
     .shop-page {
+        min-height: 85vh;
         .shop-sort {
             margin-bottom: 20px;
             .shop-sort-box {
