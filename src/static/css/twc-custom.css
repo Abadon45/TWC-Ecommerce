@@ -93,6 +93,10 @@ input, textarea {
     border: 1px solid var(--theme-color);
 }
 
+.iti {
+    width: 100%!important;
+}
+
 .link-color {
     color: var(--theme-color2)!important;
 }
@@ -324,6 +328,22 @@ input, textarea {
 .header-container {
     display: inline !important;
     margin: auto;
+}
+
+/* LOGIN PAGE */
+
+.login-area {
+    .login-form {
+        .login-header {
+            img {
+                margin: 0 auto;
+            }
+            p {
+                margin-top: 1vh;
+                font-size: 2vh
+            }
+        }
+    }
 }
 
 /* Index */
@@ -955,12 +975,9 @@ input, textarea {
         border-bottom: hidden;
     }
 }
-
-
 .shop-cart thead tr {
     background: none;
 }
-
 
 /* CHECKOUT */
 
@@ -973,16 +990,13 @@ input, textarea {
     }
     
 }
-
 .shop-checkout2 .checkout-step-list .nav-link.done::before,
 .shop-checkout2 .checkout-step-list .nav-link.done span {
     background: var(--theme-color);
 }
-
 .shop-checkout2 .checkout-step-list .nav-link.done .step-count::before {
     border-color: var(--theme-color);
 }
-
 .shop-checkout2 .checkout-step-list .nav-link::before {
     content: "";
     position: absolute;
@@ -992,7 +1006,6 @@ input, textarea {
     left: 0;
     top: 0;
 }
-
 .shop-checkout2 .checkout-step-list .nav-link .step-count::before {
     content: "";
     position: absolute;
@@ -1003,7 +1016,6 @@ input, textarea {
     bottom: -4px;
     border-radius: 50px;
 }
-
 .shop-checkout2 .checkout-step-list .nav-link .step-count {
     position: absolute;
     width: 28px;
@@ -1016,12 +1028,10 @@ input, textarea {
     border-radius: 50px;
     transform: translateX(-50%);
 }
-
 .shop-checkout2 .checkout-step-list .nav-link.done {
     color: var(--theme-color);
     background: transparent;
 }
-
 .shop-checkout2 .checkout-step-list .nav-link {
     position: relative;
     border-radius: 0;
@@ -1030,8 +1040,6 @@ input, textarea {
     font-weight: 500;
     padding-top: 30px;
 }
-
-
 .twc-checkout {
     .back-to-dropdown {
         font-size: 24px;
@@ -1042,17 +1050,14 @@ input, textarea {
         border-radius: 8px 0 0 8px;
     }
 }
-
 .twc-checkout .cart-value {
     float: right;
 }
-
 .twc-checkout .checkout-btn {
     width: 100%;
     font-weight: 500;
     font-size: 20px;
 }
-
 .twc-checkout {
     .shop-checkout-form.cod {
         padding: 20px;
@@ -1177,22 +1182,16 @@ input, textarea {
         }
     }
 }
-
-
-
 .twc-checkout .shop-cart-summary-twc {
     padding: 0;
     background-color: unset;
 }
-
 .twc-checkout .shop-cart-summary-twc table {
     --bs-table-bg: var(--color-whitet) !important;
 }
-
 .twc-checkout .shop-cart-summary-twc tr {
     border-style: hidden;
 }
-
 .twc-checkout .theme-btn::before {
     content: "";
     height: 400px;

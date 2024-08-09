@@ -1,7 +1,5 @@
-
-
-
 let isOrderBeingCreated = false;
+
 function checkout(element, promo) {
   var bundlePrice = $(element).data("price");
   var bundleQty = $(element).data("quantity");
@@ -170,7 +168,7 @@ function checkout(element, promo) {
         error: function (xhr, status, error) {
           console.error("Error occurred:", error);
           console.log("Error details:", xhr, status);
-          isOrderBeingCreated = false; 
+          isOrderBeingCreated = false;
         },
       });
     } else {
@@ -184,6 +182,15 @@ function checkout(element, promo) {
       cancelButtonColor: "#d92550",
       confirmButtonText: "Place Order",
       customClass: "swal-wide",
+      didOpen: function () {
+        $.getScript(addressJS)
+          .done(function (script, textStatus) {
+            console.log("address.js loaded successfully.");
+          })
+          .fail(function (jqxhr, settings, exception) {
+            console.log("Error loading address.js: ", exception);
+          });
+      },
       didClose: function () {
         let checkbox;
         let checkboxes = document.getElementsByClassName("form-check-input");
@@ -194,73 +201,88 @@ function checkout(element, promo) {
       html:
         '<div class="row">' +
         '<div class="col-md-6">' +
-        '<label for="id_first_name" class="form-label">Receiver First Name *</label>' +
-        '<input id="id_first_name" name="first_name" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" placeholder="Juan" required>' +
+        '<input id="id_first_name" name="first_name" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" placeholder="Receiver First Name" required>' +
         "</div>" +
         '<div class="col-md-6">' +
-        '<label for="id_last_name" class="form-label">Receiver Last Name *</label>' +
-        '<input id="id_last_name" name="last_name" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" placeholder="Dela Cruz" required>' +
+        '<input id="id_last_name" name="last_name" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" placeholder="Receiver Last Name" required>' +
         "</div>" +
         '<div class="col-md-6">' +
-        '<label for="id_email" class="form-label">Receiver Email *</label>' +
-        '<input id="id_email" name="email" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" placeholder="twconline@store.com" required>' +
+        '<input id="id_email" name="email" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" placeholder="Receiver Email" required>' +
         "</div>" +
+
+        // Change with phone function
         '<div class="col-md-6">' +
-        '<label for="id_mobile" class="form-label">Receiver Mobile *</label>' +
-        '<input id="id_mobile" name="mobile" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" placeholder="+63 999 678 1234" required>' +
+        '<input id="id_mobile" name="mobile" class="form-control mb-2 mobileInput" type="text" autocomplete="off" style="height: 50px" placeholder="Receiver Mobile" required>' +
+        "</div>" +
+
+        '<div class="col-md-12">' +
+        '<input id="id_address" name="address" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" placeholder="Address (House number and street name)" required>' +
+        "</div>" +
+
+        '<div class="col-md-6">' +
+          '<div class="input-group">' + 
+            '<label class="input-group-text" for="regionDropdown">Region</label>' +
+            '<select id="id_region" class="form-select regionDropdown" name="region" required>' +
+              '<option selected>- Select Region -</option>' +
+            '</select>' + 
+          '</div>' +
+        '</div>' +
+
+        '<div class="col-md-6">' +
+          '<div class="input-group">' + 
+            '<label class="input-group-text" for="provinceDropdown">Province</label>' +
+            '<select id="id_province" class="form-select provinceDropdown" name="province" required>' +
+              '<option selected>- Select Province -</option>' +
+            '</select>' + 
+          '</div>' +
+        '</div>' +
+
+        '<div class="col-md-6 cityDropdownBox">' +
+          '<div class="input-group">' +
+              '<label class="input-group-text" for="cityDropdown">City</label>' +
+              '<select class="form-select cityDropdown id_city" name="city" required>' +
+                  '<option selected>- Select City -</option>' +
+              '</select>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="col-md-6 cityInputBox" style="display: none;">' +
+            '<div class="input-group">' +
+                '<label class="input-group-text">City</label>' +
+                '<input type="text" class="form-control id_city" placeholder="Specify City" name="city_input">' +
+                '<div class="input-group-append">' +
+                    '<button class="btn btn-outline-secondary back-to-dropdown city-dropdown" tooltip="tooltip" title="Back to dropdown select" type="button"><i class="fa-regular fa-circle-xmark"></i></button>' +
+                '</div>' +
+            '</div>' +
+        '</div>' +
+
+        '<div class="col-md-6 barangayDropdownBox">' +
+            '<div class="input-group mb-3">' +
+                '<label class="input-group-text" for="barangayDropdown">Barangay</label>' +
+                '<select class="form-select barangayDropdown id_barangay" name="barangay" required>' +
+                    '<option selected>- Barangay -</option>' +
+                '</select>' +
+            '</div>' +
+        '</div>' +
+
+        '<div class="col-md-6 barangayInputBox" style="display: none;">' +
+            '<div class="input-group mb-3">' +
+                '<label class="input-group-text">Barangay</label>' +
+                '<input type="text" class="form-control id_barangay" placeholder="Specify Barangay" name="barangay_input">' +
+                '<div class="input-group-append">' +
+                    '<button class="btn btn-outline-secondary back-to-dropdown barangay-dropdown" tooltip="tooltip" title="Back to dropdown select" type="button"><i class="fa-regular fa-circle-xmark"></i></button>' +
+                '</div>' +
+            '</div>' +
+        '</div>' +
+
+        '<div class="col-md-6 postalInputBox">' +
+        '<input id="id_postcode" name="postcode" class="form-control mb-2 inputPostcode" type="text" autocomplete="off" style="height: 50px" placeholder="Manually input ZIP CODE">' +
+        "</div>" +
+
+        '<div class="col-12">' +
+        '<textarea class="form-control form-control-solid" rows="4" name="message" id="id_message" placeholder="Shipping Notes (E.g. Deliver only weekdays.)"></textarea>' +
         "</div>" +
         '<div class="col-md-12">' +
-        '<label for="id_address" class="form-label">Address *</label>' +
-        '<input id="id_address" name="address" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" placeholder="House Number, Subdivision (Landmark)" required>' +
-        "</div>" +
-        '<div class="col-md-6">' +
-        '<label for="id_barangay" class="form-label">Barangay / Street *</label>' +
-        '<input id="id_barangay" name="barangay" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" placeholder="Barangay Bankal" required>' +
-        "</div>" +
-        '<div class="col-md-6">' +
-        '<label for="id_city" class="form-label">Town / City *</label>' +
-        '<input id="id_city" name="city" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" placeholder="Davao City" required>' +
-        "</div>" +
-        '<div class="col-md-6">' +
-        '<label for="id_province" class="form-label">State / Province *</label>' +
-        '<input id="id_province" name="province" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" placeholder="Davao del Sur" required>' +
-        "</div>" +
-        '<div class="col-md-6">' +
-        '<label for="id_region" class="form-label">Region *</label>' +
-        '<select id="id_region" name="region" class="form-select form-control custom-select mb-2" style="height: 50px" required>' +
-        '<option value="">-------</option>' +
-        '<option value="NATIONAL CAPITAL REGION (NCR)">NATIONAL CAPITAL REGION (NCR)</option>' +
-        '<option value="REGION IV-A (CALABARZON)">REGION IV-A (CALABARZON)</option>' +
-        '<option value="REGION I (ILOCOS REGION)">REGION I (ILOCOS REGION)</option>' +
-        '<option value="REGION II (CAGAYAN VALLEY)">REGION II (CAGAYAN VALLEY)</option>' +
-        '<option value="REGION III (CENTRAL LUZON)">REGION III (CENTRAL LUZON)</option>' +
-        '<option value="REGION IV-B (MIMAROPA)">REGION IV-B (MIMAROPA)</option>' +
-        '<option value="REGION V (BICOL REGION)">REGION V (BICOL REGION)</option>' +
-        '<option value="REGION VI (WESTERN VISAYAS)">REGION VI (WESTERN VISAYAS)</option>' +
-        '<option value="REGION VII (CENTRAL VISAYAS)">REGION VII (CENTRAL VISAYAS)</option>' +
-        '<option value="REGION VIII (EASTERN VISAYAS)">REGION VIII (EASTERN VISAYAS)</option>' +
-        '<option value="REGION IX (ZAMBOANGA PENINSULA)">REGION IX (ZAMBOANGA PENINSULA)</option>' +
-        '<option value="REGION X (NORTHERN MINDANAO)">REGION X (NORTHERN MINDANAO)</option>' +
-        '<option value="REGION XI (DAVAO REGION)">REGION XI (DAVAO REGION)</option>' +
-        '<option value="REGION XII (SOCCSKSARGEN)">REGION XII (SOCCSKSARGEN)</option>' +
-        '<option value="CORDILLERA ADMINISTRATIVE REGION (CAR)">CORDILLERA ADMINISTRATIVE REGION (CAR)</option>' +
-        '<option value="AUTONOMOUS REGION IN MUSLIM MINDANAO (ARMM)">AUTONOMOUS REGION IN MUSLIM MINDANAO (ARMM)</option>' +
-        '<option value="REGION XIII (Caraga)">REGION XIII (Caraga)</option>' +
-        "</select>" +
-        "</div>" +
-        '<div class="col-md-6">' +
-        '<label for="id_country" class="form-label">Country *</label>' +
-        '<input id="id_country" name="country" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" value="Philippines" disabled>' +
-        "</div>" +
-        '<div class="col-md-6">' +
-        '<label for="id_postcode" class="form-label">Postal Code / ZIP</label>' +
-        '<input id="id_postcode" name="postcode" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" placeholder="8000">' +
-        "</div>" +
-        '<div class="col-md-6">' +
-        '<label for="id_message" class="form-label text-left" style="margin-top: 20px;">Shipping Notes</label>' +
-        '<textarea class="form-control form-control-solid" rows="4" name="message" id="id_message" placeholder="E.g. Deliver only weekdays."></textarea>' +
-        "</div>" +
-        '<div class="col-md-6">' +
         summary +
         "</div>" +
         "</div>" +
@@ -272,8 +294,8 @@ function checkout(element, promo) {
           $("#id_email").val() &&
           $("#id_mobile").val() &&
           $("#id_address").val() &&
-          $("#id_barangay").val() &&
-          $("#id_city").val() &&
+          $(".id_barangay").val() &&
+          $(".id_city").val() &&
           $("#id_province").val() &&
           $("#id_region").val() &&
           $("#id_postcode").val()
@@ -285,8 +307,8 @@ function checkout(element, promo) {
               email: $("#id_email").val(),
               mobile: $("#id_mobile").val(),
               address: $("#id_address").val(),
-              barangay: $("#id_barangay").val(),
-              city: $("#id_city").val(),
+              barangay: $(".id_barangay").val(),
+              city: $(".id_city").val(),
               province: $("#id_province").val(),
               region: $("#id_region").val(),
               postcode: $("#id_postcode").val(),
@@ -430,10 +452,10 @@ function addBundle(bundleId, source) {
       console.log(response);
       if (source === "shop") {
         Swal.fire({
-          title: 'Success',
-          text: 'Bundle added to cart!',
-          icon: 'success',
-          confirmButtonText: 'OK'
+          title: "Success",
+          text: "Bundle added to cart!",
+          icon: "success",
+          confirmButtonText: "OK",
         });
       } else {
         setTimeout(function () {

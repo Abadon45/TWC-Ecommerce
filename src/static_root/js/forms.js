@@ -72,6 +72,7 @@ $(document).ready(function () {
         $("#step2-tab").addClass("active done");
 
         $(".checkout-btn").removeAttr("hidden");
+        $(".dummy-submit").addClass("hide");
 
         successData.orders.forEach(function (order) {
           var shippingFeeFormatted =

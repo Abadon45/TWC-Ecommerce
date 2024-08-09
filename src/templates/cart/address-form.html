@@ -123,10 +123,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-12 postal-line">
+                <div class="col-lg-6 col-12 postal-line" style="display: none;">
                     <div class="form-group">
                         <label>Postal Code</label>
-                        <input type="text" class="form-control inputPostcode" placeholder="Postcode" name="postcode"
+                        <input id="id_mobile" type="text" class="form-control inputPostcode" placeholder="Postcode" name="postcode"
                             required>
                         {% if form.errors.postcode %}
                         <div class="text-danger">{{ form.errors.postcode }}</div>

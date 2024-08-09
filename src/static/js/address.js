@@ -335,10 +335,27 @@ $(document).ready(function () {
     saveAddressChanges(formData);
   });
 
+  const input = document.querySelector("#id_mobile");
+          if (input) {
+              console.log("Attempting to initialize intlTelInput...");
+  
+              window.intlTelInput(input, {
+                  initialCountry: "ph",
+                  strictMode: true,
+                  onlyCountries: ["ph"],
+                  utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.1/build/js/utils.js",
+              });
+  
+              console.log("intlTelInput has been initialized.");
+          } else {
+              console.error("Element with ID 'id_mobile' not found in the DOM.");
+          }
+
   // =======================================================//
   // -------- Populate regions on page load --------//
   // =======================================================//
-  populateDropdown(".regionDropdown", Philippines.regions);
+  populateDropdown(".regionDropdown", Philippines.regions, "Select Region");
+  $('.postalInputBox').hide();
 
   // Handle region selection
   $(".regionDropdown").change(function () {
@@ -347,7 +364,7 @@ $(document).ready(function () {
     var provincesInRegion = Philippines.provinces.filter(function (province) {
       return province.reg_code === selectedRegionCode;
     });
-    populateDropdown(".provinceDropdown", provincesInRegion);
+    populateDropdown(".provinceDropdown", provincesInRegion, "Select Province");
     $(".cityDropdown, .barangayDropdown").empty(); // Clear other dropdowns
   });
 
@@ -367,7 +384,7 @@ $(document).ready(function () {
       prov_code: ""
     });
 
-    populateDropdown(".cityDropdown", municipalitiesInProvince);
+    populateDropdown(".cityDropdown", municipalitiesInProvince, "Select City");
     $(".barangayDropdown").empty(); // Clear barangay dropdochown
   });
 
@@ -378,6 +395,8 @@ $(document).ready(function () {
 
     // Show/hide the city input box based on the selected option
     var selectedCity = $(this).val();
+    var postalCodeInput = $('.inputPostcode');
+    var matchingCodes = [];
     $(".cityInputBox").toggle(selectedCity === "Other (Specify City)");
     if (selectedCity === "Other (Specify City)") {
         $(".cityDropdownBox").hide();
@@ -397,6 +416,29 @@ $(document).ready(function () {
       $(".cityDropdown").val("");
     });
 
+    postalCodeInput.val('');
+
+    console.log('Selected City:', selectedCity);
+
+    for (var code in zipCodeDB) {
+      var city = zipCodeDB[code];
+      if (typeof city === 'string' && city.toUpperCase() === selectedCity.toUpperCase()) {
+          matchingCodes.push(code);
+          // postalCodeInput.val(code);
+          // console.log('Postal code found:', code);
+          // break;
+      }
+    }
+
+    if (matchingCodes.length === 1) {
+      postalCodeInput.val(matchingCodes[0]);
+      $('.postalInputBox').hide();
+    } else {
+        // Unhide the input group for manual entry
+        $('.postalInputBox').show();
+        console.log('City has duplicates or no match found. Unhiding input group.');
+    }
+
     // Filter barangays based on the selected municipality
     var barangaysInMunicipality = Philippines.barangays.filter(function (
       barangay
@@ -409,7 +451,7 @@ $(document).ready(function () {
       mun_code: "",
     });
 
-    populateDropdown(".barangayDropdown", barangaysInMunicipality);
+    populateDropdown(".barangayDropdown", barangaysInMunicipality, "Select Barangay");
 
     $(".barangayDropdown").change(function () {
       var selectedOption = $(this).val();
@@ -440,13 +482,13 @@ $(document).ready(function () {
   });
 
   // Function to populate a dropdown based on data
-  function populateDropdown(dropdownId, data) {
+  function populateDropdown(dropdownId, data, placeholder) {
     console.log("Dropdown ID: " + dropdownId);
     console.log("Data for Dropdown: ", data);
 
     var dropdown = $(dropdownId);
     dropdown.empty();
-    dropdown.append("<option selected>- Select -</option>");
+    dropdown.append("<option selected>- " + placeholder + " -</option>");
 
     $.each(data, function (index, item) {
       // Create an option with data-code attribute

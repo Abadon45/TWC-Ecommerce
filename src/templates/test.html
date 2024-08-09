@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+
+<div class="container py-100">
+    <div class="card">
+        <h5 style="font-size: 20pt; font-weight: 700; text-align: center">SET YOUR DELIVERY ADDRESS</h5>
+        <div class="divider mt-3 mb-4 mb-0"></div>
+        <div class="col-md-12 p-0 mt-3">
+            <div class="row" id="shipping-form-new">
+                <div id="container_id_first_name" class="col-md-6" style="padding-right: 8px;">
+                    <div class="position-relative mb-3">
+                        <div id="div_id_name" class="form-group">
+                            <input id="id_receiver_first_name" type="text" name="receiver_name" maxlength="255"
+                                placeholder="Receiver First Name"
+                                class="textinput textInput form-control required-field-empty" required="">
+                        </div>
+                    </div>
+                </div>
+                <div id="container_id_last_name" class="col-md-6" style="padding-right: 8px;">
+                    <div class="position-relative mb-3">
+                        <div id="div_id_name" class="form-group">
+                            <input id="id_receiver_last_name" type="text" name="receiver_name" maxlength="255"
+                                placeholder="Receiver Last Name"
+                                class="textinput textInput form-control required-field-empty" required>
+                        </div>
+                    </div>
+                </div>
+                <div id="container_id_mobile" class="col-md-6">
+                    <div class="input-group mb-3">
+                        <input id="id_mobile" type="text" class="form-control mobileInput" aria-label="Text input with dropdown button" placeholder="Receiver Mobile Number">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="position-relative mb-3">
+                        <div id="div_id_address" class="form-group">
+                            <input id="id_address" type="text" name="address" maxlength="255"
+                                placeholder="Address: House Number / Subdivision"
+                                class="textinput textInput form-control required-field-empty" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="position-relative mb-3">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="regionDropdown">Region</label>
+                            <select class="form-select regionDropdown" name="region" required>
+                                <option selected>- Select Region -</option>
+                                <!-- Options will be populated dynamically by jQuery -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="position-relative mb-3">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="provinceDropdown">Province</label>
+                            <select class="form-select provinceDropdown" name="province" required>
+                                <option selected>- Select Province -</option>
+                                <!-- Options will be populated dynamically by jQuery -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 cityDropdownBox">
+                    <div class="position-relative mb-3">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="cityDropdown">City</label>
+                            <select class="form-select cityDropdown" name="city" required>
+                                <option selected>- Select City -</option>
+                                <!-- Options will be populated dynamically by jQuery -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 cityInputBox" style="display: none;">
+                    <div class="position-relative mb-3">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text">City</label>
+                            <input type="text" class="form-control" placeholder="Specify City" name="city_input">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary back-to-dropdown city-dropdown" tooltip="tooltip" title="Back to dropdown select" type="button"><i class="fa-regular fa-circle-xmark"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="position-relative mb-3">
+                        <div class="form-group custom-select">
+                            <div class="select-icon"></div>
+                            <select id="id_barangay" name="barangay" class="form-select form-control barangayDropdown" required>
+                                <option value="select">- Select Barangay -</option>
+                            </select>
+                            <input class="textinput textInput form-control" id="id_barangay_name" name="barangay_name"
+                                type="hidden" value="" placeholder="type your barangay...">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="position-relative mb-3">
+                        <div id="div_id_shipping_notes" class="form-group">
+                            <textarea id="id_shipping_notes" name="shipping_notes" cols="40" rows="4"
+                                placeholder="Shipping Notes: Eg. Branch Pickup" row="1"
+                                class="textarea form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="text-white card-border bg-warning card" style="margin-top: 20px;">
+                        <div class="card-header text-dark">Order Summary:</div>
+                        <div class="card-body text-dark"><span class="mb-2 d-block" style="font-size: 12pt">Product:
+                                Boost
+                                Coffee | Promo 2</span><span class="mb-2 d-block" style="font-size: 12pt">Quantity: 4
+                                Boxes</span><span class="mb-2 d-block" style="font-size: 12pt">Price:
+                                ₱1,399.00</span><span class="mb-2 d-block" style="font-size: 12pt">Freebies: Water
+                                Bottle</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

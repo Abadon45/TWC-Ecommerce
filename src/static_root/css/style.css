@@ -101,7 +101,7 @@ Table of contents
 
 :root {
   --body-font: 'Roboto', sans-serif;
-  --heading-font: 'Inter', sans-serif;
+  --heading-font: 'Roboto', sans-serif;
   --theme-color: #0C4779;
   --theme-color2: #B29C5B;
   --theme-bg-light: #F6F9FC;
@@ -131,6 +131,7 @@ Table of contents
   --transition2: all .3s ease-in-out;
   --border-info-color: rgba(0, 0, 0, 0.08);
   --border-info-color2: rgba(0, 0, 0, 0.05);
+  --border-info-color3: rgba(0, 0, 0, 0.3);
   --border-white-color: rgba(255, 255, 255, 0.08);
   --border-white-color2: rgba(255, 255, 255, 0.05);
   --footer-bg: #081828;
@@ -3698,10 +3699,10 @@ label {
   border-color: var(--theme-color);
 }
 
-.shop-checkout-form .theme-btn{
+/* .shop-checkout-form .theme-btn{
   margin-top: 15px;
   margin-bottom: 10px;
-}
+} */
 
 .shop-checkout-form .theme-btn2{
   background: var(--theme-color2);
@@ -6360,17 +6361,18 @@ label {
 display: flex!important;
   background: none !important;
   border: none !important;
-  color: #59b0f6 !important; 
+  color: var(--theme-color) !important; 
   cursor: pointer !important;
   padding: 0 !important;
+  caret-color: transparent;
 }
 
 .change-address span {
-  border: 1px solid orange;
+  border: 1px solid var(--theme-color);
   display: inline-block;
   padding: 0 5px;
   border-radius: 4px;
-  color: orange
+  color: var(--theme-color);
 }
 
 

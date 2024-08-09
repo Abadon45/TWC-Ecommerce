@@ -19,6 +19,7 @@ urlpatterns = [
     path('return/', TemplateView.as_view(template_name='return.html'), name="return"),
     path('team/', TemplateView.as_view(template_name='team.html'), name="team"),
     path('terms/', TemplateView.as_view(template_name='terms.html'), name="terms"),
+    path('test/', TemplateView.as_view(template_name='test.html'), name="test"),
     path('testimonial/', TemplateView.as_view(template_name='testimonial.html'), name="testimonial"),
     path('wishlist/', TemplateView.as_view(template_name='wishlist.html'), name="wishlist"),
     path('test-email/', EmailFormView.as_view(), name="test_email"),
