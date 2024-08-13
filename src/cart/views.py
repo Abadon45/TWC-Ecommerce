@@ -12,12 +12,15 @@ from django.contrib.auth import get_user_model
 from products.models import Product
 from orders.models import *
 from addresses.forms import AddressForm
+from ecommerce.models import SiteSetting
 from .utils import sf_calculator
 
 import json
 
 
 User = get_user_model()
+
+MAX_ORDER_QUANTITY = int(SiteSetting.get_max_order_quantity())
 
 class CartView(TemplateView):
     template_name = 'cart/shop-cart.html'
@@ -67,7 +70,10 @@ def updateItem(request):
     productId = request.GET.get('productId')
     action = request.GET.get('action')
     quantity = int(request.GET.get('quantity', 1))
+    
     cart_items = 0
+    max_order_exceeded = False
+    total_cart_subtotal = 0.00
     supplier = None
 
     user = request.user
@@ -122,23 +128,61 @@ def updateItem(request):
             else:
                 print(f"User is not authenticated")
                 order, created = Order.objects.get_or_create(user=None, session_key=session_key, supplier=supplier, complete=False)
-
+            print (f'Order Quantity: {order.total_quantity}')
+            
             orderItem, order_item_created = OrderItem.objects.get_or_create(order=order, product=product)
-            orderItem.save()
-
+            
+            print(f"Order Item Quantity Before: {orderItem.quantity}")
+            print(f"Action: {action}")
+            
             if action == 'add':
+                if MAX_ORDER_QUANTITY > 0 and order.total_quantity + quantity > MAX_ORDER_QUANTITY:
+                    max_order_exceeded = True
+                    return JsonResponse({
+                        'action': action,
+                        'cart_items': cart_items,
+                        'total_cart_subtotal': total_cart_subtotal,
+                        'max_order_quantity': MAX_ORDER_QUANTITY,
+                        'max_order_exceeded': max_order_exceeded,
+                        'message': f'Order quantity limit exceeded. Max allowed is {MAX_ORDER_QUANTITY}.',
+                        'orders': [{
+                            'order_id': order.order_id,
+                            'subtotal': order.subtotal,
+                            'order_count': order.orderitem_set.count(),
+                        }],
+                    }, safe=False)
+
                 orderItem.quantity += quantity
+
             elif action == 'minus':
                 orderItem.quantity -= quantity
 
-            if action == 'remove' or orderItem.quantity <= 0:
+                if orderItem.quantity <= 0:
+                    orderItem.delete()
+                    if order.orderitem_set.all().count() == 0:
+                        order.delete()
+                    return JsonResponse({
+                        'action': action,
+                        'cart_items': cart_items,
+                        'total_cart_subtotal': total_cart_subtotal,
+                        'max_order_quantity': MAX_ORDER_QUANTITY,
+                        'max_order_exceeded': max_order_exceeded,
+                        'orders': [{
+                            'order_id': order.order_id,
+                            'subtotal': order.subtotal,
+                            'order_count': order.orderitem_set.count(),
+                        }],
+                    }, safe=False)
+
+            elif action == 'remove':
                 orderItem.delete()
-            else:
+                if order.orderitem_set.all().count() == 0:
+                    order.delete()
+
+            if not max_order_exceeded:
                 orderItem.save()
 
-            if order.orderitem_set.all().count() == 0:
-                order.delete()
-
+        
         if order:
             print(order)
         if orderItem:
@@ -168,6 +212,8 @@ def updateItem(request):
             'action': action,
             'cart_items': cart_items,
             'total_cart_subtotal': total_cart_subtotal,
+            'max_order_quantity': MAX_ORDER_QUANTITY,
+            'max_order_exceeded': max_order_exceeded,
             'products': [{
                 'id': product.id,
                 'name': product.name,
@@ -230,8 +276,12 @@ def checkout(request):
             for order in orders:
                 order.shipping_address = default_address
                 qty = order.total_quantity
-                shipping_fee = sf_calculator(region=region, qty=qty)
-                order.shipping_fee = shipping_fee
+                if order.is_fixed_shipping_fee:
+                    fixed_shipping_fee = SiteSetting.get_fixed_shipping_fee()
+                    order.shipping_fee = fixed_shipping_fee
+                else:
+                    shipping_fee = sf_calculator(region=region, qty=qty)
+                    order.shipping_fee = shipping_fee
                 order.save()
                 
         
@@ -254,8 +304,12 @@ def checkout(request):
                 updated_orders = []
                 for order in orders:
                     qty = order.total_quantity
-                    shipping_fee = sf_calculator(region=region, qty=qty)
-                    order.shipping_fee = shipping_fee
+                    if order.is_fixed_shipping_fee:
+                        fixed_shipping_fee = SiteSetting.get_fixed_shipping_fee()
+                        order.shipping_fee = fixed_shipping_fee
+                    else:
+                        shipping_fee = sf_calculator(region=region, qty=qty)
+                        order.shipping_fee = shipping_fee
                     order.total_amount = order.subtotal + Decimal(order.shipping_fee)
                     order.save()
                     

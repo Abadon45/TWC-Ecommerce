@@ -82,7 +82,7 @@
                                                         <button data-product="{{ item.product.id }}" data-action="minus"
                                                             class="update-cart excludeDisable minus-btn"><i
                                                                 class="fal fa-minus"></i></button>
-                                                        <input class="quantity" type="text" value="{{ item.quantity }}"
+                                                        <input class="quantity input-{{item.product.id}}" type="text" value="{{ item.quantity }}"
                                                             disabled="">
                                                         <button data-product="{{ item.product.id }}" data-action="add"
                                                             class="update-cart excludeDisable plus-btn"><i

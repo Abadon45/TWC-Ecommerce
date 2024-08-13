@@ -212,7 +212,7 @@ function checkout(element, promo) {
 
         // Change with phone function
         '<div class="col-md-6">' +
-        '<input id="id_mobile" name="mobile" class="form-control mb-2 mobileInput" type="text" autocomplete="off" style="height: 50px" placeholder="Receiver Mobile" required>' +
+        '<input name="mobile" class="form-control mb-2 mobileInput id_mobile" type="text" autocomplete="off" style="height: 50px" placeholder="Receiver Mobile" required>' +
         "</div>" +
 
         '<div class="col-md-12">' +

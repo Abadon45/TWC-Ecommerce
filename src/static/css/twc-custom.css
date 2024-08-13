@@ -8,6 +8,10 @@ input, textarea {
     caret-color: initial;
 }
 
+.home-6 {
+    overflow-y: hidden!important;
+}
+
 /* custom */
 
 .p20 {
@@ -973,6 +977,9 @@ input, textarea {
     min-height: 64vh;
     .cart-table tbody tr:last-child, td {
         border-bottom: hidden;
+    }
+    .shop-cart-summary {
+        margin-top: 0;
     }
 }
 .shop-cart thead tr {

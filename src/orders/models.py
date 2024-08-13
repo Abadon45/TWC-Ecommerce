@@ -6,7 +6,9 @@ from addresses.models import Address
 from billing.models import Customer
 from ecommerce.utils import unique_order_id_generator
 from django.db.models.signals import pre_save
+from ecommerce.models import SiteSetting
 from products.models import Product
+from cart.utils import sf_calculator
 
 from decimal import Decimal
 
@@ -75,42 +77,52 @@ PAYMENT_CHOICES = (
 
 
 class Order(models.Model):
-    customer            = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
-    user                = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    order_id            = models.CharField(max_length=120, blank=True, unique=True)
-    session_key         = models.CharField(max_length=120, blank=True, null=True)
-    shipping_address    = models.ForeignKey(Address, null =True, blank=True, on_delete=models.CASCADE, related_name='shipping_address')
-    courier             = models.ForeignKey(Courier, on_delete=models.SET_NULL, null=True, blank=True)
-    payment_method      = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='none')
-    contact_number      = models.CharField(max_length=15, blank=True, null=True)
-    complete            = models.BooleanField(default=False, null=True, blank=False)
-    delivered           = models.BooleanField(default=False, null=True, blank=False)
-    is_bundle           = models.BooleanField(default=False)
-    active              = models.BooleanField(default=True)
-    created_at          = models.DateTimeField(default=timezone.now)
-    ordered_items       = models.ManyToManyField(Product, blank=True)
-    status              = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='pending')
-    total_quantity      = models.IntegerField(default=0, null=True, blank=True)
-    total_amount        = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
-    shipping_fee        = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
-    supplier            = models.CharField(max_length=100, blank=True, null=True)
-    subtotal            = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
-    seller_total        = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
-    distributor_total   = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
-    discount            = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
-    cod_amount          = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
-    sponsor_profit      = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
-    seller_profit       = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    customer                = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
+    user                    = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    order_id                = models.CharField(max_length=120, blank=True, unique=True)
+    session_key             = models.CharField(max_length=120, blank=True, null=True)
+    shipping_address        = models.ForeignKey(Address, null =True, blank=True, on_delete=models.CASCADE, related_name='shipping_address')
+    courier                 = models.ForeignKey(Courier, on_delete=models.SET_NULL, null=True, blank=True)
+    payment_method          = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='none')
+    contact_number          = models.CharField(max_length=15, blank=True, null=True)
+    complete                = models.BooleanField(default=False, null=True, blank=False)
+    delivered               = models.BooleanField(default=False, null=True, blank=False)
+    is_bundle               = models.BooleanField(default=False)
+    active                  = models.BooleanField(default=True)
+    created_at              = models.DateTimeField(default=timezone.now)
+    ordered_items           = models.ManyToManyField(Product, blank=True)
+    status                  = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='pending')
+    total_quantity          = models.IntegerField(default=0, null=True, blank=True)
+    total_amount            = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    is_fixed_shipping_fee   = models.BooleanField(default=False, help_text="Check this to use a fixed shipping fee.")
+    shipping_fee            = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    supplier                = models.CharField(max_length=100, blank=True, null=True)
+    subtotal                = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    seller_total            = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    distributor_total       = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    discount                = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    cod_amount              = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    sponsor_profit          = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    seller_profit           = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     
     
     def __str__(self):
         try:
-            return f"Order #{str(self.order_id) or '(no order ID available)'}"
+            return f"Order #{str(self.order_id) or '(no order ID available)'}"  
         except Exception as e:
             logger.error(f"Error in Order.__str__ method: {type(e)}, {e}")
             return f"Order (Error generating string representation)" 
         
     def save(self, *args, **kwargs):
+        fixed_shipping_fee = SiteSetting.get_fixed_shipping_fee()
+        if fixed_shipping_fee != Decimal('0.00'):
+            self.is_fixed_shipping_fee = True
+            self.shipping_fee = fixed_shipping_fee
+        else:
+            self.is_fixed_shipping_fee = False
+            if self.shipping_fee is None:
+                self.shipping_fee = Decimal('0.00')
+        
         if self.subtotal is not None and self.shipping_fee is not None:
             self.total_amount = Decimal(self.subtotal) + Decimal(self.shipping_fee)
         super().save(*args, **kwargs)
@@ -118,6 +130,18 @@ class Order(models.Model):
     
     def get_absolute_url(self):
         return reverse("orders:detail", kwargs={'order_id': self.order_id})
+    
+    def calculate_shipping_fee(self, region=None, quantity=1):
+        """Calculate the shipping fee based on whether it's fixed or dynamic."""
+        if self.is_fixed_shipping_fee:
+            fixed_fee = SiteSetting.get_fixed_shipping_fee()
+            return fixed_fee
+
+        # If not using a fixed fee or if the fixed fee is set to 0, use the dynamic calculator
+        if region:
+            return sf_calculator(region, quantity)
+        
+        return Decimal('0.00')  # Default value when region is not provided
     
     def calculate_total_qty(self):
         total_quantity  = sum(item.quantity for item in self.orderitem_set.all())

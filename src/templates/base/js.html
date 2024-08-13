@@ -21,25 +21,6 @@
 <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sp-2.3.1/sl-2.0.1/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.1/build/js/intlTelInput.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-    const input = document.querySelector("#id_mobile");
-        if (input) {
-            console.log("Attempting to initialize intlTelInput...");
-
-            window.intlTelInput(input, {
-                initialCountry: "ph",
-                strictMode: true,
-                onlyCountries: ["ph"],
-                utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.1/build/js/utils.js",
-            });
-
-            console.log("intlTelInput has been initialized.");
-        } else {
-            console.error("Element with ID 'id_mobile' not found in the DOM.");
-        }
-    });
-</script>
 <script src="{% static 'js/add-to-cart.js' %}"></script>
 <script src="{% static 'js/modernizr.min.js' %}"></script>
 <script src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>

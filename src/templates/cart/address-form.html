@@ -38,11 +38,7 @@
                     <div class="form-group">
                         <label>Phone Number</label>
                         <div class="input-group mb-3 mobile-input">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text country-code" 
-                                    id="inputGroup-sizing-default">+63</span>
-                            </div>
-                            <input type="text" class="form-control" aria-label="Default"
+                            <input type="text" class="form-control id_mobile" aria-label="Default"
                                 aria-describedby="inputGroup-sizing-default" placeholder="Phone Number" name="phone"
                                 required>
                         </div>
@@ -123,10 +119,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-12 postal-line" style="display: none;">
+                <div class="col-lg-6 col-12 postal-line postalInputBox">
                     <div class="form-group">
                         <label>Postal Code</label>
-                        <input id="id_mobile" type="text" class="form-control inputPostcode" placeholder="Postcode" name="postcode"
+                        <input type="text" class="form-control inputPostcode" placeholder="Manually input ZIP CODE" name="postcode"
                             required>
                         {% if form.errors.postcode %}
                         <div class="text-danger">{{ form.errors.postcode }}</div>

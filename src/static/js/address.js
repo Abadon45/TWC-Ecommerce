@@ -158,7 +158,10 @@ $(document).ready(function () {
           response.address.barangay
         );
 
-        $("#editAddressDetailModal").data("address-id", response.address.address_id);
+        $("#editAddressDetailModal").data(
+          "address-id",
+          response.address.address_id
+        );
 
         spinner.removeClass("visible");
         backdrop.removeClass("visible");
@@ -178,7 +181,7 @@ $(document).ready(function () {
   function createAddressElement(addressData) {
     const addressHTML = `
           <div class="col-lg-1"><input type="radio" name="addressChoice" data-address-id="${addressData.id}"></div>
-          <div id="address-${ addressData.id }" class="col-lg-9">
+          <div id="address-${addressData.id}" class="col-lg-9">
           <p class="address-name" data-name><b>${addressData.firstName} ${addressData.lastName} ${addressData.phone}</b></p>
             <div class="change-address row mb-20">
               <div class="col-lg-10">
@@ -190,7 +193,7 @@ $(document).ready(function () {
           <a href="#" id="editAddressBtn" class="edit-checkout-address" 
             data-tooltip="tooltip" 
             title="Edit" 
-            data-address-id="${ addressData.id }">Edit</a>
+            data-address-id="${addressData.id}">Edit</a>
           </div>
           <hr class="mt-2 mb-3">
         `;
@@ -263,9 +266,7 @@ $(document).ready(function () {
 
     // Select the newly added address
     $(`input[data-address-id='${addressId}']`).prop("checked", true);
-}
-
-
+  }
 
   //Submitting Edit Form
   $("#editAddressDetailForm").submit(function (e) {
@@ -276,7 +277,10 @@ $(document).ready(function () {
   //Update Modal Row HTML
   function updateTableRow(addressId, newData) {
     var row = $("#address-" + addressId);
-    row.find(".address-name").css("font-weight", "bold").text(newData.first_name + " " + newData.last_name + " " + newData.phone);
+    row
+      .find(".address-name")
+      .css("font-weight", "bold")
+      .text(newData.first_name + " " + newData.last_name + " " + newData.phone);
     row
       .find(".address-line")
       .text(
@@ -335,27 +339,46 @@ $(document).ready(function () {
     saveAddressChanges(formData);
   });
 
-  const input = document.querySelector("#id_mobile");
-          if (input) {
-              console.log("Attempting to initialize intlTelInput...");
-  
-              window.intlTelInput(input, {
-                  initialCountry: "ph",
-                  strictMode: true,
-                  onlyCountries: ["ph"],
-                  utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.1/build/js/utils.js",
-              });
-  
-              console.log("intlTelInput has been initialized.");
-          } else {
-              console.error("Element with ID 'id_mobile' not found in the DOM.");
-          }
+  const input = document.querySelector(".id_mobile");
+  if (input) {
+    console.log("Attempting to initialize intlTelInput...");
+
+    const iti = window.intlTelInput(input, {
+      initialCountry: "ph", // Set the initial country to Philippines
+      onlyCountries: ["ph"], // Only show the Philippines in the dropdown
+      // separateDialCode: true, // Display the dial code separately (outside the input box)
+      utilsScript:
+        "https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.1/build/js/utils.js",
+    });
+
+    input.addEventListener("blur", function () {
+      let localNumber = input.value.trim();
+      let dialCode = iti.getSelectedCountryData().dialCode; // Get the dial code
+
+      // Remove leading zeros and existing dial codes
+      if (localNumber.startsWith("0")) {
+        localNumber = localNumber.substring(1); // Remove the leading 0
+      }
+      // Remove any previous dial code to avoid duplicates
+      localNumber = localNumber.replace(new RegExp("^\\+" + dialCode), "");
+
+      // Combine the dial code with the local number
+      let formattedNumber = "+" + dialCode + localNumber.replace(/\s/g, "");
+
+      input.value = formattedNumber; // Set the input value with the formatted number
+      console.log("Formatted number:", formattedNumber);
+    });
+
+    console.log("intlTelInput has been initialized.");
+  } else {
+    console.error("Element with ID 'id_mobile' not found in the DOM.");
+  }
 
   // =======================================================//
   // -------- Populate regions on page load --------//
   // =======================================================//
   populateDropdown(".regionDropdown", Philippines.regions, "Select Region");
-  $('.postalInputBox').hide();
+  $(".postalInputBox").hide();
 
   // Handle region selection
   $(".regionDropdown").change(function () {
@@ -381,7 +404,7 @@ $(document).ready(function () {
     // Add the "Other (Specify City)" option
     municipalitiesInProvince.push({
       name: "Other (Specify City)",
-      prov_code: ""
+      prov_code: "",
     });
 
     populateDropdown(".cityDropdown", municipalitiesInProvince, "Select City");
@@ -395,48 +418,60 @@ $(document).ready(function () {
 
     // Show/hide the city input box based on the selected option
     var selectedCity = $(this).val();
-    var postalCodeInput = $('.inputPostcode');
+    var postalCodeInput = $(".inputPostcode");
     var matchingCodes = [];
     $(".cityInputBox").toggle(selectedCity === "Other (Specify City)");
     if (selectedCity === "Other (Specify City)") {
-        $(".cityDropdownBox").hide();
-        $(".cityDropdown").attr("name", "city_input");
-        $(".cityInputBox input").attr("name", "city").prop("required", true).focus();
+      $(".cityDropdownBox").hide();
+      $(".cityDropdown").attr("name", "city_input");
+      $(".cityInputBox input")
+        .attr("name", "city")
+        .prop("required", true)
+        .focus();
     } else {
       $(".cityDropdownBox").show();
-        $(".cityDropdown").attr("name", "city");
-        $(".cityInputBox input").attr("name", "city_input").removeAttr("required");
+      $(".cityDropdown").attr("name", "city");
+      $(".cityInputBox input")
+        .attr("name", "city_input")
+        .removeAttr("required");
     }
 
-    $(".city-dropdown").click(function() {
+    $(".city-dropdown").click(function () {
       $(".cityInputBox").hide();
       $(".cityDropdownBox").show();
       $(".cityDropdown").attr("name", "city");
-      $(".cityInputBox input").attr("name", "city_input").removeAttr("required");
+      $(".cityInputBox input")
+        .attr("name", "city_input")
+        .removeAttr("required");
       $(".cityDropdown").val("");
     });
 
-    postalCodeInput.val('');
+    postalCodeInput.val("");
 
-    console.log('Selected City:', selectedCity);
+    console.log("Selected City:", selectedCity);
 
     for (var code in zipCodeDB) {
       var city = zipCodeDB[code];
-      if (typeof city === 'string' && city.toUpperCase() === selectedCity.toUpperCase()) {
-          matchingCodes.push(code);
-          // postalCodeInput.val(code);
-          // console.log('Postal code found:', code);
-          // break;
+      if (
+        typeof city === "string" &&
+        city.toUpperCase() === selectedCity.toUpperCase()
+      ) {
+        matchingCodes.push(code);
+        // postalCodeInput.val(code);
+        // console.log('Postal code found:', code);
+        // break;
       }
     }
 
     if (matchingCodes.length === 1) {
       postalCodeInput.val(matchingCodes[0]);
-      $('.postalInputBox').hide();
+      $(".postalInputBox").hide();
     } else {
-        // Unhide the input group for manual entry
-        $('.postalInputBox').show();
-        console.log('City has duplicates or no match found. Unhiding input group.');
+      // Unhide the input group for manual entry
+      $(".postalInputBox").show();
+      console.log(
+        "City has duplicates or no match found. Unhiding input group."
+      );
     }
 
     // Filter barangays based on the selected municipality
@@ -451,7 +486,11 @@ $(document).ready(function () {
       mun_code: "",
     });
 
-    populateDropdown(".barangayDropdown", barangaysInMunicipality, "Select Barangay");
+    populateDropdown(
+      ".barangayDropdown",
+      barangaysInMunicipality,
+      "Select Barangay"
+    );
 
     $(".barangayDropdown").change(function () {
       var selectedOption = $(this).val();
@@ -461,24 +500,28 @@ $(document).ready(function () {
       if (selectedOption === "Other (Specify Barangay)") {
         $(".barangayDropdownBox").hide();
         $(".barangayDropdown").attr("name", "barangay_input");
-        $(".barangayInputBox input").attr("name", "barangay").prop("required", true).focus();
+        $(".barangayInputBox input")
+          .attr("name", "barangay")
+          .prop("required", true)
+          .focus();
       } else {
         $(".barangayDropdownBox").show();
         $(".barangayDropdown").attr("name", "barangay");
-        $(".barangayInputBox input").attr("name", "barangay_input").removeAttr("required");
+        $(".barangayInputBox input")
+          .attr("name", "barangay_input")
+          .removeAttr("required");
       }
+    });
 
-      
-      });
-
-      $(".barangay-dropdown").click(function() {
-        $(".barangayInputBox").hide();
-        $(".barangayDropdownBox").show();
-        $(".barangayDropdown").attr("name", "city");
-        $(".barangayInputBox input").attr("name", "city_input").removeAttr("required");
-        $(".barangayDropdown").val("");
-      });
-
+    $(".barangay-dropdown").click(function () {
+      $(".barangayInputBox").hide();
+      $(".barangayDropdownBox").show();
+      $(".barangayDropdown").attr("name", "city");
+      $(".barangayInputBox input")
+        .attr("name", "city_input")
+        .removeAttr("required");
+      $(".barangayDropdown").val("");
+    });
   });
 
   // Function to populate a dropdown based on data
