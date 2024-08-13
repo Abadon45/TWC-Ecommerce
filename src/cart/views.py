@@ -130,59 +130,42 @@ def updateItem(request):
                 order, created = Order.objects.get_or_create(user=None, session_key=session_key, supplier=supplier, complete=False)
             print (f'Order Quantity: {order.total_quantity}')
             
+            # Check for maximum order quantity only for the "add" action
+            if action == 'add' and MAX_ORDER_QUANTITY > 0 and order.total_quantity + quantity > MAX_ORDER_QUANTITY:
+                max_order_exceeded = True
+                return JsonResponse({
+                    'action': action,
+                    'cart_items': cart_items,
+                    'total_cart_subtotal': total_cart_subtotal,
+                    'max_order_quantity': MAX_ORDER_QUANTITY,
+                    'max_order_exceeded': max_order_exceeded,
+                    'message': f'Order quantity limit exceeded. Max allowed is {MAX_ORDER_QUANTITY}.',
+                    'orders': [{
+                        'order_id': order.order_id,
+                        'subtotal': order.subtotal,
+                        'order_count': order.orderitem_set.count(),
+                    }],
+                }, safe=False)
+
+            # Get or create the order item only if the quantity limit is not exceeded
             orderItem, order_item_created = OrderItem.objects.get_or_create(order=order, product=product)
-            
-            print(f"Order Item Quantity Before: {orderItem.quantity}")
-            print(f"Action: {action}")
-            
-            if action == 'add':
-                if MAX_ORDER_QUANTITY > 0 and order.total_quantity + quantity > MAX_ORDER_QUANTITY:
-                    max_order_exceeded = True
-                    return JsonResponse({
-                        'action': action,
-                        'cart_items': cart_items,
-                        'total_cart_subtotal': total_cart_subtotal,
-                        'max_order_quantity': MAX_ORDER_QUANTITY,
-                        'max_order_exceeded': max_order_exceeded,
-                        'message': f'Order quantity limit exceeded. Max allowed is {MAX_ORDER_QUANTITY}.',
-                        'orders': [{
-                            'order_id': order.order_id,
-                            'subtotal': order.subtotal,
-                            'order_count': order.orderitem_set.count(),
-                        }],
-                    }, safe=False)
 
-                orderItem.quantity += quantity
+            if orderItem:
+                print(f"Order Item Quantity Before: {orderItem.quantity}")
+                print(f"Action: {action}")
 
-            elif action == 'minus':
-                orderItem.quantity -= quantity
+                if action == 'add':
+                    orderItem.quantity += quantity
+                elif action == 'minus':
+                    orderItem.quantity -= quantity
 
-                if orderItem.quantity <= 0:
+                if action == 'remove' or orderItem.quantity <= 0:
                     orderItem.delete()
                     if order.orderitem_set.all().count() == 0:
                         order.delete()
-                    return JsonResponse({
-                        'action': action,
-                        'cart_items': cart_items,
-                        'total_cart_subtotal': total_cart_subtotal,
-                        'max_order_quantity': MAX_ORDER_QUANTITY,
-                        'max_order_exceeded': max_order_exceeded,
-                        'orders': [{
-                            'order_id': order.order_id,
-                            'subtotal': order.subtotal,
-                            'order_count': order.orderitem_set.count(),
-                        }],
-                    }, safe=False)
+                else:
+                    orderItem.save()
 
-            elif action == 'remove':
-                orderItem.delete()
-                if order.orderitem_set.all().count() == 0:
-                    order.delete()
-
-            if not max_order_exceeded:
-                orderItem.save()
-
-        
         if order:
             print(order)
         if orderItem:
