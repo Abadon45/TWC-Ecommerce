@@ -135,8 +135,6 @@ def updateItem(request):
                 max_order_exceeded = True
                 return JsonResponse({
                     'action': action,
-                    'cart_items': cart_items,
-                    'total_cart_subtotal': total_cart_subtotal,
                     'max_order_quantity': MAX_ORDER_QUANTITY,
                     'max_order_exceeded': max_order_exceeded,
                     'message': f'Order quantity limit exceeded. Max allowed is {MAX_ORDER_QUANTITY}.',

@@ -7,7 +7,7 @@
 {% block content %}
 
 <!-- shop single -->
-<div class="shop-single product-detail-page py-100">
+<div class="shop-single product-detail-page py-100 mobile-width">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
@@ -118,7 +118,7 @@
                                 <div class="shop-single-btn">
                                     {% if product.id in products_in_cart %}
                                     <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
-                                        style="padding: 9px 20px!important;" disabled>ADD TO CART</button>
+                                        style="padding: 9px 20px!important;" disabled>ADDED TO CART</button>
                                     {% else %}
                                     <button data-product="{{ product.id }}" data-action="add" type="button"
                                         class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
@@ -210,6 +210,24 @@
                             <div class="blog-comments">
                                 <div class="blog-comments-wrapper">
                                     {% for product_rating in product_ratings %}
+                                    {% if product_rating.user == user %}
+                                    <div class="mobile-only">
+                                        <div class="edit-review review-rating">
+                                            <span>
+                                                <a onclick="editReview(event, {{ product_rating.review.id }})"
+                                                    class="edit-review-link">Edit
+                                                </a>
+                                            </span>
+                                            <span style="margin: 0 10px;">|</span>
+                                            <span>
+                                                <a onclick="removeReview(event, {{ product_rating.review.id }})" 
+                                                    class="remove-review-link" 
+                                                    data-review-id="{{ product_rating.review.id }}">Remove
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div> 
+                                    {% endif %}
                                     <div class="blog-comments-single mt-0 mb-3">
                                         {% if product_rating.user.image %}
                                         <img src="{{ product_rating.user.image.url }}" alt="Profile Picture">
@@ -228,7 +246,7 @@
                                             </div>
                                             <h5>{{ product_rating.user.first_name }} {{ product_rating.user.last_name }}</h5>
                                             {% if product_rating.user == user %}
-                                                <div class="edit-review review-rating">
+                                                <div class="edit-review review-rating mobile-hidden">
                                                     <span>
                                                         <a onclick="editReview(event, {{ product_rating.review.id }})"
                                                             class="edit-review-link">Edit
@@ -238,13 +256,13 @@
                                                     <span>
                                                         <a onclick="removeReview(event, {{ product_rating.review.id }})" 
                                                             class="remove-review-link" 
-                                                            data-review-id="{{ product_rating.review.id }}">Remove Review
+                                                            data-review-id="{{ product_rating.review.id }}">Remove
                                                         </a>
                                                     </span>
                                                 </div>
                                             {% endif %}
                                             <p id="review-content-{{ product_rating.review.id }}">{{ product_rating.review.content }}</p>
-                                            <span><i class="far fa-clock"></i> {{ product_rating.review.created_at }}</span>
+                                            <span>{{ product_rating.review.created_at }}</span>
                                         </div>
                                     </div>
                                     {% endfor %}
@@ -282,7 +300,7 @@
                                 <div class="form-group">
                                     {{ review_form.content }}
                                 </div>
-                                <button type="submit" class="theme-btn">Submit Review</button>
+                                <button type="submit" class="theme-btn">SUBMIT</button>
                             </div>
                         </div>
                     </form>
@@ -301,21 +319,21 @@
 
         <!-- related item -->
         <div class="product-area pt-80">
-            <div class="container">
-                <div class="card index-card">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="p-2">
-                                <h2 class="site-title">Related Products</h2>
-                            </div>
-                            <div class="p-2">
-                                <a class="theme-btn" href="{% url 'shop:shop' %}?category_id={{ product.category_1 }}">View More</a>
-                            </div>
+            <div class="card index-card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="p-2">
+                            <h2 class="site-title">Related Products</h2>
+                        </div>
+                        <div class="p-2">
+                            <a class="theme-btn" href="{% url 'shop:shop' %}?category_id={{ product.category_1 }}">View More</a>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="product-slider owl-carousel owl-theme">
-                            {% for related_product in related_products %}
+                </div>
+                <div class="card-body product-body">
+                    <div class="row">
+                        {% for related_product in related_products %}
+                        <div class="col-md-3 col-6 product-column">
                             <div class="product-item">
                                 <div class="product-img">
                                     <a href="{% url 'shop:single' slug=related_product.slug %}">
@@ -364,8 +382,8 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            {% endfor %}
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
