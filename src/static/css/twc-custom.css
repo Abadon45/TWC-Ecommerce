@@ -3868,6 +3868,7 @@ a.disabled:hover {
             }
         }
         .shop-single-info {
+            margin-top: 15px;
             .shop-single-rating {
                 margin-top: 10px;
             }
