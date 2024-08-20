@@ -13,8 +13,8 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-3">
-                <div class="shop-sidebar index-card">
-                    <div class="card mt-2 mobile-hidden">
+                <div class="shop-sidebar index-card mobile-hidden">
+                    <div class="card mt-2">
                         <div class="card-header">
                         <h4>Shops</h4>
                         </div>
@@ -57,15 +57,53 @@
                 <div class="col-md-12">
                     <div class="shop-sort">
                         <div class="shop-sort-box">
-                            <div class="shop-sorty-label">Sort By:</div>
-                            <select class="select">
+
+                            <div class="shop-sorty-label mobile-hidden">Sort By:</div>
+                            <select class="shop-category-select mobile-only" onchange="window.location.href=this.value;">
+                                <option value="{% url 'shop:shop' %}" selected>Select a Category</option>
+                                <option value="{% url 'shop:shop' %}?category_id=all" {% if category_id == 'all' %}selected{% endif %}>
+                                    All
+                                </option>
+                                <option value="{% url 'shop:shop' %}?category_id=sante" {% if category_id == 'sante' %}selected{% endif %}>
+                                    Sante International
+                                </option>
+                                <option value="{% url 'shop:shop' %}?category_id=chingu" {% if category_id == 'chingu' %}selected{% endif %}>
+                                    Chingu
+                                </option>
+                                <option value="{% url 'shop:shop' %}?category_id=mood" {% if category_id == 'mood' %}selected{% endif %}>
+                                    Mood Timepieces
+                                </option>
+                                {% if user.is_admin %}
+                                <option value="{% url 'shop:promo' %}" {% if category_id == 'promo' %}selected{% endif %}>
+                                    Promo Bundles
+                                </option>
+                                {% endif %}
+                            </select>
+                            <select class="shop-category-select mobile-only" onchange="handleSubcategoryChange(this.value)">
+                                <option value="{% url 'shop:shop' %}" selected>Select a Subcategory</option>
+                                {% for subcategory, count in subcategory_counts.items %}
+                                <option value="{% url 'shop:shop' %}?category_id={{ subcategory }}" 
+                                        data-category-id="{{ subcategory }}"
+                                        {% if category_id == subcategory %}selected{% endif %}>
+                                    {{ subcategory|replace_underscore_to_space|title }} ({{ count }})
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <select class="shop-sort-products">
+                                <option value="none" class="mobile-only">Sort by</option>
+                                <option value="5">Latest Items</option>
+                                <!-- <option value="2">Best Seller Items</option> -->
+                                <option value="3">Price - Low To High</option>
+                                <option value="4">Price - High To Low</option>
+                            </select>
+                            <select class="select mobile-hidden">
                                 <option value="1">Default Sorting</option>
                                 <option value="5">Latest Items</option>
                                 <option value="2">Best Seller Items</option>
                                 <option value="3">Price - Low To High</option>
                                 <option value="4">Price - High To Low</option>
                             </select>
-                            <div class="shop-sort-show">Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of
+                            <div class="shop-sort-show mobile-hidden">Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of
                                 {{ page_obj.paginator.count }} Results</div>
                         </div>
                         <div class="shop-sort-gl mobile-hidden">
@@ -142,6 +180,18 @@
                 .attr('data-action', productBtnAction);
         });
     });
+</script>
+<script>
+    function handleCategoryChange(value) {
+        window.location.href = value;
+    }
+</script>
+<script>
+    function handleSubcategoryChange(value) {
+        if (value) {
+            window.location.href = value;
+        }
+    }
 </script>
 
 

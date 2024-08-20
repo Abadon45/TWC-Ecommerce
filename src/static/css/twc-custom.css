@@ -3788,24 +3788,48 @@ a.disabled:hover {
     }
 
     /* SHOP MOBILE */
-
+    .shop-page.py-100 {
+        padding: 15px 0 50px!important
+    }
     .shop-page {
         min-height: 85vh;
         .shop-sort {
-            margin-bottom: 20px;
+            margin-bottom: 5px;
             .shop-sort-box {
                 flex-direction: row;
                 width: 100%;
                 .shop-sorty-label, .nice-select, .shop-sort-show {
                     font-size: 9px;
                 }
+                .shop-category-dropdown, .shop-category-select, .shop-sort-products {
+                    width: 90px;
+                    height: 23px;
+                    border: 1px solid var(--border-info-color);
+                    border-radius: 5px;
+                    font-size: 7px;     
+                    option {
+                        width: 90px;
+                        font-size: 10px;  
+                    }          
+                }
+                .shop-category-dropdown {
+                    width: 80px;
+                }
+                .shop-sort-products {
+                    width: 60px;
+                    margin-left: 40px;
+                }
                 .nice-select {
-                    width: 110px;
-                    height: 30px;
+                    width: 90px;
+                    height: 23px;
+                    padding: 0 4px;
                     border-radius: 6px;
-                    span {
-                        position: absolute;
-                        top: -6px;
+                    font-size: 7px;
+                    .option {
+                        padding-left: 7px;
+                    }
+                    .mobile-only {
+                        display: block!important;
                     }
                 }
             }
