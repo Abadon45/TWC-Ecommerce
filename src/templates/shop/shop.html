@@ -92,11 +92,11 @@
                             
                             <!-- SORT FOR MOBILE -->
                             <select class="shop-sort-products mobile-only">
-                                <option value="1">Sort by</option>
+                                <option value="1" {% if sort_option == "1" %} selected {% endif %}>Sort by</option>
                                 <option value="5" {% if sort_option == "5" %} selected {% endif %}>Latest Items</option>
                                 <!-- <option value="2">Best Seller Items</option> -->
-                                <option value="3">Price - Low To High</option>
-                                <option value="4">Price - High To Low</option>
+                                <option value="3" {% if sort_option == "3" %} selected {% endif %}>Price - Low To High</option>
+                                <option value="4" {% if sort_option == "4" %} selected {% endif %}>Price - High To Low</option>
                             </select>
 
                             <!-- SORT FOR TABLET - DESKTOP -->
