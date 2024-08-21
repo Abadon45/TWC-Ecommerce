@@ -53,6 +53,7 @@ class ShopView(ProductListView):
     def get_queryset(self):
         category_id = self.request.GET.get('category_id')
         search_query = self.request.GET.get('q')
+        sort_option = self.request.GET.get('sort', '1')
 
         if search_query:
             queryset = Product.objects.filter(
@@ -66,6 +67,15 @@ class ShopView(ProductListView):
             queryset = Product.objects.filter(
                 Q(category_1=category_id, is_hidden=False) | Q(category_2=category_id, is_hidden=False)
             )
+            
+        # sorting logic
+        if sort_option == '5':  # Latest Items
+            queryset = queryset.order_by('-timestamp')
+        elif sort_option == '3':  # Price - Low To High
+            queryset = queryset.order_by('customer_price')
+        elif sort_option == '4':  # Price - High To Low
+            queryset = queryset.order_by('-customer_price')
+            
         return queryset
     
     def get_user_ratings(self, products):
@@ -128,6 +138,7 @@ class ShopView(ProductListView):
         context['category_id'] = self.request.GET.get('category_id', '')
         context['q'] = self.request.GET.get('q', '')
         context['user_ratings'] = user_ratings
+        context['sort_option'] = self.request.GET.get('sort', '1')
 
         return context
 

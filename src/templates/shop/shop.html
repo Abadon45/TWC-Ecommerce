@@ -89,20 +89,25 @@
                                 </option>
                                 {% endfor %}
                             </select>
-                            <select class="shop-sort-products">
-                                <option value="none" class="mobile-only">Sort by</option>
-                                <option value="5">Latest Items</option>
+                            
+                            <!-- SORT FOR MOBILE -->
+                            <select class="shop-sort-products mobile-only">
+                                <option value="1">Sort by</option>
+                                <option value="5" {% if sort_option == "5" %} selected {% endif %}>Latest Items</option>
                                 <!-- <option value="2">Best Seller Items</option> -->
                                 <option value="3">Price - Low To High</option>
                                 <option value="4">Price - High To Low</option>
                             </select>
-                            <select class="select mobile-hidden">
-                                <option value="1">Default Sorting</option>
-                                <option value="5">Latest Items</option>
-                                <option value="2">Best Seller Items</option>
-                                <option value="3">Price - Low To High</option>
-                                <option value="4">Price - High To Low</option>
+
+                            <!-- SORT FOR TABLET - DESKTOP -->
+                            <select class="select shop-sort-products mobile-hidden">
+                                <option value="1" {% if sort_option == "1" %} selected {% endif %}>Default Sorting</option>
+                                <option value="5" {% if sort_option == "5" %} selected {% endif %}>Latest Items</option>
+                                <!-- <option value="2">Best Seller Items</option> -->
+                                <option value="3" {% if sort_option == "3" %} selected {% endif %}>Price - Low To High</option>
+                                <option value="4" {% if sort_option == "4" %} selected {% endif %}>Price - High To Low</option>
                             </select>
+
                             <div class="shop-sort-show mobile-hidden">Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of
                                 {{ page_obj.paginator.count }} Results</div>
                         </div>
@@ -192,6 +197,31 @@
             window.location.href = value;
         }
     }
+</script>
+<script>
+    $(document).ready(function() {
+    $('.shop-sort-products').change(function() {
+        var sortOption = $(this).val();
+        var currentUrl = window.location.href;
+
+        if (currentUrl.indexOf('?') !== -1) {
+            // If there are query parameters, check if 'sort' already exists
+            if (currentUrl.indexOf('sort=') !== -1) {
+                // Replace the existing sort parameter
+                currentUrl = currentUrl.replace(/(sort=)[^\&]+/, '$1' + sortOption);
+            } else {
+                // Append the sort parameter
+                currentUrl += '&sort=' + sortOption;
+            }
+        } else {
+            currentUrl += '?sort=' + sortOption;
+        }
+
+        // Redirect to the new URL
+        window.location.href = currentUrl;
+    });
+});
+
 </script>
 
 
