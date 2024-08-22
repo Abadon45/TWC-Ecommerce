@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Order, OrderItem, Courier
+from .models import Order, OrderItem, Courier, Voucher
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
@@ -7,7 +7,7 @@ class OrderItemInline(admin.TabularInline):
     
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('order_id', 'id', 'discount', 'cod_amount', 'user', 'complete')
+    list_display = ('order_id', 'id', 'discount', 'subtotal', 'cod_amount', 'user', 'complete')
     inlines = [OrderItemInline]
     exclude = ('ordered_items',)
     
@@ -17,3 +17,4 @@ class CourierAdmin(admin.ModelAdmin):
 admin.site.register(Courier, CourierAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem)
+admin.site.register(Voucher)

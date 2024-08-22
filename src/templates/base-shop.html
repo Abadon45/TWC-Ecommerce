@@ -36,10 +36,10 @@
     <div id="loading-spinner" class="spinner-container">
         <div class="backdrop"></div>
         <div class="spinner">
-          <div class="double-bounce1"></div>
-          <div class="double-bounce2"></div>
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
         </div>
-      </div>
+    </div>
     <!-- spinner end -->
 
     <!-- spinner-2 -->
@@ -59,8 +59,8 @@
         <div class="sk-circle10 sk-child"></div>
         <div class="sk-circle11 sk-child"></div>
         <div class="sk-circle12 sk-child"></div>
-      </div>
-      <!-- end spinner-2 -->
+    </div>
+    <!-- end spinner-2 -->
 
     <!-- header area -->
     {% include 'base/header.html' %}
@@ -69,18 +69,7 @@
     <main class="main bt2-m">
 
         <!-- breadcrumb -->
-        <div class="site-breadcrumb mobile-hidden">
-            <div class="site-breadcrumb-bg" style="background: url({% static 'img/slider/banner-image-2.png' %})"></div>
-            <div class="container">
-                <div class="site-breadcrumb-wrap">
-                    <h4 class="breadcrumb-title">{{ title }}</h4>
-                    <ul class="breadcrumb-menu">
-                        <li><a href="/"><i class="far fa-home"></i> Home</a></li>
-                        <li class="active">{{ title }}</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        {% include 'base/breadcrumb.html' %}
         <!-- breadcrumb end -->
 
         {% block content %}{% endblock content %}
@@ -93,14 +82,15 @@
 
     <!-- chat -->
     {% if referrer %}
-        <a href="{{ referrer.messenger_link }}" id="chat-seller" aria-label="Chat with seller">
-            <i class="fa-solid fa-message" aria-hidden="true"></i> Chat
-        </a>
+    <a href="{{ referrer.messenger_link }}" id="chat-seller" aria-label="Chat with seller">
+        <i class="fa-solid fa-message" aria-hidden="true"></i> Chat
+    </a>
     {% endif %}
     <!-- chat end -->
 
     <!-- scroll-top -->
-    <a href="{% url_with_domain 'cart:cart' %}" id="scroll-top" class="shop-cart list-item"><i class="fa-solid fa-cart-shopping"></i>
+    <a href="{% url_with_domain 'cart:cart' %}" id="scroll-top" class="shop-cart list-item"><i
+            class="fa-solid fa-cart-shopping"></i>
         <span id="lower-cart-count">{{ cart_items }}</span></a>
     <!-- scroll-top end -->
     {% include 'base/modal.html' %}
@@ -108,10 +98,39 @@
     {% include 'base/js.html' %}
     {% block extra_js %}{% endblock %}
     <!-- Include jQuery library -->
-    
+
     <script>
-        
+        const bannerImages = [
+            "{% static 'img/breadcrumb/01.webp' %}",
+            "{% static 'img/breadcrumb/02.webp' %}",
+            "{% static 'img/breadcrumb/03.webp' %}",
+            "{% static 'img/breadcrumb/04.webp' %}",
+            "{% static 'img/breadcrumb/05.webp' %}"
+        ];
+    
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+    
+        $(document).ready(function () {
+            let bannerSequence = JSON.parse(sessionStorage.getItem('bannerSequence'));
+    
+            if (!bannerSequence || bannerSequence.length === 0) {
+                bannerSequence = shuffle(bannerImages.slice()); // Shuffle and clone the array
+                sessionStorage.setItem('bannerSequence', JSON.stringify(bannerSequence));
+            }
+    
+            const currentBanner = bannerSequence.pop(); // Get the last banner in the sequence
+            $('.site-breadcrumb-bg').css('background-image', `url(${currentBanner})`);
+    
+            sessionStorage.setItem('bannerSequence', JSON.stringify(bannerSequence));
+        });
     </script>
+    
 
 
 </body>

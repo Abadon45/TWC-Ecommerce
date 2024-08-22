@@ -54,6 +54,41 @@ class Courier(models.Model):
     
     def __str__(self):
         return self.fulfiller
+    
+    
+class Voucher(models.Model):
+    DISCOUNT_TYPE_CHOICES = [
+        ('fixed', 'Fixed Amount'),
+        ('percent', 'Percentage'),
+        ('free_shipping', 'Free Shipping'),
+        ('shipping_discount', 'Shipping Discount'),
+    ]
+    
+    code = models.CharField(max_length=50, unique=True)
+    discount_type = models.CharField(max_length=20, choices=DISCOUNT_TYPE_CHOICES)
+    discount_value = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    min_order_value = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    max_discount_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    valid_from = models.DateTimeField()
+    valid_to = models.DateTimeField()
+    active = models.BooleanField(default=True)
+    usage_limit = models.IntegerField(null=True, blank=True)
+    users_used = models.ManyToManyField(User, through='VoucherUsage')
+
+    def is_valid(self):
+        """ Check if the voucher is valid (active, not expired) """
+        if not self.active:
+            return False
+        return True
+    
+    def get_discount_value(self):
+        return self.discount_value
+
+    def get_reduced_shipping_value(self):
+        return self.reduced_shipping_value
+    
+    def __str__(self):
+        return self.code
 
 
 ORDER_STATUS_CHOICES = (
@@ -73,7 +108,6 @@ PAYMENT_CHOICES = (
     ('none', 'None'),
     ('cod', 'Cash On Delivery'),
 )
-
 
 
 class Order(models.Model):
@@ -104,6 +138,7 @@ class Order(models.Model):
     cod_amount              = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     sponsor_profit          = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
     seller_profit           = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, null=True, blank=True)
+    voucher                 = models.ForeignKey(Voucher, null=True, blank=True, on_delete=models.SET_NULL)
     
     
     def __str__(self):
@@ -112,20 +147,6 @@ class Order(models.Model):
         except Exception as e:
             logger.error(f"Error in Order.__str__ method: {type(e)}, {e}")
             return f"Order (Error generating string representation)" 
-        
-    def save(self, *args, **kwargs):
-        fixed_shipping_fee = SiteSetting.get_fixed_shipping_fee()
-        if fixed_shipping_fee != Decimal('0.00'):
-            self.is_fixed_shipping_fee = True
-            self.shipping_fee = fixed_shipping_fee
-        else:
-            self.is_fixed_shipping_fee = False
-            if self.shipping_fee is None:
-                self.shipping_fee = Decimal('0.00')
-        
-        if self.subtotal is not None and self.shipping_fee is not None:
-            self.total_amount = Decimal(self.subtotal) + Decimal(self.shipping_fee)
-        super().save(*args, **kwargs)
 
     
     def get_absolute_url(self):
@@ -158,6 +179,45 @@ class Order(models.Model):
     def calculate_distributor_total(self):
         distributor_total = sum(item.get_distributor_total for item in self.orderitem_set.all())
         return distributor_total
+    
+    def save(self, *args, **kwargs):
+        fixed_shipping_fee = SiteSetting.get_fixed_shipping_fee()
+        subtotal = self.subtotal
+        if self.voucher and self.voucher.is_valid():
+            if self.voucher.discount_type == 'free_shipping':
+                self.shipping_fee = Decimal('0.00')
+            elif self.voucher.discount_type == 'shipping_discount' and self.voucher.discount_value:
+                # Apply a discount to the shipping fee
+                self.shipping_fee = max(Decimal('0.00'), fixed_shipping_fee - self.voucher.discount_value)
+            else:
+                # If the voucher doesn't affect shipping, use the fixed shipping fee logic
+                if fixed_shipping_fee != Decimal('0.00'):
+                    self.is_fixed_shipping_fee = True
+                    self.shipping_fee = fixed_shipping_fee
+                else:
+                    self.is_fixed_shipping_fee = False
+                    if self.shipping_fee is None:
+                        self.shipping_fee = Decimal('0.00')             
+        else:
+            self.is_fixed_shipping_fee = True
+            self.shipping_fee = fixed_shipping_fee if fixed_shipping_fee != Decimal('0.00') else Decimal('0.00')
+        
+        if self.voucher and self.voucher.is_valid():
+            if self.voucher.discount_type == 'fixed':
+                self.discount = max(self.voucher.discount_value, Decimal('0.00'))
+            elif self.voucher.discount_type == 'percent':
+                if subtotal is not None:
+                    self.discount = (subtotal * self.voucher.discount_value) / 100
+                    self.discount = max(self.discount, Decimal('0.00'))
+                else:
+                    self.discount = Decimal('0.00')
+        else:
+            self.discount = Decimal('0.00')
+                
+        if self.subtotal is not None and self.shipping_fee is not None:
+            self.total_amount = Decimal(self.subtotal) + Decimal(self.shipping_fee)
+                    
+        super().save(*args, **kwargs)
     
 
     @classmethod
@@ -242,4 +302,13 @@ class OrderItem(models.Model):
 #     transaction_id = models.CharField(max_length=100, blank=True, null=True)
 #     status = models.CharField(max_length=50, choices=PAYMENT_STATUS_CHOICES, default='pending') 
 #     created_at = models.DateTimeField(auto_now_add=True)
-        
+
+
+class VoucherUsage(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    voucher = models.ForeignKey(Voucher, on_delete=models.CASCADE)
+    used_on = models.DateTimeField(auto_now_add=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('user', 'voucher')
