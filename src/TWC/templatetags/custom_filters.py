@@ -12,7 +12,7 @@ def replace_underscore_to_space(value):
 
 @register.filter(name='replace_underscore_to_dash')
 def replace_underscore_to_space(value):
-    return value.upper().replace("_", "-")
+    return value.replace("_", "-")
 
 @register.filter
 def to(value, end):
