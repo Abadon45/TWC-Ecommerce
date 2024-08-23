@@ -301,6 +301,9 @@ LOGGING = {
             'level': 'ERROR',  # Log only ERROR and above
             'class': 'logging.FileHandler',
             'filename': BASE_DIR / 'login' / 'log' / 'error.log',
+            'maxBytes': 50 * 1024 * 1024,  # 50 MB
+            'backupCount': 5,  # Keep 5 backup files
+            'formatter': 'verbose',
         },
     },
     'loggers': {
