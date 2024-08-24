@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import os
+from logging.handlers import RotatingFileHandler
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -93,7 +94,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
+    # 'allauth.account.middleware.AccountMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -298,38 +299,18 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'error_file': {
-            'level': 'ERROR',  # Log only ERROR and above
-            'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'login' / 'log' / 'error.log',
-            'maxBytes': 50 * 1024 * 1024,  # 50 MB
-            'backupCount': 5,  # Keep 5 backup files
-            'formatter': 'verbose',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['error_file'],
-            'level': 'ERROR',  # Log only ERROR and above
-            'propagate': True,
-        },
-        'login': {
-            'handlers': ['error_file'],
-            'level': 'ERROR',  # Log only ERROR and above
-            'propagate': True,
-        },
-    },
-    'formatters': {
-        'verbose': {
-            'format': '%(asctime)s [%(levelname)s] %(module)s %(process)d %(thread)d %(message)s'
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'TWC', 'logs', 'error.log'),
+            'maxBytes': 1024 * 1024,  # 1 MB
+            'backupCount': 5,
         },
     },
     'root': {
         'handlers': ['error_file'],
         'level': 'ERROR',
-        'formatter': 'verbose',
     },
 }
-
 
 
 ENV = os.getenv('ENV', 'production')
