@@ -23,6 +23,7 @@ from .utils import is_valid_username
 
 import random
 import string
+import requests
 
 
 User = get_user_model()
@@ -41,25 +42,32 @@ class IndexView(TemplateView):
     def get(self, request, username=None, *args, **kwargs):
         referrer = None
         user = request.user
+
+        print(f'User: {user}')
+        print(user.is_authenticated)
         
         order_ids = self.request.session.get('checkout_orders', [])
         orders = Order.objects.filter(id__in=order_ids)
         
         products_in_cart = [item.product_id for order in orders for item in order.orderitem_set.all()]
-        
+
         if username:
-            try:
-                referrer = User.objects.get(username=username)
-                if referrer == user or referrer.username == "admin":
+            api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
+
+            response = requests.get(api_url)
+            data = response.json()
+            is_success = data.get('success')
+
+            if is_success:
+                if username == "admin":
                     return HttpResponseRedirect(reverse('handle_404'))
-            except User.DoesNotExist:
+                request.session['referrer'] = username
+                print(f"Referrer: {request.session['referrer']}")
+                return HttpResponseRedirect(reverse('home_view'))
+            else:
                 return HttpResponseRedirect(reverse('handle_404'))
             
-            request.session['referrer'] = referrer.username
-            print(f"Referrer: {request.session['referrer']}")
             
-            return HttpResponseRedirect(reverse('home_view'))
-                
         guest_user_info = request.session.get('guest_user_data', {})
         new_guest_user = request.session.get('new_guest_user', False)
         

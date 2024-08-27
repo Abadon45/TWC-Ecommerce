@@ -16,6 +16,7 @@ from ecommerce.models import SiteSetting
 from .utils import sf_calculator
 
 import json
+import requests
 
 
 User = get_user_model()
@@ -657,9 +658,13 @@ def submit_checkout(request):
             referrer_username = request.POST.get('username')
             
             if referrer_username:
-                try:
-                    referrer = User.objects.get(username=referrer_username)
-                except User.DoesNotExist:
+                api_url = f'https://dashboard.twcako.com/account/api/check-username/{referrer_username}/'
+
+                response = requests.get(api_url)
+                data = response.json()
+                is_success = data.get('success')
+                
+                if not is_success:
                     return JsonResponse({'success': False, 'error': 'Referrer username does not exist'}, status=400)
             
             for order in orders:

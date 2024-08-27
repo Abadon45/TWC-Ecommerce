@@ -12,3 +12,44 @@ Traceback (most recent call last):
   File "/mnt/c/Users/Noy/Dev/TWC-Ecommerce/src/TWC/middleware.py", line 37, in __call__
     if request.subdomain:
 AttributeError: 'WSGIRequest' object has no attribute 'subdomain'
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/TWC/middleware.py", line 37, in __call__
+    if request.subdomain:
+AttributeError: 'WSGIRequest' object has no attribute 'subdomain'
+Internal Server Error: /favicon.ico
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/TWC/middleware.py", line 37, in __call__
+    if request.subdomain:
+AttributeError: 'WSGIRequest' object has no attribute 'subdomain'
+Internal Server Error: /cart/submit-checkout/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 661, in submit_checkout
+    api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
+NameError: name 'username' is not defined
+Internal Server Error: /cart/submit-checkout/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 661, in submit_checkout
+    api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
+NameError: name 'username' is not defined
+Internal Server Error: /cart/submit-checkout/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 661, in submit_checkout
+    api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
+NameError: name 'username' is not defined

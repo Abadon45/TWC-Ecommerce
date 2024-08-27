@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'ecommerce',
     'login',
     'shop',
-    'vendor',
     'products',
     'cart',
     'orders',
