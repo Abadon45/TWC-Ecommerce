@@ -54,18 +54,29 @@ class IndexView(TemplateView):
         if username:
             api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
 
-            response = requests.get(api_url)
-            data = response.json()
-            is_success = data.get('success')
+            try:
+                response = requests.get(api_url)
+                response.raise_for_status()  # Raise an exception for HTTP errors
 
-            if is_success:
-                if username == "admin":
+                try:
+                    data = response.json()  # Attempt to parse JSON
+                except ValueError:  # Handle JSON decoding errors
+                    return HttpResponseNotFound("Invalid JSON response from the API.")
+
+                is_success = data.get('success')
+
+                if is_success:
+                    if username == "admin":
+                        return HttpResponseRedirect(reverse('handle_404'))
+                    request.session['referrer'] = username
+                    print(f"Referrer: {request.session['referrer']}")
+                    return HttpResponseRedirect(reverse('home_view'))
+                else:
                     return HttpResponseRedirect(reverse('handle_404'))
-                request.session['referrer'] = username
-                print(f"Referrer: {request.session['referrer']}")
-                return HttpResponseRedirect(reverse('home_view'))
-            else:
-                return HttpResponseRedirect(reverse('handle_404'))
+
+            except requests.RequestException as e:
+                print(f"Request failed: {e}")
+                return HttpResponseNotFound("API request failed.")
 
         guest_user_info = request.session.get('guest_user_data', {})
         new_guest_user = request.session.get('new_guest_user', False)

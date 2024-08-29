@@ -638,13 +638,12 @@ class BundleCheckoutView(View):
 #########################
 
 def submit_checkout(request):
-    
     if "bundle_order" in request.session:
         order_id = request.session['bundle_order']
         order = Order.objects.get(order_id=order_id)
         order.complete = True
         order.save()
-        
+
         if order.user.referred_by:
             request.session['referrer'] = order.user.referred_by.username
         else:
@@ -655,22 +654,37 @@ def submit_checkout(request):
         orders = Order.objects.filter(id__in=order_ids)
         referrer_username = ""
         referrer = None
-        
+
         print(f'Order in Submit Checkout: {orders}')
-    
+
         if request.method == 'POST':
             referrer_username = request.POST.get('username')
-            
+
             if referrer_username:
                 api_url = f'https://dashboard.twcako.com/account/api/check-username/{referrer_username}/'
 
-                response = requests.get(api_url)
-                data = response.json()
-                is_success = data.get('success')
-                
-                if not is_success:
-                    return JsonResponse({'success': False, 'error': 'Referrer username does not exist'}, status=400)
-            
+                try:
+                    response = requests.get(api_url)
+                    response.raise_for_status()  # Raise an error for bad HTTP status codes
+                    data = response.json()
+
+                    if not isinstance(data, dict):
+                        raise ValueError("API response is not a valid JSON object")
+
+                    is_success = data.get('success')
+
+                    if not is_success:
+                        return JsonResponse({'success': False, 'error': 'Referrer username does not exist'}, status=400)
+
+                    # If referrer_username is valid, find the referrer user
+                    referrer = User.objects.filter(username=referrer_username).first()
+                except requests.RequestException as e:
+                    print(f"Request failed: {e}")
+                    return JsonResponse({'success': False, 'error': 'Failed to check referrer username'}, status=500)
+                except ValueError as e:
+                    print(f"Error parsing response: {e}")
+                    return JsonResponse({'success': False, 'error': 'Invalid API response'}, status=500)
+
             for order in orders:
                 order_user = order.user
                 order_user.referred_by = referrer
@@ -678,8 +692,9 @@ def submit_checkout(request):
                 order.complete = True
                 order.save()
                 print(f'Order {order} saved!')
-        
+
     return redirect('cart:checkout_complete')
+
 
 #########################################################  
 #------------------checkout is done---------------------#
