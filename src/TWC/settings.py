@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-)!a@6)s)$_u_o6*b7&#vqo++i)i5f^$_8nid!r0w^wm3#w47$y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['172.105.126.70', '127.0.0.1', '139.144.121.152','172.104.35.33','172.104.40.138', '.twconline.store']
+ALLOWED_HOSTS = ['172.105.126.70', '127.0.0.1', '139.144.121.152','172.104.35.33', '.twconline.store']
 
 USE_X_FORWARDED_HOST = True
 
@@ -52,14 +52,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook', 
     'user',
     'TWC',
-    'ecommerce',
-    'login',
-    'shop',
+    'onlinestore',
     'products',
     'cart',
-    'orders',
-    'billing',
-    'addresses',
     'django_hosts',
     'django.contrib.sites',
 ]
@@ -114,7 +109,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'onlinestore', 'templates'),
             os.path.join(BASE_DIR, 'templates', 'allauth'),
             ],
         'APP_DIRS': True,
@@ -129,7 +124,7 @@ TEMPLATES = [
                 'cart.context_processors.pickup_count_notification',
                 'cart.context_processors.return_count_notification',
                 'cart.context_processors.pending_orders_notification',
-                'ecommerce.context_processors.referrer',
+                'onlinestore.context_processors.referrer',
                 'TWC.context_processors.main_site_url',
                 'TWC.context_processors.site_urls',
             ],

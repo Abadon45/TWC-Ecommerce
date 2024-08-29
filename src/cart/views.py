@@ -10,9 +10,9 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 
 from products.models import Product
-from orders.models import *
-from addresses.forms import AddressForm
-from ecommerce.models import SiteSetting
+from .models import *
+from .forms import AddressForm
+from onlinestore.models import SiteSetting
 from .utils import sf_calculator
 
 import json
@@ -22,6 +22,10 @@ import requests
 User = get_user_model()
 
 MAX_ORDER_QUANTITY = int(SiteSetting.get_max_order_quantity())
+FIXED_SHIPPING_FEE = SiteSetting.get_fixed_shipping_fee()
+
+# MAX_ORDER_QUANTITY = 10
+# FIXED_SHIPPING_FEE = 120
 
 class CartView(TemplateView):
     template_name = 'cart/shop-cart.html'
@@ -259,7 +263,7 @@ def checkout(request):
                 order.shipping_address = default_address
                 qty = order.total_quantity
                 if order.is_fixed_shipping_fee:
-                    fixed_shipping_fee = SiteSetting.get_fixed_shipping_fee()
+                    fixed_shipping_fee = FIXED_SHIPPING_FEE
                     order.shipping_fee = fixed_shipping_fee
                 else:
                     shipping_fee = sf_calculator(region=region, qty=qty)
@@ -287,7 +291,7 @@ def checkout(request):
                 for order in orders:
                     qty = order.total_quantity
                     if order.is_fixed_shipping_fee:
-                        fixed_shipping_fee = SiteSetting.get_fixed_shipping_fee()
+                        fixed_shipping_fee = FIXED_SHIPPING_FEE
                         order.shipping_fee = fixed_shipping_fee
                     else:
                         shipping_fee = sf_calculator(region=region, qty=qty)

@@ -2,7 +2,6 @@ from django.http import Http404
 from django.contrib.auth import get_user_model
 from django.http import HttpResponsePermanentRedirect
 from django_hosts import host
-from billing.models import Customer
 from user.models import User
 import logging
 

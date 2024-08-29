@@ -300,6 +300,19 @@ input, textarea {
 
 /* HEADER */
 
+.header {
+    .main-navigation {
+        .navigation-col {
+            .nav-right {
+                margin-left: 4px;
+                a {
+                    padding: 10px;
+                }
+            }
+        }
+    }
+}
+
 .header-list {
     display: flex;
     align-items: center;
@@ -348,6 +361,10 @@ input, textarea {
     display: inline !important;
     margin: auto;
 }
+
+
+
+
 
 /* LOGIN PAGE */
 

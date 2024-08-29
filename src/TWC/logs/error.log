@@ -53,3 +53,199 @@ Traceback (most recent call last):
   File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 661, in submit_checkout
     api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
 NameError: name 'username' is not defined
+Internal Server Error: /favicon.ico
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/requests/models.py", line 974, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.10/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.10/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.10/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 2 column 1 (char 1)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/ecommerce/views.py", line 58, in get
+    data = response.json()
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/requests/models.py", line 978, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 2 column 1 (char 1)
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/urls/base.py", line 71, in reverse
+    extra, resolver = resolver.namespace_dict[ns]
+KeyError: 'shop'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/default.py", line 129, in get
+    return render(request, self.template_name, context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 195, in render
+    return template.render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 172, in render
+    return self._render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/urls/base.py", line 82, in reverse
+    raise NoReverseMatch("%s is not a registered namespace" % key)
+django.urls.exceptions.NoReverseMatch: 'shop' is not a registered namespace
+Internal Server Error: /favicon.ico
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/requests/models.py", line 974, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.10/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.10/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.10/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 2 column 1 (char 1)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/default.py", line 58, in get
+    data = response.json()
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/requests/models.py", line 978, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 2 column 1 (char 1)
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/default.py", line 129, in get
+    return render(request, self.template_name, context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 195, in render
+    return template.render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 172, in render
+    return self._render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/urls/base.py", line 86, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/urls/resolvers.py", line 694, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'search' not found. 'search' is not a valid view function or pattern name.
+Internal Server Error: /favicon.ico
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/requests/models.py", line 974, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.10/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.10/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.10/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 2 column 1 (char 1)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/default.py", line 58, in get
+    data = response.json()
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/requests/models.py", line 978, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 2 column 1 (char 1)
+Internal Server Error: /cart/checkout/
+Internal Server Error: /cart/checkout/
+Internal Server Error: /cart/checkout/
+Internal Server Error: /cart/checkout/
+Internal Server Error: /cart/checkout/
