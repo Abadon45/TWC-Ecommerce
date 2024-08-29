@@ -9,7 +9,6 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth import get_user_model
 
-from products.models import Product
 from .models import *
 from .forms import AddressForm
 from onlinestore.models import SiteSetting
@@ -21,11 +20,6 @@ import requests
 
 User = get_user_model()
 
-MAX_ORDER_QUANTITY = int(SiteSetting.get_max_order_quantity())
-FIXED_SHIPPING_FEE = SiteSetting.get_fixed_shipping_fee()
-
-# MAX_ORDER_QUANTITY = 10
-# FIXED_SHIPPING_FEE = 120
 
 class CartView(TemplateView):
     template_name = 'cart/shop-cart.html'
@@ -71,6 +65,7 @@ class CartView(TemplateView):
 
 @transaction.atomic
 def updateItem(request):
+    MAX_ORDER_QUANTITY = int(SiteSetting.get_max_order_quantity())
     bundleDetails = json.loads(request.GET.get('bundleDetails', '{}'))
     productId = request.GET.get('productId')
     action = request.GET.get('action')
@@ -231,6 +226,7 @@ def checkout(request):
     temporary_username = ""
     temporary_password = ""
     customer_addresses = ""
+    FIXED_SHIPPING_FEE = SiteSetting.get_fixed_shipping_fee()
     shipping_fee = 0.00
     orders_subtotal = Decimal('0.00')
     total_shipping = Decimal('0.00')
