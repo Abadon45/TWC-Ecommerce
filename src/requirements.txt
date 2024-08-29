@@ -11,4 +11,4 @@ django-hosts
 boto3
 django-ses
 sendgrid
-django-allauth==0.44.0
+django-allauth==0.61.1
