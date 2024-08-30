@@ -3877,7 +3877,7 @@ a.disabled:hover {
             }
             .product-item {
                 .product-img.grid-type {
-                    height: 136px!important;
+                    height: 100%!important;
                 }
                 .product-content {
                     .product-title {
@@ -4591,7 +4591,7 @@ a.disabled:hover {
 /* X-Small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) {
     .mobile-width {
-        width: 320px;
+        width: 100vw;
         margin: 0 auto;
     }
     .index-card {
