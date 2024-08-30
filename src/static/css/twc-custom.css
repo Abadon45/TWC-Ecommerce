@@ -79,7 +79,6 @@ input, textarea {
         padding: 12px 25px;
         background-color: var(--theme-color);
         color: var(--color-white);
-        border-radius: 10px;
     }
     a:hover {
         background-color: var(--color-white) !important;
@@ -1242,7 +1241,7 @@ input, textarea {
     background-color: unset;
 }
 .twc-checkout .shop-cart-summary-twc table {
-    --bs-table-bg: var(--color-whitet) !important;
+    --bs-table-bg: var(--color-white) !important;
 }
 .twc-checkout .shop-cart-summary-twc tr {
     border-style: hidden;
@@ -2186,7 +2185,6 @@ a.disabled:hover {
             .card-body {
                 padding: 25px 10px;
                 table {
-                    margin-top: 0!important;
                     margin: 0;
                 }
                 th, td {
@@ -2731,7 +2729,7 @@ a.disabled:hover {
 
     .product-detail-page {
         .shop-single-info {
-            margin-top: 0px;
+            margin-top: 0;
             .shop-single-title {
                 font-size: 16px;
             }
@@ -2963,8 +2961,7 @@ a.disabled:hover {
                 font-size: 10px;
             }
             th {
-                padding: 0;
-                padding-left: 6px;
+                padding: 0 0 0 6px;
                 text-align: left;
             }
             td {
@@ -2977,7 +2974,7 @@ a.disabled:hover {
             }
             .cart-product {
                 .image-column {
-                    width: 0%!important;
+                    width: 0!important;
                     .shop-cart-img {
                         width: 60px;
                         height: 60px;
@@ -3365,7 +3362,7 @@ a.disabled:hover {
                         font-weight: 500;
                     }
                     .image-column {
-                        width: 0%!important;
+                        width: 0!important;
                     }
                     .name-column {
                         padding-right: 35px!important;
@@ -3586,7 +3583,7 @@ a.disabled:hover {
         }
     }
     .hero-section3 {
-        width: 320px;
+        padding: 0 3px;
         margin: 0 auto;
     }
     .twc-category-slider {
@@ -3599,18 +3596,21 @@ a.disabled:hover {
     }
     .product-area {
         .index-card {
+            padding: 0 15px;
             .product-body.carousel-body {
                 padding: 18px!important;
-                height: 264px;
+                height: 100%;
                 .owl-carousel {
+                    display: flex;
+                    justify-content: center;
                     .owl-stage-outer {
-                        width: 258px;
+                        width: 350px;
                         .owl-item.active {
-                            width: 120px!important;
+                            /*width: 120px!important;*/
                         }
                         .owl-item {
                             .product-item {
-                                width: 120px!important;
+                                width: 100%!important;
                                 .product-content {
                                     h3 {
                                         text-overflow: ellipsis;
@@ -3636,7 +3636,7 @@ a.disabled:hover {
             }
             .product-body {
                 .product-item {
-                    width: 120px!important;
+                    /*width: 120px!important;*/
                     .product-content {
                         h3 {
                             text-overflow: ellipsis;
@@ -3659,7 +3659,7 @@ a.disabled:hover {
         }
     }
     .twc-big-banner {
-        width: 320px;
+        /*width: 320px;*/
         margin: 0 auto;
         .banner-wrap {
             height: 14vh;
@@ -3667,22 +3667,24 @@ a.disabled:hover {
         }
     }
     .index-deal-area2 {
+        margin: 20px 0 30px;
+        padding: 0 3px;
         .deal-img{
             background-color: var(--color-white);
             border-radius: 12px 12px 0 0;
             img {
-                width: 296px;
-                height: 200px;
-                margin: 0 auto;
+                /*width: 296px;*/
+                /*height: 200px;*/
+                /*margin: 0 auto;*/
                 object-fit: cover;
             }
         }
         .deal-content {
-            height: 210px;
+            height: 62vw;
             border-radius: 0 0 12px 12px;
             padding: 30px 20px;
-            width: 296px;
-            margin: 0 auto;
+            width: 100%;
+            align-content: center;
             h2 {
                 font-size: 26px;
                 line-height: 0;
@@ -3709,9 +3711,12 @@ a.disabled:hover {
     }
         
     .index-card {
-        max-width: 320px;
+        /*max-width: 320px;*/
         .product-body {
+            width: 100%;
             padding: 15px 10px;
+            align-self: center;
+            display: flex;
             .product-column:nth-child(3), .product-column:nth-child(4) {
                 display: none;
             }
@@ -3722,17 +3727,17 @@ a.disabled:hover {
                 .product-column{
                     padding: 0 8px;
                     .product-item {
-                        max-width: 120px;
+                        max-width: 100%;
                         place-content: center;
                         .product-img {
-                            height: 120px!important;
-                            width: 120px;
+                            height: 100%!important;
+                            width: 100%;
                         }
                         .product-content {
                             width: 120px;
                         }
                         .product-button {
-                            width: 120px;
+                            width: 100%;
                             button {
                                 font-size: 12px;
                             }
@@ -4612,14 +4617,14 @@ a.disabled:hover {
             .product-column{
                 .product-item {
                     .product-img {
-                        height: 120px!important;
-                        width: 120px;
+                        height: 100%!important;
+                        width: 100%;
                     }
                     .product-content {
-                        width: 120px;
+                        width: 100%;
                     }
                     .product-button {
-                        width: 120px;
+                        width: 100%;
                         button {
                             font-size: 12px;
                         }
