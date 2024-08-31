@@ -305,3 +305,25 @@ Traceback (most recent call last):
   File "/home/abadon45/Dev/TWC-Ecommerce/src/TWC/middleware.py", line 36, in __call__
     if request.subdomain:
 AttributeError: 'WSGIRequest' object has no attribute 'subdomain'
+Internal Server Error: /shop/single/fossil-oval-watch-duotone-silver-and-gold
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 63, in view
+    self = cls(**initkwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/shop.py", line 192, in __init__
+    super().__init__(kwargs)
+TypeError: View.__init__() takes 1 positional argument but 2 were given
+Internal Server Error: /shop/single/fossil-oval-watch-duotone-silver-and-gold
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 63, in view
+    self = cls(**initkwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/shop.py", line 192, in __init__
+    super().__init__(kwargs)
+TypeError: View.__init__() takes 1 positional argument but 2 were given

@@ -6,21 +6,17 @@ from django.urls import reverse_lazy
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Q
 from django.template.loader import render_to_string
-from django.urls import NoReverseMatch
-from django.db.models import Count
 from django.contrib.auth import get_user_model
 from django.utils.timezone import now
 
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 
 from products.views import ProductListView, ProductDetailView
 from products.models import Product, Rating, Review
 from products.forms import RatingForm, ReviewForm
 from cart.models import Order
 
-import random
 
 User = get_user_model()
 
@@ -332,7 +328,7 @@ class ShopPromoBundleView(View):
         products = [
             {
                 'promo': 'promo1',
-                'name': 'barley-for-cancer',
+                'slug': 'barley-for-cancer',
                 'price': 2199,
                 'quantity': 2,
                 'image': 'img/product/promos/barley/barley-promo-1.png',
@@ -341,7 +337,7 @@ class ShopPromoBundleView(View):
             },
             {
                 'promo': 'promo2',
-                'name': 'barley-for-cancer',
+                'slug': 'barley-for-cancer',
                 'price': 2299,
                 'quantity': 3,
                 'image': 'img/product/promos/barley/barley-promo-1.png',
@@ -350,7 +346,7 @@ class ShopPromoBundleView(View):
             },
             {
                 'promo': 'promo3',
-                'name': 'barley-for-cancer',
+                'slug': 'barley-for-cancer',
                 'price': 2840,
                 'quantity': 3,
                 'image': 'img/product/promos/barley/barley-promo-1.png',
@@ -359,7 +355,7 @@ class ShopPromoBundleView(View):
             },
             {
                 'promo': 'promo4',
-                'name': 'weight-loss',
+                'slug': 'weight-loss',
                 'price': 799,
                 'quantity': 2,
                 'image': 'img/product/promos/barley/barley-promo-1.png',
@@ -368,7 +364,7 @@ class ShopPromoBundleView(View):
             },
             {
                 'promo': 'promo5',
-                'name': 'weight-loss',
+                'slug': 'weight-loss',
                 'price': 1249,
                 'quantity': 5,
                 'image': 'img/product/promos/barley/barley-promo-1.png',
@@ -377,7 +373,7 @@ class ShopPromoBundleView(View):
             },
             {
                 'promo': 'promo6',
-                'name': 'weight-loss',
+                'slug': 'weight-loss',
                 'price': 1649,
                 'quantity': 7,
                 'image': 'img/product/promos/barley/barley-promo-1.png',
@@ -386,7 +382,7 @@ class ShopPromoBundleView(View):
             },
             {
                 'promo': 'promo7',
-                'name': 'boost-coffee',
+                'sku': 'boost-coffee',
                 'price': 899,
                 'quantity': 2,
                 'image': 'img/product/promos/barley/barley-promo-1.png',
@@ -395,7 +391,7 @@ class ShopPromoBundleView(View):
             },
             {
                 'promo': 'promo8',
-                'name': 'boost-coffee',
+                'slug': 'boost-coffee',
                 'price': 1349,
                 'quantity': 5,
                 'image': 'img/product/promos/barley/barley-promo-1.png',
@@ -404,7 +400,7 @@ class ShopPromoBundleView(View):
             },
             {
                 'promo': 'promo9',
-                'name': 'boost-coffee',
+                'slug': 'boost-coffee',
                 'price': 1799,
                 'quantity': 7,
                 'image': 'img/product/promos/barley/barley-promo-1.png',
