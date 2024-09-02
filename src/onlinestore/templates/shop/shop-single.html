@@ -6,468 +6,494 @@
 
 {% block content %}
 
-<!-- shop single -->
-<div class="shop-single product-detail-page py-100 mobile-width">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="shop-single-gallery">
-                    <div class="flexslider-thumbnails">
-                        <ul class="slides">
-                            {% if product.image_1 %}
-                            <li data-thumb="{{ product.image_1.url }}">
-                                <img src="{{ product.image_1.url }}" alt="{{ product.name }}">
-                            </li>
-                            {% endif %}
-                            {% if product.image_2 %}
-                            <li data-thumb="{{ product.image_2.url }}">
-                                <img src="{{ product.image_2.url }}" alt="{{ product.name }}">
-                            </li>
-                            {% endif %}
-                            {% if product.image_3 %}
-                            <li data-thumb="{{ product.image_3.url }}">
-                                <img src="{{ product.image_3.url }}" alt="{{ product.name }}">
-                            </li>
-                            {% endif %}
-                            {% if product.image_4 %}
-                            <li data-thumb="{{ product.image_4.url }}">
-                                <img src="{{ product.image_4.url }}" alt="{{ product.name }}">
-                            </li>
-                            {% endif %}
-                            {% if product.image_5 %}
-                            <li data-thumb="{{ product.image_5.url }}">
-                                <img src="{{ product.image_5.url }}" alt="{{ product.name }}">
-                            </li>
-                            {% endif %}
-                        </ul>
+    <!-- shop single -->
+    <div class="shop-single product-detail-page py-100 mobile-width">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="shop-single-gallery">
+                        <div class="flexslider-thumbnails">
+                            <ul class="slides">
+                                {% if product.image_1 %}
+                                    <li data-thumb="{{ product.image_1.url }}">
+                                        <img src="{{ product.image_1.url }}" alt="{{ product.name }}">
+                                    </li>
+                                {% endif %}
+                                {% if product.image_2 %}
+                                    <li data-thumb="{{ product.image_2.url }}">
+                                        <img src="{{ product.image_2.url }}" alt="{{ product.name }}">
+                                    </li>
+                                {% endif %}
+                                {% if product.image_3 %}
+                                    <li data-thumb="{{ product.image_3.url }}">
+                                        <img src="{{ product.image_3.url }}" alt="{{ product.name }}">
+                                    </li>
+                                {% endif %}
+                                {% if product.image_4 %}
+                                    <li data-thumb="{{ product.image_4.url }}">
+                                        <img src="{{ product.image_4.url }}" alt="{{ product.name }}">
+                                    </li>
+                                {% endif %}
+                                {% if product.image_5 %}
+                                    <li data-thumb="{{ product.image_5.url }}">
+                                        <img src="{{ product.image_5.url }}" alt="{{ product.name }}">
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="shop-single-info">
-                    <h4 class="shop-single-title">{{ product.name }}</h4>
-                    <div class="shop-single-rating" data-product-id="{{ product.id }}">
-                        {% if user.is_authenticated %}
-                        {% if rating %}
-                        {% for i in 1|to:6 %}
-                        {% if i <= rating.score %} <i class="fas fa-star" data-index="{{ forloop.counter }}"></i>
+                <div class="col-md-6">
+                    <div class="shop-single-info">
+                        <h4 class="shop-single-title">{{ product.name }}</h4>
+                        <div class="shop-single-rating" data-product-id="{{ product.id }}">
+                            {% if user.is_authenticated %}
+                                {% if rating %}
+                                    {% for i in 1|to:6 %}
+                                        {% if i <= rating.score %}
+                                            <i class="fas fa-star" data-index="{{ forloop.counter }}"></i>
+                                        {% else %}
+                                            <i class="far fa-star" data-index="{{ forloop.counter }}"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    {% for i in 1|to:6 %}
+                                        {% if product.aggregate_rating >= i %}
+                                            <i class="fas fa-star" data-index="{{ forloop.counter }}"></i>
+                                        {% elif product.aggregate_rating >= i|subtract:0.5 %}
+                                            <i class="fas fa-star-half-alt" data-index="{{ forloop.counter }}"></i>
+                                        {% else %}
+                                            <i class="far fa-star" data-index="{{ forloop.counter }}"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
                             {% else %}
-                            <i class="far fa-star" data-index="{{ forloop.counter }}"></i>
-                            {% endif %}
-                            {% endfor %}
-                            {% else %}
-                            {% for i in 1|to:6 %}
-                            {% if product.aggregate_rating >= i %}
-                            <i class="fas fa-star" data-index="{{ forloop.counter }}"></i>
-                            {% elif product.aggregate_rating >= i|subtract:0.5 %}
-                            <i class="fas fa-star-half-alt" data-index="{{ forloop.counter }}"></i>
-                            {% else %}
-                            <i class="far fa-star" data-index="{{ forloop.counter }}"></i>
-                            {% endif %}
-                            {% endfor %}
-                            {% endif %}
-                            {% else %}
-                            {% for i in 1|to:6 %}
-                            {% if product.aggregate_rating >= i %}
-                            <i class="fas fa-star" data-index="{{ forloop.counter }}"></i>
-                            {% elif product.aggregate_rating >= i|subtract:0.5 %}
-                            <i class="fas fa-star-half-alt" data-index="{{ forloop.counter }}"></i>
-                            {% else %}
-                            <i class="far fa-star" data-index="{{ forloop.counter }}"></i>
-                            {% endif %}
-                            {% endfor %}
+                                {% for i in 1|to:6 %}
+                                    {% if product.aggregate_rating >= i %}
+                                        <i class="fas fa-star" data-index="{{ forloop.counter }}"></i>
+                                    {% elif product.aggregate_rating >= i|subtract:0.5 %}
+                                        <i class="fas fa-star-half-alt" data-index="{{ forloop.counter }}"></i>
+                                    {% else %}
+                                        <i class="far fa-star" data-index="{{ forloop.counter }}"></i>
+                                    {% endif %}
+                                {% endfor %}
                             {% endif %}
                             <!-- <span class="rating-count"> ({{ product.review_count }} Customer Reviews)</span> -->
-                    </div>
-                    <div class="shop-single-price">
-                        <!-- <del>{{ product.discount_price }}</del> -->
-                        <span class="amount">₱ {{ product.customer_price }}</span>
-                        <!-- <span class="discount-percentage">10% Off</span> -->
-                    </div>
-                    <p class="mb-3">
-                        {{ product.description_1 }}
-                    </p>
-                    <div class="shop-single-sortinfo mt-20">
-                        <ul>
-                            <li>Shop: <span>{{ product.get_category_1_display }}</span></li>
-                            <li>Stock: <span>Available</span></li>
-                            <li>SKU: <span>{{ product.sku }}</span></li>
-                            <li>Category: <span>{{ product.get_category_2_display }}</span></li>
-                            <!-- <li>Sold By: <a href="#">Fast Shop</a></li>
-                                    <li>Tags: <a href="#">Headphone</a>,<a href="#">Bluetooth</a>,<a href="#">Modern</a>,<a href="#">Shop</a></li> -->
-                        </ul>
-                    </div>
-                    <div class="shop-single-cs product-detail-btn-group">
-                        <div class="my20">
-                            {% if not product.id in products_in_cart %}
-                            <div class="row qty-input-group">
-                                <div class="col-6">
-                                    <div class="shop-single-size">                        
-                                        <div class="shop-cart-qty">
-                                            <h6>Quantity</h6>
-                                            <button class="qty-btn minus-btn"><i class="fal fa-minus"></i></button>
-                                            <input id="quantity-input-{{ product.id }}" class="quantity" type="text"
-                                                value="{{ item.quantity|default:1 }}">
-                                            <button class="qty-btn plus-btn"><i class="fal fa-plus"></i></button>
+                        </div>
+                        <div class="shop-single-price">
+                            <!-- <del>{{ product.discount_price }}</del> -->
+                            <span class="amount">₱ {{ product.customer_price }}</span>
+                            <!-- <span class="discount-percentage">10% Off</span> -->
+                        </div>
+                        <p class="mb-3">
+                            {{ product.description_1 }}
+                        </p>
+                        <div class="shop-single-sortinfo mt-20">
+                            <ul>
+                                <li>Shop: <span>{{ product.get_category_1_display }}</span></li>
+                                <li>Stock: <span>Available</span></li>
+                                <li>SKU: <span>{{ product.sku }}</span></li>
+                                <li>Category: <span>{{ product.get_category_2_display }}</span></li>
+                                <!-- <li>Sold By: <a href="#">Fast Shop</a></li>
+                                        <li>Tags: <a href="#">Headphone</a>,<a href="#">Bluetooth</a>,<a href="#">Modern</a>,<a href="#">Shop</a></li> -->
+                            </ul>
+                        </div>
+                        <div class="shop-single-cs product-detail-btn-group">
+                            <div class="my20">
+                                {% if not product.id in products_in_cart %}
+                                    <div class="row qty-input-group">
+                                        <div class="col-6">
+                                            <div class="shop-single-size">
+                                                <div class="shop-cart-qty">
+                                                    <h6>Quantity</h6>
+                                                    <button class="qty-btn minus-btn"><i class="fal fa-minus"></i>
+                                                    </button>
+                                                    <input id="quantity-input-{{ product.id }}" class="quantity"
+                                                           type="text"
+                                                           value="{{ item.quantity|default:1 }}">
+                                                    <button class="qty-btn plus-btn"><i class="fal fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <div class="row align-items-center mt-20">
+                                    <div class="shop-single-btn">
+                                        {% if product.id in products_in_cart %}
+                                            <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
+                                                    style="padding: 9px 20px!important;" disabled>ADDED TO CART
+                                            </button>
+                                        {% else %}
+                                            <button data-product="{{ product.id }}" data-action="add" type="button"
+                                                    class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
+                                                    onclick="addToCart(this)">ADD TO CART
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="social-opt">
+                                <div class="row align-items-center mt-3">
+                                    <div class="col">
+                                        <!-- Put Add Wishlist icon here -->
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="shop-single-share">
+                                            <a href="#" onclick="shareOnFacebook(); return false;"><i
+                                                    class="fab fa-facebook-f"></i></a>
+                                            <a href="#"><i class="fa-brands fa-instagram"></i></a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            {% endif %}
-                            <div class="row align-items-center mt-20">
-                                <div class="shop-single-btn">
-                                    {% if product.id in products_in_cart %}
-                                    <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
-                                        style="padding: 9px 20px!important;" disabled>ADDED TO CART</button>
-                                    {% else %}
-                                    <button data-product="{{ product.id }}" data-action="add" type="button"
-                                        class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                        onclick="addToCart(this)">ADD TO CART
-                                    </button>
-                                    {% endif %}
-                                </div>
-                            </div>
+
                         </div>
-                        <div class="social-opt">
-                            <div class="row align-items-center mt-3">
-                                <div class="col">
-                                    <!-- Put Add Wishlist icon here -->
-                                </div>
-                                <div class="col-auto">
-                                    <div class="shop-single-share">
-                                        <a href="#" onclick="shareOnFacebook(); return false;"><i class="fab fa-facebook-f"></i></a>
-                                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- shop single details -->
-        <div class="shop-single-details">
-            <nav>
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button class="nav-link active" id="nav-tab1" data-bs-toggle="tab" data-bs-target="#tab1"
-                        type="button" role="tab" aria-controls="tab1" aria-selected="true">Description</button>
+            <!-- shop single details -->
+            <div class="shop-single-details">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <button class="nav-link active" id="nav-tab1" data-bs-toggle="tab" data-bs-target="#tab1"
+                                type="button" role="tab" aria-controls="tab1" aria-selected="true">Description
+                        </button>
 
-                    <!-- Review -->
-                    <button class="nav-link" id="nav-tab6" data-bs-toggle="tab" data-bs-target="#tab6" type="button"
-                        role="tab" aria-controls="tab6" aria-selected="false">Reviews ({{ product.review_count }})
-                    </button>
-                </div>
-            </nav>
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="nav-tab1">
-                    <div class="shop-single-desc">
-                        <p>
-                            {{ product.description_2 }}
-                        </p>
-                        <div class="product-details mt-20">
-                            <div class="row">
-                                {% if product.feature %}
-                                <div class="col-sm-6 mb-20">
-                                    <h6 class="color-theme1">Features</h6>
-                                    <p class="mt-10">
-                                        {{ product.feature }}
-                                    </p>
+                        <!-- Review -->
+                        <button class="nav-link" id="nav-tab6" data-bs-toggle="tab" data-bs-target="#tab6" type="button"
+                                role="tab" aria-controls="tab6" aria-selected="false">Reviews
+                            ({{ product.review_count }})
+                        </button>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="nav-tab1">
+                        <div class="shop-single-desc">
+                            <p>
+                                {{ product.description_2 }}
+                            </p>
+                            <div class="product-details mt-20">
+                                <div class="row">
+                                    {% if product.feature %}
+                                        <div class="col-sm-6 mb-20">
+                                            <h6 class="color-theme1">Features</h6>
+                                            <p class="mt-10">
+                                                {{ product.feature }}
+                                            </p>
+                                        </div>
+                                    {% endif %}
+                                    {% if product.advantage %}
+                                        <div class="col-sm-6 mb-20">
+                                            <h6 class="color-theme1">Advantages</h6>
+                                            <p class="mt-10">
+                                                {{ product.advantage }}
+                                            </p>
+                                        </div>
+                                    {% endif %}
+                                    {% if product.benefit %}
+                                        <div class="col-sm-6 mb-20">
+                                            <h6 class="color-theme1">Benefits</h6>
+                                            <p class="mt-10">
+                                                {{ product.benefit }}
+                                            </p>
+                                        </div>
+                                    {% endif %}
                                 </div>
-                                {% endif %}
-                                {% if product.advantage %}
-                                <div class="col-sm-6 mb-20">
-                                    <h6 class="color-theme1">Advantages</h6>
-                                    <p class="mt-10">
-                                        {{ product.advantage }}
-                                    </p>
-                                </div>
-                                {% endif %}
-                                {% if product.benefit %}
-                                <div class="col-sm-6 mb-20">
-                                    <h6 class="color-theme1">Benefits</h6>
-                                    <p class="mt-10">
-                                        {{ product.benefit }}
-                                    </p>
-                                </div>
-                                {% endif %}
+
                             </div>
-
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="nav-tab5">
-                    <div class="shop-single-review">
-                        <div class="blog-comments">
-                            <p>{{ product.specification|linebreaks }}</p>
-                        </div>
-                    </div>
-                </div>
-                {% if product_ratings %}
-                    <div class="tab-pane fade" id="tab6" role="tabpanel" aria-labelledby="nav-tab6">
+                    <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="nav-tab5">
                         <div class="shop-single-review">
                             <div class="blog-comments">
-                                <div class="blog-comments-wrapper">
-                                    {% for product_rating in product_ratings %}
-                                    {% if product_rating.user == user %}
-                                    <div class="mobile-only">
-                                        <div class="edit-review review-rating">
+                                <p>{{ product.specification|linebreaks }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% if product_ratings %}
+                        <div class="tab-pane fade" id="tab6" role="tabpanel" aria-labelledby="nav-tab6">
+                            <div class="shop-single-review">
+                                <div class="blog-comments">
+                                    <div class="blog-comments-wrapper">
+                                        {% for product_rating in product_ratings %}
+                                            {% if product_rating.user == user %}
+                                                <div class="mobile-only">
+                                                    <div class="edit-review review-rating">
                                             <span>
                                                 <a onclick="editReview(event, {{ product_rating.review.id }})"
-                                                    class="edit-review-link">Edit
+                                                   class="edit-review-link">Edit
                                                 </a>
                                             </span>
-                                            <span style="margin: 0 10px;">|</span>
-                                            <span>
-                                                <a onclick="removeReview(event, {{ product_rating.review.id }})" 
-                                                    class="remove-review-link" 
-                                                    data-review-id="{{ product_rating.review.id }}">Remove
+                                                        <span style="margin: 0 10px;">|</span>
+                                                        <span>
+                                                <a onclick="removeReview(event, {{ product_rating.review.id }})"
+                                                   class="remove-review-link"
+                                                   data-review-id="{{ product_rating.review.id }}">Remove
                                                 </a>
                                             </span>
-                                        </div>
-                                    </div> 
-                                    {% endif %}
-                                    <div class="blog-comments-single mt-0 mb-3">
-                                        {% if product_rating.user.image %}
-                                        <img src="{{ product_rating.user.image.url }}" alt="Profile Picture">
-                                        {% else %}
-                                        <img src="{% static 'img/user/default_profile.png' %}" alt="No Image">
-                                        {% endif %}
-                                        <div class="blog-comments-content">
-                                            <div class="star-rating" id="review-rating-{{ product_rating.review.id }}">
-                                                {% for i in 1|to:6 %}
-                                                    {% if i <= product_rating.score %} 
-                                                        <i class="fas fa-star"></i>
-                                                    {% else %}
-                                                        <i class="far fa-star"></i>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </div>
-                                            <h5>{{ product_rating.user.first_name }} {{ product_rating.user.last_name }}</h5>
-                                            {% if product_rating.user == user %}
-                                                <div class="edit-review review-rating mobile-hidden">
-                                                    <span>
-                                                        <a onclick="editReview(event, {{ product_rating.review.id }})"
-                                                            class="edit-review-link">Edit
-                                                        </a>
-                                                    </span>
-                                                    <span style="margin: 0 10px;">|</span>
-                                                    <span>
-                                                        <a onclick="removeReview(event, {{ product_rating.review.id }})" 
-                                                            class="remove-review-link" 
-                                                            data-review-id="{{ product_rating.review.id }}">Remove
-                                                        </a>
-                                                    </span>
+                                                    </div>
                                                 </div>
                                             {% endif %}
-                                            <p id="review-content-{{ product_rating.review.id }}">{{ product_rating.review.content }}</p>
-                                            <span>{{ product_rating.review.created_at }}</span>
-                                        </div>
+                                            <div class="blog-comments-single mt-0 mb-3">
+                                                {% if product_rating.user.image %}
+                                                    <img src="{{ product_rating.user.image.url }}"
+                                                         alt="Profile Picture">
+                                                {% else %}
+                                                    <img src="{% static 'img/user/default_profile.png' %}"
+                                                         alt="No Image">
+                                                {% endif %}
+                                                <div class="blog-comments-content">
+                                                    <div class="star-rating"
+                                                         id="review-rating-{{ product_rating.review.id }}">
+                                                        {% for i in 1|to:6 %}
+                                                            {% if i <= product_rating.score %}
+                                                                <i class="fas fa-star"></i>
+                                                            {% else %}
+                                                                <i class="far fa-star"></i>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </div>
+                                                    <h5>{{ product_rating.user.first_name }} {{ product_rating.user.last_name }}</h5>
+                                                    {% if product_rating.user == user %}
+                                                        <div class="edit-review review-rating mobile-hidden">
+                                                    <span>
+                                                        <a onclick="editReview(event, {{ product_rating.review.id }})"
+                                                           class="edit-review-link">Edit
+                                                        </a>
+                                                    </span>
+                                                            <span style="margin: 0 10px;">|</span>
+                                                            <span>
+                                                        <a onclick="removeReview(event, {{ product_rating.review.id }})"
+                                                           class="remove-review-link"
+                                                           data-review-id="{{ product_rating.review.id }}">Remove
+                                                        </a>
+                                                    </span>
+                                                        </div>
+                                                    {% endif %}
+                                                    <p id="review-content-{{ product_rating.review.id }}">{{ product_rating.review.content }}</p>
+                                                    <span>{{ product_rating.review.created_at }}</span>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
                                     </div>
-                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
-                    </div>
-                {% else %}
-                    <div class="tab-pane fade" id="tab6" role="tabpanel" aria-labelledby="nav-tab6">
-                        <div class="shop-single-review">
-                            <div class="blog-comments">
-                                <div class="blog-comments-wrapper">
-                                    <p>No product reviews available yet.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-
-
-                <!-- Review form -->
-                <div class="blog-comments-form">
-                    <h4 class="mb-4">Leave A Review</h4>
-                    {% if user.is_authenticated %}
-                    {% if not user_reviewed %}
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    {{ rating_form.score }}
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    {{ review_form.content }}
-                                </div>
-                                <button type="submit" class="theme-btn">SUBMIT</button>
-                            </div>
-                        </div>
-                    </form>
                     {% else %}
-                    <p>You have already submitted a review for this product.</p>
-                    <button class="theme-btn mt-3" onclick="editReview(event, {{ rating.user.id }})">Edit Review</button>
-                    {% endif %}
-                    {% else %}
-                    <p>You need to <a href="{% url 'login:login' %}">login</a> to submit a rating and review.</p>
-                    {% endif %}
-                </div>
-            </div>
-
-        </div>
-        <!-- shop single details end -->
-
-        <!-- related item -->
-        <div class="product-area pt-80">
-            <div class="card index-card">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="p-2">
-                            <h2 class="site-title">Related Products</h2>
-                        </div>
-                        <div class="p-2">
-                            <a class="theme-btn" href="{% url 'shop:shop' %}?category_id={{ product.category_1 }}">View More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body product-body">
-                    <div class="row">
-                        {% for related_product in related_products %}
-                        <div class="col-md-3 col-6 product-column">
-                            <div class="product-item">
-                                <div class="product-img">
-                                    <a href="{% url 'shop:single' slug=related_product.slug %}">
-                                        {% if product.image_1 %}
-                                        <img src="{{ related_product.image_1.url }}" alt="{{ related_product.name }}" id="product-image">
-                                        {% else %}
-                                        no image
-                                        {% endif %}
-                                    </a>
-                                    <div class="product-action-wrap">
-                                        <div class="product-action">
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
-                                                title="Quick View"><i class="far fa-eye"></i></a>
-                                            <!-- <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i class="far fa-heart"></i></a>
-                                            <a href="#" data-tooltip="tooltip" title="Add To Compare"><i
-                                                    class="far fa-arrows-repeat"></i></a> -->
-                                        </div>
+                        <div class="tab-pane fade" id="tab6" role="tabpanel" aria-labelledby="nav-tab6">
+                            <div class="shop-single-review">
+                                <div class="blog-comments">
+                                    <div class="blog-comments-wrapper">
+                                        <p>No product reviews available yet.</p>
                                     </div>
                                 </div>
-                                <div class="product-content">
-                                    <h3 class="product-title"><a href="{% url 'shop:single' slug=related_product.slug %}">{{related_product.name }}</a>
-                                    </h3>
-                                    <div class="product-rate">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                    <div class="product-bottom">
-                                        <div class="product-price">
-                                            <!-- <del>P120</del> -->
-                                            <span class="current-product-price">₱ {{ related_product.customer_price}}</span>
+                            </div>
+                        </div>
+                    {% endif %}
+
+
+                    <!-- Review form -->
+                    <div class="blog-comments-form">
+                        <h4 class="mb-4">Leave A Review</h4>
+                        {% if user.is_authenticated %}
+                            {% if user_has_purchased %}
+                                {% if not user_reviewed %}
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {{ rating_form.score }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    {{ review_form.content }}
+                                                </div>
+                                                <button type="submit" class="theme-btn">SUBMIT</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="product-button">
-                                    {% if related_product.id in products_in_cart %}
-                                    <button type="button" class="btn btn-secondary item-id-{{ related_product.id }}"
-                                        disabled>ADDED TO CART</button>
-                                    {% else %}
-                                    <button data-product="{{ related_product.id }}" data-action="add" type="button"
-                                        class="btn theme-btn add-to-cart-btn update-cart item-id-{{ related_product.id }}"
-                                        onclick="addToCart(this)">ADD TO CART
+                                    </form>
+                                {% else %}
+                                    <p>You have already submitted a review for this product.</p>
+                                    <button class="theme-btn mt-3" onclick="editReview(event, {{ rating.user.id }})">
+                                        Edit Review
                                     </button>
-                                    {% endif %}
-                                </div>
+                                {% endif %}
+                            {% else %}
+                                <p>You must purchase this product before leaving a review.</p>
+                            {% endif %}
+                        {% else %}
+                            <p>You need to <a href="{% url 'login:login' %}">login</a> to submit a rating and review.
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+            <!-- shop single details end -->
+
+            <!-- related item -->
+            <div class="product-area pt-80">
+                <div class="card index-card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="p-2">
+                                <h2 class="site-title">Related Products</h2>
+                            </div>
+                            <div class="p-2">
+                                <a class="theme-btn" href="{% url 'shop:shop' %}?category_id={{ product.category_1 }}">View
+                                    More</a>
                             </div>
                         </div>
-                        {% endfor %}
+                    </div>
+                    <div class="card-body product-body">
+                        <div class="row">
+                            {% for related_product in related_products %}
+                                <div class="col-md-3 col-6 product-column">
+                                    <div class="product-item">
+                                        <div class="product-img">
+                                            <a href="{% url 'shop:single' slug=related_product.slug %}">
+                                                {% if product.image_1 %}
+                                                    <img src="{{ related_product.image_1.url }}"
+                                                         alt="{{ related_product.name }}" id="product-image">
+                                                {% else %}
+                                                    no image
+                                                {% endif %}
+                                            </a>
+                                            <div class="product-action-wrap">
+                                                <div class="product-action">
+                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"
+                                                       data-tooltip="tooltip"
+                                                       title="Quick View"><i class="far fa-eye"></i></a>
+                                                    <!-- <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i class="far fa-heart"></i></a>
+                                                    <a href="#" data-tooltip="tooltip" title="Add To Compare"><i
+                                                            class="far fa-arrows-repeat"></i></a> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="product-content">
+                                            <h3 class="product-title"><a
+                                                    href="{% url 'shop:single' slug=related_product.slug %}">{{ related_product.name }}</a>
+                                            </h3>
+                                            <div class="product-rate">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                            </div>
+                                            <div class="product-bottom">
+                                                <div class="product-price">
+                                                    <!-- <del>P120</del> -->
+                                                    <span class="current-product-price">₱ {{ related_product.customer_price }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="product-button">
+                                            {% if related_product.id in products_in_cart %}
+                                                <button type="button"
+                                                        class="btn btn-secondary item-id-{{ related_product.id }}"
+                                                        disabled>ADDED TO CART
+                                                </button>
+                                            {% else %}
+                                                <button data-product="{{ related_product.id }}" data-action="add"
+                                                        type="button"
+                                                        class="btn theme-btn add-to-cart-btn update-cart item-id-{{ related_product.id }}"
+                                                        onclick="addToCart(this)">ADD TO CART
+                                                </button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- related item end -->
         </div>
-        <!-- related item end -->
     </div>
-</div>
-<!-- shop single end -->
+    <!-- shop single end -->
 
 {% endblock %}
 {% block extra_js %}
-<script>
-    function shareOnFacebook() {
-        // Open Graph meta tags
-        var ogUrl = "https://www.twconline.store/shop/single/seiko-5-couple-watch";
-        var ogTitle = "Seiko 5 Couple Watch";
-        var ogDescription = "Seiko 5 Couple Watch (Japan OEM)";
-        var ogImage = "https://www.http://www.twconline.store:8000/media/admin_images/2024/02/16/091139.png";
+    <script>
+        function shareOnFacebook() {
+            // Open Graph meta tags
+            var ogUrl = "https://www.twconline.store/shop/single/seiko-5-couple-watch";
+            var ogTitle = "Seiko 5 Couple Watch";
+            var ogDescription = "Seiko 5 Couple Watch (Japan OEM)";
+            var ogImage = "https://www.http://www.twconline.store:8000/media/admin_images/2024/02/16/091139.png";
 
-        // Create a Facebook share dialog
-        FB.ui({
-            method: 'share_open_graph',
-            action_type: 'og.shares',
-            action_properties: JSON.stringify({
-                object: {
-                    'og:url': ogUrl,
-                    'og:title': ogTitle,
-                    'og:description': ogDescription,
-                    'og:image': ogImage
+            // Create a Facebook share dialog
+            FB.ui({
+                method: 'share_open_graph',
+                action_type: 'og.shares',
+                action_properties: JSON.stringify({
+                    object: {
+                        'og:url': ogUrl,
+                        'og:title': ogTitle,
+                        'og:description': ogDescription,
+                        'og:image': ogImage
+                    }
+                })
+            }, function (response) {
+            });
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            ////////////////////
+            // Product Rating //
+            ///////////////////
+            $('.shop-single-rating .fa-star, .shop-single-rating .fa-star-half-alt').on('click', function () {
+                var $this = $(this);
+                var ratingIndex = $this.data('index'); // Get the data-index of the clicked star
+                var productId = $this.closest('.shop-single-rating').data('product-id'); // Get the product ID from the closest product-rate container
+                var $productRate = $this.closest('.shop-single-rating'); // Get the closest product-rate container
+
+                // Update the star rating display
+                updateStarRating($productRate, ratingIndex);
+
+                // Send the rating to the server if productId is defined
+                if (productId !== undefined) {
+                    $.ajax({
+                        url: "{% url 'products:rate_product' 0 %}".replace('0', productId), // Replace '0' with the actual product ID
+                        type: 'POST',
+                        data: {
+                            'score': ratingIndex, // Send the rating index as the score
+                            'csrfmiddlewaretoken': '{{ csrf_token }}' // CSRF token for security
+                        },
+                        success: function (response) {
+                            console.log('Rating submitted successfully');
+                        },
+                        error: function (response) {
+                            console.log('Error in submitting rating');
+                        }
+                    });
                 }
-            })
-        }, function (response) { });
-    }
-</script>
-<script>
-    $(document).ready(function () {
+            });
 
-        ////////////////////
-        // Product Rating //
-        ///////////////////
-        $('.shop-single-rating .fa-star, .shop-single-rating .fa-star-half-alt').on('click', function () {
-            var $this = $(this);
-            var ratingIndex = $this.data('index'); // Get the data-index of the clicked star
-            var productId = $this.closest('.shop-single-rating').data('product-id'); // Get the product ID from the closest product-rate container
-            var $productRate = $this.closest('.shop-single-rating'); // Get the closest product-rate container
-
-            // Update the star rating display
-            updateStarRating($productRate, ratingIndex);
-
-            // Send the rating to the server if productId is defined
-            if (productId !== undefined) {
-                $.ajax({
-                    url: "{% url 'products:rate_product' 0 %}".replace('0', productId), // Replace '0' with the actual product ID
-                    type: 'POST',
-                    data: {
-                        'score': ratingIndex, // Send the rating index as the score
-                        'csrfmiddlewaretoken': '{{ csrf_token }}' // CSRF token for security
-                    },
-                    success: function (response) {
-                        console.log('Rating submitted successfully');
-                    },
-                    error: function (response) {
-                        console.log('Error in submitting rating');
+            // Function to update star rating display
+            function updateStarRating($ratingElement, ratingIndex) {
+                $ratingElement.find('.fa-star, .fa-star-half-alt').each(function () {
+                    var $star = $(this);
+                    var starIndex = parseInt($star.data('index')); // Get the index of the current star
+                    if (starIndex <= ratingIndex) {
+                        $star.removeClass('far fa-star fa-star-half-alt').addClass('fas fa-star'); // Set star to full
+                    } else {
+                        $star.removeClass('fas fa-star').addClass('far fa-star'); // Set star to empty
                     }
                 });
             }
+
         });
-
-        // Function to update star rating display
-        function updateStarRating($ratingElement, ratingIndex) {
-            $ratingElement.find('.fa-star, .fa-star-half-alt').each(function () {
-                var $star = $(this);
-                var starIndex = parseInt($star.data('index')); // Get the index of the current star
-                if (starIndex <= ratingIndex) {
-                    $star.removeClass('far fa-star fa-star-half-alt').addClass('fas fa-star'); // Set star to full
-                } else {
-                    $star.removeClass('fas fa-star').addClass('far fa-star'); // Set star to empty
-                }
-            });
-        }
-
-    });
-</script>
-<script>
+    </script>
+    <script>
         function editReview(event, reviewId) {
             // Prevent the default action of the link click
             event.preventDefault();
@@ -486,7 +512,6 @@
                 success: function (response) {
                     const currentContent = response.content;
                     const currentRating = response.rating;
-
 
 
                     console.log("Current review content:", currentContent);
@@ -667,5 +692,5 @@
             }
         `;
         document.head.appendChild(style);
-</script>
+    </script>
 {% endblock %}

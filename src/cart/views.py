@@ -27,7 +27,6 @@ class CartView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        referrer_id = self.request.session.get('referrer')
             
         order_ids = self.request.session.get('checkout_orders', [])
         orders = Order.objects.filter(id__in=order_ids) 
@@ -43,24 +42,23 @@ class CartView(TemplateView):
             'orders': orders,
             'ordered_items': ordered_items,
             'total_cart_subtotal': total_cart_subtotal,
-            'referrer_id': referrer_id,
         })
         
         return context
         
-    def post(self, request, *args, **kwargs):
-        username = request.POST.get('username')
-
-        # Check if the username exists in the database
-        try:
-            referrer = User.objects.get(username=username)
-        except User.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'Referrer username does not exist!!'}, status=400)
-
-        # If the username exists, save it to the session
-        request.session['referrer'] = username
-
-        return JsonResponse({'success': True})
+    # def post(self, request, *args, **kwargs):
+    #     username = request.POST.get('username')
+    #
+    #     # Check if the username exists in the database
+    #     try:
+    #         referrer = User.objects.get(username=username)
+    #     except User.DoesNotExist:
+    #         return JsonResponse({'success': False, 'error': 'Referrer username does not exist!!'}, status=400)
+    #
+    #     # If the username exists, save it to the session
+    #     request.session['referrer'] = username
+    #
+    #     return JsonResponse({'success': True})
     
 
 @transaction.atomic
@@ -243,11 +241,11 @@ def checkout(request):
             is_authenticated = True
             default_address = Address.objects.filter(user=user, is_default=True).first()
             customer_addresses = Address.objects.filter(user=user).exclude(is_default=True).order_by('-is_default')[:3]
-            referred_by = user.referred_by
+            referred_by = user.sponsor
         else:
             referred_by = request.session.get('referrer')
             
-        print(f'Referred by: {referred_by}')
+        print(f'Sponsor: {referred_by}')
         order_ids = request.session.get('checkout_orders', [])
         orders = Order.objects.filter(id__in=order_ids)
         
@@ -338,8 +336,7 @@ def checkout(request):
                                 
                                 if referrer:
                                     try:
-                                        referrer_user = User.objects.get(username=referrer)
-                                        temporary_user.referred_by = referrer_user
+                                        temporary_user.referred_by = referrer
                                         temporary_user.save()
                                     except User.DoesNotExist:
                                         print("Referrer not found.")
@@ -634,18 +631,22 @@ class BundleCheckoutView(View):
 #########################
 
 def submit_checkout(request):
+    # Check if the session contains a 'bundle_order'
     if "bundle_order" in request.session:
+        # Retrieve the bundle order using the order_id from the session
         order_id = request.session['bundle_order']
         order = Order.objects.get(order_id=order_id)
         order.complete = True
         order.save()
 
-        if order.user.referred_by:
-            request.session['referrer'] = order.user.referred_by.username
+        # Store the sponsor in the session if the user was referred by someone
+        if order.user.sponsor:
+            request.session['referrer'] = order.user.sponor
         else:
             request.session['referrer'] = None
         print("Order is a bundle")
     else:
+        # If it's not a bundle order, handle regular checkout orders
         order_ids = request.session.get('checkout_orders', [])
         orders = Order.objects.filter(id__in=order_ids)
         referrer_username = ""
@@ -653,43 +654,54 @@ def submit_checkout(request):
 
         print(f'Order in Submit Checkout: {orders}')
 
+        # If the request method is POST, handle the form submission
         if request.method == 'POST':
+            # Get the referrer's username from the POST data
             referrer_username = request.POST.get('username')
 
             if referrer_username:
+                # API URL to check if the referrer username exists in the system
                 api_url = f'https://dashboard.twcako.com/account/api/check-username/{referrer_username}/'
 
                 try:
-                    response = requests.get(api_url)
-                    response.raise_for_status()  # Raise an error for bad HTTP status codes
-                    data = response.json()
+                    if referrer_username != 'admin':
+                        # Make an API request to validate the referrer username
+                        response = requests.get(api_url)
+                        response.raise_for_status()  # Raise an error for bad HTTP status codes
+                        data = response.json()
 
-                    if not isinstance(data, dict):
-                        raise ValueError("API response is not a valid JSON object")
+                        # Ensure the API response is a valid JSON object
+                        if not isinstance(data, dict):
+                            raise ValueError("API response is not a valid JSON object")
 
-                    is_success = data.get('success')
+                        # Check if the API response indicates success
+                        is_success = data.get('success')
 
-                    if not is_success:
-                        return JsonResponse({'success': False, 'error': 'Referrer username does not exist'}, status=400)
+                        # If the username doesn't exist, return an error response
+                        if not is_success:
+                            return JsonResponse({'success': False, 'error': 'Referrer username does not exist'}, status=400)
 
-                    # If referrer_username is valid, find the referrer user
-                    referrer = User.objects.filter(username=referrer_username).first()
                 except requests.RequestException as e:
+                    # Handle request exceptions (e.g., network issues, server errors)
                     print(f"Request failed: {e}")
                     return JsonResponse({'success': False, 'error': 'Failed to check referrer username'}, status=500)
                 except ValueError as e:
+                    # Handle JSON parsing errors
                     print(f"Error parsing response: {e}")
                     return JsonResponse({'success': False, 'error': 'Invalid API response'}, status=500)
 
+            # Update the referrer and mark each order as complete
             for order in orders:
                 order_user = order.user
-                order_user.referred_by = referrer
+                order_user.sponsor = referrer_username
                 order_user.save()
                 order.complete = True
                 order.save()
                 print(f'Order {order} saved!')
 
+    # Redirect the user to the checkout complete page after processing the orders
     return redirect('cart:checkout_complete')
+
 
 
 #########################################################  

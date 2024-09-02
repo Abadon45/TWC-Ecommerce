@@ -44,7 +44,7 @@ def pending_orders_notification(request):
     orders_count = 0
     
     if user.is_authenticated and user.is_staff:
-        referred_users = User.objects.filter(referred_by=user)
+        referred_users = User.objects.filter(sponsor=user)
         orders = Order.objects.filter(user__in=referred_users, delivered=False)
         
         pending_orders_count = orders.count()

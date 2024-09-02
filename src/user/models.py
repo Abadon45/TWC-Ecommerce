@@ -76,6 +76,7 @@ class User(AbstractBaseUser):
     
     affiliate_code  = models.CharField(max_length=8, blank=True, editable=False)
     referred_by     = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='referrals')
+    sponsor         = models.CharField(verbose_name='Sponsor', max_length=150, blank=True, null=True)
 
     is_seller       = models.BooleanField(default=False)
     is_member       = models.BooleanField(default=False)

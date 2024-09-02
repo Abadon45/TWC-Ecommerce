@@ -327,3 +327,41 @@ Traceback (most recent call last):
   File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/shop.py", line 192, in __init__
     super().__init__(kwargs)
 TypeError: View.__init__() takes 1 positional argument but 2 were given
+Internal Server Error: /cart/submit-checkout/
+Internal Server Error: /cart/checkout/
+Internal Server Error: /cart/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/utils/module_loading.py", line 20, in import_string
+    return getattr(module, class_name)
+AttributeError: module 'cart.context_processors' has no attribute 'pending_orders_notification'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 204, in _get_response
+    response = response.render()
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/response.py", line 105, in render
+    self.content = self.rendered_content
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/response.py", line 83, in rendered_content
+    return template.render(context, self._request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 168, in render
+    with context.bind_template(self):
+  File "/usr/lib/python3.10/contextlib.py", line 135, in __enter__
+    return next(self.gen)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/context.py", line 240, in bind_template
+    processors = (template.engine.template_context_processors +
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/utils/functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 85, in template_context_processors
+    return tuple(import_string(path) for path in context_processors)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 85, in <genexpr>
+    return tuple(import_string(path) for path in context_processors)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/utils/module_loading.py", line 22, in import_string
+    raise ImportError('Module "%s" does not define a "%s" attribute/class' % (
+ImportError: Module "cart.context_processors" does not define a "pending_orders_notification" attribute/class
+Internal Server Error: /cart/submit-checkout/
+Internal Server Error: /cart/submit-checkout/

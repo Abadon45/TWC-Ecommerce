@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.views.generic import View
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -15,7 +16,7 @@ from django.contrib.auth.decorators import login_required
 from products.views import ProductListView, ProductDetailView
 from products.models import Product, Rating, Review
 from products.forms import RatingForm, ReviewForm
-from cart.models import Order
+from cart.models import Order, OrderItem
 
 
 User = get_user_model()
@@ -201,10 +202,15 @@ class ShopDetailView(ProductDetailView):
         orders = Order.objects.filter(id__in=order_ids)
         products_in_cart = [item.product_id for order in orders for item in order.orderitem_set.all()]
 
+        user_has_purchased = False
+        if self.request.user.is_authenticated:
+            user_has_purchased = OrderItem.objects.filter(order__user=self.request.user, product=product,
+                                                          order__complete=True).exists()
+
         # Get user rating and review status for the product if authenticated
         rating = None
         user_reviewed = False
-        if self.request.user.is_authenticated:
+        if self.request.user.is_authenticated and user_has_purchased:
             try:
                 rating = Rating.objects.get(product=product, user=self.request.user)
                 user_reviewed = True
@@ -230,6 +236,7 @@ class ShopDetailView(ProductDetailView):
         context['products_in_cart'] = products_in_cart
         context['rating'] = rating
         context['user_reviewed'] = user_reviewed
+        context['user_has_purchased'] = user_has_purchased
         context['product_reviews'] = product_reviews
         context['product_ratings'] = product_ratings
 
