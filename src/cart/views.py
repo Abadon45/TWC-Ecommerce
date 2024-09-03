@@ -64,11 +64,13 @@ def updateItem(request):
 
     print(f'Products for sales funnel: {bundleDetails}')
 
+    # Remove session data related to completed checkout
     if 'checkout_done_bundle' in request.session:
         del request.session['checkout_done_bundle']
     if 'checkout_done_view' in request.session:
         del request.session['checkout_done_view']
 
+    # Initialize or retrieve the session key if not already present
     if not session_key:
         request.session.save()
         session_key = request.session.session_key
@@ -78,9 +80,9 @@ def updateItem(request):
     print('Quantity: ', quantity)
 
     try:
-        order = None
         orderItem = None
 
+        # Handle bundle order updates by iterating through the products in the bundle
         if bundleDetails:
             order_id = request.session['bundle_order']
             order = Order.objects.get(order_id=order_id)
@@ -95,8 +97,8 @@ def updateItem(request):
                 print(productId)
                 print('Product: ', productId)
 
+                # Retrieve or create an OrderItem for each product in the bundle
                 orderItem, order_item_created = OrderItem.objects.get_or_create(order=order, product=product)
-
                 orderItem.quantity = quantity
                 orderItem.save()
 
@@ -112,9 +114,9 @@ def updateItem(request):
                 print(f"User is not authenticated")
                 order, created = Order.objects.get_or_create(user=None, session_key=session_key, supplier=supplier, complete=False)
             print (f'Order Quantity: {order.total_quantity}')
-            
+
             # Check for maximum order quantity only for the "add" action
-            if action == 'add' and MAX_ORDER_QUANTITY > 0 and order.total_quantity + quantity > MAX_ORDER_QUANTITY:
+            if action == 'add' and 0 < MAX_ORDER_QUANTITY < order.total_quantity + quantity:
                 max_order_exceeded = True
                 return JsonResponse({
                     'action': action,
@@ -131,6 +133,7 @@ def updateItem(request):
             # Get or create the order item only if the quantity limit is not exceeded
             orderItem, order_item_created = OrderItem.objects.get_or_create(order=order, product=product)
 
+            # add or subtract item quantity and or remove items from the cart
             if orderItem:
                 print(f"Order Item Quantity Before: {orderItem.quantity}")
                 print(f"Action: {action}")
@@ -147,24 +150,22 @@ def updateItem(request):
                 else:
                     orderItem.save()
 
-        if order:
-            print(order)
-        if orderItem:
-            print(orderItem)
-            print(orderItem.quantity)
-
+        # Filter existing orders for the user/anonymous user
         existing_orders = Order.objects.filter(user=user, supplier=supplier, complete=False) if user.is_authenticated else \
                         Order.objects.filter(session_key=session_key, supplier=supplier, complete=False)
 
+        # Associate order item to the order
         ordered_items = {}
         for order in existing_orders:
             ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product')
 
+        # filters incomplete orders
         if user.is_authenticated:
             orders = Order.objects.filter(user=user, complete=False)
         else:
             orders = Order.objects.filter(session_key=session_key, complete=False)
 
+        # saves the orders to session for later use
         request.session['checkout_orders'] = list(orders.values_list('id', flat=True))
 
         cart_items = sum(order.total_quantity for order in orders)
@@ -203,7 +204,6 @@ def checkout(request):
     title = "Checkout"
     shipping_form = AddressForm()
     order = Order()
-    is_authenticated = False
     default_address = ""
     ordered_items = []
     temporary_username = ""
@@ -220,10 +220,8 @@ def checkout(request):
     referrer = None
     
     try:
-        is_authenticated = request.user.is_authenticated
-        
-        if is_authenticated:
-            is_authenticated = True
+        # check if user is authenticated or not and saves their sponsor to a variable if there is one
+        if user.is_authenticated:
             default_address = Address.objects.filter(user=user, is_default=True).first()
             customer_addresses = Address.objects.filter(user=user).exclude(is_default=True).order_by('-is_default')[:3]
             referred_by = user.sponsor
@@ -233,7 +231,8 @@ def checkout(request):
         print(f'Sponsor: {referred_by}')
         order_ids = request.session.get('checkout_orders', [])
         orders = Order.objects.filter(id__in=order_ids)
-        
+
+        # checks if address is there is already a default address
         if default_address:
             region = default_address.region
             print(f"Shipping Fee: {shipping_fee}")
@@ -249,7 +248,7 @@ def checkout(request):
                     order.shipping_fee = shipping_fee
                 order.save()
                 
-        
+        # store the order and the orderitems in the list
         for order in orders:        
             with transaction.atomic():
                 existing_order_items = order.orderitem_set.all()
@@ -258,7 +257,8 @@ def checkout(request):
                     product = order_item.product
                     ordered_items.append(OrderItem(order=order, product=product, quantity=order_item.quantity))   
                 order.save()
-        
+
+        # Address Form and fetching the name for account registration
         if request.method == 'POST':  
             shipping_form = AddressForm(request.POST)
             
@@ -267,6 +267,8 @@ def checkout(request):
                 
                 region = shipping_form.cleaned_data.get('region')
                 updated_orders = []
+
+                # calculate shipping based on the fixed shipping otherwise calculate based on region
                 for order in orders:
                     qty = order.total_quantity
                     if order.is_fixed_shipping_fee:
@@ -297,7 +299,9 @@ def checkout(request):
                     shipping_address.is_default = True
                     
                 shipping_address.save()
-                print("Shipping address created:", shipping_address)                   
+                print("Shipping address created:", shipping_address)
+
+                # register the address to the order
                 if not order.shipping_address:
                     
                     for order in orders:
@@ -311,7 +315,7 @@ def checkout(request):
                     if request.user.is_anonymous:
                         temporary_username = request.POST.get('username').lower()  
                         print(f'username retrieved from ajax: {temporary_username}') 
-                                
+
                         if temporary_username:
                             print("Creating temporary user...")
                             temporary_user, user_created = User.objects.get_or_create(username=temporary_username)
@@ -382,8 +386,8 @@ def checkout(request):
                 return render(request, "cart/shop-checkout.html", {
                 'error_message': 'The address form is not valid. Please correct the errors and try again.',
             })
-        #put order display here
-                        
+
+        # Store and calculate order payments
         ordered_items = {}
         for order in orders:
             ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product')
@@ -410,8 +414,7 @@ def checkout(request):
         print(f'Total Payment: {total_payment}')
         print(f'Total Discount: {total_discount}')
         print(f'Orders are: {orders}')
-        
-        current_user = ""
+
         if user.is_authenticated:
             current_user = user
         else:
@@ -422,7 +425,7 @@ def checkout(request):
                 
         if request.is_ajax():
             response_data = {
-                'isAuthenticated': is_authenticated,
+                'isAuthenticated': user.is_authenticated,
                 'id': shipping_address.id,
                 'email': request.POST.get('email'),
                 'firstName': shipping_address.first_name,
@@ -448,7 +451,7 @@ def checkout(request):
                 'total_discount': total_discount,
                 'total_payment': total_payment,
                 'shipping_form': shipping_form,
-                'is_authenticated': is_authenticated,
+                'is_authenticated': user.is_authenticated,
                 'default_address': default_address,
                 'customer_addresses': customer_addresses,
                 'title': title,
@@ -456,7 +459,7 @@ def checkout(request):
                 'current_user': current_user,
                 'referred_by': referred_by,
             }
-            print(f'is_authenticated: {is_authenticated}')
+            print(f'is_authenticated: {user.is_authenticated}')
             return render(request, "cart/shop-checkout.html", context)
     except Order.DoesNotExist:
         return redirect('home_view')
@@ -471,36 +474,48 @@ def checkout(request):
 #----------Change address from list of addresses--------#
 ######################################################### 
 def get_selected_address(request):
+    # Log the incoming GET request to 'get-selected-address'
     print("Incoming GET request to 'get-selected-address'")
+
+    # Ensure that the request method is GET; return an error response if not
     if request.method != 'GET':
         return JsonResponse({'success': False, 'error': 'Invalid request method.'})
 
+    # Retrieve the selected address ID from the GET parameters
     selected_address_id = request.GET.get('selected_address_id')
     print(f"selected address: {selected_address_id}")
+
+    # If the selected address ID is missing, return an error response
     if not selected_address_id:
         return JsonResponse({'success': False, 'error': 'Missing address ID.'})
 
     try:
+        # Attempt to retrieve the selected address from the database
         selected_address = get_object_or_404(Address, pk=selected_address_id)
         print(selected_address.barangay)
     except Http404:
+        # If the address is not found, return an error response
         return JsonResponse({'success': False, 'error': 'Address not found.'})
-    
+
     try:
-        user=request.user
+        # Get the current user and their incomplete orders
+        user = request.user
         orders = Order.objects.filter(user=user, complete=False)
-        
+
+        # Update the shipping address for each incomplete order
         for order in orders:
             order.shipping_address = selected_address
             order.save()
     except Exception as e:
+        # Handle any exceptions during the update process and return an error response
         print(f"Exception in checkout view: {e}")
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
-            
+
+    # Prepare the selected address data to be returned in the JSON response
     address_data = {
         'first_name': selected_address.first_name,
         'last_name': selected_address.last_name,
-        'email': selected_address.email, 
+        'email': selected_address.email,
         'phone': selected_address.phone,
         'region': selected_address.region,
         'province': selected_address.province,
@@ -510,13 +525,14 @@ def get_selected_address(request):
         'line2': selected_address.line2,
         'postcode': selected_address.postcode,
         'message': selected_address.message,
-        'is_default': selected_address.is_default, 
-    }     
-    
+        'is_default': selected_address.is_default,
+    }
+
+    # Return a success response with the selected address data
     return JsonResponse({'success': True, 'address': address_data})
 
 
-#########################################################  
+#########################################################
 #-------Edit an address from the list of addresses------#
 ######################################################### 
 
@@ -698,14 +714,13 @@ def checkout_done_view(request):
     username = ""
     email = ""
     password = ""
-    referrer_username = ""
-    ordered_items = {}
     
     try:
-        referrer_username = request.session.get('referrer_username', '')
+        # Set session for first time orders
         request.session['new_guest_user'] = True
         request.session['has_existing_order'] = True
-        
+
+        # Delete session and store another for checkout viewing
         if 'bundle_order' in request.session:
             request.session['checkout_done_bundle'] = request.session['bundle_order']
             del request.session['bundle_order']
@@ -717,6 +732,7 @@ def checkout_done_view(request):
         orders = []
         ordered_items = {}
 
+        # Register the orders in the variable
         if 'checkout_done_bundle' in request.session and 'checkout_done_view' in request.session:
             order_ids = [request.session['checkout_done_bundle']] + request.session.get('checkout_done_view', [])
             orders = Order.objects.filter(order_id__in=order_ids)
@@ -734,7 +750,8 @@ def checkout_done_view(request):
             order.save()
 
         print(f'Orders: {orders}')
-        
+
+        # for displaying the temporary username and password
         if request.user.is_anonymous:
             guest_user_info = request.session.get('guest_user_data', {})
             username = guest_user_info.get('username', '')
@@ -763,7 +780,6 @@ def checkout_done_view(request):
                 "username": username,
                 "email": email,
                 "password": password,
-                "referrer_username": referrer_username,
                 "title": title,
                 "total_payment": total_payment,
             }

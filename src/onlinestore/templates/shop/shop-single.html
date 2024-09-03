@@ -2,6 +2,16 @@
 {% load static %}
 {% load custom_filters %}
 
+{% block head %}
+    <meta property="og:title" content="{{ product.name }}" />
+    <meta property="og:description" content="{{ product.description_1 }}" />
+    <meta property="og:image" content="{{ product.image_1.url }}" />
+    <meta property="og:url" content="{{ request.build_absolute_uri }}/{{ user.sponsor }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Your Site Name" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+{% endblock %}
 {% block title %} {{ title }} {% endblock %}
 
 {% block content %}
@@ -140,9 +150,8 @@
                                     </div>
                                     <div class="col-auto">
                                         <div class="shop-single-share">
-                                            <a href="#" onclick="shareOnFacebook(); return false;"><i
-                                                    class="fab fa-facebook-f"></i></a>
-                                            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                                            <a href="#" onclick="shareOnFacebook(); return false;"><i class="fab fa-facebook-f"></i></a>
+{#                                            <a href="#"><i class="fa-brands fa-instagram"></i></a>#}
                                         </div>
                                     </div>
                                 </div>
@@ -416,26 +425,9 @@
 {% block extra_js %}
     <script>
         function shareOnFacebook() {
-            // Open Graph meta tags
-            var ogUrl = "https://www.twconline.store/shop/single/seiko-5-couple-watch";
-            var ogTitle = "Seiko 5 Couple Watch";
-            var ogDescription = "Seiko 5 Couple Watch (Japan OEM)";
-            var ogImage = "https://www.http://www.twconline.store:8000/media/admin_images/2024/02/16/091139.png";
-
-            // Create a Facebook share dialog
-            FB.ui({
-                method: 'share_open_graph',
-                action_type: 'og.shares',
-                action_properties: JSON.stringify({
-                    object: {
-                        'og:url': ogUrl,
-                        'og:title': ogTitle,
-                        'og:description': ogDescription,
-                        'og:image': ogImage
-                    }
-                })
-            }, function (response) {
-            });
+            const url = '{{ request.build_absolute_uri }}';
+            const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+            window.open(facebookShareUrl, 'facebook-share-dialog', 'width=626,height=436');
         }
     </script>
     <script>
