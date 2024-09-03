@@ -1,9 +1,7 @@
-from django.contrib import messages
 from django.views.generic import View
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.urls import reverse
 from django.db.models import Q
@@ -89,6 +87,7 @@ class ShopView(ProductListView):
 
         return queryset
 
+    # rating logic
     def get_user_ratings(self, products):
         user_ratings = {}
         if self.request.user.is_authenticated:
@@ -101,6 +100,7 @@ class ShopView(ProductListView):
                     pass
         return user_ratings
 
+    # category display logic
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -154,6 +154,7 @@ class ShopView(ProductListView):
 
         return context
 
+    # pagination logic
     def render_to_response(self, context, **response_kwargs):
         page = self.request.GET.get('page', 1)
         paginator = Paginator(context['products'], self.paginate_by)
@@ -326,6 +327,9 @@ class ShopDetailView(ProductDetailView):
         context['review_form'] = review_form
         return self.render_to_response(context)
 
+
+##################################################
+# FOR DASHBOARD
 
 @login_required
 def get_review_details(request, review_id):
