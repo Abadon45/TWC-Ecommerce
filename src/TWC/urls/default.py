@@ -8,7 +8,6 @@ from onlinestore.views import *
 from ..views import EmailFormView
 
 urlpatterns = [
-    path('about/', AboutUsView.as_view(), name="about"),
     path('become-seller/', BecomeSellerView.as_view(), name="become_seller"),
     path('coming-soon/', TemplateView.as_view(template_name='coming-soon.html'), name="coming_soon"),
     path('mail-success/', TemplateView.as_view(template_name='mail-success.html'), name="mail_success"),

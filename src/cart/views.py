@@ -27,7 +27,8 @@ class CartView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-            
+
+        # Filters Existing Orders from different shops
         order_ids = self.request.session.get('checkout_orders', [])
         orders = Order.objects.filter(id__in=order_ids) 
             
@@ -45,21 +46,7 @@ class CartView(TemplateView):
         })
         
         return context
-        
-    # def post(self, request, *args, **kwargs):
-    #     username = request.POST.get('username')
-    #
-    #     # Check if the username exists in the database
-    #     try:
-    #         referrer = User.objects.get(username=username)
-    #     except User.DoesNotExist:
-    #         return JsonResponse({'success': False, 'error': 'Referrer username does not exist!!'}, status=400)
-    #
-    #     # If the username exists, save it to the session
-    #     request.session['referrer'] = username
-    #
-    #     return JsonResponse({'success': True})
-    
+
 
 @transaction.atomic
 def updateItem(request):
@@ -68,10 +55,8 @@ def updateItem(request):
     productId = request.GET.get('productId')
     action = request.GET.get('action')
     quantity = int(request.GET.get('quantity', 1))
-    
-    cart_items = 0
+
     max_order_exceeded = False
-    total_cart_subtotal = 0.00
     supplier = None
 
     user = request.user

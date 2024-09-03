@@ -295,41 +295,35 @@
 
 
                     <!-- Review form -->
-                    <div class="blog-comments-form">
-                        <h4 class="mb-4">Leave A Review</h4>
-                        {% if user.is_authenticated %}
-                            {% if user_has_purchased %}
-                                {% if not user_reviewed %}
-                                    <form method="post">
-                                        {% csrf_token %}
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    {{ rating_form.score }}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    {{ review_form.content }}
-                                                </div>
-                                                <button type="submit" class="theme-btn">SUBMIT</button>
+
+                    {% if user.is_authenticated and user_has_purchased %}
+                        <div class="blog-comments-form">
+                            <h4 class="mb-4">Leave A Review</h4>
+                            {% if not user_reviewed %}
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                {{ rating_form.score }}
                                             </div>
                                         </div>
-                                    </form>
-                                {% else %}
-                                    <p>You have already submitted a review for this product.</p>
-                                    <button class="theme-btn mt-3" onclick="editReview(event, {{ rating.user.id }})">
-                                        Edit Review
-                                    </button>
-                                {% endif %}
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                {{ review_form.content }}
+                                            </div>
+                                            <button type="submit" class="theme-btn">SUBMIT</button>
+                                        </div>
+                                    </div>
+                                </form>
                             {% else %}
-                                <p>You must purchase this product before leaving a review.</p>
+                                <p>You have already submitted a review for this product.</p>
+                                <button class="theme-btn mt-3" onclick="editReview(event, {{ rating.user.id }})">
+                                    Edit Review
+                                </button>
                             {% endif %}
-                        {% else %}
-                            <p>You need to <a href="{% url 'login:login' %}">login</a> to submit a rating and review.
-                            </p>
-                        {% endif %}
-                    </div>
+                        </div>
+                    {% endif %}
                 </div>
 
             </div>

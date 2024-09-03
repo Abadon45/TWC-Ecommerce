@@ -1,7 +1,7 @@
 from django.views.generic import View, TemplateView
 from django.http import JsonResponse, Http404
 from django.shortcuts import render
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponseRedirect
 from products.models import Product
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
@@ -9,7 +9,6 @@ from user.models import Referral
 from django.shortcuts import redirect
 from django.utils.text import capfirst
 from django.urls import reverse
-from django.http import HttpResponseRedirect
 from django.views.decorators.http import require_POST
 from cart.models import Order
 from cart.models import Address
@@ -27,20 +26,10 @@ import requests
 User = get_user_model()
 
 
-class AboutUsView(TemplateView):
-    title = "About Us"
-    template_name = 'about.html'
-    context = {'title': title}
-
-    def get_context_data(self, **kwargs):
-        return self.context
-
-
 class IndexView(TemplateView):
     template_name = 'index.html'
 
     def get(self, request, username=None, *args, **kwargs):
-        referrer = None
         user = request.user
 
         print(f'User: {user}')

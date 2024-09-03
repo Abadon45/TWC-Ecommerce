@@ -234,6 +234,13 @@ input, textarea {
     }
 }
 
+/* Custom for pages */
+
+.error-area {
+    height: 85vh;
+    align-content: center;
+}
+
 /* Custom for class */
 
 .shop-cart-wrap .card {

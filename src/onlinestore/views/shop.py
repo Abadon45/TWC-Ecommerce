@@ -4,7 +4,8 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.urls import reverse
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.contrib.auth import get_user_model
@@ -18,6 +19,7 @@ from products.models import Product, Rating, Review
 from products.forms import RatingForm, ReviewForm
 from cart.models import Order, OrderItem
 
+import requests
 
 User = get_user_model()
 
@@ -30,21 +32,34 @@ class ShopView(ProductListView):
     _product_choices = None
     title = "Shop"
 
-    def get(self, request, *args, **kwargs):
-        try:
-            referrer_username = request.GET.get('username', None)
+    def get(self, request, username=None, *args, **kwargs):
+        if username:
+            api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
+            print(f'Username is: {username}')
+            try:
+                response = requests.get(api_url)
+                response.raise_for_status()  # Raise an exception for HTTP errors
 
-            if referrer_username:
-                referrer = User.objects.filter(username=referrer_username).first()
-                if not referrer or referrer_username == 'admin':
-                    return redirect(reverse_lazy('handle_404'))
+                try:
+                    data = response.json()  # Attempt to parse JSON
+                except ValueError:  # Handle JSON decoding errors
+                    return HttpResponseNotFound("Invalid JSON response from the API.")
 
-                request.session['referrer'] = referrer_username
-                print(f"Username in shop session: {request.session.get('referrer')}")
+                is_success = data.get('success')
 
-            return super().get(request, *args, **kwargs)
-        except Exception as e:
-            return HttpResponse(f"An error occurred: {str(e)}")
+                if is_success:
+                    request.session['referrer'] = username
+                    print(f"Referrer: {request.session['referrer']}")
+                    return HttpResponseRedirect(reverse('shop:shop'))
+                else:
+                    return HttpResponseRedirect(reverse('handle_404'))
+
+            except requests.RequestException as e:
+                print(f"Request failed: {e}")
+                return HttpResponseNotFound("API request failed.")
+
+        # If username is not provided, proceed with the normal GET handling
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         category_id = self.request.GET.get('category_id')
@@ -189,6 +204,35 @@ class ShopDetailView(ProductDetailView):
     template_name = "shop/shop-single.html"
     context_object_name = 'product'
 
+    def get(self, request, slug=None, username=None, *args, **kwargs):
+        if username:
+            api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
+            print(f'Username is: {username}')
+            try:
+                response = requests.get(api_url)
+                response.raise_for_status()  # Raise an exception for HTTP errors
+
+                try:
+                    data = response.json()  # Attempt to parse JSON
+                except ValueError:  # Handle JSON decoding errors
+                    return HttpResponseNotFound("Invalid JSON response from the API.")
+
+                is_success = data.get('success')
+
+                if is_success:
+                    request.session['referrer'] = username
+                    print(f"Referrer: {request.session['referrer']}")
+                    return HttpResponseRedirect(reverse('shop:single', kwargs={'slug': slug}))
+                else:
+                    return HttpResponseRedirect(reverse('handle_404'))
+
+            except requests.RequestException as e:
+                print(f"Request failed: {e}")
+                return HttpResponseNotFound("API request failed.")
+
+        # If username is not provided, proceed with the normal GET handling
+        return super().get(request, slug=slug, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         product = self.get_object()
@@ -202,6 +246,7 @@ class ShopDetailView(ProductDetailView):
         orders = Order.objects.filter(id__in=order_ids)
         products_in_cart = [item.product_id for order in orders for item in order.orderitem_set.all()]
 
+        # Check if the user has already purchased the product
         user_has_purchased = False
         if self.request.user.is_authenticated:
             user_has_purchased = OrderItem.objects.filter(order__user=self.request.user, product=product,
