@@ -1,15 +1,12 @@
 from django.views.generic import View, TemplateView
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.http import HttpResponseNotFound, HttpResponseRedirect
 from products.models import Product
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
-from user.models import Referral
-from django.shortcuts import redirect
 from django.utils.text import capfirst
 from django.urls import reverse
-from django.views.decorators.http import require_POST
 from cart.models import Order
 from cart.models import Address
 from django.db import transaction
@@ -17,11 +14,10 @@ from django.contrib.auth import authenticate
 from django.core.mail import send_mail
 from django.conf import settings
 from cart.utils import sf_calculator
-from onlinestore.utils import is_valid_username
+from onlinestore.utils import is_valid_username, check_sponsor_and_redirect, send_temporary_account_email
 
 import random
 import string
-import requests
 
 User = get_user_model()
 
@@ -30,6 +26,13 @@ class IndexView(TemplateView):
     template_name = 'index.html'
 
     def get(self, request, username=None, *args, **kwargs):
+
+        # if username is found redirect and register username to session
+        if username:
+            return check_sponsor_and_redirect(request, username, 'home_view')
+
+        # proceed as usual when no username is found
+
         user = request.user
 
         print(f'User: {user}')
@@ -39,33 +42,6 @@ class IndexView(TemplateView):
         orders = Order.objects.filter(id__in=order_ids)
 
         products_in_cart = [item.product_id for order in orders for item in order.orderitem_set.all()]
-
-        if username:
-            api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
-
-            try:
-                response = requests.get(api_url)
-                response.raise_for_status()  # Raise an exception for HTTP errors
-
-                try:
-                    data = response.json()  # Attempt to parse JSON
-                except ValueError:  # Handle JSON decoding errors
-                    return HttpResponseNotFound("Invalid JSON response from the API.")
-
-                is_success = data.get('success')
-
-                if is_success:
-                    if username == "admin":
-                        return HttpResponseRedirect(reverse('handle_404'))
-                    request.session['referrer'] = username
-                    print(f"Referrer: {request.session['referrer']}")
-                    return HttpResponseRedirect(reverse('home_view'))
-                else:
-                    return HttpResponseRedirect(reverse('handle_404'))
-
-            except requests.RequestException as e:
-                print(f"Request failed: {e}")
-                return HttpResponseNotFound("API request failed.")
 
         guest_user_info = request.session.get('guest_user_data', {})
         new_guest_user = request.session.get('new_guest_user', False)
@@ -284,17 +260,9 @@ def create_order(request):
 
             user = authenticate(request, username=temporary_username, password=temporary_password)
 
+            # if guest user is authenticated send email for temporary account
             if user:
-                subject = 'TWC Online Store Temporary Account'
-                message = f'Good Day {first_name},\n\n\nYou have successfully registered an account on TWConline.store!!\n\n\nHere are your temporary account details:\n\nUsername: {temporary_username}\nPassword: {temporary_password}\n\n\nThank you for your order!'
-                from_email = settings.EMAIL_MAIN
-                recipient_list = [temporary_user.email]
-
-                try:
-                    send_mail(subject, message, from_email, recipient_list, fail_silently=False)
-                    print("Email sent successfully!")
-                except Exception as e:
-                    print(f"Error sending email: {e}")
+                send_temporary_account_email(user, first_name, temporary_username, temporary_password)
 
             return JsonResponse({'message': 'Order created successfully', 'order_id': order.order_id}, status=200)
 
@@ -305,14 +273,6 @@ def create_order(request):
         print(f"Exception in create_order: {e}")
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
 
-
-class ContactView(TemplateView):
-    title = "Contact"
-    template_name = 'contact.html'
-    context = {'title': title}
-
-    def get_context_data(self, **kwargs):
-        return self.context
 
 
 class BecomeSellerView(TemplateView):
@@ -333,48 +293,12 @@ class ComingSoonView(TemplateView):
         return self.context
 
 
-class FaqView(TemplateView):
-    title = "Faqs"
-    template_name = 'faq.html'
-    context = {'title': title}
-
-    def get_context_data(self, **kwargs):
-        return self.context
-
-
-class HelpView(TemplateView):
-    title = "Help"
-    template_name = 'help.html'
-    context = {'title': title}
-
-    def get_context_data(self, **kwargs):
-        return self.context
-
-
-class PrivacyView(TemplateView):
-    title = "Privacy"
-    template_name = 'privacy.html'
-    context = {'title': title}
-
-    def get_context_data(self, **kwargs):
-        return self.context
-
-
-class TeamView(TemplateView):
-    title = "Team"
-    template_name = 'team.html'
-    context = {'title': title}
-
-    def get_context_data(self, **kwargs):
-        return self.context
-
-
 class Handle404View(View):
     title = "404"
 
-    def get(self, request, exception=None):
+    def get(self, request):
         context = self.get_context_data()
         return HttpResponseNotFound(render(request, '404.html', context=context))
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self):
         return {'title': self.title}

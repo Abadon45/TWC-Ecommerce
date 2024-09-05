@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.core.validators import RegexValidator, validate_email
 from django.apps import apps
-from django.urls import reverse
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.core.exceptions import ImproperlyConfigured

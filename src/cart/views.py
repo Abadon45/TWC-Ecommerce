@@ -5,13 +5,12 @@ from django.views.generic import TemplateView
 from django.db import transaction
 from django.http import JsonResponse
 from django.contrib.auth import authenticate
-from django.core.mail import send_mail
-from django.conf import settings
 from django.contrib.auth import get_user_model
 
 from .models import *
 from .forms import AddressForm
 from onlinestore.models import SiteSetting
+from onlinestore.utils import send_temporary_account_email
 from .utils import sf_calculator
 
 import json
@@ -206,8 +205,6 @@ def checkout(request):
     order = Order()
     default_address = ""
     ordered_items = []
-    temporary_username = ""
-    temporary_password = ""
     customer_addresses = ""
     FIXED_SHIPPING_FEE = SiteSetting.get_fixed_shipping_fee()
     shipping_fee = 0.00
@@ -364,20 +361,13 @@ def checkout(request):
                                 print("Email:", request.session['guest_user_data']['email'])
 
                                 user = authenticate(request, username=temporary_username, password=temporary_password)
-                                name = request.POST.get('first_name')
-                                
-                                if user: 
-                                    subject = 'TWC Online Store Temporary Account'
-                                    message = f'Good Day {name},\n\n\nYou have successfully registered an account on TWConline.store!!\n\n\nHere are your temporary account details:\n\nUsername: {temporary_username}\nPassword: {temporary_password}\n\n\nThank you for your order!'
-                                    from_email = settings.EMAIL_MAIN
-                                    recipient_list = [temporary_user.email]
-                                    
-                                    try:
-                                        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
-                                        print("Email sent successfully!")
-                                    except Exception as e:   
-                                        print(f"Error sending email: {e}")
-                                
+                                first_name = request.POST.get('first_name')
+
+                                # if guest user is authenticated send email for temporary account
+                                if user:
+                                    send_temporary_account_email(user, first_name, temporary_username,
+                                                                 temporary_password)
+
                             else:
                                 print("Temporary username is null or empty. Handle accordingly.")
                     

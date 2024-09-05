@@ -400,3 +400,33 @@ Traceback (most recent call last):
   File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/urls/resolvers.py", line 694, in _reverse_with_prefix
     raise NoReverseMatch(msg)
 django.urls.exceptions.NoReverseMatch: Reverse for 'single' with no arguments not found. 2 pattern(s) tried: ['shop/single/(?P<slug>[-a-zA-Z0-9_]+)/(?P<username>[^/]+)$', 'shop/single/(?P<slug>[-a-zA-Z0-9_]+)$']
+Internal Server Error: /shop/evgeronilla
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/shop.py", line 36, in get
+    return check_sponsor_and_redirect(request, username, 'shop:single')
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/utils.py", line 94, in check_sponsor_and_redirect
+    return HttpResponseRedirect(reverse(success_redirect_url))
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/urls/base.py", line 86, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/urls/resolvers.py", line 694, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'single' with no arguments not found. 2 pattern(s) tried: ['shop/single/(?P<slug>[-a-zA-Z0-9_]+)/(?P<username>[^/]+)$', 'shop/single/(?P<slug>[-a-zA-Z0-9_]+)$']
+Internal Server Error: /shop/single/fossil-oval-watch-duotone-silver-and-gold
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 63, in view
+    self = cls(**initkwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/shop.py", line 186, in __init__
+    super().__init__(kwargs)
+TypeError: View.__init__() takes 1 positional argument but 2 were given

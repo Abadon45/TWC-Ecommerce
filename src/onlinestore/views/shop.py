@@ -2,8 +2,7 @@ from django.views.generic import View
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import redirect
-from django.http import JsonResponse, HttpResponseRedirect, HttpResponseNotFound
-from django.urls import reverse
+from django.http import JsonResponse
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.contrib.auth import get_user_model
@@ -16,8 +15,8 @@ from products.views import ProductListView, ProductDetailView
 from products.models import Product, Rating, Review
 from products.forms import RatingForm, ReviewForm
 from cart.models import Order, OrderItem
+from onlinestore.utils import check_sponsor_and_redirect
 
-import requests
 
 User = get_user_model()
 
@@ -32,31 +31,9 @@ class ShopView(ProductListView):
 
     def get(self, request, username=None, *args, **kwargs):
         if username:
-            api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
-            print(f'Username is: {username}')
-            try:
-                response = requests.get(api_url)
-                response.raise_for_status()  # Raise an exception for HTTP errors
+            return check_sponsor_and_redirect(request, username, 'shop:shop')
 
-                try:
-                    data = response.json()  # Attempt to parse JSON
-                except ValueError:  # Handle JSON decoding errors
-                    return HttpResponseNotFound("Invalid JSON response from the API.")
-
-                is_success = data.get('success')
-
-                if is_success:
-                    request.session['referrer'] = username
-                    print(f"Referrer: {request.session['referrer']}")
-                    return HttpResponseRedirect(reverse('shop:shop'))
-                else:
-                    return HttpResponseRedirect(reverse('handle_404'))
-
-            except requests.RequestException as e:
-                print(f"Request failed: {e}")
-                return HttpResponseNotFound("API request failed.")
-
-        # If username is not provided, proceed with the normal GET handling
+            # If username is not provided, proceed with the normal GET handling
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
@@ -207,32 +184,11 @@ class ShopDetailView(ProductDetailView):
 
     def get(self, request, slug=None, username=None, *args, **kwargs):
         if username:
-            api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
-            print(f'Username is: {username}')
-            try:
-                response = requests.get(api_url)
-                response.raise_for_status()  # Raise an exception for HTTP errors
+            return check_sponsor_and_redirect(request, username, 'shop:single', slug=slug)
 
-                try:
-                    data = response.json()  # Attempt to parse JSON
-                except ValueError:  # Handle JSON decoding errors
-                    return HttpResponseNotFound("Invalid JSON response from the API.")
-
-                is_success = data.get('success')
-
-                if is_success:
-                    request.session['referrer'] = username
-                    print(f"Referrer: {request.session['referrer']}")
-                    return HttpResponseRedirect(reverse('shop:single', kwargs={'slug': slug}))
-                else:
-                    return HttpResponseRedirect(reverse('handle_404'))
-
-            except requests.RequestException as e:
-                print(f"Request failed: {e}")
-                return HttpResponseNotFound("API request failed.")
-
-        # If username is not provided, proceed with the normal GET handling
+            # If username is not provided, proceed with the normal GET handling
         return super().get(request, slug=slug, *args, **kwargs)
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
