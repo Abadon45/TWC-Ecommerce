@@ -3581,9 +3581,9 @@ a.disabled:hover {
         border: none!important;
     }
     .twc-category-slider {
-        width: 100%;
+        width: 296px;
         height: 100px;
-        margin: auto 0;
+        margin: 0 auto;
         .owl-item {
             width: 98px;
         }
