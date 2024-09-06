@@ -85,11 +85,14 @@ def check_sponsor_and_redirect(request, username, success_redirect_url, slug=Non
             return HttpResponseNotFound("Invalid JSON response from the API.")
 
         is_success = data.get('success')
+        messenger_link = data.get('messenger_link')
+        print(f'messenger_link: {messenger_link}')
 
         if is_success:
             if username == "admin":  # Handle special case for "admin"
                 return HttpResponseRedirect(reverse('handle_404'))
             request.session['referrer'] = username
+            request.session['messenger_link'] = messenger_link
             print(f"Referrer: {request.session['referrer']}")
             if slug:
                 return HttpResponseRedirect(reverse(success_redirect_url, kwargs={'slug': slug}))

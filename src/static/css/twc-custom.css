@@ -583,39 +583,35 @@ input, textarea {
     width: 100%;
 }
 
-.index-deal-area2 .deal-content {
-    height: 525px;
-}
-
-
-.index-deal-area2 .deal-content h2 {
-    color: var(--color-yellow2);
-    font-size: 70px;
-    font-weight: 700;
-    line-height: 40px;
-    margin-top: 5vh;
-}
-
-.index-deal-area2 .deal-content h1 {
-    color: var(--color-yellow2);
-    font-size: 115px;
-    font-weight: 800;
-    line-height: 110px;
-}
-
-.index-deal-area2 .deal-content h3 {
-    color: var(--color-white);
-    font-weight: 500;
-    font-size: 48px;
-}
-
-
-
-.index-deal-area2 .deal-content p {
-    color: var(--color-white);
-    margin-top: 20px;
-    font-size: x-large;
-    font-weight: 400;
+.index-deal-area2 {
+    margin-bottom: 100px;
+    .deal-content   {
+        height: 525px;
+        h2 {
+        color: var(--color-yellow2);
+        font-size: 70px;
+        font-weight: 700;
+        line-height: 40px;
+        margin-top: 5vh;
+    }
+        h1 {
+        color: var(--color-yellow2);
+        font-size: 115px;
+        font-weight: 800;
+        line-height: 110px;
+    }
+         h3 {
+        color: var(--color-white);
+        font-weight: 500;
+        font-size: 48px;
+    }
+        p {
+        color: var(--color-white);
+        margin-top: 20px;
+        font-size: x-large;
+        font-weight: 400;
+    }
+    }
 }
 
 .index-deal-area2 .deal-btn {
@@ -1685,6 +1681,7 @@ a.disabled:hover {
 /* For Desktop XLarge */
 @media (max-width: 1399.98px) {
     .index-deal-area2 {
+        margin-bottom: 100px;
         .deal-content {
             height: 452.59px;
             padding: 50px 25px;
@@ -1776,6 +1773,7 @@ a.disabled:hover {
         }
     }
     .index-deal-area2 {
+        margin-bottom: 80px;
         .deal-content {
             height: 379.59px;
 
@@ -2559,6 +2557,7 @@ a.disabled:hover {
         
     } 
     .index-deal-area2 {
+        margin-bottom: 70px;
         .deal-content {
             height: 282px;
             padding: 35px 25px;
@@ -3582,9 +3581,9 @@ a.disabled:hover {
         border: none!important;
     }
     .twc-category-slider {
-        width: 296px;
+        width: 100%;
         height: 100px;
-        margin: 0 auto;
+        margin: auto 0;
         .owl-item {
             width: 98px;
         }
@@ -3674,7 +3673,7 @@ a.disabled:hover {
         }
     }
     .index-deal-area2 {
-        margin: 20px 0 30px;
+        margin: 20px 0 10px!important;
         padding: 0 3px;
         .deal-img{
             background-color: var(--color-white);
@@ -3688,6 +3687,7 @@ a.disabled:hover {
         }
         .deal-content {
             height: 62vw;
+            margin-bottom: 30px;
             border-radius: 0 0 12px 12px;
             padding: 30px 20px;
             width: 100%;
