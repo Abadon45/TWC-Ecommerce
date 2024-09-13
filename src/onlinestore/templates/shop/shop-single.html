@@ -29,28 +29,28 @@
                         <div class="flexslider-thumbnails">
                             <ul class="slides">
                                 {% if product.image_1 %}
-                                    <li data-thumb="{{ product.image_1.url }}">
-                                        <img src="{{ product.image_1.url }}" alt="{{ product.name }}">
+                                    <li data-thumb="{{ product.image_1 }}">
+                                        <img src="{{ product.image_1 }}" alt="{{ product.name }}">
                                     </li>
                                 {% endif %}
                                 {% if product.image_2 %}
-                                    <li data-thumb="{{ product.image_2.url }}">
-                                        <img src="{{ product.image_2.url }}" alt="{{ product.name }}">
+                                    <li data-thumb="{{ product.image_2 }}">
+                                        <img src="{{ product.image_2 }}" alt="{{ product.name }}">
                                     </li>
                                 {% endif %}
                                 {% if product.image_3 %}
-                                    <li data-thumb="{{ product.image_3.url }}">
-                                        <img src="{{ product.image_3.url }}" alt="{{ product.name }}">
+                                    <li data-thumb="{{ product.image_3 }}">
+                                        <img src="{{ product.image_3 }}" alt="{{ product.name }}">
                                     </li>
                                 {% endif %}
                                 {% if product.image_4 %}
-                                    <li data-thumb="{{ product.image_4.url }}">
-                                        <img src="{{ product.image_4.url }}" alt="{{ product.name }}">
+                                    <li data-thumb="{{ product.image_4 }}">
+                                        <img src="{{ product.image_4 }}" alt="{{ product.name }}">
                                     </li>
                                 {% endif %}
                                 {% if product.image_5 %}
-                                    <li data-thumb="{{ product.image_5.url }}">
-                                        <img src="{{ product.image_5.url }}" alt="{{ product.name }}">
+                                    <li data-thumb="{{ product.image_5 }}">
+                                        <img src="{{ product.image_5 }}" alt="{{ product.name }}">
                                     </li>
                                 {% endif %}
                             </ul>
@@ -104,10 +104,10 @@
                         </p>
                         <div class="shop-single-sortinfo mt-20">
                             <ul>
-                                <li>Shop: <span>{{ product.get_category_1_display }}</span></li>
+                                <li>Shop: <span>{{ product.category_1|title }}</span></li>
                                 <li>Stock: <span>Available</span></li>
                                 <li>SKU: <span>{{ product.sku }}</span></li>
-                                <li>Category: <span>{{ product.get_category_2_display }}</span></li>
+                                <li>Category: <span>{{ product.category_2|replace_dash_to_space|replace_underscore_to_space|title }}</span></li>
                                 <!-- <li>Sold By: <a href="#">Fast Shop</a></li>
                                         <li>Tags: <a href="#">Headphone</a>,<a href="#">Bluetooth</a>,<a href="#">Modern</a>,<a href="#">Shop</a></li> -->
                             </ul>
@@ -193,7 +193,7 @@
                                         <div class="col-sm-6 mb-20">
                                             <h6 class="color-theme1">Features</h6>
                                             <p class="mt-10">
-                                                {{ product.feature }}
+                                                {{ product.feature|linebreaksbr }}
                                             </p>
                                         </div>
                                     {% endif %}
@@ -364,7 +364,7 @@
                                         <div class="product-img">
                                             <a href="{% url 'shop:single' slug=related_product.slug %}">
                                                 {% if product.image_1 %}
-                                                    <img src="{{ related_product.image_1.url }}"
+                                                    <img src="{{ related_product.image_1 }}"
                                                          alt="{{ related_product.name }}" id="product-image">
                                                 {% else %}
                                                     no image

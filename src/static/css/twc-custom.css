@@ -1002,9 +1002,19 @@ input, textarea {
     font-weight: 500;
 }
 
-.index-card .shop-cart-coupon {
-    margin: 5px 0 10px;
+.index-card {
+    .shop-cart-coupon {
+        margin: 5px 0 10px;
+        .form-control {
+            border-radius: 12px;
+        }
+        button {
+            border-radius: 12px;
+            padding: 10px 28px;
+        }
+    }
 }
+
 
 
 .index-card .shop-cart-total {

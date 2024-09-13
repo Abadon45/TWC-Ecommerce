@@ -72,16 +72,14 @@
 
     <!-- chat -->
     {% if referrer %}
-        {% if referrer.messenger_link %}
-            <a href="{{ referrer.messenger_link }}" id="chat-seller" aria-label="Chat with seller">
-                <i class="fa-solid fa-message" aria-hidden="true"></i> Chat
-            </a>
-        {% endif %}
+        <a href="{{ referrer }}" id="chat-seller" aria-label="Chat with seller">
+            <i class="fa-solid fa-message" aria-hidden="true"></i> Chat
+        </a>
     {% endif %}
     <!-- chat end -->
 
     <!-- cart-top -->
-    <a href="{% url_with_domain 'cart:cart' %}" id="scroll-top" class="shop-cart list-item"><i class="fa-solid fa-cart-shopping"></i>
+    <a href="{% url_with_domain 'cart:cart' %}" id="scroll-top" class="cart-link shop-cart list-item"><i class="fa-solid fa-cart-shopping"></i>
         <span id="lower-cart-count">{{ cart_items }}</span></a>
     <!-- cart end -->
 

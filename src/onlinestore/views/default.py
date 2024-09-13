@@ -41,7 +41,10 @@ class IndexView(TemplateView):
         order_ids = self.request.session.get('checkout_orders', [])
         orders = Order.objects.filter(id__in=order_ids)
 
-        products_in_cart = [item.product_id for order in orders for item in order.orderitem_set.all()]
+        # Get products in cart (assuming 'ordered_items_by_shop' is a session variable containing the cart items)
+        ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
+        products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
+                            shop['items']]
 
         guest_user_info = request.session.get('guest_user_data', {})
         new_guest_user = request.session.get('new_guest_user', False)

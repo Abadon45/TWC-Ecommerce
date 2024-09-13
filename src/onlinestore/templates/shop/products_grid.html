@@ -3,13 +3,13 @@
 
     <div class="shop-item-wrapper shop-grid product-list">
         <div class="row">
-            {% for product in page_obj %}
+            {% for product in products %}
             <div class="col-md-4 col-6 products-column">
                 <div class="products-list product-item ">
                     <div class="product-img grid-type">
-                        <a href="{% url 'shop:single' slug=product.slug %}">
+                        <a href="{% url 'shop:single' slug=product.slug  %}">
                             {% if product.image_1 %}
-                            <img src="{{ product.image_1.url }}" alt="{{ product.name }}"
+                            <img src="{{ product.image_1 }}" alt="{{ product.name }}"
                                 id="product-image">
                             {% else %}
                             <img src="{% static 'img\product\default-product-image.png' %}" alt="{{ product.name }}"
@@ -32,7 +32,7 @@
                                     data-product-shop="{{ product.category_1|title }}"
                                     data-product-category="{{ product.category_2|title }}"
                                     data-product-sku="{{ product.sku }}"
-                                    data-bs-toggle="modal" 
+                                    data-bs-toggle="modal"
                                     data-bs-target="#quickview"
                                     {% if product.id in products_in_cart %}
                                         data-button="btn btn-secondary item-id-{{ product.id }}"
@@ -98,13 +98,12 @@
                             </div>
                         </div>
                         <div class="product-button">
-                            {% if product.id in products_in_cart %}
-                            <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
+                            {% if product.slug in products_in_cart %}
+                            <button type="button" class="btn btn-secondary item-id-{{ product.slug }}"
                                 disabled>ADDED TO CART</button>
                             {% else %}
-                            <button data-product="{{ product.id }}" data-action="add" type="button"
-                                class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                onclick="addToCart(this)">ADD TO CART
+                            <button data-product="{{ product.slug }}" data-action="add" type="button"
+                                class="btn theme-btn update-cart item-id-{{ product.slug }}">ADD TO CART
                             </button>
                             {% endif %}
                         </div>

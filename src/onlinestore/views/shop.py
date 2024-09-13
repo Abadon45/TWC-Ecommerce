@@ -2,7 +2,7 @@ from django.views.generic import View
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.contrib.auth import get_user_model
@@ -16,7 +16,10 @@ from products.models import Product, Rating, Review
 from products.forms import RatingForm, ReviewForm
 from cart.models import Order, OrderItem
 from onlinestore.utils import check_sponsor_and_redirect
+from collections import defaultdict
 
+import requests
+import random
 
 User = get_user_model()
 
@@ -40,29 +43,92 @@ class ShopView(ProductListView):
         category_id = self.request.GET.get('category_id')
         search_query = self.request.GET.get('q')
         sort_option = self.request.GET.get('sort', '1')
+        queryset = []
 
-        if search_query:
-            queryset = Product.objects.filter(
-                Q(name__icontains=search_query) |
-                Q(category_1__icontains=search_query) |
-                Q(category_2__icontains=search_query)
-            )
-        elif category_id is None or category_id.lower() == 'all':
-            queryset = Product.objects.filter(is_hidden=False)
-        else:
-            queryset = Product.objects.filter(
-                Q(category_1=category_id, is_hidden=False) | Q(category_2=category_id, is_hidden=False)
-            )
 
-        # sorting logic
-        if sort_option == '5':  # Latest Items
-            queryset = queryset.order_by('-timestamp')
-        elif sort_option == '3':  # Price - Low To High
-            queryset = queryset.order_by('customer_price')
-        elif sort_option == '4':  # Price - High To Low
-            queryset = queryset.order_by('-customer_price')
+        api_url = 'https://dashboard.twcako.com/shop/api/get-product/'
 
-        return queryset
+        try:
+            # Make the API request
+            response = requests.get(api_url)
+            response.raise_for_status()
+            data = response.json()
+
+            if data.get("success"):
+                queryset = data.get("products", [])
+
+
+                # Filter by search query if provided
+                if search_query:
+                    queryset = [
+                        product for product in queryset
+                        if search_query.lower() in product.get('name', '').lower()
+                           or search_query.lower() in product.get('category_1', '').lower()
+                           or search_query.lower() in product.get('category_2', '').lower()
+                    ]
+
+                # Filter by category if provided
+                if category_id and category_id.lower() != 'all':
+                    queryset = [
+                        product for product in queryset
+                        if product.get('category_1') == category_id or product.get('category_2') == category_id
+                    ]
+
+                # Sorting logic
+                if sort_option == '5':  # Latest Items
+                    queryset = sorted(queryset, key=lambda p: p.get('timestamp', ''), reverse=True)
+                elif sort_option == '3':  # Price - Low To High
+                    queryset = sorted(queryset, key=lambda p: p.get('customer_price', 0))
+                elif sort_option == '4':  # Price - High To Low
+                    queryset = sorted(queryset, key=lambda p: p.get('customer_price', 0), reverse=True)
+
+            return queryset
+        except requests.exceptions.RequestException as e:
+            # Handle API request errors
+            return JsonResponse({'error': str(e)})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        sort_option = self.request.GET.get('sort', '1')
+        page = self.request.GET.get('page', 1)
+        category_product_count = defaultdict(int)
+
+        # Fetch the products from the API using the get_queryset method
+        products = self.get_queryset()
+
+        # Count products in each subcategory
+        for product in products:
+            subcategory = product.get('category_2')
+            if subcategory:
+                category_product_count[subcategory] += 1
+
+        # Implement pagination
+        paginator = Paginator(products, 9)
+        try:
+            paginated_products = paginator.page(page)
+        except PageNotAnInteger:
+            paginated_products = paginator.page(1)
+        except EmptyPage:
+            paginated_products = paginator.page(paginator.num_pages)
+
+        # Render the products to the 'shop/products_grid.html' template
+        products_grid_html = render_to_string('shop/products_grid.html', {'products': products}, request=self.request)
+
+        # Get products in cart (assuming 'ordered_items_by_shop' is a session variable containing the cart items)
+        ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
+        products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
+                            shop['items']]
+
+        # Add the rendered HTML to the context for use in the template
+        context['products_grid_html'] = products_grid_html
+        context['products'] = paginated_products
+        context['sort_option'] = sort_option
+        context['products_in_cart'] = products_in_cart
+        context['category_product_count'] = dict(category_product_count)
+
+        print(context['category_product_count'])
+
+        return context
 
     # rating logic
     def get_user_ratings(self, products):
@@ -77,131 +143,61 @@ class ShopView(ProductListView):
                     pass
         return user_ratings
 
-    # category display logic
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        order_ids = self.request.session.get('checkout_orders', [])
-        orders = Order.objects.filter(id__in=order_ids)
-
-        products_in_cart = [item.product_id for order in orders for item in order.orderitem_set.all()]
-
-        if not self._product_choices:
-            self._product_choices = {
-                'categories_1': Product.PRODUCT_CATEGORY_1_CHOICES,
-                'categories_2': Product.PRODUCT_CATEGORY_2_CHOICES,
-            }
-        context.update(self._product_choices)
-
-        # This line ensures that `self.get_queryset()` is called to update the context with the queryset of products
-        context['products'] = self.get_queryset()
-
-        all_products = Product.objects.filter(is_hidden=False)
-        subcategories = [
-            'health_wellness',
-            'healthy_beverages',
-            'intimate_care',
-            'bath_body',
-            'watches',
-            'bags',
-            'accessories',
-            # 'home_living',
-        ]
-
-        subcategory_counts = {subcategory: all_products.filter(category_2=subcategory).count() for subcategory in
-                              subcategories}
-
-        subcategory_names = {
-            subcategory: subcategory.replace('_', ' ')
-            for subcategory in subcategories
-        }
-
-        # Get the user ratings for products on the current page
-        user_ratings = self.get_user_ratings(context['page_obj'])
-        print(f'User Ratings: {user_ratings}')
-
-        context['subcategory_counts'] = subcategory_counts
-        context['subcategory_names'] = subcategory_names
-        context['products_in_cart'] = products_in_cart
-        context['title'] = self.title
-        context['category_id'] = self.request.GET.get('category_id', '')
-        context['q'] = self.request.GET.get('q', '')
-        context['user_ratings'] = user_ratings
-        context['sort_option'] = self.request.GET.get('sort', '1')
-
-        return context
-
-    # pagination logic
-    def render_to_response(self, context, **response_kwargs):
-        page = self.request.GET.get('page', 1)
-        paginator = Paginator(context['products'], self.paginate_by)
-
-        try:
-            paginated_products = paginator.page(page)
-        except PageNotAnInteger:
-            paginated_products = paginator.page(1)
-        except EmptyPage:
-            paginated_products = paginator.page(paginator.num_pages)
-
-        if self.request.is_ajax():
-            serialized_products = [
-                {
-                    'name': product.name,
-                    'description': product.description_1,
-                    'price': product.customer_price,
-                    'image': product.image_1.url if product.image_1 else '',
-                    'slug': product.slug,
-                    'id': product.id,
-                }
-                for product in paginated_products
-            ]
-
-            products_grid_html = render_to_string('shop/products_grid.html', {'page_obj': paginated_products},
-                                                  request=self.request)
-            products_list_html = render_to_string('shop/products_list.html', {'page_obj': paginated_products},
-                                                  request=self.request)
-            pagination_html = render_to_string('shop/pagination.html', {'page_obj': paginated_products},
-                                               request=self.request)
-
-            response_data = {
-                'products': serialized_products,
-                'has_next': paginated_products.has_next(),
-                'has_previous': paginated_products.has_previous(),
-                'products_grid_html': products_grid_html,
-                'products_list_html': products_list_html,
-                'pagination_html': pagination_html,
-            }
-
-            return JsonResponse(response_data)
-        else:
-            context['page_obj'] = paginated_products
-            return super().render_to_response(context, **response_kwargs)
-
 
 class ShopDetailView(ProductDetailView):
     template_name = "shop/shop-single.html"
     context_object_name = 'product'
 
-    def get(self, request, slug=None, username=None, *args, **kwargs):
-        if username:
-            return check_sponsor_and_redirect(request, username, 'shop:single', slug=slug)
-
-            # If username is not provided, proceed with the normal GET handling
-        return super().get(request, slug=slug, *args, **kwargs)
+    # def get(self, request, slug=None, username=None, *args, **kwargs):
+    #     if username:
+    #         return check_sponsor_and_redirect(request, username, 'shop:single', slug=slug)
+    #
+    #         # If username is not provided, proceed with the normal GET handling
+    #     return super().get(request, slug=slug, *args, **kwargs)
 
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        product = self.get_object()
+        product = None
+        # Fetch product from API
+        product_slug = self.kwargs.get('slug') or self.request.GET.get('slug')
 
-        # Get related products
-        related_products = Product.objects.filter(category_1=product.category_1).exclude(slug=product.slug).order_by(
-            '?')[:4]
+        if not product_slug:
+            raise Http404("Product not found")
 
-        # Get products in cart
-        order_ids = self.request.session.get('checkout_orders', [])
-        orders = Order.objects.filter(id__in=order_ids)
-        products_in_cart = [item.product_id for order in orders for item in order.orderitem_set.all()]
+        product_detail_url = f'https://dashboard.twcako.com/shop/api/get-product/?slug={product_slug}'
+
+        try:
+            response = requests.get(product_detail_url)
+            response.raise_for_status()  # Raises HTTPError for bad responses
+            product_data = response.json()
+            product = product_data.get('product', {})
+            product_category = product.get('category_1')
+            print(f'Product Category: {product_category}')
+            print(f'Product Feature: {product.get("feature")}')
+
+            context['product'] = product
+        except requests.exceptions.HTTPError as http_err:
+            # Log error or notify user
+            print(f'HTTP error occurred: {http_err}')
+            context['product'] = None
+        except requests.exceptions.RequestException as req_err:
+            # Log error or notify user
+            print(f'Request error occurred: {req_err}')
+            context['product'] = None
+
+        # Get related products based on category
+        related_products = self.get_related_products(product.get('slug'), product.get('category_1'))
+
+        # # Get products in cart
+        # order_ids = self.request.session.get('checkout_orders', [])
+        # orders = Order.objects.filter(id__in=order_ids)
+
+        # Get products in cart (assuming 'ordered_items_by_shop' is a session variable containing the cart items)
+        ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
+
+        products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
+                            shop['items']]
 
         # Check if the user has already purchased the product
         user_has_purchased = False
@@ -209,79 +205,112 @@ class ShopDetailView(ProductDetailView):
             user_has_purchased = OrderItem.objects.filter(order__user=self.request.user, product=product,
                                                           order__complete=True).exists()
 
-        # Get user rating and review status for the product if authenticated
-        rating = None
-        user_reviewed = False
-        if self.request.user.is_authenticated and user_has_purchased:
-            try:
-                rating = Rating.objects.get(product=product, user=self.request.user)
-                user_reviewed = True
-            except Rating.DoesNotExist:
-                rating = None
-
-        # Get all product ratings
-        product_ratings = Rating.objects.filter(product=product)
-
-        # Get product reviews
-        product_reviews = product.reviews.select_related('rating').all()
-        for review in product_reviews:
-            if review.created_at is None:
-                review.created_at = now()
-                review.save()
+        # # Get user rating and review status for the product if authenticated
+        # rating = None
+        # user_reviewed = False
+        # if self.request.user.is_authenticated and user_has_purchased:
+        #     try:
+        #         rating = Rating.objects.get(product=product, user=self.request.user)
+        #         user_reviewed = True
+        #     except Rating.DoesNotExist:
+        #         rating = None
+        #
+        # # Get all product ratings
+        # product_ratings = Rating.objects.filter(product=product)
+        #
+        # # Get product reviews
+        # product_reviews = product.reviews.select_related('rating').all()
+        # for review in product_reviews:
+        #     if review.created_at is None:
+        #         review.created_at = now()
+        #         review.save()
 
         # Forms
+
+        print(f'Orders by shop: {ordered_items_by_shop}')
+
         context['rating_form'] = RatingForm()
         context['review_form'] = ReviewForm()
 
         # Context variables
         context['related_products'] = related_products
         context['products_in_cart'] = products_in_cart
-        context['rating'] = rating
-        context['user_reviewed'] = user_reviewed
-        context['user_has_purchased'] = user_has_purchased
-        context['product_reviews'] = product_reviews
-        context['product_ratings'] = product_ratings
+        # context['rating'] = rating
+        # context['user_reviewed'] = user_reviewed
+        # context['user_has_purchased'] = user_has_purchased
+        # context['product_reviews'] = product_reviews
+        # context['product_ratings'] = product_ratings
 
         return context
 
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
+    def get_related_products(self, current_product_slug, current_category):
+        api_url = 'https://dashboard.twcako.com/shop/api/get-product/'
 
-        # Handle Rating Form submission
-        rating_form = RatingForm(request.POST)
-        review_form = ReviewForm(request.POST)
+        try:
+            # Fetch all products
+            response = requests.get(api_url)
+            response.raise_for_status()
+            data = response.json()
 
-        if rating_form.is_valid() and review_form.is_valid():
-            # Ensure a unique rating and review pair
-            try:
-                rating = Rating.objects.get(product=self.object, user=request.user)
-                rating.score = rating_form.cleaned_data['score']
-                rating.save()
-            except Rating.DoesNotExist:
-                rating = rating_form.save(commit=False)
-                rating.user = request.user
-                rating.product = self.object
-                rating.save()
+            if data.get("success"):
+                all_products = data.get("products", [])
 
-            try:
-                review = Review.objects.get(product=self.object, user=request.user)
-                review.content = review_form.cleaned_data['content']
-                review.rating = rating
-                review.save()
-            except Review.DoesNotExist:
-                review = review_form.save(commit=False)
-                review.user = request.user
-                review.product = self.object
-                review.rating = rating
-                review.save()
+                # Filter products by the same category and exclude the current product
+                related_products = [
+                    product for product in all_products
+                    if product.get('category_1') == current_category and product.get('slug') != current_product_slug
+                ]
 
-            return redirect('shop:single', slug=self.object.slug)
+                # Shuffle the products randomly
+                random.shuffle(related_products)
 
-        # If neither form is valid, render the context with errors
-        context = self.get_context_data(object=self.object)
-        context['rating_form'] = rating_form
-        context['review_form'] = review_form
-        return self.render_to_response(context)
+                # Return only 4 related products
+                return related_products[:4]
+            else:
+                return []
+        except requests.exceptions.RequestException as e:
+            # Handle API request errors
+            print(f'Error fetching products: {str(e)}')
+            return []
+
+    # def post(self, request, *args, **kwargs):
+    #     self.object = self.get_object()
+    #
+    #     # Handle Rating Form submission
+    #     rating_form = RatingForm(request.POST)
+    #     review_form = ReviewForm(request.POST)
+    #
+    #     if rating_form.is_valid() and review_form.is_valid():
+    #         # Ensure a unique rating and review pair
+    #         try:
+    #             rating = Rating.objects.get(product=self.object, user=request.user)
+    #             rating.score = rating_form.cleaned_data['score']
+    #             rating.save()
+    #         except Rating.DoesNotExist:
+    #             rating = rating_form.save(commit=False)
+    #             rating.user = request.user
+    #             rating.product = self.object
+    #             rating.save()
+    #
+    #         try:
+    #             review = Review.objects.get(product=self.object, user=request.user)
+    #             review.content = review_form.cleaned_data['content']
+    #             review.rating = rating
+    #             review.save()
+    #         except Review.DoesNotExist:
+    #             review = review_form.save(commit=False)
+    #             review.user = request.user
+    #             review.product = self.object
+    #             review.rating = rating
+    #             review.save()
+    #
+    #         return redirect('shop:single', slug=self.object.slug)
+    #
+    #     # If neither form is valid, render the context with errors
+    #     context = self.get_context_data(object=self.object)
+    #     context['rating_form'] = rating_form
+    #     context['review_form'] = review_form
+    #     return self.render_to_response(context)
 
 
 ##################################################

@@ -146,22 +146,19 @@
                                 <h3>CART SUMMARY</h3>
                             </div>
                             <div class="card-body">
-                                {% for order in orders %}
+                                {% for shop, data in orders.items %}
                                 <ul class="bordered-bottom {% if not forloop.last %} mb-20 {% endif %}">
                                     <li>
                                         <h6>
                                             Shop:
-                                            {% if order.supplier == "sante" %}
+                                            {% if shop == "sante" %}
                                             Sante International
                                             {% endif %}
-                                            {% if order.supplier == "mood" %}
+                                            {% if shop == "mood" %}
                                             Mood Timepieces
                                             {% endif %}
-                                            {% if order.supplier == "chingu" %}
+                                            {% if shop == "chingu" %}
                                             Chingu
-                                            {% endif %}
-                                            {% if order.supplier == None %}
-                                            Promo Bundle
                                             {% endif %}
                                         </h6>
                                     </li>
@@ -173,26 +170,25 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li>Order: <span>{{ order.order_id }}</span>
                                     </li>
-                                    <li>Order Sub Total: <span>{{ order.subtotal|currency }}</span>
+                                    <li>Order Sub Total: <span>{{ data.subtotal|currency }}</span>
                                     </li>
                                     {% if order.discount %}
-                                        <li class="list-discount">Discount: <span>{{ order.discount|currency }}</span></li>
+                                        <li class="list-discount">Discount: <span>{{ data.discount|currency }}</span></li>
                                     {% else %}
                                         <li class="list-discount">Discount: <span>No discount applied</span></li>
                                     {% endif %}
-                                    <li id="shipping_fee_{{ order.id }}" class="pb15">Shipping fee: <span>Calculated at next step</span>
+                                    <li id="shipping_fee_{{ shop }}" class="pb15">Shipping fee: <span>Calculated at next step</span>
                                     </li>
                                     <li class="shop-cart-total"><strong>Order Total:</strong> 
-                                        <span id="order-total-{{ order.id }}">{{ order.subtotal|currency }}</span>
+                                        <span id="order-total-{{ shop }}">{{ data.subtotal|currency }}</span>
                                     </li>
                                 </ul>
                                 {% endfor %}
                                 <h4 class="cart-total mt-3">
                                     <strong>
                                         <span class="cart-label">Cart Total:</span>
-                                        <span class="cart-value" id="total-payment">{{ total_payment|currency }}</span>
+                                        <span class="cart-value" id="total-payment">{{ total_cart_subtotal|currency }}</span>
                                     </strong>
                                 </h4>
                                 <div class="text-end mt-40 checkoutBtn">

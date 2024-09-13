@@ -4,11 +4,12 @@ $(document).ready(function () {
     event.preventDefault();
     var button = $(this);
     var productId = button.data("product");
-    var orderId = button.data("order-id");
+    // var orderId = button.data("order-id");
     var action = button.data("action");
     var quantityInput = $("#quantity-input-" + productId);
     var quantity = parseInt(quantityInput.val()) || 1;
-    
+
+    console.log("Product Slug: " + productId)
 
     if (action === 'remove') {
       Swal.fire({
@@ -29,28 +30,48 @@ $(document).ready(function () {
             }
           });
           setTimeout(() => {
-            updateUserOrder(productId, orderId, action, quantity, updateItemUrl, button);
+            updateUserOrder(productId, action, quantity, updateItemUrl, button);
             Swal.close();
           }, 1000);
         }
       });
     } else {
-      updateUserOrder(productId, orderId, action, quantity, updateItemUrl, button);
+      updateUserOrder(productId, action, quantity, updateItemUrl, button);
     }
   });
 
-  function updateUserOrder(productId, orderId, action, quantity, url, button) {
+  function updateUserOrder(productId, action, quantity, url, button) {
     $.ajax({
       url: url,
       method: "GET",
       dataType: "json",
       data: {
         productId: productId,
-        orderId: orderId,
         action: action,
         quantity: quantity,
       },
       success: function (data) {
+        // Check if the order quantity exceeds the limit
+        console.log("Max Order: " + data.max_order_exceeded)
+        if (data.max_order_exceeded) {
+          Swal.fire({
+            title: 'Order Quantity Limit Exceeded!',
+            text: data.message,
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+          // Find the input field using the product ID and reduce its value by 1
+          let inputField = $(`.input-${productId}`);
+          let currentQuantity = parseInt(inputField.val(), 10);
+          if (action === "add") {
+            if (!isNaN(currentQuantity) && currentQuantity > 1) {
+              inputField.val(currentQuantity - 1);
+            }
+          }
+          return; // Stop further processing if the limit is exceeded
+        }
+
+        // logic to update the cart
         var formattedCartItems = String(data.cart_items).padStart(2, "0");
         var subtotal = data.products[0].total;
         var subtotalNumber = parseFloat(subtotal);
@@ -221,8 +242,6 @@ $(document).ready(function () {
       error: function (jqXHR, textStatus, errorThrown) {
         console.error("AJAX Error:", textStatus, errorThrown);
 
-        spinner.removeClass("visible"); // Hide the spinner
-        backdrop.removeClass("visible");
       },
     });
   }

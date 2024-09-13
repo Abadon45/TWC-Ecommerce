@@ -8,221 +8,257 @@
 {% block content %}
 
 
-<!-- shop-area -->
-<div class="shop-area py-100 shop-page">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="shop-sidebar index-card mobile-hidden">
-                    <div class="card mt-2">
-                        <div class="card-header">
-                        <h4>Shops</h4>
+    <!-- shop-area -->
+    <div class="shop-area py-100 shop-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="shop-sidebar index-card mobile-hidden">
+                        <div class="card mt-2">
+                            <div class="card-header">
+                                <h4>Shops</h4>
+                            </div>
+                            <div class="card-body index-card-body">
+                                <ul class="shop-category-list category-1">
+                                    <li><a href="{% url 'shop:shop' %}?category_id=all" data-category-id="all"
+                                           onclick="showSubcategories('all')">All</a></li>
+                                    <li><a href="{% url 'shop:shop' %}?category_id=sante" data-category-id="sante"
+                                           onclick="showSubcategories('sante')">Sante International</a></li>
+                                    <li><a href="{% url 'shop:shop' %}?category_id=chingu" data-category-id="chingu"
+                                           onclick="showSubcategories('chingu')">Chingu</a></li>
+                                    <li><a href="{% url 'shop:shop' %}?category_id=mood" data-category-id="mood"
+                                           onclick="showSubcategories('mood')">Mood Timepieces</a></li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="card-body index-card-body">
-                            <ul class="shop-category-list category-1">
-                                <li><a href="{% url 'shop:shop' %}?category_id=all" data-category-id="all"
-                                        onclick="showSubcategories('all')">All</a></li>
-                                <li><a href="{% url 'shop:shop' %}?category_id=sante" data-category-id="sante"
-                                        onclick="showSubcategories('sante')">Sante International</a></li>
-                                <li><a href="{% url 'shop:shop' %}?category_id=chingu" data-category-id="chingu"
-                                        onclick="showSubcategories('chingu')">Chingu</a></li>
-                                <li><a href="{% url 'shop:shop' %}?category_id=mood" data-category-id="mood"
-                                        onclick="showSubcategories('mood')">Mood Timepieces</a></li>
-                                {% if user.is_admin %}
-                                <li><a href="{% url 'shop:promo' %}">Promo Bundles</a></li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="card mt-3 mobile-hidden" id="product-categories">
-                        <div class="card-header">
-                            <h4>Category</h4>
-                        </div>
-                        <div class="card-body index-card-body">
-                            <ul class="shop-category-list category-2">
-                                {% for subcategory, count in subcategory_counts.items %}
-                                <li>
-                                    <a href="{% url 'shop:shop' %}?category_id={{ subcategory }}"
-                                        data-category-id="{{ subcategory }}">
-                                        {{ subcategory|replace_underscore_to_space|title }} <span>({{ count }})</span>
-                                    </a>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-9 mobile-width">
-                <div class="col-md-12">
-                    <div class="shop-sort">
-                        <div class="shop-sort-box">
+                        <div class="card mt-3 mobile-hidden" id="product-categories">
+                            <div class="card-header">
+                                <h4>Category</h4>
+                            </div>
+                            <div class="card-body index-card-body">
+                                <ul class="shop-category-list category-2">
+                                    <li><a href="{% url 'shop:shop' %}?category_id=sante-nutraceutical"
+                                           data-category-id="sante-nutraceutical"
+                                           onclick="showSubcategories('sante-nutraceutical')">Health & Wellness
+                                        <span>({{ category_product_count|get_item:'sante-nutraceutical' }})</span></a>
+                                    </li>
+                                    <li><a href="{% url 'shop:shop' %}?category_id=sante-beverage"
+                                           data-category-id="sante-beverage"
+                                           onclick="showSubcategories('sante-beverage')">Health Beverages
+                                        <span>({{ category_product_count|get_item:'sante-beverage' }})</span></a></li>
+                                    <li><a href="{% url 'shop:shop' %}?category_id=sante-intimate_care"
+                                           data-category-id="sante-intimate_care"
+                                           onclick="showSubcategories('sante-intimate_care')">Intimate Care
+                                        <span>({{ category_product_count|get_item:'sante-intimate_care' }})</span></a>
+                                    </li>
+                                    <li><a href="{% url 'shop:shop' %}?category_id=bath-body" data-category-id="chingu"
+                                           onclick="showSubcategories('mood')">Bath & Body
+                                        <span>({{ category_product_count|get_item:'chingu-bundle' }})</span></a></li>
+                                    <li><a href="{% url 'shop:shop' %}?category_id=chingu" data-category-id="chingu"
+                                           onclick="showSubcategories('mood')">Bags
+                                        <span>({{ category_product_count|get_item:'chingu' }})</span></a></li>
+                                    <li><a href="{% url 'shop:shop' %}?category_id=mood" data-category-id="mood"
+                                           onclick="showSubcategories('mood')">Watches
+                                        <span>({{ category_product_count|get_item:'mood-bundle' }})</span></a></li>
+                                    <li><a href="{% url 'shop:shop' %}?category_id=accessories"
+                                           data-category-id="accessories"
+                                           onclick="showSubcategories('accessories')">Accessories
+                                        <span>({{ category_product_count|get_item:'accessories' }})</span></a></li>
+                                </ul>
 
-                            <div class="shop-sorty-label mobile-hidden">Sort By:</div>
-                            <select class="shop-category-select mobile-only" onchange="window.location.href=this.value;">
-                                <option value="{% url 'shop:shop' %}" selected>Select a Category</option>
-                                <option value="{% url 'shop:shop' %}?category_id=all" {% if category_id == 'all' %}selected{% endif %}>
-                                    All
-                                </option>
-                                <option value="{% url 'shop:shop' %}?category_id=sante" {% if category_id == 'sante' %}selected{% endif %}>
-                                    Sante International
-                                </option>
-                                <option value="{% url 'shop:shop' %}?category_id=chingu" {% if category_id == 'chingu' %}selected{% endif %}>
-                                    Chingu
-                                </option>
-                                <option value="{% url 'shop:shop' %}?category_id=mood" {% if category_id == 'mood' %}selected{% endif %}>
-                                    Mood Timepieces
-                                </option>
-                                {% if user.is_admin %}
-                                <option value="{% url 'shop:promo' %}" {% if category_id == 'promo' %}selected{% endif %}>
-                                    Promo Bundles
-                                </option>
-                                {% endif %}
-                            </select>
-                            <select class="shop-category-select mobile-only" onchange="handleSubcategoryChange(this.value)">
-                                <option value="{% url 'shop:shop' %}" selected>Select a Subcategory</option>
-                                {% for subcategory, count in subcategory_counts.items %}
-                                <option value="{% url 'shop:shop' %}?category_id={{ subcategory }}" 
-                                        data-category-id="{{ subcategory }}"
-                                        {% if category_id == subcategory %}selected{% endif %}>
-                                    {{ subcategory|replace_underscore_to_space|title }} ({{ count }})
-                                </option>
-                                {% endfor %}
-                            </select>
-                            
-                            <!-- SORT FOR MOBILE -->
-                            <select class="shop-sort-products mobile-only">
-                                <option value="1" {% if sort_option == "1" %} selected {% endif %}>Sort by</option>
-                                <option value="5" {% if sort_option == "5" %} selected {% endif %}>Latest Items</option>
-                                <!-- <option value="2">Best Seller Items</option> -->
-                                <option value="3" {% if sort_option == "3" %} selected {% endif %}>Price - Low To High</option>
-                                <option value="4" {% if sort_option == "4" %} selected {% endif %}>Price - High To Low</option>
-                            </select>
-
-                            <!-- SORT FOR TABLET - DESKTOP -->
-                            <select class="select shop-sort-products mobile-hidden">
-                                <option value="1" {% if sort_option == "1" %} selected {% endif %}>Default Sorting</option>
-                                <option value="5" {% if sort_option == "5" %} selected {% endif %}>Latest Items</option>
-                                <!-- <option value="2">Best Seller Items</option> -->
-                                <option value="3" {% if sort_option == "3" %} selected {% endif %}>Price - Low To High</option>
-                                <option value="4" {% if sort_option == "4" %} selected {% endif %}>Price - High To Low</option>
-                            </select>
-
-                            <div class="shop-sort-show mobile-hidden">Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of
-                                {{ page_obj.paginator.count }} Results</div>
-                        </div>
-                        <div class="shop-sort-gl mobile-hidden">
-                            <button id="gridBtn" class="shop-sort-grid active"><i
-                                    class="far fa-grid-round-2"></i></button>
-                            <button id="listBtn" class="shop-sort-list"><i class="far fa-list-ul"></i></button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                {% if products.exists %}
-                <div id="products-grid">
-                    {% include 'shop/products_grid.html' %}
+                <div class="col-sm-9 mobile-width">
+                    <div class="col-md-12">
+                        <div class="shop-sort">
+                            <div class="shop-sort-box">
+
+                                <div class="shop-sorty-label mobile-hidden">Sort By:</div>
+                                <select class="shop-category-select mobile-only"
+                                        onchange="window.location.href=this.value;">
+                                    <option value="{% url 'shop:shop' %}" selected>Select a Category</option>
+                                    <option value="{% url 'shop:shop' %}?category_id=all"
+                                            {% if category_id == 'all' %}selected{% endif %}>
+                                        All
+                                    </option>
+                                    <option value="{% url 'shop:shop' %}?category_id=sante"
+                                            {% if category_id == 'sante' %}selected{% endif %}>
+                                        Sante International
+                                    </option>
+                                    <option value="{% url 'shop:shop' %}?category_id=chingu"
+                                            {% if category_id == 'chingu' %}selected{% endif %}>
+                                        Chingu
+                                    </option>
+                                    <option value="{% url 'shop:shop' %}?category_id=mood"
+                                            {% if category_id == 'mood' %}selected{% endif %}>
+                                        Mood Timepieces
+                                    </option>
+                                    {% if user.is_admin %}
+                                        <option value="{% url 'shop:promo' %}"
+                                                {% if category_id == 'promo' %}selected{% endif %}>
+                                            Promo Bundles
+                                        </option>
+                                    {% endif %}
+                                </select>
+                                <select class="shop-category-select mobile-only"
+                                        onchange="handleSubcategoryChange(this.value)">
+                                    <option value="{% url 'shop:shop' %}" selected>Select a Subcategory</option>
+                                    {% for subcategory, count in subcategory_counts.items %}
+                                        <option value="{% url 'shop:shop' %}?category_id={{ subcategory }}"
+                                                data-category-id="{{ subcategory }}"
+                                                {% if category_id == subcategory %}selected{% endif %}>
+                                            {{ subcategory|replace_underscore_to_space|title }} ({{ count }})
+                                        </option>
+                                    {% endfor %}
+                                </select>
+
+                                <!-- SORT FOR MOBILE -->
+                                <select class="shop-sort-products mobile-only">
+                                    <option value="1" {% if sort_option == "1" %} selected {% endif %}>Sort by</option>
+                                    <option value="5" {% if sort_option == "5" %} selected {% endif %}>Latest Items
+                                    </option>
+                                    <!-- <option value="2">Best Seller Items</option> -->
+                                    <option value="3" {% if sort_option == "3" %} selected {% endif %}>Price - Low To
+                                        High
+                                    </option>
+                                    <option value="4" {% if sort_option == "4" %} selected {% endif %}>Price - High To
+                                        Low
+                                    </option>
+                                </select>
+
+                                <!-- SORT FOR TABLET - DESKTOP -->
+                                <select class="select shop-sort-products mobile-hidden">
+                                    <option value="1" {% if sort_option == "1" %} selected {% endif %}>Default Sorting
+                                    </option>
+                                    <option value="5" {% if sort_option == "5" %} selected {% endif %}>Latest Items
+                                    </option>
+                                    <!-- <option value="2">Best Seller Items</option> -->
+                                    <option value="3" {% if sort_option == "3" %} selected {% endif %}>Price - Low To
+                                        High
+                                    </option>
+                                    <option value="4" {% if sort_option == "4" %} selected {% endif %}>Price - High To
+                                        Low
+                                    </option>
+                                </select>
+
+                                <div class="shop-sort-show mobile-hidden">
+                                    Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of
+                                    {{ page_obj.paginator.count }} Results
+                                </div>
+                            </div>
+                            {#                            <div class="shop-sort-gl mobile-hidden">#}
+                            {#                                <button id="gridBtn" class="shop-sort-grid active"><i#}
+                            {#                                        class="far fa-grid-round-2"></i></button>#}
+                            {#                                <button id="listBtn" class="shop-sort-list"><i class="far fa-list-ul"></i></button>#}
+                            {#                            </div>#}
+                        </div>
+                    </div>
+                    {% if products %}
+                        <div id="products-grid">
+                            {% include 'shop/products_grid.html' %}
+                        </div>
+                        <div id="products-list">
+                            {% include 'shop/products_list.html' %}
+                        </div>
+                    {% else %}
+                        <p>No products found.</p>
+                    {% endif %}
+                    <!-- pagination -->
+                    <div class="pagination">
+                        {% include 'shop/pagination.html' %}
+                    </div>
+                    <!-- pagination end -->
                 </div>
-                <div id="products-list">
-                    {% include 'shop/products_list.html' %}
-                </div>
-                {% else %}
-                <p>No products found.</p>
-                {% endif %}
-                <!-- pagination -->
-                <div class="pagination">
-                    {% include 'shop/pagination.html' %}
-                </div>
-                <!-- pagination end -->
             </div>
         </div>
     </div>
-</div>
-<!-- shop-area end -->
+    <!-- shop-area end -->
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/shop.js' %}"></script>
-<script>
-    function saveScrollPosition() {
-        sessionStorage.setItem('shopScrollPosition', $(window).scrollTop());
-    }
-    function restoreScrollPosition() {
-        var scrollPosition = sessionStorage.getItem('shopScrollPosition');
-        if (scrollPosition !== null) {
-            $(window).scrollTop(parseInt(scrollPosition));
+    <script src="{% static 'js/shop.js' %}"></script>
+    <script>
+        function saveScrollPosition() {
+            sessionStorage.setItem('shopScrollPosition', $(window).scrollTop());
         }
-    } 
-    $(window).on('beforeunload', saveScrollPosition);
-    $(window).on('load', restoreScrollPosition);
-</script>
-<script>
-    $(document).ready(function () {
-        $('.quickview-btn').on('click', function () {
-            var productId = $(this).data('product-id');
-            var productName = $(this).data('product-name');
-            var productImage = $(this).data('product-image');
-            var productPrice = $(this).data('product-price');
-            var productShop = $(this).data('product-shop');
-            var productCategory = $(this).data('product-category');
-            var productSku = $(this).data('product-sku');
-            var productBtnClass = $(this).data('button');
-            var productBtnAction = $(this).data('action');
-            var productBtnText = $(this).data('text');
 
-            $('#quickview .modal-title').text(productName);
-            $('#quickview .product-img').attr('src', productImage);
-            $('#quickview .quickview-title').text(productName);
-            $('#quickview .quickview-price').html('<span>₱' + productPrice + '</span>');
-            $('#quickview .quickview-list .modal-shop').text(productShop);
-            $('#quickview .quickview-list .modal-category').text(productCategory);
-            $('#quickview .quickview-list .modal-sku').text(productSku);
-            $('.quickview-cart .modal-btn')
-                .removeAttr('class')
-                .addClass('modal-btn')
-                .addClass(productBtnClass)
-                .text(productBtnText)
-                .attr('data-product', productId)
-                .attr('data-action', productBtnAction);
+        function restoreScrollPosition() {
+            var scrollPosition = sessionStorage.getItem('shopScrollPosition');
+            if (scrollPosition !== null) {
+                $(window).scrollTop(parseInt(scrollPosition));
+            }
+        }
+
+        $(window).on('beforeunload', saveScrollPosition);
+        $(window).on('load', restoreScrollPosition);
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.quickview-btn').on('click', function () {
+                var productId = $(this).data('product-id');
+                var productName = $(this).data('product-name');
+                var productImage = $(this).data('product-image');
+                var productPrice = $(this).data('product-price');
+                var productShop = $(this).data('product-shop');
+                var productCategory = $(this).data('product-category');
+                var productSku = $(this).data('product-sku');
+                var productBtnClass = $(this).data('button');
+                var productBtnAction = $(this).data('action');
+                var productBtnText = $(this).data('text');
+
+                $('#quickview .modal-title').text(productName);
+                $('#quickview .product-img').attr('src', productImage);
+                $('#quickview .quickview-title').text(productName);
+                $('#quickview .quickview-price').html('<span>₱' + productPrice + '</span>');
+                $('#quickview .quickview-list .modal-shop').text(productShop);
+                $('#quickview .quickview-list .modal-category').text(productCategory);
+                $('#quickview .quickview-list .modal-sku').text(productSku);
+                $('.quickview-cart .modal-btn')
+                    .removeAttr('class')
+                    .addClass('modal-btn')
+                    .addClass(productBtnClass)
+                    .text(productBtnText)
+                    .attr('data-product', productId)
+                    .attr('data-action', productBtnAction);
+            });
         });
-    });
-</script>
-<script>
-    function handleCategoryChange(value) {
-        window.location.href = value;
-    }
-</script>
-<script>
-    function handleSubcategoryChange(value) {
-        if (value) {
+    </script>
+    <script>
+        function handleCategoryChange(value) {
             window.location.href = value;
         }
-    }
-</script>
-<script>
-    $(document).ready(function() {
-    $('.shop-sort-products').change(function() {
-        var sortOption = $(this).val();
-        var currentUrl = window.location.href;
-
-        if (currentUrl.indexOf('?') !== -1) {
-            // If there are query parameters, check if 'sort' already exists
-            if (currentUrl.indexOf('sort=') !== -1) {
-                // Replace the existing sort parameter
-                currentUrl = currentUrl.replace(/(sort=)[^\&]+/, '$1' + sortOption);
-            } else {
-                // Append the sort parameter
-                currentUrl += '&sort=' + sortOption;
+    </script>
+    <script>
+        function handleSubcategoryChange(value) {
+            if (value) {
+                window.location.href = value;
             }
-        } else {
-            currentUrl += '?sort=' + sortOption;
         }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.shop-sort-products').change(function () {
+                var sortOption = $(this).val();
+                var currentUrl = window.location.href;
 
-        // Redirect to the new URL
-        window.location.href = currentUrl;
-    });
-});
-
-</script>
-
+                if (currentUrl.indexOf('?') !== -1) {
+                    // If there are query parameters, check if 'sort' already exists
+                    if (currentUrl.indexOf('sort=') !== -1) {
+                        // Replace the existing sort parameter
+                        currentUrl = currentUrl.replace(/(sort=)[^\&]+/, '$1' + sortOption);
+                    } else {
+                        // Append the sort parameter
+                        currentUrl += '&sort=' + sortOption;
+                    }
+                } else {
+                    currentUrl += '?sort=' + sortOption;
+                }
+                // Redirect to the new URL
+                window.location.href = currentUrl;
+            });
+        });
+    </script>
 
 {% endblock %}

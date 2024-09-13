@@ -63,7 +63,7 @@ $(document).ready(function () {
       method: httpMethod,
       data: formData,
       success: function (successData) {
-        console.log(successData);
+        console.log("Success Data: ", successData);
         $("#step2-tab").click();
         $("#step1").removeClass("active show");
         $("#step1-tab").removeClass("nav-link active done");
@@ -74,16 +74,16 @@ $(document).ready(function () {
         $(".checkout-btn").removeAttr("hidden");
         $(".dummy-submit").addClass("hide");
 
-        successData.orders.forEach(function (order) {
+        successData.updated_orders.forEach(function (order) {
           var shippingFeeFormatted =
             "₱" + parseFloat(order.shipping_fee).toFixed(2);
-          var shippingFeeElement = $("#shipping_fee_" + order.id + " span");
+          var shippingFeeElement = $("#shipping_fee_" + order.shop + " span");
           var orderTotalFormatted =
             "₱" +
             parseFloat(order.total_amount)
               .toFixed(2)
               .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          var orderTotalUpdate = $("#order-total-" + order.id);
+          var orderTotalUpdate = $("#order-total-" + order.shop);
 
           shippingFeeElement.text("Calculating...");
 
