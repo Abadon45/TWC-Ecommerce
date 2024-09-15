@@ -3,11 +3,9 @@ from django.http import Http404
 from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from django.db import transaction
 from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
-from requests import session
 
 from .models import *
 from .forms import AddressForm

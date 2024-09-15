@@ -1,9 +1,5 @@
-from django.contrib import admin
 from django.urls import path, include, re_path
-from django.views.generic import TemplateView
-from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib.auth.urls import urlpatterns as auth_urlpatterns
 from onlinestore.views import *
 from ..views import EmailFormView
 
@@ -16,7 +12,6 @@ urlpatterns = [
     path('login/', include('TWC.urls.login', namespace='login')),
     path('shop/', include('TWC.urls.shop', namespace='shop')),
     path('dashboard/', include('user.urls.index', namespace='user')),
-    path('products/', include('products.urls', namespace='products')), 
     path('cart/', include('cart.urls', namespace='cart')),
     path('accounts/', include('allauth.urls')),
     path('', IndexView.as_view(), name="home_view"),

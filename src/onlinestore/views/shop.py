@@ -1,4 +1,4 @@
-from django.views.generic import View
+from django.views.generic import View, TemplateView
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import redirect
@@ -11,10 +11,6 @@ from django.utils.timezone import now
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 
-from products.views import ProductListView, ProductDetailView
-from products.models import Product, Rating, Review
-from products.forms import RatingForm, ReviewForm
-from cart.models import Order, OrderItem
 from onlinestore.utils import check_sponsor_and_redirect
 from collections import defaultdict
 
@@ -24,8 +20,7 @@ import random
 User = get_user_model()
 
 
-class ShopView(ProductListView):
-    model = Product
+class ShopView(TemplateView):
     template_name = 'shop/shop.html'
     context_object_name = 'products'
     paginate_by = 9
@@ -119,32 +114,35 @@ class ShopView(ProductListView):
         products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
                             shop['items']]
 
-        # Add the rendered HTML to the context for use in the template
         context['products_grid_html'] = products_grid_html
         context['products'] = paginated_products
         context['sort_option'] = sort_option
         context['products_in_cart'] = products_in_cart
         context['category_product_count'] = dict(category_product_count)
 
+        # Pagination details for the "Showing X-Y of Z Results"
+        context['page_obj'] = paginated_products
+        context['paginator'] = paginator
+
         print(context['category_product_count'])
 
         return context
 
     # rating logic
-    def get_user_ratings(self, products):
-        user_ratings = {}
-        if self.request.user.is_authenticated:
-            for product in products:
-                user_ratings[product.id] = None  # Default value in case no rating exists for a product
-                try:
-                    rating = Rating.objects.get(product=product, user=self.request.user)
-                    user_ratings[product.id] = rating.score
-                except Rating.DoesNotExist:
-                    pass
-        return user_ratings
+    # def get_user_ratings(self, products):
+    #     user_ratings = {}
+    #     if self.request.user.is_authenticated:
+    #         for product in products:
+    #             user_ratings[product.id] = None  # Default value in case no rating exists for a product
+    #             try:
+    #                 rating = Rating.objects.get(product=product, user=self.request.user)
+    #                 user_ratings[product.id] = rating.score
+    #             except Rating.DoesNotExist:
+    #                 pass
+    #     return user_ratings
 
 
-class ShopDetailView(ProductDetailView):
+class ShopDetailView(TemplateView):
     template_name = "shop/shop-single.html"
     context_object_name = 'product'
 
@@ -229,8 +227,8 @@ class ShopDetailView(ProductDetailView):
 
         print(f'Orders by shop: {ordered_items_by_shop}')
 
-        context['rating_form'] = RatingForm()
-        context['review_form'] = ReviewForm()
+        # context['rating_form'] = RatingForm()
+        # context['review_form'] = ReviewForm()
 
         # Context variables
         context['related_products'] = related_products

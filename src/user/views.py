@@ -16,8 +16,6 @@ from allauth.account.views import PasswordResetView
 from django.db import transaction, IntegrityError
 from django.shortcuts import render, redirect
 
-from cart.models import Address, Order, OrderItem, Courier
-from cart.forms import CourierBookingForm, AddressForm
 from cart.utils import detect_region
 from user.forms import ProfileForm, CustomUserCreationForm, CustomPasswordChangeForm
 
@@ -118,35 +116,35 @@ class RegisterGuestView(View):
         return HttpResponseRedirect(f'http://{settings.SITE_DOMAIN}/')
     
 
-@cache_page(60 * 15)
-def get_order_details(request):
-    logger = logging.getLogger(__name__) 
-    if request.method == 'GET':
-        order_id = request.GET.get('order_id')
-        if order_id:
-            order = get_object_or_404(Order, order_id=order_id)
-            order_items = order.orderitem_set.select_related('product')
-
-            data = {
-                'order_id': order.order_id,
-                'created_at': order.created_at.strftime("%Y-%m-%d"),
-                'total_amount': sum([item.get_total for item in order_items]),
-                'total_quantity': sum([item.quantity for item in order_items]),
-                'status': order.status,
-                'order_items': [
-                    {
-                        'product_name': item.product.name,
-                        'quantity': item.quantity,
-                        'price': item.get_total,
-                    } for item in order_items
-                ]
-            }
-            print(data)
-            return JsonResponse(data)
-        else:
-            return HttpResponseBadRequest("Order ID is required")
-    else:
-        return HttpResponseBadRequest("Only GET method is allowed")
+# @cache_page(60 * 15)
+# def get_order_details(request):
+#     logger = logging.getLogger(__name__)
+#     if request.method == 'GET':
+#         order_id = request.GET.get('order_id')
+#         if order_id:
+#             order = get_object_or_404(Order, order_id=order_id)
+#             order_items = order.orderitem_set.select_related('product')
+#
+#             data = {
+#                 'order_id': order.order_id,
+#                 'created_at': order.created_at.strftime("%Y-%m-%d"),
+#                 'total_amount': sum([item.get_total for item in order_items]),
+#                 'total_quantity': sum([item.quantity for item in order_items]),
+#                 'status': order.status,
+#                 'order_items': [
+#                     {
+#                         'product_name': item.product.name,
+#                         'quantity': item.quantity,
+#                         'price': item.get_total,
+#                     } for item in order_items
+#                 ]
+#             }
+#             print(data)
+#             return JsonResponse(data)
+#         else:
+#             return HttpResponseBadRequest("Order ID is required")
+#     else:
+#         return HttpResponseBadRequest("Only GET method is allowed")
     
     
 def update_address(request):

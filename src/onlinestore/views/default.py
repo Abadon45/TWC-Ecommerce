@@ -2,13 +2,10 @@ from django.views.generic import View, TemplateView
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.http import HttpResponseNotFound, HttpResponseRedirect
-from products.models import Product
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.utils.text import capfirst
 from django.urls import reverse
-from cart.models import Order
-from cart.models import Address
 from django.db import transaction
 from django.contrib.auth import authenticate
 from django.core.mail import send_mail
@@ -18,6 +15,7 @@ from onlinestore.utils import is_valid_username, check_sponsor_and_redirect, sen
 
 import random
 import string
+import requests
 
 User = get_user_model()
 
@@ -27,30 +25,39 @@ class IndexView(TemplateView):
 
     def get(self, request, username=None, *args, **kwargs):
 
-        # if username is found redirect and register username to session
+        # Redirect and register username to session if username is provided
         if username:
             return check_sponsor_and_redirect(request, username, 'home_view')
 
-        # proceed as usual when no username is found
+        # API URL to fetch products
+        api_url = 'https://dashboard.twcako.com/shop/api/get-product/'
+
+        try:
+            # Make the API request
+            response = requests.get(api_url)
+            response.raise_for_status()
+            data = response.json()
+            products = data.get("products", []) if data.get("success") else []
+        except requests.exceptions.RequestException as e:
+            # Handle API request errors
+            return JsonResponse({'error': str(e)})
 
         user = request.user
 
         print(f'User: {user}')
         print(user.is_authenticated)
 
-        order_ids = self.request.session.get('checkout_orders', [])
-        orders = Order.objects.filter(id__in=order_ids)
-
         # Get products in cart (assuming 'ordered_items_by_shop' is a session variable containing the cart items)
-        ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
+        ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
         products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
                             shop['items']]
 
         guest_user_info = request.session.get('guest_user_data', {})
         new_guest_user = request.session.get('new_guest_user', False)
 
-        products = Product.objects.filter(active=True, is_hidden=False)
+        # Convert products list to a list if it's a queryset or similar iterable
         products_list = list(products)
+
         random_products = random.sample(products_list, min(len(products_list), 4)) if products_list else []
         rand_on_sale_products = random.sample(products_list, min(len(products_list), 3)) if products_list else []
         rand_best_seller_products = random.sample(products_list, min(len(products_list), 3)) if products_list else []
@@ -64,13 +71,12 @@ class IndexView(TemplateView):
             ('watches', 'Watches'),
             ('bags', 'Bags'),
             ('accessories', 'Accessories'),
-            # ('home_living', 'Home & Living'),
         ]
 
         subcategories = [category[0] for category in subcategories_choices]
-        filtered_products = products.filter(category_2__in=subcategories)
-        subcategory_counts = {subcategory: filtered_products.filter(category_2=subcategory).count() for subcategory in
-                              subcategories}
+        filtered_products = [p for p in products_list if p['category_2'] in subcategories]
+        subcategory_counts = {subcategory: sum(1 for p in filtered_products if p['category_2'] == subcategory) for
+                              subcategory in subcategories}
         subcategory_counts_display = {
             subcategory: {
                 'name': capfirst(
@@ -92,7 +98,7 @@ class IndexView(TemplateView):
             'rand_best_seller_products': rand_best_seller_products,
             'rand_top_rated_products': rand_top_rated_products,
             'categories': subcategory_counts_display,
-            'is_authenticated': self.request.user.is_authenticated,
+            'is_authenticated': request.user.is_authenticated,
             'products_in_cart': products_in_cart,
         }
 

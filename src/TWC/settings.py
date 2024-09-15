@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'user',
     'TWC',
     'onlinestore',
-    'products',
     'cart',
     'django_hosts',
     'django.contrib.sites',
