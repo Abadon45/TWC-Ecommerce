@@ -105,13 +105,13 @@
                             </table>
                         </div>
                         <div class="mobile-only checkout-items bb">
-                            {% for item in items %}
+                            {% for item in data.items %}
                             <div class="mobile-product">
                                 <div class="d-flex">
                                     <div class="shop-cart-img">
                                         <a href="{% url 'shop:single' slug=item.product.slug %}">
-                                            {% if item.product.image_1 %}
-                                                <img src="{{ item.product.image_1.url }}" alt="{{ item.product.name }}">
+                                            {% if item.product.image %}
+                                                <img src="{{ item.product.image }}" alt="{{ item.product.name }}">
                                             {% else %}
                                                 No image
                                             {% endif %}
@@ -135,10 +135,10 @@
                         </div>
                         <div class="checkout-payment mobile-only">
                             <h5 class="checkout-shipping bb">
-                                Shipping Fee <span>{{ order.shipping_fee|currency }}</span>
+                                Shipping Fee <span>{{ data.shipping_fee|currency }}</span>
                             </h5>
                             <h4>
-                                Total <span>{{ order.cod_amount|currency }}</span>
+                                Total <span>{{ data.total_amount|currency }}</span>
                             </h4>
                         </div>
                     </div>
