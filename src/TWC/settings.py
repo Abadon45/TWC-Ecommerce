@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-)!a@6)s)$_u_o6*b7&#vqo++i)i5f^$_8nid!r0w^wm3#w47$y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['172.105.126.70', '127.0.0.1', '139.144.121.152','172.104.35.33', '.twconline.store', 'localhost']
+ALLOWED_HOSTS = ['172.105.126.70', '139.144.121.152','172.104.35.33', '.twconline.store']
 
 USE_X_FORWARDED_HOST = True
 
@@ -314,6 +314,7 @@ if ENV == 'production':
     MAIN_SITE_URL = 'https://www.twconline.store'
     
 else:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
     SESSION_COOKIE_DOMAIN = None
     CSRF_COOKIE_DOMAIN = None
     DASHBOARD_URL = 'http://dashboard.twconline.store:8000'

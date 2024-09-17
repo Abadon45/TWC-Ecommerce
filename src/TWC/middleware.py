@@ -28,14 +28,6 @@ class SubdomainMiddleware:
         else:
             request.subdomain = None  # Set subdomain to None if there is no subdomain
 
-        # Custom logic based on subdomain
-        if request.subdomain:
-            try:
-                # Try to get the user based on the subdomain
-                request.user = User.objects.get(username=request.subdomain)
-            except User.DoesNotExist:
-                raise Http404("User does not exist")
-
         # Log the subdomain for debugging purposes
         logger.debug(f"Subdomain: {request.subdomain}")
 
