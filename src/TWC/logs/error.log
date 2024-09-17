@@ -5140,3 +5140,7 @@ Traceback (most recent call last):
   File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 187, in get
     cart, message, ordered_items_by_shop, max_order_exceeded = self.update_cart(request, product_slug, action, quantity)
 ValueError: not enough values to unpack (expected 4, got 2)
+Invalid HTTP_HOST header: 'localhost:8000'. You may need to add 'localhost' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'localhost:8000'. You may need to add 'localhost' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'admin.localhost:8000'. You may need to add 'admin.localhost' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'admin.localhost:8000'. You may need to add 'admin.localhost' to ALLOWED_HOSTS.

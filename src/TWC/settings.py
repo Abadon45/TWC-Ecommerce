@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-)!a@6)s)$_u_o6*b7&#vqo++i)i5f^$_8nid!r0w^wm3#w47$y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['172.105.126.70', '127.0.0.1', '139.144.121.152','172.104.35.33', '.twconline.store']
+ALLOWED_HOSTS = ['172.105.126.70', '127.0.0.1', '139.144.121.152','172.104.35.33', '.twconline.store', 'localhost']
 
 USE_X_FORWARDED_HOST = True
 
@@ -80,10 +80,9 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 MIDDLEWARE = [
-    'TWC.middleware.RedirectToWWW',
     'django_hosts.middleware.HostsRequestMiddleware',
-    'django.middleware.security.SecurityMiddleware',
     'TWC.middleware.SubdomainMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -92,6 +91,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_hosts.middleware.HostsResponseMiddleware',
+    'TWC.middleware.RedirectToWWW',
 ]
 
 
@@ -314,9 +314,11 @@ if ENV == 'production':
     MAIN_SITE_URL = 'https://www.twconline.store'
     
 else:
+    SESSION_COOKIE_DOMAIN = None
+    CSRF_COOKIE_DOMAIN = None
     DASHBOARD_URL = 'http://dashboard.twconline.store:8000'
     ADMIN_URL = 'http://admin.twconline.store:8000'
-    MAIN_SITE_URL = 'http://www.twconline.store:8000'
+    MAIN_SITE_URL = 'http://localhost:8000'
     
 
 # Application definition

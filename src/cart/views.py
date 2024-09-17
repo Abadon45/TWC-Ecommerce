@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from django.http import Http404
 from django.views import View
 from django.views.generic import TemplateView
@@ -338,12 +338,7 @@ def get_selected_address(request):
     try:
         # Get the current user and their incomplete orders
         user = request.user
-        orders = Order.objects.filter(user=user, complete=False)
 
-        # Update the shipping address for each incomplete order
-        for order in orders:
-            order.shipping_address = selected_address
-            order.save()
     except Exception as e:
         # Handle any exceptions during the update process and return an error response
         print(f"Exception in checkout view: {e}")
