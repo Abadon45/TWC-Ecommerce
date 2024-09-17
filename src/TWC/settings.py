@@ -237,35 +237,6 @@ SERVER_EMAIL = EMAIL_MAIN
 
 ACCOUNT_EMAIL_TEMPLATE_PASSWORD_RESET = 'login/password_reset_email.html'
 
-# ACCOUNT_ADAPTER = 'TWC.email_backend.MyAccountAdapter'
-
-
-
-#-------------------------
-#AMAZON EMAIL
-#-------------------------
-
-# AWS_ACCESS_KEY_ID = 'AKIAW3MEEP3PHEGDOZ4D'
-# AWS_SECRET_ACCESS_KEY = 'gv1mtKxieJ4gXhtnayMRnfrvPS1Op8CWSAhb2UJN'
-
-# EMAIL_BACKEND = 'django_ses.SESBackend'
-# EMAIL_HOST = 'email-smtp.uap-southeast-1.amazonaws.com'  # Adjust for your SES region
-# EMAIL_USE_TLS = True
-# EMAIL_PORT = 587
-
-# AWS_SES_REGION_NAME = 'ap-southeast-1'
-# AWS_SES_REGION_ENDPOINT = 'email.ap-southeast-1.amazonaws.com'
-
-#--------------------------
-#LOCAL SERVER EMAIL
-#--------------------------
-
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'localhost'
-# EMAIL_HOST_USER = ''
-# EMAIL_HOST_PASSWORD = ''
-# EMAIL_PORT = 2525
-
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_SAVE_EVERY_REQUEST = True
@@ -284,7 +255,6 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:8000",
     "*.twconline.store",
 ]
-
 
 
 LOGGING = {
@@ -314,7 +284,7 @@ if ENV == 'production':
     MAIN_SITE_URL = 'https://www.twconline.store'
     
 else:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'admin.twconline.store']
     SESSION_COOKIE_DOMAIN = None
     CSRF_COOKIE_DOMAIN = None
     DASHBOARD_URL = 'http://dashboard.twconline.store:8000'

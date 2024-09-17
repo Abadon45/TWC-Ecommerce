@@ -440,7 +440,7 @@ def get_checkout_address_details(request):
 #########################
 
 def submit_checkout(request):
-    order_api_url = ""
+
 
     # If the request method is POST, handle the form submission
     if request.method == 'POST':
@@ -465,6 +465,7 @@ def submit_checkout(request):
             # API URL to check if the referrer username exists in the system
             api_url = f'https://dashboard.twcako.com/account/api/check-username/{referrer_username}/'
 
+
             try:
                 if referrer_username != 'admin':
                     # Make an API request to validate the referrer username
@@ -478,6 +479,8 @@ def submit_checkout(request):
 
                     # Check if the API response indicates success
                     is_success = data.get('success')
+                    order_complete = True
+                    request.session['order_complete'] = order_complete
 
                     # If the username doesn't exist, return an error response
                     if not is_success:
@@ -539,6 +542,17 @@ def submit_checkout(request):
 class CheckoutDoneView(TemplateView):
     template_name = 'cart/shop-checkout-complete.html'
     title = "Checkout Done"
+
+    def get(self, request, *args, **kwargs):
+        # Check if 'order_complete' exists in the session
+        order_complete = self.request.session.get('order_complete', False)
+
+        # Redirect to home if the order is not complete
+        if not order_complete:
+            return redirect("home_view")
+
+        # Otherwise, proceed with rendering the template
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

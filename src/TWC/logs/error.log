@@ -5144,3 +5144,20 @@ Invalid HTTP_HOST header: 'localhost:8000'. You may need to add 'localhost' to A
 Invalid HTTP_HOST header: 'localhost:8000'. You may need to add 'localhost' to ALLOWED_HOSTS.
 Invalid HTTP_HOST header: 'admin.localhost:8000'. You may need to add 'admin.localhost' to ALLOWED_HOSTS.
 Invalid HTTP_HOST header: 'admin.localhost:8000'. You may need to add 'admin.localhost' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'admin.localhost:8000'. You may need to add 'admin.localhost' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'admin.localhost:8000'. You may need to add 'admin.localhost' to ALLOWED_HOSTS.
+Internal Server Error: /cart/checkout/complete/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 204, in _get_response
+    response = response.render()
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/response.py", line 105, in render
+    self.content = self.rendered_content
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/response.py", line 83, in rendered_content
+    return template.render(context, self._request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 59, in render
+    context = make_context(context, request, autoescape=self.backend.engine.autoescape)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/context.py", line 268, in make_context
+    raise TypeError('context must be a dict rather than %s.' % context.__class__.__name__)
+TypeError: context must be a dict rather than HttpResponseRedirect.
