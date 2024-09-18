@@ -18,7 +18,6 @@ class CourierAdmin(admin.ModelAdmin):
     'tracking_number', 'courier', 'fulfiller', 'pouch_size', 'actual_shipping_fee', 'pickup_date', 'paid_by_fulfiller')
 
 
-admin.site.register(Address)
 admin.site.register(Courier, CourierAdmin)
 # admin.site.register(Order, OrderAdmin)
 # admin.site.register(OrderItem)

@@ -1,5 +1,6 @@
 {% load static %}
 {% load custom_filters %}
+{% load currency_filters %}
 
     <div class="shop-item-wrapper shop-grid product-list">
         <div class="row">
@@ -94,7 +95,7 @@
                         {% endif %}
                         <div class="product-bottom">
                             <div class="product-price">
-                                <span class="current-product-price">₱ {{ product.customer_price}}</span>
+                                <span class="current-product-price">{{ product.customer_price|currency }}</span>
                             </div>
                         </div>
                         <div class="product-button">

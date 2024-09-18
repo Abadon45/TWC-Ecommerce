@@ -5,7 +5,6 @@ from ..views import EmailFormView
 
 urlpatterns = [
     path('become-seller/', BecomeSellerView.as_view(), name="become_seller"),
-    path('coming-soon/', TemplateView.as_view(template_name='coming-soon.html'), name="coming_soon"),
     path('mail-success/', TemplateView.as_view(template_name='mail-success.html'), name="mail_success"),
     path('terms/', TemplateView.as_view(template_name='terms.html'), name="terms"),
     path('test-email/', EmailFormView.as_view(), name="test_email"),

@@ -118,12 +118,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'cart.context_processors.cart_items',
-                'cart.context_processors.booking_count_notification',
-                'cart.context_processors.pickup_count_notification',
-                'cart.context_processors.return_count_notification',
-                'cart.context_processors.pending_orders_notification',
                 'onlinestore.context_processors.referrer',
+                'onlinestore.context_processors.cart_items',
                 'TWC.context_processors.main_site_url',
                 'TWC.context_processors.site_urls',
             ],
@@ -136,8 +132,6 @@ ACCOUNT_CONTEXT_PROCESSORS = [
 ]
 
 WSGI_APPLICATION = 'TWC.wsgi.application'
-
-
 
 
 # Database

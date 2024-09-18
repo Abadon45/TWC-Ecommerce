@@ -34,7 +34,7 @@ class IndexView(TemplateView):
 
         try:
             # Make the API request
-            response = requests.get(api_url)
+            response = requests.get(api_url, verify=False)
             response.raise_for_status()
             data = response.json()
             products = data.get("products", []) if data.get("success") else []

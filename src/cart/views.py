@@ -1,3 +1,6 @@
+from django.utils import timezone
+from decimal import Decimal
+
 from django.shortcuts import redirect, get_object_or_404
 from django.http import Http404
 from django.views import View
@@ -8,12 +11,11 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 
 from .models import *
-from .forms import AddressForm
-from onlinestore.models import SiteSetting
+from onlinestore.forms import AddressForm
+from onlinestore.models import *
 from onlinestore.utils import send_temporary_account_email
 from .utils import sf_calculator
 
-import json
 import requests
 import decimal
 
@@ -48,7 +50,7 @@ class UpdateCartView(View):
         """Fetch product data from the API."""
         product_url = f'https://dashboard.twcako.com/shop/api/get-product/?slug={product_slug}'
         try:
-            response = requests.get(product_url)
+            response = requests.get(product_url, verify=False)
             response.raise_for_status()
             data = response.json()
 
@@ -469,7 +471,7 @@ def submit_checkout(request):
             try:
                 if referrer_username != 'admin':
                     # Make an API request to validate the referrer username
-                    response = requests.get(api_url)
+                    response = requests.get(api_url, verify=False)
                     response.raise_for_status()  # Raise an error for bad HTTP status codes
                     data = response.json()
 

@@ -76,7 +76,7 @@ def check_sponsor_and_redirect(request, username, success_redirect_url, slug=Non
     print(f'Username is: {username}')
 
     try:
-        response = requests.get(api_url)
+        response = requests.get(api_url, verify=False)
         response.raise_for_status()  # Raise an exception for HTTP errors
 
         try:

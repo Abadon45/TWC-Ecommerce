@@ -1,20 +1,21 @@
 {% extends "base-shop.html" %}
 {% load static %}
 {% load custom_filters %}
+{% load currency_filters %}
 
 {% block head %}
-    <meta property="og:title" content="{{ product.name }}" />
-    <meta property="og:description" content="{{ product.description_1 }}" />
-    <meta property="og:image" content="{{ product.image_1.url }}" />
+    <meta property="og:title" content="{{ product.name }}"/>
+    <meta property="og:description" content="{{ product.description_1 }}"/>
+    <meta property="og:image" content="{{ product.image_1.url }}"/>
     {% if user.is_authenticated %}
-        <meta property="og:url" content="{{ request.build_absolute_uri }}/{{ user.sponsor }}" />
+        <meta property="og:url" content="{{ request.build_absolute_uri }}/{{ user.sponsor }}"/>
     {% else %}
-        <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+        <meta property="og:url" content="{{ request.build_absolute_uri }}"/>
     {% endif %}
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Your Site Name" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:type" content="website"/>
+    <meta property="og:site_name" content="Your Site Name"/>
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
 {% endblock %}
 {% block title %} {{ title }} {% endblock %}
 
@@ -96,7 +97,7 @@
                         </div>
                         <div class="shop-single-price">
                             <!-- <del>{{ product.discount_price }}</del> -->
-                            <span class="amount">₱ {{ product.customer_price }}</span>
+                            <span class="amount">{{ product.customer_price|currency }}</span>
                             <!-- <span class="discount-percentage">10% Off</span> -->
                         </div>
                         <p class="mb-3">
@@ -107,7 +108,9 @@
                                 <li>Shop: <span>{{ product.category_1|title }}</span></li>
                                 <li>Stock: <span>Available</span></li>
                                 <li>SKU: <span>{{ product.sku }}</span></li>
-                                <li>Category: <span>{{ product.category_2|replace_dash_to_space|replace_underscore_to_space|title }}</span></li>
+                                <li>Category:
+                                    <span>{{ product.category_2|replace_dash_to_space|replace_underscore_to_space|title }}</span>
+                                </li>
                                 <!-- <li>Sold By: <a href="#">Fast Shop</a></li>
                                         <li>Tags: <a href="#">Headphone</a>,<a href="#">Bluetooth</a>,<a href="#">Modern</a>,<a href="#">Shop</a></li> -->
                             </ul>
@@ -122,7 +125,7 @@
                                                     <h6>Quantity</h6>
                                                     <button class="qty-btn minus-btn"><i class="fal fa-minus"></i>
                                                     </button>
-                                                    <input id="quantity-input-{{ product.id }}" class="quantity"
+                                                    <input id="quantity-input-{{ product.sku }}" class="quantity"
                                                            type="text"
                                                            value="{{ item.quantity|default:1 }}">
                                                     <button class="qty-btn plus-btn"><i class="fal fa-plus"></i>
@@ -132,19 +135,23 @@
                                         </div>
                                     </div>
                                 {% endif %}
-                                <div class="row align-items-center mt-20">
-                                    <div class="shop-single-btn">
-                                        {% if product.id in products_in_cart %}
-                                            <button type="button" class="btn btn-secondary item-id-{{ product.id }}"
-                                                    style="padding: 9px 20px!important;" disabled>ADDED TO CART
-                                            </button>
-                                        {% else %}
-                                            <button data-product="{{ product.id }}" data-action="add" type="button"
-                                                    class="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                                    onclick="addToCart(this)">ADD TO CART
-                                            </button>
-                                        {% endif %}
+                                <div class="product-bottom">
+                                    <div class="product-price">
+                                        <h6>Current Price: <span
+                                                class="current-product-price current-price">{{ product.customer_price|currency }}</span>
+                                        </h6>
                                     </div>
+                                </div>
+                                <div class="product-button">
+                                    {% if product.slug in products_in_cart %}
+                                        <button type="button" class="btn btn-secondary item-id-{{ product.slug }}"
+                                                disabled>ADDED TO CART
+                                        </button>
+                                    {% else %}
+                                        <button data-product="{{ product.slug }}" data-action="add" type="button"
+                                                class="btn theme-btn update-cart item-id-{{ product.slug }}">ADD TO CART
+                                        </button>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="social-opt">
@@ -154,13 +161,13 @@
                                     </div>
                                     <div class="col-auto">
                                         <div class="shop-single-share">
-                                            <a href="#" onclick="shareOnFacebook(); return false;"><i class="fab fa-facebook-f"></i></a>
-{#                                            <a href="#"><i class="fa-brands fa-instagram"></i></a>#}
+                                            <a href="#" onclick="shareOnFacebook(); return false;"><i
+                                                    class="fab fa-facebook-f"></i></a>
+                                            {#                                            <a href="#"><i class="fa-brands fa-instagram"></i></a>#}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -175,10 +182,10 @@
                         </button>
 
                         <!-- Review -->
-{#                        <button class="nav-link" id="nav-tab6" data-bs-toggle="tab" data-bs-target="#tab6" type="button"#}
-{#                                role="tab" aria-controls="tab6" aria-selected="false">Reviews#}
-{#                            ({{ product.review_count }})#}
-{#                        </button>#}
+                        {#                        <button class="nav-link" id="nav-tab6" data-bs-toggle="tab" data-bs-target="#tab6" type="button"#}
+                        {#                                role="tab" aria-controls="tab6" aria-selected="false">Reviews#}
+                        {#                            ({{ product.review_count }})#}
+                        {#                        </button>#}
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
@@ -395,21 +402,21 @@
                                             <div class="product-bottom">
                                                 <div class="product-price">
                                                     <!-- <del>P120</del> -->
-                                                    <span class="current-product-price">₱ {{ related_product.customer_price }}</span>
+                                                    <span class="current-product-price">{{ related_product.customer_price|currency }}</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="product-button">
-                                            {% if related_product.id in products_in_cart %}
+                                            {% if product.slug in products_in_cart %}
                                                 <button type="button"
-                                                        class="btn btn-secondary item-id-{{ related_product.id }}"
+                                                        class="btn btn-secondary item-id-{{ product.slug }}"
                                                         disabled>ADDED TO CART
                                                 </button>
                                             {% else %}
-                                                <button data-product="{{ related_product.id }}" data-action="add"
+                                                <button data-product="{{ product.slug }}" data-action="add"
                                                         type="button"
-                                                        class="btn theme-btn add-to-cart-btn update-cart item-id-{{ related_product.id }}"
-                                                        onclick="addToCart(this)">ADD TO CART
+                                                        class="btn theme-btn update-cart item-id-{{ product.slug }}">ADD
+                                                    TO CART
                                                 </button>
                                             {% endif %}
                                         </div>
@@ -434,253 +441,312 @@
             window.open(facebookShareUrl, 'facebook-share-dialog', 'width=626,height=436');
         }
     </script>
-{#    <script>#}
-{#        $(document).ready(function () {#}
-{##}
-{#            ////////////////////#}
-{#            // Product Rating //#}
-{#            ///////////////////#}
-{#            $('.shop-single-rating .fa-star, .shop-single-rating .fa-star-half-alt').on('click', function () {#}
-{#                var $this = $(this);#}
-{#                var ratingIndex = $this.data('index'); // Get the data-index of the clicked star#}
-{#                var productId = $this.closest('.shop-single-rating').data('product-id'); // Get the product ID from the closest product-rate container#}
-{#                var $productRate = $this.closest('.shop-single-rating'); // Get the closest product-rate container#}
-{##}
-{#                // Update the star rating display#}
-{#                updateStarRating($productRate, ratingIndex);#}
-{##}
-{#                // Send the rating to the server if productId is defined#}
-{#                if (productId !== undefined) {#}
-{#                    $.ajax({#}
-{#                        url: "{% url 'products:rate_product' 0 %}".replace('0', productId), // Replace '0' with the actual product ID#}
-{#                        type: 'POST',#}
-{#                        data: {#}
-{#                            'score': ratingIndex, // Send the rating index as the score#}
-{#                            'csrfmiddlewaretoken': '{{ csrf_token }}' // CSRF token for security#}
-{#                        },#}
-{#                        success: function (response) {#}
-{#                            console.log('Rating submitted successfully');#}
-{#                        },#}
-{#                        error: function (response) {#}
-{#                            console.log('Error in submitting rating');#}
-{#                        }#}
-{#                    });#}
-{#                }#}
-{#            });#}
-{##}
-{#            // Function to update star rating display#}
-{#            function updateStarRating($ratingElement, ratingIndex) {#}
-{#                $ratingElement.find('.fa-star, .fa-star-half-alt').each(function () {#}
-{#                    var $star = $(this);#}
-{#                    var starIndex = parseInt($star.data('index')); // Get the index of the current star#}
-{#                    if (starIndex <= ratingIndex) {#}
-{#                        $star.removeClass('far fa-star fa-star-half-alt').addClass('fas fa-star'); // Set star to full#}
-{#                    } else {#}
-{#                        $star.removeClass('fas fa-star').addClass('far fa-star'); // Set star to empty#}
-{#                    }#}
-{#                });#}
-{#            }#}
-{##}
-{#        });#}
-{#    </script>#}
-{#    <script>#}
-{#        function editReview(event, reviewId) {#}
-{#            // Prevent the default action of the link click#}
-{#            event.preventDefault();#}
-{##}
-{#            if (!reviewId) {#}
-{#                console.error("No reviewId provided");#}
-{#                return;#}
-{#            }#}
-{##}
-{#            console.log("Edit review called with reviewId:", reviewId);#}
-{##}
-{#            // Fetch the current review content and rating#}
-{#            $.ajax({#}
-{#                url: "{% url 'shop:get_review_details' 0 %}".replace('0', reviewId),#}
-{#                type: 'GET',#}
-{#                success: function (response) {#}
-{#                    const currentContent = response.content;#}
-{#                    const currentRating = response.rating;#}
-{##}
-{##}
-{#                    console.log("Current review content:", currentContent);#}
-{#                    console.log("Current review rating:", currentRating);#}
-{##}
-{#                    // Display SweetAlert2 modal with a textarea for editing the review#}
-{#                    Swal.fire({#}
-{#                        title: 'Edit your review',#}
-{#                        width: '800px', // Set the width of the SweetAlert window#}
-{#                        html: `#}
-{#                            <div style="text-align: center; margin-top: 10px;">#}
-{#                                <div class="row">#}
-{#                                    <div class="col-6">#}
-{#                                        <label for="swal-rating">Product Rating: </label>#}
-{#                                    </div>#}
-{#                                    <div class="col-6">#}
-{#                                        <select id="swal-rating" class="swal2-select" style="margin-left: 10px;">#}
-{#                                            <option value="1">1</option>#}
-{#                                            <option value="2">2</option>#}
-{#                                            <option value="3">3</option>#}
-{#                                            <option value="4">4</option>#}
-{#                                            <option value="5">5</option>#}
-{#                                        </select>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div style="margin-top: 10px; text-align: center;">#}
-{#                                <textarea id="swal-input1" class="swal2-textarea" rows="6" style="width: 90%; max-height: 150px;">${currentContent}</textarea>#}
-{#                            </div>#}
-{#                        `,#}
-{#                        focusConfirm: false,#}
-{#                        showCancelButton: true, // Show cancel button#}
-{#                        confirmButtonText: 'Confirm', // Change confirm button text#}
-{#                        didOpen: () => {#}
-{#                            // Initialize the star rating plugin#}
-{#                            $('#swal-rating').barrating({#}
-{#                                theme: 'fontawesome-stars',#}
-{#                                initialRating: currentRating, // Set the current rating#}
-{#                                onSelect: function (value, text, event) {#}
-{#                                    if (typeof (event) !== 'undefined') {#}
-{#                                        // rating was selected by a user#}
-{#                                        console.log('Selected rating:', value);#}
-{#                                    }#}
-{#                                }#}
-{#                            });#}
-{#                        },#}
-{#                        preConfirm: () => {#}
-{#                            const editedContent = document.getElementById('swal-input1').value;#}
-{#                            const editedRating = document.getElementById('swal-rating').value; // Access the value directly from the select element#}
-{#                            return {#}
-{#                                content: editedContent,#}
-{#                                rating: editedRating#}
-{#                            };#}
-{#                        }#}
-{#                    }).then((result) => {#}
-{#                        if (result.isConfirmed) {#}
-{#                            const editedContent = result.value.content;#}
-{#                            const editedRating = result.value.rating;#}
-{#                            console.log("Edited content:", editedContent);#}
-{#                            console.log("Edited rating:", editedRating);#}
-{##}
-{#                            // Make AJAX POST request to update the review and rating#}
-{#                            $.ajax({#}
-{#                                url: "{% url 'shop:edit_review' 0 %}".replace('0', reviewId),#}
-{#                                type: 'POST',#}
-{#                                data: {#}
-{#                                    content: editedContent,#}
-{#                                    rating: editedRating,#}
-{#                                    csrfmiddlewaretoken: '{{ csrf_token }}',#}
-{#                                },#}
-{#                                beforeSend: function (jqXHR, settings) {#}
-{#                                    console.log("AJAX request is being sent with data:", settings.data);#}
-{#                                },#}
-{#                                success: function (response) {#}
-{#                                    console.log("AJAX success response:", response);#}
-{#                                    if (response.success) {#}
-{#                                        // Update the review content and rating on the page#}
-{#                                        const reviewContent = $('#review-content-' + reviewId);#}
-{#                                        reviewContent.text(editedContent);#}
-{#                                        // Update the rating display (you'll need to add this functionality)#}
-{#                                        updateRatingDisplay(reviewId, editedRating);#}
-{#                                        Swal.fire('Success', response.message, 'success');#}
-{#                                    } else {#}
-{#                                        Swal.fire('Error', response.message, 'error');#}
-{#                                    }#}
-{#                                },#}
-{#                                error: function (jqXHR, textStatus, errorThrown) {#}
-{#                                    console.log("AJAX error:", textStatus, errorThrown);#}
-{#                                    console.log("AJAX error details:", jqXHR.responseText);#}
-{#                                    Swal.fire('Error', 'There was an error updating your review.', 'error');#}
-{#                                }#}
-{#                            });#}
-{#                        } else if (result.dismiss === Swal.DismissReason.cancel) {#}
-{#                            console.log('Review edit cancelled');#}
-{#                        }#}
-{#                    });#}
-{#                },#}
-{#                error: function (jqXHR, textStatus, errorThrown) {#}
-{#                    console.log("Error fetching review details:", textStatus, errorThrown);#}
-{#                    Swal.fire('Error', 'There was an error fetching the review details.', 'error');#}
-{#                }#}
-{#            });#}
-{##}
-{#            function updateRatingDisplay(reviewId, editedRating) {#}
-{#                const ratingContainer = $('#review-rating-' + reviewId);#}
-{#                ratingContainer.empty(); // Clear existing stars#}
-{##}
-{#                for (let i = 1; i <= 5; i++) {#}
-{#                    const starIcon = $('<i></i>');#}
-{#                    starIcon.addClass(i <= editedRating ? 'fas fa-star' : 'far fa-star');#}
-{#                    ratingContainer.append(starIcon);#}
-{#                }#}
-{#            }#}
-{#        }#}
-{##}
-{#        function removeReview(event, reviewId) {#}
-{#            event.preventDefault();#}
-{##}
-{#            if (!reviewId) {#}
-{#                console.error("No reviewId provided");#}
-{#                return;#}
-{#            }#}
-{##}
-{#            Swal.fire({#}
-{#                title: 'Are you sure?',#}
-{#                text: "You won't be able to revert this!",#}
-{#                icon: 'warning',#}
-{#                showCancelButton: true,#}
-{#                confirmButtonColor: '#3085d6',#}
-{#                cancelButtonColor: '#d33',#}
-{#                confirmButtonText: 'Yes, delete it!'#}
-{#            }).then((result) => {#}
-{#                if (result.isConfirmed) {#}
-{#                    // Make AJAX POST request to remove the review#}
-{#                    $.ajax({#}
-{#                        url: "{% url 'shop:remove_review' 0 %}".replace('0', reviewId),#}
-{#                        type: 'POST',#}
-{#                        data: {#}
-{#                            csrfmiddlewaretoken: '{{ csrf_token }}',#}
-{#                        },#}
-{#                        beforeSend: function (jqXHR, settings) {#}
-{#                            console.log("AJAX request is being sent with data:", settings.data);#}
-{#                        },#}
-{#                        success: function (response) {#}
-{#                            console.log("AJAX success response:", response);#}
-{#                            if (response.success) {#}
-{#                                // Remove the review element from the page#}
-{#                                $('#review-' + reviewId).remove();#}
-{#                                Swal.fire('Deleted!', response.message, 'success');#}
-{#                            } else {#}
-{#                                Swal.fire('Error', response.message, 'error');#}
-{#                            }#}
-{#                        },#}
-{#                        error: function (jqXHR, textStatus, errorThrown) {#}
-{#                            console.log("AJAX error:", textStatus, errorThrown);#}
-{#                            console.log("AJAX error details:", jqXHR.responseText);#}
-{#                            Swal.fire('Error', 'There was an error removing your review.', 'error');#}
-{#                        }#}
-{#                    });#}
-{#                }#}
-{#            });#}
-{#        }#}
-{##}
-{#        $(document).on('click', '.edit-review-link', function (event) {#}
-{#            const reviewId = $(this).data('review-id');#}
-{#            editReview(event, reviewId);#}
-{#        });#}
-{##}
-{#        $(document).on('click', '.remove-review-link', function (event) {#}
-{#            const reviewId = $(this).data('review-id');#}
-{#            removeReview(event, reviewId);#}
-{#        });#}
-{##}
-{#        const style = document.createElement('style');#}
-{#        style.innerHTML = `#}
-{#            .swal-container {#}
-{#                overflow: hidden !important;#}
-{#            }#}
-{#        `;#}
-{#        document.head.appendChild(style);#}
-{#    </script>#}
+    <script>
+        $(document).ready(function () {
+            // Get initial values
+            var unitPrice = {{ product.customer_price|floatformat:2 }};  // Use floatformat to ensure it's a number
+            var currentPrice = $('.current-price');
+            var minusBtn = $('.minus-btn');
+            var plusBtn = $('.plus-btn');
+            var quantityInput = $('.quantity');
+            var isProductInCart = {% if product.slug in products_in_cart %} true {% else %} false {% endif %};
+
+            function updatePrice() {
+                // Get current quantity from the input
+                var quantity = parseInt(quantityInput.val());
+
+                // Calculate the new total price
+                var totalPrice = quantity * unitPrice;
+
+                // Update the price on the page with comma formatting
+                currentPrice.text('₱' + totalPrice.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+
+            }
+
+            // Increase quantity
+            plusBtn.click(function () {
+                var quantity = parseInt(quantityInput.val());
+                if (quantity >= 10) {
+                    plusBtn.prop('disabled', true);
+                } else {
+                    plusBtn.prop('disabled', false);
+                }
+                updatePrice();
+            });
+
+            // Decrease quantity
+            minusBtn.click(function () {
+                var quantity = parseInt(quantityInput.val());
+                if (quantity <= 1) {
+                    minusBtn.prop('disabled', true);
+                } else {
+                    minusBtn.prop('disabled', false);
+                }
+                updatePrice();
+            });
+
+            if (isProductInCart) {
+                minusBtn.prop('disabled', true);
+                plusBtn.prop('disabled', true);
+            } else {
+                minusBtn.prop('disabled', false);
+                plusBtn.prop('disabled', false);
+            }
+
+            // Initial call to set the correct state for buttons and price
+            updatePrice();
+
+        });
+    </script>
+
+    {#    <script>#}
+    {#        $(document).ready(function () {#}
+    {##}
+    {#            ////////////////////#}
+    {#            // Product Rating //#}
+    {#            ///////////////////#}
+    {#            $('.shop-single-rating .fa-star, .shop-single-rating .fa-star-half-alt').on('click', function () {#}
+    {#                var $this = $(this);#}
+    {#                var ratingIndex = $this.data('index'); // Get the data-index of the clicked star#}
+    {#                var productId = $this.closest('.shop-single-rating').data('product-id'); // Get the product ID from the closest product-rate container#}
+    {#                var $productRate = $this.closest('.shop-single-rating'); // Get the closest product-rate container#}
+    {##}
+    {#                // Update the star rating display#}
+    {#                updateStarRating($productRate, ratingIndex);#}
+    {##}
+    {#                // Send the rating to the server if productId is defined#}
+    {#                if (productId !== undefined) {#}
+    {#                    $.ajax({#}
+    {#                        url: "{% url 'products:rate_product' 0 %}".replace('0', productId), // Replace '0' with the actual product ID#}
+    {#                        type: 'POST',#}
+    {#                        data: {#}
+    {#                            'score': ratingIndex, // Send the rating index as the score#}
+    {#                            'csrfmiddlewaretoken': '{{ csrf_token }}' // CSRF token for security#}
+    {#                        },#}
+    {#                        success: function (response) {#}
+    {#                            console.log('Rating submitted successfully');#}
+    {#                        },#}
+    {#                        error: function (response) {#}
+    {#                            console.log('Error in submitting rating');#}
+    {#                        }#}
+    {#                    });#}
+    {#                }#}
+    {#            });#}
+    {##}
+    {#            // Function to update star rating display#}
+    {#            function updateStarRating($ratingElement, ratingIndex) {#}
+    {#                $ratingElement.find('.fa-star, .fa-star-half-alt').each(function () {#}
+    {#                    var $star = $(this);#}
+    {#                    var starIndex = parseInt($star.data('index')); // Get the index of the current star#}
+    {#                    if (starIndex <= ratingIndex) {#}
+    {#                        $star.removeClass('far fa-star fa-star-half-alt').addClass('fas fa-star'); // Set star to full#}
+    {#                    } else {#}
+    {#                        $star.removeClass('fas fa-star').addClass('far fa-star'); // Set star to empty#}
+    {#                    }#}
+    {#                });#}
+    {#            }#}
+    {##}
+    {#        });#}
+    {#    </script>#}
+    {#    <script>#}
+    {#        function editReview(event, reviewId) {#}
+    {#            // Prevent the default action of the link click#}
+    {#            event.preventDefault();#}
+    {##}
+    {#            if (!reviewId) {#}
+    {#                console.error("No reviewId provided");#}
+    {#                return;#}
+    {#            }#}
+    {##}
+    {#            console.log("Edit review called with reviewId:", reviewId);#}
+    {##}
+    {#            // Fetch the current review content and rating#}
+    {#            $.ajax({#}
+    {#                url: "{% url 'shop:get_review_details' 0 %}".replace('0', reviewId),#}
+    {#                type: 'GET',#}
+    {#                success: function (response) {#}
+    {#                    const currentContent = response.content;#}
+    {#                    const currentRating = response.rating;#}
+    {##}
+    {##}
+    {#                    console.log("Current review content:", currentContent);#}
+    {#                    console.log("Current review rating:", currentRating);#}
+    {##}
+    {#                    // Display SweetAlert2 modal with a textarea for editing the review#}
+    {#                    Swal.fire({#}
+    {#                        title: 'Edit your review',#}
+    {#                        width: '800px', // Set the width of the SweetAlert window#}
+    {#                        html: `#}
+    {#                            <div style="text-align: center; margin-top: 10px;">#}
+    {#                                <div class="row">#}
+    {#                                    <div class="col-6">#}
+    {#                                        <label for="swal-rating">Product Rating: </label>#}
+    {#                                    </div>#}
+    {#                                    <div class="col-6">#}
+    {#                                        <select id="swal-rating" class="swal2-select" style="margin-left: 10px;">#}
+    {#                                            <option value="1">1</option>#}
+    {#                                            <option value="2">2</option>#}
+    {#                                            <option value="3">3</option>#}
+    {#                                            <option value="4">4</option>#}
+    {#                                            <option value="5">5</option>#}
+    {#                                        </select>#}
+    {#                                    </div>#}
+    {#                                </div>#}
+    {#                            </div>#}
+    {#                            <div style="margin-top: 10px; text-align: center;">#}
+    {#                                <textarea id="swal-input1" class="swal2-textarea" rows="6" style="width: 90%; max-height: 150px;">${currentContent}</textarea>#}
+    {#                            </div>#}
+    {#                        `,#}
+    {#                        focusConfirm: false,#}
+    {#                        showCancelButton: true, // Show cancel button#}
+    {#                        confirmButtonText: 'Confirm', // Change confirm button text#}
+    {#                        didOpen: () => {#}
+    {#                            // Initialize the star rating plugin#}
+    {#                            $('#swal-rating').barrating({#}
+    {#                                theme: 'fontawesome-stars',#}
+    {#                                initialRating: currentRating, // Set the current rating#}
+    {#                                onSelect: function (value, text, event) {#}
+    {#                                    if (typeof (event) !== 'undefined') {#}
+    {#                                        // rating was selected by a user#}
+    {#                                        console.log('Selected rating:', value);#}
+    {#                                    }#}
+    {#                                }#}
+    {#                            });#}
+    {#                        },#}
+    {#                        preConfirm: () => {#}
+    {#                            const editedContent = document.getElementById('swal-input1').value;#}
+    {#                            const editedRating = document.getElementById('swal-rating').value; // Access the value directly from the select element#}
+    {#                            return {#}
+    {#                                content: editedContent,#}
+    {#                                rating: editedRating#}
+    {#                            };#}
+    {#                        }#}
+    {#                    }).then((result) => {#}
+    {#                        if (result.isConfirmed) {#}
+    {#                            const editedContent = result.value.content;#}
+    {#                            const editedRating = result.value.rating;#}
+    {#                            console.log("Edited content:", editedContent);#}
+    {#                            console.log("Edited rating:", editedRating);#}
+    {##}
+    {#                            // Make AJAX POST request to update the review and rating#}
+    {#                            $.ajax({#}
+    {#                                url: "{% url 'shop:edit_review' 0 %}".replace('0', reviewId),#}
+    {#                                type: 'POST',#}
+    {#                                data: {#}
+    {#                                    content: editedContent,#}
+    {#                                    rating: editedRating,#}
+    {#                                    csrfmiddlewaretoken: '{{ csrf_token }}',#}
+    {#                                },#}
+    {#                                beforeSend: function (jqXHR, settings) {#}
+    {#                                    console.log("AJAX request is being sent with data:", settings.data);#}
+    {#                                },#}
+    {#                                success: function (response) {#}
+    {#                                    console.log("AJAX success response:", response);#}
+    {#                                    if (response.success) {#}
+    {#                                        // Update the review content and rating on the page#}
+    {#                                        const reviewContent = $('#review-content-' + reviewId);#}
+    {#                                        reviewContent.text(editedContent);#}
+    {#                                        // Update the rating display (you'll need to add this functionality)#}
+    {#                                        updateRatingDisplay(reviewId, editedRating);#}
+    {#                                        Swal.fire('Success', response.message, 'success');#}
+    {#                                    } else {#}
+    {#                                        Swal.fire('Error', response.message, 'error');#}
+    {#                                    }#}
+    {#                                },#}
+    {#                                error: function (jqXHR, textStatus, errorThrown) {#}
+    {#                                    console.log("AJAX error:", textStatus, errorThrown);#}
+    {#                                    console.log("AJAX error details:", jqXHR.responseText);#}
+    {#                                    Swal.fire('Error', 'There was an error updating your review.', 'error');#}
+    {#                                }#}
+    {#                            });#}
+    {#                        } else if (result.dismiss === Swal.DismissReason.cancel) {#}
+    {#                            console.log('Review edit cancelled');#}
+    {#                        }#}
+    {#                    });#}
+    {#                },#}
+    {#                error: function (jqXHR, textStatus, errorThrown) {#}
+    {#                    console.log("Error fetching review details:", textStatus, errorThrown);#}
+    {#                    Swal.fire('Error', 'There was an error fetching the review details.', 'error');#}
+    {#                }#}
+    {#            });#}
+    {##}
+    {#            function updateRatingDisplay(reviewId, editedRating) {#}
+    {#                const ratingContainer = $('#review-rating-' + reviewId);#}
+    {#                ratingContainer.empty(); // Clear existing stars#}
+    {##}
+    {#                for (let i = 1; i <= 5; i++) {#}
+    {#                    const starIcon = $('<i></i>');#}
+    {#                    starIcon.addClass(i <= editedRating ? 'fas fa-star' : 'far fa-star');#}
+    {#                    ratingContainer.append(starIcon);#}
+    {#                }#}
+    {#            }#}
+    {#        }#}
+    {##}
+    {#        function removeReview(event, reviewId) {#}
+    {#            event.preventDefault();#}
+    {##}
+    {#            if (!reviewId) {#}
+    {#                console.error("No reviewId provided");#}
+    {#                return;#}
+    {#            }#}
+    {##}
+    {#            Swal.fire({#}
+    {#                title: 'Are you sure?',#}
+    {#                text: "You won't be able to revert this!",#}
+    {#                icon: 'warning',#}
+    {#                showCancelButton: true,#}
+    {#                confirmButtonColor: '#3085d6',#}
+    {#                cancelButtonColor: '#d33',#}
+    {#                confirmButtonText: 'Yes, delete it!'#}
+    {#            }).then((result) => {#}
+    {#                if (result.isConfirmed) {#}
+    {#                    // Make AJAX POST request to remove the review#}
+    {#                    $.ajax({#}
+    {#                        url: "{% url 'shop:remove_review' 0 %}".replace('0', reviewId),#}
+    {#                        type: 'POST',#}
+    {#                        data: {#}
+    {#                            csrfmiddlewaretoken: '{{ csrf_token }}',#}
+    {#                        },#}
+    {#                        beforeSend: function (jqXHR, settings) {#}
+    {#                            console.log("AJAX request is being sent with data:", settings.data);#}
+    {#                        },#}
+    {#                        success: function (response) {#}
+    {#                            console.log("AJAX success response:", response);#}
+    {#                            if (response.success) {#}
+    {#                                // Remove the review element from the page#}
+    {#                                $('#review-' + reviewId).remove();#}
+    {#                                Swal.fire('Deleted!', response.message, 'success');#}
+    {#                            } else {#}
+    {#                                Swal.fire('Error', response.message, 'error');#}
+    {#                            }#}
+    {#                        },#}
+    {#                        error: function (jqXHR, textStatus, errorThrown) {#}
+    {#                            console.log("AJAX error:", textStatus, errorThrown);#}
+    {#                            console.log("AJAX error details:", jqXHR.responseText);#}
+    {#                            Swal.fire('Error', 'There was an error removing your review.', 'error');#}
+    {#                        }#}
+    {#                    });#}
+    {#                }#}
+    {#            });#}
+    {#        }#}
+    {##}
+    {#        $(document).on('click', '.edit-review-link', function (event) {#}
+    {#            const reviewId = $(this).data('review-id');#}
+    {#            editReview(event, reviewId);#}
+    {#        });#}
+    {##}
+    {#        $(document).on('click', '.remove-review-link', function (event) {#}
+    {#            const reviewId = $(this).data('review-id');#}
+    {#            removeReview(event, reviewId);#}
+    {#        });#}
+    {##}
+    {#        const style = document.createElement('style');#}
+    {#        style.innerHTML = `#}
+    {#            .swal-container {#}
+    {#                overflow: hidden !important;#}
+    {#            }#}
+    {#        `;#}
+    {#        document.head.appendChild(style);#}
+    {#    </script>#}
 {% endblock %}

@@ -1,18 +1,11 @@
-from django.views.generic import View, TemplateView
-from django.shortcuts import render, get_object_or_404
+from django.views.generic import TemplateView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import redirect
 from django.http import JsonResponse, Http404
-from django.db.models import Q
 from django.template.loader import render_to_string
 from django.contrib.auth import get_user_model
-from django.utils.timezone import now
-
-from django.views.decorators.http import require_POST
-from django.contrib.auth.decorators import login_required
+from collections import defaultdict
 
 from onlinestore.utils import check_sponsor_and_redirect
-from collections import defaultdict
 
 import requests
 import random
@@ -45,7 +38,7 @@ class ShopView(TemplateView):
 
         try:
             # Make the API request
-            response = requests.get(api_url)
+            response = requests.get(api_url, verify=False)
             response.raise_for_status()
             data = response.json()
 
@@ -166,7 +159,7 @@ class ShopDetailView(TemplateView):
         product_detail_url = f'https://dashboard.twcako.com/shop/api/get-product/?slug={product_slug}'
 
         try:
-            response = requests.get(product_detail_url)
+            response = requests.get(product_detail_url, verify=False)
             response.raise_for_status()  # Raises HTTPError for bad responses
             product_data = response.json()
             product = product_data.get('product', {})
@@ -199,9 +192,9 @@ class ShopDetailView(TemplateView):
 
         # Check if the user has already purchased the product
         user_has_purchased = False
-        if self.request.user.is_authenticated:
-            user_has_purchased = OrderItem.objects.filter(order__user=self.request.user, product=product,
-                                                          order__complete=True).exists()
+        # if self.request.user.is_authenticated:
+        #     user_has_purchased = OrderItem.objects.filter(order__user=self.request.user, product=product,
+        #                                                   order__complete=True).exists()
 
         # # Get user rating and review status for the product if authenticated
         # rating = None
@@ -246,7 +239,7 @@ class ShopDetailView(TemplateView):
 
         try:
             # Fetch all products
-            response = requests.get(api_url)
+            response = requests.get(api_url, verify=False)
             response.raise_for_status()
             data = response.json()
 
@@ -314,147 +307,47 @@ class ShopDetailView(TemplateView):
 ##################################################
 # FOR DASHBOARD
 
-@login_required
-def get_review_details(request, review_id):
-    review = get_object_or_404(Review, id=review_id, user=request.user)
-    rating = Rating.objects.get(review=review)
-    return JsonResponse({'content': review.content, 'rating': rating.score})
+# @login_required
+# def get_review_details(request, review_id):
+#     review = get_object_or_404(Review, id=review_id, user=request.user)
+#     rating = Rating.objects.get(review=review)
+#     return JsonResponse({'content': review.content, 'rating': rating.score})
 
 
-@login_required
-@require_POST
-def edit_review(request, review_id):
-    try:
-        print(f"Request Method: {request.method}")
-        print(f"Review ID: {review_id}")
-
-        review = get_object_or_404(Review, id=review_id, user=request.user)
-        print(f"Review found: {review}")
-
-        # Update the review content
-        review.content = request.POST.get('content')
-        review.save()
-
-        # Update the rating
-        rating = review.rating
-        rating.score = request.POST.get('rating')
-        rating.save()
-
-        print("Form is valid and saved")
-        return JsonResponse({'success': True, 'message': 'Review updated successfully!'})
-    except Exception as e:
-        print(f"Exception: {e}")
-        return JsonResponse({'success': False, 'message': str(e)})
-
-
-@login_required
-@require_POST
-def remove_review(request, review_id):
-    try:
-        review = get_object_or_404(Review, id=review_id, user=request.user)
-        if hasattr(review, 'rating'):
-            review.rating.delete()
-        review.delete()
-        return JsonResponse({'success': True, 'message': 'Review removed successfully!'})
-    except Exception as e:
-        return JsonResponse({'success': False, 'message': str(e)})
+# @login_required
+# @require_POST
+# def edit_review(request, review_id):
+#     try:
+#         print(f"Request Method: {request.method}")
+#         print(f"Review ID: {review_id}")
+#
+#         review = get_object_or_404(Review, id=review_id, user=request.user)
+#         print(f"Review found: {review}")
+#
+#         # Update the review content
+#         review.content = request.POST.get('content')
+#         review.save()
+#
+#         # Update the rating
+#         rating = review.rating
+#         rating.score = request.POST.get('rating')
+#         rating.save()
+#
+#         print("Form is valid and saved")
+#         return JsonResponse({'success': True, 'message': 'Review updated successfully!'})
+#     except Exception as e:
+#         print(f"Exception: {e}")
+#         return JsonResponse({'success': False, 'message': str(e)})
 
 
-class ShopPromoBundleView(View):
-    template_name = "shop/shop-promo-bundle.html"
-
-    def get(self, request, *args, **kwargs):
-        products = [
-            {
-                'promo': 'promo1',
-                'slug': 'barley-for-cancer',
-                'price': 2199,
-                'quantity': 2,
-                'image': 'img/product/promos/barley/barley-promo-1.png',
-                'alt': 'promo 1',
-                'name': 'Barley Promo 1',
-            },
-            {
-                'promo': 'promo2',
-                'slug': 'barley-for-cancer',
-                'price': 2299,
-                'quantity': 3,
-                'image': 'img/product/promos/barley/barley-promo-1.png',
-                'alt': 'promo 2',
-                'name': 'Barley Promo 2',
-            },
-            {
-                'promo': 'promo3',
-                'slug': 'barley-for-cancer',
-                'price': 2840,
-                'quantity': 3,
-                'image': 'img/product/promos/barley/barley-promo-1.png',
-                'alt': 'promo 3',
-                'name': 'Barley Promo 3',
-            },
-            {
-                'promo': 'promo4',
-                'slug': 'weight-loss',
-                'price': 799,
-                'quantity': 2,
-                'image': 'img/product/promos/barley/barley-promo-1.png',
-                'alt': 'promo 4',
-                'name': 'Fusion Coffee Promo 1',
-            },
-            {
-                'promo': 'promo5',
-                'slug': 'weight-loss',
-                'price': 1249,
-                'quantity': 5,
-                'image': 'img/product/promos/barley/barley-promo-1.png',
-                'alt': 'promo 5',
-                'name': 'Fusion Coffee Promo 2',
-            },
-            {
-                'promo': 'promo6',
-                'slug': 'weight-loss',
-                'price': 1649,
-                'quantity': 7,
-                'image': 'img/product/promos/barley/barley-promo-1.png',
-                'alt': 'promo 6',
-                'name': 'Fusion Coffee Promo 3',
-            },
-            {
-                'promo': 'promo7',
-                'sku': 'boost-coffee',
-                'price': 899,
-                'quantity': 2,
-                'image': 'img/product/promos/barley/barley-promo-1.png',
-                'alt': 'promo 7',
-                'name': 'Boost Coffee Promo 1',
-            },
-            {
-                'promo': 'promo8',
-                'slug': 'boost-coffee',
-                'price': 1349,
-                'quantity': 5,
-                'image': 'img/product/promos/barley/barley-promo-1.png',
-                'alt': 'promo 8',
-                'name': 'Boost Coffee Promo 2',
-            },
-            {
-                'promo': 'promo9',
-                'slug': 'boost-coffee',
-                'price': 1799,
-                'quantity': 7,
-                'image': 'img/product/promos/barley/barley-promo-1.png',
-                'alt': 'promo 9',
-                'name': 'Boost Coffee Promo 3',
-            },
-
-        ]
-
-        # Example list of products in the cart
-        products_in_cart = ['promo1']
-
-        context = {
-            'products': products,
-            'products_in_cart': products_in_cart,
-            'user': request.user,
-        }
-        return render(request, self.template_name, context)
+# @login_required
+# @require_POST
+# def remove_review(request, review_id):
+#     try:
+#         review = get_object_or_404(Review, id=review_id, user=request.user)
+#         if hasattr(review, 'rating'):
+#             review.rating.delete()
+#         review.delete()
+#         return JsonResponse({'success': True, 'message': 'Review removed successfully!'})
+#     except Exception as e:
+#         return JsonResponse({'success': False, 'message': str(e)})

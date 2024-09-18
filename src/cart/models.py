@@ -1,12 +1,7 @@
-from django.db import models, OperationalError
-from django.urls import reverse
-from django.utils import timezone
+from django.db import models
 from django.contrib.auth import get_user_model
-from onlinestore.utils import unique_order_id_generator
-from django.db.models.signals import pre_save
 from onlinestore.models import SiteSetting
-from cart.utils import sf_calculator
-from decimal import Decimal
+
 
 import logging
 
@@ -14,27 +9,6 @@ User = get_user_model()
 
 logger = logging.getLogger(__name__)
 
-
-class Address(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='user_address')
-    session_key = models.CharField(max_length=120, blank=True, null=True)
-    first_name = models.CharField(max_length=255, null=True, blank=True)
-    last_name = models.CharField(max_length=255, null=True, blank=True)
-    email = models.EmailField(max_length=20, null=True, blank=True)
-    phone = models.CharField(max_length=20, null=True, blank=True)
-    region = models.CharField(max_length=255, null=True, blank=True)
-    region_group = models.CharField(max_length=255, null=True, blank=True)
-    province = models.CharField(max_length=255, null=True, blank=True)
-    city = models.CharField(max_length=255, null=True, blank=True)
-    barangay = models.CharField(max_length=255, null=True, blank=True)
-    line1 = models.CharField(max_length=255, null=True, blank=True)
-    line2 = models.CharField(max_length=255, null=True, blank=True)
-    postcode = models.CharField(max_length=20, null=True, blank=True)
-    message = models.TextField(blank=True, null=True)
-    is_default = models.BooleanField(default=False)
-
-    def __str__(self):
-        return str(self.user)
 
 COURIER_CHOICES = (
     ('j&t', 'J&T'),

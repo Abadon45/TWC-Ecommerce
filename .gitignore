@@ -16,3 +16,5 @@ google_api.json
 server.crt
 server.csr
 server.keysrc/login/log/
+
+TWC/logs
