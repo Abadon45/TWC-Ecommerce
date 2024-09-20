@@ -1,6 +1,8 @@
 from django.db import models
 from decimal import Decimal
 from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 User = get_user_model()
 
@@ -49,3 +51,34 @@ class SiteSetting(models.Model):
             return Decimal('0.00') if max_qty == Decimal('0.00') else max_qty
         except cls.DoesNotExist:
             return Decimal('0.00')
+
+
+class Rating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product_slug = models.CharField(max_length=255)
+    score = models.IntegerField(default=3)
+
+    class Meta:
+        unique_together = ('user', 'product_slug')
+
+
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    product_slug = models.CharField(max_length=255)
+    rating = models.OneToOneField(Rating, on_delete=models.CASCADE, related_name='review')
+    content = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Review by {self.user} on {self.product_slug}'
+
+
+@receiver(post_save, sender=Rating)
+def create_review_for_rating(sender, instance, created, **kwargs):
+    if created:
+        Review.objects.create(user=instance.user, product_slug=instance.product_slug, rating=instance)
+
+
+@receiver(post_save, sender=Rating)
+def update_product_aggregate_rating(sender, instance, **kwargs):
+    instance.product.update_aggregate_rating()

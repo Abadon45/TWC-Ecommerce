@@ -5472,3 +5472,105 @@ Traceback (most recent call last):
   File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 189, in get
     cart, message, ordered_items_by_shop, max_order_exceeded = self.update_cart(request, product_slug, action, quantity)
 ValueError: not enough values to unpack (expected 4, got 2)
+Internal Server Error: /shop/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/shop.py", line 30, in get
+    return super().get(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 159, in get
+    context = self.get_context_data(**kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/shop.py", line 111, in get_context_data
+    paginated_products = paginator.page(page)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/paginator.py", line 76, in page
+    number = self.validate_number(number)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/paginator.py", line 54, in validate_number
+    if number > self.num_pages:
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/utils/functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/paginator.py", line 106, in num_pages
+    return ceil(hits / self.per_page)
+ZeroDivisionError: division by zero
+Internal Server Error: /shop/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/shop.py", line 30, in get
+    if request.htmx:
+AttributeError: 'WSGIRequest' object has no attribute 'htmx'
+Internal Server Error: /shop/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/shop.py", line 31, in get
+    products, category_product_count = self.get_queryset()
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/shop.py", line 43, in get_queryset
+    offset = int(self.request.GET.get('offset', 0))
+ValueError: invalid literal for int() with base 10: ''
+Internal Server Error: /shop/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/shop.py", line 31, in get
+    products, category_product_count = self.get_queryset()
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/shop.py", line 43, in get_queryset
+    offset = int(self.request.GET.get('offset', 0))
+ValueError: invalid literal for int() with base 10: ''
+Internal Server Error: /shop/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/shop.py", line 31, in get
+    products, category_product_count = self.get_queryset()
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/shop.py", line 49, in get_queryset
+    offset = int(self.request.GET.get('offset', 0))
+ValueError: invalid literal for int() with base 10: ''
+Internal Server Error: /shop/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/shop.py", line 40, in get
+    return super().get(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 159, in get
+    context = self.get_context_data(**kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/shop.py", line 120, in get_context_data
+    products, category_product_count = self.get_queryset()
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/onlinestore/views/shop.py", line 87, in get_queryset
+    queryset = queryset[offset:offset + limit]
+NameError: name 'offset' is not defined

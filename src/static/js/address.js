@@ -370,8 +370,6 @@ $(document).ready(function () {
     });
 
     console.log("intlTelInput has been initialized.");
-  } else {
-    console.error("Element with ID 'id_mobile' not found in the DOM.");
   }
 
   // =======================================================//

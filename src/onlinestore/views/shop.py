@@ -1,3 +1,5 @@
+from django.db.models import Avg
+from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse, Http404
@@ -6,6 +8,7 @@ from django.contrib.auth import get_user_model
 from collections import defaultdict
 
 from onlinestore.utils import check_sponsor_and_redirect
+from onlinestore.models import *
 
 import requests
 import random
@@ -24,7 +27,22 @@ class ShopView(TemplateView):
         if username:
             return check_sponsor_and_redirect(request, username, 'shop:shop')
 
-            # If username is not provided, proceed with the normal GET handling
+        if request.is_ajax():
+            products, category_product_count, has_next = self.get_paginated_queryset()
+            ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
+            products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
+                                shop['items']]
+            products_grid_html = render_to_string('shop/products_grid.html', {'products': products}, request=request)
+
+            return JsonResponse({
+                'products_grid_html': products_grid_html,
+                'products': products,
+                'products_in_cart': products_in_cart,
+                'category_product_count': category_product_count,
+                'has_next': has_next
+
+            })
+
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
@@ -33,18 +51,18 @@ class ShopView(TemplateView):
         sort_option = self.request.GET.get('sort', '1')
         queryset = []
 
+        category_product_count = defaultdict(int)
 
         api_url = 'https://dashboard.twcako.com/shop/api/get-product/'
 
         try:
             # Make the API request
-            response = requests.get(api_url, verify=False)
+            response = requests.get(api_url)
             response.raise_for_status()
             data = response.json()
 
             if data.get("success"):
                 queryset = data.get("products", [])
-
 
                 # Filter by search query if provided
                 if search_query:
@@ -70,69 +88,90 @@ class ShopView(TemplateView):
                 elif sort_option == '4':  # Price - High To Low
                     queryset = sorted(queryset, key=lambda p: p.get('customer_price', 0), reverse=True)
 
-            return queryset
+                # Apply offset and limit for lazy loading
+                print(f'Products: {queryset}')
+
+                # Count products in each category
+                for product in queryset:
+                    category_1 = product.get('category_1')
+                    category_2 = product.get('category_2')
+
+                    if category_1:
+                        category_product_count[category_1] += 1
+                    if category_2:
+                        category_product_count[category_2] += 1
+
+                    # Fetch all ratings for this product from the Rating model
+                    product_slug = product.get('slug')
+                    ratings = Rating.objects.filter(product_slug=product_slug)
+                    if ratings.exists():
+                        aggregate_rating = ratings.aggregate(Avg('score'))['score__avg']
+                        product['aggregate_rating'] = round(aggregate_rating, 1)
+                    else:
+                        product['aggregate_rating'] = 3
+
+            return queryset, dict(category_product_count)
+
         except requests.exceptions.RequestException as e:
-            # Handle API request errors
-            return JsonResponse({'error': str(e)})
+            # Handle API request errors by returning empty queryset and product count
+            return [], {}
+
+    def get_paginated_queryset(self):
+        """
+        This method paginates the queryset manually since the API returns all products.
+        """
+        products, category_product_count = self.get_queryset()
+        page = int(self.request.GET.get('page', 1))  # Default to page 1
+        paginate_by = self.paginate_by
+
+        # Calculate start and end indices for pagination
+        start = (page - 1) * paginate_by
+        end = start + paginate_by
+
+        # Slice the products list for pagination
+        paginated_products = products[start:end]
+        has_next = len(products) > end  # Check if more products are available
+        print(f'Has Next: {has_next}')
+
+        return paginated_products, category_product_count, has_next
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         sort_option = self.request.GET.get('sort', '1')
-        page = self.request.GET.get('page', 1)
-        category_product_count = defaultdict(int)
 
         # Fetch the products from the API using the get_queryset method
-        products = self.get_queryset()
-
-        # Count products in each subcategory
-        for product in products:
-            subcategory = product.get('category_2')
-            if subcategory:
-                category_product_count[subcategory] += 1
-
-        # Implement pagination
-        paginator = Paginator(products, 9)
-        try:
-            paginated_products = paginator.page(page)
-        except PageNotAnInteger:
-            paginated_products = paginator.page(1)
-        except EmptyPage:
-            paginated_products = paginator.page(paginator.num_pages)
+        products, category_product_count, _ = self.get_paginated_queryset()
+        user_ratings = self.get_user_ratings(products)
 
         # Render the products to the 'shop/products_grid.html' template
         products_grid_html = render_to_string('shop/products_grid.html', {'products': products}, request=self.request)
 
         # Get products in cart (assuming 'ordered_items_by_shop' is a session variable containing the cart items)
         ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
-        products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
-                            shop['items']]
+        products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in shop['items']]
 
         context['products_grid_html'] = products_grid_html
-        context['products'] = paginated_products
+        context['products'] = products
         context['sort_option'] = sort_option
         context['products_in_cart'] = products_in_cart
-        context['category_product_count'] = dict(category_product_count)
-
-        # Pagination details for the "Showing X-Y of Z Results"
-        context['page_obj'] = paginated_products
-        context['paginator'] = paginator
-
-        print(context['category_product_count'])
+        context['category_product_count'] = category_product_count
+        context['user_ratings'] = user_ratings
 
         return context
 
-    # rating logic
-    # def get_user_ratings(self, products):
-    #     user_ratings = {}
-    #     if self.request.user.is_authenticated:
-    #         for product in products:
-    #             user_ratings[product.id] = None  # Default value in case no rating exists for a product
-    #             try:
-    #                 rating = Rating.objects.get(product=product, user=self.request.user)
-    #                 user_ratings[product.id] = rating.score
-    #             except Rating.DoesNotExist:
-    #                 pass
-    #     return user_ratings
+    # Modified rating logic to work with product_slug
+    def get_user_ratings(self, products):
+        user_ratings = {}
+        if self.request.user.is_authenticated:
+            for product in products:
+                product_slug = product.get('slug')
+                user_ratings[product_slug] = None
+                try:
+                    rating = Rating.objects.get(product_slug=product_slug, user=self.request.user)
+                    user_ratings[product_slug] = rating.score
+                except Rating.DoesNotExist:
+                    pass
+        return user_ratings
 
 
 class ShopDetailView(TemplateView):
@@ -145,7 +184,6 @@ class ShopDetailView(TemplateView):
     #
     #         # If username is not provided, proceed with the normal GET handling
     #     return super().get(request, slug=slug, *args, **kwargs)
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -302,7 +340,6 @@ class ShopDetailView(TemplateView):
     #     context['rating_form'] = rating_form
     #     context['review_form'] = review_form
     #     return self.render_to_response(context)
-
 
 ##################################################
 # FOR DASHBOARD

@@ -156,9 +156,9 @@
                         </div>
                     </div>
                     {% if products %}
-                        <div id="products-grid">
-                            {% include 'shop/products_grid.html' %}
+                        <div id="products-grid" class="row">
                         </div>
+                        <div class="spinner-border" role="status"></div>
                         <div id="products-list">
                             {% include 'shop/products_list.html' %}
                         </div>
@@ -166,13 +166,14 @@
                         <p>No products found.</p>
                     {% endif %}
                     <!-- pagination -->
-                    <div class="pagination">
-                        {% include 'shop/pagination.html' %}
-                    </div>
+                    {#                    <div class="pagination">#}
+                    {#                        {% include 'shop/pagination.html' %}#}
+                    {#                    </div>#}
                     <!-- pagination end -->
                 </div>
             </div>
         </div>
+
     </div>
     <!-- shop-area end -->
 {% endblock %}
@@ -180,20 +181,105 @@
 {% block extra_js %}
     <script src="{% static 'js/shop.js' %}"></script>
     <script>
-        function saveScrollPosition() {
-            sessionStorage.setItem('shopScrollPosition', $(window).scrollTop());
+        var spinner = $(".spinner-border");
+        let page = 1;
+        let isLoading = false;
+        let hasNext = true;
+
+        function loadProducts() {
+            console.log('loadProducts function called, isLoading:', isLoading);
+            spinner.show()
+
+            // Prevent further loading if we are already loading or if all products are loaded
+            if (isLoading || !hasNext) {
+                console.log('Already loading or no more products, returning...');
+                return;
+            }
+
+            isLoading = true;
+
+            // Get the query parameters (e.g., ?q=barley&category_id=1&sort=5) from the current URL
+            const queryParams = window.location.search;
+
+            console.log('Making AJAX request to:', window.location.pathname + queryParams, 'with page:', page);
+
+            $.ajax({
+                url: window.location.pathname + queryParams,  // Append the query parameters to the URL
+                data: {
+                    'page': page,  // Still include the page number in the request
+                },
+                success: function (response) {
+                    console.log('AJAX request successful:', response);
+
+                    $('#products-grid').append(response.products_grid_html);
+                    $('#products-grid').data('page', page);
+                    hasNext = response.has_next;
+
+                    // Update products in cart
+                    productsInCart = response.products_in_cart;
+
+                    // Update the button states
+                    updateButtonState();
+
+                    // If no more products, stop listening to the scroll event
+                    if (!hasNext) {
+                        console.log("All products loaded. No further AJAX calls.");
+                        $(window).off('scroll', handleScroll);
+                    }
+
+                    page++;
+                    isLoading = false;
+                },
+                error: function () {
+                    console.error("Failed to load products");
+                },
+                complete: function () {
+                    spinner.hide();
+                    isLoading = false; // Reset loading state
+                }
+            });
         }
 
-        function restoreScrollPosition() {
-            var scrollPosition = sessionStorage.getItem('shopScrollPosition');
-            if (scrollPosition !== null) {
-                $(window).scrollTop(parseInt(scrollPosition));
+        function updateButtonState() {
+            // Loop through all products and check if they are in the cart
+            $('.theme-btn').each(function () {
+                var productSlug = $(this).data('product');
+
+                if (productsInCart.includes(productSlug)) {
+                    $(this).text('ADDED TO CART').prop('disabled', true).removeClass('theme-btn').addClass('btn-secondary');
+                } else {
+                    $(this).text('ADD TO CART').prop('disabled', false).removeClass('btn-secondary').addClass('theme-btn');
+                }
+            });
+        }
+
+
+        // Scroll event handler to load more products when user scrolls near the bottom
+        function handleScroll() {
+            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+                loadProducts();
             }
         }
 
-        $(window).on('beforeunload', saveScrollPosition);
-        $(window).on('load', restoreScrollPosition);
+        // Attach the scroll handler to the window
+        $(window).on('scroll', handleScroll);
+
+        // Load initial products when the page is ready
+        $(document).ready(function () {
+            console.log('Document ready, calling loadProducts for initial load.');
+
+            // Ensure we only load products if there are more to load initially
+            if (hasNext) {
+                spinner.show();
+                loadProducts();
+            } else {
+                spinner.hide();
+                console.log("No products to load initially.");
+            }
+        });
     </script>
+
+    <script src="{% static 'js/save-scroll-position.js' %}"></script>
     <script>
         $(document).ready(function () {
             $('.quickview-btn').on('click', function () {

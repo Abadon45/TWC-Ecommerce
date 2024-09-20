@@ -2,60 +2,61 @@
 {% load custom_filters %}
 {% load currency_filters %}
 
-    <div class="shop-item-wrapper shop-grid product-list">
-        <div class="row">
-            {% for product in products %}
+<div class="shop-item-wrapper shop-grid product-list">
+    <div class="row">
+        {% for product in products %}
             <div class="col-md-4 col-6 products-column">
                 <div class="products-list product-item ">
                     <div class="product-img grid-type">
-                        <a href="{% url 'shop:single' slug=product.slug  %}">
+                        <a href="{% url 'shop:single' slug=product.slug %}">
                             {% if product.image_1 %}
-                            <img src="{{ product.image_1 }}" alt="{{ product.name }}"
-                                id="product-image">
+                                <img src="{{ product.image_1 }}" alt="{{ product.name }}"
+                                     id="product-image">
                             {% else %}
-                            <img src="{% static 'img\product\default-product-image.png' %}" alt="{{ product.name }}"
-                                id="product-image">
+                                <img src="{% static 'img\product\default-product-image.png' %}" alt="{{ product.name }}"
+                                     id="product-image">
                             {% endif %}
                         </a>
                         <div class="product-action-wrap">
                             {% if not product.id in products_in_cart %}
-                            <div class="product-action">
-                                <a href="#" class="quickview-btn"
-                                    data-tooltip="tooltip" title="Quick View"
-                                    data-product-id="{{ product.id }}"
-                                    data-product-name="{{ product.name }}"
-                                    {% if product.image_1 %}
-                                        data-product-image="{{ product.image_1.url }}"
-                                    {% else %}
-                                        data-product-image="{% static 'img/product/default_product_image.png' %}"
-                                    {% endif %}
-                                    data-product-price="{{ product.customer_price }}"
-                                    data-product-shop="{{ product.category_1|title }}"
-                                    data-product-category="{{ product.category_2|title }}"
-                                    data-product-sku="{{ product.sku }}"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#quickview"
-                                    {% if product.id in products_in_cart %}
-                                        data-button="btn btn-secondary item-id-{{ product.id }}"
-                                        data-text="Added To Cart"
-                                    {% else %}
-                                        data-button="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
-                                        data-action="add"
-                                        data-text="Add To Cart"
-                                    {% endif %}>
-                                    <i class="far fa-eye"></i>
-                                </a>
+                                <div class="product-action">
+                                    <a href="#" class="quickview-btn"
+                                       data-tooltip="tooltip" title="Quick View"
+                                       data-product-id="{{ product.id }}"
+                                       data-product-name="{{ product.name }}"
+                                            {% if product.image_1 %}
+                                       data-product-image="{{ product.image_1.url }}"
+                                            {% else %}
+                                       data-product-image="{% static 'img/product/default_product_image.png' %}"
+                                            {% endif %}
+                                       data-product-price="{{ product.customer_price }}"
+                                       data-product-shop="{{ product.category_1|title }}"
+                                       data-product-category="{{ product.category_2|title }}"
+                                       data-product-sku="{{ product.sku }}"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#quickview"
+                                            {% if product.id in products_in_cart %}
+                                       data-button="btn btn-secondary item-id-{{ product.id }}"
+                                       data-text="Added To Cart"
+                                            {% else %}
+                                       data-button="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"
+                                       data-action="add"
+                                       data-text="Add To Cart"
+                                            {% endif %}>
+                                        <i class="far fa-eye"></i>
+                                    </a>
 
-                                <a href="#" data-tooltip="tooltip" title="Add To Wishlist" hidden><i
-                                        class="far fa-heart"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="Add To Compare" hidden><i
-                                        class="far fa-arrows-repeat"></i></a>
-                            </div>
+                                    <a href="#" data-tooltip="tooltip" title="Add To Wishlist" hidden><i
+                                            class="far fa-heart"></i></a>
+                                    <a href="#" data-tooltip="tooltip" title="Add To Compare" hidden><i
+                                            class="far fa-arrows-repeat"></i></a>
+                                </div>
                             {% endif %}
                         </div>
                     </div>
                     <div class="product-content">
-                        <h3 class="product-title"><a href="{% url 'shop:single' slug=product.slug %}">{{product.name }}</a></h3>
+                        <h3 class="product-title"><a
+                                href="{% url 'shop:single' slug=product.slug %}">{{ product.name }}</a></h3>
                         {% if user.is_authenticated %}
                             {% if user_ratings|get_item:product.id %}
                                 <div class="product-rate" data-product-id="{{ product.id }}">
@@ -100,18 +101,20 @@
                         </div>
                         <div class="product-button">
                             {% if product.slug in products_in_cart %}
-                            <button type="button" class="btn btn-secondary item-id-{{ product.slug }}"
-                                disabled>ADDED TO CART</button>
+                                <button type="button" class="btn btn-secondary item-id-{{ product.slug }}"
+                                        disabled>ADDED TO CART
+                                </button>
                             {% else %}
-                            <button data-product="{{ product.slug }}" data-action="add" type="button"
-                                class="btn theme-btn update-cart item-id-{{ product.slug }}">ADD TO CART
-                            </button>
+                                <button data-product="{{ product.slug }}" data-action="add" type="button"
+                                        class="btn theme-btn update-cart item-id-{{ product.slug }}">ADD TO CART
+                                </button>
                             {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
-            {% endfor %}
-        </div>
+        {% endfor %}
     </div>
-    
+</div>
+
+

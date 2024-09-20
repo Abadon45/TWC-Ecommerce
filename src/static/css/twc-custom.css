@@ -71,6 +71,10 @@ input, textarea {
 }
 
 /* MISC */
+.spinner-border {
+    display: none;
+    margin: 0 auto;
+}
 
 .continue-shopping {
     margin-top: 30px;
