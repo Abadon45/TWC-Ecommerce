@@ -6,6 +6,7 @@ from django.http import Http404
 from django.views import View
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
+from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
@@ -244,6 +245,7 @@ class CheckoutView(FormView):
             qty = order['quantity']
             return sf_calculator(region=region, qty=qty)
 
+    @csrf_exempt
     def form_valid(self, form):
         shipping_address = form.save(commit=False)
         region = form.cleaned_data.get('region')
