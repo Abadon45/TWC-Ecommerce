@@ -21,6 +21,9 @@ $(document).ready(function () {
       cache: false,
       contentType: false,
       processData: false,
+      headers: {
+        "X-CSRFToken": csrf
+      },
       success: function (response) {
         window.location.href = window.location.href + "../";
       },
