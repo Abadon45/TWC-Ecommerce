@@ -41,6 +41,7 @@ $(document).ready(function () {
     var httpMethod = thisForm.attr("method");
     var formData = thisForm.serializeArray();
 
+
     // Prepare user data and add it to the form data
     var userData = prepareUserData();
     formData.push({ name: "username", value: userData.username });
@@ -65,6 +66,9 @@ $(document).ready(function () {
       url: actionEndpoint,
       method: httpMethod,
       data: formData,
+      headers: {
+        "X-CSRFToken": csrf
+      },
       success: function (successData) {
         console.log("Success Data: ", successData);
         $("#step2-tab").click();
