@@ -71,6 +71,7 @@ $(document).ready(function () {
       },
       success: function (successData) {
         console.log("Success Data: ", successData);
+        console.log("CSRF Token:", csrf);
         $("#step2-tab").click();
         $("#step1").removeClass("active show");
         $("#step1-tab").removeClass("nav-link active done");
