@@ -125,7 +125,7 @@
                                                     <h6>Quantity</h6>
                                                     <button class="qty-btn minus-btn"><i class="fal fa-minus"></i>
                                                     </button>
-                                                    <input id="quantity-input-{{ product.sku }}" class="quantity"
+                                                    <input id="quantity-input-{{ product.sku }}" id="quantity" class="quantity"
                                                            type="text"
                                                            value="{{ item.quantity|default:1 }}">
                                                     <button class="qty-btn plus-btn"><i class="fal fa-plus"></i>
@@ -638,8 +638,8 @@
     {#                                    rating: editedRating,#}
     {#                                    csrfmiddlewaretoken: '{{ csrf_token }}',#}
     {#                                },#}
-    {#                                beforeSend: function (jqXHR, settings) {#}
-    {#                                    console.log("AJAX request is being sent with data:", settings.data);#}
+    {#                                beforeSend: function (jqXHR, setting) {#}
+    {#                                    console.log("AJAX request is being sent with data:", setting.data);#}
     {#                                },#}
     {#                                success: function (response) {#}
     {#                                    console.log("AJAX success response:", response);#}
@@ -708,8 +708,8 @@
     {#                        data: {#}
     {#                            csrfmiddlewaretoken: '{{ csrf_token }}',#}
     {#                        },#}
-    {#                        beforeSend: function (jqXHR, settings) {#}
-    {#                            console.log("AJAX request is being sent with data:", settings.data);#}
+    {#                        beforeSend: function (jqXHR, setting) {#}
+    {#                            console.log("AJAX request is being sent with data:", setting.data);#}
     {#                        },#}
     {#                        success: function (response) {#}
     {#                            console.log("AJAX success response:", response);#}

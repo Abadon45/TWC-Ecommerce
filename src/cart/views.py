@@ -287,7 +287,7 @@ class CheckoutView(FormView):
 
         self.request.session['updated_orders'] = updated_orders
 
-        if self.request.is_ajax():
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
             response_data = {
                 'status': 'success',
                 'updated_orders': updated_orders,
@@ -299,7 +299,7 @@ class CheckoutView(FormView):
             return redirect(self.success_url)
 
     def form_invalid(self, form):
-        if self.request.is_ajax():
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
             return JsonResponse({'status': 'error', 'errors': form.errors})
         return self.render_to_response(self.get_context_data(form=form))
 
@@ -309,7 +309,7 @@ class CheckoutView(FormView):
 
 
 
-#########################################################  
+#########################################################
 #----------Change address from list of addresses--------#
 #########################################################
 
@@ -368,7 +368,7 @@ def get_selected_address(request):
 
 #########################################################
 #-------Edit an address from the list of addresses------#
-######################################################### 
+#########################################################
 
 def edit_checkout_address(request):
     if request.method == 'POST':
@@ -463,6 +463,7 @@ def submit_checkout(request):
 
         referrer_username = request.POST.get('username')
 
+
         if referrer_username:
             # API URL to check if the referrer username exists in the system
             api_url = f'https://dashboard.twcako.com/account/api/check-username/{referrer_username}/'
@@ -483,6 +484,8 @@ def submit_checkout(request):
                     is_success = data.get('success')
                     order_complete = True
                     request.session['order_complete'] = order_complete
+                    request.session['referrer'] = referrer_username
+                    request.session.modified = True
 
                     # If the username doesn't exist, return an error response
                     if not is_success:
@@ -559,6 +562,7 @@ class CheckoutDoneView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+
         total_payment = 0.0
         current_date = timezone.now().strftime('%b %d, %Y')
 
@@ -576,6 +580,8 @@ class CheckoutDoneView(TemplateView):
 
         checkout_details = self.request.session.get('updated_orders', {})
         address_from_session = self.request.session.get('shipping_address', {})
+        print(f'Referrer saved: {self.request.session.get("referrer")}')
+
 
         # Process checkout_details to create a lookup dictionary for easy access
         checkout_details_dict = {detail['shop']: detail for detail in checkout_details}
@@ -603,6 +609,7 @@ class CheckoutDoneView(TemplateView):
             'address': address_from_session,
             'total_payment': total_payment,
             'current_date': current_date,
+            'sponsor': self.request.session.get('referrer', 'No referrer set'),
         })
 
         return context
@@ -615,266 +622,3 @@ def set_order_id_session_variable(request):
         print(f'Order ID: {order_id}')
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
-
-#----------------- Checkout Views -------------------
-
-# def checkout(request):
-#     title = "Checkout"
-#     shipping_form = AddressForm()
-#     order = Order()
-#     default_address = ""
-#     ordered_items = []
-#     customer_addresses = ""
-#     FIXED_SHIPPING_FEE = SiteSetting.get_fixed_shipping_fee()
-#     shipping_fee = 0.00
-#     orders_subtotal = Decimal('0.00')
-#     total_shipping = Decimal('0.00')
-#     total_discount = Decimal('0.00')
-#
-#     user = request.user
-#     session_key = request.session.session_key
-#     referrer = None
-#
-#     try:
-#         # check if user is authenticated or not and saves their sponsor to a variable if there is one
-#         if user.is_authenticated:
-#             default_address = Address.objects.filter(user=user, is_default=True).first()
-#             customer_addresses = Address.objects.filter(user=user).exclude(is_default=True).order_by('-is_default')[:3]
-#             referred_by = user.sponsor
-#         else:
-#             referred_by = request.session.get('referrer')
-#
-#         print(f'Sponsor: {referred_by}')
-#         order_ids = request.session.get('checkout_orders', [])
-#         orders = Order.objects.filter(id__in=order_ids)
-#
-#         # checks if address is there is already a default address
-#         if default_address:
-#             region = default_address.region
-#             print(f"Shipping Fee: {shipping_fee}")
-#             print(f"Address Region: {region}")
-#             for order in orders:
-#                 order.shipping_address = default_address
-#                 qty = order.total_quantity
-#                 if order.is_fixed_shipping_fee:
-#                     fixed_shipping_fee = FIXED_SHIPPING_FEE
-#                     order.shipping_fee = fixed_shipping_fee
-#                 else:
-#                     shipping_fee = sf_calculator(region=region, qty=qty)
-#                     order.shipping_fee = shipping_fee
-#                 order.save()
-#
-#         # store the order and the orderitems in the list
-#         for order in orders:
-#             with transaction.atomic():
-#                 existing_order_items = order.orderitem_set.all()
-#                 print("Order items:", order.orderitem_set.all())
-#                 for order_item in existing_order_items:
-#                     product = order_item.product
-#                     ordered_items.append(OrderItem(order=order, product=product, quantity=order_item.quantity))
-#                 order.save()
-#
-#         # Address Form and fetching the name for account registration
-#         if request.method == 'POST':
-#             shipping_form = AddressForm(request.POST)
-#
-#             if shipping_form.is_valid():
-#                 shipping_address = shipping_form.save(commit=False)
-#
-#                 region = shipping_form.cleaned_data.get('region')
-#                 updated_orders = []
-#
-#                 # calculate shipping based on the fixed shipping otherwise calculate based on region
-#                 for order in orders:
-#                     qty = order.total_quantity
-#                     if order.is_fixed_shipping_fee:
-#                         fixed_shipping_fee = FIXED_SHIPPING_FEE
-#                         order.shipping_fee = fixed_shipping_fee
-#                     else:
-#                         shipping_fee = sf_calculator(region=region, qty=qty)
-#                         order.shipping_fee = shipping_fee
-#                     order.total_amount = order.subtotal + Decimal(order.shipping_fee)
-#                     order.save()
-#
-#                     updated_orders.append({
-#                         'id': order.id,
-#                         'shipping_fee': order.shipping_fee,
-#                         'total_amount': order.total_amount
-#                     })
-#
-#                 if user.is_authenticated:
-#                     shipping_address.user = user
-#                 else:
-#                     shipping_address.session_key = session_key
-#
-#                 if user.is_authenticated:
-#                     if not Address.objects.filter(user=user, is_default=True).exists():
-#                         shipping_address.is_default = True
-#
-#                 else:
-#                     shipping_address.is_default = True
-#
-#                 shipping_address.save()
-#                 print("Shipping address created:", shipping_address)
-#
-#                 # register the address to the order
-#                 if not order.shipping_address:
-#
-#                     for order in orders:
-#                         order.shipping_address = shipping_address
-#                         order.contact_number = shipping_address.phone
-#                         order.save()
-#
-#                         print("Order Information After Address Update:", order.order_id, order.shipping_address)
-#
-#                     # Generate a temporary account for the Guest User
-#                     if request.user.is_anonymous:
-#                         temporary_username = request.POST.get('username').lower()
-#                         print(f'username retrieved from ajax: {temporary_username}')
-#
-#                         if temporary_username:
-#                             print("Creating temporary user...")
-#                             temporary_user, user_created = User.objects.get_or_create(username=temporary_username)
-#                             if user_created:
-#                                 print(f"User created: {user_created}")
-#                                 temporary_password = User.objects.make_random_password(length=6)
-#
-#                                 if referrer:
-#                                     try:
-#                                         temporary_user.referred_by = referrer
-#                                         temporary_user.save()
-#                                     except User.DoesNotExist:
-#                                         print("Referrer not found.")
-#
-#                                 # PUT THIS ON THE FINAL VERSION
-#                                 # if User.objects.filter(email=user.email).exists():
-#                                 #     print("A user with this email already exists.")
-#                                 # else:
-#
-#
-#                                 #---------------------------------------
-#                                 # Transfer Details to the temporary_user
-#                                 #---------------------------------------
-#                                 temporary_user.email = request.POST.get('email')
-#                                 temporary_user.set_password(temporary_password)
-#                                 temporary_user.first_name = shipping_address.first_name
-#                                 temporary_user.last_name = shipping_address.last_name
-#                                 temporary_user.save()
-#                                 shipping_address.user = temporary_user
-#                                 shipping_address.save()
-#                                 for order in orders:
-#                                     order.user = temporary_user
-#                                     order.save()
-#
-#
-#                                 print("Temporary user created:", temporary_user)
-#
-#                                 request.session['guest_user_data'] = {
-#                                     'username': temporary_username,
-#                                     'password': temporary_password,
-#                                     'email': temporary_user.email,
-#                                 }
-#
-#                                 print("Username:", request.session['guest_user_data']['username'])
-#                                 print("Password:", request.session['guest_user_data']['password'])
-#                                 print("Email:", request.session['guest_user_data']['email'])
-#
-#                                 user = authenticate(request, username=temporary_username, password=temporary_password)
-#                                 first_name = request.POST.get('first_name')
-#
-#                                 # if guest user is authenticated send email for temporary account
-#                                 if user:
-#                                     send_temporary_account_email(user, first_name, temporary_username,
-#                                                                  temporary_password)
-#
-#                             else:
-#                                 print("Temporary username is null or empty. Handle accordingly.")
-#
-#             else:
-#                 print(shipping_form.errors)
-#                 return render(request, "cart/shop-checkout.html", {
-#                 'error_message': 'The address form is not valid. Please correct the errors and try again.',
-#             })
-#
-#         # Store and calculate order payments
-#         ordered_items = {}
-#         for order in orders:
-#             ordered_items[order] = OrderItem.objects.filter(order=order).select_related('product')
-#
-#             print(f'{order} initial cod = {order.cod_amount}')
-#             print(f'{order} subtotal = {order.subtotal}')
-#             print(f'{order} shipping = {order.shipping_fee}')
-#
-#             if order.shipping_fee != 0 and order.discount == 0:
-#                 if order.cod_amount != 0 and order.cod_amount != order.subtotal:
-#                     order.discount = (order.subtotal + Decimal(order.shipping_fee)) - order.cod_amount
-#                     print(f'{order} discount calculated  = {order.discount}')
-#                 else:
-#                     print(f'{order} discount remains  = {order.discount}')
-#
-#             order.cod_amount = order.subtotal + Decimal(order.shipping_fee) - order.discount
-#             orders_subtotal += order.subtotal
-#             total_discount += order.discount
-#             total_shipping += Decimal(order.shipping_fee)
-#             print(f'{order} cod = {order.cod_amount}')
-#             order.save()
-#
-#         total_payment = orders_subtotal + total_shipping - total_discount
-#         print(f'Total Payment: {total_payment}')
-#         print(f'Total Discount: {total_discount}')
-#         print(f'Orders are: {orders}')
-#
-#         if user.is_authenticated:
-#             current_user = user
-#         else:
-#             current_user = "anonymoususer"
-#
-#         if 'bundle_order' in request.session:
-#             del request.session['bundle_order']
-#
-#         if request.is_ajax():
-#             response_data = {
-#                 'isAuthenticated': user.is_authenticated,
-#                 'id': shipping_address.id,
-#                 'email': request.POST.get('email'),
-#                 'firstName': shipping_address.first_name,
-#                 'lastName': shipping_address.last_name,
-#                 'phone': shipping_address.phone,
-#                 'line1': shipping_address.line1,
-#                 'province': shipping_address.province,
-#                 'city': shipping_address.city,
-#                 'barangay': shipping_address.barangay,
-#                 'postcode': shipping_address.postcode,
-#                 'orders': updated_orders,
-#                 'total_shipping': total_shipping,
-#                 'total_payment': total_payment,
-#             }
-#
-#             return JsonResponse(response_data)
-#         else:
-#             context = {
-#                 'orders': orders,
-#                 'ordered_items': ordered_items,
-#                 'orders_subtotal': orders_subtotal,
-#                 'total_shipping': total_shipping,
-#                 'total_discount': total_discount,
-#                 'total_payment': total_payment,
-#                 'shipping_form': shipping_form,
-#                 'is_authenticated': user.is_authenticated,
-#                 'default_address': default_address,
-#                 'customer_addresses': customer_addresses,
-#                 'title': title,
-#                 'user': user,
-#                 'current_user': current_user,
-#                 'referred_by': referred_by,
-#             }
-#             print(f'is_authenticated: {user.is_authenticated}')
-#             return render(request, "cart/shop-checkout.html", context)
-#     except Order.DoesNotExist:
-#         return redirect('home_view')
-#     except Http404:
-#         return redirect('home_view')
-#     except Exception as e:
-#         print(f"Exception in checkout view: {e}")
-#         return JsonResponse({'error': 'Internal Server Error'}, status=500)
-
