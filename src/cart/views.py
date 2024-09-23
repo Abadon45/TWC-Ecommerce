@@ -247,6 +247,9 @@ class CheckoutView(FormView):
 
     @csrf_exempt
     def form_valid(self, form):
+        print("Request Headers:", self.request.headers)
+        print("Request Method:", self.request.method)
+        print("Request Path:", self.request.path)
         shipping_address = form.save(commit=False)
         region = form.cleaned_data.get('region')
 
@@ -302,6 +305,7 @@ class CheckoutView(FormView):
 
     def form_invalid(self, form):
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            print("Form Errors:", form.errors)
             return JsonResponse({'status': 'error', 'errors': form.errors})
         return self.render_to_response(self.get_context_data(form=form))
 

@@ -103,6 +103,12 @@ ROOT_HOSTCONF = 'TWC.hosts'
 DEFAULT_HOST = 'www'
 PARENT_HOST = 'twconline.store'
 SITE_DOMAIN = 'twconline.store'
+CSRF_TRUSTED_ORIGINS = ['https://www.twconline.store']
+CORS_ALLOWED_ORIGINS = [
+    "https://www.twconline.store",
+    "http://localhost:8000",
+]
+
 
 TEMPLATES = [
     {
