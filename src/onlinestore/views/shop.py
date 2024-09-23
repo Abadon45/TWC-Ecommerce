@@ -27,7 +27,7 @@ class ShopView(TemplateView):
         if username:
             return check_sponsor_and_redirect(request, username, 'shop:shop')
 
-        if request.is_ajax():
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             products, category_product_count, has_next = self.get_paginated_queryset()
             ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
             products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in

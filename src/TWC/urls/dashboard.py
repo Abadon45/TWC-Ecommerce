@@ -88,7 +88,7 @@ urlpatterns = [
     path('supplier/transaction', SupplierTransactionView.as_view(), name='supplier_transaction'),
     path('supplier/notification', SupplierNotificationView.as_view(), name='supplier_notification'),
     path('supplier/messages', SupplierMessagesView.as_view(), name='supplier_messages'),
-    path('supplier/settings', SupplierSettingsView.as_view(), name='supplier_settings'),
+    path('supplier/setting', SupplierSettingsView.as_view(), name='supplier_settings'),
     path('logistics/', LogisticsDashboardView.as_view(), name='logistics'),
     path('logistics/member', LogisticsUserDatabaseView.as_view(), name='member'),
     path('logistics/bp-encoding/', LogisticsBPEncodingView.as_view(), name='bp_encoding'),
@@ -121,8 +121,8 @@ urlpatterns = [
     path('get_order_details/', get_order_details, name='get_order_details'),
     path('shop/<int:referrer_id>/', RegisterGuestView.as_view(), name='register_guest'),
     path('logout/', DashboardLogoutView.as_view(), name='logout'),
-    
-    
+
+
 ]
 
 if settings.DEBUG:

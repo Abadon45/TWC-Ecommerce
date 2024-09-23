@@ -105,7 +105,7 @@ class IndexView(TemplateView):
         if new_guest_user:
             del request.session['new_guest_user']
 
-        if request.is_ajax():
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             return JsonResponse({
                 'has_existing_order': request.session.get('has_existing_order', False),
                 'email': guest_user_info.get('email'),
