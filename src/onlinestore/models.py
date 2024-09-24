@@ -82,3 +82,16 @@ def create_review_for_rating(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Rating)
 def update_product_aggregate_rating(sender, instance, **kwargs):
     instance.product.update_aggregate_rating()
+
+
+class Test(models.Model):
+    item_name = models.CharField(max_length=255)
+    number_1 = models.IntegerField()
+    number_2 = models.IntegerField()
+    total = models.IntegerField()
+
+    def __str__(self):
+        return "{total}".format(total=self.total)
+
+    def __unicode__(self):
+        return "{total}".format(total=self.total)

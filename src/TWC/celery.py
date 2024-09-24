@@ -4,7 +4,8 @@ from celery import Celery
 from celery.schedules import crontab
 
 # set the default Django setting module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'TWC.settings')
+ENVIRONMENT = os.getenv('DJANGO_ENV', 'local')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', f'TWC.settings.{ENVIRONMENT}')
 
 app = Celery('TWC')
 
@@ -18,23 +19,23 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
-    'add-every-minute-contrab': {
+    'add-every-minute-crontab': {
         'task': 'multiply_two_numbers',
-        'schedule': crontab(),
+        'schedule': crontab(minute='*'),
         'args': (16, 16),
     },
-    'add-every-5-seconds': {
-        'task': 'multiply_two_numbers',
-        'schedule': 5.0,
-        'args': (16, 16)
-    },
-    'add-every-30-seconds': {
-        'task': 'tasks.add',
-        'schedule': 30.0,
-        'args': (16, 16)
-    },
+    # 'add-every-30-seconds': {
+    #     'task': 'run_test_script',
+    #     'schedule': 30,
+    #     'args': (16, 16)
+    # },
+    # 'add-every-5-seconds': {
+    #     'task': 'sum_two_numbers',
+    #     'schedule': 5.0,
+    #     'args': (16, 16)
+    # },
     'add-every-1st-day-of-month': {
-        'task': 'tasks.add',
+        'task': 'run_test_script',
         'schedule': crontab(0, 0, day_of_month='1'),
         'args': (16, 16)
     },
