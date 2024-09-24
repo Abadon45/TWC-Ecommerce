@@ -1,0 +1,2 @@
+worker: celery -A TWC worker
+beat: celery -A TWC beat -S django
