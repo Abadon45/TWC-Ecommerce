@@ -4,6 +4,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'admin.twconline.store']
 
+# CELERY_BROKER_URL = 'redis://localhost:6379'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
 SESSION_COOKIE_DOMAIN = None
 CSRF_COOKIE_DOMAIN = None
 DASHBOARD_URL = 'http://dashboard.twconline.store:8000'
