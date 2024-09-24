@@ -53,7 +53,11 @@ class RedirectToWWW:
     def __call__(self, request):
         env = os.getenv('ENV', 'production')
         host = request.get_host()
-        if env == 'production' and host == 'twconline.store':
+
+        host_parts = host.split('.')
+
+        if env == 'production' and len(host_parts) == 2 and host == 'twconline.store':
             return HttpResponsePermanentRedirect(f'https://www.twconline.store{request.get_full_path()}')
+
         response = self.get_response(request)
         return response
