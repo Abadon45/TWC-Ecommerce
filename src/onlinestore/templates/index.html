@@ -16,7 +16,7 @@
                         <a href="{% url 'shop:shop' %}?category_id={{ category }}">
                             <div class="category-info index-category">
                                 <div class="icon">
-                                    {% with 'img/icon/categories/'|add:category|replace_underscore_to_dash|add:'.svg' as icon_path %}
+                                    {% with 'img/icon/categories/'|add:category|add:'.svg' as icon_path %}
                                         <img src="{% static icon_path %}" alt="{{ category }}">
                                     {% endwith %}
                                 </div>

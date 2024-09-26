@@ -41,7 +41,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="p-2">
                                         {#update this when theres api#}
-                                        <h4>ORDER NUMBER: {{ shop }}</h4>
+                                        <h4>ORDER NUMBER: {{ data.order_number }}</h4>
                                     </div>
                                     {% if user.is_authenticated %}
                                         <div class="view-order">
@@ -175,13 +175,13 @@
                                         <li>{{ current_date }}</li>
                                         <li>{{ address.phone }}</li>
                                         <li>Cash On Delivery</li>
-                                        <li>{{ total_payment|currency }}</li>
+                                        <li>{{ cart_total|currency }}</li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="bb mb-10 address-details">
                                 <p class="pb10">
-                                    Address:<br>
+                                    <b>Address:</b><br>
                                     {{ address.line1 }},
                                     {% if address.line2 %}
                                         {{ address.line2 }},
@@ -193,13 +193,20 @@
                                 </p>
                             </div>
                             <div class="estimated-delivery region-list">
-                                <p>Estimated Delivery</p>
-                                <ul>
-                                    <li>NCR: 2-3 Days</li>
-                                    <li>Luzon: 3-5 Days</li>
-                                    <li>Visayas: 5-7 Days</li>
-                                    <li>Mindanao: 7-10 Days</li>
-                                </ul>
+                                <p><b>Estimated Delivery:</b></p>
+                                <p>
+                                    Thank you for your order! We’re pleased to inform you that your delivery within
+                                    {% if detect_region == "ncr" %}
+                                        the National Capital Region (NCR) is estimated to arrive in 2 to 3 days.
+                                    {% elif detect_region == "luzon" %}
+                                        Luzon is estimated to arrive in 3 to 5 days.
+                                    {% elif detect_region == "visayas" %}
+                                        Visayas is estimated to arrive in 5 to 7 days.
+                                    {% elif detect_region == "mindanao" %}
+                                        Mindanao is estimated to arrive in 7 to 10 days.
+                                    {% endif %}
+                                    We appreciate your trust in us and are committed to ensuring your satisfaction!
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -215,27 +222,6 @@
     </div>
 {% endblock %}
 {% block extra_js %}
-    <script>
-        $(".view-order").click(function () {
-            var orderId = $(this).data("first-order-id");
-            console.log("Clicked View Order button. Order ID:", orderId);
-
-            $.ajax({
-                type: "POST",
-                url: '{% url "cart:set_order_id_session_variable" %}',
-                data: {
-                    order_id: orderId,
-                    csrfmiddlewaretoken: '{{ csrf_token }}',
-                },
-                success: function (response) {
-                    console.log("Session variable set successfully.");
-                },
-                error: function (xhr, errmsg, err) {
-                    console.error("Error setting session variable:", err);
-                }
-            });
-        });
-    </script>
     <script>
         $(document).ready(function () {
             var sponsor = "{{ sponsor }}";

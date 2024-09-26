@@ -132,7 +132,7 @@ $(document).ready(function () {
   $(".delete-address").click(function (e) {
     e.preventDefault();
     var addressId = $(this).data("address-id");
-    
+
     // Display SweetAlert confirmation dialog
     Swal.fire({
         icon: 'warning',
@@ -304,8 +304,7 @@ function deleteAddress(addressId) {
     $("#customer-name").text(newData.first_name + " " + newData.last_name);
     $("#customer-mobile").text("+" + newData.phone);
     $("#customer-address").text(newData.postcode + ", " + newData.barangay + ", " + newData.city + ", " + newData.province + ", " + newData.region + ", Philippines");
-  } 
-
+  }
 
   // Event listener for the "Save changes" button click
   $("#saveAddressChanges").click(function () {

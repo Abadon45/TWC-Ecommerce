@@ -215,17 +215,17 @@
                                             <li>Order Subtotal:
                                                 <span id="order-subtotal-{{ shop }}">{{ data.subtotal|currency }}</span>
                                             </li>
-                                            <li class="list-shipping">Shipping Fee: <span>To be calculated</span></li>
+                                            <li class="list-shipping">Shipping Fee: <span>{{ FIXED_SHIPPING_FEE|currency}}</span></li>
                                             <li class="shop-cart-total">Order Total: <span
                                                     id="order-total-{{ shop }}">
-                                                {{ data.subtotal|currency }}</span>
+                                                {{ data.total_amount|currency }}</span>
                                             </li>
                                         </ul>
                                     {% endfor %}
                                     <ul>
                                         <li class="shop-cart-total">
                                             <h4>Cart Total: <span
-                                                    class="total-amount total-with-discount">{{ total_cart_subtotal|currency }}</span>
+                                                    class="total-amount total-with-discount">{{ cart_total|currency }}</span>
                                             </h4>
                                         </li>
                                     </ul>

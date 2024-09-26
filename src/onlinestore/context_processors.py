@@ -60,6 +60,7 @@ def cart_items(request):
             else:
                 print(f"Error fetching product data for slug {product_slug}: HTTP {response.status_code}")
 
+
         return {
             'cart_items': cart_items,
             'order_products': ordered_items,

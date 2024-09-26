@@ -64,12 +64,12 @@ class IndexView(TemplateView):
         rand_top_rated_products = random.sample(products_list, min(len(products_list), 3)) if products_list else []
 
         subcategories_choices = [
-            ('health_wellness', 'Health & Wellness'),
-            ('healthy_beverages', 'Healthy Beverages'),
-            ('intimate_care', 'Intimate Care'),
-            ('bath_body', 'Bath & Body'),
-            ('watches', 'Watches'),
-            ('bags', 'Bags'),
+            ('sante-nutraceutical', 'Health & Wellness'),
+            ('sante-beverage', 'Healthy Beverages'),
+            ('sante-intimate_care', 'Intimate Care'),
+            ('bath-body', 'Bath & Body'),
+            ('mood', 'Watches'),
+            ('chingu', 'Bags'),
             ('accessories', 'Accessories'),
         ]
 
