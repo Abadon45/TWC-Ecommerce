@@ -1,6 +1,7 @@
 # ecommerce context_processors.py
 
 from django.contrib.auth import get_user_model
+from .models import SiteSetting
 
 import requests
 
@@ -26,6 +27,7 @@ def cart_items(request):
         cart_items = 0
         ordered_items = {}
         total_cart_subtotal = 0
+        FIXED_SHIPPING_FEE = SiteSetting.get_fixed_shipping_fee()
 
         # Iterate through the cart items
         for slug, item in cart.items():
@@ -65,6 +67,7 @@ def cart_items(request):
             'cart_items': cart_items,
             'order_products': ordered_items,
             'total_cart_subtotal': total_cart_subtotal,
+            'FIXED_SHIPPING_FEE': FIXED_SHIPPING_FEE
         }
 
     except Exception as e:

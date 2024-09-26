@@ -35,7 +35,6 @@ class CartView(TemplateView):
 
         # Retrieve ordered_items_by_shop and total_cart_subtotal from the session
         ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
-        FIXED_SHIPPING_FEE = SiteSetting.get_fixed_shipping_fee()
         cart_total = 0
 
         # Log the structure of each product's slug
@@ -49,7 +48,6 @@ class CartView(TemplateView):
         context.update({
             'title': self.title,
             'ordered_items_by_shop': ordered_items_by_shop,
-            'FIXED_SHIPPING_FEE': FIXED_SHIPPING_FEE,
             'cart_total': cart_total,
         })
 
@@ -251,14 +249,12 @@ class CheckoutView(FormView):
         context = super().get_context_data(**kwargs)
         orders = self.get_orders()
         referred_by = self.request.session.get('referrer')
-        FIXED_SHIPPING_FEE = SiteSetting.get_fixed_shipping_fee()
         cart_total = self.request.session['cart_total']
 
         print(f'Sponsor: {referred_by}')
         context.update({
             'orders': orders,
             'shipping_form': self.get_form(),
-            'FIXED_SHIPPING_FEE': FIXED_SHIPPING_FEE,
             'cart_total': cart_total,
             'referred_by': referred_by,
         })
@@ -344,6 +340,211 @@ class CheckoutView(FormView):
     def get_orders(self):
         ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
         return ordered_items_by_shop
+
+
+#########################
+# Set Order to Complete #
+#########################
+
+def submit_checkout(request):
+    request_token_url = 'https://dashboard.twcako.com/order/api/token/refresh/'
+    order_url = 'https://dashboard.twcako.com/order/api/create-order/'
+    refresh_token = settings.RESPONSE_TOKEN
+    token_data = {"refresh": refresh_token}
+    headers = {'Content-Type': 'application/json'}
+
+    token = requests.post(request_token_url, json=token_data, headers=headers)
+    response_data = token.json()
+    access_token = response_data.get('access')
+
+    # If the request method is POST, handle the form submission
+    if request.method == 'POST':
+        # Get the referrer's username from the POST data
+        ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
+        address_from_session = request.session.get('shipping_address', {})
+
+        # Prepare the payload with only the products and quantities
+
+        referrer_username = request.POST.get('username')
+
+        if referrer_username:
+            # API URL to check if the referrer username exists in the system
+            api_url = f'https://dashboard.twcako.com/account/api/check-username/{referrer_username}/'
+
+            try:
+                if referrer_username != 'admin':
+                    # Make an API request to validate the referrer username
+                    response = requests.get(api_url, verify=False)
+                    response.raise_for_status()  # Raise an error for bad HTTP status codes
+                    data = response.json()
+
+                    # Ensure the API response is a valid JSON object
+                    if not isinstance(data, dict):
+                        raise ValueError("API response is not a valid JSON object")
+
+                    # Check if the API response indicates success
+                    is_success = data.get('success')
+                    messenger_link = data.get('messenger_link')
+                    sponsor_mobile = data.get('mobile')
+                    order_complete = True
+                    request.session['order_complete'] = order_complete
+                    request.session['referrer'] = referrer_username
+                    request.session['messenger_link'] = messenger_link
+                    request.session['sponsor_mobile'] = sponsor_mobile
+                    request.session.modified = True
+
+                    # If the username doesn't exist, return an error response
+                    if not is_success:
+                        return JsonResponse({'success': False, 'error': 'Referrer username does not exist'}, status=400)
+
+            except requests.RequestException as e:
+                # Handle request exceptions (e.g., network issues, server errors)
+                print(f"Request failed: {e}")
+                return JsonResponse({'success': False, 'error': 'Failed to check referrer username'}, status=500)
+            except ValueError as e:
+                # Handle JSON parsing errors
+                print(f"Error parsing response: {e}")
+                return JsonResponse({'success': False, 'error': 'Invalid API response'}, status=500)
+
+        shipping_details = {
+            "first_name": address_from_session.get('first_name'),
+            "last_name": address_from_session.get('last_name'),
+            "mobile": address_from_session.get('phone'),
+            "address": address_from_session.get('line1'),
+            "barangay": address_from_session.get('barangay'),
+            "region": address_from_session.get('region'),
+            "city": address_from_session.get('city'),
+            "province": address_from_session.get('province'),
+            "country": 'Philippines',
+            "postal_code": address_from_session.get('postcode'),
+            "shipping_notes": address_from_session.get('message', "")}
+
+        for shop, shop_data in ordered_items_by_shop.items():
+            cart_items = []
+            for item in shop_data['items']:
+                cart_items.append({
+                    'sku': item['product']['id'],
+                    'qty': item['quantity'],
+                })
+
+            cod_amount = ordered_items_by_shop[shop]['total_amount']
+
+            const_data = {
+                "username": request.session['referrer'],
+                "shipping_details": shipping_details,
+                "order_details": {
+                    "cod_amount": cod_amount,
+                    "discount_price": 0,
+                    "payment_method": "cod",
+                },
+                "cart_items": cart_items,
+            }
+
+            print(f'const_data: {const_data}')
+
+            headers = {
+                'Authorization': f'Bearer {access_token}',
+                'Content-Type': 'application/json'
+            }
+
+            response = requests.post(order_url, json=const_data, headers=headers)
+
+            if response.status_code == 201:
+                print("Order created successfully:", response.json())
+                order_data = response.json()  # Get the order data from the response
+                order_number = order_data.get('order_number')
+                request.session['order_number'] = order_number
+                ordered_items_by_shop[shop]['order_number'] = order_number
+            else:
+                print("Error creating order:", response.status_code, response.text)
+
+        return redirect('cart:checkout_complete')
+
+    return redirect('cart:cart')
+
+
+#########################################################
+# ------------------checkout is done---------------------#
+#########################################################
+
+
+class CheckoutDoneView(TemplateView):
+    template_name = 'cart/shop-checkout-complete.html'
+    title = "Checkout Done"
+
+    def get(self, request, *args, **kwargs):
+        # Check if 'order_complete' exists in the session
+        order_complete = self.request.session.get('order_complete', False)
+
+        # Redirect to home if the order is not complete
+        if not order_complete:
+            return redirect("home_view")
+
+        # Otherwise, proceed with rendering the template
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        order_number = self.request.session['order_number']
+        total_payment = 0.0
+        total_quantity = 0
+        current_date = timezone.now().strftime('%b %d, %Y')
+
+        # Retrieve ordered_items_by_shop and total_cart_subtotal from the session
+        if 'ordered_items_by_shop' in self.request.session:
+            ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
+            orders = ordered_items_by_shop.copy()
+
+            self.request.session.pop('cart', None)
+            self.request.session.pop('ordered_items_by_shop', None)
+
+            self.request.session['orders'] = orders
+        else:
+            orders = self.request.session.get('orders', [])
+
+        checkout_details = self.request.session.get('updated_orders', {})
+        address_from_session = self.request.session.get('shipping_address', {})
+        sponsor_mobile = self.request.session.get('sponsor_mobile')
+
+        region_name = address_from_session.get('region', 'Unknown')
+        region_detected = detect_region(region_name)
+
+        print(f'region_detected: {region_detected}')
+        print(f'Referrer saved: {self.request.session.get("referrer")}')
+        print(f'Orders: {orders}')
+        print(f'Address: {address_from_session}')
+
+        for shop, shop_data in orders.items():
+            items = shop_data['items']
+            total_quantity = sum(item['quantity'] for item in items)
+            orders[shop]['total_quantity'] = total_quantity
+
+        # Update the context with data retrieved from the session
+        cart_total = self.request.session['cart_total']
+        context.update({
+            'title': self.title,
+            'sponsor_mobile': sponsor_mobile,
+            'orders': orders,
+            'checkout_details': checkout_details,
+            'address': address_from_session,
+            'total_payment': total_payment,
+            'current_date': current_date,
+            'sponsor': self.request.session.get('referrer', 'No referrer set'),
+            'cart_total': cart_total,
+            'detect_region': region_detected,
+        })
+
+        return context
+
+
+def set_order_id_session_variable(request):
+    if request.method == 'POST' and request.is_ajax():
+        order_id = request.POST.get('order_id')
+        request.session['clicked_order_id'] = order_id
+        print(f'Order ID: {order_id}')
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
 
 
 #########################################################
@@ -474,198 +675,3 @@ def get_checkout_address_details(request):
             return JsonResponse({'success': False, 'error': 'Address not found'})
     else:
         return JsonResponse({'success': False, 'error': 'Invalid request method'})
-
-
-#########################
-# Set Order to Complete #
-#########################
-
-def submit_checkout(request):
-    request_token_url = 'https://dashboard.twcako.com/order/api/token/refresh/'
-    order_url = 'https://dashboard.twcako.com/order/api/create-order/'
-    refresh_token = settings.RESPONSE_TOKEN
-    token_data = {"refresh": refresh_token}
-    headers = {'Content-Type': 'application/json'}
-
-    token = requests.post(request_token_url, json=token_data, headers=headers)
-    response_data = token.json()
-    access_token = response_data.get('access')
-
-    # If the request method is POST, handle the form submission
-    if request.method == 'POST':
-        # Get the referrer's username from the POST data
-        ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
-        address_from_session = request.session.get('shipping_address', {})
-
-        # Prepare the payload with only the products and quantities
-
-        referrer_username = request.POST.get('username')
-
-        if referrer_username:
-            # API URL to check if the referrer username exists in the system
-            api_url = f'https://dashboard.twcako.com/account/api/check-username/{referrer_username}/'
-
-            try:
-                if referrer_username != 'admin':
-                    # Make an API request to validate the referrer username
-                    response = requests.get(api_url, verify=False)
-                    response.raise_for_status()  # Raise an error for bad HTTP status codes
-                    data = response.json()
-
-                    # Ensure the API response is a valid JSON object
-                    if not isinstance(data, dict):
-                        raise ValueError("API response is not a valid JSON object")
-
-                    # Check if the API response indicates success
-                    is_success = data.get('success')
-                    messenger_link = data.get('messenger_link')
-                    order_complete = True
-                    request.session['order_complete'] = order_complete
-                    request.session['referrer'] = referrer_username
-                    request.session['messenger_link'] = messenger_link
-                    request.session.modified = True
-
-                    # If the username doesn't exist, return an error response
-                    if not is_success:
-                        return JsonResponse({'success': False, 'error': 'Referrer username does not exist'}, status=400)
-
-            except requests.RequestException as e:
-                # Handle request exceptions (e.g., network issues, server errors)
-                print(f"Request failed: {e}")
-                return JsonResponse({'success': False, 'error': 'Failed to check referrer username'}, status=500)
-            except ValueError as e:
-                # Handle JSON parsing errors
-                print(f"Error parsing response: {e}")
-                return JsonResponse({'success': False, 'error': 'Invalid API response'}, status=500)
-
-        shipping_details = {
-            "first_name": address_from_session.get('first_name'),
-            "last_name": address_from_session.get('last_name'),
-            "mobile": address_from_session.get('phone'),
-            "address": address_from_session.get('line1'),
-            "barangay": address_from_session.get('barangay'),
-            "region": address_from_session.get('region'),
-            "city": address_from_session.get('city'),
-            "province": address_from_session.get('province'),
-            "country": 'Philippines',
-            "postal_code": address_from_session.get('postcode'),
-            "shipping_notes": address_from_session.get('message', "")}
-
-        for shop, shop_data in ordered_items_by_shop.items():
-            cart_items = []
-            for item in shop_data['items']:
-                cart_items.append({
-                    'sku': item['product']['id'],
-                    'qty': item['quantity'],
-                })
-
-            cod_amount = ordered_items_by_shop[shop]['total_amount']
-
-            const_data = {
-                "username": request.session['referrer'],
-                "shipping_details": shipping_details,
-                "order_details": {
-                    "cod_amount": cod_amount,
-                    "discount_price": 0,
-                    "payment_method": "cod",
-                },
-                "cart_items": cart_items,
-            }
-
-            print(f'const_data: {const_data}')
-
-            headers = {
-                'Authorization': f'Bearer {access_token}',
-                'Content-Type': 'application/json'
-            }
-
-            response = requests.post(order_url, json=const_data, headers=headers)
-
-            if response.status_code == 201:
-                print("Order created successfully:", response.json())
-                order_data = response.json()  # Get the order data from the response
-                order_number = order_data.get('order_number')
-                request.session['order_number'] = order_number
-                ordered_items_by_shop[shop]['order_number'] = order_number
-            else:
-                print("Error creating order:", response.status_code, response.text)
-
-        return redirect('cart:checkout_complete')
-
-    return redirect('cart:cart')
-
-
-#########################################################
-# ------------------checkout is done---------------------#
-#########################################################
-
-
-class CheckoutDoneView(TemplateView):
-    template_name = 'cart/shop-checkout-complete.html'
-    title = "Checkout Done"
-
-    def get(self, request, *args, **kwargs):
-        # Check if 'order_complete' exists in the session
-        order_complete = self.request.session.get('order_complete', False)
-
-        # Redirect to home if the order is not complete
-        if not order_complete:
-            return redirect("home_view")
-
-        # Otherwise, proceed with rendering the template
-        return super().get(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        order_number = self.request.session['order_number']
-        total_payment = 0.0
-        current_date = timezone.now().strftime('%b %d, %Y')
-
-        # Retrieve ordered_items_by_shop and total_cart_subtotal from the session
-        if 'ordered_items_by_shop' in self.request.session:
-            ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
-            orders = ordered_items_by_shop.copy()
-
-            self.request.session.pop('cart', None)
-            self.request.session.pop('ordered_items_by_shop', None)
-
-            self.request.session['orders'] = orders
-        else:
-            orders = self.request.session.get('orders', [])
-
-        checkout_details = self.request.session.get('updated_orders', {})
-        address_from_session = self.request.session.get('shipping_address', {})
-
-        region_name = address_from_session.get('region', 'Unknown')
-        region_detected = detect_region(region_name)
-
-        print(f'region_detected: {region_detected}')
-        print(f'Referrer saved: {self.request.session.get("referrer")}')
-        print(f'Orders: {orders}')
-        print(f'Address: {address_from_session}')
-
-        # Update the context with data retrieved from the session
-        cart_total = self.request.session['cart_total']
-        context.update({
-            'title': self.title,
-            'orders': orders,
-            'checkout_details': checkout_details,
-            'address': address_from_session,
-            'total_payment': total_payment,
-            'current_date': current_date,
-            'sponsor': self.request.session.get('referrer', 'No referrer set'),
-            'cart_total': cart_total,
-            'detect_region': region_detected,
-        })
-
-        return context
-
-
-def set_order_id_session_variable(request):
-    if request.method == 'POST' and request.is_ajax():
-        order_id = request.POST.get('order_id')
-        request.session['clicked_order_id'] = order_id
-        print(f'Order ID: {order_id}')
-        return JsonResponse({'success': True})
-    return JsonResponse({'success': False})
