@@ -5819,3 +5819,95 @@ Traceback (most recent call last):
   File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 633, in get_context_data
     detect_region = detect_region(region_name)
 UnboundLocalError: local variable 'detect_region' referenced before assignment
+Internal Server Error: /cart/checkout/complete/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 612, in get
+    return super().get(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 226, in get
+    context = self.get_context_data(**kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 646, in get_context_data
+    quantity = shop_data['quantity']
+KeyError: 'quantity'
+Internal Server Error: /cart/checkout/complete/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 612, in get
+    return super().get(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 226, in get
+    context = self.get_context_data(**kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 647, in get_context_data
+    total_quantity += quantity
+TypeError: unsupported operand type(s) for +=: 'int' and 'NoneType'
+Internal Server Error: /cart/checkout/complete/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 510, in parse
+    compile_func = self.tags[command]
+KeyError: 'endblock'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/backends/django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 295, in do_extends
+    nodelist = parser.parse()
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 518, in parse
+    raise self.error(token, e)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/defaulttags.py", line 976, in do_if
+    nodelist = parser.parse(("endif",))
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 512, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 563, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 223: 'endblock', expected 'endif'. Did you forget to register or load this tag?

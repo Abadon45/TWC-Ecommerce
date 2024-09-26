@@ -18,7 +18,7 @@
                 <div class="card-body cart-summary text-center">
                     <h1>THANK YOU</h1>
                     <h3>YOUR ORDER HAS BEEN RECEIVED</h3>
-                    <p>For any concern, please feel free to contact us at +639565885998.</p>
+                    <p>For any concern, please feel free to contact us at {% if sponsor_mobile %}{{ sponsor_mobile }}{% else %}<a href="{{ referrer }}" target="_blank">THIS LINK</a>{% endif %}.</p>
 
                     {#                {% if not user.is_authenticated %}#}
                     {#                    <div class="card login-info">#}
@@ -95,7 +95,7 @@
                                         </tr>
                                         <tr class="shipping-row" style="text-align: left;">
                                             <th colspan="3">Shipping</th>
-                                            <th class="price-column">{{ data.shipping_fee|currency }}</th>
+                                            <th class="price-column">{{ FIXED_SHIPPING_FEE|currency }}</th>
                                         </tr>
                                         {% if order.discount %}
                                             <tr style="text-align: left;">
