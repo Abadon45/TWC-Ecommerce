@@ -396,7 +396,7 @@
                 Swal.fire({
                     icon: 'warning',
                     title: 'REQUIRED INFORMATION',
-                    text: 'To complete checkout, please input the USERNAME of your seller/referrer.',
+                    text: 'To complete checkout, please input the USERNAME of your sponsor.',
                     input: 'text',
                     inputPlaceholder: 'Enter username',
                     showCancelButton: true,
@@ -436,8 +436,20 @@
                     csrfmiddlewaretoken: csrf,
                 },
                 success: function (response) {
-                    $('#checkoutForm').submit();
+                    // Show the thank you alert
+                    Swal.fire({
+                        title: 'Thank You for Your Order!',
+                        text: 'Now completing checkout...',
+                        icon: 'success',
+                        didOpen: () => {
+                            Swal.showLoading(); // Show loading spinner
+                        }
+                    });
 
+                    // After a short delay, submit the form
+                    setTimeout(() => {
+                        $('#checkoutForm').submit();
+                    }, 2000); // Adjust the delay time as needed
                 },
                 error: function (xhr, status, error) {
                     console.error('Error saving referrer username:', error);
