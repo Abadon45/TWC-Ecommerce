@@ -5706,3 +5706,116 @@ Traceback (most recent call last):
   File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 290, in form_valid
     if self.request.is_ajax():
 AttributeError: 'WSGIRequest' object has no attribute 'is_ajax'
+Internal Server Error: /cart/submit-checkout/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 204, in _get_response
+    self.check_response(response, callback)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 332, in check_response
+    raise ValueError(
+ValueError: The view cart.views.submit_checkout didn't return an HttpResponse object. It returned None instead.
+Internal Server Error: /cart/submit-checkout/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 454, in submit_checkout
+    jwt_token = settings.jwt_token
+AttributeError: 'dict' object has no attribute 'jwt_token'
+Internal Server Error: /cart/submit-checkout/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 561, in submit_checkout
+    'Authorization': f'Bearer {jwt_token}',
+NameError: name 'jwt_token' is not defined
+Internal Server Error: /cart/submit-checkout/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 561, in submit_checkout
+    'Authorization': f'Bearer {jwt_token}',
+NameError: name 'jwt_token' is not defined
+Internal Server Error: /cart/submit-checkout/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 563, in submit_checkout
+    'Authorization': f'Bearer {jwt_token}',
+NameError: name 'jwt_token' is not defined
+Internal Server Error: /cart/update-item/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 196, in get
+    cart, message, ordered_items_by_shop, max_order_exceeded = self.update_cart(request, product_slug, action,
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 144, in update_cart
+    ordered_items_by_shop = self._rebuild_ordered_items_by_shop(cart)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 177, in _rebuild_ordered_items_by_shop
+    total_amount = subtotal + Decimal(FIXED_SHIPPING_FEE)
+TypeError: unsupported operand type(s) for +: 'float' and 'decimal.Decimal'
+Internal Server Error: /cart/update-item/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 196, in get
+    cart, message, ordered_items_by_shop, max_order_exceeded = self.update_cart(request, product_slug, action,
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 144, in update_cart
+    ordered_items_by_shop = self._rebuild_ordered_items_by_shop(cart)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 177, in _rebuild_ordered_items_by_shop
+    total_amount = subtotal + FIXED_SHIPPING_FEE
+TypeError: unsupported operand type(s) for +: 'float' and 'decimal.Decimal'
+Internal Server Error: /cart/update-item/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 196, in get
+    cart, message, ordered_items_by_shop, max_order_exceeded = self.update_cart(request, product_slug, action,
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 144, in update_cart
+    ordered_items_by_shop = self._rebuild_ordered_items_by_shop(cart)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 177, in _rebuild_ordered_items_by_shop
+    total_amount = subtotal + FIXED_SHIPPING_FEE
+TypeError: unsupported operand type(s) for +: 'float' and 'decimal.Decimal'
+Internal Server Error: /cart/checkout/complete/
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 608, in get
+    return super().get(request, *args, **kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/views/generic/base.py", line 226, in get
+    context = self.get_context_data(**kwargs)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/cart/views.py", line 633, in get_context_data
+    detect_region = detect_region(region_name)
+UnboundLocalError: local variable 'detect_region' referenced before assignment

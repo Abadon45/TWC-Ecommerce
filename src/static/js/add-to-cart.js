@@ -176,7 +176,7 @@ $(document).ready(function () {
                         $('.input-' + productId).val(productData.quantity)
                         $('.product-subtotal-' + productId).text("₱" + productData.get_total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','))
                         $('#order-subtotal-' + shop).text("₱" + shop_cart[shop].subtotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','))
-                        $('#order-total-' + shop).text("₱" + shop_cart[shop].subtotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','))
+                        $('#order-total-' + shop).text("₱" + shop_cart[shop].total_amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','))
                         $('.total-amount').text("₱" + orderTotal)
                     }
 
