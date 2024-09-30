@@ -178,12 +178,12 @@ class ShopDetailView(TemplateView):
     template_name = "shop/shop-single.html"
     context_object_name = 'product'
 
-    # def get(self, request, slug=None, username=None, *args, **kwargs):
-    #     if username:
-    #         return check_sponsor_and_redirect(request, username, 'shop:single', slug=slug)
-    #
-    #         # If username is not provided, proceed with the normal GET handling
-    #     return super().get(request, slug=slug, *args, **kwargs)
+    def get(self, request, slug=None, username=None, *args, **kwargs):
+        if username:
+            return check_sponsor_and_redirect(request, username, 'shop:single', slug=slug)
+
+            # If username is not provided, proceed with the normal GET handling
+        return super().get(request, slug=slug, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
