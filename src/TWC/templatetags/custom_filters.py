@@ -14,6 +14,10 @@ def replace_underscore_to_space(value):
 def replace_underscore_to_space(value):
     return value.replace("_", "-")
 
+@register.filter(name='replace_dash_to_space')
+def replace_underscore_to_space(value):
+    return value.replace("-", " ")
+
 @register.filter
 def to(value, end):
     return range(value, end)
@@ -31,7 +35,7 @@ def round_rating(value):
     
 @register.filter
 def get_item(dictionary, key):
-    return dictionary.get(key)
+    return dictionary.get(key, 0)
 
 @register.filter
 def increase_by_10_percent(value):

@@ -1,12 +1,11 @@
 from django.conf import settings
 from django.core.validators import RegexValidator, validate_email
 from django.apps import apps
-from django.urls import reverse
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.core.exceptions import ImproperlyConfigured
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 from TWC.utils import upload_image_path
 
@@ -50,7 +49,7 @@ class UserManager(BaseUserManager):
             is_admin=True
         )
         return user
-    
+
     def normalize_email(self, email):
         """
         Normalize the email by lowercasing the domain part of it
@@ -73,9 +72,10 @@ class User(AbstractBaseUser):
 
     date_activated  = models.DateTimeField(verbose_name='Date Activated', blank=True, null=True)
     expiration_date = models.DateTimeField(verbose_name='Expiration Date', null=True, blank=True)
-    
+
     affiliate_code  = models.CharField(max_length=8, blank=True, editable=False)
     referred_by     = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='referrals')
+    sponsor         = models.CharField(verbose_name='Sponsor', max_length=150, blank=True, null=True)
 
     is_seller       = models.BooleanField(default=False)
     is_member       = models.BooleanField(default=False)
@@ -89,38 +89,38 @@ class User(AbstractBaseUser):
 
     timestamp       = models.DateTimeField(auto_now_add=True)
     updated         = models.DateTimeField(auto_now=True)
-    
+
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
-    
+
     objects = UserManager()
-    
+
     def __str__(self):
         return self.username if self.username else 'No username'
-    
+
     def save(self, *args, **kwargs):
         if not self.affiliate_code:
             self.affiliate_code = str(uuid.uuid4())[:8]
         super().save(*args, **kwargs)
-      
+
     def has_perm(self, perm, obj=None):
         return True
-    
+
     def has_module_perms(self, app_label):
         if app_label == 'account':
             return self.is_admin
         else:
             return True
-    
+
     def clean(self):
         if self.email is not None:
             User = get_user_model()
             self.email = User.objects.normalize_email(self.email)
-        return super().clean()    
+        return super().clean()
 
     def generate_affiliate_link(self):
         return f'{settings.MAIN_SITE_URL}/{self.username}'
-        
+
     def get_referred_customers(self):
         try:
             Customer = apps.get_model('billing', 'Customer')
@@ -142,8 +142,8 @@ class User(AbstractBaseUser):
 
     def get_referred_customers_with_completed_orders(self):
         return self.get_referred_customers().filter(order__complete=True)
-    
-    
+
+
 class Referral(models.Model):
     referrer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='referrals_made')
     referred = models.ForeignKey(User, on_delete=models.CASCADE, related_name='referrals_received')

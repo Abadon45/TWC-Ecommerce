@@ -1,6 +1,4 @@
 from django.http import HttpResponseRedirect
-from djang.core.urlresolvers import reverse
-from django.urls import reverse as host_reverse
 from django.conf import settings
 
 def www_root_redirect(request, path=None):

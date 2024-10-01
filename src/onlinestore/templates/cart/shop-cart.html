@@ -1,0 +1,261 @@
+{% extends "base-shop.html" %}
+{% load static %}
+{% load cart_filters %}
+{% load currency_filters %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+    <!-- shop cart -->
+    <div class="shop-cart py-100 cart-page mobile-width">
+        <div class="container">
+            <div class="shop-cart-wrap">
+                <div class="row">
+                    <div class="col-sm-8 table-col">
+                        {% for shop, data in ordered_items_by_shop.items %}
+                            <div id="order-card-{{ shop }}" class="card mb-20">
+                                <div class="card index-card">
+                                    <div class="card-header p20">
+                                        <h4><i class="fa-solid fa-shop"></i> Shop:
+                                            {% if shop == "sante" %}
+                                                Sante International
+                                            {% endif %}
+                                            {% if shop == "mood" %}
+                                                Mood Timepieces
+                                            {% endif %}
+                                            {% if shop == "chingu" %}
+                                                Chingu
+                                            {% endif %}
+                                        </h4>
+                                    </div>
+                                    <div class="card-body table-body">
+                                        <div class="table-responsive mobile-hidden">
+                                            <table class="table cart-table" id="product-table-{{ shop }}">
+                                                <thead class="cart-head" style="border-style: unset;">
+                                                <tr style="border-style: unset;">
+                                                    <th></th>
+                                                    <th class="product-head">Product</th>
+                                                    <th>Unit Price</th>
+                                                    <th>Quantity</th>
+                                                    <th>Subtotal</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="cart-body">
+                                                {% for item in data.items %}
+                                                    <tr class="cart-product" id="product-row-{{ item.product.slug }}">
+                                                        <td class="image-column" style="width: 15%;">
+                                                            <div class="shop-cart-img">
+                                                                <a href="{% url 'shop:single' slug=item.product.slug %}">
+                                                                    {% if item.product.image %}
+                                                                        <img src="{{ item.product.image }}"
+                                                                             alt="{{ item.product.name }}">
+                                                                    {% else %}
+                                                                        No image
+                                                                    {% endif %}
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                        <td class="product-name-column" style="width: 35%;">
+                                                            <div class="shop-cart-content">
+                                                                <h5 class="shop-cart-name"><a
+                                                                        href="{% url 'shop:single' slug=item.product.slug %}"><span
+                                                                        class="product-name-{{ item.product.sku }}">{{ item.product.name }}</span></a>
+                                                                </h5>
+                                                                <div class="shop-cart-info">
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td style="width: 15%;">
+                                                            <div class="shop-cart-price">
+                                                        <span class="product-price-{{ item.product.sku }}">
+                                                            {{ item.product.price|currency }}
+                                                        </span>
+                                                            </div>
+                                                        </td>
+                                                        <td style="width: 15%;">
+                                                            <div class="shop-cart-qty">
+                                                                <button data-shop="{{ shop }}"
+                                                                        data-product="{{ item.product.slug }}"
+                                                                        data-action="minus"
+                                                                        class="update-cart excludeDisable minus-btn"
+                                                                        {% if item.quantity == 1 %}disabled{% endif %}><i
+                                                                        class="fal fa-minus"></i>
+
+                                                                </button>
+                                                                <label>
+                                                                    <input class="quantity input-{{ item.product.slug }}"
+                                                                           type="text" value="{{ item.quantity }}"
+                                                                           disabled="">
+                                                                </label>
+                                                                <button data-shop="{{ shop }}"
+                                                                        data-product="{{ item.product.slug }}"
+                                                                        data-action="add"
+                                                                        class="update-cart excludeDisable plus-btn"><i
+                                                                        class="fal fa-plus"></i></button>
+                                                            </div>
+                                                        </td>
+                                                        <td style="width: 15%;">
+                                                            <div class="shop-cart-subtotal">
+                                                        <span class="product-subtotal product-subtotal-{{ item.product.slug }}">{{ item.get_total|currency }}
+                                                        </span>
+                                                            </div>
+                                                        </td>
+                                                        <td style="width: 5%;">
+                                                            <a href="#" data-tooltip="tooltip" title="Remove Item"
+                                                               data-product="{{ item.product.slug }}"
+                                                               data-order-id="{{ shop }}" data-action="remove"
+                                                               class="update-cart shop-cart-remove">
+                                                                <i class="far fa-times font-color-gray"
+                                                                   style="color: var(--color-gray2); border: var(--color-gray2);"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="mobile-only cart-items">
+                                            {% for item in data.items %}
+                                                <div class="mobile-product"
+                                                     id="product-row-mobile-{{ item.product.slug }}">
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <div class="shop-cart-img">
+                                                                <a href="{% url 'shop:single' slug=item.product.slug %}">
+                                                                    {% if item.product.image %}
+                                                                        <img src="{{ item.product.image }}"
+                                                                             alt="{{ item.product.name }}">
+                                                                    {% else %}
+                                                                        No image
+                                                                    {% endif %}
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="shop-cart-product-info">
+                                                            <h6>Product</h6>
+                                                            <h5 class="shop-cart-name">
+                                                                <a href="{% url 'shop:single' slug=item.product.slug %}"><span
+                                                                        class="product-name-{{ item.product.slug }}">{{ item.product.name }}</span>
+                                                                </a>
+                                                            </h5>
+                                                            <h6>Unit Price</h6>
+                                                            <span class="product-price-{{ item.product.slug }}">
+                                                    {{ item.product.price|currency }}
+                                                </span>
+                                                            <div class="shop-cart-qty">
+                                                                <button data-shop="{{ shop }}"
+                                                                        data-product="{{ item.product.slug }}"
+                                                                        data-action="minus"
+                                                                        class="update-cart excludeDisable minus-btn"
+                                                                        {% if item.quantity == 1 %}disabled{% endif %}><i
+                                                                        class="fal fa-minus"></i>
+
+                                                                </button>
+                                                                <label>
+                                                                    <input class="quantity input-{{ item.product.slug }}"
+                                                                           type="text" value="{{ item.quantity }}"
+                                                                           disabled="">
+                                                                </label>
+                                                                <button data-shop="{{ shop }}"
+                                                                        data-product="{{ item.product.slug }}"
+                                                                        data-action="add"
+                                                                        class="update-cart excludeDisable plus-btn"><i
+                                                                        class="fal fa-plus"></i></button>
+                                                            </div>
+                                                            <h6>Subtotal</h6>
+                                                            <div class="shop-cart-subtotal">
+                                                    <span class="product-subtotal product-subtotal-{{ item.product.slug }}">
+                                                        {{ item.get_total|currency }}
+                                                    </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="remove-product">
+                                                            <a href="#" data-tooltip="tooltip" title="Remove Item"
+                                                               data-product="{{ item.product.slug }}"
+                                                               data-order-id="{{ shop }}" data-action="remove"
+                                                               class="update-cart shop-cart-remove">
+                                                                <i class="far fa-times font-color-gray"
+                                                                   style="color: var(--color-gray2); border: var(--color-gray2);"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-sm-4 summary-col">
+                        <div class="shop-cart-summary" style="padding: 0;">
+                            <div class="card index-card">
+                                <div class="card-header p20">
+                                    <h3>CART SUMMARY</h3>
+                                </div>
+                                <div class="card-body summary-body">
+                                    {% for shop, data in ordered_items_by_shop.items %}
+                                        <ul class="bordered-bottom {% if not forloop.last %} mb-20 {% endif %}">
+                                            <li>
+                                                <h6>
+                                                    Shop:
+                                                    {% if shop == "sante" %}
+                                                        Sante International
+                                                    {% endif %}
+                                                    {% if shop == "mood" %}
+                                                        Mood Timepieces
+                                                    {% endif %}
+                                                    {% if shop == "chingu" %}
+                                                        Chingu
+                                                    {% endif %}
+                                                </h6>
+                                            </li>
+                                            <li>Order Subtotal:
+                                                <span id="order-subtotal-{{ shop }}">{{ data.subtotal|currency }}</span>
+                                            </li>
+                                            <li class="list-shipping">Shipping Fee: <span>{{ FIXED_SHIPPING_FEE|currency}}</span></li>
+                                            <li class="shop-cart-total">Order Total: <span
+                                                    id="order-total-{{ shop }}">
+                                                {{ data.total_amount|currency }}</span>
+                                            </li>
+                                        </ul>
+                                    {% endfor %}
+                                    <ul>
+                                        <li class="shop-cart-total">
+                                            <h4>Cart Total: <span
+                                                    class="total-amount total-with-discount">{{ cart_total|currency }}</span>
+                                            </h4>
+                                        </li>
+                                    </ul>
+
+                                    <div class="checkout-btn mt-20">
+                                        <a href="{% url 'cart:checkout' %}" class="btn theme-btn"
+                                           style="position: static;">CHECKOUT NOW</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mt-20 continue-shopping">
+                        <a href="{% url 'shop:shop' %}" type="button" class="theme-btn theme-btn2">CONTINUE SHOPPING</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- shop cart end -->
+
+
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/save-scroll-position.js' %}"></script>
+    <script>
+    var cartCount = parseInt($("#upper-cart-count").text());
+
+    if (cartCount === 0) {
+        window.location.href = "{% url 'shop:shop' %}";
+    }
+    </script>
+{% endblock %}
