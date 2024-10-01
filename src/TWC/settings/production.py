@@ -9,7 +9,7 @@ ALLOWED_HOSTS = [
     '172.104.32.135',
     '.twconline.store',
     'www.twconline.store',
-    'test.twconline.store',
+    'www.twcstoredevtest.com',
 ]
 
 DASHBOARD_URL = 'https://dashboard.twconline.store'
