@@ -16,4 +16,9 @@ google_api.json
 server.crt
 server.csr
 server.keysrc/login/log/
+<<<<<<< HEAD
 .idea
+=======
+
+TWC/logs
+>>>>>>> main

@@ -2,7 +2,7 @@ from django.contrib.admin.sites import AdminSite
 from django.views.generic import FormView
 from django.core.mail import send_mail
 from django.shortcuts import redirect
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.http import HttpResponse
 from user.forms import EmailForm
 from django.conf import settings

@@ -1,0 +1,468 @@
+{% extends "base-shop.html" %}
+{% load static %}
+{% load currency_filters %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+    <div class="shop-checkout2 twc-checkout py-100 mobile-width">
+        <div class="container">
+            <div class="shop-checkout-wrap">
+                <div class="row">
+                    {% if not default_address %}
+                        <div class="col-sm-7 col-md-8 mb-20">
+                            <div class="shop-checkout-step">
+                                <nav class="nav checkout-step-list nav-pills nav-justified mb-3" id="shopCheckout"
+                                     role="tablist">
+                                    <a href="#" class="nav-link active done" id="step1-tab" data-bs-toggle="pill"
+                                       data-bs-target="#step1" type="button" role="tab" aria-controls="step1"
+                                       aria-selected="true">
+                                        <span class="step-count">1</span>
+                                        SHIPPING ADDRESS
+                                    </a>
+                                    <a href="#" class="nav-link" id="step2-tab" data-bs-toggle="pill"
+                                       data-bs-target="#step2"
+                                       type="button" role="tab" aria-controls="step2" aria-selected="false">
+                                        <span class="step-count">2</span>
+                                        PAYMENT
+                                    </a>
+                                </nav>
+                                <div class="tab-content" id="pills-tabContent">
+                                    <div class="tab-pane fade show active" id="step1" role="tabpanel"
+                                         aria-labelledby="step1-tab" tabindex="0">
+                                        <div class="shop-checkout-form">
+                                            {% include 'cart/address-form.html' %}
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="step2" role="tabpanel" aria-labelledby="step2-tab"
+                                         tabindex="0">
+                                        <div class="shop-checkout-payment">
+                                            <div class="tab-content" id="pills-tabContent">
+                                                <div class="tab-pane fade show active" id="pills-1" role="tabpanel"
+                                                     aria-labelledby="pills-tab-1" tabindex="0">
+                                                    <div class="shop-checkout-form cod">
+                                                        <form action="#">
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <div class="form-check">
+                                                                        <label class="form-check-label" for="cod">
+                                                                            Cash On Delivery
+                                                                            <span>Please read our <a
+                                                                                    href="{% url 'terms' %}">Terms And
+                                                                            Conditions</a> for cash on delivery.</span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="pills-2" role="tabpanel"
+                                                     aria-labelledby="pills-tab-2" tabindex="0">
+                                                    <div class="shop-checkout-form">
+                                                        <form action="#">
+                                                            <div class="row">
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group">
+                                                                        <label>Card Holder Name</label>
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="Name On Card">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group">
+                                                                        <label>Card Number</label>
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="Your Card Number">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group">
+                                                                        <label>Expire Date</label>
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="Expire">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group">
+                                                                        <label>CCV</label>
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="CVV">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <button type="button"
+                                                                            class="theme-btn confirmPaymentBtn">Pay
+                                                                        Now<i
+                                                                                class="fas fa-arrow-right"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="pills-3" role="tabpanel"
+                                                     aria-labelledby="pills-tab-3" tabindex="0">
+                                                    <div class="shop-checkout-form">
+                                                        <form action="#">
+                                                            <div class="row">
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group">
+                                                                        <label>Ful Name</label>
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group">
+                                                                        <label>Phone Number</label>
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="Phone Number">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-8">
+                                                                    <div class="form-group">
+                                                                        <label>Reference Number</label>
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="Reference Number">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <button type="button"
+                                                                            class="theme-btn confirmPaymentBtn">Submit<i
+                                                                            class="fas fa-arrow-right"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5 col-md-4">
+                            <div class="shop-cart-summary mt-lg-0">
+                                <div class="card index-card">
+                                    <div class="card-header">
+                                        <h3>CART SUMMARY</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        {% for shop, data in orders.items %}
+                                            <ul class="bordered-bottom {% if not forloop.last %} mb-20 {% endif %}">
+                                                <li>
+                                                    <h6>
+                                                        Shop:
+                                                        {% if shop == "sante" %}
+                                                            Sante International
+                                                        {% endif %}
+                                                        {% if shop == "mood" %}
+                                                            Mood Timepieces
+                                                        {% endif %}
+                                                        {% if shop == "chingu" %}
+                                                            Chingu
+                                                        {% endif %}
+                                                    </h6>
+                                                </li>
+                                                <li>
+                                                    <div class="shop-cart-coupon">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control"
+                                                                   placeholder="Your Coupon Code">
+                                                            <button class="theme-btn custom-btn-1" type="submit">APPLY
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                </li>
+                                                <li>Order Sub Total: <span>{{ data.subtotal|currency }}</span>
+                                                </li>
+                                                {% if order.discount %}
+                                                    <li class="list-discount">Discount:
+                                                        <span>{{ data.discount|currency }}</span></li>
+                                                {% else %}
+                                                    <li class="list-discount">Discount: <span>No discount applied</span>
+                                                    </li>
+                                                {% endif %}
+                                                <li id="shipping_fee_{{ shop }}" class="pb15">
+                                                    Shipping fee:
+                                                    <span>
+                                                        {% if FIXED_SHIPPING_FEE == 0 %}
+                                                            Calculated at next step
+                                                        {% else %}
+                                                            {{ FIXED_SHIPPING_FEE|currency }}
+                                                        {% endif %}
+                                                    </span>
+                                                </li>
+                                                <li class="shop-cart-total"><strong>Order Total:</strong>
+                                                    <span id="order-total-{{ shop }}">{{ data.total_amount|currency }}</span>
+                                                </li>
+                                            </ul>
+                                        {% endfor %}
+                                        <h4 class="cart-total mt-3">
+                                            <strong>
+                                                <span class="cart-label">Cart Total:</span>
+                                                <span class="cart-value"
+                                                      id="total-payment">{{ cart_total|currency }}</span>
+                                            </strong>
+                                        </h4>
+                                        <div class="text-end mt-40 checkoutBtn">
+                                            <form id="checkoutForm" class="form" method="POST"
+                                                  action="{% url 'cart:submit_checkout' %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="theme-btn checkout-btn"
+                                                        data-referrer-id="{{ referred_by }}"
+                                                        data-username="{{ current_user }}"
+                                                        onclick="checkoutBtn(event)" hidden>CHECKOUT NOW
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if is_authenticated %}
+                        {% if default_address %}
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="address-area">
+
+                                            <h6 class="mb-2">Delivery Address</h6>
+
+                                            <p class="selected_address">{{ default_address.first_name }}
+                                                {{ default_address.last_name }}
+                                                {{ default_address.phone }}</p>
+                                            <div class="change-address row mb-20">
+                                                <div class="col-md-10 col-10">
+                                                    <p class="address_details">{{ default_address.line1 }} Brgy.
+                                                        {{ default_address.barangay }},
+                                                        {{ default_address.city }}, {{ default_address.province }},
+                                                        {{ default_address.postcode }} </p>
+                                                </div>
+                                                <div class="col-2 d-flex justify-content-end">
+                                                    <span class="is_default">Default</span>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-1">
+                                                        <button type="button" class="change-address-btn">Change</button>
+                                                    </div>
+                                                </div>
+                                                {% include 'cart/change-address-modal.html' %}
+                                                {% include 'cart/add-address-modal.html' %}
+                                                {% include 'cart/edit-address-modal.html' %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="shop-cart-summary payment-area" style="margin-left: 0!important;">
+                                            <h5>Mode of Payment</h5>
+                                            <label class="form-check-label" for="cod">
+                                                <h6>Cash On Delivery</h6>
+                                                <p>Please read our <a href="{% url 'terms' %}">Terms And
+                                                    Conditions</a> for cash on delivery.</p>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mt-20 continue-shopping mobile-hidden">
+                                        <a href="{% url 'shop:shop' %}" type="button" class="theme-btn theme-btn2">CONTINUE
+                                            SHOPPING</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="shop-cart-summary user-logged" style="margin-left: 0!important;">
+                                    <div class="card index-card">
+                                        <div class="card-header">
+                                            <h3>CART SUMMARY</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            {% for order in orders %}
+                                                <ul class="bordered-bottom {% if not forloop.last %} mb-20 {% endif %}">
+                                                    <li>
+                                                        <h6>
+                                                            Shop:
+                                                            {% if order.supplier == "sante" %}
+                                                                Sante International
+                                                            {% endif %}
+                                                            {% if order.supplier == "mood" %}
+                                                                Mood Timepieces
+                                                            {% endif %}
+                                                            {% if order.supplier == "chingu" %}
+                                                                Chingu
+                                                            {% endif %}
+                                                            {% if order.supplier == None %}
+                                                                Promo Bundle
+                                                            {% endif %}
+                                                        </h6>
+                                                    </li>
+                                                    <li>
+                                                        <div class="shop-cart-coupon">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Your Coupon Code">
+                                                                <button class="theme-btn custom-btn-1" type="submit">
+                                                                    APPLY
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>Order: <span>{{ order.order_id }}</span></li>
+                                                    <li>Order Sub Total:
+                                                        <span id="order-subtotal-{{ order.order_id }}">{{ order.subtotal|currency }}</span>
+                                                    </li>
+                                                    {% if order.discount %}
+                                                        <li class="list-discount">Discount:
+                                                            <span>{{ order.discount|currency }}</span></li>
+                                                    {% else %}
+                                                        <li class="list-discount">Discount:
+                                                            <span>No discount applied</span></li>
+                                                    {% endif %}
+                                                    <li class="list-shipping">Shipping Fee:
+                                                        <span>{{ order.shipping_fee|currency }}</span></li>
+                                                    <li class="shop-cart-total">Order Total: <span
+                                                            id="order-total-{{ order.order_id }}">
+                                                    {% if order.cod_amount %}
+                                                        {{ order.cod_amount|currency }}
+                                                    {% else %}
+                                                        {{ order.subtotal|currency }}
+                                                    {% endif %}
+                                                </span></li>
+                                                </ul>
+                                            {% endfor %}
+                                            <h4 class=" cart-total mt-3 py20">
+                                                <strong>
+                                                    <span class="cart-label">Cart Total:</span>
+                                                    <span class="cart-value"
+                                                          id="total-payment">{{ total_payment|currency }}</span>
+                                                </strong>
+                                            </h4>
+                                            <div class="col-lg-12 shop-checkout-form mt-20"
+                                                 style="padding: 0!important; border: none!important; ">
+                                                <form id="checkoutForm" class="form" method="POST"
+                                                      action="{% url 'cart:submit_checkout' %}">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="theme-btn checkout-btn"
+                                                            data-referrer-id="{{ referred_by }}"
+                                                            data-username="{{ current_user }}"
+                                                            onclick="checkoutBtn(event)">CHECKOUT NOW
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mt-20 continue-shopping mobile-only">
+                                        <a href="{% url 'shop:shop' %}" type="button" class="theme-btn theme-btn2">CONTINUE
+                                            SHOPPING</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                    {% if not is_authenticated or not default_address %}
+                        <div class="mobile-only">
+                            <div class="d-flex justify-content-between align-items-center dummy-submit">
+                                <a href="{% url 'cart:cart' %}" type="button" class="theme-btn">CONTINUE SHOPPING</a>
+                                <input type="hidden" name="submit_type" value="shipping">
+                                <button type="button" class="theme-btn" onclick="submitForm()">NEXT STEP</button>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block extra_js %}
+    <script>
+        // dummy button for submitting form
+        function submitForm() {
+            $('#addUserData').click();
+        }
+
+        $('.dummy-submit button').click(submitForm);
+
+        function checkoutBtn(event) {
+            event.preventDefault();
+            var referrerId = $(event.currentTarget).data('referrer-id');
+            var userData = $(event.currentTarget).data('username');
+
+            if (referrerId === "None" || referrerId === '') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'REQUIRED INFORMATION',
+                    text: 'To complete checkout, please input the USERNAME of your sponsor.',
+                    input: 'text',
+                    inputPlaceholder: 'Enter username',
+                    showCancelButton: true,
+                    confirmButtonText: 'Submit',
+                    cancelButtonText: 'Cancel',
+                    preConfirm: (username) => {
+                        if (!username) {
+                            Swal.showValidationMessage('Username is required!');
+                        } else if (username.toLowerCase() === 'None') {
+                            Swal.showValidationMessage('Username is required!');
+                        } else if (username.toLowerCase() === userData.toLowerCase()) {
+                            Swal.showValidationMessage('You cannot refer yourself!');
+                        } else if (username.toLowerCase() === 'admin') {
+                            Swal.showValidationMessage('You cannot use this username!');
+                        } else {
+                            return username;
+                        }
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var username = result.value;
+                        saveReferrerUsername(username);
+                    }
+                });
+            } else {
+                var username = referrerId;
+                saveReferrerUsername(username);
+            }
+        }
+
+        function saveReferrerUsername(username) {
+            $.ajax({
+                url: '{% url "cart:submit_checkout" %}',
+                method: 'POST',
+                data: {
+                    username: username,
+                    csrfmiddlewaretoken: csrf,
+                },
+                success: function (response) {
+                    // Show the thank you alert
+                    Swal.fire({
+                        title: 'Thank You for Your Order!',
+                        text: 'Now completing checkout...',
+                        icon: 'success',
+                        didOpen: () => {
+                            Swal.showLoading(); // Show loading spinner
+                        }
+                    });
+
+                    // After a short delay, submit the form
+                    setTimeout(() => {
+                        $('#checkoutForm').submit();
+                    }, 2000); // Adjust the delay time as needed
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error saving referrer username:', error);
+                    var responseData = JSON.parse(xhr.responseText);
+                    var errorMessage = responseData.error;
+                    Swal.fire({
+                        title: 'Error',
+                        text: errorMessage,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+        }
+    </script>
+{% endblock %}

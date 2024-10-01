@@ -30,8 +30,8 @@
 2. Prevent adjustments of font size after orientation changes in iOS.
 3. Use a more readable tab size.
 4. Use the user's configured `sans` font-family by default.
-5. Use the user's configured `sans` font-feature-settings by default.
-6. Use the user's configured `sans` font-variation-settings by default.
+5. Use the user's configured `sans` font-feature-setting by default.
+6. Use the user's configured `sans` font-variation-setting by default.
 7. Disable tap highlights on iOS
 */
 
@@ -126,8 +126,8 @@ strong {
 
 /*
 1. Use the user's configured `mono` font-family by default.
-2. Use the user's configured `mono` font-feature-settings by default.
-3. Use the user's configured `mono` font-variation-settings by default.
+2. Use the user's configured `mono` font-feature-setting by default.
+3. Use the user's configured `mono` font-variation-setting by default.
 4. Correct the odd `em` font sizing in all browsers.
 */
 

@@ -1,0 +1,18 @@
+.swal2-html-container {
+    overflow-x: hidden!important;
+}
+
+.input-group {
+    height: 50px;
+    margin-bottom: 8px;
+    label {
+        width: 92px;
+    }
+    button {
+        height: 50px;
+    }
+}
+
+.iti {
+    width: 100%!important;
+}

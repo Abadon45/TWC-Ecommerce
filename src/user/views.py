@@ -1,34 +1,110 @@
-from django.views.generic import View, TemplateView
-from django.contrib.auth.views import LogoutView
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth import get_user_model
-from orders.models import Order, OrderItem, Courier
-from addresses.models import Address
-from django.urls import reverse, reverse_lazy
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest, HttpResponse, Http404
+from django.views.generic import View, TemplateView, FormView
+from django.contrib.auth.views import LogoutView, PasswordResetCompleteView, PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import get_object_or_404
+from django.contrib.auth import authenticate, login, get_user_model
+from django.urls import reverse_lazy, reverse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
 from django.conf import settings
 from django.views.decorators.cache import cache_page
-from user.forms import ProfileForm
-from orders.forms import CourierBookingForm
-from addresses.utils import detect_region
-from addresses.forms import AddressForm
 from django.db.models import Q
 from django.core.paginator import Paginator
-from django.template.loader import render_to_string
 from decimal import Decimal
-from django.views.decorators.http import require_POST
 from django.contrib.humanize.templatetags.humanize import intcomma
+from allauth.account.views import LoginView as AllauthLoginView
+from allauth.account.views import PasswordResetView
+from django.db import transaction, IntegrityError
+from django.shortcuts import render, redirect
+
+from cart.utils import detect_region
+from user.forms import ProfileForm, CustomUserCreationForm, CustomPasswordChangeForm
 
 import logging
 from .utils import fulfiller
 
 logger = logging.getLogger(__name__)
-
-
-
-import logging
-
 User = get_user_model()
+
+
+class RegisterView(FormView):
+    template_name = 'login/register.html'
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy('home_view')
+
+    def get(self, request, *args, **kwargs):
+        referrer = self.request.session.get('referrer')
+        print(f'Referrer: {referrer}')
+        return super().get(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        try:
+            referrer_username = self.request.session.get('referrer')
+            referrer = None
+            if referrer_username:
+                try:
+                    referrer = User.objects.get(username=referrer_username)
+                except User.DoesNotExist:
+                    print(f'No user found with username: {referrer_username}')
+                    referrer = None
+
+            with transaction.atomic():
+                user = form.save(commit=False)
+                raw_password = form.cleaned_data.get('password1')
+                user.set_password(raw_password)
+                user.referred_by = referrer
+                user.save()
+                user.refresh_from_db()
+
+                user = authenticate(username=user.username, password=raw_password)
+                login(self.request, user)
+
+        except IntegrityError as e:
+            print(user.__dict__)
+            raise e
+
+        return super(RegisterView, self).form_valid(form)
+
+
+class EcomLoginView(AllauthLoginView):
+    redirect_authenticated_user = False
+    template_name = 'login/login.html'
+
+    def get_success_url(self):
+        # Your custom success URL logic here
+        return reverse_lazy('home_view')
+
+    def form_invalid(self, form):
+        # Your custom form invalid handling logic here
+
+        return super().form_invalid(form)
+
+
+class ForgotPasswordView(SuccessMessageMixin, PasswordResetView):
+    title = "Password Reset"
+    template_name = 'login/password-reset.html'
+    subject_template_name = 'login/password-reset-subject.html'
+    success_message = "We've emailed you instructions for setting your password, " \
+                      "if an account exists with the email you entered. You should receive them shortly." \
+                      " If you don't receive an email, " \
+                      "please make sure you've entered the address you registered with, and check your spam folder."
+
+    from_email = settings.EMAIL_MAIN
+    success_url = reverse_lazy('home_view')
+
+
+class PasswordResetComplete(PasswordResetCompleteView):
+    template_name = "login/password-reset-complete.html"
+    title = "Password Reset Complete"
+
+
+class ChangePasswordView(PasswordChangeView):
+    template_name = 'login/change-password.html'
+    form_class = CustomPasswordChangeForm
+    success_url = reverse_lazy('login:password_done')
+
+
+class PasswordDoneView(TemplateView):
+    template_name = 'login/change-password-done.html'
 
 class RegisterGuestView(View):
     def get(self, request, *args, **kwargs):
@@ -40,35 +116,35 @@ class RegisterGuestView(View):
         return HttpResponseRedirect(f'http://{settings.SITE_DOMAIN}/')
     
 
-@cache_page(60 * 15)
-def get_order_details(request):
-    logger = logging.getLogger(__name__) 
-    if request.method == 'GET':
-        order_id = request.GET.get('order_id')
-        if order_id:
-            order = get_object_or_404(Order, order_id=order_id)
-            order_items = order.orderitem_set.select_related('product')
-
-            data = {
-                'order_id': order.order_id,
-                'created_at': order.created_at.strftime("%Y-%m-%d"),
-                'total_amount': sum([item.get_total for item in order_items]),
-                'total_quantity': sum([item.quantity for item in order_items]),
-                'status': order.status,
-                'order_items': [
-                    {
-                        'product_name': item.product.name,
-                        'quantity': item.quantity,
-                        'price': item.get_total,
-                    } for item in order_items
-                ]
-            }
-            print(data)
-            return JsonResponse(data)
-        else:
-            return HttpResponseBadRequest("Order ID is required")
-    else:
-        return HttpResponseBadRequest("Only GET method is allowed")
+# @cache_page(60 * 15)
+# def get_order_details(request):
+#     logger = logging.getLogger(__name__)
+#     if request.method == 'GET':
+#         order_id = request.GET.get('order_id')
+#         if order_id:
+#             order = get_object_or_404(Order, order_id=order_id)
+#             order_items = order.orderitem_set.select_related('product')
+#
+#             data = {
+#                 'order_id': order.order_id,
+#                 'created_at': order.created_at.strftime("%Y-%m-%d"),
+#                 'total_amount': sum([item.get_total for item in order_items]),
+#                 'total_quantity': sum([item.quantity for item in order_items]),
+#                 'status': order.status,
+#                 'order_items': [
+#                     {
+#                         'product_name': item.product.name,
+#                         'quantity': item.quantity,
+#                         'price': item.get_total,
+#                     } for item in order_items
+#                 ]
+#             }
+#             print(data)
+#             return JsonResponse(data)
+#         else:
+#             return HttpResponseBadRequest("Order ID is required")
+#     else:
+#         return HttpResponseBadRequest("Only GET method is allowed")
     
     
 def update_address(request):
