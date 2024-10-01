@@ -31,7 +31,8 @@ RESPONSE_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['172.105.126.70', '139.144.121.152', '172.104.35.33', '.twconline.store', 'twconline.store']
+ALLOWED_HOSTS = ['172.105.126.70', '139.144.121.152', '172.104.35.33', '.twconline.store', 'twconline.store',
+                 'www.twcstoredevtest.com']
 
 USE_X_FORWARDED_HOST = True
 
@@ -58,8 +59,6 @@ INSTALLED_APPS = [
     'django_hosts',
     'django.contrib.sites',
 ]
-
-
 
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
@@ -104,12 +103,12 @@ ROOT_HOSTCONF = 'TWC.hosts'
 DEFAULT_HOST = 'www'
 PARENT_HOST = 'twconline.store'
 SITE_DOMAIN = 'twconline.store'
-CSRF_TRUSTED_ORIGINS = ['https://www.twconline.store']
+CSRF_TRUSTED_ORIGINS = ['https://www.twconline.store', 'https://www.twcstoredevtest.com']
 CORS_ALLOWED_ORIGINS = [
     "https://www.twconline.store",
     "http://localhost:8000",
+    "https://www.twcstoredevtest.com",
 ]
-
 
 TEMPLATES = [
     {
@@ -207,8 +206,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static_root")
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
 
-
-#CElERY SETTINGS
+# CElERY SETTINGS
 CELERY_BROKER_URL = 'redis://172.234.49.190:6379'
 CELERY_RESULT_BACKEND = 'redis://172.234.49.190:6379'
 
@@ -252,8 +250,16 @@ SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 14
 SESSION_COOKIE_SECURE = False
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-SESSION_COOKIE_DOMAIN = '.twconline.store'
-DOMAIN_NAME = 'twconline.store'
+
+if os.environ.get('CURRENT_DOMAIN') == 'twconline.store':
+    SESSION_COOKIE_DOMAIN = 'twconline.store'
+    DOMAIN_NAME = 'twconline.store'
+elif os.environ.get('CURRENT_DOMAIN') == 'www.twcstoredevtest.com':
+    SESSION_COOKIE_DOMAIN = 'www.twcstoredevtest.com'
+    DOMAIN_NAME = 'twcstoredevtest.com'
+else:
+    SESSION_COOKIE_DOMAIN = None
+
 SESSION_COOKIE_NAME = "twccookie"
 SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_DOMAIN = SESSION_COOKIE_DOMAIN
@@ -262,6 +268,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:8000",
     "*.twconline.store",
+    "https://www.twcstoredevtest.com",
 ]
 
 LOGGING = {
