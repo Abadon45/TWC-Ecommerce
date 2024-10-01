@@ -9,6 +9,7 @@ ALLOWED_HOSTS = [
     'admin.devtest.store',
     'www.devtest.store',
     'test.devtest.store',
+    'test.twconline.store',
 ]
 
 CELERY_BROKER_URL = 'redis://localhost:6379'
