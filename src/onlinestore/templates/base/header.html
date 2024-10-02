@@ -1,5 +1,4 @@
 {% load static %}
-{% load url_with_domain %}
 {% load currency_filters %}
 
 <header class="header">
@@ -27,15 +26,15 @@
                         {#                    <div class="col-12 col-md-6 col-lg-6 col-xl-7 mobile-hidden">#}
                         {#                        <div class="header-top-right">#}
                         {#                            <ul class="header-top-list">#}
-                        {#                                <li><a href="{% url_with_domain 'products:product_list' %}"><i#}
+                        {#                                <li><a href="{% url 'products:product_list' %}"><i#}
                         {#                                            class="fa-solid fa-code-compare"></i> Product List</a></li>#}
-                        {#                                <li><a href="{% url_with_domain 'products:add_product' %}"><i#}
+                        {#                                <li><a href="{% url 'products:add_product' %}"><i#}
                         {#                                            class="fa-solid fa-keyboard"></i> Add Products</a></li>#}
                         {#                                {% if user.is_authenticated %}#}
-                        {#                                <li class="login"><a href="{% url_with_domain 'login:logout' %}"><i#}
+                        {#                                <li class="login"><a href="{% url 'login:logout' %}"><i#}
                         {#                                            class="far fa-arrow-right-to-arc"></i> Logout</a></li>#}
                         {#                                {% else %}#}
-                        {#                                <li class="login"><a href="{% url_with_domain 'login:login' %}"><i#}
+                        {#                                <li class="login"><a href="{% url 'login:login' %}"><i#}
                         {#                                            class="far fa-arrow-right-to-arc"></i> Login</a></li>#}
                         {#                                {% endif %}#}
                         {#                            </ul>#}
@@ -52,9 +51,9 @@
                         {#                        <div class="header-top-right">#}
                         {#                            <ul class="header-top-list">#}
                         {#                                {% if user.is_authenticated %}#}
-                        {#                                <li class="login"><a href="{% url_with_domain 'login:logout' %}">Logout</a></li>#}
+                        {#                                <li class="login"><a href="{% url 'login:logout' %}">Logout</a></li>#}
                         {#                                {% else %}#}
-                        {#                                <li class="login"><a href="{% url_with_domain 'login:login' %}">Login</a></li>#}
+                        {#                                <li class="login"><a href="{% url 'login:login' %}">Login</a></li>#}
                         {#                                {% endif %}#}
                         {#                                <li class="social">#}
                         {#                                    <div class="header-top-social">#}
@@ -77,7 +76,7 @@
             <div class="container header-container">
                 <div class="row">
                     <div class="col-lg-3 col-md-2 col-5">
-                        <a class="navbar-brand" href="{{ MAIN_SITE_URL }}">
+                        <a class="navbar-brand" href="{% url 'home_view' %}">
                             <img src="{% static 'img/logo/logo.png' %}" alt="logo">
                         </a>
                     </div>
@@ -85,9 +84,9 @@
                         <div class="header-top-right">
                             <ul class="header-top-list">
                                 {% if user.is_authenticated %}
-                                    <li class="login"><a href="{% url_with_domain 'login:logout' %}">Logout</a></li>
+                                    <li class="login"><a href="{% url 'login:logout' %}">Logout</a></li>
                                 {% else %}
-                                    <li class="login"><a href="{% url_with_domain 'login:login' %}">Login</a></li>
+                                    <li class="login"><a href="{% url 'login:login' %}">Login</a></li>
                                 {% endif %}
                                 <li class="social">
                                     <div class="header-top-social">
@@ -127,9 +126,9 @@
                         <div class="collapse navbar-collapse d-flex justify-content-end" id="menu_nav">
                             <ul class="navbar-nav header-list">
                                 <li class="nav-item"><a class="nav-link"
-                                                        href="{% url_with_domain 'home_view' %}">Home</a></li>
+                                                        href="{% url 'home_view' %}">Home</a></li>
                                 <li class="nav-item"><a class="nav-link"
-                                                        href="{% url_with_domain 'shop:shop' %}">Shop</a></li>
+                                                        href="{% url 'shop:shop' %}">Shop</a></li>
                                 {% if user.is_authenticated %}
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">My
@@ -162,7 +161,7 @@
                                     </li>
                                 {% endif %}
                                 <li class="cart-link nav-item dropdown-cart mobile-hidden">
-                                    <a href="{% url_with_domain 'cart:cart' %}" class="nav-link shop-cart list-item"><i
+                                    <a href="{% url 'cart:cart' %}" class="nav-link shop-cart list-item"><i
                                             class="far fa-shopping-bag"></i>
                                         <span id="upper-cart-count">{{ cart_items }}</span></a>
                                     <div id="cart-dropdown">
@@ -171,7 +170,7 @@
                                                 <div class="dropdown-cart-header">
                                                 <span class="cart-items-count">{{ cart_items|stringformat:"02d" }}
                                                     Items</span>
-                                                    <a href="{% url_with_domain 'cart:cart' %}">View Cart</a>
+                                                    <a href="{% url 'cart:cart' %}">View Cart</a>
                                                 </div>
                                                 <ul id="dropdown-cart-list">
                                                     {% for order, items in order_products.items %}
@@ -217,7 +216,7 @@
                                                         <span>Total</span>
                                                         <span class="total-amount">{{ total_cart_subtotal|currency }}</span>
                                                     </div>
-                                                    <a href="{% url_with_domain 'cart:cart' %}"
+                                                    <a href="{% url 'cart:cart' %}"
                                                        class="theme-btn">Checkout</a>
                                                 </div>
                                             </div>
@@ -227,7 +226,7 @@
                                 {#                                {% if not user.is_seller %}#}
                                 {#                                <div class="nav-right">#}
                                 {#                                    <div class="nav-right-btn">#}
-                                {#                                        <a href="{% url_with_domain 'become_seller' %}" class="theme-btn">Become#}
+                                {#                                        <a href="{% url 'become_seller' %}" class="theme-btn">Become#}
                                 {#                                            Seller</a>#}
                                 {#                                    </div>#}
                                 {#                                </div>#}
@@ -252,10 +251,10 @@
                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         <ul class="navbar-nav header-list">
                                             <li class="nav-item">
-                                                <a class="nav-link" href="{% url_with_domain 'home_view' %}">Home</a>
+                                                <a class="nav-link" href="{% url 'home_view' %}">Home</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="{% url_with_domain 'shop:shop' %}">Shop</a>
+                                                <a class="nav-link" href="{% url 'shop:shop' %}">Shop</a>
                                             </li>
                                             {% if user.is_authenticated %}
                                                 <li class="nav-item dropdown">
@@ -266,7 +265,7 @@
                                             {% endif %}
                                             {% if not user.is_seller %}
                                                 <li class="nav-item">
-                                                    <a href="{% url_with_domain 'become_seller' %}"
+                                                    <a href="{% url 'become_seller' %}"
                                                        class="theme-btn nav-link become-seller">Become
                                                         Seller</a>
                                                 </li>

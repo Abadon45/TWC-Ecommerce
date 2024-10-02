@@ -6,7 +6,5 @@ from django_hosts import host
 host_patterns = [
     host(r'admin', 'TWC.urls.admin', name='admin'),
     host(r'dashboard', 'TWC.urls.dashboard', name='dashboard'),
-    host(r'www', 'TWC.urls', name='www'),
-    host(r'test', 'TWC.urls', name='test'),
-    host(r'', 'TWC.urls', name='www'),
+    host(r'(?P<username>\w+)', 'TWC.urls', name='wildcard'),
 ]

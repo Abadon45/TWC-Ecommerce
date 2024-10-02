@@ -53,7 +53,7 @@ sqlparse==0.5.1
 starkbank-ecdsa==2.2.0
 typing_extensions==4.12.2
 tzdata==2024.1
-urllib3==2.2.2
-uvicorn==0.25.0
+urllib3
+pip
 vine==5.1.0
 wcwidth==0.2.13
