@@ -5,11 +5,9 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'admin.twconline.store',
+    'devtest.store',
     'admin.devtest.store',
-    'www.devtest.store',
-    'test.devtest.store',
-    'test.twconline.store',
+    '.devtest.store',
 ]
 
 CELERY_BROKER_URL = 'redis://localhost:6379'

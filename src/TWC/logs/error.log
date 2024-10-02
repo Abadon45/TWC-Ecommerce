@@ -5911,3 +5911,309 @@ Traceback (most recent call last):
   File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/template/base.py", line 563, in invalid_block_tag
     raise self.error(
 django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 223: 'endblock', expected 'endif'. Did you forget to register or load this tag?
+Invalid HTTP_HOST header: 'noypangan.devtest.store:8000'. You may need to add 'noypangan.devtest.store' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/utils/deprecation.py", line 128, in __call__
+    response = self.process_request(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django_hosts/middleware.py", line 55, in process_request
+    host, kwargs = self.get_host(request.get_host())
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noypangan.devtest.store:8000'. You may need to add 'noypangan.devtest.store' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'noypangan.devtest.store:8000'. You may need to add 'noypangan.devtest.store' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/utils/deprecation.py", line 128, in __call__
+    response = self.process_request(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django_hosts/middleware.py", line 55, in process_request
+    host, kwargs = self.get_host(request.get_host())
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noypangan.devtest.store:8000'. You may need to add 'noypangan.devtest.store' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'noypangan.devtest.store:8000'. You may need to add 'noypangan.devtest.store' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/utils/deprecation.py", line 128, in __call__
+    response = self.process_request(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django_hosts/middleware.py", line 55, in process_request
+    host, kwargs = self.get_host(request.get_host())
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noypangan.devtest.store:8000'. You may need to add 'noypangan.devtest.store' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'noypangan.devtest.store:8000'. You may need to add 'noypangan.devtest.store' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/utils/deprecation.py", line 128, in __call__
+    response = self.process_request(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django_hosts/middleware.py", line 55, in process_request
+    host, kwargs = self.get_host(request.get_host())
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noypangan.devtest.store:8000'. You may need to add 'noypangan.devtest.store' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'noypangan.devtest.store:8000'. You may need to add 'noypangan.devtest.store' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/utils/deprecation.py", line 128, in __call__
+    response = self.process_request(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django_hosts/middleware.py", line 55, in process_request
+    host, kwargs = self.get_host(request.get_host())
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noypangan.devtest.store:8000'. You may need to add 'noypangan.devtest.store' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'noypangan.devtest.store:8000'. You may need to add 'noypangan.devtest.store' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/utils/deprecation.py", line 128, in __call__
+    response = self.process_request(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django_hosts/middleware.py", line 55, in process_request
+    host, kwargs = self.get_host(request.get_host())
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noypangan.devtest.store:8000'. You may need to add 'noypangan.devtest.store' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'noypangan.devtest.store:8000'. You may need to add 'noypangan.devtest.store' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/utils/deprecation.py", line 128, in __call__
+    response = self.process_request(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django_hosts/middleware.py", line 55, in process_request
+    host, kwargs = self.get_host(request.get_host())
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noypangan.devtest.store:8000'. You may need to add 'noypangan.devtest.store' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'noypangan.devtest.store:8000'. You may need to add 'noypangan.devtest.store' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/utils/deprecation.py", line 128, in __call__
+    response = self.process_request(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django_hosts/middleware.py", line 55, in process_request
+    host, kwargs = self.get_host(request.get_host())
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'noypangan.devtest.store:8000'. You may need to add 'noypangan.devtest.store' to ALLOWED_HOSTS.
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/TWC/middleware.py", line 45, in __call__
+    response = self.check_username_and_redirect(request, request.subdomain)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/TWC/middleware.py", line 66, in check_username_and_redirect
+    request.session['referrer'] = username
+AttributeError: 'WSGIRequest' object has no attribute 'session'
+Internal Server Error: /favicon.ico
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/TWC/middleware.py", line 45, in __call__
+    response = self.check_username_and_redirect(request, request.subdomain)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/TWC/middleware.py", line 66, in check_username_and_redirect
+    request.session['referrer'] = username
+AttributeError: 'WSGIRequest' object has no attribute 'session'
+Internal Server Error: /
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/utils/deprecation.py", line 131, in __call__
+    response = self.process_response(request, response)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/middleware/clickjacking.py", line 27, in process_response
+    if response.get("X-Frame-Options") is not None:
+AttributeError: 'bool' object has no attribute 'get'
+Internal Server Error: /favicon.ico
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/utils/deprecation.py", line 131, in __call__
+    response = self.process_response(request, response)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/middleware/clickjacking.py", line 27, in process_response
+    if response.get("X-Frame-Options") is not None:
+AttributeError: 'bool' object has no attribute 'get'
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+API request failed: 400 Client Error: Bad Request for url: https://dashboard.twcako.com/account/api/check-username/ssddata/
+Invalid HTTP_HOST header: 'dashboard.twctest.com:8000'. You may need to add 'dashboard.twctest.com' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/utils/deprecation.py", line 128, in __call__
+    response = self.process_request(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django_hosts/middleware.py", line 55, in process_request
+    host, kwargs = self.get_host(request.get_host())
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'dashboard.twctest.com:8000'. You may need to add 'dashboard.twctest.com' to ALLOWED_HOSTS.
+Invalid HTTP_HOST header: 'dashboard.twctest.com:8000'. You may need to add 'dashboard.twctest.com' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/utils/deprecation.py", line 128, in __call__
+    response = self.process_request(request)
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django_hosts/middleware.py", line 55, in process_request
+    host, kwargs = self.get_host(request.get_host())
+  File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'dashboard.twctest.com:8000'. You may need to add 'dashboard.twctest.com' to ALLOWED_HOSTS.

@@ -86,6 +86,7 @@ def check_sponsor_and_redirect(request, username, success_redirect_url, slug=Non
 
         is_success = data.get('success')
         messenger_link = data.get('messenger_link')
+        mobile = data.get('mobile')
         print(f'messenger_link: {messenger_link}')
 
         if is_success:
@@ -93,6 +94,7 @@ def check_sponsor_and_redirect(request, username, success_redirect_url, slug=Non
                 return HttpResponseRedirect(reverse('handle_404'))
             request.session['referrer'] = username
             request.session['messenger_link'] = messenger_link
+            request.session['mobile'] = mobile
             print(f"Referrer: {request.session['referrer']}")
             if slug:
                 return HttpResponseRedirect(reverse(success_redirect_url, kwargs={'slug': slug}))

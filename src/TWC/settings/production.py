@@ -9,6 +9,7 @@ ALLOWED_HOSTS = [
     '172.104.32.135',
     '.twconline.store',
     'www.twconline.store',
+    '.twcstoredevtest.com',
     'www.twcstoredevtest.com',
 ]
 

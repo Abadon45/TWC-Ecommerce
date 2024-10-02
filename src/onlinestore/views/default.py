@@ -1,5 +1,5 @@
 from django.views.generic import View, TemplateView
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.http import HttpResponseNotFound, HttpResponseRedirect
 from django.contrib.auth import get_user_model
@@ -20,14 +20,24 @@ import requests
 User = get_user_model()
 
 
+def subdomain_view(request, username):
+    print(f'Extracted Subdomain: {username}')
+    success_redirect_url = 'home_view'
+    response = check_sponsor_and_redirect(request, username, success_redirect_url)
+    print(f'Response: {response}')
+    if response.status_code == 302:
+        return response
+    return HttpResponse("Welcome to the site!")
+
+
 class IndexView(TemplateView):
     template_name = 'index.html'
 
     def get(self, request, username=None, *args, **kwargs):
 
-        # Redirect and register username to session if username is provided
-        if username:
-            return check_sponsor_and_redirect(request, username, 'home_view')
+        # # Redirect and register username to session if username is provided
+        # if username:
+        #     return check_sponsor_and_redirect(request, username, 'home_view')
 
         # API URL to fetch products
         api_url = 'https://dashboard.twcako.com/shop/api/get-product/'
@@ -281,7 +291,6 @@ def create_order(request):
     except Exception as e:
         print(f"Exception in create_order: {e}")
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
-
 
 
 class BecomeSellerView(TemplateView):

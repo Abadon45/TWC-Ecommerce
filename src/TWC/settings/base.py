@@ -32,7 +32,7 @@ RESPONSE_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmc
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['172.105.126.70', '139.144.121.152', '172.104.35.33', '.twconline.store', 'twconline.store',
-                 'www.twcstoredevtest.com']
+                 '.twcstoredevtest.com']
 
 USE_X_FORWARDED_HOST = True
 
@@ -83,7 +83,6 @@ SOCIALACCOUNT_PROVIDERS = {
 
 MIDDLEWARE = [
     'django_hosts.middleware.HostsRequestMiddleware',
-    'TWC.middleware.SubdomainMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -92,6 +91,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'TWC.middleware.SubdomainMiddleware',
     'django_hosts.middleware.HostsResponseMiddleware',
     'TWC.middleware.RedirectToWWW',
 ]
@@ -100,7 +100,7 @@ AUTH_USER_MODEL = 'user.User'
 
 ROOT_URLCONF = 'TWC.urls'
 ROOT_HOSTCONF = 'TWC.hosts'
-DEFAULT_HOST = 'www'
+DEFAULT_HOST = 'wildcard'
 PARENT_HOST = 'twconline.store'
 SITE_DOMAIN = 'twconline.store'
 CSRF_TRUSTED_ORIGINS = ['https://www.twconline.store', 'https://www.twcstoredevtest.com']
