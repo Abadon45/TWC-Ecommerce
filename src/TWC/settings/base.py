@@ -31,7 +31,7 @@ RESPONSE_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['172.105.126.70', '139.144.121.152', '172.104.35.33', '.twconline.store', 'twconline.store',
+ALLOWED_HOSTS = ['172.105.126.70', '139.144.121.152', '172.104.35.33', '172.104.32.135','.twconline.store', 'twconline.store',
                  '.twcstoredevtest.com']
 
 USE_X_FORWARDED_HOST = True
@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages',
+    'django.contrib.messages'
     'django.contrib.staticfiles',
     'django_celery_beat',
     'django_celery_results',

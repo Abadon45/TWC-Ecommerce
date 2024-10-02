@@ -6217,3 +6217,4 @@ Traceback (most recent call last):
   File "/home/abadon45/Dev/TWC-Ecommerce/src/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
     raise DisallowedHost(msg)
 django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'dashboard.twctest.com:8000'. You may need to add 'dashboard.twctest.com' to ALLOWED_HOSTS.
+Internal Server Error: /cart/submit-checkout/
