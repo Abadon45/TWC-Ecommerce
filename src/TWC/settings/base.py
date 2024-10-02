@@ -100,8 +100,6 @@ AUTH_USER_MODEL = 'user.User'
 ROOT_URLCONF = 'TWC.urls'
 ROOT_HOSTCONF = 'TWC.hosts'
 DEFAULT_HOST = 'wildcard'
-PARENT_HOST = 'twconline.store'
-SITE_DOMAIN = 'twconline.store'
 CSRF_TRUSTED_ORIGINS = ['https://www.twconline.store', 'https://www.twcstoredevtest.com']
 CORS_ALLOWED_ORIGINS = [
     "https://www.twconline.store",
@@ -251,10 +249,14 @@ SESSION_COOKIE_SECURE = False
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 if os.environ.get('CURRENT_DOMAIN') == 'twconline.store':
+    PARENT_HOST = 'twconline.store'
+    SITE_DOMAIN = 'twconline.store'
     SESSION_COOKIE_DOMAIN = 'twconline.store'
     DOMAIN_NAME = 'twconline.store'
-elif os.environ.get('CURRENT_DOMAIN') == 'www.twcstoredevtest.com':
-    SESSION_COOKIE_DOMAIN = 'www.twcstoredevtest.com'
+elif os.environ.get('CURRENT_DOMAIN') == 'twcstoredevtest.com':
+    PARENT_HOST = 'twcstoredevtest.com'
+    SITE_DOMAIN = 'twcstoredevtest.com'
+    SESSION_COOKIE_DOMAIN = 'twcstoredevtest.com'
     DOMAIN_NAME = 'twcstoredevtest.com'
 else:
     SESSION_COOKIE_DOMAIN = None

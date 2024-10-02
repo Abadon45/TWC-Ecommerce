@@ -21,7 +21,6 @@ server.keysrc/login/log/
 =======
 
 TWC/logs
-src/TWC/logs
 src/TWC/logs/error.log
 src/TWC/settings/local.py
 
