@@ -62,20 +62,13 @@ class SubdomainMiddleware:
                 return
             else:
                 print(f'Username check failed for: {username}')  # Debugging
-                return self.redirect_to_www(request)
+                raise Http404('User Does Not Exist.')
 
         except requests.RequestException as e:
             print(f"API request failed: {e}")  # Debugging
             print(reverse('handle_404'))
-            return self.redirect_to_www(request)
+            raise Http404('User Does Not Exist.')
 
-    def redirect_to_www(self, request):
-        # Extract the current domain without the subdomain
-        host_parts = request.get_host().split('.')
-        domain = '.'.join(host_parts[1:])  # Skip the subdomain part
-        new_url = f'http://www.{domain}{reverse("handle_404")}'
-        print(f"Redirecting to: {new_url}")
-        return HttpResponseRedirect(new_url)
 
 
 class RedirectToWWW:
