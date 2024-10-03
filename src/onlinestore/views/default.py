@@ -314,8 +314,8 @@ class ComingSoonView(TemplateView):
 class Handle404View(View):
     title = "404"
 
-    def get(self, request):
-        context = self.get_context_data()
+    def get(self, request, exception=None):
+        context = self.get_context_data(exception)
         return HttpResponseNotFound(render(request, '404.html', context=context))
 
     def get_context_data(self, exception=None):
