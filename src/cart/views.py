@@ -13,7 +13,6 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 
-from .models import *
 from onlinestore.forms import AddressForm
 from onlinestore.models import *
 from onlinestore.utils import send_temporary_account_email

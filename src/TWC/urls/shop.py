@@ -7,8 +7,6 @@ app_name='shop'
 
 urlpatterns = [
     path('brand/', TemplateView.as_view(template_name='shop/brand.html'), name='brand'),
-    path('category/', TemplateView.as_view(template_name='shop/category.html'), name='category'),
-    path('compare/', TemplateView.as_view(template_name='shop/shop-compare.html'), name='compare'),
     path('search/', ShopView.as_view(), name='search'),
     # path('promos/', ShopPromoBundleView.as_view(), name='promo'),
     path('single/<slug:slug>/', ShopDetailView.as_view(), name='single'),

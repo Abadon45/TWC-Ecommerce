@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load url_with_domain %}
 {% load currency_filters %}
 {% load static %}
 
@@ -137,18 +136,18 @@
                                     <div class="col-lg-6">
                                         <div class="order-detail-content">
                                             <h5>Shipping Address</h5>
-                                            <p><i class="far fa-location-dot"></i> 
+                                            <p><i class="far fa-location-dot"></i>
                                                 {{ order.shipping_address.line1 }}
                                                 {% if order.shipping_address.line2 %}
                                                     {{ order.shipping_address.line2 }}
-                                                {% endif %}   
+                                                {% endif %}
                                             </p>
                                             <p>
-                                                Brgy. {{ order.shipping_address.barangay }}, 
-                                                {{ order.shipping_address.city }}, 
-                                                {{ order.shipping_address.province }}, 
-                                                {{ order.shipping_address.region }}, 
-                                                {{ order.shipping_address.postcode }}   
+                                                Brgy. {{ order.shipping_address.barangay }},
+                                                {{ order.shipping_address.city }},
+                                                {{ order.shipping_address.province }},
+                                                {{ order.shipping_address.region }},
+                                                {{ order.shipping_address.postcode }}
                                             </p>
                                         </div>
                                     </div>
@@ -170,7 +169,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>

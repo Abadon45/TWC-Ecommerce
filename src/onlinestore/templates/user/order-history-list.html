@@ -4,7 +4,7 @@
         <div class="card-title">
             <div class="row">
                 <div class="col-6 text-left">
-                    <a href="{% url_with_domain 'shop:shop' %}?category_id={{order.supplier}}"
+                    <a href="{% url 'shop:shop' %}?category_id={{order.supplier}}"
                         style="margin-top: 10px; color: #11B76B;">
                         <i class="fa-solid fa-store"></i> Shop:
                         {% if order.supplier == "sante" %}
@@ -80,7 +80,7 @@
                 </li>
             </ul>
             <div class="text-end mt-40">
-                <a href="{% url_with_domain 'shop:shop' %}?category_id={{order.supplier}}" class="theme-btn">Buy
+                <a href="{% url 'shop:shop' %}?category_id={{order.supplier}}" class="theme-btn">Buy
                     Again</a>
             </div>
         </div>

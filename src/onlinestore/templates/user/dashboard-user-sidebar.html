@@ -1,5 +1,4 @@
 {% load static %}
-{% load url_with_domain %}
 
 <div class="sidebar">
     <div class="sidebar-top">
@@ -36,7 +35,7 @@
         <li hidden><a class="nav__link comming-soon"><i class="far fa-envelope"></i> Messages <span
                     class="badge badge-danger">02</span></a></li>
         <li hidden><a class="nav__link"><i class="far fa-gear"></i> Settings</a></li>
-        <li><a class="nav__link" href="{% url_with_domain 'login:logout' %}"><i class="far fa-sign-out"></i> Logout</a>
+        <li><a class="nav__link" href="{% url 'login:logout' %}"><i class="far fa-sign-out"></i> Logout</a>
         </li>
     </ul>
 </div>
