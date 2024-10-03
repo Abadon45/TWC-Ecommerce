@@ -143,6 +143,9 @@ class ShopView(TemplateView):
         products, category_product_count, _ = self.get_paginated_queryset()
         user_ratings = self.get_user_ratings(products)
 
+        category_id = self.request.GET.get('category_id', 'all')
+
+
         # Render the products to the 'shop/products_grid.html' template
         products_grid_html = render_to_string('shop/products_grid.html', {'products': products}, request=self.request)
 
@@ -151,6 +154,7 @@ class ShopView(TemplateView):
         products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in shop['items']]
 
         context['products_grid_html'] = products_grid_html
+        context['category_id'] = category_id
         context['products'] = products
         context['sort_option'] = sort_option
         context['products_in_cart'] = products_in_cart
@@ -377,14 +381,3 @@ class ShopDetailView(TemplateView):
 #         return JsonResponse({'success': False, 'message': str(e)})
 
 
-# @login_required
-# @require_POST
-# def remove_review(request, review_id):
-#     try:
-#         review = get_object_or_404(Review, id=review_id, user=request.user)
-#         if hasattr(review, 'rating'):
-#             review.rating.delete()
-#         review.delete()
-#         return JsonResponse({'success': True, 'message': 'Review removed successfully!'})
-#     except Exception as e:
-#         return JsonResponse({'success': False, 'message': str(e)})

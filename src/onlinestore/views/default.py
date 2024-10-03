@@ -23,13 +23,8 @@ User = get_user_model()
 class IndexView(TemplateView):
     template_name = 'index.html'
 
-    def get(self, request, username=None, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
 
-        # # Redirect and register username to session if username is provided
-        # if username:
-        #     return check_sponsor_and_redirect(request, username, 'home_view')
-
-        # API URL to fetch products
         api_url = 'https://dashboard.twcako.com/shop/api/get-product/'
 
         try:
@@ -42,10 +37,7 @@ class IndexView(TemplateView):
             # Handle API request errors
             return JsonResponse({'error': str(e)})
 
-        user = request.user
 
-        print(f'User: {user}')
-        print(user.is_authenticated)
 
         # Get products in cart (assuming 'ordered_items_by_shop' is a session variable containing the cart items)
         ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
