@@ -20,16 +20,6 @@ import requests
 User = get_user_model()
 
 
-def subdomain_view(request, username):
-    print(f'Extracted Subdomain: {username}')
-    success_redirect_url = 'home_view'
-    response = check_sponsor_and_redirect(request, username, success_redirect_url)
-    print(f'Response: {response}')
-    if response.status_code == 302:
-        return response
-    return HttpResponse("Welcome to the site!")
-
-
 class IndexView(TemplateView):
     template_name = 'index.html'
 

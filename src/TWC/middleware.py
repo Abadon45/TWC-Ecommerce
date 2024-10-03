@@ -68,7 +68,6 @@ class SubdomainMiddleware:
             raise Http404('User Does Not Exist.')
 
 
-
 class RedirectToWWW:
     def __init__(self, get_response):
         self.get_response = get_response
