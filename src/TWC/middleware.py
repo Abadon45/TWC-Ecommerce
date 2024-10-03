@@ -61,7 +61,7 @@ class SubdomainMiddleware:
                 return None
             else:
                 print(f'Username check failed for: {username}')  # Debugging
-                raise Http404('User Does Not Exist.')
+                raise Http404(f'User "{username}" Does Not Exist.')
 
         except requests.RequestException as e:
             print(f"API request failed: {e}")  # Debugging
