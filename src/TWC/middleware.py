@@ -45,7 +45,6 @@ class SubdomainMiddleware:
             return None
 
         api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
-        print(f'Checking username: {username} via API: {api_url}')
 
         try:
             api_response = requests.get(api_url)
@@ -59,14 +58,13 @@ class SubdomainMiddleware:
                 request.session['referrer'] = username
                 request.session['messenger_link'] = messenger_link
                 print(f"Referrer set: {username}, Messenger Link: {messenger_link}")
-                return
+                return None
             else:
                 print(f'Username check failed for: {username}')  # Debugging
                 raise Http404('User Does Not Exist.')
 
         except requests.RequestException as e:
             print(f"API request failed: {e}")  # Debugging
-            print(reverse('handle_404'))
             raise Http404('User Does Not Exist.')
 
 
