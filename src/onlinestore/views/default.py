@@ -318,5 +318,6 @@ class Handle404View(View):
         context = self.get_context_data()
         return HttpResponseNotFound(render(request, '404.html', context=context))
 
-    def get_context_data(self):
-        return {'title': self.title}
+    def get_context_data(self, exception=None):
+        message = str(exception) if exception else "Opps... Page Not Found!"
+        return {'title': self.title, 'message': message}
