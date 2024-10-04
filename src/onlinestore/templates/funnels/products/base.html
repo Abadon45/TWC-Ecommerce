@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="{% static 'funnel/products/custom_css/social_proof.min.css' %}">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.5/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/r-3.0.2/sp-2.3.1/sl-2.0.1/datatables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/all-fontawesome.min.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bar-rating/1.2.2/themes/fontawesome-stars.css">
@@ -36,7 +36,7 @@
 
     <!-- Internationl Telephone Input -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.1/build/css/intlTelInput.css">
-    
+
     <style>
         .swal2-content {
             padding: 0 10px!important;
@@ -54,7 +54,7 @@
             width: 100%;
             margin: 30px auto 0!important;
         }
-        
+
         .sweetalert-loading-container h3 {
             font-weight: 700;
         }
@@ -249,7 +249,7 @@
                 interval: 5000
             });
         });
-        
+
         function sweetAlertShowLoading(text=""){
             let html_display = ''+
                 '<div style="text-align: center">' +
@@ -277,13 +277,13 @@
                 html: html_display
             });
         }
-        
+
         function sweetAlertShowSuccess(text=""){
             let html_display = '' +
                 '<div style="text-align: center">' +
                     '<span class="mb-3" style="text-align: center!important;">'+ text +'</span>' +
                 '</div>';
-            
+
             Swal.fire({
                 title: "Request Processed Successfully.",
                 icon: "success",
@@ -294,15 +294,13 @@
                 html: html_display
             });
         }
-            
-        
+
+
     </script>
     <script type="text/javascript" src="{% static 'funnel/products/js/sales-funnel.js' %}"></script>
     <script>
         const createOrder = "{% url 'create_order' %}"
         const updateItem = "{% url 'cart:update_item' %}"
-        const bundleCheckout = "{% url 'cart:bundle_checkout' %}"
-
         var csrf = "{{ csrf_token }}";
     </script>
     {% block js %}{% endblock %}

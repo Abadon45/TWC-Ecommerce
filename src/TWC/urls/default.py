@@ -16,11 +16,11 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('', IndexView.as_view(), name="home_view"),
     path('<str:username>', IndexView.as_view(), name='affiliate_redirect'),
-    path('funnel/', ProductFunnelView.as_view(), name='product_funnel'),
-    path('funnel/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_with_params'),
+    path('pf/', ProductFunnelView.as_view(), name='product_funnel'),
+    path('pf/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_with_params'),
     path('generate-funnel-username/', generate_funnel_username, name='generate_funnel_username'),
     path('funnel/create-order', create_order, name='create_order'),
-    # re_path(r'^.*/$', Handle404View.as_view(), name='handle_404'),
+
 ]
 
 handler404 = Handle404View.as_view()
