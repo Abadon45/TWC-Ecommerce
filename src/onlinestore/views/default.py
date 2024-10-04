@@ -1,5 +1,5 @@
 from django.views.generic import View, TemplateView
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import render
 from django.http import HttpResponseNotFound, HttpResponseRedirect
 from django.contrib.auth import get_user_model
@@ -36,8 +36,6 @@ class IndexView(TemplateView):
         except requests.exceptions.RequestException as e:
             # Handle API request errors
             return JsonResponse({'error': str(e)})
-
-
 
         # Get products in cart (assuming 'ordered_items_by_shop' is a session variable containing the cart items)
         ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
@@ -112,12 +110,6 @@ class ProductFunnelView(TemplateView):
 
     def get_template_names(self):
         product = self.kwargs.get('product', None)
-        username = self.request.GET.get('username')
-        if not is_valid_username(username):
-            return ['404.html']
-        else:
-            self.request.session['funnel_referrer'] = username
-            print(username)
 
         if product == 'barley-for-cancer':
             return ['funnels/products/barley/cancer.html']
@@ -132,14 +124,13 @@ class ProductFunnelView(TemplateView):
         elif product == 'boost-coffee':
             return ['funnels/products/boost_coffee/index.html']
         else:
-            return ['404.html']
+            raise Http404("Product is not available")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        username = self.request.GET.get('username')
         product = self.kwargs.get('product')
 
-        context.update({'username': username, 'product': product})
+        context.update({'product': product})
 
         return context
 
