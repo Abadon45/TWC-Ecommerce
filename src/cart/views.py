@@ -369,8 +369,8 @@ class CheckoutView(FormView):
 #########################
 
 def submit_checkout(request):
-    request_token_url = settings.REQUEST_API
-    order_url = settings.ORDER_API
+    request_token_url = 'https://dashboard.twcako.com/order/api/token/refresh/'
+    order_url = 'https://dashboard.twcako.com/order/api/create-order/'
     refresh_token = settings.RESPONSE_TOKEN
     token_data = {"refresh": refresh_token}
     headers = {'Content-Type': 'application/json'}
