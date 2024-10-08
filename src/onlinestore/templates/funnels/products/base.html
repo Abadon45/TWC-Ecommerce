@@ -301,6 +301,7 @@
     <script>
         const createOrder = "{% url 'create_order' %}"
         const updateItem = "{% url 'cart:update_item' %}"
+        const bundleCheckout = "{% url 'cart:promo_checkout' %}"
         var csrf = "{{ csrf_token }}";
     </script>
     {% block js %}{% endblock %}
