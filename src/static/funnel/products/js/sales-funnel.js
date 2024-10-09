@@ -343,45 +343,41 @@ function addBundle(bundleId) {
     if (bundleId === "promo1") {
         bundleDetails = {
             products: [
-                {slug: "26", quantity: 1},
-                {slug: "40", quantity: 1},
+                {slug: "sante-barley-powder-10s", quantity: 1},
             ],
         };
     } else if (bundleId === "promo2") {
         bundleDetails = {
             products: [
-                {slug: "42", quantity: 1},
-                {slug: "40", quantity: 1},
-                {slug: "41", quantity: 1},
+                {slug: "sante-barley-powder-10s", quantity: 2},
+                {slug: "water-bottle", quantity: 1},
             ],
         };
     } else if (bundleId === "promo3") {
         bundleDetails = {
             products: [
-                {slug: "23", quantity: 1},
-                {slug: "40", quantity: 1},
-                {slug: "41", quantity: 1},
+                {slug: "sante-barley-powder-10s", quantity: 4},
+                {slug: "water-bottle", quantity: 1},
+                {slug: "water-stirrer", quantity: 1},
             ],
         };
     } else if (bundleId === "promo4") {
         bundleDetails = {
-            products: [{id: "30", quantity: 2}],
+            products: [{slug: "fusion-coffee", quantity: 1}],
         };
     } else if (bundleId === "promo5") {
         bundleDetails = {
             products: [
-                {slug: "30", quantity: 3},
-                {slug: "40", quantity: 1},
-                {slug: "43", quantity: 1},
+                {slug: "fusion-coffee", quantity: 2},
+                {slug: "water-bottle", quantity: 1},
             ],
         };
     } else if (bundleId === "promo6") {
         bundleDetails = {
             products: [
-                {slug: "30", quantity: 4},
-                {slug: "40", quantity: 1},
-                {slug: "43", quantity: 1},
-                {slug: "41", quantity: 1},
+                {slug: "fusion-coffee", quantity: 4},
+                {slug: "water-bottle", quantity: 1},
+                {slug: "water-stirrer", quantity: 1},
             ],
         };
     } else if (bundleId === "promo7") {
@@ -390,7 +386,7 @@ function addBundle(bundleId) {
         };
     } else if (bundleId === "promo8") {
         bundleDetails = {
-            products: [
+            products: [git
                 {slug: "boost-coffee", quantity: 2},
                 {slug: "water-bottle", quantity: 1},
             ],
