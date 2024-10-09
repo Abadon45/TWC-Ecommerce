@@ -93,7 +93,8 @@ def check_sponsor_and_redirect(request, username, success_redirect_url, slug=Non
                 return HttpResponseRedirect(reverse('handle_404'))
             request.session['referrer'] = username
             request.session['messenger_link'] = messenger_link
-            print(f"Referrer: {request.session['referrer']}")
+            print(f"Session Referrer Set: {request.session['referrer']}")
+            request.session.modified = True
             if slug:
                 return HttpResponseRedirect(reverse(success_redirect_url, kwargs={'slug': slug}))
             return HttpResponseRedirect(reverse(success_redirect_url))
