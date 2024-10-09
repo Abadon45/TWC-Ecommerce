@@ -343,24 +343,24 @@ function addBundle(bundleId) {
     if (bundleId === "promo1") {
         bundleDetails = {
             products: [
-                {id: "26", quantity: 1},
-                {id: "40", quantity: 1},
+                {slug: "26", quantity: 1},
+                {slug: "40", quantity: 1},
             ],
         };
     } else if (bundleId === "promo2") {
         bundleDetails = {
             products: [
-                {id: "42", quantity: 1},
-                {id: "40", quantity: 1},
-                {id: "41", quantity: 1},
+                {slug: "42", quantity: 1},
+                {slug: "40", quantity: 1},
+                {slug: "41", quantity: 1},
             ],
         };
     } else if (bundleId === "promo3") {
         bundleDetails = {
             products: [
-                {id: "23", quantity: 1},
-                {id: "40", quantity: 1},
-                {id: "41", quantity: 1},
+                {slug: "23", quantity: 1},
+                {slug: "40", quantity: 1},
+                {slug: "41", quantity: 1},
             ],
         };
     } else if (bundleId === "promo4") {
@@ -370,18 +370,18 @@ function addBundle(bundleId) {
     } else if (bundleId === "promo5") {
         bundleDetails = {
             products: [
-                {id: "30", quantity: 3},
-                {id: "40", quantity: 1},
-                {id: "43", quantity: 1},
+                {slug: "30", quantity: 3},
+                {slug: "40", quantity: 1},
+                {slug: "43", quantity: 1},
             ],
         };
     } else if (bundleId === "promo6") {
         bundleDetails = {
             products: [
-                {id: "30", quantity: 4},
-                {id: "40", quantity: 1},
-                {id: "43", quantity: 1},
-                {id: "41", quantity: 1},
+                {slug: "30", quantity: 4},
+                {slug: "40", quantity: 1},
+                {slug: "43", quantity: 1},
+                {slug: "41", quantity: 1},
             ],
         };
     } else if (bundleId === "promo7") {

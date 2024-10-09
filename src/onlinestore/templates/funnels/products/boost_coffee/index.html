@@ -869,9 +869,6 @@ onload="window.MC_PIXEL.fireLogConversionEvent('Boost Coffee - Landing Page')"
                         <tr>
                             <td>
                                 <div class="col-sm-6">
-                                    <img class="img-fluid best-seller"
-                                         src="{% static 'funnel/products/img/boost_coffee/mobile/best-seller-mobile.png' %}"
-                                         alt="">
                                     <img class="img-fluid"
                                          src="{% static 'funnel/products/img/boost_coffee/mobile/promo-3boost.png' %}"
                                          alt="">
@@ -895,14 +892,6 @@ onload="window.MC_PIXEL.fireLogConversionEvent('Boost Coffee - Landing Page')"
                             </label>
                         </div>
                     </div>
-                    <picture class="d-none d-sm-block">
-                        <source srcset="{% static 'funnel/products/img/boost_coffee/Tablet/best-seller-tablet.png' %}"
-                                media="(min-width: 768px) and (max-width: 991.98px)"/>
-                        <source srcset="{% static 'funnel/products/img/boost_coffee/mobile/best-seller-mobile.png' %}"
-                                media="(max-width: 767.98px)"/>
-                        <img class="img-fluid best-seller"
-                             src="{% static 'funnel/products/img/boost_coffee/XL/best-seller-xl.png' %}" alt="">
-                    </picture>
                     <div class="row d-none d-sm-block">
                         <img class="img-fluid" src="{% static 'funnel/products/img/boost_coffee/XL/promo2-xl.png' %}"
                              alt="">
@@ -935,8 +924,11 @@ onload="window.MC_PIXEL.fireLogConversionEvent('Boost Coffee - Landing Page')"
                 <div class="zoom3" id="three" onmouseover="transform('three')" onmouseout="againtransform('three')">
                     <table class="d-block d-sm-none">
                         <tr>
-                            <td>
-                                <div class="col-sm-6 wd-157">
+                            <td class="best-seller-block">
+                                <div class="col-sm-6">
+                                    <img class="img-fluid best-seller"
+                                         src="{% static 'funnel/products/img/boost_coffee/mobile/best-seller-mobile.png' %}"
+                                         alt="">
                                     <img class="img-fluid"
                                          src="{% static 'funnel/products/img/boost_coffee/mobile/promo-4boost.png' %}"
                                          alt="">
@@ -960,6 +952,14 @@ onload="window.MC_PIXEL.fireLogConversionEvent('Boost Coffee - Landing Page')"
                             </label>
                         </div>
                     </div>
+                    <picture class="d-none d-sm-block">
+                        <source srcset="{% static 'funnel/products/img/boost_coffee/Tablet/best-seller-tablet.png' %}"
+                                media="(min-width: 768px) and (max-width: 991.98px)"/>
+                        <source srcset="{% static 'funnel/products/img/boost_coffee/mobile/best-seller-mobile.png' %}"
+                                media="(max-width: 767.98px)"/>
+                        <img class="img-fluid best-seller"
+                             src="{% static 'funnel/products/img/boost_coffee/XL/best-seller-xl.png' %}" alt="">
+                    </picture>
                     <div class="row d-none d-sm-block">
                         <img class="img-fluid" src="{% static 'funnel/products/img/boost_coffee/XL/4pcs-boost.png' %}"
                              alt="">
