@@ -1,5 +1,9 @@
 references
 development.env
+package-lock.json
+package.json
+
+
 
 bin/
 lib/
