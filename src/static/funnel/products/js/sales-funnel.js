@@ -386,7 +386,7 @@ function addBundle(bundleId) {
         };
     } else if (bundleId === "promo8") {
         bundleDetails = {
-            products: [git
+            products: [
                 {slug: "boost-coffee", quantity: 2},
                 {slug: "water-bottle", quantity: 1},
             ],
