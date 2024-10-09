@@ -540,6 +540,10 @@ label.btn.btn-secondary {
 }
 
 .best-seller {
+    position: unset;
+}
+
+.best-seller {
     position: relative;
     top: -51px;
     left: 9rem;
@@ -605,7 +609,7 @@ label.btn.btn-secondary {
 }
 
 #rowthirteen div.zoom2 div.row img {
-    margin-top: -5rem;
+    margin-top: 3rem;
 }
 
 #rowthirteen div.zoom1 div.row img {
@@ -613,7 +617,7 @@ label.btn.btn-secondary {
 }
 
 #rowthirteen div.zoom3 div.row img {
-    margin-top: 5rem;
+    margin-top: -5rem;
 }
 
 #rowthirteen div.zoom2 div.col img {
@@ -847,7 +851,8 @@ footer p {
         }
 
         .center p:nth-child(1) {
-            font-size: 25px;!important
+            font-size: 25px;
+        !important
         }
 
         .center p:nth-child(2) {
@@ -961,7 +966,6 @@ footer p {
     }
 
 
-
     .rowseven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
         height: 204px;
     }
@@ -1066,7 +1070,15 @@ footer p {
 
     .roweleven .carousel-indicators.mb-60 {
         bottom: -60px;
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 0;
     }
+
+    .roweleven .carousel-indicators li {
+        list-style: none;
+    }
+
 
     .rowtwelve {
         background-image: url("../img/boost_coffee/mobile/bg4-mobile.jpg");
@@ -1211,10 +1223,15 @@ footer p {
         margin-top: 5px;
     }
 
+    .best-seller-block {
+        position: relative;
+    }
+
     .best-seller {
-        left: 351px;
-        top: 337.1rem;;
         position: absolute;
+        left: 225%;
+        bottom: 11vh;
+        /*transform: translate(-50%, -50%);*/
         height: 50px;
     }
 
@@ -1266,22 +1283,16 @@ footer p {
     }
 }
 
-@media only screen and (max-width: 425px) {
-    .best-seller {
-        top: 312rem;
-    }
-}
-
 /* // Iphone X */
 @media only screen and (max-width: 414px) {
     .rowone button, .rowten button {
         font-size: 13px;
     }
 
-    .best-seller {
-        left: 346px;
-        top: 316.6rem;
-    }
+    /*.best-seller {*/
+    /*    left: 346px;*/
+    /*    top: 316.6rem;*/
+    /*}*/
 }
 
 /* // Iphone 12 */
@@ -1303,8 +1314,8 @@ footer p {
     }
 
     .best-seller {
-        left: 320px;
-        top: 325.4rem;
+        left: 210%;
+        bottom: 64%;
     }
 }
 
@@ -1457,8 +1468,8 @@ footer p {
     }
 
     .best-seller {
-        left: 303px;
-        top: 297rem;
+        left: 199%;
+        bottom: 64%;
     }
 
     #delivery1 {
@@ -1639,8 +1650,10 @@ footer p {
     }
 
     .best-seller {
-        left: 250px;
-        top: 271.7rem;
+        max-width: 30%;
+        max-height: 30%;
+        left: 250%;
+        bottom: 10vh;
     }
 
     .wd-157 {
@@ -1924,6 +1937,7 @@ footer p {
     }
 
     #rowthirteen div.zoom3 .center p:nth-child(1) {
+        margin-top: 20px!important;
         font-size: 16px;
     }
 
@@ -1982,6 +1996,10 @@ footer p {
     }
 
     #rowthirteen div.zoom2 div.row img {
+        margin-top: 3rem;
+    }
+
+    #rowthirteen div.zoom3 div.row img {
         margin-top: 0;
     }
 
@@ -2126,7 +2144,7 @@ footer p {
 
     #rowthirteen div.zoom1 .center p:nth-child(1) {
         font-size: 18px;
-        margin-top: 69px;
+        margin-top: 38px;
     }
 
     #rowthirteen div.zoom2 .center p:nth-child(1) {
@@ -2180,7 +2198,11 @@ footer p {
     }
 
     #rowthirteen div.zoom2 div.row img {
-        margin-top: auto;
+        margin-top: 2.1rem;
+    }
+
+    #rowthirteen div.zoom3 div.row img {
+        margin-top: -1rem;
     }
 
     #delivery1 {
