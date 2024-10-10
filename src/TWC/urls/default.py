@@ -15,7 +15,6 @@ urlpatterns = [
     path('cart/', include('cart.urls', namespace='cart')),
     path('accounts/', include('allauth.urls')),
     path('', IndexView.as_view(), name="home_view"),
-    path('<str:username>', IndexView.as_view(), name='affiliate_redirect'),
     path('pf/', ProductFunnelView.as_view(), name='product_funnel'),
     path('pf/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_with_params'),
     path('pf/create-order', create_order, name='create_order'),

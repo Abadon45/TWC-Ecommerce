@@ -8,9 +8,9 @@
     fbq("trackCustom", "Barley for Diabetes", {content_category: "Landing Page"});
 </script>
 {% endblock %}
-
+ 
 {% block custom_css %}
-<link href="{% static 'funnel/products/custom_css/barley_for_diabetes.min.css' %}" rel="stylesheet">
+<link href="{% static 'funnel/products/custom_css/barley_for_diabetes.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -840,9 +840,9 @@
                             <td class="ps-3">
                                 <div class="col-sm-6">
                                     <p>PROMO 1</p>
-                                    <p>₱2,199.00</p>
-                                    <p>90g of Pure Barley Powder <br> (3g per sachet)</p>
-                                    <p>30 DAYS SUPPLY</p>
+                                    <p>₱390.00</p>
+                                    <p>30g of Pure Barley Powder <br> (3g per sachet)</p>
+                                    <p>10 DAYS SUPPLY</p>
                                 </div>
                             </td>
                         </tr>
@@ -877,27 +877,27 @@
                     </div>
                     <div class="row d-none d-sm-block">
                         <p style="margin-top: 0">PROMO 1</p>
-                        <p>₱2,199.00</p>
-                        <p>90g of Pure Barley Powder <br> (3g per sachet)</p>
+                        <p>₱380.00</p>
+                        <p>30g of Pure Barley Powder <br> (3g per sachet)</p>
                         <p style="margin-bottom: 0">30 DAYS SUPPLY</p>
                         <div id="sweetalert1" class="btn-group-toggle"
-                             data-price="2199"
-                             data-quantity="2"
-                             data-auth="{{ user.is_authenticated }}"
                              data-toggle="buttons"
+                             data-price="380"
+                             data-quantity="1"
+                             data-auth="{{ user.is_authenticated }}"
                              onclick="checkout(this, 'promo1')">
                             <label class="btn btn-secondary">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">SELECT
                             </label>
                         </div>
-                    </div>
+                    </div> 
                 </div>
             </div>
             <div class="col">
                 <div class="zoom2" id="two" onmouseover="transform('two')" onmouseout="againtransform('two')">
                     <table class="d-block d-sm-none">
                         <tr>
-                            <td>
+                            <td class="best-seller-block">
                                 <div class="col-sm-6">
                                     <img class="img-fluid best-seller"
                                          src="{% static 'funnel/products/img/barley_for_diabetes/mobile/best-seller-mobile.png' %}"
@@ -910,9 +910,9 @@
                             <td class="ps-3">
                                 <div class="col-sm-6">
                                     <p>PROMO 2</p>
-                                    <p>₱2,299.00</p>
-                                    <p>120g of Pure Barley Powder <br> (3g per sachet)</p>
-                                    <p>40 DAYS SUPPLY</p>
+                                    <p>₱699.00</p>
+                                    <p>60g of Pure Barley Powder <br> (3g per sachet)</p>
+                                    <p>20 DAYS SUPPLY</p>
                                 </div>
                             </td>
                         </tr>
@@ -950,14 +950,14 @@
                     </div>
                     <div class="d-none d-sm-block">
                         <p>PROMO 2</p>
-                        <p>₱2,299.00</p>
-                        <p>120g of Pure Barley Powder <br> (3g per sachet)</p>
-                        <p style="font-weight: 900; font-size: 24px;">40 DAYS SUPPLY</p>
+                        <p>₱699.00</p>
+                        <p>60g of Pure Barley Powder <br> (3g per sachet)</p>
+                        <p style="font-weight: 900; font-size: 24px;">20 DAYS SUPPLY</p>
                         <div class="btn-group-toggle"
-                             data-price="2299"
+                             data-toggle="buttons"
+                             data-price="699"
                              data-quantity="3"
                              data-auth="{{ user.is_authenticated }}"
-                             data-toggle="buttons"
                              onclick="checkout(this, 'promo2')">
                             <label class="btn btn-secondary">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">SELECT
@@ -980,19 +980,17 @@
                             <td class="ps-3">
                                 <div class="col-sm-6">
                                     <p>PROMO 3</p>
-                                    <p>₱2,840.00</p>
-                                    <p>200g of Pure Barley Powder <br> (3g per scoop)</p>
-                                    <p>66 DAYS SUPPLY</p>
+                                    <p>₱1,099.00</p>
+                                    <p>120g of Pure Barley Powder <br> (3g per scoop)</p>
+                                    <p>40 DAYS SUPPLY</p>
                                 </div>
                             </td>
                         </tr>
                     </table>
                     <div class="col-sm-12 d-block d-sm-none">
                         <div class="btn-group-toggle"
-                             data-price="2840"
-                             data-quantity="3"
-                             data-auth="{{ user.is_authenticated }}"
                              data-toggle="buttons"
+                             data-price="1099"
                              onclick="checkout('promo3')">
                             <label class="btn btn-secondary">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">SELECT
@@ -1022,14 +1020,14 @@
                     </div>
                     <div class="row d-none d-sm-block">
                         <p style="margin-top: 0">PROMO 3</p>
-                        <p>₱2,840.00</p>
-                        <p>200g of Pure Barley Powder <br> (3g per scoop)</p>
-                        <p>66 DAYS SUPPLY</p>
+                        <p>₱1,099.00</p>
+                        <p>120g of Pure Barley Powder <br> (3g per scoop)</p>
+                        <p>40 DAYS SUPPLY</p>
                         <div class="btn-group-toggle"
-                             data-price="2840"
-                             data-quantity="3"
-                             data-auth="{{ user.is_authenticated }}"
+                             data-price="1099"
                              data-toggle="buttons"
+                             data-quantity=""
+                             data-auth="{{ user.is_authenticated }}"
                              onclick="checkout(this, 'promo3')">
                             <label class="btn btn-secondary">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">SELECT
