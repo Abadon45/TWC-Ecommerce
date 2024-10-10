@@ -1,6 +1,8 @@
+from decimal import Decimal
+
 from django.views.generic import View, TemplateView
-from django.http import JsonResponse
-from django.shortcuts import render
+from django.http import JsonResponse, HttpResponse, Http404
+from django.shortcuts import render, redirect
 from django.http import HttpResponseNotFound, HttpResponseRedirect
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
@@ -11,11 +13,13 @@ from django.contrib.auth import authenticate
 from django.core.mail import send_mail
 from django.conf import settings
 from cart.utils import sf_calculator
+from onlinestore.models import SiteSetting
 from onlinestore.utils import is_valid_username, check_sponsor_and_redirect, send_temporary_account_email
 
 import random
 import string
 import requests
+import json
 
 User = get_user_model()
 
@@ -23,13 +27,8 @@ User = get_user_model()
 class IndexView(TemplateView):
     template_name = 'index.html'
 
-    def get(self, request, username=None, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
 
-        # Redirect and register username to session if username is provided
-        if username:
-            return check_sponsor_and_redirect(request, username, 'home_view')
-
-        # API URL to fetch products
         api_url = 'https://dashboard.twcako.com/shop/api/get-product/'
 
         try:
@@ -41,11 +40,6 @@ class IndexView(TemplateView):
         except requests.exceptions.RequestException as e:
             # Handle API request errors
             return JsonResponse({'error': str(e)})
-
-        user = request.user
-
-        print(f'User: {user}')
-        print(user.is_authenticated)
 
         # Get products in cart (assuming 'ordered_items_by_shop' is a session variable containing the cart items)
         ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
@@ -120,12 +114,6 @@ class ProductFunnelView(TemplateView):
 
     def get_template_names(self):
         product = self.kwargs.get('product', None)
-        username = self.request.GET.get('username')
-        if not is_valid_username(username):
-            return ['404.html']
-        else:
-            self.request.session['funnel_referrer'] = username
-            print(username)
 
         if product == 'barley-for-cancer':
             return ['funnels/products/barley/cancer.html']
@@ -140,30 +128,26 @@ class ProductFunnelView(TemplateView):
         elif product == 'boost-coffee':
             return ['funnels/products/boost_coffee/index.html']
         else:
-            return ['404.html']
+            raise Http404("Product is not available")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        username = self.request.GET.get('username')
         product = self.kwargs.get('product')
 
-        context.update({'username': username, 'product': product})
+        context.update({'product': product})
 
         return context
 
 
-def generate_funnel_username(request):
-    product = 'barley-for-cancer'
-    username = request.user.username
-    url = reverse('product_funnel_with_params', kwargs={'product': product})
-    full_url = f"{url}?username={username}"
-    return HttpResponseRedirect(full_url)
-
-
 @transaction.atomic
 def create_order(request):
+    FIXED_SHIPPING_FEE = SiteSetting.get_fixed_shipping_fee()
+    if 'ordered_items_by_shop' in request.session:
+        request.session.pop('cart', None)
+        request.session.pop('ordered_items_by_shop', None)
+
     try:
-        user = request.user
+        # Retrieve customer and address details from POST data
         first_name = request.POST.get("first_name")
         last_name = request.POST.get("last_name")
         email = request.POST.get("email")
@@ -176,112 +160,111 @@ def create_order(request):
         postcode = request.POST.get("postcode")
         message = request.POST.get("message")
 
-        cod_amount = request.POST.get("bundle_price")
-        total_quantity = request.POST.get("bundle_qty")
-        supplier = "promo"  # Default supplier set to promo
+        product_details_str = request.POST.get("bundleDetails", '{}')
 
-        print(f"Creating order for user: {user}, Supplier: {supplier}")
+        try:
+            product_details = json.loads(product_details_str)
+        except json.JSONDecodeError:
+            print("Error decoding JSON for product_details")
+            product_details = {}
 
-        if user.is_authenticated:
-            print(f"User {user.username} is authenticated.")
-            existing_order = Order.objects.filter(user=user, supplier=supplier, complete=False).first()
-            if existing_order:
-                print(
-                    f"Found existing incomplete order for user {user.username} with order ID: {existing_order.order_id}")
-                order = existing_order
-            else:
-                print(f"No existing order found for user {user.username}. Creating new order.")
-                default_address = Address.objects.filter(user=user, is_default=True).first()
-                if not default_address:
-                    return JsonResponse({'error': 'Default address not found for the user'}, status=400)
-                region = default_address.region
-                shipping_fee = sf_calculator(region=region, qty=total_quantity)
+        cod_amount = Decimal(request.POST.get("bundle_price", "0"))  # Convert to Decimal
+        total_quantity = Decimal(request.POST.get("bundle_qty", "0"))  # Convert to Decimal
 
-                order = Order.objects.create(
-                    user=user,
-                    supplier=supplier,
-                    complete=False,
-                    shipping_address=default_address,
-                    cod_amount=cod_amount,
-                    shipping_fee=shipping_fee
-                )
-            request.session['bundle_order'] = order.order_id
-            print(f"Order ID {order.order_id} saved to session.")
-            return JsonResponse({'message': 'Order created successfully', 'order_id': order.order_id}, status=200)
+        # Save shipping address in session
+        request.session['shipping_address'] = {
+            'first_name': first_name,
+            'last_name': last_name,
+            'phone': phone,
+            'line1': line1,
+            'region': region,
+            'province': province,
+            'city': city,
+            'barangay': barangay,
+            'postcode': postcode,
+            'message': message,
+        }
+
+        # Calculate the shipping fee
+        if FIXED_SHIPPING_FEE > 0:
+            shipping_fee = Decimal(FIXED_SHIPPING_FEE)  # Convert to Decimal
         else:
-            print("User is not authenticated. Creating temporary user.")
-            referrer = request.session.get('funnel_referrer')
-            if not referrer:
-                return JsonResponse({'error': 'Referrer not found in session'}, status=400)
-            referrer_user = get_object_or_404(User, username=referrer)
-            print(f'Referrer: {referrer}, Order Item Quantity: {total_quantity}')
+            qty = total_quantity
+            shipping_fee = Decimal(sf_calculator(region=region, qty=qty))
 
-            shipping_fee = sf_calculator(region=region, qty=total_quantity)
-            random_suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=3))
-            temporary_username = first_name.lower()[0] + last_name.lower() + random_suffix
-            temporary_password = User.objects.make_random_password(length=6)
+        print(f'Product details: {product_details}')
 
-            temporary_user, user_created = User.objects.get_or_create(
-                username=temporary_username,
-                defaults={
-                    'password': temporary_password,
-                    'first_name': first_name,
-                    'last_name': last_name,
-                    'email': email,
-                    'referred_by': referrer_user,
-                }
-            )
-            print(f"Temporary user created: {temporary_username}, User created: {user_created}")
+        items = []
+        total_amount = Decimal(0)
 
-            shipping_address, created = Address.objects.get_or_create(
-                user=temporary_user,
-                defaults={
-                    'first_name': first_name,
-                    'last_name': last_name,
-                    'email': email,
-                    'phone': phone,
-                    'line1': line1,
-                    'barangay': barangay,
-                    'city': city,
-                    'province': province,
-                    'region': region,
-                    'postcode': postcode,
-                    'message': message,
-                }
-            )
-            print(f"Shipping address created for temporary user: {temporary_username}, Address created: {created}")
+        # Process each product in the order
+        for product_detail in product_details.get('products', []):
+            product_slug = product_detail['slug']
+            print(f'Product slug: {product_slug}')
 
-            order = Order.objects.create(
-                user=temporary_user,
-                shipping_address=shipping_address,
-                cod_amount=cod_amount,
-                shipping_fee=shipping_fee,
-                complete=False
-            )
-            print(f'Order ID: {order.order_id} created for temporary user.')
-            request.session['bundle_order'] = order.order_id
+            product_url = f'https://dashboard.twcako.com/shop/api/get-product/?slug={product_slug}'
+            try:
+                response = requests.get(product_url)
+                response.raise_for_status()
+                product_data = response.json()
 
-            request.session['guest_user_data'] = {
-                'username': temporary_username,
-                'password': temporary_password,
-                'email': temporary_user.email,
+                if product_data['success']:
+                    product = product_data['product']
+                    get_total = product_detail['quantity'] * Decimal(product['customer_price'])
+                    total_amount += get_total
+                    print(f'Total amount: {total_amount}')
+                    item = {
+                        'product': {
+                            'id': product['sku'],
+                            'name': product['name'],
+                            'shop': 'promo',
+                            'slug': product_slug,
+                            'image': product.get('image_1', None),
+                            'price': product['customer_price'],
+                        },
+                        'quantity': product_detail['quantity'],
+                        'get_total': f'{get_total:.2f}',
+                    }
+                    items.append(item)
+                else:
+                    print("Failed to fetch the product")
+
+            except requests.RequestException as e:
+                print(f"Error fetching product data: {e}")
+
+        print(f'Items: {items}')
+
+        # Retrieve bundle order data from session (provided by sales funnel jQuery)
+        ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
+
+        if 'promo' not in ordered_items_by_shop:
+            ordered_items_by_shop['promo'] = {'items': []}
+
+        # Calculate the discount and ensure values are Decimal
+        discount = total_amount + shipping_fee - cod_amount
+
+        order_details = {
+            'promo': {
+                'items': items,
+                'total_quantity': str(total_quantity),
+                'subtotal': str(total_amount),
+                'shipping_fee': str(shipping_fee),
+                'discount': str(discount),
+                'cod_amount': str(cod_amount),
             }
+        }
+        request.session['ordered_items_by_shop'] = order_details
 
-            user = authenticate(request, username=temporary_username, password=temporary_password)
+        request.session.modified = True
 
-            # if guest user is authenticated send email for temporary account
-            if user:
-                send_temporary_account_email(user, first_name, temporary_username, temporary_password)
-
-            return JsonResponse({'message': 'Order created successfully', 'order_id': order.order_id}, status=200)
-
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Referrer user not found'}, status=400)
+        return JsonResponse({
+            'success': True,
+            'redirect_url': reverse('cart:promo_checkout')
+        })
 
     except Exception as e:
         print(f"Exception in create_order: {e}")
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
-
 
 
 class BecomeSellerView(TemplateView):
@@ -305,9 +288,11 @@ class ComingSoonView(TemplateView):
 class Handle404View(View):
     title = "404"
 
-    def get(self, request):
-        context = self.get_context_data()
+    def get(self, request, exception=None):
+        context = self.get_context_data(exception=exception)
         return HttpResponseNotFound(render(request, '404.html', context=context))
 
-    def get_context_data(self):
-        return {'title': self.title}
+    def get_context_data(self, exception=None):
+        # Pass the exception message or a default one
+        message = str(exception) if exception else "Oops... Page Not Found!"
+        return {'title': self.title, 'message': message}

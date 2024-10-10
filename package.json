@@ -17,5 +17,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "csso": "^5.0.5"
+  }
 }

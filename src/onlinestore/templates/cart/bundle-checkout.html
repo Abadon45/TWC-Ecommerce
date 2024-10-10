@@ -1,0 +1,200 @@
+{% extends "base-shop.html" %}
+{% load static %}
+{% load currency_filters %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+<div class="shop-checkout2 twc-checkout py-100 mobile-width">
+    <div class="container">
+        <div class="shop-checkout-wrap">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="address-area">
+
+                                <h6 class="mb-2">Delivery Address</h6>
+
+                                <p class="selected_address">{{ address.first_name }}
+                                    {{ address.last_name }}
+                                    {{ address.phone }}</p>
+                                <div class="change-address row mb-20">
+                                    <div class="col-md-10 col-10">
+                                        <p class="address_details">{{ address.line1 }} Brgy.
+                                            {{ address.barangay }},
+                                            {{ address.city }}, {{ address.province }},
+                                            {{ address.postcode }} </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="shop-cart-summary payment-area" style="margin-left: 0!important;">
+                                <h5>Mode of Payment</h5>
+                                <label class="form-check-label" for="cod">
+                                    <h6>Cash On Delivery</h6>
+                                    <p>Please read our <a href="{% url 'terms' %}">Terms And
+                                        Conditions</a> for cash on delivery.</p>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="shop-cart-summary user-logged" style="margin-left: 0!important;">
+                        <div class="card index-card">
+                            <div class="card-header">
+                                <h3>CART SUMMARY</h3>
+                            </div>
+                            <div class="card-body">
+                                <ul class="bordered-bottom {% if not forloop.last %} mb-20 {% endif %}">
+                                    <li>Order: <span>Promo Bundle</span></li>
+                                    <li>Order Sub Total:
+                                        <span id="order-subtotal-{{ order.id }}">{{ order.promo.subtotal|currency }}</span>
+                                    </li>
+                                    <li class="list-shipping">Shipping Fee:
+                                        <span>{{ order.promo.shipping_fee|currency }}</span>
+                                    </li>
+                                    {% if order.promo.discount %}
+                                        <li class="list-discount">Discount:
+                                            <span>({{ order.promo.discount|currency }})</span>
+                                        </li>
+                                    {% else %}
+                                        <li class="list-discount">Discount:
+                                            <span>No discount applied</span>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                                <h4 class=" cart-total mt-3 py20">
+                                    <strong>
+                                        <span class="cart-label">Order Total:</span>
+                                        <span class="cart-value"
+                                              id="total-payment">{{ order.promo.cod_amount|currency }}</span>
+                                    </strong>
+                                </h4>
+                                <div class="col-lg-12 shop-checkout-form mt-20"
+                                     style="padding: 0!important; border: none!important; ">
+                                    <form id="checkoutForm" class="form" method="POST"
+                                          action="{% url 'cart:submit_checkout' %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="theme-btn checkout-btn"
+                                                data-referrer-id="{{ referred_by }}"
+                                                data-username="{{ current_user }}"
+                                                onclick="checkoutBtn(event)">CHECKOUT NOW
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mt-20 continue-shopping mobile-only">
+                            <a href="{% url 'shop:shop' %}" type="button" class="theme-btn theme-btn2">CONTINUE
+                                SHOPPING</a>
+                        </div>
+                    </div>
+                </div>
+                {% if not is_authenticated or not address %}
+                <div class="mobile-only">
+                    <div class="d-flex justify-content-between align-items-center dummy-submit">
+                        <a href="{% url 'cart:cart' %}" type="button" class="theme-btn">CONTINUE SHOPPING</a>
+                        <input type="hidden" name="submit_type" value="shipping">
+                        <button type="button" class="theme-btn" onclick="submitForm()">NEXT STEP</button>
+                    </div>
+                </div>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block extra_js %}
+<script>
+    // dummy button for submitting form
+    function submitForm() {
+        $('#addUserData').click();
+    }
+
+    $('.dummy-submit button').click(submitForm);
+
+    function checkoutBtn(event) {
+        event.preventDefault();
+        var referrerId = $(event.currentTarget).data('referrer-id');
+        var userData = $(event.currentTarget).data('username');
+
+        if (referrerId === "None" || referrerId === '') {
+            Swal.fire({
+                icon: 'warning',
+                title: 'REQUIRED INFORMATION',
+                text: 'To complete checkout, please input the USERNAME of your sponsor.',
+                input: 'text',
+                inputPlaceholder: 'Enter username',
+                showCancelButton: true,
+                confirmButtonText: 'Submit',
+                cancelButtonText: 'Cancel',
+                preConfirm: (username) => {
+                    if (!username) {
+                        Swal.showValidationMessage('Username is required!');
+                    } else if (username.toLowerCase() === 'None') {
+                        Swal.showValidationMessage('Username is required!');
+                    } else if (username.toLowerCase() === userData.toLowerCase()) {
+                        Swal.showValidationMessage('You cannot refer yourself!');
+                    } else if (username.toLowerCase() === 'admin') {
+                        Swal.showValidationMessage('You cannot use this username!');
+                    } else {
+                        return username;
+                    }
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var username = result.value;
+                    saveReferrerUsername(username);
+                }
+            });
+        } else {
+            var username = referrerId;
+            saveReferrerUsername(username);
+        }
+    }
+
+    function saveReferrerUsername(username) {
+        $.ajax({
+            url: '{% url "cart:submit_checkout" %}',
+            method: 'POST',
+            data: {
+                username: username,
+                csrfmiddlewaretoken: csrf,
+            },
+            success: function (response) {
+                // Show the thank you alert
+                Swal.fire({
+                    title: 'Thank You for Your Order!',
+                    text: 'Now completing checkout...',
+                    icon: 'success',
+                    didOpen: () => {
+                        Swal.showLoading(); // Show loading spinner
+                    }
+                });
+
+                // After a short delay, submit the form
+                setTimeout(() => {
+                    $('#checkoutForm').submit();
+                }, 2000); // Adjust the delay time as needed
+            },
+            error: function (xhr, status, error) {
+                console.error('Error saving referrer username:', error);
+                var responseData = JSON.parse(xhr.responseText);
+                var errorMessage = responseData.error;
+                Swal.fire({
+                    title: 'Error',
+                    text: errorMessage,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    }
+</script>
+{% endblock %}

@@ -71,6 +71,10 @@ input, textarea {
 }
 
 /* MISC */
+.main {
+    min-height: 85vh;
+}
+
 .spinner-border {
     display: none;
     margin: 0 auto;
@@ -1241,7 +1245,7 @@ input, textarea {
             }
 
             .bordered-bottom {
-                .list-shipping {
+                li:last-child {
                     padding-bottom: 15px;
                 }
             }
@@ -1464,11 +1468,18 @@ input, textarea {
     table {
         --bs-table-active-bg: var(--color-white) !important;
 
-        .shipping-row, .total-row {
+        .subtotal-row, .total-row {
             th, td {
                 border-top: 1px solid var(--border-info-color);
                 border-bottom: none !important;
                 padding-top: 10px;
+            }
+        }
+
+        .discount-row, .shipping-row {
+            th, td {
+                border-top: none !important;
+                border-bottom: none !important;
             }
         }
 
@@ -3816,7 +3827,7 @@ a.disabled:hover {
                         text-align: right;
                     }
 
-                    .shipping-row, th {
+                    .subtotal-row, th {
                         padding: 10px 5px !important;
                     }
 

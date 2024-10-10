@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load url_with_domain %}
 {% load currency_filters %}
 {% load static %}
 
@@ -76,7 +75,7 @@
                 <div class="card no-orders">
                     <img src="{% static 'img/orders/01.png' %}" alt="No Orders" class="no-orders-image">
                     <h6 class="no-orders-text">No Orders Yet</h6>
-                </div>                
+                </div>
                 {% endif %}
             </div>
         </div>
@@ -92,7 +91,7 @@
         align-items: center;
         margin: 20px 0;
     }
-    
+
     .loading-circle {
         width: 20px;
         height: 20px;

@@ -1,9 +1,10 @@
+
 from allauth.socialaccount.providers.mediawiki.provider import settings
 from django.utils import timezone
 from django.conf import settings
 from decimal import Decimal
 
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, render
 from django.http import Http404, HttpResponse
 from django.views import View
 from django.views.generic import TemplateView
@@ -13,7 +14,6 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 
-from .models import *
 from onlinestore.forms import AddressForm
 from onlinestore.models import *
 from onlinestore.utils import send_temporary_account_email
@@ -22,6 +22,7 @@ from TWC.settings.base import *
 
 import requests
 import decimal
+import json
 
 User = get_user_model()
 
@@ -39,7 +40,7 @@ class CartView(TemplateView):
 
         # Log the structure of each product's slug
         for shop, data in ordered_items_by_shop.items():
-            cart_total += data['total_amount']
+            cart_total += data['cod_amount']
             for item in data['items']:
                 print(f"Product name: {item['product']['name']}, Slug: {item['product'].get('slug', 'No slug')}")
 
@@ -162,11 +163,19 @@ class UpdateCartView(View):
         """Helper method to rebuild ordered_items_by_shop from the cart."""
         ordered_items_by_shop = {}
         FIXED_SHIPPING_FEE = SiteSetting.get_fixed_shipping_fee()
+        discount = 0.00
 
         for slug, cart_item in cart.items():
             shop = cart_item['shop']
             if shop not in ordered_items_by_shop:
-                ordered_items_by_shop[shop] = {'items': [], 'subtotal': 0, 'total_amount': 0}
+                ordered_items_by_shop[shop] = {
+                    'items': [],
+                    'total_quantity':0,
+                    'subtotal': 0,
+                    'shipping_fee':0,
+                    'discount':0,
+                    'cod_amount': 0
+                }
 
             ordered_items_by_shop[shop]['items'].append({
                 'product': {
@@ -178,20 +187,33 @@ class UpdateCartView(View):
                     'price': cart_item['price']
                 },
                 'quantity': cart_item['quantity'],
-                'get_total': float(cart_item['price']) * cart_item['quantity'],
+                'get_total': float(Decimal(cart_item['price']) * cart_item['quantity']),
             })
 
         # Calculate and update subtotal and cod amount for each shop
         for shop, data in ordered_items_by_shop.items():
             items = data['items']
-            subtotal = sum(Decimal(item['get_total']) for item in items)
-            total_amount = subtotal + FIXED_SHIPPING_FEE
-            ordered_items_by_shop[shop]['subtotal'] = float(subtotal)
-            ordered_items_by_shop[shop]['total_amount'] = float(total_amount)
+            total_quantity = sum(item['quantity'] for item in items)
+            ordered_items_by_shop[shop]['total_quantity'] = total_quantity
+            subtotal = sum(float(item['get_total']) for item in items)
+            ordered_items_by_shop[shop]['subtotal'] = subtotal
+            ordered_items_by_shop[shop]['discount'] = float(discount)
+            cod_amount = subtotal + float(FIXED_SHIPPING_FEE) - float(discount)
+            ordered_items_by_shop[shop]['cod_amount'] = cod_amount
 
         return ordered_items_by_shop
 
     def get(self, request, *args, **kwargs):
+        """Handle GET requests to update the cart."""
+        # Extract bundleDetails from the request (assuming it's sent as JSON)
+        bundle_details = request.GET.get('bundleDetails')
+
+        # Parse the bundleDetails from JSON (if it was sent in JSON format)
+        try:
+            bundle_details = json.loads(bundle_details) if bundle_details else {}
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid bundleDetails format'}, status=400)
+
         """Handle GET requests to update the cart."""
         product_slug = request.GET.get('productId')
         action = request.GET.get('action')
@@ -427,14 +449,15 @@ def submit_checkout(request):
                     'qty': item['quantity'],
                 })
 
-            cod_amount = ordered_items_by_shop[shop]['total_amount']
+            cod_amount = ordered_items_by_shop[shop]['cod_amount']
+            discount_price = ordered_items_by_shop[shop].get('discount', 0)
 
             const_data = {
                 "username": request.session['referrer'],
                 "shipping_details": shipping_details,
                 "order_details": {
                     "cod_amount": cod_amount,
-                    "discount_price": 0,
+                    "discount_price": discount_price,
                     "payment_method": "cod",
                 },
                 "cart_items": cart_items,
@@ -461,6 +484,31 @@ def submit_checkout(request):
         return redirect('cart:checkout_complete')
 
     return redirect('cart:cart')
+
+
+#########################
+# PROMO BUNDLE CHECKOUT #
+#########################
+
+
+class PromoCheckoutView(View):
+    template_name = 'cart/bundle-checkout.html'
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
+        address = self.request.session.get('shipping_address')
+
+        context.update({
+            'address': address,
+            'referred_by': self.request.session['referrer'],
+            'order': ordered_items_by_shop,
+        })
+        return context
 
 
 #########################################################
@@ -520,6 +568,8 @@ class CheckoutDoneView(TemplateView):
             total_quantity = sum(item['quantity'] for item in items)
             orders[shop]['total_quantity'] = total_quantity
 
+
+        total_cod_amount = sum(Decimal(shop['cod_amount']) for shop in orders.values())
         # Update the context with data retrieved from the session
         cart_total = self.request.session['cart_total']
         context.update({
@@ -531,7 +581,7 @@ class CheckoutDoneView(TemplateView):
             'total_payment': total_payment,
             'current_date': current_date,
             'sponsor': self.request.session.get('referrer', 'No referrer set'),
-            'cart_total': cart_total,
+            'total_cod_amount': total_cod_amount,
             'detect_region': region_detected,
         })
 
