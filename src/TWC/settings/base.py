@@ -93,6 +93,7 @@ MIDDLEWARE = [
     'TWC.middleware.SubdomainMiddleware',
     'django_hosts.middleware.HostsResponseMiddleware',
     'TWC.middleware.RedirectToWWW',
+    'TWC.middleware.DynamicCSRFMiddleware',
 ]
 
 AUTH_USER_MODEL = 'user.User'
@@ -100,11 +101,11 @@ AUTH_USER_MODEL = 'user.User'
 ROOT_URLCONF = 'TWC.urls'
 ROOT_HOSTCONF = 'TWC.hosts'
 DEFAULT_HOST = 'wildcard'
-CSRF_TRUSTED_ORIGINS = ['https://www.twconline.store', 'https://www.twcstoredevtest.com']
+CSRF_TRUSTED_ORIGINS = ['https://www.twconline.store', 'https://*.twconline.store', 'https://www.twcstoredevtest.com']
 CORS_ALLOWED_ORIGINS = [
     "https://www.twconline.store",
     "http://localhost:8000",
-    "https://www.twcstoredevtest.com",
+    "https://www.twcstoredevtest.com"
 ]
 
 TEMPLATES = [
@@ -248,18 +249,23 @@ SESSION_COOKIE_AGE = 60 * 60 * 24 * 14
 SESSION_COOKIE_SECURE = False
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
-if os.environ.get('CURRENT_DOMAIN') == 'twconline.store':
-    PARENT_HOST = 'twconline.store'
-    SITE_DOMAIN = 'twconline.store'
-    SESSION_COOKIE_DOMAIN = 'twconline.store'
-    DOMAIN_NAME = 'twconline.store'
-elif os.environ.get('CURRENT_DOMAIN') == 'twcstoredevtest.com':
-    PARENT_HOST = 'twcstoredevtest.com'
-    SITE_DOMAIN = 'twcstoredevtest.com'
-    SESSION_COOKIE_DOMAIN = 'twcstoredevtest.com'
-    DOMAIN_NAME = 'twcstoredevtest.com'
-else:
-    SESSION_COOKIE_DOMAIN = None
+# if os.environ.get('CURRENT_DOMAIN') == 'twconline.store':
+#     PARENT_HOST = 'twconline.store'
+#     SITE_DOMAIN = 'twconline.store'
+#     SESSION_COOKIE_DOMAIN = 'twconline.store'
+#     DOMAIN_NAME = 'twconline.store'
+# elif os.environ.get('CURRENT_DOMAIN') == 'twcstoredevtest.com':
+#     PARENT_HOST = 'twcstoredevtest.com'
+#     SITE_DOMAIN = 'twcstoredevtest.com'
+#     SESSION_COOKIE_DOMAIN = 'twcstoredevtest.com'
+#     DOMAIN_NAME = 'twcstoredevtest.com'
+# else:
+#     SESSION_COOKIE_DOMAIN = None
+
+PARENT_HOST = 'twconline.store'
+SITE_DOMAIN = 'twconline.store'
+SESSION_COOKIE_DOMAIN = 'twconline.store'
+DOMAIN_NAME = 'twconline.store'
 
 SESSION_COOKIE_NAME = "twccookie"
 SESSION_COOKIE_SAMESITE = 'Lax'

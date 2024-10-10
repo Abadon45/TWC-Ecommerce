@@ -1,13 +1,11 @@
 import requests
 import os
 
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404
 from django.contrib.auth import get_user_model
 from django.http import HttpResponsePermanentRedirect
-from django.urls import reverse
-from django_hosts import host
-from django.http import HttpResponseRedirect, Http404
-from django.urls import reverse
+from django.conf import settings
+from django.utils.deprecation import MiddlewareMixin
 
 
 class SubdomainMiddleware:
@@ -83,3 +81,11 @@ class RedirectToWWW:
 
         response = self.get_response(request)
         return response
+
+class DynamicCSRFMiddleware(MiddlewareMixin):
+    def process_request(self, request):
+        # Extract the domain from the request
+        domain = request.get_host().split(':')[0]
+        if domain and domain not in settings.CSRF_TRUSTED_ORIGINS:
+            # Add the domain to CSRF_TRUSTED_ORIGINS dynamically
+            settings.CSRF_TRUSTED_ORIGINS.append(f'https://{domain}')
