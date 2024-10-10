@@ -2,6 +2,8 @@ references
 development.env
 package-lock.json
 package.json
+.idea/watcherTasks.xml
+
 
 
 
