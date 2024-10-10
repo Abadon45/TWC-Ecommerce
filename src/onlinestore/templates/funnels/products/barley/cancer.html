@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block custom_css %}
-<link href="{% static 'funnel/products/custom_css/barley_for_cancer.min.css' %}" rel="stylesheet">
+<link href="{% static 'funnel/products/custom_css/barley_for_cancer.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -559,21 +559,17 @@
             </div>
         </div>
         <div class="row">
-            <div class="col d-none d-sm-block">
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe width="1080" height="698"
-                            src="https://www.loom.com/embed/dc13895b6e9b4182baf933a7b4f4d234?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=truesid=d91a0f3f-df63-4772-a72e-baf50f292b85"
-                            frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                    <div class="col d-none d-sm-block">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe width="1080" height="698" src="https://www.loom.com/embed/dc13895b6e9b4182baf933a7b4f4d234?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=truesid=d91a0f3f-df63-4772-a72e-baf50f292b85" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="col d-none d-sm-block">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe width="1080" height="698" src="https://www.loom.com/embed/e05915d3b90a49a8ab389f42e710a7fc?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=truesid=d91a0f3f-df63-4772-a72e-baf50f292b85" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col d-none d-sm-block">
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe width="1080" height="698"
-                            src="https://www.loom.com/embed/e05915d3b90a49a8ab389f42e710a7fc?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=truesid=d91a0f3f-df63-4772-a72e-baf50f292b85"
-                            frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
         <!-- carousel start -->
         <div class="row d-block d-sm-none">
             <div class="col">
@@ -872,9 +868,9 @@
                             <td class="ps-3">
                                 <div class="col-sm-6">
                                     <p>PROMO 1</p>
-                                    <p>₱2,199.00</p>
-                                    <p>90g of Pure Barley Powder <br> (3g per sachet)</p>
-                                    <p>30 DAYS SUPPLY</p>
+                                    <p>₱390.00</p>
+                                    <p>30g of Pure Barley Powder <br> (3g per sachet)</p>
+                                    <p>10 DAYS SUPPLY</p>
                                 </div>
                             </td>
                         </tr>
@@ -909,13 +905,13 @@
                     </div>
                     <div class="row d-none d-sm-block">
                         <p style="margin-top: 0">PROMO 1</p>
-                        <p>₱2,199.00</p>
-                        <p>90g of Pure Barley Powder <br> (3g per sachet)</p>
+                        <p>₱380.00</p>
+                        <p>30g of Pure Barley Powder <br> (3g per sachet)</p>
                         <p style="margin-bottom: 0">30 DAYS SUPPLY</p>
                         <div id="sweetalert1" class="btn-group-toggle"
                              data-toggle="buttons"
-                             data-price="2199"
-                             data-quantity="2"
+                             data-price="380"
+                             data-quantity="1"
                              data-auth="{{ user.is_authenticated }}"
                              onclick="checkout(this, 'promo1')">
                             <label class="btn btn-secondary">
@@ -942,9 +938,9 @@
                             <td class="ps-3">
                                 <div class="col-sm-6">
                                     <p>PROMO 2</p>
-                                    <p>₱2,299.00</p>
-                                    <p>120g of Pure Barley Powder <br> (3g per sachet)</p>
-                                    <p>40 DAYS SUPPLY</p>
+                                    <p>₱699.00</p>
+                                    <p>60g of Pure Barley Powder <br> (3g per sachet)</p>
+                                    <p>20 DAYS SUPPLY</p>
                                 </div>
                             </td>
                         </tr>
@@ -982,12 +978,12 @@
                     </div>
                     <div class="d-none d-sm-block">
                         <p>PROMO 2</p>
-                        <p>₱2,299.00</p>
-                        <p>120g of Pure Barley Powder <br> (3g per sachet)</p>
-                        <p style="font-weight: 900; font-size: 24px;">40 DAYS SUPPLY</p>
+                        <p>₱699.00</p>
+                        <p>60g of Pure Barley Powder <br> (3g per sachet)</p>
+                        <p style="font-weight: 900; font-size: 24px;">20 DAYS SUPPLY</p>
                         <div class="btn-group-toggle"
                              data-toggle="buttons"
-                             data-price="2299"
+                             data-price="699"
                              data-quantity="3"
                              data-auth="{{ user.is_authenticated }}"
                              onclick="checkout(this, 'promo2')">
@@ -1012,9 +1008,9 @@
                             <td class="ps-3">
                                 <div class="col-sm-6">
                                     <p>PROMO 3</p>
-                                    <p>₱2,840.00</p>
-                                    <p>200g of Pure Barley Powder <br> (3g per scoop)</p>
-                                    <p>66 DAYS SUPPLY</p>
+                                    <p>₱1,099.00</p>
+                                    <p>120g of Pure Barley Powder <br> (3g per scoop)</p>
+                                    <p>40 DAYS SUPPLY</p>
                                 </div>
                             </td>
                         </tr>
@@ -1022,7 +1018,7 @@
                     <div class="col-sm-12 d-block d-sm-none">
                         <div class="btn-group-toggle"
                              data-toggle="buttons"
-                             data-price="2840"
+                             data-price="1099"
                              onclick="checkout('promo3')">
                             <label class="btn btn-secondary">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">SELECT
@@ -1052,13 +1048,13 @@
                     </div>
                     <div class="row d-none d-sm-block">
                         <p style="margin-top: 0">PROMO 3</p>
-                        <p>₱2,840.00</p>
-                        <p>200g of Pure Barley Powder <br> (3g per scoop)</p>
-                        <p>66 DAYS SUPPLY</p>
+                        <p>₱1,099.00</p>
+                        <p>120g of Pure Barley Powder <br> (3g per scoop)</p>
+                        <p>40 DAYS SUPPLY</p>
                         <div class="btn-group-toggle"
-                             data-price="2840"
+                             data-price="1099"
                              data-toggle="buttons"
-                             data-quantity="3"
+                             data-quantity=""
                              data-auth="{{ user.is_authenticated }}"
                              onclick="checkout(this, 'promo3')">
                             <label class="btn btn-secondary">

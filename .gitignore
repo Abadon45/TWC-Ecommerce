@@ -24,7 +24,6 @@ server.keysrc/login/log/
 .idea
 =======
 
-TWC/logs
 src/TWC/logs/error.log
 src/TWC/settings/local.py
 
