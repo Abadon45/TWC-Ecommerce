@@ -266,7 +266,6 @@ PARENT_HOST = 'twconline.store'
 SITE_DOMAIN = 'twconline.store'
 SESSION_COOKIE_DOMAIN = 'twconline.store'
 DOMAIN_NAME = 'twconline.store'
-
 SESSION_COOKIE_NAME = "twccookie"
 SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_DOMAIN = SESSION_COOKIE_DOMAIN
