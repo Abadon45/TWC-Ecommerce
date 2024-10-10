@@ -1,3 +1,4 @@
+from logging import lastResort
 
 from allauth.socialaccount.providers.mediawiki.provider import settings
 from django.utils import timezone
@@ -19,6 +20,7 @@ from onlinestore.models import *
 from onlinestore.utils import send_temporary_account_email
 from .utils import sf_calculator, detect_region
 from TWC.settings.base import *
+from django.core.mail import send_mail
 
 import requests
 import decimal
@@ -306,6 +308,7 @@ class CheckoutView(FormView):
         self.request.session['shipping_address'] = {
             'first_name': shipping_address.first_name,
             'last_name': shipping_address.last_name,
+            'email': shipping_address.email,
             'phone': shipping_address.phone,
             'line1': shipping_address.line1,
             'region':shipping_address.region,
@@ -385,7 +388,11 @@ def submit_checkout(request):
         ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
         address_from_session = request.session.get('shipping_address', {})
 
-        # Prepare the payload with only the products and quantities
+        email = address_from_session.get('email')
+        first_name = address_from_session.get('first_name')
+        last_name = address_from_session.get('last_name')
+
+        print(f'Email: {email}')
 
         referrer_username = request.POST.get('username')
 
@@ -428,9 +435,21 @@ def submit_checkout(request):
                 print(f"Error parsing response: {e}")
                 return JsonResponse({'success': False, 'error': 'Invalid API response'}, status=500)
 
+        if email:
+            subject = 'TWC Online Store Order'
+            message = f'Good Day {first_name} {last_name},\n\n\nYou have successfully registered an account on TWConline.store!!\n\n\nHere are your temporary account details:\n\nUsername: {first_name}\nPassword: {last_name}\n\n\nThank you for your order!'
+            from_email = 'TWCAKO <support@twcako.com>'
+            recipient_list = [email]
+
+            try:
+                send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+                print("Email sent successfully!")
+            except Exception as e:
+                print(f"Error sending email: {e}")
+
         shipping_details = {
-            "first_name": address_from_session.get('first_name'),
-            "last_name": address_from_session.get('last_name'),
+            "first_name": first_name,
+            "last_name": last_name,
             "mobile": address_from_session.get('phone'),
             "address": address_from_session.get('line1'),
             "barangay": address_from_session.get('barangay'),
@@ -440,6 +459,7 @@ def submit_checkout(request):
             "country": 'Philippines',
             "postal_code": address_from_session.get('postcode'),
             "shipping_notes": address_from_session.get('message', "")}
+
 
         for shop, shop_data in ordered_items_by_shop.items():
             cart_items = []

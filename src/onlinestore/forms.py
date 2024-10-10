@@ -9,6 +9,7 @@ class AddressForm(forms.ModelForm):
         fields = [
             'first_name',
             'last_name',
+            'email',
             'phone',
             'region',
             'province',
