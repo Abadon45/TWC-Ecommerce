@@ -645,7 +645,7 @@ footer p {
 /* Responsive Media queries */
 
 /* // Mobile Large */
-@media only screen and (max-width: 428px) {
+@media only screen and (max-width: 450px) {
     .rowone {
         background-image: url("../img/barley_for_diabetes/mobile/bg1-mobile.jpg");
         padding: 20px;
@@ -972,6 +972,7 @@ footer p {
     #rowthirteen div#one.zoom1 p:nth-child(4) {
         font-size: 14px;
         margin-bottom: 0;
+        text-align: left;
     }
     #rowthirteen div#two.zoom2 p:nth-child(4) {
         font-size: 14px;
@@ -1026,9 +1027,12 @@ footer p {
         margin-bottom: 0!important;
         margin-top: 5px;
     }
+    .best-seller-block {
+        position: relative;
+    }
     .best-seller {
-        left: 351px;
-        top: 345.4rem;
+        left: 245%;
+        bottom: 60%;
         position: absolute;
         height: 50px;
     }
@@ -1075,9 +1079,9 @@ footer p {
     .rowone button, .rowten button {
         font-size: 13px;
     }
+
     .best-seller {
-        left: 346px;
-        top: 320.7rem;
+        bottom: 60%;
     }
 }
 
@@ -1096,8 +1100,8 @@ footer p {
         width: 100%;
     }
     .best-seller {
-        left: 320px;
-        top: 329.5rem;
+        left: 230%;
+        /*top: 365rem;*/
     }
 }
 
@@ -1199,8 +1203,8 @@ footer p {
         font-size: 19px;
     }
     .best-seller {
-        left: 303px;
-        top: 302rem;
+        left: 210%;
+        /*top: 352rem;*/
     }
     #delivery1 {
         padding-left: 1rem;
