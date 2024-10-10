@@ -1,5 +1,4 @@
 {% load static %}
-{% load url_with_domain %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -130,7 +129,12 @@
 
     $(document).ready(function () {
         const categoryId = new URLSearchParams(window.location.search).get('category_id') || 'all';
-        let currentCategory = '{{ product.get_category_1_display }}'.toLowerCase();
+        let currentCategory;
+        {% if products.1.category_1 %}
+            currentCategory = '{{ category_id }}'.toLowerCase();
+        {% else %}
+            currentCategory = '{{ product.category_1 }}'.toLowerCase();
+        {% endif %}
         let selectedCategory = 'all';
 
         // Match the category from the product or the category_id from the URL

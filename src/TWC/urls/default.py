@@ -1,4 +1,5 @@
 from django.urls import path, include, re_path
+from django.conf.urls import handler404
 from django.conf.urls.static import static
 from onlinestore.views import *
 from ..views import EmailFormView
@@ -14,13 +15,13 @@ urlpatterns = [
     path('cart/', include('cart.urls', namespace='cart')),
     path('accounts/', include('allauth.urls')),
     path('', IndexView.as_view(), name="home_view"),
-    path('<str:username>', IndexView.as_view(), name='affiliate_redirect'),
-    path('funnel/', ProductFunnelView.as_view(), name='product_funnel'),
-    path('funnel/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_with_params'),
-    path('generate-funnel-username/', generate_funnel_username, name='generate_funnel_username'),
-    path('funnel/create-order', create_order, name='create_order'),
-    re_path(r'^.*/$', Handle404View.as_view(), name='handle_404'),
+    path('pf/', ProductFunnelView.as_view(), name='product_funnel'),
+    path('pf/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_with_params'),
+    path('pf/create-order', create_order, name='create_order'),
+
 ]
+
+handler404 = Handle404View.as_view()
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

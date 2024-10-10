@@ -652,7 +652,7 @@ footer p {
 /* Responsive Media queries */
 
 /* // Mobile Large */
-@media only screen and (max-width: 428px) {
+@media only screen and (max-width: 450px) {
     .rowone {
         background-image: url("../img/barley_for_high_blood/mobile-highblood/bg1-mobile.jpg");
         padding: 20px;
@@ -973,6 +973,7 @@ footer p {
     #rowthirteen div#one.zoom1 p:nth-child(4) {
         font-size: 14px;
         margin-bottom: 0;
+        text-align: left;
     }
     #rowthirteen div#two.zoom2 p:nth-child(4) {
         font-size: 14px;

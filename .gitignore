@@ -1,5 +1,9 @@
 references
 development.env
+package-lock.json
+package.json
+
+
 
 bin/
 lib/
@@ -16,5 +20,11 @@ google_api.json
 server.crt
 server.csr
 server.keysrc/login/log/
+<<<<<<< HEAD
+.idea
+=======
 
-TWC/logs
+src/TWC/logs/error.log
+src/TWC/settings/local.py
+
+>>>>>>> main

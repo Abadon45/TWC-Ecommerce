@@ -24,8 +24,6 @@ class ShopView(TemplateView):
     title = "Shop"
 
     def get(self, request, username=None, *args, **kwargs):
-        if username:
-            return check_sponsor_and_redirect(request, username, 'shop:shop')
 
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             products, category_product_count, has_next = self.get_paginated_queryset()
@@ -143,6 +141,9 @@ class ShopView(TemplateView):
         products, category_product_count, _ = self.get_paginated_queryset()
         user_ratings = self.get_user_ratings(products)
 
+        category_id = self.request.GET.get('category_id', 'all')
+
+
         # Render the products to the 'shop/products_grid.html' template
         products_grid_html = render_to_string('shop/products_grid.html', {'products': products}, request=self.request)
 
@@ -151,6 +152,7 @@ class ShopView(TemplateView):
         products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in shop['items']]
 
         context['products_grid_html'] = products_grid_html
+        context['category_id'] = category_id
         context['products'] = products
         context['sort_option'] = sort_option
         context['products_in_cart'] = products_in_cart
@@ -178,12 +180,6 @@ class ShopDetailView(TemplateView):
     template_name = "shop/shop-single.html"
     context_object_name = 'product'
 
-    def get(self, request, slug=None, username=None, *args, **kwargs):
-        if username:
-            return check_sponsor_and_redirect(request, username, 'shop:single', slug=slug)
-
-            # If username is not provided, proceed with the normal GET handling
-        return super().get(request, slug=slug, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -377,14 +373,3 @@ class ShopDetailView(TemplateView):
 #         return JsonResponse({'success': False, 'message': str(e)})
 
 
-# @login_required
-# @require_POST
-# def remove_review(request, review_id):
-#     try:
-#         review = get_object_or_404(Review, id=review_id, user=request.user)
-#         if hasattr(review, 'rating'):
-#             review.rating.delete()
-#         review.delete()
-#         return JsonResponse({'success': True, 'message': 'Review removed successfully!'})
-#     except Exception as e:
-#         return JsonResponse({'success': False, 'message': str(e)})

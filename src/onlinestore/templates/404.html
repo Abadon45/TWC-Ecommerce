@@ -13,8 +13,8 @@
                         <div class="error-img">
                             <img src="{% static 'img/error/01.png' %}" alt="">
                         </div>
-                        <h2>Opps... Page Not Found!</h2>
-                        <p>The page you looking for not found may be it not exist or removed.</p>
+                        <h2>{{ message }}</h2>
+                        <p>The page you looking for is not found, it may not exist or removed.</p>
                         <a href="/" class="theme-btn">Go Back Home <i class="far fa-home"></i></a>
                     </div>
                 </div>
@@ -23,4 +23,4 @@
         <!-- error area end -->
 
 
-        {% endblock %}
+{% endblock %}cd
