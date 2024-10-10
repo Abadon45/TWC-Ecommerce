@@ -66,6 +66,11 @@ input, textarea {
     border-bottom: 1px solid var(--border-info-color);
 }
 
+.contact-us-btn {
+    border-radius: 5px;
+    padding: 4px 10px;
+}
+
 .color-theme1 {
     color: var(--theme-color) !important;
 }
@@ -2498,6 +2503,12 @@ a.disabled:hover {
 
     .py-100 {
         padding: 30px 0 !important;
+    }
+
+    .contact-us-btn {
+        border-radius: 3px;
+        padding: 2px 4px;
+        font-size: 8px;
     }
 
     .twc-category-slider {
@@ -5290,7 +5301,7 @@ a.disabled:hover {
 
     /* MISC */
     .continue-shopping {
-        margin-top: 30px;
+        margin: 30px auto 0 12px;
         justify-content: left !important;
 
         a {

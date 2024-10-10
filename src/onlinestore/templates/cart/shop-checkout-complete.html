@@ -18,7 +18,16 @@
                 <div class="card-body cart-summary text-center">
                     <h1>THANK YOU</h1>
                     <h3>YOUR ORDER HAS BEEN RECEIVED</h3>
-                    <p>For any concern, please feel free to {% if sponsor_mobile %}contact us at {{ sponsor_mobile }}{% else %}<a href="{{ referrer }}" target="_blank">[Contact Us]</a>{% endif %}.</p>
+                    <p>
+                        For any concern, please feel free to
+                        {% if sponsor_mobile %}
+                            contact us at {{ sponsor_mobile }}
+                        {% else %}
+                            <button class="contact-us-btn btn theme-btn" onclick="window.open('{{ referrer }}', '_blank')" >
+                                Contact Us
+                            </button>
+                        {% endif %}
+                    </p>
 
                     {#                {% if not user.is_authenticated %}#}
                     {#                    <div class="card login-info">#}
