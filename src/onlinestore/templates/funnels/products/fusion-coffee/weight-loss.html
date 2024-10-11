@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block custom_css %}
-<link href="{% static 'funnel/products/custom_css/fusion_for_weightloss.min.css' %}" rel="stylesheet">
+<link href="{% static 'funnel/products/custom_css/fusion_for_weightloss.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -764,9 +764,9 @@
                             <td class="ps-3">
                                 <div class="col-sm-6">
                                     <p>PROMO 1</p>
-                                    <p>₱799.00</p>
+                                    <p>₱340.00</p>
                                     <p>Coffee Mix with Barley per sachet 1 box = 10 sachets</p>
-                                    <p>20 DAYS SUPPLY</p>
+                                    <p>10 DAYS SUPPLY</p>
                                 </div>
                             </td>
                         </tr>
@@ -789,14 +789,14 @@
                         </picture>
                     </div>
                     <div class="row d-none d-sm-block">
-                        <p style="margin-top: 170px;">PROMO 1</p>
-                        <p>₱799.00</p>
+                        <p>PROMO 1</p>
+                        <p>₱340.00</p>
                         <p>Coffee Mix with Barley per sachet <br>1 box = 10 sachets</p>
-                        <p>20 DAYS SUPPLY</p>
+                        <p>10 DAYS SUPPLY</p>
                         <div id="sweetalert1" class="btn-group-toggle"
                              data-toggle="buttons"
-                             data-price="799"
-                             data-quantity="2"
+                             data-price="340"
+                             data-quantity="1"
                              data-auth="{{ user.is_authenticated }}"
                              onclick="checkout(this, 'promo4')">
                             <label class="btn btn-secondary">
@@ -823,9 +823,9 @@
                             <td class="ps-3">
                                 <div class="col-sm-6">
                                     <p>PROMO 2</p>
-                                    <p>₱1,249.00</p>
+                                    <p>₱649.00</p>
                                     <p>FREE Water Bottle and Watch</p>
-                                    <p>30 DAYS SUPPLY</p>
+                                    <p>20 DAYS SUPPLY</p>
                                 </div>
                             </td>
                         </tr>
@@ -865,14 +865,14 @@
                     </div>
                     <div class="d-none d-sm-block">
                         <p>PROMO 2</p>
-                        <p>₱1,249.00</p>
+                        <p>₱649.00</p>
                         <p>FREE Water Bottle and Watch</p>
                         <p></p>
-                        <p>30 DAYS SUPPLY</p>
+                        <p>20 DAYS SUPPLY</p>
                         <div id="sweetalert2" class="btn-group-toggle"
                              data-toggle="buttons"
-                             data-price="1249"
-                             data-quantity="5"
+                             data-price="649"
+                             data-quantity="3"
                              data-auth="{{ user.is_authenticated }}"
                              onclick="checkout(this, 'promo5')">
                             <label class="btn btn-secondary">
@@ -896,7 +896,7 @@
                             <td class="ps-3">
                                 <div class="col-sm-6">
                                     <p>PROMO 3</p>
-                                    <p>₱1,649.00</p>
+                                    <p>₱1,049.00</p>
                                     <p>FREE Electric Stirrer, Water Bottle and Watch</p>
                                     <p>40 DAYS SUPPLY</p>
                                 </div>
@@ -928,14 +928,14 @@
                     </div>
                     <div class="row d-none d-sm-block">
                         <p style="margin-top: 0">PROMO 3</p>
-                        <p>₱1,649.00</p>
+                        <p>₱1,049.00</p>
                         <p>FREE Electric Stirrer, Water Bottle and Watch</p>
                         <p>40 DAYS SUPPLY</p>
                         <div id="sweetalert3" class="btn-group-toggle"
                              data-toggle="buttons"
-                             data-price="1649"
-                             data-quantity="7"
-                             data-auth="{{ user.is_authenticated }}"
+                             data-price="1049"
+                             data-quantity="6"
+                             data-promo="promo6"
                              onclick="checkout(this, 'promo6')">
                             <label class="btn btn-secondary">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">SELECT

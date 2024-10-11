@@ -2,10 +2,10 @@ import requests
 import os
 
 from django.http import Http404
-from django.contrib.auth import get_user_model
 from django.http import HttpResponsePermanentRedirect
 from django.conf import settings
 from django.utils.deprecation import MiddlewareMixin
+from urllib.parse import urlparse
 
 
 class SubdomainMiddleware:
@@ -89,3 +89,37 @@ class DynamicCSRFMiddleware(MiddlewareMixin):
         if domain and domain not in settings.CSRF_TRUSTED_ORIGINS:
             # Add the domain to CSRF_TRUSTED_ORIGINS dynamically
             settings.CSRF_TRUSTED_ORIGINS.append(f'https://{domain}')
+
+
+class SubdomainSessionMiddleware(MiddlewareMixin):
+    def process_request(self, request):
+        # Extract the host
+        host = request.get_host()
+        domain_parts = host.split('.')
+
+        main_domain = 'twconline.store'
+        devtest_domain = 'twcstoredevtest.com'
+
+        # For requests with a subdomain
+        if len(domain_parts) > 2:
+            subdomain = domain_parts[0]
+
+            # Handle session based on the domain
+            if host.endswith(devtest_domain):
+                request.session.set_cookie_name(f"session_dev_{subdomain}")
+            elif host.endswith(main_domain):
+                request.session.set_cookie_name(f"session_main_{subdomain}")
+
+        # For requests without a subdomain (main domain only)
+        else:
+            if host.endswith(main_domain):
+                request.session.set_cookie_name("session_main")
+            elif host.endswith(devtest_domain):
+                request.session.set_cookie_name("session_dev")
+
+        # Optionally, set the session cookie domain to the main domain (not subdomain)
+        if host.endswith(main_domain):
+            request.session.set_cookie_domain(main_domain)
+        elif host.endswith(devtest_domain):
+            request.session.set_cookie_domain(devtest_domain)
+

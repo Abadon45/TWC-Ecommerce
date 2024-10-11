@@ -786,7 +786,7 @@ footer p {
     font-weight: 300;
     font-size: 16px;
     margin-bottom: 0;
-}.rowthree h1,.rowthree h3
+}
 
 /*--------------------------------------------*/
 
@@ -1230,7 +1230,6 @@ footer p {
         position: absolute;
         left: 225%;
         bottom: 11vh;
-        /*transform: translate(-50%, -50%);*/
         height: 50px;
     }
 

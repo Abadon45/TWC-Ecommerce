@@ -1,7 +1,7 @@
 /* Global CSS */
 .container-fluid {
-    padding-right: var(--bs-gutter-x,.0rem);
-    padding-left: var(--bs-gutter-x,.0rem);
+    padding-right: var(--bs-gutter-x, .0rem);
+    padding-left: var(--bs-gutter-x, .0rem);
 }
 
 p, li, span {
@@ -19,6 +19,7 @@ p, li, span {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
 .rowone p {
     font-size: 45px;
     color: #FFF200;
@@ -26,6 +27,7 @@ p, li, span {
     margin-bottom: 0;
     margin-top: 25px;
 }
+
 .rowone p:nth-child(3) {
     font-size: 45px;
     color: #FFFFFF;
@@ -33,24 +35,28 @@ p, li, span {
     margin-bottom: -45px;
     margin-top: 0;
 }
+
 .rowone p:nth-child(4) {
     font-size: 45px;
     color: #79ac61;
 }
+
 .rowone ul {
     list-style-image: url("../img/fusion_coffee_old_age/xl/whitecheck-xl.png");
     padding-left: 12%;
     padding-right: 17%;
 }
+
 .rowone li span {
     color: #FFFFFF;
     font-size: 24px;
     font-weight: 300;
     text-align: left;
     padding-left: 15px;
-    display:inline-block;
+    display: inline-block;
     margin-top: 15px;
 }
+
 .rowone button {
     font-family: 'Montserrat', sans-serif;
     font-size: 24px;
@@ -60,11 +66,13 @@ p, li, span {
     border-color: #79ac61;
     margin-top: 35px;
 }
+
 .rowone .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
     color: #fff;
     background-color: #4a7652;
     border-color: #4a7652;
 }
+
 .rowone .embed-responsive .embed-responsive-item,
 .embed-responsive embed,
 .embed-responsive iframe,
@@ -77,37 +85,45 @@ p, li, span {
     height: 440px;
     border: 0;
 }
+
 a, a:hover {
     color: white;
     text-decoration: none;
 }
+
 /*--------------------------------------------*/
 .rowtwo {
     background-color: white;
     padding: 70px;
 }
+
 .rowtwo img {
     display: block;
     margin: auto;
 }
+
 /*--------------------------------------------*/
 .rowthree {
     background-color: #F7F7F7;
     padding: 70px;
 }
+
 .rowthree img {
     margin: 13rem auto 0;
     display: block;
 }
-.rowthree center p{
+
+.rowthree center p {
     margin-top: -30px;
 }
+
 .rowthree p:nth-child(1) {
     font-size: 50px;
     color: #4a7652;
     font-weight: 900;
     margin-bottom: 0;
 }
+
 .rowthree p:nth-child(2) {
     font-size: 24px;
     color: #4a7652;
@@ -115,6 +131,7 @@ a, a:hover {
     line-height: 1;
     margin-top: -15px;
 }
+
 .rowthree .col p {
     font-size: 24px;
     margin-bottom: 0;
@@ -123,6 +140,7 @@ a, a:hover {
     color: #000000;
     margin-right: 6rem;
 }
+
 .rowthree div.col.line-height p:nth-child(2) {
     font-family: 'Montserrat', sans-serif;
     font-size: 24px;
@@ -131,26 +149,32 @@ a, a:hover {
     line-height: normal;
     margin-top: auto;
 }
+
 .rowthree .circle {
     width: auto;
     height: 50px;
     margin-top: 40px;
 }
+
 .rowthree picture {
     display: contents;
 }
+
 /*--------------------------------------------*/
 .rowfour {
     background-color: #4a7652;
     padding: 70px;
 }
+
 .rowfour img.img-fluid {
     margin: 6rem auto 0;
     display: block;
 }
+
 .rowfour li {
     list-style-type: none;
 }
+
 .rowfour p {
     color: #ffffff;
     font-size: 34px;
@@ -158,24 +182,29 @@ a, a:hover {
     line-height: 40px;
     letter-spacing: 1px;
 }
+
 .rowfour li span {
     color: #ffffff;
     font-size: 24px;
     font-weight: 300;
     padding-left: 1rem;
 }
+
 .rowfour ul {
     padding-left: 0;
 }
+
 /*--------------------------------------------*/
 .rowfive {
     background-color: white;
     padding: 70px;
 }
+
 .rowfive img {
     margin: auto;
     display: block;
 }
+
 .rowfive p:nth-child(1) {
     font-size: 65px;
     color: #603913;
@@ -184,6 +213,7 @@ a, a:hover {
     letter-spacing: 1px;
     margin-top: 4rem;
 }
+
 .rowfive p:nth-child(2) {
     font-size: 34px;
     font-weight: 900;
@@ -191,6 +221,7 @@ a, a:hover {
     line-height: 35px;
     padding-right: 2rem;
 }
+
 /*--------------------------------------------*/
 .rowseven {
     background-image: url("../img/fusion_coffee_old_age/xl/bg2-xl.jpg");
@@ -202,6 +233,7 @@ a, a:hover {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
 .rowseven div.row p {
     font-size: 24px;
     font-weight: 900;
@@ -209,28 +241,33 @@ a, a:hover {
     padding-right: 11rem;
     line-height: normal;
 }
+
 .rowseven div.row p:nth-child(3) {
     font-size: 44px;
     font-weight: 900;
     color: #79ac61;
     padding-right: 0;
 }
+
 .rowseven div.row p:nth-child(4) {
     font-size: 24px;
     font-weight: 900;
     color: #ffffff;
     padding-right: 0;
 }
+
 .rowseven ul {
     list-style-type: none;
     padding-left: 0;
 }
+
 .rowseven li span {
     font-size: 24px;
     font-weight: 300;
     color: #ffffff;
     padding-left: 1rem;
 }
+
 .rowseven .embed-responsive .embed-responsive-item,
 .embed-responsive embed,
 .embed-responsive iframe,
@@ -243,25 +280,30 @@ a, a:hover {
     height: 358px;
     border: 0;
 }
+
 /*--------------------------------------------*/
 .roweight {
     background-color: #F7F7F7;
     padding: 70px;
 }
+
 .roweight p {
     font-size: 60px;
     font-weight: 900;
     color: #4a7652;
 }
+
 /*--------------------------------------------*/
 .rownine {
     background-color: white;
     padding: 50px;
 }
+
 .rownine img {
     display: block;
     margin: auto;
 }
+
 /*--------------------------------------------*/
 .rowten {
     background-image: url("../img/fusion_coffee_old_age/xl/bg3.jpg");
@@ -273,21 +315,25 @@ a, a:hover {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
 .rowten img {
     margin: -4rem auto 0;
     display: block;
 }
+
 .rowten p {
     font-size: 50px;
     font-weight: 900;
     color: #ffffff;
     line-height: 35px;
 }
+
 .rowten p:nth-child(2) {
     font-size: 24px;
     font-weight: 300;
     padding-right: 2rem;
 }
+
 .rowten button {
     font-family: 'Montserrat', sans-serif;
     font-size: 24px;
@@ -297,29 +343,35 @@ a, a:hover {
     border-color: #79ac61;
     margin-top: 2rem;
 }
+
 .rowten .btn-primary:hover {
     color: #fff;
     background-color: #4a7652;
     border-color: #4a7652;
 }
+
 /*--------------------------------------------*/
 .roweleven {
     background-color: #79ac61;
     padding-top: 70px;
 }
+
 .roweleven center p {
     font-size: 72px;
     font-weight: 900;
     color: #ffffff;
     letter-spacing: 1px;
 }
+
 .roweleven div.row:nth-child(4) {
     margin-top: 3rem;
 }
+
 .roweleven .row:nth-child(3) {
     margin-top: 60px;
     margin-bottom: 30px;
 }
+
 /*
 .roweleven .card {
     width: 600px;
@@ -334,25 +386,32 @@ a, a:hover {
     padding-bottom: 10rem;
     margin: auto;
 }
+
 .roweleven div.card-body {
     padding: 45px;
     font-size: 22px;
 }
+
 .roweleven div.box1 {
     transform: rotate(-8deg);
 }
+
 .roweleven div.box2 {
     transform: rotate(4deg);
 }
+
 .roweleven div.box3 {
     transform: rotate(8deg);
 }
+
 .roweleven div.box4 {
     transform: rotate(-4deg);
 }
+
 .mt-40 {
     margin-top: 40px;
 }
+
 /*--------------------------------------------*/
 .rowtwelve {
     background-image: url("../img/fusion_coffee_old_age/xl/bg4-xl.jpg");
@@ -364,35 +423,42 @@ a, a:hover {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
 .rowtwelve img {
     display: block;
     margin: auto;
 }
+
 .rowtwelve p {
     font-size: 45px;
     font-weight: 900;
     color: #79ac61;
     margin-top: 2rem;
 }
+
 .rowtwelve p:nth-last-child(1) {
     font-size: 24px;
     font-weight: 300;
     color: #ffffff;
     margin-top: 20px;
 }
+
 .rowtwelve .circle {
-    margin-top: 10px!important;
+    margin-top: 10px !important;
     width: auto;
     height: 50px;
 }
+
 .rowtwelve picture {
     display: contents;
 }
+
 /*--------------------------------------------*/
 #rowthirteen {
     background-color: #F7F7F7;
     padding: 70px 70px 100px;
 }
+
 #rowthirteen div.col center p:nth-child(1) {
     font-weight: 900;
     font-size: 73px;
@@ -400,10 +466,12 @@ a, a:hover {
     line-height: 4rem;
     padding-bottom: 50px;
 }
+
 #rowthirteen img {
     display: block;
     margin: auto;
 }
+
 label.btn.btn-secondary {
     font-weight: 900;
     font-size: 24px;
@@ -411,7 +479,8 @@ label.btn.btn-secondary {
     width: 100%;
     margin-bottom: 2px;
 }
-.zoom1,.zoom2,.zoom3 {
+
+.zoom1, .zoom2, .zoom3 {
     padding: 50px;
     background-color: white;
     transition: transform .2s;
@@ -420,19 +489,23 @@ label.btn.btn-secondary {
     width: 26rem;
     margin: 0 auto;
 }
-.zoom1,.zoom3 {
+
+.zoom1, .zoom3 {
     transform: scale(1.03);
     cursor: pointer;
 }
+
 .zoom2 {
     transform: scale(1.08);
     cursor: pointer;
 }
+
 .best-seller {
     position: relative;
     top: -51px;
     left: 9rem;
 }
+
 #rowthirteen div.zoom1 center p:nth-child(1) {
     font-weight: 900;
     font-size: 24px;
@@ -440,12 +513,14 @@ label.btn.btn-secondary {
     padding-bottom: 0;
     margin-top: 8.5rem;
 }
+
 #rowthirteen div.zoom2 center p:nth-child(1) {
     font-weight: 900;
     font-size: 24px;
     color: #4a7652;
     padding-bottom: 0;
 }
+
 #rowthirteen div.zoom3 center p:nth-child(1) {
     font-weight: 900;
     font-size: 24px;
@@ -453,24 +528,28 @@ label.btn.btn-secondary {
     padding-bottom: 0;
     margin-top: -5px;
 }
+
 #rowthirteen div.zoom1 center p:nth-child(2) {
     font-size: 48px;
     font-weight: 900;
     color: #000000;
     line-height: 1px;
 }
+
 #rowthirteen div.zoom2 center p:nth-child(2) {
     font-size: 48px;
     font-weight: 900;
     color: #000000;
     line-height: 1px;
 }
+
 #rowthirteen div.zoom3 center p:nth-child(2) {
     font-size: 48px;
     font-weight: 900;
     color: #000000;
     line-height: 1px;
 }
+
 #rowthirteen div.zoom1 center p:nth-child(3) {
     font-size: 18px;
     font-weight: 300;
@@ -479,6 +558,7 @@ label.btn.btn-secondary {
     line-height: 30px;
     margin-top: 26px;
 }
+
 #rowthirteen div.zoom2 center p:nth-child(3) {
     font-size: 18px;
     font-weight: 300;
@@ -486,6 +566,7 @@ label.btn.btn-secondary {
     margin-bottom: 0;
     margin-top: 26px;
 }
+
 #rowthirteen div.zoom3 center p:nth-child(3) {
     font-size: 18px;
     font-weight: 300;
@@ -494,21 +575,25 @@ label.btn.btn-secondary {
     line-height: 30px;
     margin-top: 26px;
 }
+
 #rowthirteen div.zoom3 center p:nth-child(4) {
     font-size: 24px;
     font-weight: 900;
     margin-bottom: 25px;
 }
+
 #rowthirteen div.zoom1 center p:nth-child(4) {
     font-size: 24px;
     margin-bottom: 25px;
     font-weight: 900;
 }
+
 #rowthirteen div.zoom2 center p:nth-child(4) {
     font-size: 24px;
     margin-bottom: 23px;
     font-weight: 900;
 }
+
 #rowthirteen .zoom2 img.promo-product {
     margin: -50px auto 40px
 }
@@ -516,6 +601,7 @@ label.btn.btn-secondary {
 #rowthirteen div.zoom1 div.row img {
     margin-top: 5rem;
 }
+
 #rowthirteen div.zoom3 div.row img {
     margin-top: 3rem;
 }
@@ -523,132 +609,161 @@ label.btn.btn-secondary {
 #rowthirteen div.zoom3 div.row img.freebie {
     margin-top: -15px
 }
+
 #rowthirteen div.zoom2 div.col img {
     margin-top: 0;
 }
+
 #rowthirteen div.zoom2 label.btn.btn-secondary {
     margin-bottom: 15px;
 
 }
+
 .btn-secondary {
     width: 21rem;
     background-color: #4a7652;
     border-color: #4a7652;
 }
+
 .btn-secondary:hover, .btn-secondary:active, .btn-secondary:focus {
     color: #fff;
     background-color: #79ac61;
     border-color: #79ac61;
 }
+
 .form-check-input[type=checkbox] {
     margin-right: 5px;
 }
+
 .form-check-input:checked {
     background-color: #8dc63f;
     border-color: white;
 }
+
 .form-check-input:checked:after {
     background-color: #8dc63f;
     border-color: #8dc63f;
 }
-#rowthirteen div.card-2 div.row img:nth-child(1) {
-    position: relative;
-    top: -5rem;
-}
+
+/*#rowthirteen div.card-2 div.row img:nth-child(1) {*/
+/*    position: relative;*/
+/*    top: -5rem;*/
+/*}*/
+
 #rowthirteen div.card-2 div.row p:nth-child(1) {
     margin-top: -5.1rem;
 }
+
 #rowthirteen div.card-2 div.row img:nth-last-child(1) {
     padding-top: 0;
     width: 13.1rem;
 }
+
 #rowthirteen div.card-3 img {
     padding-top: 5rem;
 }
+
 #rowthirteen div.card-2 p:nth-child(3) {
     padding-bottom: 2rem;
 }
+
 #rowthirteen div.card-3 p:nth-child(1) {
     padding-bottom: 2rem;
 }
+
 #rowthirteen div.card-1 img {
     padding-top: 5rem;
 }
+
 #rowthirteen div.card-1 p:nth-child(1) {
     padding-top: 83px;
 }
+
 #rowthirteen div.card-1 p:nth-child(3) {
     padding-bottom: 2rem;
 }
+
 /*--------------------------------------------*/
 .rowfourteen {
     background-color: #4a7652;
     padding: 70px;
 }
+
 #delivery1 {
     text-align: end;
 }
+
 #delivery2 {
     padding-right: 23rem;
 }
+
 /*--------------------------------------------*/
 .rowfifteen {
     background-color: #F7F7F7;
     padding: 70px;
 }
+
 .rowfifteen center p:nth-child(1) {
     font-weight: 900;
     font-size: 72px;
     color: #4a7652;
 }
+
 .rowfifteen p {
     font-weight: 300;
     color: #000000;
     font-size: 24px;
 }
+
 .collapsible {
     background-color: white;
     padding: 25px;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
+
 .collapsible p {
     font-size: 45px;
     font-weight: 900;
     color: #000000;
 }
+
 .rowfifteen button.accordion-button, div.accordion-body {
     font-weight: 300;
     color: #000000;
     font-size: 24px;
     font-family: 'Montserrat', sans-serif;
 }
+
 .rowfifteen div.accordion-body {
     margin-left: 2rem;
 }
+
 .accordion-item.no-border {
     border: none;
 }
+
 /*--------------------------------------------*/
 /* Auto scroll up */
 #myBtn {
-  display: none;
-  position: fixed;
-  bottom: 12px;
-  right: 30px;
-  z-index: 99;
-  font-size: 18px;
-  border: none;
-  outline: none;
-  background-color: seagreen;
-  color: white;
-  cursor: pointer;
-  padding: 15px;
-  border-radius: 4px;
+    display: none;
+    position: fixed;
+    bottom: 12px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: seagreen;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 4px;
 }
 
 #myBtn:hover {
-  background-color: #a8db63;
+    background-color: #a8db63;
 }
+
 /* Foorter Css */
 footer {
     padding: 25px;
@@ -656,25 +771,29 @@ footer {
     color: white;
     text-align: center;
 }
+
 footer p {
     font-weight: 300;
     font-size: 16px;
     margin-bottom: 0;
 }
+
 /*--------------------------------------------*/
 
 /* Responsive Media queries */
 
-/* // Mobile Large */
-@media only screen and (max-width: 425px) {
+/* // Mobile Large - iPhone 14 and up */
+@media only screen and (max-width: 450px) {
     .rowone {
         background-image: url("../img/fusion_coffee_old_age/mobile/bg1-mobile.jpg");
         padding: 20px;
     }
+
     .rowone li span {
         font-size: 13px;
         padding-left: 0;
     }
+
     .rowone .embed-responsive .embed-responsive-item,
     .embed-responsive embed,
     .embed-responsive iframe,
@@ -683,97 +802,121 @@ footer p {
         width: 100%;
         height: 203px;
     }
+
     .rowone p {
         font-size: 18px;
         margin-top: 20px;
         margin-bottom: 5px;
     }
+
     .rowone p:nth-child(3) {
         font-size: 17px;
         margin: 0;
     }
+
     .rowone p:nth-child(4) {
         font-size: 23px;
         margin-top: -3px;
         line-height: 25px;
     }
+
     .rowone button {
         font-size: 14px;
         margin-top: 0;
     }
+
     .rowone ul {
         list-style-image: url("../img/fusion_coffee_old_age/mobile/whitecheck-mobile.png");
         padding-left: 9%;
         padding-right: 0;
     }
+
     .rowtwo {
         padding: 20px;
     }
+
     .rowthree center p {
         margin-top: 0;
     }
+
     .rowthree {
         padding: 20px 20px 0;
     }
+
     .rowthree p:nth-child(1) {
         font-size: 22px;
         line-height: 1;
     }
+
     .rowthree p:nth-child(2) {
         font-size: 15px;
         margin: 0
     }
+
     .rowthree .circle {
         height: 30px;
         margin-top: 5px;
         margin-left: 15px;
     }
+
     .rowthree .col p {
         font-size: 13px;
         margin-top: 0;
         margin-right: 0;
         margin-bottom: 20px;
     }
+
     .rowthree div.col.line-height p:nth-child(2) {
         font-size: 13px;
     }
+
     .rowthree img {
         margin-top: 20px;
         margin-bottom: 20px;
     }
+
     .rowfour {
         padding: 20px;
     }
+
     .first {
         order: 1;
     }
+
     .second {
         order: 2;
     }
+
     .rowfour img.img-fluid {
         margin-top: 0;
     }
+
     .rowfour p {
         font-size: 13px;
         margin-top: 20px;
         line-height: 15px;
         text-align: center;
     }
+
     .rowfour li {
         margin-left: 0;
     }
+
     .rowfour li span {
         color: #ffffff;
         font-size: 14px;
         font-weight: 300;
         padding-left: 0;
     }
+
     .rowfour ul {
         margin-bottom: 0;
     }
+
     .rowfive {
         padding: 20px;
     }
+
     .rowfive p:nth-child(1) {
         font-size: 20px;
         text-align: center;
@@ -781,6 +924,7 @@ footer p {
         margin-top: 1rem;
         margin-bottom: 5px;
     }
+
     .rowfive p:nth-child(2) {
         font-size: 13px;
         line-height: normal;
@@ -788,41 +932,51 @@ footer p {
         padding-right: 0;
         margin-bottom: 0;
     }
+
     .rowfive p {
         font-size: 13px;
         line-height: normal;
     }
+
     .rowsix {
         padding: 20px;
     }
+
     .rowsix img {
         margin-top: 0;
         margin-bottom: 30px;
     }
+
     .rowsix p {
         font-size: 13px;
         text-align: center;
         line-height: normal;
     }
+
     .rowsix div.col.line-height p {
         font-size: 11px;
         text-align: left;
         margin-bottom: 0;
     }
+
     .rowsix .circle {
         height: 27px;
         margin-left: 15px;
     }
+
     .rowsix div.row {
         margin-top: 0;
     }
+
     .rowseven {
         background-image: url("../img/fusion_coffee_old_age/mobile/bg2-mobile.jpg");
         padding: 20px;
     }
+
     .rowseven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
         height: 204px;
     }
+
     .rowseven div.row p:nth-child(1) {
         font-size: 13px;
         text-align: center;
@@ -830,12 +984,15 @@ footer p {
         line-height: normal;
         padding: 0 72px;
     }
+
     .rowseven li span {
         font-size: 16px;
     }
+
     .rowseven li {
         margin-bottom: 5px;
     }
+
     .rowseven div.row p:nth-child(3) {
         font-size: 25px;
         margin-top: 10px;
@@ -843,75 +1000,93 @@ footer p {
         margin-bottom: 5px;
         padding-right: 12px;
     }
+
     .rowseven div.row p:nth-child(4) {
         font-size: 14px;
         padding-right: 12px;
     }
+
     .rowseven div.row p:nth-child(2) {
         text-align: center;
         font-size: 14px;
         line-height: normal;
         margin-bottom: 0;
     }
+
     .rowseven div.row p {
         text-align: center;
         font-size: 13px;
         line-height: normal;
     }
+
     .roweight {
         padding: 20px;
     }
+
     .roweight p {
         font-size: 24px;
         line-height: normal;
     }
+
     .rownine {
         padding: 20px;
     }
+
     .rowten {
         background-image: url("../img/fusion_coffee_old_age/mobile/bg3-mobile.jpg");
         padding: 20px;
     }
+
     .rowten p {
         font-size: 16px;
         text-align: center;
         line-height: 5px;
     }
+
     .rowten p:nth-child(2) {
         line-height: 1;
         font-size: 13px;
         padding-right: 0;
     }
+
     .rowten p:nth-child(3) {
         font-size: 13px;
         font-weight: 300;
         line-height: normal;
     }
+
     .rowten img {
         margin-bottom: 1rem;
         margin-top: 0;
     }
+
     .rowten button {
         font-size: 14px;
         width: 100%;
         margin-top: 0;
     }
+
     .roweleven .mt-40 {
         margin-top: -20px;
     }
+
     .roweleven {
         padding: 20px 20px 1px;
     }
+
     .roweleven center p {
         font-size: 27px;
         margin-bottom: 10px;
     }
+
     .roweleven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
         height: 204px;
     }
+
     .roweleven .row:nth-child(3) {
-        margin-top: 0!important;
+        margin-top: 0 !important;
     }
+
     .roweleven .card {
         width: auto;
         height: 22rem;
@@ -919,67 +1094,85 @@ footer p {
         background-color: transparent;
         border: none;
     }
+
     .roweleven .card-body.card-body-1 {
         padding: 1rem 1rem;
     }
+
     .roweleven p.card-text {
         font-size: 12px;
     }
+
     .roweleven div.card-body {
         font-size: 5px;
     }
+
     .roweleven .carousel {
         margin-bottom: 40px;
     }
+
     .roweleven .carousel-indicators.mb-60 {
         bottom: -60px;
     }
+
     .roweleven img.img-fluid {
         height: 100%;
     }
+
     .rowtwelve {
         background-image: url("../img/fusion_coffee_old_age/mobile/bg4-mobile.jpg");
         padding-top: 20px;
         padding-left: 20px;
         padding-right: 20px;
     }
+
     .rowtwelve .mt-40 {
         margin-top: 10px;
     }
+
     .rowtwelve .mt-5 {
-        margin-top: 0!important;
+        margin-top: 0 !important;
         margin-bottom: 8px;
     }
+
     .rowtwelve .col-xl-6.col-md-5.col-sm-6, .col-xl-6.col-md-7.col-sm-6 {
         width: 185px;
     }
+
     .rowtwelve .circle {
         height: 20px;
-        margin-top: 0!important;
+        margin-top: 0 !important;
         margin-left: 10px;
     }
+
     .rowtwelve img:nth-child(1) {
         margin-top: 42px;
     }
+
     .rowtwelve p {
         font-size: 14px;
         margin-top: 0;
         margin-bottom: 5px;
     }
+
     .rowtwelve p:nth-last-child(1) {
         font-size: 13px;
         margin-top: 0;
         margin-bottom: 5px;
     }
+
     .rowtwelve img:nth-child(2) {
         margin-bottom: 6px;
     }
+
     #rowthirteen {
         padding: 20px;
     }
+
     #rowthirteen td:nth-child(1) {
         width: 114px;
     }
+
     #rowthirteen div.col center p:nth-child(1) {
         font-size: 22px;
         line-height: 1;
@@ -987,50 +1180,61 @@ footer p {
         margin-top: 0;
         margin-bottom: 0;
     }
+
     #rowthirteen div#one.zoom1 p:nth-child(1) {
         font-size: 16px;
         margin: 0;
         line-height: normal;
     }
+
     #rowthirteen div#two.zoom2 p:nth-child(1) {
         font-size: 16px;
         margin: 0;
         line-height: normal;
     }
+
     #rowthirteen div#three.zoom3 p:nth-child(1) {
         font-size: 16px;
         margin: 0;
         line-height: normal;
     }
+
     #rowthirteen div.zoom1 div.row img {
         margin-top: 0;
     }
+
     #rowthirteen div#one.zoom1 p:nth-child(2) {
         font-size: 24px;
         line-height: normal;
         margin-bottom: 0;
     }
+
     #rowthirteen div#two.zoom2 p:nth-child(2) {
         font-size: 24px;
         line-height: normal;
         margin-bottom: 0;
     }
+
     #rowthirteen div#one.zoom1 p:nth-child(4) {
         font-size: 14px;
         margin-bottom: 0;
     }
+
     #rowthirteen div#two.zoom2 p:nth-child(4) {
         font-size: 14px;
         margin-bottom: 0;
     }
+
     #rowthirteen div#three.zoom3 p:nth-child(2) {
         font-size: 22px;
         line-height: normal;
         margin-bottom: 0;
     }
+
     #rowthirteen .col-xl.col-sm-6 {
         width: 20px;
     }
+
     #rowthirteen div#one.zoom1 p:nth-child(3) {
         font-size: 14px;
         font-weight: 300;
@@ -1038,75 +1242,128 @@ footer p {
         margin-bottom: 0;
         line-height: normal;
     }
+
     #rowthirteen div#two.zoom2 p:nth-child(3) {
         font-size: 14px;
         margin-bottom: 0;
     }
+
     #rowthirteen div#three.zoom3 p:nth-child(3) {
         font-size: 14px;
         margin-bottom: 0;
         line-height: unset;
     }
+
     #rowthirteen div#three.zoom3 p:nth-child(4) {
         font-size: 14px;
         margin-bottom: 0;
     }
+
     #rowthirteen .col-sm-6 center {
         text-align: left;
     }
+
     .zoom1, .zoom2, .zoom3 {
         width: 22rem;
-        transform: none!important;
-        margin-top: 15px!important;
+        transform: none !important;
+        margin-top: 15px !important;
         padding: 20px;
     }
+
     #rowthirteen label.btn.btn-secondary {
         width: 100%;
         font-size: 12px;
-        margin-bottom: 0!important;
+        margin-bottom: 0 !important;
         margin-top: 5px;
     }
+
+    .best-seller-block {
+        position: relative!important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
     .best-seller {
-        left: 351px;
-        top: 309.6rem;
         position: absolute;
+        left: 80%;
+        top: 643%;
         height: 50px;
     }
+
     .rowfourteen {
         padding: 20px;
     }
+
     .rowfourteen .col-xl-6.col-md-6.col-xs-6 {
         width: 50%;
     }
+
     #delivery2 {
         padding-right: unset;
     }
+
     .rowfifteen {
         padding: 20px;
     }
+
     .rowfifteen p {
         font-size: 13px;
     }
+
     .rowfifteen div.collapsible p {
         font-size: 15px;
     }
+
     .rowfifteen center p:nth-child(1) {
         font-size: 22px;
     }
+
     .rowfifteen button.accordion-button, div.accordion-body {
         font-size: 13px;
         padding: 10px;
     }
+
     .rowfifteen.collapsible {
         padding: 20px;
     }
+
     #myBtn {
         font-size: 10px;
         bottom: 10px;
         right: 10px;
     }
+
     footer p {
         font-size: 11px;
+    }
+}
+
+/*Mobile Large*/
+@media only screen and (max-width: 425px) {
+    .best-seller {
+        top: 558.4%;
+    }
+}
+
+/*Mobile Large - iPhone XR*/
+@media only screen and (max-width: 414px) {
+    .best-seller {
+        top: 571.9%;
+    }
+}
+
+@media only screen and (max-width: 412px) {
+    .best-seller {
+        top: 559.9%;
+    }
+}
+
+
+@media only screen and (max-width: 390px) {
+    .best-seller {
+        top: 650.3%;
     }
 }
 
@@ -1115,113 +1372,153 @@ footer p {
     .rowone .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
         height: 177px;
     }
+
     .rowone p:nth-child(4) {
         font-size: 19px;
     }
+
     .rowone button {
         font-size: 12px;
     }
+
     .rowone li {
         font-size: 11px;
     }
+
     .rowthree p:nth-child(1) {
         font-size: 19px;
     }
+
     .rowthree p:nth-child(2) {
         font-size: 13px;
     }
+
     .rowthree .col p {
         font-size: 11px;
     }
+
     .rowthree div.col.line-height p:nth-child(2) {
         font-size: 12px;
     }
+
     .rowfour p {
         font-size: 14px;
     }
+
     .rowfour li span {
         font-size: 13px;
     }
+
     .rowfive p:nth-child(1) {
         font-size: 17px;
     }
+
     .rowfive p:nth-child(2) {
         font-size: 11px;
     }
+
     .rowfive p {
         font-size: 12px;
     }
+
     .rowsix p {
         font-size: 11px;
     }
+
     .rowsix .circle {
         height: 20px;
         margin-left: 15px;
         margin-bottom: 25px;
     }
+
     .rowsix div.col.line-height p {
         font-size: 9px;
     }
+
     .rowseven li span {
         font-size: 13px;
     }
+
     .rowseven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
         height: 177px;
     }
+
     .rowseven div.row p:nth-child(1) {
         padding: 0 56px;
     }
+
     .rowseven div.row p:nth-child(2) {
         font-size: 13px;
     }
+
     .rowseven div.row p:nth-child(3) {
         font-size: 21px;
     }
+
     .rowseven div.row p:nth-child(4) {
         font-size: 12px;
     }
+
     .rowten button {
         font-size: 12px;
     }
+
     .rowten p:nth-child(2) {
         font-size: 12px;
     }
+
     .roweleven center p {
         font-size: 24px;
     }
+
     .roweleven img.img-fluid {
         height: 111%;
     }
+
     .rowtwelve .col-xl-6.col-md-5.col-sm-6, .col-xl-6.col-md-7.col-sm-6 {
         width: 160px;
     }
+
     .rowtwelve p:nth-last-child(1) {
         font-size: 11px;
     }
+
     .rowtwelve p {
         font-size: 11px;
     }
+
     .zoom1, .zoom2, .zoom3 {
         width: 19rem;
     }
+
     #rowthirteen div.col center p:nth-child(1) {
         font-size: 19px;
     }
+
     .best-seller {
-        left: 303px;
-        top: 302rem;
+        top: 725.5%;
     }
+
     #delivery1 {
         padding-left: 1rem;
     }
+
     .rowfifteen p {
         font-size: 11px;
     }
+
     .rowfifteen button.accordion-button, div.accordion-body {
         font-size: 11px;
     }
+
     footer p {
         font-size: 10px;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    .best-seller {
+        top: 676%;
     }
 }
 
@@ -1230,140 +1527,184 @@ footer p {
     .rowone .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
         height: 144px;
     }
+
     .rowone p {
         font-size: 13px;
     }
+
     .rowone p:nth-child(4) {
         font-size: 16px;
         margin-top: 0;
         line-height: 17px;
     }
+
     .rowone p:nth-child(3) {
         font-size: 12px;
     }
+
     .rowone li {
         font-size: 9px;
     }
+
     .rowone button {
         font-size: 9px;
     }
+
     .rowthree .col.line-height p {
         font-size: 9px;
     }
+
     .rowthree p:nth-child(1) {
         font-size: 15px;
     }
+
     .rowthree p:nth-child(2) {
         font-size: 11px;
     }
+
     .rowthree div.col.line-height p:nth-child(2) {
         font-size: 9px;
     }
+
     .rowthree .circle {
         height: 20px;
         margin-top: 2px;
     }
+
     .rowfour p {
         font-size: 11px;
     }
+
     .rowfour li span {
         font-size: 10px;
     }
+
     .rowfive p {
         font-size: 10px;
     }
+
     .rowfive p:nth-child(1) {
         font-size: 14px;
     }
+
     .rowfive p:nth-child(2) {
         font-size: 9px;
     }
+
     .rowsix p {
         font-size: 9px;
     }
+
     .rowsix div.col.line-height p {
         font-size: 7px;
     }
+
     .rowseven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
         height: 148px;
     }
+
     .rowseven div.row p:nth-child(1) {
         padding: 0 28px;
     }
+
     .rowseven div.row p:nth-child(2) {
         font-size: 11px;
     }
+
     .rowseven div.row p:nth-child(3) {
         font-size: 17px;
     }
+
     .rowseven div.row p:nth-child(4) {
         font-size: 10px;
     }
+
     .rowseven li span {
         font-size: 10px;
     }
+
     .roweight p {
         font-size: 23px;
     }
+
     .rowten p {
         font-size: 15px;
     }
+
     .rowten p:nth-child(3) {
         font-size: 12px;
     }
+
     .rowten button {
         font-size: 9px;
     }
+
     .rowten p:nth-child(2) {
         font-size: 10px;
     }
+
     .roweleven ol.carousel-indicators.carou {
         bottom: 20px;
     }
+
     .roweleven center p {
         font-size: 20px;
     }
+
     .roweleven .carousel {
         margin-bottom: -20px;
     }
+
     .rowtwelve .col-xl-6.col-md-5.col-sm-6, .col-xl-6.col-md-7.col-sm-6 {
         width: 135px;
     }
+
     .rowtwelve p {
         font-size: 9px;
     }
+
     .rowtwelve p:nth-last-child(1) {
         font-size: 8px;
     }
+
     .rowtwelve .circle {
         height: 15px;
     }
+
     .zoom1, .zoom2, .zoom3 {
         width: 16rem;
     }
+
     #rowthirteen div.col center p:nth-child(1) {
         font-size: 15px;
     }
+
     #rowthirteen td:nth-child(1) {
         width: 72px;
     }
+
     .best-seller {
-        left: 250px;
-        top: 279.3rem;
+        left: 78%;
+        top: 455.8%;
     }
+
     #delivery1 {
         padding-left: 0;
     }
+
     .rowfifteen center p:nth-child(1) {
         font-size: 15px;
     }
+
     .rowfifteen p {
         font-size: 9px;
     }
+
     .rowfifteen button.accordion-button,
     div.accordion-body {
         font-size: 8px;
     }
+
     #myBtn {
         padding: 5px;
     }
@@ -1374,31 +1715,38 @@ footer p {
     .rowone {
         background-image: url("../img/fusion_coffee_old_age/tablet/bg1-tablet.jpg");
     }
+
     .rowone p {
         font-size: 24px;
         margin-top: 14px;
     }
+
     .rowone p:nth-child(3) {
         font-size: 24px;
         margin-bottom: -18px;
     }
+
     .rowone p:nth-child(4) {
         font-size: 32px;
         line-height: 1;
     }
+
     .rowone ul {
         list-style-image: url("../img/fusion_coffee_old_age/tablet/whitecheck-tablet.png");
         padding-left: 6%;
         padding-right: 6%;
     }
+
     .rowone li span {
         font-size: 16px;
         line-height: normal;
         padding-left: 0;
     }
+
     .rowone button {
         font-size: 16px;
     }
+
     .rowone .embed-responsive .embed-responsive-item,
     .embed-responsive embed,
     .embed-responsive iframe,
@@ -1407,279 +1755,358 @@ footer p {
         width: 100%;
         height: 340px;
     }
+
     .rowthree p:nth-child(1) {
         font-size: 37px;
         margin-bottom: -11px;
     }
+
     .rowthree p:nth-child(2) {
         font-size: 16px;
         margin-top: 1px;
         line-height: normal;
     }
+
     .rowthree .col p {
         font-size: 14px;
         margin-top: 25px;
         line-height: 18px;
         margin-right: 0;
     }
+
     .rowthree div.col.line-height p:nth-child(2) {
         font-size: 16px;
     }
+
     .rowthree picture {
         display: contents;
     }
+
     .rowthree .circle {
         height: unset;
         margin-top: 25px;
     }
+
     .rowthree img {
         margin-top: 7.5rem;
     }
+
     .rowfour p {
         font-size: 24px;
         margin-top: 0;
         line-height: 25px;
         letter-spacing: 0;
     }
+
     .rowfour li span {
         font-size: 16px;
         line-height: 8px;
     }
+
     .rowfour li {
         list-style-type: none;
     }
+
     .rowfive p:nth-child(1) {
         font-size: 24px;
         line-height: 1;
         letter-spacing: 0;
         margin-top: 3rem;
     }
+
     .rowfive p:nth-child(2) {
         font-size: 16px;
         line-height: 20px;
     }
+
     .rowfive p {
         font-size: 16px;
         line-height: 20px;
     }
+
     .rowsix p {
         font-size: 21px;
         line-height: 1;
         letter-spacing: 0;
     }
+
     .rowsix div.col.line-height p {
         font-size: 15px;
         line-height: normal;
     }
+
     .rowsix picture {
         display: contents;
     }
+
     .rowsix .circle {
         height: auto;
         margin-left: 12px;
     }
+
     .rowsix div.row {
         margin-top: 10px;
     }
+
     .rowseven {
         background-image: url("../img/fusion_coffee_old_age/tablet/bg2-tablet.jpg");
     }
+
     .rowseven div.row p:nth-child(1) {
         font-size: 16px;
         line-height: 1;
         padding-right: 6rem;
     }
+
     .rowseven div.row p:nth-child(2) {
         font-size: 16px;
     }
+
     .rowseven div.row p:nth-child(3) {
         font-size: 24px;
         line-height: 1;
         margin-top: 10px;
         padding-right: 2rem;
     }
+
     .rowseven div.row p:nth-child(4) {
         font-size: 16px;
         padding-right: 3rem;
     }
+
     .rowseven li span {
         font-size: 13px;
         padding-left: 0;
     }
+
     .rowseven li {
         margin-bottom: 5px;
     }
+
     .rowseven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
         height: 222px;
     }
+
     .roweight p {
         font-size: 30px;
     }
+
     .roweight .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
         height: 189px;
     }
+
     .rowten {
         background-image: url("../img/fusion_coffee_old_age/tablet/bg3--tablet.jpg");
     }
+
     .rowten p {
         font-size: 24px;
         line-height: 0;
     }
+
     .rowten p:nth-child(2) {
         font-size: 16px;
         line-height: normal;
         padding-right: 0;
     }
+
     .rowten p:nth-child(3) {
         font-size: 16px;
         line-height: 20px;
     }
+
     .rowten button {
         font-size: 15px;
         margin-top: 0;
     }
+
     .roweleven img.img-fluid {
         height: 25rem;
         padding-bottom: 6rem;
     }
+
     .roweleven div.row:nth-child(4) {
         margin-top: 1rem;
     }
+
     .roweleven center p {
         font-size: 42px;
     }
+
     .roweleven p.card-text {
         font-size: 16px;
     }
+
     .roweleven .card {
         width: 20rem;
         height: 12rem;
     }
+
     .roweleven div.card-body {
         padding: 10px;
         font-size: unset;
     }
+
     .rowtwelve {
         background-image: url("../img/fusion_coffee_old_age/tablet/bg4-tablet.jpg");
         padding-top: 30px;
     }
+
     .rowtwelve p {
         font-size: 24px;
         margin-top: 20px;
     }
+
     .rowtwelve p:nth-last-child(1) {
         font-size: 16px;
         margin-top: -9px;
     }
+
     .rowtwelve picture {
         display: contents;
     }
+
     .rowtwelve .circle {
         height: auto;
         margin-top: -8px !important;
         margin-left: 11px;
     }
+
     #rowthirteen div.zoom1 div.row img {
         margin-top: 7rem;
     }
+
     #rowthirteen div.zoom3 div.row img {
         margin-top: 7rem;
     }
+
     #rowthirteen div.col center p:nth-child(1) {
         font-size: 37px;
         line-height: 1;
     }
+
     #rowthirteen div.zoom1 center p:nth-child(1) {
         font-size: 16px;
-        margin-top: 33px;
+        margin-top: 140px;
     }
+
     #rowthirteen div.zoom2 center p:nth-child(1) {
         font-size: 16px;
-        margin-top: 10px;
+        margin-top: 58px;
     }
+
     #rowthirteen div.zoom3 center p:nth-child(1) {
         font-size: 16px;
         margin-top: 23px;
     }
+
     #rowthirteen div.zoom1 center p:nth-child(2) {
         font-size: 24px;
     }
+
     #rowthirteen div.zoom2 center p:nth-child(2) {
         font-size: 24px;
     }
+
     #rowthirteen div.zoom3 center p:nth-child(2) {
         font-size: 24px;
     }
+
     #rowthirteen div.zoom1 center p:nth-child(3) {
         font-size: 12px;
         line-height: normal;
     }
+
     #rowthirteen div.zoom2 center p:nth-child(3) {
         font-size: 12px;
         line-height: normal;
     }
+
     #rowthirteen div.zoom3 center p:nth-child(3) {
         font-size: 12px;
         line-height: normal;
     }
+
     #rowthirteen div.zoom3 center p:nth-child(4) {
         font-size: 14px;
         margin-bottom: 27px;
     }
+
     #rowthirteen div.zoom2 center p:nth-child(4) {
         font-size: 14px;
         margin-bottom: 22px;
     }
+
+    #rowthirteen .zoom2 img.promo-product {
+        margin: 30px auto 40px;
+    }
+
     #rowthirteen div.zoom1 center p:nth-child(4) {
         font-size: 14px;
         margin-bottom: 27px;
     }
+
     .padding-right-0 {
         padding-right: 0;
     }
+
     .padding-left-0 {
         padding-left: 0;
     }
+
     label.btn.btn-secondary {
         font-size: 14px;
     }
+
     .zoom1, .zoom2, .zoom3 {
         padding: 10px;
         width: auto;
     }
+
     .best-seller {
         top: -10px;
         left: 60px;
+        bottom: 60px;
     }
+
     div#two.zoom2 div.row {
         margin-right: calc(-.0 * var(--bs-gutter-x));
         margin-left: calc(-.0 * var(--bs-gutter-x));
     }
+
     .padding-0 {
         padding-right: 0;
         padding-left: 0;
     }
+
     #rowthirteen div.zoom2 label.btn.btn-secondary {
-            margin-bottom: 15px;
+        margin-bottom: 15px;
     }
+
     #delivery2 {
         padding-right: unset;
     }
+
     .rowfifteen center p:nth-child(1) {
         font-size: 42px;
     }
+
     .rowfifteen p {
         font-size: 16px;
     }
+
     .collapsible p {
         font-size: 24px;
     }
+
     .rowfifteen button.accordion-button, div.accordion-body {
         font-size: 16px;
     }
+
     footer p {
         font-size: 12px;
     }
+
     #myBtn {
         font-size: 12px;
     }
@@ -1690,12 +2117,15 @@ footer p {
     .rowone p:nth-child(4) {
         font-size: 35px;
     }
+
     .rowone p:nth-child(3) {
         font-size: 33px;
     }
+
     .rowone p {
         font-size: 34px;
     }
+
     .rowone .embed-responsive .embed-responsive-item,
     .embed-responsive embed,
     .embed-responsive iframe,
@@ -1703,61 +2133,80 @@ footer p {
     .embed-responsive video {
         width: 100%;
     }
+
     .rowone ul {
         padding-left: 7%;
         padding-right: 0;
     }
+
     .rowthree p:nth-child(2) {
         font-size: 22px;
     }
+
     .rowthree p:nth-child(1) {
         font-size: 53px;
     }
+
     .rowthree .col p {
         font-size: 21px;
     }
+
     .rowthree span {
         font-size: 26px;
     }
+
     .rowfour li span {
         font-size: 22px;
     }
+
     .rowfour p {
         margin-top: auto;
     }
+
     .rowfive p:nth-child(1) {
         font-size: 30px;
     }
+
     .rowfive p:nth-child(2), .rowfive p {
         font-size: 22px;
     }
+
     .rowsix p {
         font-size: 25px;
     }
+
     .rowsix span {
         font-size: 22px;
     }
+
     .rowseven li span {
         font-size: 17px;
     }
+
     .rowseven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
         height: 318px;
     }
+
     .roweight p {
         font-size: 43px;
     }
+
     .rowten p {
         font-size: 35px;
     }
+
     .rowten button {
         font-size: 23px;
     }
+
     .roweleven img.img-fluid {
         height: 35rem;
     }
+
     .roweleven .card {
         width: 433px;
     }
+
     .roweleven .embed-responsive .embed-responsive-item,
     .embed-responsive embed,
     .embed-responsive iframe,
@@ -1765,75 +2214,101 @@ footer p {
     .embed-responsive video {
         height: 257px;
     }
+
     div.row.mt-5 {
-        margin-top: auto!important;
+        margin-top: auto !important;
     }
+
     .zoom1, .zoom2, .zoom3 {
         width: 16rem;
         padding: 25px;
     }
+
     #rowthirteen div.col center p:nth-child(1) {
         font-size: 53px;
     }
+
     #rowthirteen div.zoom1 center p:nth-child(1) {
         font-size: 18px;
-        margin-top: 78px;
+        margin-top: 128px;
     }
+
     #rowthirteen div.zoom2 center p:nth-child(1) {
         font-size: 18px;
+        margin-top: 50px;
     }
+
     #rowthirteen div.zoom3 center p:nth-child(1) {
         font-size: 18px;
-        margin-top: 70px;
+        margin-top: 0;
     }
+
     #rowthirteen div.zoom1 center p:nth-child(2) {
         font-size: 35px;
     }
+
     #rowthirteen div.zoom2 center p:nth-child(2) {
         font-size: 35px;
     }
+
+    #rowthirteen .zoom2 img.promo-product {
+        margin: 0 auto 40px;
+    }
+
     #rowthirteen div.zoom3 center p:nth-child(2) {
         font-size: 35px;
     }
+
     #rowthirteen div.zoom1 center p:nth-child(3) {
         font-size: 17px;
         line-height: unset;
         margin-bottom: 7px;
     }
+
     #rowthirteen div.zoom2 center p:nth-child(3) {
         font-size: 17px;
     }
+
     #rowthirteen div.zoom3 center p:nth-child(3) {
         font-size: 17px;
         margin-bottom: 27px;
     }
+
     #rowthirteen div.zoom3 center p:nth-child(4) {
         font-size: 14px;
     }
+
     #rowthirteen div.zoom2 center p:nth-child(4) {
         font-size: 14px;
     }
+
     #rowthirteen div.zoom1 center p:nth-child(4) {
         font-size: 14px;
     }
+
     label.btn.btn-secondary {
         font-size: 18px;
         width: 10rem;
     }
+
     .best-seller {
         left: 6rem;
         height: 100px;
         top: -25px;
     }
+
     #rowthirteen div.zoom2 div.row img {
         margin-top: auto;
     }
+
     #delivery1 {
         padding-left: 11rem;
     }
+
     #delivery2 {
         padding-right: unset;
     }
+
     .rowfifteen center p:nth-child(1) {
         font-size: 64px;
     }
@@ -1844,23 +2319,27 @@ footer p {
     .zoom1, .zoom2, .zoom3 {
         width: 25rem;
     }
+
     .padding-right-0 {
         padding-right: 0;
     }
+
     .padding-left-0 {
-         padding-left: 0;
+        padding-left: 0;
     }
 }
 
 /*// Carousel */
 .carousel-indicators [data-bs-target] {
-  width: 10px;
-  height: 10px;
-  border-radius: 100%;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
 }
+
 .carousel-indicators {
     bottom: -40px;
 }
+
 .carousel {
     margin-bottom: 20px;
 }
