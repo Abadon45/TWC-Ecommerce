@@ -1287,8 +1287,8 @@ footer p {
 
     .best-seller {
         position: absolute;
-        left: 80%;
-        top: 643%;
+        left: 240%;
+        bottom: 60%;
         height: 50px;
     }
 
@@ -1340,32 +1340,14 @@ footer p {
     }
 }
 
-/*Mobile Large*/
-@media only screen and (max-width: 425px) {
-    .best-seller {
-        top: 558.4%;
-    }
-}
 
 /*Mobile Large - iPhone XR*/
 @media only screen and (max-width: 414px) {
     .best-seller {
-        top: 571.9%;
+        top: -33%;
     }
 }
 
-@media only screen and (max-width: 412px) {
-    .best-seller {
-        top: 559.9%;
-    }
-}
-
-
-@media only screen and (max-width: 390px) {
-    .best-seller {
-        top: 650.3%;
-    }
-}
 
 /* // Mobile Medium */
 @media only screen and (max-width: 375px) {
@@ -1496,7 +1478,8 @@ footer p {
     }
 
     .best-seller {
-        top: 725.5%;
+        left: 215%;
+        top: -33%;
     }
 
     #delivery1 {
@@ -1513,12 +1496,6 @@ footer p {
 
     footer p {
         font-size: 10px;
-    }
-}
-
-@media only screen and (max-width: 360px) {
-    .best-seller {
-        top: 676%;
     }
 }
 
