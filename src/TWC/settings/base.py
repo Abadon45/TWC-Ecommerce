@@ -94,6 +94,7 @@ MIDDLEWARE = [
     'django_hosts.middleware.HostsResponseMiddleware',
     'TWC.middleware.RedirectToWWW',
     'TWC.middleware.DynamicCSRFMiddleware',
+    'TWC.middleware.SubdomainSessionMiddleware',
 ]
 
 AUTH_USER_MODEL = 'user.User'
@@ -101,7 +102,7 @@ AUTH_USER_MODEL = 'user.User'
 ROOT_URLCONF = 'TWC.urls'
 ROOT_HOSTCONF = 'TWC.hosts'
 DEFAULT_HOST = 'wildcard'
-CSRF_TRUSTED_ORIGINS = ['https://www.twconline.store', 'https://*.twconline.store', 'https://www.twcstoredevtest.com']
+CSRF_TRUSTED_ORIGINS = ['https://twconline.store', 'https://twcstoredevtest.com']
 CORS_ALLOWED_ORIGINS = [
     "https://www.twconline.store",
     "http://localhost:8000",
@@ -251,6 +252,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 14
 SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_HTTPONLY = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 # if os.environ.get('CURRENT_DOMAIN') == 'twconline.store':

@@ -1,9 +1,11 @@
-let isOrderBeingCreated = false;
 let bundleDetails = {};
 
 function checkout(element, promo) {
     var bundlePrice = $(element).data("price");
     var bundleQty = $(element).data("quantity");
+
+
+    console.log("Promo: " + promo);
 
     let summary;
     let promo1_summary =

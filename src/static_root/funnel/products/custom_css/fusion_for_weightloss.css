@@ -648,7 +648,7 @@ footer p {
 /* Responsive Media queries */
 
 /* // Mobile Large */
-@media only screen and (max-width: 428px) {
+@media only screen and (max-width: 450px) {
     .rowone {
         background-image: url("../img/fusion_for_weightloss/mobile-weight/bg1-mobile.jpg");
         padding: 20px;
@@ -977,6 +977,7 @@ footer p {
     #rowthirteen div#one.zoom1 p:nth-child(4) {
         font-size: 14px;
         margin-bottom: 0;
+        text-align: left;
     }
     #rowthirteen div#two.zoom2 p:nth-child(4) {
         font-size: 14px;
@@ -1432,7 +1433,7 @@ footer p {
         margin-left: 11px;
     }
     #rowthirteen div.zoom1 div.row img {
-        margin-top: 4rem;
+        margin-top: 12vh;
     }
     #rowthirteen div.zoom3 div.row img {
         margin-top: 4rem;
@@ -1475,7 +1476,7 @@ footer p {
     }
     #rowthirteen div#one.zoom1 p:nth-child(4) {
         font-size: 14px;
-        margin-bottom: 22px;
+        margin-bottom: 0;
     }
     #rowthirteen div#two.zoom2 p:nth-child(5) {
         font-size: 14px;
@@ -1632,7 +1633,7 @@ footer p {
         font-size: 53px;
     }
     #rowthirteen div#one.zoom1 p {
-        margin-top: 91px;
+        margin-top: 145px;
     }
     #rowthirteen div#three.zoom3 p {
         margin-top: 103px;
@@ -1664,7 +1665,7 @@ footer p {
         font-size: 13px;
     }
     #rowthirteen div.zoom1 div.row img {
-        margin-top: 4rem;
+        margin-top: 6rem;
     }
     #rowthirteen div.zoom3 div.row img {
         margin-top: 5rem;
