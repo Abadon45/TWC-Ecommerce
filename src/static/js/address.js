@@ -385,8 +385,7 @@ $(document).ready(function () {
     var provincesInRegion = Philippines.provinces.filter(function (province) {
       return province.reg_code === selectedRegionCode;
     });
-    populateDropdown(".provinceDropdown", provincesInRegion, "Select Province");
-    $(".cityDropdown, .barangayDropdown").empty(); // Clear other dropdowns
+    populateDropdown(".provinceDropdown", provincesInRegion, "Select Province");// Clear other dropdowns
   });
 
   // Handle province selection
@@ -406,7 +405,6 @@ $(document).ready(function () {
     });
 
     populateDropdown(".cityDropdown", municipalitiesInProvince, "Select City");
-    $(".barangayDropdown").empty(); // Clear barangay dropdochown
   });
 
   // Handle municipality selection

@@ -4,7 +4,6 @@ function checkout(element, promo) {
     var bundlePrice = $(element).data("price");
     var bundleQty = $(element).data("quantity");
 
-
     console.log("Promo: " + promo);
 
     let summary;
@@ -14,9 +13,8 @@ function checkout(element, promo) {
         '<div class="card-header text-dark">Order Summary:</div>' +
         '<div class="card-body text-dark">' +
         '<span class="mb-2 d-block" style="font-size: 12pt">Product: Santé Barley | Promo 1</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 30 Sachet</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱2,199.00</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Freebies: Water Bottle</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 10 Sachet</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱720.00</span>' +
         "</div>" +
         "</div>";
 
@@ -26,9 +24,9 @@ function checkout(element, promo) {
         '<div class="card-header text-dark">Order Summary:</div>' +
         '<div class="card-body text-dark">' +
         '<span class="mb-2 d-block" style="font-size: 12pt">Product: Santé Barley | Promo 2</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 40 Sachets</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱2,299.00</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Freebies: Water Bottle and Electric Stirrer</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 20 Sachets</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱1,199.00</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Freebies: Water Bottle</span>' +
         "</div>" +
         "</div>";
 
@@ -38,8 +36,8 @@ function checkout(element, promo) {
         '<div class="card-header text-dark">Order Summary:</div>' +
         '<div class="card-body text-dark">' +
         '<span class="mb-2 d-block" style="font-size: 12pt">Product: Santé Barley | Promo 3</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 66 Scoops (3g per Scoops)</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱2,840.00</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 40 Sachets</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱1,999.00</span>' +
         '<span class="mb-2 d-block" style="font-size: 12pt">Freebie: Water Bottle and Electric Stirrer</span>' +
         "</div>" +
         "</div>";
@@ -50,8 +48,8 @@ function checkout(element, promo) {
         '<div class="card-header text-dark">Order Summary:</div>' +
         '<div class="card-body text-dark">' +
         '<span class="mb-2 d-block" style="font-size: 12pt">Product: Fusion Coffee | Promo 1</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 2 Boxes</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱799.00</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 1 Box</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱340.00</span>' +
         "</div>" +
         "</div>";
 
@@ -61,9 +59,9 @@ function checkout(element, promo) {
         '<div class="card-header text-dark">Order Summary:</div>' +
         '<div class="card-body text-dark">' +
         '<span class="mb-2 d-block" style="font-size: 12pt">Product: Fusion Coffee | Promo 2</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 3 Boxes</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱1,249.00</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Freebies: Watch and Water Bottle</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 2 Boxes</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱649.00</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Freebie: Water Bottle</span>' +
         "</div>" +
         "</div>";
 
@@ -74,8 +72,8 @@ function checkout(element, promo) {
         '<div class="card-body text-dark">' +
         '<span class="mb-2 d-block" style="font-size: 12pt">Product: Fusion Coffee | Promo 3</span>' +
         '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 4 Boxes</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱1,649.00</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Freebies: Stirrer, Watch and Water Bottle</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱1,049.00</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Freebies: Stirrer and Water Bottle</span>' +
         "</div>" +
         "</div>";
 
@@ -85,8 +83,8 @@ function checkout(element, promo) {
         '<div class="card-header text-dark">Order Summary:</div>' +
         '<div class="card-body text-dark">' +
         '<span class="mb-2 d-block" style="font-size: 12pt">Product: Boost Coffee | Promo 1</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 2 Boxes</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱899.00</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 1 Box</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Price: 380.00</span>' +
         "</div>" +
         "</div>";
 
@@ -96,9 +94,9 @@ function checkout(element, promo) {
         '<div class="card-header text-dark">Order Summary:</div>' +
         '<div class="card-body text-dark">' +
         '<span class="mb-2 d-block" style="font-size: 12pt">Product: Boost Coffee | Promo 2</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 3 Boxes</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱1,349.00</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Freebies: Watch and Water Bottle</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 2 Boxes</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱699.00</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Freebie: Water Bottle</span>' +
         "</div>" +
         "</div>";
 
@@ -109,8 +107,8 @@ function checkout(element, promo) {
         '<div class="card-body text-dark">' +
         '<span class="mb-2 d-block" style="font-size: 12pt">Product: Boost Coffee | Promo 3</span>' +
         '<span class="mb-2 d-block" style="font-size: 12pt">Quantity: 4 Boxes</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱1,799.00</span>' +
-        '<span class="mb-2 d-block" style="font-size: 12pt">Freebie: Stirrer, Watch and Water Bottle</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Price: ₱1,099.00</span>' +
+        '<span class="mb-2 d-block" style="font-size: 12pt">Freebie: Stirrer and Water Bottle</span>' +
         "</div>" +
         "</div>";
 
@@ -173,17 +171,13 @@ function checkout(element, promo) {
             "</div>" +
 
             // Change with phone function
-            '<div class="col-md-6">' +
+            '<div class="col-md-6 mb-2">' +
             '<input id="id_mobile" name="mobile" class="form-control mb-2 mobileInput id_mobile" type="text" autocomplete="off" style="height: 50px" placeholder="Receiver Mobile" required>' +
             "</div>" +
 
-            '<div class="col-md-12">' +
-            '<input id="id_address" name="address" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" placeholder="Address (House number and street name)" required>' +
-            "</div>" +
 
             '<div class="col-md-6">' +
             '<div class="input-group">' +
-            '<label class="input-group-text" for="regionDropdown">Region</label>' +
             '<select id="id_region" class="form-select regionDropdown" name="region" required>' +
             '<option selected>- Select Region -</option>' +
             '</select>' +
@@ -192,7 +186,6 @@ function checkout(element, promo) {
 
             '<div class="col-md-6">' +
             '<div class="input-group">' +
-            '<label class="input-group-text" for="provinceDropdown">Province</label>' +
             '<select id="id_province" class="form-select provinceDropdown" name="province" required>' +
             '<option selected>- Select Province -</option>' +
             '</select>' +
@@ -201,7 +194,6 @@ function checkout(element, promo) {
 
             '<div class="col-md-6 cityDropdownBox">' +
             '<div class="input-group">' +
-            '<label class="input-group-text" for="cityDropdown">City</label>' +
             '<select class="form-select cityDropdown id_city" name="city" required>' +
             '<option selected>- Select City -</option>' +
             '</select>' +
@@ -210,7 +202,6 @@ function checkout(element, promo) {
 
             '<div class="col-md-6 cityInputBox" style="display: none;">' +
             '<div class="input-group">' +
-            '<label class="input-group-text">City</label>' +
             '<input type="text" class="form-control id_city" placeholder="Specify City" name="city_input">' +
             '<div class="input-group-append">' +
             '<button class="btn btn-outline-secondary back-to-dropdown city-dropdown" tooltip="tooltip" title="Back to dropdown select" type="button"><i class="fa-regular fa-circle-xmark"></i></button>' +
@@ -220,7 +211,6 @@ function checkout(element, promo) {
 
             '<div class="col-md-6 barangayDropdownBox">' +
             '<div class="input-group mb-3">' +
-            '<label class="input-group-text" for="barangayDropdown">Barangay</label>' +
             '<select class="form-select barangayDropdown id_barangay" name="barangay" required>' +
             '<option selected>- Barangay -</option>' +
             '</select>' +
@@ -228,7 +218,7 @@ function checkout(element, promo) {
             '</div>' +
 
             '<div class="col-md-6 barangayInputBox" style="display: none;">' +
-            '<div class="input-group mb-3">' +
+            '<div class="input-group mb-2">' +
             '<label class="input-group-text">Barangay</label>' +
             '<input type="text" class="form-control id_barangay" placeholder="Specify Barangay" name="barangay_input">' +
             '<div class="input-group-append">' +
@@ -239,6 +229,10 @@ function checkout(element, promo) {
 
             '<div class="col-md-6 postalInputBox">' +
             '<input id="id_postcode" name="postcode" class="form-control mb-2 inputPostcode" type="text" autocomplete="off" style="height: 50px" placeholder="Manually input ZIP CODE">' +
+            "</div>" +
+
+            '<div class="col-md-12">' +
+            '<input id="id_address" name="address" class="form-control mb-2" type="text" autocomplete="off" style="height: 50px" placeholder="Address: House Number / Subdivision" required>' +
             "</div>" +
 
             '<div class="col-12">' +
