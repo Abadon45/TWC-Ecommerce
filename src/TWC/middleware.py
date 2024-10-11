@@ -93,33 +93,13 @@ class DynamicCSRFMiddleware(MiddlewareMixin):
 
 class SubdomainSessionMiddleware(MiddlewareMixin):
     def process_request(self, request):
-        # Extract the host
-        host = request.get_host()
-        domain_parts = host.split('.')
-
-        main_domain = 'twconline.store'
-        devtest_domain = 'twcstoredevtest.com'
-
-        # For requests with a subdomain
-        if len(domain_parts) > 2:
-            subdomain = domain_parts[0]
-
-            # Handle session based on the domain
-            if host.endswith(devtest_domain):
-                request.session.set_cookie_name(f"session_dev_{subdomain}")
-            elif host.endswith(main_domain):
-                request.session.set_cookie_name(f"session_main_{subdomain}")
-
-        # For requests without a subdomain (main domain only)
+        # Extract the host and subdomain
+        host = request.get_host().split('.')
+        if len(host) > 2:
+            subdomain = host[0]  # Get the subdomain (e.g., `subdomain.twconline.store`)
+            # Set a unique session cookie name for each subdomain
+            request.session.cookie_name = f"session_{subdomain}"
         else:
-            if host.endswith(main_domain):
-                request.session.set_cookie_name("session_main")
-            elif host.endswith(devtest_domain):
-                request.session.set_cookie_name("session_dev")
-
-        # Optionally, set the session cookie domain to the main domain (not subdomain)
-        if host.endswith(main_domain):
-            request.session.set_cookie_domain(main_domain)
-        elif host.endswith(devtest_domain):
-            request.session.set_cookie_domain(devtest_domain)
+            # Use a default session cookie name for the main domain
+            request.session.cookie_name = "session_main"
 
