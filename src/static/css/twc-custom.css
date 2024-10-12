@@ -610,6 +610,9 @@ input, textarea {
 
     .deal-content {
         height: 525px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         h2 {
             color: var(--color-yellow2);
@@ -4204,12 +4207,16 @@ a.disabled:hover {
         }
 
         .deal-content {
-            height: 62vw;
+            /*height: 62vw;*/
+            height: auto;
             margin-bottom: 30px;
             border-radius: 0 0 12px 12px;
             padding: 30px 20px;
             width: 100%;
             align-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
             h2 {
                 font-size: 26px;
