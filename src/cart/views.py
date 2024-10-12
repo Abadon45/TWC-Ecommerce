@@ -14,6 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
+from urllib.parse import urlencode
 
 from onlinestore.forms import AddressForm
 from onlinestore.models import *
@@ -265,73 +266,56 @@ class UpdateCartView(View):
         }, status=200)
 
 
-class CheckoutView(FormView):
+class CheckoutView(View):
     template_name = 'cart/shop-checkout.html'
-    form_class = AddressForm
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        orders = self.get_orders()
-        referred_by = self.request.session.get('referrer')
-        cart_total = self.request.session['cart_total']
-
-        print(f'Sponsor: {referred_by}')
-        context.update({
-            'orders': orders,
-            'shipping_form': self.get_form(),
-            'cart_total': cart_total,
-            'referred_by': referred_by,
-        })
+        context = {
+            'shipping_form': AddressForm(),  # Instantiate your form here
+            'orders': self.get_orders(),
+            'cart_total': self.request.session.get('cart_total', 0),
+            'referred_by': self.request.session.get('referrer'),
+        }
         return context
 
-    def calculate_shipping_fee(self, region, order):
-        """
-        Calculate the shipping fee based on the region and order quantity.
-        """
-        FIXED_SHIPPING_FEE = SiteSetting.get_fixed_shipping_fee()
+    def get(self, request, *args, **kwargs):
+        # Handle GET request for checkout
+        if 'first_name' in request.GET:  # Check if the form was submitted
+            return self.process_shipping_info(request.GET)
 
-        if FIXED_SHIPPING_FEE > 0:
-            return FIXED_SHIPPING_FEE
-        else:
-            qty = order['quantity']
-            return sf_calculator(region=region, qty=qty)
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
 
-    @csrf_exempt
-    def form_valid(self, form):
-        print("Request Headers:", self.request.headers)
-        print("Request Method:", self.request.method)
-        print("Request Path:", self.request.path)
-        shipping_address = form.save(commit=False)
-        region = form.cleaned_data.get('region')
-
-        # Save the address to session
-        self.request.session['shipping_address'] = {
-            'first_name': shipping_address.first_name,
-            'last_name': shipping_address.last_name,
-            'email': shipping_address.email,
-            'phone': shipping_address.phone,
-            'line1': shipping_address.line1,
-            'region':shipping_address.region,
-            'province': shipping_address.province,
-            'city': shipping_address.city,
-            'barangay': shipping_address.barangay,
-            'postcode': shipping_address.postcode,
+    def process_shipping_info(self, data):
+        shipping_address = {
+            'first_name': data.get('first_name'),
+            'last_name': data.get('last_name'),
+            'email': data.get('email'),
+            'phone': data.get('phone'),
+            'line1': data.get('line1'),
+            'region': data.get('region'),
+            'province': data.get('province'),
+            'city': data.get('city'),
+            'barangay': data.get('barangay'),
+            'postcode': data.get('postcode'),
         }
 
-        address_from_session = self.request.session.get('shipping_address', {})
-        print(f"Address: {address_from_session}")
+        # Save the address to session
+        self.request.session['shipping_address'] = shipping_address
+        print(f"Address: {shipping_address}")
 
+        region = shipping_address['region']
         orders = self.get_orders()
         updated_orders = []
-        total_shipping = 0
-        total_payment = 0
+        total_shipping = Decimal(0)
+        total_payment = Decimal(0)
 
         # Calculate shipping fees and update orders
         for shop, order_data in orders.items():
             if isinstance(order_data, dict) and 'subtotal' in order_data:
                 qty = sum(item['quantity'] for item in order_data['items'])
                 shipping_fee = Decimal(self.calculate_shipping_fee(region, {'shop': shop, 'qty': qty}))
-                total_shipping += decimal.Decimal(shipping_fee)
+                total_shipping += shipping_fee
                 subtotal = Decimal(order_data['subtotal'])
                 total_amount = subtotal + shipping_fee
                 total_payment += total_amount
@@ -345,26 +329,29 @@ class CheckoutView(FormView):
 
         self.request.session['updated_orders'] = updated_orders
 
+        # Return a JsonResponse if the request was made via AJAX
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            response_data = {
+            return JsonResponse({
                 'status': 'success',
                 'updated_orders': updated_orders,
                 'total_shipping': str(total_shipping),
                 'total_payment': str(total_payment),
-            }
-            return JsonResponse(response_data)
-        else:
-            return redirect(self.success_url)
+            })
 
-    def form_invalid(self, form):
-        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            print("Form Errors:", form.errors)
-            return JsonResponse({'status': 'error', 'errors': form.errors})
-        return self.render_to_response(self.get_context_data(form=form))
+        # Otherwise, redirect to the success URL or the same page with updated parameters
+        return redirect(self.template_name + '?' + urlencode(self.request.GET))
+
+    def calculate_shipping_fee(self, region, order):
+        FIXED_SHIPPING_FEE = SiteSetting.get_fixed_shipping_fee()
+
+        if FIXED_SHIPPING_FEE > 0:
+            return FIXED_SHIPPING_FEE
+        else:
+            qty = order['qty']
+            return sf_calculator(region=region, qty=qty)
 
     def get_orders(self):
-        ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
-        return ordered_items_by_shop
+        return self.request.session.get('ordered_items_by_shop', {})
 
 
 #########################
