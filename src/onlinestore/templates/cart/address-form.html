@@ -1,4 +1,4 @@
-<form id="addShipping" action="{% url 'cart:checkout' %}" method="POST">
+<form id="addShipping" action="{% url 'cart:checkout' %}" method="GET">
     {% csrf_token %}
     <div class="row mpx">
         <div class="form-row mobile-width">

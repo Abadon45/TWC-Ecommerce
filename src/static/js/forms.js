@@ -1,54 +1,16 @@
 $(document).ready(function () {
-    var productForm = $("#addProduct");
     var shippingForm = $("#addShipping");
-
-    productForm.submit(function (e) {
-        e.preventDefault();
-        var thisForm = $(this);
-        var actionEndpoint = thisForm.attr("action");
-        var httpMethod = thisForm.attr("method");
-        var formData = new FormData(thisForm[0]);
-
-        console.log("Submitting form via AJAX");
-        console.log("Action Endpoint:", actionEndpoint);
-        console.log("HTTP Method:", httpMethod);
-        console.log("Form Data:", formData);
-
-        $.ajax({
-            url: actionEndpoint,
-            method: httpMethod,
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            headers: {
-                "X-CSRFToken": csrf
-            },
-            success: function (response) {
-                window.location.href = window.location.href + "../";
-            },
-            error: function (errorData) {
-                console.log(errorData);
-            },
-        });
-    });
 
     shippingForm.submit(function (e) {
         e.preventDefault();
         var thisForm = $(this);
-
         var actionEndpoint = thisForm.attr("action");
-        var httpMethod = thisForm.attr("method");
-        var formData = thisForm.serializeArray();
-
+        var formData = thisForm.serialize();
 
         // Prepare user data and add it to the form data
         var userData = prepareUserData();
-        formData.push({name: "username", value: userData.username});
-        formData.push({name: "email", value: userData.email});
-
-        // spinner.addClass("visible");
-        // backdrop.addClass("visible");
+        formData += "&username=" + encodeURIComponent(userData.username);
+        formData += "&email=" + encodeURIComponent(userData.email);
 
         console.log(formData);
 
@@ -63,34 +25,29 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url: actionEndpoint,
-            method: httpMethod,
-            data: formData,
+            url: actionEndpoint + "?" + formData,
+            method: "GET",
+            dataType: 'json',  // Expecting JSON
             headers: {
-                "X-CSRFToken": csrf
+                'X-Requested-With': 'XMLHttpRequest'  // Add this header
             },
             success: function (successData) {
                 console.log("Success Data: ", successData);
-                console.log("CSRF Token:", csrf);
+
+                // UI update logic
                 $("#step2-tab").click();
                 $("#step1").removeClass("active show");
-                $("#step1-tab").removeClass("nav-link active done");
-                $("#step1-tab").addClass("nav-link done");
+                $("#step1-tab").removeClass("nav-link active done").addClass("nav-link done");
                 $("#step2").addClass("active show");
                 $("#step2-tab").addClass("active done");
-
                 $(".checkout-btn").removeAttr("hidden");
                 $(".dummy-submit").addClass("hide");
 
+                // Update shipping fees and totals
                 successData.updated_orders.forEach(function (order) {
-                    var shippingFeeFormatted =
-                        "₱" + parseFloat(order.shipping_fee).toFixed(2);
+                    var shippingFeeFormatted = "₱" + parseFloat(order.shipping_fee).toFixed(2);
                     var shippingFeeElement = $("#shipping_fee_" + order.shop + " span");
-                    var orderTotalFormatted =
-                        "₱" +
-                        parseFloat(order.total_amount)
-                            .toFixed(2)
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    var orderTotalFormatted = "₱" + parseFloat(order.total_amount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                     var orderTotalUpdate = $("#order-total-" + order.shop);
 
                     shippingFeeElement.text("Calculating...");
@@ -100,12 +57,7 @@ $(document).ready(function () {
                         shippingFeeElement.text(shippingFeeFormatted);
                         orderTotalUpdate.text(orderTotalFormatted);
 
-                        var totalPayment =
-                            "₱" + parseFloat(successData.total_payment).toFixed(2);
-                        var totalPaymentFormatted = totalPayment.replace(
-                            /\B(?=(\d{3})+(?!\d))/g,
-                            ","
-                        );
+                        var totalPaymentFormatted = "₱" + parseFloat(successData.total_payment).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                         $("#total-payment").text(totalPaymentFormatted);
 
                         Swal.close();
@@ -114,62 +66,43 @@ $(document).ready(function () {
             },
             error: function (errorData) {
                 console.log(errorData);
-                if (errorData.responseJSON) {
-                    console.log("Error Message:", errorData.responseJSON.error);
-                } else {
-                    console.log("Response Status:", errorData.status);
-                    console.log("Response Text:", errorData.statusText);
+                var errorMessage = "Something went wrong! Please try again later.";
+
+                if (errorData.responseJSON && errorData.responseJSON.errors) {
+                    console.log("Error Message:", errorData.responseJSON.errors);
+                    errorMessage = errorData.responseJSON.errors.join(", "); // Assuming errors is an array
                 }
+
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Something went wrong! Please try again later.",
+                    text: errorMessage,
                 });
             },
         });
     });
 
-    // Initialize an object to store input details
-    var userDetails = {
-        first_name: "",
-        last_name: "",
-        email: "",
-    };
-
-    // Variables to store generated username and email
-    var userName = "";
-    var userEmail = "";
-
-    // Function to update userDetails object
+    // Function to prepare user data
     function prepareUserData() {
-        userDetails.first_name = $(".inputFirstName").val().charAt(0);
-        userDetails.last_name = $(".inputLastName").val();
-        userDetails.email = $(".inputEmail").val();
+        var userDetails = {
+            first_name: $(".inputFirstName").val().charAt(0),
+            last_name: $(".inputLastName").val(),
+            email: $(".inputEmail").val(),
+        };
 
-        userName =
-            userDetails.first_name + userDetails.last_name + generateRandomString(3);
-        userEmail = userDetails.email;
-
+        var userName = userDetails.first_name + userDetails.last_name + generateRandomString(3);
         console.log("User Details:", userDetails);
-        console.log("userName:", userName);
-        console.log("userEmail:", userEmail);
 
         return {
             username: userName,
-            email: userEmail,
+            email: userDetails.email,
         };
     }
-
-    // $("#addUserData").click(function(e) {
-    //     e.preventDefault();
-
-    //   });
 
     // Function to generate a random string
     function generateRandomString(length) {
         var result = "";
-        var characters =
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         var charactersLength = characters.length;
         for (var i = 0; i < length; i++) {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
