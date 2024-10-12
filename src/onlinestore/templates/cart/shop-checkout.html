@@ -208,9 +208,8 @@
                                             </strong>
                                         </h4>
                                         <div class="text-end mt-40 checkoutBtn">
-                                            <form id="checkoutForm" class="form" method="POST"
+                                            <form id="checkoutForm" class="form" method="GET"
                                                   action="{% url 'cart:submit_checkout' %}">
-                                                {% csrf_token %}
                                                 <button type="submit" class="theme-btn checkout-btn"
                                                         data-referrer-id="{{ referred_by }}"
                                                         data-username="{{ current_user }}"
@@ -342,9 +341,8 @@
                                             </h4>
                                             <div class="col-lg-12 shop-checkout-form mt-20"
                                                  style="padding: 0!important; border: none!important; ">
-                                                <form id="checkoutForm" class="form" method="POST"
+                                                <form id="checkoutForm" class="form" method="GET"
                                                       action="{% url 'cart:submit_checkout' %}">
-                                                    {% csrf_token %}
                                                     <button type="submit" class="theme-btn checkout-btn"
                                                             data-referrer-id="{{ referred_by }}"
                                                             onclick="checkoutBtn(event)">CHECKOUT NOW
@@ -423,12 +421,12 @@
         }
 
         function saveReferrerUsername(username) {
+            const url = `{% url "cart:submit_checkout" %}?username=${encodeURIComponent(username)}`;
             $.ajax({
-                url: '{% url "cart:submit_checkout" %}',
-                method: 'POST',
+                url: url,
+                method: 'GET',
                 data: {
                     username: username,
-                    csrfmiddlewaretoken: csrf,
                 },
                 success: function (response) {
                     // Show the thank you alert
