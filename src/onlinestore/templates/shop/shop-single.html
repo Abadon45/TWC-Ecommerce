@@ -125,7 +125,8 @@
                                                     <h6>Quantity</h6>
                                                     <button class="qty-btn minus-btn"><i class="fal fa-minus"></i>
                                                     </button>
-                                                    <input id="quantity-input-{{ product.sku }}" id="quantity" class="quantity"
+                                                    <input id="quantity-input-{{ product.sku }}" id="quantity"
+                                                           class="quantity"
                                                            type="text"
                                                            value="{{ item.quantity|default:1 }}">
                                                     <button class="qty-btn plus-btn"><i class="fal fa-plus"></i>
@@ -437,10 +438,12 @@
     <script>
         function shareOnFacebook() {
             const url = '{{ request.build_absolute_uri }}';
+            console.log('Sharing URL:', url); // Log the URL to the console
             const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
             window.open(facebookShareUrl, 'facebook-share-dialog', 'width=626,height=436');
         }
     </script>
+
     <script>
         $(document).ready(function () {
             // Get initial values
