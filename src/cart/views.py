@@ -370,7 +370,7 @@ def submit_checkout(request):
     access_token = response_data.get('access')
 
     # If the request method is POST, handle the form submission
-    if request.method == 'POST':
+    if request.method == 'GET':
         # Get the referrer's username from the POST data
         ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
         address_from_session = request.session.get('shipping_address', {})
@@ -381,7 +381,7 @@ def submit_checkout(request):
 
         print(f'Email: {email}')
 
-        referrer_username = request.POST.get('username')
+        referrer_username = request.GET.get('username')
 
         if referrer_username:
             # API URL to check if the referrer username exists in the system
