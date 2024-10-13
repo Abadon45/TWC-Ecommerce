@@ -48,7 +48,7 @@ class ShopView(TemplateView):
         search_query = self.request.GET.get('q')
         sort_option = self.request.GET.get('sort', '1')
         queryset = []
-
+        full_product_list = []
         category_product_count = defaultdict(int)
 
         api_url = 'https://dashboard.twcako.com/shop/api/get-product/'
@@ -60,7 +60,25 @@ class ShopView(TemplateView):
             data = response.json()
 
             if data.get("success"):
-                queryset = data.get("products", [])
+                full_product_list = data.get("products", [])
+
+                # Count products in each category before filtering
+                for product in full_product_list:
+                    category_1 = product.get('category_1')
+                    category_2 = product.get('category_2')
+
+                    if category_1 and category_1.lower() != 'twc':  # Exclude 'twc' products
+                        category_product_count[category_1] += 1
+                    if category_2 and category_2.lower() != 'twc':  # Exclude 'twc' products
+                        category_product_count[category_2] += 1
+
+                # Start with the unfiltered list for further processing
+                queryset = full_product_list
+
+                queryset = [
+                    product for product in queryset
+                    if product.get('category_1', '').lower() != 'twc'
+                ]
 
                 # Filter by search query if provided
                 if search_query:
@@ -91,14 +109,6 @@ class ShopView(TemplateView):
 
                 # Count products in each category
                 for product in queryset:
-                    category_1 = product.get('category_1')
-                    category_2 = product.get('category_2')
-
-                    if category_1:
-                        category_product_count[category_1] += 1
-                    if category_2:
-                        category_product_count[category_2] += 1
-
                     # Fetch all ratings for this product from the Rating model
                     product_slug = product.get('slug')
                     ratings = Rating.objects.filter(product_slug=product_slug)

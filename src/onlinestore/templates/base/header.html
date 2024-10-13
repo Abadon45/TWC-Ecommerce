@@ -80,23 +80,23 @@
                             <img src="{% static 'img/logo/logo.png' %}" alt="logo">
                         </a>
                     </div>
-{#                    <div class="col-7 mobile-only">#}
-{#                        <div class="header-top-right">#}
-{#                            <ul class="header-top-list">#}
-{#                                {% if user.is_authenticated %}#}
-{#                                    <li class="login"><a href="{% url 'login:logout' %}">Logout</a></li>#}
-{#                                {% else %}#}
-{#                                    <li class="login"><a href="{% url 'login:login' %}">Login</a></li>#}
-{#                                {% endif %}#}
-{#                                <li class="social">#}
-{#                                    <div class="header-top-social">#}
-{#                                        <span>Follow Us: </span>#}
-{#                                        <a href="#"><i class="fab fa-facebook"></i></a>#}
-{#                                    </div>#}
-{#                                </li>#}
-{#                            </ul>#}
-{#                        </div>#}
-{#                    </div>#}
+                    {#                    <div class="col-7 mobile-only">#}
+                    {#                        <div class="header-top-right">#}
+                    {#                            <ul class="header-top-list">#}
+                    {#                                {% if user.is_authenticated %}#}
+                    {#                                    <li class="login"><a href="{% url 'login:logout' %}">Logout</a></li>#}
+                    {#                                {% else %}#}
+                    {#                                    <li class="login"><a href="{% url 'login:login' %}">Login</a></li>#}
+                    {#                                {% endif %}#}
+                    {#                                <li class="social">#}
+                    {#                                    <div class="header-top-social">#}
+                    {#                                        <span>Follow Us: </span>#}
+                    {#                                        <a href="#"><i class="fab fa-facebook"></i></a>#}
+                    {#                                    </div>#}
+                    {#                                </li>#}
+                    {#                            </ul>#}
+                    {#                        </div>#}
+                    {#                    </div>#}
                     <div class="col-lg-5 col-md-5 col-10" style="margin: auto;">
                         <div class="header-middle-search">
                             <form method="get" action="{% url 'shop:search' %}">
@@ -223,14 +223,14 @@
                                         {% endif %}
                                     </div>
                                 </li>
-                                {#                                {% if not user.is_seller %}#}
-                                {#                                <div class="nav-right">#}
-                                {#                                    <div class="nav-right-btn">#}
-                                {#                                        <a href="{% url 'become_seller' %}" class="theme-btn">Become#}
-                                {#                                            Seller</a>#}
-                                {#                                    </div>#}
-                                {#                                </div>#}
-                                {#                                {% endif %}#}
+{#                                {% if not user.is_seller %}#}
+{#                                    <div class="nav-right">#}
+{#                                        <div class="nav-right-btn">#}
+{#                                            <a href="{% url 'become_seller' %}" class="theme-btn">Become#}
+{#                                                Seller</a>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                {% endif %}#}
                             </ul>
                         </div>
                     </div>
