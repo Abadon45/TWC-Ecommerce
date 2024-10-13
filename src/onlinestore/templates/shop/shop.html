@@ -37,35 +37,28 @@
                             </div>
                             <div class="card-body index-card-body">
                                 <ul class="shop-category-list category-2">
-                                    <li><a href="{% url 'shop:shop' %}?category_id=sante-nutraceutical"
-                                           data-category-id="sante-nutraceutical"
-                                           onclick="showSubcategories('sante-nutraceutical')">Health & Wellness
+                                    <li><a href="{% url 'shop:shop' %}?category_id=sante-nutraceutical">Health & Wellness
                                         <span>({{ category_product_count|get_item:'sante-nutraceutical' }})</span></a>
                                     </li>
-                                    <li><a href="{% url 'shop:shop' %}?category_id=sante-beverage"
-                                           data-category-id="sante-beverage"
-                                           onclick="showSubcategories('sante-beverage')">Health Beverages
-                                        <span>({{ category_product_count|get_item:'sante-beverage' }})</span></a></li>
-                                    <li><a href="{% url 'shop:shop' %}?category_id=sante-intimate_care"
-                                           data-category-id="sante-intimate_care"
-                                           onclick="showSubcategories('sante-intimate_care')">Intimate Care
+                                    <li><a href="{% url 'shop:shop' %}?category_id=sante-beverage">Health Beverages
+                                        <span>({{ category_product_count|get_item:'sante-beverage' }})</span></a>
+                                    </li>
+                                    <li><a href="{% url 'shop:shop' %}?category_id=sante-intimate_care">Intimate Care
                                         <span>({{ category_product_count|get_item:'sante-intimate_care' }})</span></a>
                                     </li>
-                                    <li><a href="{% url 'shop:shop' %}?category_id=bath-body" data-category-id="chingu"
-                                           onclick="showSubcategories('mood')">Bath & Body
-                                        <span>({{ category_product_count|get_item:'chingu-bundle' }})</span></a></li>
-                                    <li><a href="{% url 'shop:shop' %}?category_id=chingu" data-category-id="chingu"
-                                           onclick="showSubcategories('mood')">Bags
-                                        <span>({{ category_product_count|get_item:'chingu' }})</span></a></li>
-                                    <li><a href="{% url 'shop:shop' %}?category_id=mood" data-category-id="mood"
-                                           onclick="showSubcategories('mood')">Watches
-                                        <span>({{ category_product_count|get_item:'mood-bundle' }})</span></a></li>
-                                    <li><a href="{% url 'shop:shop' %}?category_id=accessories"
-                                           data-category-id="accessories"
-                                           onclick="showSubcategories('accessories')">Accessories
-                                        <span>({{ category_product_count|get_item:'accessories' }})</span></a></li>
+                                    <li><a href="{% url 'shop:shop' %}?category_id=bath-body">Bath & Body
+                                        <span>({{ category_product_count|get_item:'bath-body' }})</span></a>
+                                    </li>
+                                    <li><a href="{% url 'shop:shop' %}?category_id=chingu">Bags
+                                        <span>({{ category_product_count|get_item:'chingu' }})</span></a>
+                                    </li>
+                                    <li><a href="{% url 'shop:shop' %}?category_id=mood">Watches
+                                        <span>({{ category_product_count|get_item:'mood-bundle' }})</span></a>
+                                    </li>
+                                    <li><a href="{% url 'shop:shop' %}?category_id=accessories">Accessories
+                                        <span>({{ category_product_count|get_item:'accessories' }})</span></a>
+                                    </li>
                                 </ul>
-
                             </div>
                         </div>
                     </div>

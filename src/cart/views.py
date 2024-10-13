@@ -43,9 +43,8 @@ class CartView(TemplateView):
 
         # Log the structure of each product's slug
         for shop, data in ordered_items_by_shop.items():
-            cart_total += data['cod_amount']
-            for item in data['items']:
-                print(f"Product name: {item['product']['name']}, Slug: {item['product'].get('slug', 'No slug')}")
+            cod_amount = data.get('cod_amount', 0)
+            cart_total += cod_amount
 
         self.request.session['cart_total'] = cart_total
         # Update the context with data retrieved from the session

@@ -68,6 +68,7 @@ $(document).ready(function () {
                 var cartHtml = '';
                 var shop = button.data("shop")
 
+                console.log("shop_cart[shop]:", shop_cart[shop]);
 
                 // logic to update the cart
                 var formattedCartItems = String(totalItems).padStart(2, "0");
@@ -136,7 +137,6 @@ $(document).ready(function () {
                 $("#upper-cart-count").text(totalItems);
                 $("#lower-cart-count").text(totalItems);
 
-
                 if ($('#cart-dropdown').text().trim() === "") {
                     $('#cart-dropdown').html(cartDropdownHtml);
                 }
@@ -146,7 +146,6 @@ $(document).ready(function () {
                 if (totalItems === 0) {
                     $('#cart-dropdown').empty();
                 }
-
 
                 //Disable add to cart button after product is added
                 if (action === 'remove') {
@@ -176,13 +175,11 @@ $(document).ready(function () {
                         $('.input-' + productId).val(productData.quantity)
                         $('.product-subtotal-' + productId).text("₱" + productData.get_total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','))
                         $('#order-subtotal-' + shop).text("₱" + shop_cart[shop].subtotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','))
-                        $('#order-total-' + shop).text("₱" + shop_cart[shop].total_amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','))
+                        $('#order-total-' + shop).text("₱" + shop_cart[shop].cod_amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','))
                         $('.total-amount').text("₱" + orderTotal)
                     }
 
-
                 }
-
 
                 if (!isCartPage()) {
                     Swal.fire({
