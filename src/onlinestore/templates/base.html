@@ -16,7 +16,7 @@
           From health and wellness to fashion and accessories, shop with ease and enjoy fast, reliable shipping. 
           Your one-stop destination for all your shopping needs!"/>
     <meta property="og:image" content="{% static 'img/logo/logo.png' %}"/>
-    <meta property="og:url" content="https://example.com/your-page-url"/>
+    <meta property="og:url" content="{{ request.build_absolute_uri }}"/>
     <meta property="og:type" content="website"/>
 
     <script type="text/javascript">
