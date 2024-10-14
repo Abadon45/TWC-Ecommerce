@@ -7,7 +7,7 @@ $(document).ready(function () {
         var productId = button.data("product");
         var orderId = button.data("order-id");
         var action = button.data("action");
-        var quantityInput = $("#quantity");
+        var quantityInput = $(".quantity");
         var quantity = parseInt(quantityInput.val()) || 1;
 
         console.log("Product Slug: " + productId)
