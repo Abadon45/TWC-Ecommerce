@@ -1,6 +1,6 @@
 from django.db.models import Avg
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse, Http404
 from django.template.loader import render_to_string
@@ -186,16 +186,13 @@ class ShopView(TemplateView):
         return user_ratings
 
 
-class ShopDetailView(TemplateView):
+class ShopDetailView(View):
     template_name = "shop/shop-single.html"
-    context_object_name = 'product'
 
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get(self, request, slug):
         product = None
         # Fetch product from API
-        product_slug = self.kwargs.get('slug') or self.request.GET.get('slug')
+        product_slug = slug or request.GET.get('slug')
 
         if not product_slug:
             raise Http404("Product not found")
@@ -207,76 +204,42 @@ class ShopDetailView(TemplateView):
             response.raise_for_status()  # Raises HTTPError for bad responses
             product_data = response.json()
             product = product_data.get('product', {})
-            product_category = product.get('category_1')
-            print(f'Product Category: {product_category}')
-            print(f'Product Feature: {product.get("feature")}')
+            if not product:
+                raise Http404("Product not found")
 
-            context['product'] = product
         except requests.exceptions.HTTPError as http_err:
-            # Log error or notify user
             print(f'HTTP error occurred: {http_err}')
-            context['product'] = None
+            raise Http404("Product not found")
+
         except requests.exceptions.RequestException as req_err:
-            # Log error or notify user
             print(f'Request error occurred: {req_err}')
-            context['product'] = None
+            return render(request, self.template_name, {'product': None})
+
+            # Get the product rating
+        product_slug = product.get('slug')
+        ratings = Rating.objects.filter(product_slug=product_slug)
+
+        if ratings.exists():
+            aggregate_rating = ratings.aggregate(Avg('score'))['score__avg']
+            product['aggregate_rating'] = round(aggregate_rating, 1)
+        else:
+            product['aggregate_rating'] = 3  # Default rating if no ratings exist
 
         # Get related products based on category
         related_products = self.get_related_products(product.get('slug'), product.get('category_1'))
 
-        # # Get products in cart
-        # order_ids = self.request.session.get('checkout_orders', [])
-        # orders = Order.objects.filter(id__in=order_ids)
 
         # Get products in cart (assuming 'ordered_items_by_shop' is a session variable containing the cart items)
-        ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
+        ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
+        products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in shop['items']]
 
-        products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
-                            shop['items']]
+        context = {
+            'product': product,
+            'related_products': related_products,
+            'products_in_cart': products_in_cart,
+        }
 
-        # Check if the user has already purchased the product
-        user_has_purchased = False
-        # if self.request.user.is_authenticated:
-        #     user_has_purchased = OrderItem.objects.filter(order__user=self.request.user, product=product,
-        #                                                   order__complete=True).exists()
-
-        # # Get user rating and review status for the product if authenticated
-        # rating = None
-        # user_reviewed = False
-        # if self.request.user.is_authenticated and user_has_purchased:
-        #     try:
-        #         rating = Rating.objects.get(product=product, user=self.request.user)
-        #         user_reviewed = True
-        #     except Rating.DoesNotExist:
-        #         rating = None
-        #
-        # # Get all product ratings
-        # product_ratings = Rating.objects.filter(product=product)
-        #
-        # # Get product reviews
-        # product_reviews = product.reviews.select_related('rating').all()
-        # for review in product_reviews:
-        #     if review.created_at is None:
-        #         review.created_at = now()
-        #         review.save()
-
-        # Forms
-
-        print(f'Orders by shop: {ordered_items_by_shop}')
-
-        # context['rating_form'] = RatingForm()
-        # context['review_form'] = ReviewForm()
-
-        # Context variables
-        context['related_products'] = related_products
-        context['products_in_cart'] = products_in_cart
-        # context['rating'] = rating
-        # context['user_reviewed'] = user_reviewed
-        # context['user_has_purchased'] = user_has_purchased
-        # context['product_reviews'] = product_reviews
-        # context['product_ratings'] = product_ratings
-
-        return context
+        return render(request, self.template_name, context)
 
     def get_related_products(self, current_product_slug, current_category):
         api_url = 'https://dashboard.twcako.com/shop/api/get-product/'
@@ -304,7 +267,6 @@ class ShopDetailView(TemplateView):
             else:
                 return []
         except requests.exceptions.RequestException as e:
-            # Handle API request errors
             print(f'Error fetching products: {str(e)}')
             return []
 
