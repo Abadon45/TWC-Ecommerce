@@ -10,24 +10,34 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
 
+    <meta property="og:title" content="TWC Online Store"/>
+    <meta property="og:description"
+          content="Discover a wide range of high-quality products at TWC Online Store. 
+          From health and wellness to fashion and accessories, shop with ease and enjoy fast, reliable shipping. 
+          Your one-stop destination for all your shopping needs!"/>
+    <meta property="og:image" content="{% static 'img/logo/logo.png' %}"/>
+    <meta property="og:url" content="https://example.com/your-page-url"/>
+    <meta property="og:type" content="website"/>
+
     <script type="text/javascript">
         var user = '{{request.user}}'
 
         function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
                     }
                 }
             }
             return cookieValue;
         }
+
         const csrftoken = getCookie('csrftoken');
     </script>
 
@@ -44,53 +54,54 @@
 
 <body class="home-6">
 
-    <!-- preloader -->
-    <div class="preloader">
-        <div class="loader-ripple">
-            <div></div>
-            <div></div>
-        </div>
+<!-- preloader -->
+<div class="preloader">
+    <div class="loader-ripple">
+        <div></div>
+        <div></div>
     </div>
-    <!-- preloader end -->
+</div>
+<!-- preloader end -->
 
-    <!-- loader -->
-    <div class="spinner">
-        <div class="double-bounce1"></div>
-        <div class="double-bounce2"></div>
-    </div>
-    <!-- loader end -->
+<!-- loader -->
+<div class="spinner">
+    <div class="double-bounce1"></div>
+    <div class="double-bounce2"></div>
+</div>
+<!-- loader end -->
 
-    <!-- header area -->
-    {% include 'base/header.html' %}
-    <!-- header area end -->
+<!-- header area -->
+{% include 'base/header.html' %}
+<!-- header area end -->
 
-    <main class="main">
+<main class="main">
 
-        {% block content %}{% endblock content %}
+    {% block content %}{% endblock content %}
 
 
-    </main>
-    <!-- footer area -->
-    {% include 'base/footer.html' %}
-    <!-- {% include 'base/footer.html' %} -->
-    <!-- footer area end -->
+</main>
+<!-- footer area -->
+{% include 'base/footer.html' %}
+<!-- {% include 'base/footer.html' %} -->
+<!-- footer area end -->
 
-    <!-- chat -->
-    {% if referrer %}
-        <a href="{{ referrer }}" id="chat-seller" aria-label="Chat with seller">
-            <i class="fa-solid fa-message" aria-hidden="true"></i> Chat
-        </a>
-    {% endif %}
-    <!-- chat end -->
+<!-- chat -->
+{% if referrer %}
+    <a href="{{ referrer }}" id="chat-seller" aria-label="Chat with seller">
+        <i class="fa-solid fa-message" aria-hidden="true"></i> Chat
+    </a>
+{% endif %}
+<!-- chat end -->
 
-    <!-- cart-top -->
-    <a href="{% url 'cart:cart' %}" id="scroll-top" class="cart-link shop-cart list-item"><i class="fa-solid fa-cart-shopping"></i>
-        <span id="lower-cart-count">{{ cart_items }}</span></a>
-    <!-- cart end -->
+<!-- cart-top -->
+<a href="{% url 'cart:cart' %}" id="scroll-top" class="cart-link shop-cart list-item"><i
+        class="fa-solid fa-cart-shopping"></i>
+    <span id="lower-cart-count">{{ cart_items }}</span></a>
+<!-- cart end -->
 
-    <!-- js -->
-    {% include 'base/js.html' %}
-    {% block extra_js %}{% endblock %}
+<!-- js -->
+{% include 'base/js.html' %}
+{% block extra_js %}{% endblock %}
 
 
 </body>
