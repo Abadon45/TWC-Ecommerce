@@ -18,6 +18,7 @@ urlpatterns = [
     path('pf/', ProductFunnelView.as_view(), name='product_funnel'),
     path('pf/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_with_params'),
     path('pf/create-order', create_order, name='create_order'),
+    path('create-invoice/', create_xendit_invoice, name='create_xendit_invoice'),
 
 ]
 
