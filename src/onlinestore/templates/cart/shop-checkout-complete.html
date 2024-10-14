@@ -22,10 +22,12 @@
                         For any concern, please feel free to
                         {% if sponsor_mobile %}
                             contact us at {{ sponsor_mobile }}
-                        {% else %}
+                        {% elif referrer %}
                             <button class="contact-us-btn btn theme-btn" onclick="window.open('{{ referrer }}', '_blank')" >
                                 Contact Us
                             </button>
+                        {% else %}
+                            Contact Us.
                         {% endif %}
                     </p>
 
