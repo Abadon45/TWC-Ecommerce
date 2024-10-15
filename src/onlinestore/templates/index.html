@@ -7,7 +7,6 @@
 {% block content %}
 
     <!-- category area -->
-
     <div class="category-area2 pt-20 border-top twc-category-slider">
         <div class="container">
             <div class="category-slider owl-carousel owl-theme mt-2">
@@ -69,7 +68,7 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center header-group">
                         <div class="p-2">
-                            <h2 class="site-title">TRENDING ITEMS</h2>
+                            <h2 class="site-title">TRENDING ITEMS {% if dev_admin %}This is admin{% endif %}</h2>
                         </div>
                         <div class="p-2">
                             <a class="theme-btn" href="{% url 'shop:shop' %}">View More</a>
