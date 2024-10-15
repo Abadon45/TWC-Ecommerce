@@ -270,7 +270,7 @@ class CheckoutView(View):
 
     def get_context_data(self, **kwargs):
         context = {
-            'shipping_form': AddressForm(),  # Instantiate your form here
+            'shipping_form': AddressForm(),
             'orders': self.get_orders(),
             'cart_total': self.request.session.get('cart_total', 0),
             'referred_by': self.request.session.get('referrer'),
@@ -286,6 +286,9 @@ class CheckoutView(View):
         return render(request, self.template_name, context)
 
     def process_shipping_info(self, data):
+
+        payment_method = data.get('payment_method')
+
         shipping_address = {
             'first_name': data.get('first_name'),
             'last_name': data.get('last_name'),
@@ -371,6 +374,10 @@ def submit_checkout(request):
     # If the request method is POST, handle the form submission
     if request.method == 'GET':
         # Get the referrer's username from the POST data
+
+        payment_method = request.GET.get('payment_method')
+        print(f'Selected Payment Method: {payment_method}')
+
         ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
         address_from_session = request.session.get('shipping_address', {})
 

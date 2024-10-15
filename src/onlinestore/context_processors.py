@@ -10,6 +10,22 @@ User = get_user_model()
 
 def referrer(request):
     try:
+        host = request.get_host().split(':')[0]  # Get the host without the port
+        domain_parts = host.split('.')
+
+        # Check if there's a subdomain (i.e., more than 2 parts)
+        if len(domain_parts) > 2:
+            current_domain = '.'.join(domain_parts[-2:])  # Join the last two parts (domain + TLD)
+        else:
+            current_domain = host  # If no subdomain, use the whole host
+
+        valid_domain = {'devtest.store', 'twcstoredevtest.com'}
+
+        if current_domain in valid_domain:
+            request.session['dev_domain'] = current_domain
+
+        print(f'Domain: {current_domain}')
+
         sponsor_messenger = request.session.get('messenger_link', None)
         sponsor = request.session.get('referrer', None)
 
@@ -19,11 +35,13 @@ def referrer(request):
             request.session['admin'] = sponsor
 
         dev_admin = request.session.get('admin', None)
+        dev_domain = request.session.get('dev_domain', None)
         print(f'Admin: {dev_admin}')
         if sponsor_messenger or dev_admin:
             return {
                 'referrer': sponsor_messenger,
                 'dev_admin': dev_admin,
+                'dev_domain': dev_domain,
             }
         return {'referrer': None}
     except Exception as e:

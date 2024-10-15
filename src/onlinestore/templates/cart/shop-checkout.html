@@ -37,20 +37,20 @@
                                     </div>
                                     <div class="tab-pane fade" id="step2" role="tabpanel" aria-labelledby="step2-tab"
                                          tabindex="0">
-                                        {% if dev_admin %}
+                                        {% if dev_domain and dev_admin %}
                                             <div class="shop-checkout-payment">
-                                                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                                <ul class="nav nav-pills mb-3" id="payment-tabs" role="tablist">
                                                     <li class="nav-item" role="presentation">
-                                                        <a class="nav-link active" id="pills-tab-1"
-                                                           data-bs-toggle="pill" data-bs-target="#pills-1" type="button"
-                                                           role="tab" aria-controls="pills-1" aria-selected="true">
+                                                        <a class="nav-link active" id="xendit-tab" data-bs-toggle="pill"
+                                                           data-bs-target="#xendit" type="button" role="tab"
+                                                           aria-controls="xendit" aria-selected="true">
                                                             &nbsp;&nbsp;&nbsp;<span>Pay With Xendit</span>
                                                         </a>
                                                     </li>
                                                     <li class="nav-item" role="presentation">
-                                                        <a class="nav-link" id="pills-tab-4" data-bs-toggle="pill"
-                                                           data-bs-target="#pills-4" type="button" role="tab"
-                                                           aria-controls="pills-4" aria-selected="false" tabindex="-1">
+                                                        <a class="nav-link" id="cod-tab" data-bs-toggle="pill"
+                                                           data-bs-target="#cod" type="button" role="tab"
+                                                           aria-controls="cod" aria-selected="false" tabindex="-1">
                                                             <div class="checkout-payment-img cod">
                                                                 <img src="assets/img/payment/cod-3.svg" alt="">
                                                             </div>
@@ -58,38 +58,40 @@
                                                         </a>
                                                     </li>
                                                 </ul>
-                                                <div class="tab-content" id="pills-tabContent">
-                                                    <div class="tab-pane fade show active" id="pills-1" role="tabpanel"
-                                                         aria-labelledby="pills-tab-1" tabindex="0">
-                                                        <div class="shop-checkout-form">
-                                                            <div class="shop-checkout-form cod">
-                                                                <form action="#">
-                                                                    <div class="row">
-                                                                        <div class="col-lg-12">
-                                                                            <div class="form-check">
-                                                                                <label class="form-check-label"
-                                                                                       for="cod">
-                                                                                    <span>
-                                                                                        To enhance your shopping experience, 
-                                                                                        we use Xendit as our payment gateway. 
-                                                                                        With Xendit, you can pay securely using various methods, 
-                                                                                        including credit cards such as Visa and MasterCard, 
-                                                                                        or popular e-wallets like GCash. 
-                                                                                        Enjoy fast and hassle-free transactions, 
-                                                                                        and rest assured that your payment information is secure.
-                                                                                    </span>
-                                                                                </label>
-                                                                            </div>
+
+                                                <div class="tab-content" id="payment-tabContent">
+                                                    <div class="tab-pane fade show active" id="xendit" role="tabpanel"
+                                                         aria-labelledby="xendit-tab" tabindex="0">
+                                                        <!-- Xendit Payment Information -->
+                                                        <div class="shop-checkout-form cod">
+                                                            <form class="payment-form" action="#" method="get">
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <div class="form-check">
+                                                                            <label class="form-check-label"
+                                                                                   for="cod">
+                                                                                Xendit
+                                                                                <span>
+                                                                                    To enhance your shopping experience,
+                                                                                    we use Xendit as our payment gateway.
+                                                                                    With Xendit, you can pay securely using various methods,
+                                                                                    including credit cards such as Visa and MasterCard,
+                                                                                    or popular e-wallets like GCash.
+                                                                                    Enjoy fast and hassle-free transactions,
+                                                                                    and rest assured that your payment information is secure.
+                                                                                </span>
+                                                                            </label>
                                                                         </div>
                                                                     </div>
-                                                                </form>
-                                                            </div>
+                                                                </div>
+                                                            </form>
                                                         </div>
                                                     </div>
-                                                    <div class="tab-pane fade" id="pills-4" role="tabpanel"
-                                                         aria-labelledby="pills-tab-4" tabindex="0">
+                                                    <div class="tab-pane fade" id="cod" role="tabpanel"
+                                                         aria-labelledby="cod-tab" tabindex="0">
+                                                        <!-- COD Payment Information -->
                                                         <div class="shop-checkout-form cod">
-                                                            <form action="#">
+                                                            <form class="payment-form" action="#" method="get">
                                                                 <div class="row">
                                                                     <div class="col-lg-12">
                                                                         <div class="form-check">
@@ -113,7 +115,7 @@
                                                     <div class="tab-pane fade show active" id="pills-1" role="tabpanel"
                                                          aria-labelledby="pills-tab-1" tabindex="0">
                                                         <div class="shop-checkout-form cod">
-                                                            <form action="#">
+                                                            <form class="payment-form" action="#" method="get">
                                                                 <div class="row">
                                                                     <div class="col-lg-12">
                                                                         <div class="form-check">
@@ -124,6 +126,12 @@
                                                                             Conditions</a> for cash on delivery.</span>
                                                                             </label>
                                                                         </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+                                                                        <button type="button"
+                                                                                class="theme-btn confirmPaymentBtn">Pay
+                                                                            Now<i class="fas fa-arrow-right"></i>
+                                                                        </button>
                                                                     </div>
                                                                 </div>
                                                             </form>
@@ -161,13 +169,6 @@
                                                                             <input type="text" class="form-control"
                                                                                    placeholder="CVV">
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-lg-6">
-                                                                        <button type="button"
-                                                                                class="theme-btn confirmPaymentBtn">Pay
-                                                                            Now<i
-                                                                                    class="fas fa-arrow-right"></i>
-                                                                        </button>
                                                                     </div>
                                                                 </div>
                                                             </form>
@@ -251,7 +252,9 @@
                                                 <button type="submit" class="theme-btn checkout-btn"
                                                         data-referrer-id="{{ referred_by }}"
                                                         data-username="{{ current_user }}"
-                                                        onclick="checkoutBtn(event)" hidden>CHECKOUT NOW
+{#                                                        onclick="checkoutBtn(event)" #}
+                                                        hidden>
+                                                    CHECKOUT NOW
                                                 </button>
                                             </form>
                                         </div>
@@ -382,8 +385,9 @@
                                                 <form id="checkoutForm" class="form" method="GET"
                                                       action="{% url 'cart:submit_checkout' %}">
                                                     <button type="submit" class="theme-btn checkout-btn"
-                                                            data-referrer-id="{{ referred_by }}"
-                                                            onclick="checkoutBtn(event)">CHECKOUT NOW
+{#                                                            onclick="checkoutBtn(event)"#}
+                                                            data-referrer-id="{{ referred_by }}">
+                                                        CHECKOUT NOW
                                                     </button>
                                                 </form>
                                             </div>
@@ -414,6 +418,22 @@
 {% endblock %}
 {% block extra_js %}
     <script>
+        $(document).ready(function () {
+            $('.checkout-btn').on('click', function (event) {
+                // Get the active tab's ID
+                var activePaymentMethod = $('#payment-tabs .nav-link.active').attr('id');
+
+                // Determine the payment method based on the active tab
+                var paymentMethod = activePaymentMethod === 'xendit-tab' ? 'xendit' : 'cod';
+
+                // Log the selected payment method
+                console.log('Selected Payment Method:', paymentMethod);
+
+                checkoutBtn(event, paymentMethod);
+            });
+        });
+    </script>
+    <script>
         // dummy button for submitting form
         function submitForm() {
             $('#addUserData').click();
@@ -421,7 +441,7 @@
 
         $('.dummy-submit button').click(submitForm);
 
-        function checkoutBtn(event) {
+        function checkoutBtn(event, paymentMethod) {
             event.preventDefault();
             var referrerId = $(event.currentTarget).data('referrer-id');
 
@@ -449,22 +469,23 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         var username = result.value;
-                        saveReferrerUsername(username);
+                        saveReferrerUsername(username, paymentMethod);
                     }
                 });
             } else {
                 var username = referrerId;
-                saveReferrerUsername(username);
+                saveReferrerUsername(username, paymentMethod);
             }
         }
 
-        function saveReferrerUsername(username) {
+        function saveReferrerUsername(username, paymentMethod) {
             const url = `{% url "cart:submit_checkout" %}?username=${encodeURIComponent(username)}`;
             $.ajax({
                 url: url,
                 method: 'GET',
                 data: {
                     username: username,
+                    payment_method: paymentMethod,
                 },
                 success: function (response) {
                     // Show the thank you alert
