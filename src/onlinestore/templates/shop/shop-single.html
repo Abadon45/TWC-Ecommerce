@@ -7,9 +7,9 @@
     <meta property="og:title" content="{{ product.name }}"/>
     <meta property="og:description" content="{{ product.description_1 }}"/>
     {% if product.image_1 %}
-        <meta property="og:image" content="{{ product.image_1 }}" />
+        <meta property="og:image" content="{{ product.image_1 }}"/>
     {% else %}
-        <meta property="og:image" content="/static/img/default-product-image.png" />
+        <meta property="og:image" content="/static/img/default-product-image.png"/>
     {% endif %}
     <meta property="og:url" content="{{ request.build_absolute_uri }}"/>
     <meta property="og:type" content="product"/>
@@ -440,7 +440,8 @@
             const url = '{{ request.build_absolute_uri }}';
             console.log('Sharing URL:', url); // Log the URL to the console
             const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-            window.open(facebookShareUrl, 'facebook-share-dialog', 'width=626,height=436');
+            // Use '_blank' to open in a new tab
+            window.open(facebookShareUrl, '_blank');
         }
     </script>
 

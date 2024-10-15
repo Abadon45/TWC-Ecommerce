@@ -322,7 +322,7 @@ def create_xendit_invoice(request):
         "payer_email": customer_email,             # Customer email
         "description": "TWC Online Store Payment",  # Description of the payment
         "amount": total_amount,                     # Total amount in IDR
-        "redirect_url": "http://noypangan.devtest.store:8000/cart/checkout/complete/",  # Redirect URL
+        "success_redirect_url": "http://noypangan.devtest.store:8000/cart/checkout/complete/",
         "items": invoice_items,                     # List of items in the invoice
         "payer_name": customer_name,                # Customer name
         "payer_phone": customer_phone               # Customer phone number

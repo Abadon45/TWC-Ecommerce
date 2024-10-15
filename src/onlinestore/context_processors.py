@@ -10,9 +10,21 @@ User = get_user_model()
 
 def referrer(request):
     try:
-        sponsor_messenger = request.session['messenger_link']
-        if sponsor_messenger:
-            return {'referrer': sponsor_messenger}
+        sponsor_messenger = request.session.get('messenger_link', None)
+        sponsor = request.session.get('referrer', None)
+
+        valid_sponsors = {'noypangan', 'evgeronilla', 'avail', 'machero', 'jcerdina'}
+
+        if sponsor in valid_sponsors:
+            request.session['admin'] = sponsor
+
+        dev_admin = request.session.get('admin', None)
+        print(f'Admin: {dev_admin}')
+        if sponsor_messenger or dev_admin:
+            return {
+                'referrer': sponsor_messenger,
+                'dev_admin': dev_admin,
+            }
         return {'referrer': None}
     except Exception as e:
         print(f"Error in referrer context processor: {e}")
