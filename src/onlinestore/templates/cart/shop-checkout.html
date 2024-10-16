@@ -209,7 +209,7 @@
                                                 <button type="submit" class="theme-btn checkout-btn"
                                                         data-referrer-id="{{ referred_by }}"
                                                         data-username="{{ current_user }}"
-{#                                                        onclick="checkoutBtn(event)" #}
+                                                        {#                                                        onclick="checkoutBtn(event)" #}
                                                         hidden>
                                                     CHECKOUT NOW
                                                 </button>
@@ -342,7 +342,7 @@
                                                 <form id="checkoutForm" class="form" method="GET"
                                                       action="{% url 'cart:submit_checkout' %}">
                                                     <button type="submit" class="theme-btn checkout-btn"
-{#                                                            onclick="checkoutBtn(event)"#}
+                                                            {#                                                            onclick="checkoutBtn(event)"#}
                                                             data-referrer-id="{{ referred_by }}">
                                                         CHECKOUT NOW
                                                     </button>
@@ -445,33 +445,38 @@
                     payment_method: paymentMethod,
                 },
                 success: function (response) {
-                    // Show the thank you alert
-                    Swal.fire({
-                        title: 'Thank You for Your Order!',
-                        text: 'Now completing checkout...',
-                        icon: 'success',
-                        didOpen: () => {
-                            Swal.showLoading(); // Show loading spinner
-                        }
-                    });
+                    if (response.redirect_url) {
+                        // Redirect to the Xendit invoice URL
+                        window.location.href = response.redirect_url;
+                    } else {
+                        // Show the thank you alert
+                        Swal.fire({
+                            title: 'Thank You for Your Order!',
+                            text: 'Now completing checkout...',
+                            icon: 'success',
+                            didOpen: () => {
+                                Swal.showLoading(); // Show loading spinner
+                            }
+                        });
 
-                    // After a short delay, submit the form
-                    setTimeout(() => {
-                        $('#checkoutForm').submit();
-                    }, 2000); // Adjust the delay time as needed
+                        // After a short delay, submit the form
+                        setTimeout(() => {
+                            $('#checkoutForm').submit();
+                        }, 2000); // Adjust the delay time as needed
+                    }
                 },
-                error: function (xhr, status, error) {
-                    console.error('Error saving referrer username:', error);
-                    var responseData = JSON.parse(xhr.responseText);
-                    var errorMessage = responseData.error;
-                    Swal.fire({
-                        title: 'Error',
-                        text: errorMessage,
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                }
-            });
+                    error: function (xhr, status, error) {
+                        console.error('Error saving referrer username:', error);
+                        var responseData = JSON.parse(xhr.responseText);
+                        var errorMessage = responseData.error;
+                        Swal.fire({
+                            title: 'Error',
+                            text: errorMessage,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
         }
     </script>
 {% endblock %}

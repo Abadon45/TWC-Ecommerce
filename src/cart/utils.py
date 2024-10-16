@@ -1,6 +1,6 @@
 import requests
 from django.conf import settings
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
 
@@ -162,7 +162,8 @@ def create_xendit_invoice(
             invoice_data = response.json()
             invoice_url = invoice_data['invoice_url']
             print(f'Redirecting to Xendit Invoice URL: {invoice_url}')  # Debugging log
-            return redirect(invoice_url)
+            return JsonResponse({'redirect_url': invoice_url})
+            # return HttpResponseRedirect(invoice_url)
         else:
             print(f'Error response from Xendit: {response.json()}')  # Debugging log
             return JsonResponse({"status": "error", "message": response.json()}, status=response.status_code)
