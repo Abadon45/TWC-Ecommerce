@@ -324,8 +324,8 @@ def create_xendit_invoice(request):
         "amount": total_amount,                     # Total amount in IDR
         "success_redirect_url": "http://noypangan.devtest.store:8000/cart/checkout/complete/",
         "items": invoice_items,                     # List of items in the invoice
-        "payer_name": customer_name,                # Customer name
-        "payer_phone": customer_phone               # Customer phone number
+        "payer_names": customer_name,                # Customer name
+        "phone_number": customer_phone               # Customer phone number
     }
 
     # Xendit API key from settings
@@ -344,6 +344,7 @@ def create_xendit_invoice(request):
             invoice_data = response.json()
             invoice_url = invoice_data['invoice_url']
             print(f'Redirecting to Xendit Invoice URL: {invoice_url}')  # Debugging log
+
             return redirect(invoice_url)
         else:
             print(f'Error response from Xendit: {response.json()}')  # Debugging log
@@ -357,15 +358,6 @@ def create_xendit_invoice(request):
 class BecomeSellerView(TemplateView):
     title = "BecomeSeller"
     template_name = 'become-seller.html'
-    context = {'title': title}
-
-    def get_context_data(self, **kwargs):
-        return self.context
-
-
-class ComingSoonView(TemplateView):
-    title = "ComingSoon"
-    template_name = 'coming-soon.html'
     context = {'title': title}
 
     def get_context_data(self, **kwargs):
