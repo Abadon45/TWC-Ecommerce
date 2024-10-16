@@ -5,8 +5,13 @@ from django.http import Http404
 from django.http import HttpResponsePermanentRedirect
 from django.conf import settings
 from django.utils.deprecation import MiddlewareMixin
-from urllib.parse import urlparse
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+def some_view(request):
+    logger.debug(f"Session: {request.session.items()}")
 
 class SubdomainMiddleware:
     def __init__(self, get_response):
@@ -91,15 +96,29 @@ class DynamicCSRFMiddleware(MiddlewareMixin):
             settings.CSRF_TRUSTED_ORIGINS.append(f'https://{domain}')
 
 
+class CurrentDomainMiddleware(MiddlewareMixin):
+    def process_request(self, request):
+        host = request.get_host().split(':')[0]  # Get the host without the port
+        domain_parts = host.split('.')
+
+        # Check if there's a subdomain
+        if len(domain_parts) > 2:
+            current_domain = '.'.join(domain_parts[-2:])  # Join the last two parts (domain + TLD)
+        else:
+            current_domain = host  # If no subdomain, use the whole host
+
+        # Set the current domain in the request
+        settings.CURRENT_DOMAIN = current_domain
+
+
 class SubdomainSessionMiddleware(MiddlewareMixin):
     def process_request(self, request):
         # Extract the host and subdomain
         host = request.get_host().split('.')
         if len(host) > 2:
-            subdomain = host[0]  # Get the subdomain (e.g., `subdomain.twconline.store`)
+            subdomain = host[0]  # Get the subdomain (e.g., subdomain.twconline.store)
             # Set a unique session cookie name for each subdomain
             request.session.cookie_name = f"session_{subdomain}"
         else:
             # Use a default session cookie name for the main domain
             request.session.cookie_name = "session_main"
-

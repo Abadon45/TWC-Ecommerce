@@ -1,8 +1,6 @@
 import requests
 from django.conf import settings
-from django.http import JsonResponse, HttpResponseRedirect
-from django.shortcuts import redirect
-from django.urls import reverse
+from django.http import JsonResponse
 
 
 def sf_calculator(region=None, qty=0):
