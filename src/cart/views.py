@@ -1,3 +1,4 @@
+import uuid
 from logging import lastResort
 
 from allauth.socialaccount.providers.mediawiki.provider import settings
@@ -19,7 +20,7 @@ from urllib.parse import urlencode
 from onlinestore.forms import AddressForm
 from onlinestore.models import *
 from onlinestore.utils import send_temporary_account_email
-from .utils import sf_calculator, detect_region
+from .utils import *
 from TWC.settings.base import *
 from django.core.mail import send_mail
 
@@ -278,7 +279,10 @@ class CheckoutView(View):
         return context
 
     def get(self, request, *args, **kwargs):
-        # Handle GET request for checkout
+        orders = self.get_orders()
+        if not orders:
+            return redirect('shop:shop')
+
         if 'first_name' in request.GET:  # Check if the form was submitted
             return self.process_shipping_info(request.GET)
 
@@ -375,17 +379,37 @@ def submit_checkout(request):
     if request.method == 'GET':
         # Get the referrer's username from the POST data
 
-        payment_method = request.GET.get('payment_method')
-        print(f'Selected Payment Method: {payment_method}')
+        payment_method = request.GET.get('payment_method', 'Cash On Delivery')
 
         ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
         address_from_session = request.session.get('shipping_address', {})
 
-        email = address_from_session.get('email')
+        customer_email = address_from_session.get('email')
         first_name = address_from_session.get('first_name')
         last_name = address_from_session.get('last_name')
+        customer_name = f"{address_from_session.get('first_name')} {address_from_session.get('last_name')}"
+        customer_phone = address_from_session.get('phone')
 
-        print(f'Email: {email}')
+        shipping_amount = float(SiteSetting.get_fixed_shipping_fee())
+
+        print(f'Email: {customer_email}')
+
+        # Prepare ordered items list
+        items = []
+        shop_count = 0
+
+        for shop, shop_data in ordered_items_by_shop.items():
+            shop_count += 1  # Increment the shop count
+            for item in shop_data['items']:
+                items.append({
+                    "name": item['product']['name'],
+                    "quantity": item['quantity'],
+                    "price": float(item['product']['price']),
+                })
+
+        # Generate unique invoice ID
+        unique_invoice_id = []
+
 
         referrer_username = request.GET.get('username')
 
@@ -428,22 +452,22 @@ def submit_checkout(request):
                 print(f"Error parsing response: {e}")
                 return JsonResponse({'success': False, 'error': 'Invalid API response'}, status=500)
 
-        if email:
-            subject = 'TWC Online Store Order'
-            message = f'Good Day {first_name} {last_name},\n\n\nYou have successfully registered an account on TWConline.store!!\n\n\nHere are your temporary account details:\n\nUsername: {first_name}\nPassword: {last_name}\n\n\nThank you for your order!'
-            from_email = 'TWCAKO <support@twcako.com>'
-            recipient_list = [email]
-
-            try:
-                send_mail(subject, message, from_email, recipient_list, fail_silently=False)
-                print("Email sent successfully!")
-            except Exception as e:
-                print(f"Error sending email: {e}")
+        # if customer_email:
+        #     subject = 'TWC Online Store Order'
+        #     message = f'Good Day {customer_name},\n\n\nYou have successfully registered an account on TWConline.store!!\n\n\nHere are your temporary account details:\n\nUsername: {first_name}\nPassword: {last_name}\n\n\nThank you for your order!'
+        #     from_email = 'TWCAKO <support@twcako.com>'
+        #     recipient_list = [customer_email]
+        #
+        #     try:
+        #         send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+        #         print("Email sent successfully!")
+        #     except Exception as e:
+        #         print(f"Error sending email: {e}")
 
         shipping_details = {
             "first_name": first_name,
             "last_name": last_name,
-            "mobile": address_from_session.get('phone'),
+            "mobile": customer_phone,
             "address": address_from_session.get('line1'),
             "barangay": address_from_session.get('barangay'),
             "region": address_from_session.get('region'),
@@ -489,10 +513,31 @@ def submit_checkout(request):
                 print("Order created successfully:", response.json())
                 order_data = response.json()  # Get the order data from the response
                 order_number = order_data.get('order_number')
+
+                unique_invoice_id.append(order_number)
+
                 request.session['order_number'] = order_number
                 ordered_items_by_shop[shop]['order_number'] = order_number
             else:
                 print("Error creating order:", response.status_code, response.text)
+
+
+        request.session['payment_method'] = payment_method
+        # Handle Xendit payment method
+        if payment_method == 'xendit':
+            success_redirect_url = request.build_absolute_uri(reverse('cart:checkout_complete'))
+            failure_redirect_url = request.build_absolute_uri(reverse('cart:cart'))
+            return create_xendit_invoice(
+                customer_name=customer_name,
+                customer_email=customer_email,
+                customer_phone=customer_phone,
+                items=items,
+                shipping_amount=shipping_amount,
+                unique_invoice_id=unique_invoice_id,
+                success_redirect_url = success_redirect_url,
+                failure_redirect_url = failure_redirect_url,
+                shop_count=shop_count,
+            )
 
         return redirect('cart:checkout_complete')
 
@@ -567,6 +612,8 @@ class CheckoutDoneView(TemplateView):
         checkout_details = self.request.session.get('updated_orders', {})
         address_from_session = self.request.session.get('shipping_address', {})
         sponsor_mobile = self.request.session.get('sponsor_mobile')
+        payment_method = self.request.session.get('payment_method')
+        print(f'Selected Payment Method: {payment_method}')
 
         region_name = address_from_session.get('region', 'Unknown')
         region_detected = detect_region(region_name)
@@ -596,6 +643,7 @@ class CheckoutDoneView(TemplateView):
             'sponsor': self.request.session.get('referrer', 'No referrer set'),
             'total_cod_amount': total_cod_amount,
             'detect_region': region_detected,
+            'payment_method': payment_method,
         })
 
         return context

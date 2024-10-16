@@ -193,7 +193,7 @@
                                     <ul class="address-list">
                                         <li>{{ current_date }}</li>
                                         <li>{{ address.phone }}</li>
-                                        <li>Cash On Delivery</li>
+                                        <li>{{ payment_method|upper }}</li>
                                         <li>{{ total_cod_amount|currency }}</li>
                                     </ul>
                                 </div>
