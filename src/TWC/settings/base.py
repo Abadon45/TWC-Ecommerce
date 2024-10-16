@@ -100,6 +100,7 @@ MIDDLEWARE = [
     'django_hosts.middleware.HostsResponseMiddleware',
     'TWC.middleware.RedirectToWWW',
     'TWC.middleware.DynamicCSRFMiddleware',
+    'TWC.middleware.CurrentDomainMiddleware',
     'TWC.middleware.SubdomainSessionMiddleware',
 ]
 
@@ -261,33 +262,7 @@ SESSION_COOKIE_SECURE = False
 SESSION_COOKIE_HTTPONLY = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
-# if os.environ.get('CURRENT_DOMAIN') == 'twconline.store':
-#     PARENT_HOST = 'twconline.store'
-#     SITE_DOMAIN = 'twconline.store'
-#     SESSION_COOKIE_DOMAIN = 'twconline.store'
-#     DOMAIN_NAME = 'twconline.store'
-# elif os.environ.get('CURRENT_DOMAIN') == 'twcstoredevtest.com':
-#     PARENT_HOST = 'twcstoredevtest.com'
-#     SITE_DOMAIN = 'twcstoredevtest.com'
-#     SESSION_COOKIE_DOMAIN = 'twcstoredevtest.com'
-#     DOMAIN_NAME = 'twcstoredevtest.com'
-# else:
-#     SESSION_COOKIE_DOMAIN = None
 
-PARENT_HOST = 'twconline.store'
-SITE_DOMAIN = 'twconline.store'
-SESSION_COOKIE_DOMAIN = 'twconline.store'
-DOMAIN_NAME = 'twconline.store'
-SESSION_COOKIE_NAME = "twccookie"
-SESSION_COOKIE_SAMESITE = 'Lax'
-CSRF_COOKIE_DOMAIN = SESSION_COOKIE_DOMAIN
-
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:8000",
-    "*.twconline.store",
-    "https://www.twcstoredevtest.com",
-]
 
 LOGGING = {
     'version': 1,

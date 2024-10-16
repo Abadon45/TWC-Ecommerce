@@ -1,27 +1,18 @@
-import uuid
-from logging import lastResort
-
-from allauth.socialaccount.providers.mediawiki.provider import settings
+from django.urls import reverse
 from django.utils import timezone
 from django.conf import settings
 from decimal import Decimal
-
 from django.shortcuts import redirect, get_object_or_404, render
-from django.http import Http404, HttpResponse
+from django.http import Http404
 from django.views import View
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
-from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from django.contrib.auth import authenticate
-from django.contrib.auth import get_user_model
 from urllib.parse import urlencode
 
 from onlinestore.forms import AddressForm
 from onlinestore.models import *
-from onlinestore.utils import send_temporary_account_email
 from .utils import *
-from TWC.settings.base import *
+# from TWC.settings.base import *
 from django.core.mail import send_mail
 
 import requests
@@ -63,7 +54,7 @@ class UpdateCartView(View):
         """Fetch product data from the API."""
         product_url = f'https://dashboard.twcako.com/shop/api/get-product/?slug={product_slug}'
         try:
-            response = requests.get(product_url, verify=False)
+            response = requests.get(product_url)
             response.raise_for_status()
             data = response.json()
 

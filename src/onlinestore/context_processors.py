@@ -1,15 +1,15 @@
 # ecommerce context_processors.py
 
-from django.contrib.auth import get_user_model
 from .models import SiteSetting
 
 import requests
 
-User = get_user_model()
-
 
 def referrer(request):
     try:
+        sponsor_messenger = request.session.get('messenger_link', None)
+        sponsor = request.session.get('referrer', None)
+
         host = request.get_host().split(':')[0]  # Get the host without the port
         domain_parts = host.split('.')
 
@@ -19,24 +19,21 @@ def referrer(request):
         else:
             current_domain = host  # If no subdomain, use the whole host
 
+        print(f'Current domain: {current_domain}')
+
+        dev_admin = ""
+        dev_domain = ""
+
         valid_domain = {'devtest.store', 'twcstoredevtest.com'}
 
         if current_domain in valid_domain:
-            request.session['dev_domain'] = current_domain
-
-        print(f'Domain: {current_domain}')
-
-        sponsor_messenger = request.session.get('messenger_link', None)
-        sponsor = request.session.get('referrer', None)
+            dev_domain = current_domain
 
         valid_sponsors = {'noypangan', 'evgeronilla', 'avail', 'machero', 'jcerdina'}
 
         if sponsor in valid_sponsors:
-            request.session['admin'] = sponsor
+            dev_admin = sponsor
 
-        dev_admin = request.session.get('admin', None)
-        dev_domain = request.session.get('dev_domain', None)
-        print(f'Admin: {dev_admin}')
         if sponsor_messenger or dev_admin:
             return {
                 'referrer': sponsor_messenger,
@@ -66,7 +63,7 @@ def cart_items(request):
 
             # Fetch product details from the API
             product_url = f'https://dashboard.twcako.com/shop/api/get-product/?slug={product_slug}'
-            response = requests.get(product_url, verify=False)
+            response = requests.get(product_url)
             if response.status_code == 200:
                 product_data = response.json().get('product', {})
                 if product_data:
