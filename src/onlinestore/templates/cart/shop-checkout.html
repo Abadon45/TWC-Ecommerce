@@ -378,6 +378,7 @@
         $(document).ready(function () {
             $('.checkout-btn').on('click', function (event) {
                 // Get the active tab's ID
+                event.preventDefault();
                 var activePaymentMethod = $('#payment-tabs .nav-link.active').attr('id');
 
                 // Determine the payment method based on the active tab
@@ -386,8 +387,28 @@
                 // Log the selected payment method
                 console.log('Selected Payment Method:', paymentMethod);
 
-                checkoutBtn(event, paymentMethod);
+                // Check if the payment method is Xendit
+                if (paymentMethod === 'xendit') {
+                    // Confirm with the user if they want to proceed with the Xendit payment
+                    Swal.fire({
+                        title: 'Confirm Payment',
+                        text: 'Do you want to proceed with the Xendit payment?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, proceed',
+                        cancelButtonText: 'No, cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // If confirmed, call checkoutBtn
+                            checkoutBtn(event, paymentMethod);
+                        }
+                    });
+                } else {
+                    // If the payment method is not Xendit, proceed directly to checkout
+                    checkoutBtn(event, paymentMethod);
+                }
             });
+
         });
     </script>
     <script>
@@ -447,7 +468,18 @@
                 success: function (response) {
                     if (response.redirect_url) {
                         // Redirect to the Xendit invoice URL
-                        window.location.href = response.redirect_url;
+                        Swal.fire({
+                            title: 'Redirecting to Xendit Payment Portal',
+                            icon: 'info',
+                            didOpen: () => {
+                                Swal.showLoading(); // Show loading spinner
+                            }
+                        });
+
+                        // After a short delay, redirect to the invoice URL
+                        setTimeout(() => {
+                            window.location.href = response.redirect_url; // Redirect to Xendit Payment Portal
+                        }, 2000);
                     } else {
                         // Show the thank you alert
                         Swal.fire({
@@ -465,18 +497,18 @@
                         }, 2000); // Adjust the delay time as needed
                     }
                 },
-                    error: function (xhr, status, error) {
-                        console.error('Error saving referrer username:', error);
-                        var responseData = JSON.parse(xhr.responseText);
-                        var errorMessage = responseData.error;
-                        Swal.fire({
-                            title: 'Error',
-                            text: errorMessage,
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                });
+                error: function (xhr, status, error) {
+                    console.error('Error saving referrer username:', error);
+                    var responseData = JSON.parse(xhr.responseText);
+                    var errorMessage = responseData.error;
+                    Swal.fire({
+                        title: 'Error',
+                        text: errorMessage,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
         }
     </script>
 {% endblock %}
