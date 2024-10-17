@@ -138,8 +138,11 @@ def create_xendit_invoice(
         "success_redirect_url": success_redirect_url,
         "failure_redirect_url": failure_redirect_url,
         "items": invoice_items,  # List of items in the invoice
-        "payer_name": customer_name,  # Customer name
-        "payer_phone": customer_phone  # Customer phone number
+        "customer": {
+            "given_names": customer_name,
+            "email": customer_email,
+            "mobile_number": customer_phone,
+        }
     }
 
     print(f'Payload: {payload}')
