@@ -39,75 +39,89 @@
                                          tabindex="0">
                                         {% if dev_domain and dev_admin %}
                                             <div class="shop-checkout-payment">
-                                                <ul class="nav nav-pills mb-3" id="payment-tabs" role="tablist">
-                                                    <li class="nav-item" role="presentation">
-                                                        <a class="nav-link active" id="xendit-tab" data-bs-toggle="pill"
-                                                           data-bs-target="#xendit" type="button" role="tab"
-                                                           aria-controls="xendit" aria-selected="true">
-                                                            &nbsp;&nbsp;&nbsp;<span>Pay With Xendit</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item" role="presentation">
-                                                        <a class="nav-link" id="cod-tab" data-bs-toggle="pill"
-                                                           data-bs-target="#cod" type="button" role="tab"
-                                                           aria-controls="cod" aria-selected="false" tabindex="-1">
-                                                            <div class="checkout-payment-img cod">
-                                                                <img src="assets/img/payment/cod-3.svg" alt="">
-                                                            </div>
-                                                            &nbsp;&nbsp;&nbsp;<span>Cash On Delivery</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-
-                                                <div class="tab-content" id="payment-tabContent">
-                                                    <div class="tab-pane fade show active" id="xendit" role="tabpanel"
-                                                         aria-labelledby="xendit-tab" tabindex="0">
-                                                        <!-- Xendit Payment Information -->
-                                                        <div class="shop-checkout-form cod">
-                                                            <form class="payment-form" action="#" method="get">
-                                                                <div class="row">
-                                                                    <div class="col-lg-12">
-                                                                        <div class="form-check">
-                                                                            <label class="form-check-label"
-                                                                                   for="cod">
-                                                                                Xendit
-                                                                                <span>
-                                                                                    To enhance your shopping experience,
-                                                                                    we use Xendit as our payment gateway.
-                                                                                    With Xendit, you can pay securely using various methods,
-                                                                                    including credit cards such as Visa and MasterCard,
-                                                                                    or popular e-wallets like GCash.
-                                                                                    Enjoy fast and hassle-free transactions,
-                                                                                    and rest assured that your payment information is secure.
-                                                                                </span>
-                                                                            </label>
-                                                                        </div>
+                                                <table>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td colspan="2"><h5>Payment Method</h5></td>
+                                                        <td>
+                                                            <ul class="nav nav-pills mb-3" id="payment-tabs"
+                                                                role="tablist">
+                                                                <li class="nav-item" role="presentation">
+                                                                    <a class="nav-link active" id="xendit-tab"
+                                                                       data-bs-toggle="pill"
+                                                                       data-bs-target="#xendit" type="button" role="tab"
+                                                                       aria-controls="xendit" aria-selected="true">
+                                                                        &nbsp;&nbsp;&nbsp;<span>Pay With Xendit</span>
+                                                                    </a>
+                                                                </li>
+                                                                <li class="nav-item" role="presentation">
+                                                                    <a class="nav-link" id="cod-tab"
+                                                                       data-bs-toggle="pill"
+                                                                       data-bs-target="#cod" type="button" role="tab"
+                                                                       aria-controls="cod" aria-selected="false"
+                                                                       tabindex="-1">
+                                                                        &nbsp;&nbsp;&nbsp;<span>Cash On Delivery</span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2"><h6>Payment Info</h6></td>
+                                                        <td>
+                                                            <div class="tab-content" id="payment-tabContent">
+                                                                <div class="tab-pane fade show active" id="xendit"
+                                                                     role="tabpanel"
+                                                                     aria-labelledby="xendit-tab" tabindex="0">
+                                                                    <!-- Xendit Payment Information -->
+                                                                    <div class="shop-checkout-form cod">
+                                                                        <form class="payment-form" action="#"
+                                                                              method="get">
+                                                                            <div class="row">
+                                                                                <div class="col-lg-12">
+                                                                                    <div class="form-check">
+                                                                                        <label class="form-check-label"
+                                                                                               for="cod">
+                                                                                            Xendit
+                                                                                            <span>
+                                                                                                Pay using E-Wallet, 
+                                                                                                Online Banking and 
+                                                                                                other payment methods.
+                                                                                            </span>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
                                                                     </div>
                                                                 </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tab-pane fade" id="cod" role="tabpanel"
-                                                         aria-labelledby="cod-tab" tabindex="0">
-                                                        <!-- COD Payment Information -->
-                                                        <div class="shop-checkout-form cod">
-                                                            <form class="payment-form" action="#" method="get">
-                                                                <div class="row">
-                                                                    <div class="col-lg-12">
-                                                                        <div class="form-check">
-                                                                            <label class="form-check-label" for="cod">
-                                                                                Cash On Delivery
-                                                                                <span>Please read our <a
-                                                                                        href="{% url 'terms' %}">Terms And
+                                                                <div class="tab-pane fade" id="cod" role="tabpanel"
+                                                                     aria-labelledby="cod-tab" tabindex="0">
+                                                                    <!-- COD Payment Information -->
+                                                                    <div class="shop-checkout-form cod">
+                                                                        <form class="payment-form" action="#"
+                                                                              method="get">
+                                                                            <div class="row">
+                                                                                <div class="col-lg-12">
+                                                                                    <div class="form-check">
+                                                                                        <label class="form-check-label"
+                                                                                               for="cod">
+                                                                                            Cash On Delivery
+                                                                                            <span>Please read our <a
+                                                                                                    href="{% url 'terms' %}">Terms And
                                                                             Conditions</a> for cash on delivery.</span>
-                                                                            </label>
-                                                                        </div>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
                                                                     </div>
                                                                 </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         {% else %}
                                             <div class="shop-checkout-payment">
