@@ -98,6 +98,7 @@ class UpdateCartView(View):
             'image': product.get('image_1', None),
             'quantity': 0,
             'price': product['customer_price'],
+            "barley_point": product['barley_point'],
         })
 
         # Calculate the current total quantity for the shop
@@ -168,7 +169,7 @@ class UpdateCartView(View):
                     'subtotal': 0,
                     'shipping_fee':0,
                     'discount':0,
-                    'cod_amount': 0
+                    'cod_amount': 0,
                 }
 
             ordered_items_by_shop[shop]['items'].append({
@@ -178,7 +179,8 @@ class UpdateCartView(View):
                     'shop': cart_item['shop'],
                     'slug': cart_item['slug'],
                     'image': cart_item['image'],
-                    'price': cart_item['price']
+                    'price': cart_item['price'],
+                    "barley_point": cart_item['barley_point'],
                 },
                 'quantity': cart_item['quantity'],
                 'get_total': float(Decimal(cart_item['price']) * cart_item['quantity']),
@@ -388,9 +390,10 @@ def submit_checkout(request):
         # Prepare ordered items list
         items = []
         shop_count = 0
+        total_barley_point = 0
 
         for shop, shop_data in ordered_items_by_shop.items():
-            shop_count += 1  # Increment the shop count
+            shop_count += 1
             for item in shop_data['items']:
                 items.append({
                     "name": item['product']['name'],
@@ -411,7 +414,7 @@ def submit_checkout(request):
             try:
                 if referrer_username != 'admin':
                     # Make an API request to validate the referrer username
-                    response = requests.get(api_url, verify=False)
+                    response = requests.get(api_url)
                     response.raise_for_status()  # Raise an error for bad HTTP status codes
                     data = response.json()
 
@@ -471,7 +474,18 @@ def submit_checkout(request):
 
         for shop, shop_data in ordered_items_by_shop.items():
             cart_items = []
+            shop_total_barley_point = 0
+
             for item in shop_data['items']:
+                product_name = item['product']['name']
+                barley_point = item['product'].get('barley_point', 0)
+                quantity = item.get('quantity', 1)
+
+                # Debugging to check individual values
+                print(f"Product: {product_name}, Barley Point: {barley_point}, Quantity: {quantity}")
+
+                # Multiply the barley point by the quantity and add to total
+                shop_total_barley_point += barley_point * quantity
                 cart_items.append({
                     'sku': item['product']['id'],
                     'qty': item['quantity'],
@@ -479,6 +493,7 @@ def submit_checkout(request):
 
             cod_amount = ordered_items_by_shop[shop]['cod_amount']
             discount_price = ordered_items_by_shop[shop].get('discount', 0)
+            print(f'Total Barley Point: {shop_total_barley_point} for shop: {shop}')
 
             const_data = {
                 "username": request.session['referrer'],
@@ -489,6 +504,7 @@ def submit_checkout(request):
                     "payment_method": "cod",
                 },
                 "cart_items": cart_items,
+                "barley_point": shop_total_barley_point,
             }
 
             print(f'const_data: {const_data}')
@@ -506,11 +522,12 @@ def submit_checkout(request):
                 order_number = order_data.get('order_number')
 
                 unique_invoice_id.append(order_number)
+                print(f"Order number set in session: {order_number}")
 
-                request.session['order_number'] = order_number
                 ordered_items_by_shop[shop]['order_number'] = order_number
             else:
                 print("Error creating order:", response.status_code, response.text)
+                return redirect('cart:cart')
 
 
         request.session['payment_method'] = payment_method
@@ -583,7 +600,6 @@ class CheckoutDoneView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        order_number = self.request.session['order_number']
         total_payment = 0.0
         total_quantity = 0
         current_date = timezone.now().strftime('%b %d, %Y')
