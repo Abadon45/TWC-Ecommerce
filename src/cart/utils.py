@@ -172,3 +172,62 @@ def create_xendit_invoice(
     except requests.exceptions.RequestException as e:
         print(f'Exception occurred: {str(e)}')  # Debugging log
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
+
+
+def create_or_get_xendit_customer(first_name, last_name, customer_email, customer_phone):
+    api_key = settings.XENDIT_API_KEY
+
+    # Xendit API URL to search for customers
+    xendit_search_url = f"https://api.xendit.co/v2/customers?email={customer_email}"
+
+    try:
+        # Try to get the customer from Xendit
+        search_response = requests.get(
+            xendit_search_url,
+            auth=(api_key, '')
+        )
+
+        if search_response.status_code == 200:
+            customers = search_response.json()
+            if len(customers) > 0:
+                print(f"Customer already exists: {customers[0]['id']}")
+                return customers[0]  # Return the first matching customer
+        else:
+            print(f"Error fetching customer: {search_response.json()}")
+
+    except requests.exceptions.RequestException as e:
+        print(f"Exception occurred while fetching customer: {str(e)}")
+
+    # If customer is not found, create a new one
+    xendit_create_url = "https://api.xendit.co/v2/customers"
+    given_names = first_name
+    surname = last_name
+
+    customer_payload = {
+        "reference_id": f"customer-{customer_email}",
+        "given_names": given_names,
+        "surname": surname,
+        "email": customer_email,
+        "mobile_number": customer_phone,
+        "addresses": []
+    }
+
+    try:
+        create_response = requests.post(
+            xendit_create_url,
+            json=customer_payload,
+            auth=(api_key, '')
+        )
+
+        if create_response.status_code == 200:
+            print(f"Customer created successfully: {create_response.json()}")
+            return create_response.json()  # Return newly created customer data
+        else:
+            print(f"Error creating customer: {create_response.json()}")
+            return None
+
+    except requests.exceptions.RequestException as e:
+        print(f"Exception occurred: {str(e)}")
+        return None
+
+
