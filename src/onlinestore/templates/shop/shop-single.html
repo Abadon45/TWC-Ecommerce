@@ -438,7 +438,7 @@
 {% block extra_js %}
     <script>
         function shareOnFacebook() {
-            const url = '{{ request.build_absolute_uri }}?open_external=true';
+            const url = '{{ request.build_absolute_uri }}';
             console.log('Sharing URL:', url); // Log the URL to the console
             const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
             // Use '_blank' to open in a new tab
