@@ -437,26 +437,10 @@
 {% endblock %}
 {% block extra_js %}
     <script>
-        function shareOnFacebook() {
-            const url = '{{ request.build_absolute_uri }}';
-            console.log('Sharing URL:', url); // Log the URL to the console
-            console.log('User Agent:', navigator.userAgent); // Log the user agent
-            const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-
-            // Check if the user is on the Facebook app
-            if (navigator.userAgent.includes("FBAN") || navigator.userAgent.includes("FBAV")) {
-                alert("For a better experience, please open this link in your external browser.");
-            }
-
-            // Open Facebook share dialog in a new tab
-            window.open(facebookShareUrl, '_blank');
-        }
-    </script>
-    <script>
         window.onload = function () {
             // Function to check if the browser is Facebook's in-app browser
             function isFacebookBrowser() {
-                return /FBAV/i.test(navigator.userAgent);
+                return /FBAN|FBAV/i.test(navigator.userAgent);
             }
 
             // Check if we are in Facebook's browser
@@ -469,24 +453,37 @@
                     // Set a flag in sessionStorage to indicate the alert has been shown
                     sessionStorage.setItem('alertShown', 'true');
 
-                    // Get the current page URL
-                    const externalLink = window.location.href;
-
-                    // Create a temporary anchor element
-                    const link = document.createElement('a');
-                    link.href = externalLink; // Set the URL to open
-                    link.target = '_blank'; // Ensure it opens in a new tab
-
-                    // Ask the user if they want to open the link
-                    const openLink = confirm('Would you like to open this page in your external browser? Click OK to proceed, or Cancel to stay on this page.');
-
-                    if (openLink) {
-                        // Trigger the click event
-                        link.click(); // Programmatically click the link
-                    }
                 }
             }
         };
+
+        function isFacebookBrowser() {
+            const ua = navigator.userAgent || navigator.vendor || window.opera;
+            return (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1);
+        }
+
+        // Facebook share functionality
+        function shareOnFacebook() {
+            const url = window.location.href; // Get the current URL
+            const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+
+            // Check if the user is on the Facebook app
+            if (isFacebookBrowser()) {
+                alert("For a better experience, please open this link in your external browser.");
+
+                if (!sessionStorage.getItem('alertShown')) {
+                    // Show the alert
+                    alert('You are using the Facebook app browser. For a better experience, please open this link in your external browser.');
+
+                    // Set a flag in sessionStorage to indicate the alert has been shown
+                    sessionStorage.setItem('alertShown', 'true');
+
+                }
+            }
+
+            // Open Facebook share dialog in a new tab
+            window.open(facebookShareUrl, '_blank');
+        }
     </script>
 
 
