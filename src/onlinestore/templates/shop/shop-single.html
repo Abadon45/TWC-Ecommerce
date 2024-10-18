@@ -4,6 +4,7 @@
 {% load currency_filters %}
 
 {% block head %}
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
     <meta property="og:title" content="{{ product.name }}"/>
     <meta property="og:description" content="{{ product.description_1 }}"/>
     {% if product.image_1 %}
@@ -437,53 +438,33 @@
 {% endblock %}
 {% block extra_js %}
     <script>
-        window.onload = function () {
-            // Function to check if the browser is Facebook's in-app browser
+        $(document).ready(function () {
             function isFacebookBrowser() {
-                return /FBAN|FBAV/i.test(navigator.userAgent);
+                return navigator.userAgent.includes("FBAN") || navigator.userAgent.includes("FBAV");
             }
 
-            // Check if we are in Facebook's browser
-            if (isFacebookBrowser()) {
-                // Check if the alert has already been shown
-                if (!sessionStorage.getItem('alertShown')) {
-                    // Show the alert
-                    alert('You are using the Facebook app browser. For a better experience, please open this link in your external browser.');
-
-                    // Set a flag in sessionStorage to indicate the alert has been shown
-                    sessionStorage.setItem('alertShown', 'true');
-
-                }
-            }
-        };
-
-        function isFacebookBrowser() {
-            const ua = navigator.userAgent || navigator.vendor || window.opera;
-            return (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1);
-        }
-
-        // Facebook share functionality
-        function shareOnFacebook() {
-            const url = window.location.href; // Get the current URL
-            const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-
-            // Check if the user is on the Facebook app
-            if (isFacebookBrowser()) {
-                alert("For a better experience, please open this link in your external browser.");
-
-                if (!sessionStorage.getItem('alertShown')) {
-                    // Show the alert
-                    alert('You are using the Facebook app browser. For a better experience, please open this link in your external browser.');
-
-                    // Set a flag in sessionStorage to indicate the alert has been shown
-                    sessionStorage.setItem('alertShown', 'true');
-
+            function shareOnFacebook() {
+                const url = window.location.href;
+                if (isFacebookBrowser()) {
+                    $.getScript("https://connect.facebook.net/en_US/sdk.js", function () {
+                        FB.ui({
+                            method: 'share',
+                            href: url,
+                        }, function (response) {
+                            if (response.error) {
+                                console.error('Error sharing on Facebook:', response.error);
+                            }
+                        });
+                    });
+                } else {
+                    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+                    window.open(facebookShareUrl, '_blank');
                 }
             }
 
-            // Open Facebook share dialog in a new tab
-            window.open(facebookShareUrl, '_blank');
-        }
+            // Bind the shareOnFacebook function to a button click event
+            $('#share-btn').click(shareOnFacebook);
+        });
     </script>
 
 
