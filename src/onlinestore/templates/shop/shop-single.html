@@ -464,10 +464,21 @@
                 // Check if the alert has already been shown
                 if (!sessionStorage.getItem('alertShown')) {
                     // Show the alert
-                    alert('This is your alert message!');
+                    alert('You are using the Facebook app browser. For a better experience, please open this link in your external browser.');
 
                     // Set a flag in sessionStorage to indicate the alert has been shown
                     sessionStorage.setItem('alertShown', 'true');
+
+                    // Get the current page URL
+                    const externalLink = window.location.href;
+
+                    // Ask the user to open the link
+                    const openLink = confirm('Would you like to open the external browser? Click OK to proceed, or Cancel to stay on this page.');
+
+                    if (openLink) {
+                        // This will open the current page link in a new tab
+                        window.open(externalLink, '_blank');
+                    }
                 }
             }
         };
