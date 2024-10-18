@@ -440,6 +440,7 @@
         function shareOnFacebook() {
             const url = '{{ request.build_absolute_uri }}';
             console.log('Sharing URL:', url); // Log the URL to the console
+            console.log('User Agent:', navigator.userAgent); // Log the user agent
             const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
 
             // Check if the user is on the Facebook app
