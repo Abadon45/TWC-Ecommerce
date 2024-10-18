@@ -472,12 +472,17 @@
                     // Get the current page URL
                     const externalLink = window.location.href;
 
-                    // Ask the user to open the link
-                    const openLink = confirm('Would you like to open the external browser? Click OK to proceed, or Cancel to stay on this page.');
+                    // Create a temporary anchor element
+                    const link = document.createElement('a');
+                    link.href = externalLink; // Set the URL to open
+                    link.target = '_blank'; // Ensure it opens in a new tab
+
+                    // Ask the user if they want to open the link
+                    const openLink = confirm('Would you like to open this page in your external browser? Click OK to proceed, or Cancel to stay on this page.');
 
                     if (openLink) {
-                        // This will open the current page link in a new tab
-                        window.open(externalLink, '_blank');
+                        // Trigger the click event
+                        link.click(); // Programmatically click the link
                     }
                 }
             }
