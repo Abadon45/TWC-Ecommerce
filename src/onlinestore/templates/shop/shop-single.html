@@ -438,34 +438,33 @@
 {% endblock %}
 {% block extra_js %}
     <script>
-        $(document).ready(function () {
-            function isFacebookBrowser() {
-                return navigator.userAgent.includes("FBAN") || navigator.userAgent.includes("FBAV");
-            }
+        function isFacebookBrowser() {
+            return navigator.userAgent.includes("FBAN") || navigator.userAgent.includes("FBAV");
+        }
 
-            function shareOnFacebook() {
-                const url = window.location.href;
-                if (isFacebookBrowser()) {
-                    $.getScript("https://connect.facebook.net/en_US/sdk.js", function () {
-                        FB.ui({
-                            method: 'share',
-                            href: url,
-                        }, function (response) {
-                            if (response.error) {
-                                console.error('Error sharing on Facebook:', response.error);
-                            }
-                        });
+        function shareOnFacebook() {
+            const url = window.location.href;
+
+            if (isFacebookBrowser()) {
+                // Load Facebook SDK and use FB.ui for sharing if on Facebook's in-app browser
+                $.getScript("https://connect.facebook.net/en_US/sdk.js", function () {
+                    FB.ui({
+                        method: 'share',
+                        href: url,
+                    }, function (response) {
+                        if (response.error) {
+                            console.error('Error sharing on Facebook:', response.error);
+                        }
                     });
-                } else {
-                    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-                    window.open(facebookShareUrl, '_blank');
-                }
+                });
+            } else {
+                // Open Facebook sharer link in a new tab for external browsers
+                const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+                window.open(facebookShareUrl, '_blank');
             }
-
-            // Bind the shareOnFacebook function to a button click event
-            $('.facebook-btn').click(shareOnFacebook);
-        });
+        }
     </script>
+
 
 
     <script>
