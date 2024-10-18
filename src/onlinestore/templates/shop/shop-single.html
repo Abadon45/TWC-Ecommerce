@@ -452,6 +452,18 @@
             window.open(facebookShareUrl, '_blank');
         }
     </script>
+    <script>
+        window.onload = function () {
+            // Check if the alert has already been shown
+            if (!sessionStorage.getItem('alertShown')) {
+                // Show the alert
+                alert('This is your alert message!');
+
+                // Set a flag in sessionStorage to indicate the alert has been shown
+                sessionStorage.setItem('alertShown', 'true');
+            }
+        };
+    </script>
 
 
     <script>

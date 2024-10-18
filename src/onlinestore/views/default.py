@@ -269,90 +269,42 @@ def create_order(request):
         print(f"Exception in create_order: {e}")
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
 
-def create_xendit_invoice(request):
-    # Xendit API URL for creating an invoice
-    xendit_url = "https://api.xendit.co/v2/invoices"
 
-    # Assuming you have the following data from your session or request
-    customer_name = "Emmanuel Pangan"  # Replace with actual customer name
-    customer_email = "noypangan5@gmail.com"  # Replace with actual customer email
-    customer_phone = "+639177700256"  # Replace with actual customer phone number
+def create_xendit_customer(request):
+    api_key = settings.XENDIT_API_KEY
+    customer_email = "test@gmail.com"
+    xendit_create_url = "https://api.xendit.co/customers"
 
-    # Assuming you have a list of items from the shopping cart
-    items = [
-        {
-            "name": "DW Men's Single Gold Watch",
-            "quantity": 1,
-            "price": float(1249)
+    customer_payload = {
+        "reference_id": f"customer-{customer_email}",
+        "type": "INDIVIDUAL",
+        "individual_detail": {
+            "given_names": "Emmanuel",
+            "surname": "Pangan"
         },
-        {
-            "name": "Natureal Toothpaste 100ml with Brosse Toothbrush",
-            "quantity": 2,
-            "price": float(960)
-        }
-    ]
-
-    # Get shipping amount and convert to float if it's a Decimal
-    shipping_amount = float(SiteSetting.get_fixed_shipping_fee())
-
-    # Calculate total amount from items
-    total_amount = sum(item["quantity"] * item["price"] for item in items) + shipping_amount
-
-    # Create invoice items for the payload
-    invoice_items = [
-        {
-            "name": item["name"],
-            "quantity": item["quantity"],
-            "price": item["price"]
-        }
-        for item in items
-    ]
-
-    # Add shipping cost as a separate item
-    invoice_items.append({
-        "name": "Shipping Cost",
-        "quantity": 1,  # Show quantity as 1 for the shipping item
-        "price": shipping_amount,  # Shipping amount
-        "description": "Flat rate shipping fee"
-    })
-
-    # Invoice data that will be sent to Xendit API
-    payload = {
-        "external_id": "your_unique_invoice_id",  # Replace with your unique invoice ID
-        "payer_email": customer_email,             # Customer email
-        "description": "TWC Online Store Payment",  # Description of the payment
-        "amount": total_amount,                     # Total amount in IDR
-        "success_redirect_url": "http://noypangan.devtest.store:8000/cart/checkout/complete/",
-        "items": invoice_items,                     # List of items in the invoice
-        "payer_names": customer_name,                # Customer name
-        "phone_number": customer_phone               # Customer phone number
+        "email": customer_email,
+        "mobile_number": "+639177700256",
     }
 
-    # Xendit API key from settings
-    api_key = settings.XENDIT_API_KEY
-
     try:
-        # Send the POST request to Xendit API
-        response = requests.post(
-            xendit_url,
-            json=payload,
-            auth=(api_key, '')  # Xendit API uses basic auth with just the API key and empty password
-        )
+        create_response = requests.post(xendit_create_url, json=customer_payload, auth=(api_key, ''))
 
-        # Check if the request was successful
-        if response.status_code == 200:
-            invoice_data = response.json()
-            invoice_url = invoice_data['invoice_url']
-            print(f'Redirecting to Xendit Invoice URL: {invoice_url}')  # Debugging log
-
-            return redirect(invoice_url)
+        if create_response.status_code == 200:
+            return JsonResponse({
+                'success': True,
+                'message': 'Customer created successfully',
+                'customer': create_response.json()
+            })
         else:
-            print(f'Error response from Xendit: {response.json()}')  # Debugging log
-            return JsonResponse({"status": "error", "message": response.json()}, status=response.status_code)
+            print(f"Response content: {create_response.content}")  # For debugging
+            return JsonResponse({
+                'success': False,
+                'message': 'Error creating customer',
+                'error': create_response.json() if create_response.content else 'No response content'
+            })
 
     except requests.exceptions.RequestException as e:
-        print(f'Exception occurred: {str(e)}')  # Debugging log
-        return JsonResponse({"status": "error", "message": str(e)}, status=500)
+        return JsonResponse({'success': False, 'message': 'Request failed', 'error': str(e)})
 
 
 class BecomeSellerView(TemplateView):

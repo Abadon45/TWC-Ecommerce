@@ -533,6 +533,9 @@ def submit_checkout(request):
         request.session['payment_method'] = payment_method
         # Handle Xendit payment method
         if payment_method == 'xendit':
+            #creates customer object in xendit if it does not exist, skips when customer already exist
+            customer = create_or_get_xendit_customer(customer_name, customer_email, customer_phone)
+
             success_redirect_url = request.build_absolute_uri(reverse('cart:checkout_complete'))
             failure_redirect_url = request.build_absolute_uri(reverse('cart:cart'))
             return create_xendit_invoice(
