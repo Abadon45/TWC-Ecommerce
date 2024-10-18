@@ -8,6 +8,7 @@ urlpatterns = [
     path('become-seller/', BecomeSellerView.as_view(), name="become_seller"),
     path('mail-success/', TemplateView.as_view(template_name='mail-success.html'), name="mail_success"),
     path('terms/', TemplateView.as_view(template_name='terms.html'), name="terms"),
+    path('privacy/', TemplateView.as_view(template_name='privacy.html'), name="privacy"),
     path('test-email/', EmailFormView.as_view(), name="test_email"),
     path('login/', include('TWC.urls.login', namespace='login')),
     path('shop/', include('TWC.urls.shop', namespace='shop')),
