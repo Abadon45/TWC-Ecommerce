@@ -454,13 +454,21 @@
     </script>
     <script>
         window.onload = function () {
-            // Check if the alert has already been shown
-            if (!sessionStorage.getItem('alertShown')) {
-                // Show the alert
-                alert('This is your alert message!');
+            // Function to check if the browser is Facebook's in-app browser
+            function isFacebookBrowser() {
+                return /FBAV/i.test(navigator.userAgent);
+            }
 
-                // Set a flag in sessionStorage to indicate the alert has been shown
-                sessionStorage.setItem('alertShown', 'true');
+            // Check if we are in Facebook's browser
+            if (isFacebookBrowser()) {
+                // Check if the alert has already been shown
+                if (!sessionStorage.getItem('alertShown')) {
+                    // Show the alert
+                    alert('This is your alert message!');
+
+                    // Set a flag in sessionStorage to indicate the alert has been shown
+                    sessionStorage.setItem('alertShown', 'true');
+                }
             }
         };
     </script>
