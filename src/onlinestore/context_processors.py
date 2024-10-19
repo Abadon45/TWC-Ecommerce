@@ -100,3 +100,9 @@ def cart_items(request):
     except Exception as e:
         print(f"Error in cart_items view: {e}")
         return {'cart_items': 0}
+
+def facebook_pixel_id(request):
+    pixel_id = ""
+    return {
+        'pixel_id': pixel_id
+    }

@@ -3642,7 +3642,7 @@ a.disabled:hover {
             }
 
             span {
-                color:var(--color-dark);
+                color: var(--color-dark);
             }
 
         }
@@ -5181,26 +5181,39 @@ a.disabled:hover {
             }
         }
 
-        .shop-checkout-payment table {
+        .shop-checkout-payment {
 
-            .nav-link {
-                padding: 2px 5px 2px 14px;
+            h3 {
+                font-size: 16px;
             }
 
-            td:first-child {
-                width: 100px; /* Set your desired width */
+            .card-body {
+                padding: 10px !important;
             }
 
-            h5 {
-                font-size: 10px;
+            hr {
+                margin: 10px 0;
             }
 
-            h6 {
-                font-size: 9px;
+            .form-check-label {
+                display: flex; /* Use flexbox to align items */
+                align-items: center; /* Center items vertically */
             }
 
-            span {
-                color:var(--color-dark);
+            .payment-icon {
+                width: 24px; /* Adjust the width as needed */
+                height: auto; /* Maintain aspect ratio */
+                margin-right: 8px; /* Space between image and text */
+            }
+
+            label {
+                font-size: 14px;
+                color: var(--color-dark);
+            }
+
+            input {
+                font-size: 15px;
+                height: 15px !important;
             }
 
         }

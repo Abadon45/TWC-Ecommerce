@@ -132,6 +132,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'onlinestore.context_processors.referrer',
                 'onlinestore.context_processors.cart_items',
+                'onlinestore.context_processors.facebook_pixel_id',
                 'TWC.context_processors.main_site_url',
                 'TWC.context_processors.site_urls',
             ],
