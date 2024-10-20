@@ -162,8 +162,7 @@
                                     {#                                    </div>#}
                                     <div class="col-auto">
                                         <div class="shop-single-share">
-                                            <a href="#" class="facebook-btn fb-share-button"
-                                               onclick="shareOnFacebook(); return false;">
+                                            <a href="#" class="facebook-btn fb-share-button" onclick="shareOnFacebook(); return false;">
                                                 <i class="fab fa-facebook-f"></i> SHARE
                                             </a>
                                             {#                                            <a href="#"><i class="fa-brands fa-instagram"></i></a>#}
@@ -478,23 +477,23 @@
         // Facebook share functionality
         function shareOnFacebook() {
             const url = window.location.href; // Get the current URL
+            const facebookAppUrl = `fb://share/?link=${encodeURIComponent(url)}`;
             const facebookWebUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
 
-            // Check if we are in Facebook's in-app browser
-            if (isFacebookBrowser()) {
-                // If in Facebook's browser, notify the user to open in an external browser for better sharing
-                alert("For a better sharing experience, please open this link in an external browser.");
-                // Optionally: You could provide a link/button to guide them to open in an external browser
-            } else {
-                // If not in Facebook browser, proceed with normal web or app sharing
-                const facebookAppUrl = `fb://share/?link=${encodeURIComponent(url)}`;
-                window.open(facebookAppUrl, '_blank');
+            let facebookShareUrl = facebookWebUrl; // Default to the web URL
 
-                // Fallback to the web URL if the app link fails
-                setTimeout(function () {
-                    window.open(facebookWebUrl, '_blank');
-                }, 500); // Give some delay to allow fb:// to work before fallback
+            // Check if the user is on the Facebook app browser
+            if (isFacebookBrowser()) {
+                // If the alert has not been shown in this session, show it
+                if (!sessionStorage.getItem('alertShown')) {
+                    alert('You are using the Facebook app browser. For a better experience, please open this link in your external browser.');
+                    sessionStorage.setItem('alertShown', 'true'); // Store the flag to avoid duplicate alerts
+                }
+                {#facebookShareUrl = facebookAppUrl; // Use the Facebook app URL for sharing#}
             }
+
+            // Open the appropriate Facebook share dialog
+            window.open(facebookShareUrl, '_blank');
         }
     </script>
 
