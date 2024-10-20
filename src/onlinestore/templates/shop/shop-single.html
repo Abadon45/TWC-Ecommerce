@@ -494,7 +494,7 @@
                     alert('You are using the Facebook app browser. For a better experience, please open this link in your external browser.');
                     sessionStorage.setItem('alertShown', 'true'); // Store the flag to avoid duplicate alerts
                 }
-                facebookShareUrl = facebookAppUrl; // Use the Facebook app URL for sharing
+                {#facebookShareUrl = facebookAppUrl; // Use the Facebook app URL for sharing#}
             }
 
             // Open the appropriate Facebook share dialog
