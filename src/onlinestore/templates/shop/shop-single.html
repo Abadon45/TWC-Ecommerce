@@ -162,13 +162,13 @@
                                     {#                                    </div>#}
                                     <div class="col-auto">
                                         <div class="shop-single-share">
-                                            <a href="#" class="facebook-btn" onclick="shareOnFacebook(); return false;">
+                                            <a href="{{ request.build_absolute_uri }}" class="facebook-btn fb-share-button" onclick="shareOnFacebook(); return false;">
                                                 <i class="fab fa-facebook-f"></i> SHARE
                                             </a>
                                             {#                                            <a href="#"><i class="fa-brands fa-instagram"></i></a>#}
                                         </div>
                                         <div class="fb-share-button"
-                                             data-href="https://www.your-domain.com/your-page.html"
+                                             data-href="{{ request.build_absolute_uri }}"
                                              data-layout="button_count">
                                         </div>
 
