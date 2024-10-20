@@ -466,27 +466,26 @@
         // Facebook share functionality
         function shareOnFacebook() {
             const url = window.location.href; // Get the current URL
-            const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+            const facebookAppUrl = `fb://share/?link=${encodeURIComponent(url)}`;
+            const facebookWebUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
 
-            // Check if the user is on the Facebook app
+            let facebookShareUrl = facebookWebUrl; // Default to the web URL
+
+            // Check if the user is on the Facebook app browser
             if (isFacebookBrowser()) {
-                alert("For a better experience, please open this link in your external browser.");
-
+                // If the alert has not been shown in this session, show it
                 if (!sessionStorage.getItem('alertShown')) {
-                    // Show the alert
                     alert('You are using the Facebook app browser. For a better experience, please open this link in your external browser.');
-
-                    // Set a flag in sessionStorage to indicate the alert has been shown
-                    sessionStorage.setItem('alertShown', 'true');
-
+                    sessionStorage.setItem('alertShown', 'true'); // Store the flag to avoid duplicate alerts
                 }
+                facebookShareUrl = facebookAppUrl; // Use the Facebook app URL for sharing
             }
 
-            // Open Facebook share dialog in a new tab
+            // Open the appropriate Facebook share dialog
             window.open(facebookShareUrl, '_blank');
         }
     </script>
-    
+
     <script>
         $(document).ready(function () {
             // Get initial values
