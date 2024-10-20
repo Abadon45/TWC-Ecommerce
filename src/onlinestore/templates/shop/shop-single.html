@@ -162,7 +162,8 @@
                                     {#                                    </div>#}
                                     <div class="col-auto">
                                         <div class="shop-single-share">
-                                            <a href="#" class="facebook-btn fb-share-button" onclick="shareOnFacebook(); return false;">
+                                            <a href="#" class="facebook-btn fb-share-button"
+                                               onclick="shareOnFacebook(); return false;">
                                                 <i class="fab fa-facebook-f"></i> SHARE
                                             </a>
                                             {#                                            <a href="#"><i class="fa-brands fa-instagram"></i></a>#}
@@ -486,7 +487,12 @@
             if (isFacebookBrowser()) {
                 // If the alert has not been shown in this session, show it
                 if (!sessionStorage.getItem('alertShown')) {
-                    alert('You are using the Facebook app browser. For a better experience, please open this link in your external browser.');
+                    Swal.fire({
+                        title: 'Notice',
+                        text: 'You are using the Facebook app browser. For a better experience, please open this link in your external browser.',
+                        icon: 'warning',
+                        confirmButtonText: 'Okay'
+                    });
                     sessionStorage.setItem('alertShown', 'true'); // Store the flag to avoid duplicate alerts
                 }
                 {#facebookShareUrl = facebookAppUrl; // Use the Facebook app URL for sharing#}
