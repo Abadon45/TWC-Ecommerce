@@ -461,9 +461,10 @@
             // Check if the user is on the Facebook app
             if (isFacebookBrowser()) {
                 window.open(facebookAppUrl, '_blank'); // Try opening in the Facebook app
-            } else {
-                window.open(facebookWebUrl, '_blank'); // Open in the browser if not in Facebook app
-            }
+            } 
+                
+            window.open(facebookWebUrl, '_blank'); // Open in the browser if not in Facebook app
+        
         }
     </script>
 
