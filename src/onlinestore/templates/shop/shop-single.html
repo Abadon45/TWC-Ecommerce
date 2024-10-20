@@ -4,7 +4,6 @@
 {% load currency_filters %}
 
 {% block head %}
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
     <meta property="og:title" content="{{ product.name }}"/>
     <meta property="og:description" content="{{ product.description_1 }}"/>
     {% if product.image_1 %}
@@ -168,6 +167,11 @@
                                             </a>
                                             {#                                            <a href="#"><i class="fa-brands fa-instagram"></i></a>#}
                                         </div>
+                                        <div class="fb-share-button"
+                                             data-href="https://www.your-domain.com/your-page.html"
+                                             data-layout="button_count">
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -437,6 +441,18 @@
 
 {% endblock %}
 {% block extra_js %}
+    <script>
+        $(document).ready(function () {
+            var js, fjs = $('script')[0]; // Select the first script tag
+            if ($('#facebook-jssdk').length > 0) return; // Check if the Facebook SDK is already included
+            js = $('<script>', {
+                id: 'facebook-jssdk',
+                src: 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0'
+            })[0];
+            fjs.parentNode.insertBefore(js, fjs); // Insert the new script before the first script tag
+        });
+
+    </script>
     <script>
         window.onload = function () {
             // Function to check if the browser is Facebook's in-app browser
