@@ -1191,28 +1191,35 @@ input, textarea {
 
     }
 
-    .shop-checkout-payment table {
-        .nav-link {
-            border-radius: 5px;
+    .shop-checkout-payment {
+        table {
+            .nav-link {
+                border-radius: 5px;
+            }
+
+            td:first-child {
+                width: 200px; /* Set your desired width */
+            }
+
+            h5 {
+                font-size: 18px;
+                font-weight: 400;
+            }
+
+            h6 {
+                font-size: 17px;
+                font-weight: 400;
+            }
+
         }
 
-        td:first-child {
-            width: 200px; /* Set your desired width */
-        }
-
-        h5 {
-            font-size: 18px;
-            font-weight: 400;
-        }
-
-        h6 {
-            font-size: 17px;
-            font-weight: 400;
-        }
+        .payment-icon {
+                width: 75px;
+                height: auto;
+                margin: 0 auto;
+            }
 
     }
-
-
 }
 
 
@@ -5201,9 +5208,9 @@ a.disabled:hover {
             }
 
             .payment-icon {
-                width: 24px; /* Adjust the width as needed */
-                height: auto; /* Maintain aspect ratio */
-                margin-right: 8px; /* Space between image and text */
+                width: 24px;
+                height: auto;
+                margin:0 6px 0 0
             }
 
             label {
