@@ -1,23 +1,17 @@
 from decimal import Decimal
 
 from django.views.generic import View, TemplateView
-from django.http import JsonResponse, HttpResponse, Http404
-from django.shortcuts import render, redirect
-from django.http import HttpResponseNotFound, HttpResponseRedirect
+from django.http import JsonResponse, Http404
+from django.shortcuts import render
+from django.http import HttpResponseNotFound
 from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404
 from django.utils.text import capfirst
 from django.urls import reverse
 from django.db import transaction
-from django.contrib.auth import authenticate
-from django.core.mail import send_mail
-from django.conf import settings
 from cart.utils import sf_calculator
 from onlinestore.models import SiteSetting
-from onlinestore.utils import is_valid_username, check_sponsor_and_redirect, send_temporary_account_email
 
 import random
-import string
 import requests
 import json
 
@@ -111,35 +105,35 @@ class IndexView(TemplateView):
         return render(request, self.template_name, context)
 
 
-class ProductFunnelView(TemplateView):
+class ProductFunnelView(View):
     title = "Product Funnel"
-    context = {'title': title}
 
-    def get_template_names(self):
-        product = self.kwargs.get('product', None)
+    def get(self, request, *args, **kwargs):
+        product = kwargs.get('product', None)
 
+        # Define the template based on the product
         if product == 'barley-for-cancer':
-            return ['funnels/products/barley/cancer.html']
+            template_name = 'funnels/products/barley/cancer.html'
         elif product == 'barley-for-diabetes':
-            return ['funnels/products/barley/diabetes.html']
+            template_name = 'funnels/products/barley/diabetes.html'
         elif product == 'barley-for-high-blood':
-            return ['funnels/products/barley/high-blood.html']
+            template_name = 'funnels/products/barley/high-blood.html'
         elif product == 'old-age':
-            return ['funnels/products/fusion-coffee/old-age.html']
+            template_name = 'funnels/products/fusion-coffee/old-age.html'
         elif product == 'weight-loss':
-            return ['funnels/products/fusion-coffee/weight-loss.html']
+            template_name = 'funnels/products/fusion-coffee/weight-loss.html'
         elif product == 'boost-coffee':
-            return ['funnels/products/boost_coffee/index.html']
+            template_name = 'funnels/products/boost_coffee/index.html'
         else:
             raise Http404("Product is not available")
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        product = self.kwargs.get('product')
+        context = {
+            'title': self.title,
+            'product': product,
+        }
 
-        context.update({'product': product})
-
-        return context
+        # Render the template with the context
+        return render(request, template_name, context)
 
 
 @transaction.atomic
@@ -179,6 +173,7 @@ def create_order(request):
             'first_name': first_name,
             'last_name': last_name,
             'phone': phone,
+            'email': email,
             'line1': line1,
             'region': region,
             'province': province,
@@ -269,42 +264,6 @@ def create_order(request):
         print(f"Exception in create_order: {e}")
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
 
-
-def create_xendit_customer(request):
-    api_key = settings.XENDIT_API_KEY
-    customer_email = "test@gmail.com"
-    xendit_create_url = "https://api.xendit.co/customers"
-
-    customer_payload = {
-        "reference_id": f"customer-{customer_email}",
-        "type": "INDIVIDUAL",
-        "individual_detail": {
-            "given_names": "Emmanuel",
-            "surname": "Pangan"
-        },
-        "email": customer_email,
-        "mobile_number": "+639177700256",
-    }
-
-    try:
-        create_response = requests.post(xendit_create_url, json=customer_payload, auth=(api_key, ''))
-
-        if create_response.status_code == 200:
-            return JsonResponse({
-                'success': True,
-                'message': 'Customer created successfully',
-                'customer': create_response.json()
-            })
-        else:
-            print(f"Response content: {create_response.content}")  # For debugging
-            return JsonResponse({
-                'success': False,
-                'message': 'Error creating customer',
-                'error': create_response.json() if create_response.content else 'No response content'
-            })
-
-    except requests.exceptions.RequestException as e:
-        return JsonResponse({'success': False, 'message': 'Request failed', 'error': str(e)})
 
 
 class BecomeSellerView(TemplateView):

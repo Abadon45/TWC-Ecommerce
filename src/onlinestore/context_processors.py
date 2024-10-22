@@ -8,6 +8,7 @@ import requests
 def referrer(request):
     try:
         sponsor_messenger = request.session.get('messenger_link', None)
+        # sponsor_mobile = request.session.get('mobile', None)
         sponsor = request.session.get('referrer', None)
 
         host = request.get_host().split(':')[0]  # Get the host without the port

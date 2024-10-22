@@ -1369,7 +1369,7 @@ input, textarea {
 
     .payment-area {
         margin-top: 16px;
-        height: 150px;
+        height: auto;
         padding: 30px 25px !important;
         border: 1px solid var(--border-info-color);
         background-color: var(--color-white);

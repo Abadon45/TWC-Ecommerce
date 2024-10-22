@@ -3,6 +3,8 @@ from django.conf.urls import handler404
 from django.conf.urls.static import static
 from onlinestore.views import *
 from ..views import EmailFormView
+from django.conf import settings
+
 
 urlpatterns = [
     path('become-seller/', BecomeSellerView.as_view(), name="become_seller"),
@@ -19,7 +21,6 @@ urlpatterns = [
     path('pf/', ProductFunnelView.as_view(), name='product_funnel'),
     path('pf/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_with_params'),
     path('pf/create-order', create_order, name='create_order'),
-    path('create-customer/', create_xendit_customer, name='create_xendit_customer'),
 
 ]
 

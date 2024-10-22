@@ -100,12 +100,19 @@ def detect_region(region):
 def create_xendit_invoice(
         customer_name, customer_email, customer_phone,
         items, shipping_amount, unique_invoice_id,
-        success_redirect_url, failure_redirect_url, shop_count):
+        success_redirect_url, failure_redirect_url, shop_count, total_discount):
     # Xendit API URL for creating an invoice
     xendit_url = "https://api.xendit.co/v2/invoices"
 
     # Calculate total amount from items
     total_amount = sum(item["quantity"] * item["price"] for item in items)
+
+    # Subtract the total discount from the total amount
+    total_amount -= total_discount
+
+    # Ensure total amount doesn't go below 0
+    if total_amount < 0:
+        total_amount = 0
 
     # Create invoice items for the payload
     invoice_items = [
@@ -116,6 +123,14 @@ def create_xendit_invoice(
         }
         for item in items
     ]
+
+    # if total_discount:
+    #     invoice_items.append({
+    #         "name": "Total Discount",  # For all shops
+    #         "quantity": 1,  # Number of shops in the order
+    #         "price": total_discount,  # Fixed shipping fee per shop
+    #         "description": "Discount for your order."
+    #     })
 
     invoice_items.append({
         "name": "Shipping Cost",  # For all shops

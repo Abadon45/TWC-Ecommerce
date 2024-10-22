@@ -471,10 +471,13 @@ def submit_checkout(request):
             "postal_code": address_from_session.get('postcode'),
             "shipping_notes": address_from_session.get('message', "")}
 
+        total_discount = 0
 
         for shop, shop_data in ordered_items_by_shop.items():
             cart_items = []
             shop_total_barley_point = 0
+            discount_price = float(shop_data.get('discount', 0))
+            total_discount += discount_price
 
             for item in shop_data['items']:
                 product_name = item['product']['name']
@@ -530,6 +533,7 @@ def submit_checkout(request):
                 return redirect('cart:cart')
 
 
+        print(f'Total Discount: {total_discount}')
         request.session['payment_method'] = payment_method
         # Handle Xendit payment method
         if payment_method == 'xendit':
@@ -548,6 +552,7 @@ def submit_checkout(request):
                 success_redirect_url = success_redirect_url,
                 failure_redirect_url = failure_redirect_url,
                 shop_count=shop_count,
+                total_discount=total_discount,
             )
 
         return redirect('cart:checkout_complete')
@@ -571,6 +576,8 @@ class PromoCheckoutView(View):
         context = {}
         ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
         address = self.request.session.get('shipping_address')
+
+        print(f'Order: {ordered_items_by_shop}')
 
         context.update({
             'address': address,
