@@ -28,7 +28,7 @@ input, textarea {
 
         .footer-email {
             color: var(--color-white);
-            display: flex;
+            display: inline-block;
             align-items: center;
             justify-content: center;
         }
