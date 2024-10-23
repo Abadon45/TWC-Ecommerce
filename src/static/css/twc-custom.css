@@ -12,6 +12,30 @@ input, textarea {
     overflow-y: hidden !important;
 }
 
+.footer-area {
+    .copyright-wrap {
+        .footer-logo {
+            display: flex;
+            width: 100px;
+            justify-self: center;
+        }
+
+        .footer-contact {
+            li {
+                align-content: center;
+            }
+        }
+
+        .footer-email {
+            color: var(--color-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+    }
+}
+
 /* custom */
 
 .p20 {
@@ -2924,11 +2948,18 @@ a.disabled:hover {
     }
 
     .footer-area {
+
+
         .copyright-wrap {
             padding: 12px 0;
 
+            .footer-logo {
+                width: 75px;
+            }
+
             .copyright-text {
                 font-size: 12px;
+                text-align: center;
             }
         }
     }
@@ -3642,7 +3673,7 @@ a.disabled:hover {
             }
 
             span {
-                color:var(--color-dark);
+                color: var(--color-dark);
             }
 
         }
@@ -4456,10 +4487,21 @@ a.disabled:hover {
     }
 
     .footer-area {
+        .footer-logo {
+            width: 50px !important;
+            img {
+                margin: 5px !important;
+            }
+        }
+
         .copyright-text {
-            display: flex;
+            text-align: center;
             font-size: 12px;
 
+        }
+
+        .footer-email {
+            font-size: 12px;
         }
     }
 
@@ -5200,7 +5242,7 @@ a.disabled:hover {
             }
 
             span {
-                color:var(--color-dark);
+                color: var(--color-dark);
             }
 
         }
