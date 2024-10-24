@@ -2949,6 +2949,9 @@ a.disabled:hover {
 
     .footer-area {
 
+        .footer-categories {
+            display: none;
+        }
 
         .copyright-wrap {
             padding: 12px 0;
@@ -2958,7 +2961,7 @@ a.disabled:hover {
             }
 
             .copyright-text {
-                font-size: 12px;
+                /*font-size: 12px;*/
                 text-align: center;
             }
         }
@@ -4487,8 +4490,21 @@ a.disabled:hover {
     }
 
     .footer-area {
+        h4 {
+            font-size: 14px;
+        }
+
+        p, a, i, li {
+            font-size: 12px;
+        }
+
+        .footer-widget-box {
+            margin-bottom: 25px;
+        }
+
         .footer-logo {
-            width: 50px !important;
+            width: 150px !important;
+
             img {
                 margin: 5px !important;
             }
@@ -4498,6 +4514,14 @@ a.disabled:hover {
             text-align: center;
             font-size: 12px;
 
+        }
+
+        .footer-contact li i {
+            width: 25px;
+            min-width: 25px;
+            height: 25px;
+            line-height: 25px;
+            font-size: 14px;
         }
 
         .footer-email {
