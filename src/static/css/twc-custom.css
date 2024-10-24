@@ -12,6 +12,30 @@ input, textarea {
     overflow-y: hidden !important;
 }
 
+.footer-area {
+    .copyright-wrap {
+        .footer-logo {
+            display: flex;
+            width: 100px;
+            justify-self: center;
+        }
+
+        .footer-contact {
+            li {
+                align-content: center;
+            }
+        }
+
+        .footer-email {
+            color: var(--color-white);
+            display: inline-block;
+            align-items: center;
+            justify-content: center;
+        }
+
+    }
+}
+
 /* custom */
 
 .p20 {
@@ -1191,35 +1215,28 @@ input, textarea {
 
     }
 
-    .shop-checkout-payment {
-        table {
-            .nav-link {
-                border-radius: 5px;
-            }
-
-            td:first-child {
-                width: 200px; /* Set your desired width */
-            }
-
-            h5 {
-                font-size: 18px;
-                font-weight: 400;
-            }
-
-            h6 {
-                font-size: 17px;
-                font-weight: 400;
-            }
-
+    .shop-checkout-payment table {
+        .nav-link {
+            border-radius: 5px;
         }
 
-        .payment-icon {
-                width: 75px;
-                height: auto;
-                margin: 0 auto;
-            }
+        td:first-child {
+            width: 200px; /* Set your desired width */
+        }
+
+        h5 {
+            font-size: 18px;
+            font-weight: 400;
+        }
+
+        h6 {
+            font-size: 17px;
+            font-weight: 400;
+        }
 
     }
+
+
 }
 
 
@@ -1369,7 +1386,7 @@ input, textarea {
 
     .payment-area {
         margin-top: 16px;
-        height: auto;
+        height: 150px;
         padding: 30px 25px !important;
         border: 1px solid var(--border-info-color);
         background-color: var(--color-white);
@@ -2931,11 +2948,21 @@ a.disabled:hover {
     }
 
     .footer-area {
+
+        .footer-categories {
+            display: none;
+        }
+
         .copyright-wrap {
             padding: 12px 0;
 
+            .footer-logo {
+                width: 75px;
+            }
+
             .copyright-text {
-                font-size: 12px;
+                /*font-size: 12px;*/
+                text-align: center;
             }
         }
     }
@@ -4463,10 +4490,42 @@ a.disabled:hover {
     }
 
     .footer-area {
+        h4 {
+            font-size: 14px;
+        }
+
+        p, a, i, li {
+            font-size: 12px;
+        }
+
+        .footer-widget-box {
+            margin-bottom: 25px;
+        }
+
+        .footer-logo {
+            width: 150px !important;
+
+            img {
+                margin: 5px !important;
+            }
+        }
+
         .copyright-text {
-            display: flex;
+            text-align: center;
             font-size: 12px;
 
+        }
+
+        .footer-contact li i {
+            width: 25px;
+            min-width: 25px;
+            height: 25px;
+            line-height: 25px;
+            font-size: 14px;
+        }
+
+        .footer-email {
+            font-size: 12px;
         }
     }
 
@@ -5188,39 +5247,26 @@ a.disabled:hover {
             }
         }
 
-        .shop-checkout-payment {
+        .shop-checkout-payment table {
 
-            h3 {
-                font-size: 16px;
+            .nav-link {
+                padding: 2px 5px 2px 14px;
             }
 
-            .card-body {
-                padding: 10px !important;
+            td:first-child {
+                width: 100px; /* Set your desired width */
             }
 
-            hr {
-                margin: 10px 0;
+            h5 {
+                font-size: 10px;
             }
 
-            .form-check-label {
-                display: flex; /* Use flexbox to align items */
-                align-items: center; /* Center items vertically */
+            h6 {
+                font-size: 9px;
             }
 
-            .payment-icon {
-                width: 24px;
-                height: auto;
-                margin:0 6px 0 0
-            }
-
-            label {
-                font-size: 14px;
+            span {
                 color: var(--color-dark);
-            }
-
-            input {
-                font-size: 15px;
-                height: 15px !important;
             }
 
         }
