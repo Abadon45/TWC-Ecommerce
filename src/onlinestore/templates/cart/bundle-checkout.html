@@ -1,214 +1,336 @@
-{% extends "base-shop.html" %}
+{% extends 'funnels/products/base.html' %}
 {% load static %}
 {% load currency_filters %}
 
-{% block title %} {{ title }} {% endblock %}
+{% block head_title %} Thank You {% endblock %}
+
+{% block fb_pixel_event %}
+    <script>
+        fbq('track', 'Purchase', {
+            content_category: "Seller Package",
+            content_name: "TWC Seller's Program",
+            content_type: "product",
+            content_ids: ["SANTE001",],
+            contents: [{"id": "TWC001", "quantity": 1},],
+            currency: "PHP",
+            value: "299.70",
+        });
+    </script>
+{% endblock %}
+
+{% block custom_css %}
+    <link href="{% static 'funnel/products/custom_css/thank_you.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/twc-custom.css' %}">
+{% endblock %}
+
+<style>
+    {% block css %}
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+            background-color: #eeeeee;
+        }
+    {% endblock %}
+</style>
+
 
 {% block content %}
-
-    <div class="shop-checkout2 twc-checkout py-100 mobile-width">
-        <div class="container">
-            <div class="shop-checkout-wrap">
+    <div class="">
+        <section class="banner">
+            <div class="container">
                 <div class="row">
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="address-area">
-
-                                    <h6 class="mb-2">Delivery Address</h6>
-
-                                    <p class="selected_address">{{ address.first_name }}
-                                        {{ address.last_name }}
-                                        {{ address.phone }}</p>
-                                    <div class="change-address row mb-20">
-                                        <div class="col-md-10 col-10">
-                                            <p class="address_details">{{ address.line1 }} Brgy.
-                                                {{ address.barangay }},
-                                                {{ address.city }}, {{ address.province }},
-                                                {{ address.postcode }} </p>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="col"></div>
+                </div>
+            </div>
+        </section>
+        <section class="order">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-4 col-md-4">
+                        <div class="row select-promo">
+                            <div class="col-4 ps-5">
+                                <h1>01</h1>
                             </div>
-                            <div class="col-lg-12">
-                                {% if dev_domain and dev_admin %}
-                                    <div class="shop-cart-summary payment-area" style="margin-left: 0!important;">
-                                        <div class="shop-checkout-payment">
-                                            <table class="mobile-hidden">
-                                                <tbody>
-                                                <tr>
-                                                    <td colspan="2"><h5>Payment Method</h5></td>
-                                                    <td>
-                                                        <ul class="nav nav-pills mb-3" id="payment-tabs"
-                                                            role="tablist">
-                                                            <li class="nav-item" role="presentation">
-                                                                <a class="nav-link active" id="xendit-tab"
-                                                                   data-bs-toggle="pill"
-                                                                   data-bs-target="#xendit" type="button" role="tab"
-                                                                   aria-controls="xendit" aria-selected="true">
-                                                                    <img class="payment-icon"
-                                                                         src="{% static 'img/icon/payment/xendit.svg' %}"
-                                                                         alt="">
-                                                                    &nbsp;&nbsp;&nbsp;<span>Pay With Xendit</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item" role="presentation">
-                                                                <a class="nav-link" id="cod-tab"
-                                                                   data-bs-toggle="pill"
-                                                                   data-bs-target="#cod" type="button" role="tab"
-                                                                   aria-controls="cod" aria-selected="false"
-                                                                   tabindex="-1">
-                                                                    <img class="payment-icon"
-                                                                         src="{% static 'img/icon/payment/cod.svg' %}"
-                                                                         alt="">
-                                                                    &nbsp;&nbsp;&nbsp;<span>Cash On Delivery</span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2"><h6>Payment Info</h6></td>
-                                                    <td>
-                                                        <div class="tab-content" id="payment-tabContent">
-                                                            <div class="tab-pane fade show active" id="xendit"
-                                                                 role="tabpanel"
-                                                                 aria-labelledby="xendit-tab" tabindex="0">
-                                                                <!-- Xendit Payment Information -->
-                                                                <div class="shop-checkout-form cod">
-                                                                    <form class="payment-form" action="#"
-                                                                          method="get">
-                                                                        <div class="row">
-                                                                            <div class="col-lg-12">
-                                                                                <div class="form-check">
-                                                                                    <label class="form-check-label"
-                                                                                           for="cod">
-                                                                                        Xendit
-                                                                                        <span>
+                            <div class="col-8">
+                                <p>SELECT PROMO</p>
+                                <span>Manage your items list.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-4">
+                        <div class="row checkout-details">
+                            <div class="col-4">
+                                <h1>02</h1>
+                            </div>
+                            <div class="col-8">
+                                <p>CHECKOUT DETAILS</p>
+                                <span>Billing details & Payment.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-4">
+                        <div class="row order-received">
+                            <div class="col-4">
+                                <h1>03</h1>
+                            </div>
+                            <div class="col-8">
+                                <p>ORDER RECEIVED</p>
+                                <span>We have got your order.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="details">
+            <div class="shop-checkout2 twc-checkout bundle-checkout mobile-width">
+                <div class="container">
+                    <div class="shop-checkout-wrap">
+                        <div class="row">
+                            <div class="col-sm-7 col-md-8 mb-20">
+                                <div class="shop-checkout-step">
+                                    <nav class="nav checkout-step-list nav-pills nav-justified mb-3" id="shopCheckout"
+                                         role="tablist">
+                                        <a href="#" class="nav-link active done" id="step1-tab" data-bs-toggle="pill"
+                                           data-bs-target="#step1" type="button" role="tab" aria-controls="step1"
+                                           aria-selected="true">
+                                            <span class="step-count">1</span>
+                                            SHIPPING ADDRESS
+                                        </a>
+                                        <a href="#" class="nav-link" id="step2-tab" data-bs-toggle="pill"
+                                           data-bs-target="#step2"
+                                           type="button" role="tab" aria-controls="step2" aria-selected="false">
+                                            <span class="step-count">2</span>
+                                            PAYMENT
+                                        </a>
+                                    </nav>
+                                    <div class="tab-content" id="pills-tabContent">
+                                        <div class="tab-pane fade show active" id="step1" role="tabpanel"
+                                             aria-labelledby="step1-tab" tabindex="0">
+                                            <div class="shop-checkout-form">
+                                                {% include 'cart/address-form.html' %}
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="step2" role="tabpanel"
+                                             aria-labelledby="step2-tab"
+                                             tabindex="0">
+                                            {% if dev_domain and dev_admin %}
+                                                <div class="shop-checkout-payment">
+                                                    <table class="mobile-hidden">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td colspan="2"><h5>Payment Method</h5></td>
+                                                            <td>
+                                                                <ul class="nav nav-pills mb-3" id="payment-tabs"
+                                                                    role="tablist">
+                                                                    <li class="nav-item" role="presentation">
+                                                                        <a class="nav-link active" id="xendit-tab"
+                                                                           data-bs-toggle="pill"
+                                                                           data-bs-target="#xendit" type="button"
+                                                                           role="tab"
+                                                                           aria-controls="xendit" aria-selected="true">
+                                                                            <img class="payment-icon"
+                                                                                 src="{% static 'img/icon/payment/xendit.svg' %}"
+                                                                                 alt="">
+                                                                            &nbsp;&nbsp;&nbsp;<span>Pay With Xendit</span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li class="nav-item" role="presentation">
+                                                                        <a class="nav-link" id="cod-tab"
+                                                                           data-bs-toggle="pill"
+                                                                           data-bs-target="#cod" type="button"
+                                                                           role="tab"
+                                                                           aria-controls="cod" aria-selected="false"
+                                                                           tabindex="-1">
+                                                                            <img class="payment-icon"
+                                                                                 src="{% static 'img/icon/payment/cod.svg' %}"
+                                                                                 alt="">
+                                                                            &nbsp;&nbsp;&nbsp;<span>Cash On Delivery</span>
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2"><h6>Payment Info</h6></td>
+                                                            <td>
+                                                                <div class="tab-content" id="payment-tabContent">
+                                                                    <div class="tab-pane fade show active" id="xendit"
+                                                                         role="tabpanel"
+                                                                         aria-labelledby="xendit-tab" tabindex="0">
+                                                                        <!-- Xendit Payment Information -->
+                                                                        <div class="shop-checkout-form cod">
+                                                                            <form class="payment-form" action="#"
+                                                                                  method="get">
+                                                                                <div class="row">
+                                                                                    <div class="col-lg-12">
+                                                                                        <div class="form-check">
+                                                                                            <label class="form-check-label"
+                                                                                                   for="cod">
+                                                                                                Xendit
+                                                                                                <span>
                                                                                         Pay using E-Wallet,
                                                                                         Online Banking and
                                                                                         other payment methods.
                                                                                     </span>
-                                                                                    </label>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
+                                                                            </form>
                                                                         </div>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                            <div class="tab-pane fade" id="cod" role="tabpanel"
-                                                                 aria-labelledby="cod-tab" tabindex="0">
-                                                                <!-- COD Payment Information -->
-                                                                <div class="shop-checkout-form cod">
-                                                                    <form class="payment-form" action="#"
-                                                                          method="get">
-                                                                        <div class="row">
-                                                                            <div class="col-lg-12">
-                                                                                <div class="form-check">
-                                                                                    <label class="form-check-label"
-                                                                                           for="cod">
-                                                                                        Cash On Delivery
-                                                                                        <span>Please read our <a
-                                                                                                href="{% url 'terms' %}">Terms And
+                                                                    </div>
+                                                                    <div class="tab-pane fade" id="cod" role="tabpanel"
+                                                                         aria-labelledby="cod-tab" tabindex="0">
+                                                                        <!-- COD Payment Information -->
+                                                                        <div class="shop-checkout-form cod">
+                                                                            <form class="payment-form" action="#"
+                                                                                  method="get">
+                                                                                <div class="row">
+                                                                                    <div class="col-lg-12">
+                                                                                        <div class="form-check">
+                                                                                            <label class="form-check-label"
+                                                                                                   for="cod">
+                                                                                                Cash On Delivery
+                                                                                                <span>Please read our <a
+                                                                                                        href="{% url 'terms' %}">Terms And
                                                                             Conditions</a> for cash on delivery.</span>
-                                                                                    </label>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="row mobile-only">
+                                                    <div class="card index-card">
+                                                        <div class="card-body">
+                                                            <form class="payment-form" action="#" method="get">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio"
+                                                                           name="paymentMethod" id="xendit"
+                                                                           value="xendit"
+                                                                           checked>
+                                                                    <label class="form-check-label" for="xendit">
+                                                                        <img src="{% static 'img/icon/payment/xendit.svg' %}"
+                                                                             alt="Xendit Payment" class="payment-icon">
+                                                                        Pay With Xendit (E-Wallet, Online Banking, etc.)
+                                                                        {# <span>Pay using E-Wallet, Online Banking, and other payment methods.</span> #}
+                                                                    </label>
+                                                                </div>
+                                                                <hr>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio"
+                                                                           name="paymentMethod" id="cod" value="cod">
+                                                                    <label class="form-check-label" for="cod">
+                                                                        <img src="{% static 'img/icon/payment/cod.svg' %}"
+                                                                             alt="Cod Payment" class="payment-icon">
+                                                                        Cash On Delivery
+                                                                        {#                                                                <span>Please read our <a href="{% url 'terms' %}">Terms And Conditions</a> for cash on delivery.</span>#}
+                                                                    </label>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <div class="shop-checkout-payment">
+                                                    <div class="tab-content" id="pills-tabContent">
+                                                        <div class="tab-pane fade show active" id="pills-1"
+                                                             role="tabpanel"
+                                                             aria-labelledby="pills-tab-1" tabindex="0">
+                                                            <div class="shop-checkout-form cod">
+                                                                <form class="payment-form" action="#" method="get">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-12">
+                                                                            <div class="form-check">
+                                                                                <label class="form-check-label"
+                                                                                       for="cod">
+                                                                                    Cash On Delivery
+                                                                                    <span>Please read our <a
+                                                                                            href="{% url 'terms' %}">Terms And
+                                                                            Conditions</a> for cash on delivery.</span>
+                                                                                </label>
                                                                             </div>
                                                                         </div>
-                                                                    </form>
-                                                                </div>
+                                                                    </div>
+                                                                </form>
                                                             </div>
                                                         </div>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="row mobile-only">
-                                            <div class="card index-card">
-                                                <div class="card-body">
-                                                    <form class="payment-form" action="#" method="get">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio"
-                                                                   name="paymentMethod" id="xendit" value="xendit"
-                                                                   checked>
-                                                            <label class="form-check-label" for="xendit">
-                                                                <img src="{% static 'img/icon/payment/xendit.svg' %}"
-                                                                     alt="Xendit Payment" class="payment-icon">
-                                                                Pay With Xendit (E-Wallet, Online Banking, etc.)
-                                                                {# <span>Pay using E-Wallet, Online Banking, and other payment methods.</span> #}
-                                                            </label>
-                                                        </div>
-                                                        <hr>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio"
-                                                                   name="paymentMethod" id="cod" value="cod">
-                                                            <label class="form-check-label" for="cod">
-                                                                <img src="{% static 'img/icon/payment/cod.svg' %}"
-                                                                     alt="Cod Payment" class="payment-icon">
-                                                                Cash On Delivery
-                                                                {#                                                                <span>Please read our <a href="{% url 'terms' %}">Terms And Conditions</a> for cash on delivery.</span>#}
-                                                            </label>
-                                                        </div>
-                                                    </form>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            {% endif %}
                                         </div>
                                     </div>
-                                    {% else %}
-                                    <div class="shop-cart-summary payment-area" style="margin-left: 0!important;">
-                                        <h5>Mode of Payment</h5>
-                                        <label class="form-check-label" for="cod">
-                                        <h6>Cash On Delivery</h6>
-                                        <p>Please read our <a href="{% url 'terms' %}">Terms And
-                                            Conditions</a> for cash on delivery.</p>
-                                        </label>
-                                    </div>
-                                    {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="shop-cart-summary user-logged" style="margin-left: 0!important;">
-                            <div class="card index-card">
-                                <div class="card-header">
-                                    <h3>CART SUMMARY</h3>
                                 </div>
-                                <div class="card-body">
-                                    <ul class="bordered-bottom {% if not forloop.last %} mb-20 {% endif %}">
-                                        <li>Order: <span>Promo Bundle</span></li>
-                                        <li>Order Sub Total:
-                                            <span id="order-subtotal-{{ order.id }}">{{ order.promo.subtotal|currency }}</span>
-                                        </li>
-                                        <li class="list-shipping">Shipping Fee:
-                                            <span>{{ order.promo.shipping_fee|currency }}</span>
-                                        </li>
-                                        {% if order.promo.discount %}
-                                            <li class="list-discount">Discount:
-                                                <span>({{ order.promo.discount|currency }})</span>
-                                            </li>
-                                        {% else %}
-                                            <li class="list-discount">Discount:
-                                                <span>No discount applied</span>
-                                            </li>
-                                        {% endif %}
-                                    </ul>
-                                    <h4 class=" cart-total mt-3 py20">
-                                        <strong>
-                                            <span class="cart-label">Order Total:</span>
-                                            <span class="cart-value"
-                                                  id="total-payment">{{ order.promo.cod_amount|currency }}</span>
-                                        </strong>
-                                    </h4>
-                                    <div class="text-end mt-40 checkoutBtn" style="display: block;">
+                            </div>
+                            <div class="col-sm-5 col-md-4">
+                                <div class="shop-cart-summary mt-lg-0">
+                                    <div class="card index-card">
+                                        <div class="card-header">
+                                            <h3>CART SUMMARY</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            {% for shop, data in orders.items %}
+                                                <ul class="bordered-bottom {% if not forloop.last %} mb-20 {% endif %}">
+                                                    <li>
+                                                        <h6>
+                                                            Shop: <span>{{ shop|upper }}</span>
+                                                        </h6>
+                                                    </li>
+                                                    <li>Order Sub Total: <span>{{ data.subtotal|currency }}</span>
+                                                    </li>
+                                                    {% if data.discount %}
+                                                        <li class="list-discount">Discount:
+                                                            <span>({{ data.discount|currency }})</span></li>
+                                                    {% else %}
+                                                        <li class="list-discount">Discount:
+                                                            <span>No discount applied</span>
+                                                        </li>
+                                                    {% endif %}
+                                                    <li id="shipping_fee_{{ shop }}" class="pb15">
+                                                        Shipping fee:
+                                                        <span>
+                                                        {% if FIXED_SHIPPING_FEE == 0 %}
+                                                            Calculated at next step
+                                                        {% else %}
+                                                            {{ FIXED_SHIPPING_FEE|currency }}
+                                                        {% endif %}
+                                                    </span>
+                                                    </li>
+                                                </ul>
+                                                <h4 class="cart-total mt-3">
+                                                    <strong>
+                                                        <span class="cart-label">Order Total:</span>
+                                                        <span class="cart-value">{{ data.cod_amount|currency }}</span>
+                                                    </strong>
+                                                </h4>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="text-end mt-40 checkoutBtn">
                                         <form id="checkoutForm" class="form" method="GET"
                                               action="{% url 'cart:submit_checkout' %}">
                                             <button type="submit" class="theme-btn checkout-btn"
                                                     data-referrer-id="{{ referred_by }}"
-                                                    data-username="{{ current_user }}">
+                                                    data-username="{{ current_user }}"
+                                                    hidden>
                                                 CHECKOUT NOW
                                             </button>
                                         </form>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center dummy-submit">
+                                        <input type="hidden" name="submit_type" value="shipping">
+                                        <button type="button" class="theme-btn" onclick="submitForm()">NEXT
+                                            STEP
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -216,11 +338,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
-
 {% endblock %}
-{% block extra_js %}
+{% block js %}
     <script>
         $(document).ready(function () {
             $('.checkout-btn').on('click', function (event) {

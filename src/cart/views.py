@@ -565,26 +565,8 @@ def submit_checkout(request):
 #########################
 
 
-class PromoCheckoutView(View):
+class PromoCheckoutView(CheckoutView):
     template_name = 'cart/bundle-checkout.html'
-
-    def get(self, request, *args, **kwargs):
-        context = self.get_context_data()
-        return render(request, self.template_name, context)
-
-    def get_context_data(self, **kwargs):
-        context = {}
-        ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
-        address = self.request.session.get('shipping_address')
-
-        print(f'Order: {ordered_items_by_shop}')
-
-        context.update({
-            'address': address,
-            'referred_by': self.request.session['referrer'],
-            'order': ordered_items_by_shop,
-        })
-        return context
 
 
 #########################################################

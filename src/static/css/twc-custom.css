@@ -12,6 +12,16 @@ input, textarea {
     overflow-y: hidden !important;
 }
 
+.banner {
+    background-image: url("../funnel/products/img/barley_for_diabetes/thank_you_banner.jpg");
+    height: 340px;
+
+    /* parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: top center;
+    background-repeat: no-repeat;
+}
+
 .footer-area {
     .copyright-wrap {
         .footer-logo {
@@ -426,6 +436,52 @@ input, textarea {
     margin: auto;
 }
 
+
+/*BUNDLE CHECKOUT PAGE*/
+.order {
+    h1 {
+        color: var(--color-white);
+    }
+}
+
+.bundle-checkout {
+
+    .shop-checkout-payment {
+        .payment-icon {
+            width: 50px;
+        }
+
+        .payment-form {
+            .form-check {
+                padding-left: 0;
+            }
+
+        }
+    }
+
+    .shop-cart-summary {
+        background-color: unset;
+
+        .index-card {
+            .card-header {
+                background-color: #3d835f;
+                width: 100%;
+                font-size: x-large;
+            }
+        }
+
+        .theme-btn {
+            background-color: #3D8382 !important;
+            width: 100%;
+            font-size: x-large;
+        }
+
+        .theme-btn:hover {
+            color: #3D8382 !important;
+            outline: 2px solid #3D8382;
+        }
+    }
+}
 
 /* LOGIN PAGE */
 

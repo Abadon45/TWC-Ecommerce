@@ -138,26 +138,16 @@ class ProductFunnelView(View):
 
 @transaction.atomic
 def create_order(request):
-    FIXED_SHIPPING_FEE = SiteSetting.get_fixed_shipping_fee()
+    shipping_fee = SiteSetting.get_fixed_shipping_fee()
+
+    # Clear the previous cart and orders
     if 'ordered_items_by_shop' in request.session:
         request.session.pop('cart', None)
         request.session.pop('ordered_items_by_shop', None)
 
     try:
-        # Retrieve customer and address details from POST data
-        first_name = request.POST.get("first_name")
-        last_name = request.POST.get("last_name")
-        email = request.POST.get("email")
-        phone = request.POST.get("phone")
-        line1 = request.POST.get("line1")
-        barangay = request.POST.get("barangay")
-        city = request.POST.get("city")
-        province = request.POST.get("province")
-        region = request.POST.get("region")
-        postcode = request.POST.get("postcode")
-        message = request.POST.get("message")
-
-        product_details_str = request.POST.get("bundleDetails", '{}')
+        # Use request.GET instead of request.POST
+        product_details_str = request.GET.get("bundleDetails", '{}')
 
         try:
             product_details = json.loads(product_details_str)
@@ -165,30 +155,9 @@ def create_order(request):
             print("Error decoding JSON for product_details")
             product_details = {}
 
-        cod_amount = Decimal(request.POST.get("bundle_price", "0"))  # Convert to Decimal
-        total_quantity = Decimal(request.POST.get("bundle_qty", "0"))  # Convert to Decimal
-
-        # Save shipping address in session
-        request.session['shipping_address'] = {
-            'first_name': first_name,
-            'last_name': last_name,
-            'phone': phone,
-            'email': email,
-            'line1': line1,
-            'region': region,
-            'province': province,
-            'city': city,
-            'barangay': barangay,
-            'postcode': postcode,
-            'message': message,
-        }
-
-        # Calculate the shipping fee
-        if FIXED_SHIPPING_FEE > 0:
-            shipping_fee = Decimal(FIXED_SHIPPING_FEE)  # Convert to Decimal
-        else:
-            qty = total_quantity
-            shipping_fee = Decimal(sf_calculator(region=region, qty=qty))
+        # Convert to Decimal
+        cod_amount = Decimal(request.GET.get("bundle_price", "0"))
+        total_quantity = Decimal(request.GET.get("bundle_qty", "0"))
 
         print(f'Product details: {product_details}')
 
@@ -230,7 +199,7 @@ def create_order(request):
             except requests.RequestException as e:
                 print(f"Error fetching product data: {e}")
 
-        print(f'Items: {items}')
+        print(f'Items: {items}')  # Verify that items are being populated
 
         # Retrieve bundle order data from session (provided by sales funnel jQuery)
         ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
@@ -238,8 +207,12 @@ def create_order(request):
         if 'promo' not in ordered_items_by_shop:
             ordered_items_by_shop['promo'] = {'items': []}
 
+        # Append the items to the session data
+        ordered_items_by_shop['promo']['items'] = items
+
         # Calculate the discount and ensure values are Decimal
         discount = total_amount + shipping_fee - cod_amount
+        print(f'Discount: {discount}')
 
         order_details = {
             'promo': {
@@ -251,7 +224,10 @@ def create_order(request):
                 'cod_amount': str(cod_amount),
             }
         }
+
         request.session['ordered_items_by_shop'] = order_details
+
+        print(f'Orders: {order_details}')  # Debugging: print out the order details
 
         request.session.modified = True
 
@@ -263,6 +239,8 @@ def create_order(request):
     except Exception as e:
         print(f"Exception in create_order: {e}")
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
+
+
 
 
 

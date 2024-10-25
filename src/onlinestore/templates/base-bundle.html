@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- meta tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- title -->
+    <title>{{ title }}</title>
+
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'img/logo/favicon.png' %}">
+
+    <!-- css -->
+    {% include 'base/css.html' %}
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="home-6">
+
+<!-- preloader -->
+<div class="preloader">
+    <div class="loader-ripple">
+        <div></div>
+        <div></div>
+    </div>
+</div>
+<!-- preloader end -->
+
+
+<!-- header area -->
+
+
+<!-- header area end -->
+
+<main class="main">
+
+{% block content %}{% endblock content %}
+
+
+</main>
+<!-- footer area -->
+<footer class="footer-area">
+    <div class="copyright">
+        <div class="container">
+            <div class="copyright-wrap">
+                <div class="row">
+                    <div class="col-12 align-self-center">
+                        <p class="copyright-text">
+                            &copy; Copyright <span id="date"></span> <a href="#"> TWC Online Store </a> All Rights
+                            Reserved.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- footer area end -->
+
+<!-- js -->
+{% include 'base/js.html' %}
+{% block extra_js %}{% endblock %}
+
+
+</body>
+
+</html>
