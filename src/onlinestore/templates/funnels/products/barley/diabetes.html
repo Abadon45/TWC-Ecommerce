@@ -849,7 +849,11 @@
                                 </tr>
                             </table>
                             <div class="col-sm-12 d-block d-sm-none">
-                                <div class="btn-group-toggle" data-toggle="buttons">
+                                <div class="btn-group-toggle" 
+                                     data-toggle="buttons"
+                                     data-price="720"
+                                     data-quantity="1"
+                                     onclick="checkout(this, 'promo1')">
                                     <label class="btn btn-secondary">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">SELECT
                                     </label>
@@ -882,7 +886,6 @@
                                      data-toggle="buttons"
                                      data-price="720"
                                      data-quantity="1"
-                                     data-auth="{{ user.is_authenticated }}"
                                      onclick="checkout(this, 'promo1')">
                                     <label class="btn btn-secondary">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">SELECT
@@ -896,7 +899,7 @@
                             <table class="d-block d-sm-none">
                                 <tr>
                                     <td>
-                                        <div class="col-sm-6 best-seller-block">
+                                        <div class="col-sm-6">
                                             <img class="img-fluid best-seller"
                                                  src="{% static 'funnel/products/img/barley_for_diabetes/mobile/best-seller-mobile.png' %}"
                                                  alt="best-seller">
@@ -908,7 +911,7 @@
                                     <td class="ps-3">
                                         <div class="col-sm-6">
                                             <p>PROMO 2</p>
-                                            <p>₱699.00</p>
+                                            <p>₱1199.00</p>
                                             <p>60g of Pure Barley Powder <br> (3g per sachet)</p>
                                             <p>20 DAYS SUPPLY</p>
                                         </div>
@@ -916,7 +919,11 @@
                                 </tr>
                             </table>
                             <div class="col-sm-12 d-block d-sm-none">
-                                <div class="btn-group-toggle" data-toggle="buttons" onclick="checkout('promo2')">
+                                <div class="btn-group-toggle" 
+                                     data-toggle="buttons"
+                                     data-price="1199"
+                                     data-quantity="3"
+                                     onclick="checkout(this, 'promo2')">
                                     <label class="btn btn-secondary">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">SELECT
                                     </label>
@@ -955,7 +962,6 @@
                                      data-toggle="buttons"
                                      data-price="1199"
                                      data-quantity="3"
-                                     data-auth="{{ user.is_authenticated }}"
                                      onclick="checkout(this, 'promo2')">
                                     <label class="btn btn-secondary">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">SELECT
@@ -979,7 +985,7 @@
                                     <td class="ps-3">
                                         <div class="col-sm-6">
                                             <p>PROMO 3</p>
-                                            <p>₱1,099.00</p>
+                                            <p>₱1,999.00</p>
                                             <p>120g of Pure Barley Powder <br> (3g per scoop)</p>
                                             <p>40 DAYS SUPPLY</p>
                                         </div>
@@ -988,9 +994,10 @@
                             </table>
                             <div class="col-sm-12 d-block d-sm-none">
                                 <div class="btn-group-toggle"
+                                     data-price="1999"
                                      data-toggle="buttons"
-                                     data-price="1099"
-                                     onclick="checkout('promo3')">
+                                     data-quantity="6"
+                                     onclick="checkout(this, 'promo3')">
                                     <label class="btn btn-secondary">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">SELECT
                                     </label>
@@ -1017,14 +1024,13 @@
                             </div>
                             <div class="row d-none d-sm-block">
                                 <p style="margin-top: 0">PROMO 3</p>
-                                <p>₱1,099.00</p>
+                                <p>₱1,999.00</p>
                                 <p>120g of Pure Barley Powder <br> (3g per scoop)</p>
                                 <p>40 DAYS SUPPLY</p>
                                 <div class="btn-group-toggle"
-                                     data-price="1099"
+                                     data-price="1999"
                                      data-toggle="buttons"
-                                     data-quantity=""
-                                     data-auth="{{ user.is_authenticated }}"
+                                     data-quantity="6"
                                      onclick="checkout(this, 'promo3')">
                                     <label class="btn btn-secondary">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">SELECT
@@ -1058,7 +1064,11 @@
                                 </tr>
                             </table>
                             <div class="col-sm-12 d-block d-sm-none">
-                                <div class="btn-group-toggle" data-toggle="buttons">
+                                <div class="btn-group-toggle" 
+                                     data-toggle="buttons"
+                                     data-price="2199"
+                                     data-quantity="2"
+                                     onclick="checkout(this, 'promo1-b')">
                                     <label class="btn btn-secondary">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">SELECT
                                     </label>
@@ -1091,7 +1101,6 @@
                                      data-toggle="buttons"
                                      data-price="2199"
                                      data-quantity="2"
-                                     data-auth="{{ user.is_authenticated }}"
                                      onclick="checkout(this, 'promo1-b')">
                                     <label class="btn btn-secondary">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">SELECT
@@ -1125,7 +1134,11 @@
                                 </tr>
                             </table>
                             <div class="col-sm-12 d-block d-sm-none">
-                                <div class="btn-group-toggle" data-toggle="buttons" onclick="checkout('promo2')">
+                                <div class="btn-group-toggle" 
+                                     data-toggle="buttons"
+                                     data-price="2299"
+                                     data-quantity="6"
+                                     onclick="checkout(this, 'promo2-b')">
                                     <label class="btn btn-secondary">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">SELECT
                                     </label>
@@ -1196,9 +1209,10 @@
                             </table>
                             <div class="col-sm-12 d-block d-sm-none">
                                 <div class="btn-group-toggle"
-                                     data-toggle="buttons"
                                      data-price="2840"
-                                     onclick="checkout('promo3-b')">
+                                     data-toggle="buttons"
+                                     data-quantity="3"
+                                     onclick="checkout(this, 'promo3-b')">
                                     <label class="btn btn-secondary">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">SELECT
                                     </label>
