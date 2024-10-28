@@ -1031,9 +1031,8 @@ footer p {
         position: relative;
     }
     .best-seller {
-        left: 245%;
-        bottom: 60%;
-        position: absolute;
+        left: 220%;
+        top: -20px;
         height: 50px;
     }
     .rowfourteen {
@@ -1203,7 +1202,7 @@ footer p {
         font-size: 19px;
     }
     .best-seller {
-        left: 210%;
+        left: 175%;
         /*top: 352rem;*/
     }
     #delivery1 {
@@ -1343,7 +1342,7 @@ footer p {
         width: 72px;
     }
     .best-seller {
-        left: 275%;
+        left: 250%;
         bottom: 55%;
     }
     #delivery1 {
