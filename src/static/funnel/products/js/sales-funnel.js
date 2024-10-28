@@ -58,6 +58,13 @@ function addBundle(bundleId) {
                 {slug: "sante-barley-powder-10s", quantity: 1},
             ],
         };
+    } else if (bundleId === "promo1-b") {
+        bundleDetails = {
+            products: [
+                {slug: "sante-barley-powder-30s", quantity: 1},
+                {slug: "water-bottle", quantity: 1},
+            ],
+        };
     } else if (bundleId === "promo2") {
         bundleDetails = {
             products: [
@@ -65,6 +72,16 @@ function addBundle(bundleId) {
                 {slug: "water-bottle", quantity: 1},
             ],
         };
+
+    } else if (bundleId === "promo2-b") {
+        bundleDetails = {
+            products: [
+                {slug: "sante-barley-powder-10s", quantity: 4},
+                {slug: "water-bottle", quantity: 1},
+                {slug: "water-stirrer", quantity: 1},
+            ],
+        };
+
     } else if (bundleId === "promo3") {
         bundleDetails = {
             products: [
@@ -73,11 +90,30 @@ function addBundle(bundleId) {
                 {slug: "water-stirrer", quantity: 1},
             ],
         };
+    } else if (bundleId === "promo3-b") {
+        bundleDetails = {
+            products: [
+                {slug: "sante-barley-plain-canister", quantity: 1},
+                {slug: "water-bottle", quantity: 1},
+                {slug: "water-stirrer", quantity: 1},
+            ],
+        };
     } else if (bundleId === "promo4") {
         bundleDetails = {
             products: [{slug: "fusion-coffee", quantity: 1}],
         };
+    } else if (bundleId === "promo4-b") {
+        bundleDetails = {
+            products: [{slug: "fusion-coffee", quantity: 1}],
+        };
     } else if (bundleId === "promo5") {
+        bundleDetails = {
+            products: [
+                {slug: "fusion-coffee", quantity: 2},
+                {slug: "water-bottle", quantity: 1},
+            ],
+        };
+    } else if (bundleId === "promo5-b") {
         bundleDetails = {
             products: [
                 {slug: "fusion-coffee", quantity: 2},
@@ -92,9 +128,21 @@ function addBundle(bundleId) {
                 {slug: "water-stirrer", quantity: 1},
             ],
         };
+    } else if (bundleId === "promo6-b") {
+        bundleDetails = {
+            products: [
+                {slug: "fusion-coffee", quantity: 4},
+                {slug: "water-bottle", quantity: 1},
+                {slug: "water-stirrer", quantity: 1},
+            ],
+        };
     } else if (bundleId === "promo7") {
         bundleDetails = {
             products: [{slug: "boost-coffee", quantity: 1}],
+        };
+    } else if (bundleId === "promo7-b") {
+        bundleDetails = {
+            products: [{slug: "boost-coffee", quantity: 2}],
         };
     } else if (bundleId === "promo8") {
         bundleDetails = {
@@ -103,10 +151,25 @@ function addBundle(bundleId) {
                 {slug: "water-bottle", quantity: 1},
             ],
         };
+    } else if (bundleId === "promo8-b") {
+        bundleDetails = {
+            products: [
+                {slug: "boost-coffee", quantity: 4},
+                {slug: "water-bottle", quantity: 1},
+            ],
+        };
     } else if (bundleId === "promo9") {
         bundleDetails = {
             products: [
                 {slug: "boost-coffee", quantity: 4},
+                {slug: "water-bottle", quantity: 1},
+                {slug: "water-stirrer", quantity: 1},
+            ],
+        };
+    } else if (bundleId === "promo9-b") {
+        bundleDetails = {
+            products: [
+                {slug: "boost-coffee", quantity: 8},
                 {slug: "water-bottle", quantity: 1},
                 {slug: "water-stirrer", quantity: 1},
             ],

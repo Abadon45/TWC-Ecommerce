@@ -111,6 +111,14 @@ class ProductFunnelView(View):
     def get(self, request, *args, **kwargs):
         product = kwargs.get('product', None)
 
+        # Determine which URL pattern was used
+        if '1' in request.path:
+            section = 'vw'
+        elif '2' in request.path:
+            section = 'ds'
+        else:
+            raise Http404("Invalid URL pattern")
+
         # Define the template based on the product
         if product == 'barley-for-cancer':
             template_name = 'funnels/products/barley/cancer.html'
@@ -130,6 +138,7 @@ class ProductFunnelView(View):
         context = {
             'title': self.title,
             'product': product,
+            'section': section,
         }
 
         # Render the template with the context

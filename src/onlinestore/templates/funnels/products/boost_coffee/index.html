@@ -848,53 +848,31 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col padding-right-0">
-                    <div class="zoom1" id="one" onmouseover="transform('one')" onmouseout="againtransform('one')">
-                        <table class="d-block d-sm-none">
-                            <tr>
-                                <td>
-                                    <div class="col-sm-6">
-                                        <img class="img-fluid"
-                                             src="{% static 'funnel/products/img/boost_coffee/mobile/promo-2boost.png' %}"
-                                             alt="">
-                                    </div>
-                                </td>
-                                <td class="ps-3">
-                                    <div class="col-sm-6">
-                                        <div class="center text-center">
-                                            <p>PROMO 1</p>
-                                            <p>₱380.00</p>
-                                            <p>10 DAYS SUPPLY</p>
+            {% if section == 'vw' %}
+                <div class="row">
+                    <div class="col padding-right-0">
+                        <div class="zoom1" id="one" onmouseover="transform('one')" onmouseout="againtransform('one')">
+                            <table class="d-block d-sm-none">
+                                <tr>
+                                    <td>
+                                        <div class="col-sm-6">
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/boost_coffee/mobile/promo-2boost.png' %}"
+                                                 alt="">
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="col-sm-12 d-block d-sm-none">
-                            <div class="btn-group-toggle"
-                                 data-toggle="buttons"
-                                 data-price="380"
-                                 data-quantity="1"
-                                 onclick="checkout(this, 'promo7')">
-                                <label class="btn btn-secondary">
-                                    <input class="form-check-input" type="checkbox" value="">SELECT
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row d-none d-sm-block">
-                            <picture>
-                                <source srcset="{% static 'funnel/products/img/boost_coffee/Tablet/promo1-tablet.png' %}"
-                                        media="(min-width: 768px) and (max-width: 991.98px)"/>
-                                <img class="img-fluid"
-                                     src="{% static 'funnel/products/img/boost_coffee/XL/promo1-xl.png' %}" alt="">
-                            </picture>
-                        </div>
-                        <div class="row d-none d-sm-block">
-                            <div class="center text-center">
-                                <p>PROMO 1</p>
-                                <p>₱380.00</p>
-                                <p>10 DAYS SUPPLY</p>
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="col-sm-6">
+                                            <div class="center text-center">
+                                                <p>PROMO 1</p>
+                                                <p>₱380.00</p>
+                                                <p>10 DAYS SUPPLY</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="col-sm-12 d-block d-sm-none">
                                 <div class="btn-group-toggle"
                                      data-toggle="buttons"
                                      data-price="380"
@@ -905,59 +883,55 @@
                                     </label>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="zoom2" id="two" onmouseover="transform('two')" onmouseout="againtransform('two')">
-                        <table class="d-block d-sm-none">
-                            <tr>
-                                <td>
-                                    <div class="col-sm-6">
-                                        <img class="img-fluid"
-                                             src="{% static 'funnel/products/img/boost_coffee/mobile/promo-3boost.png' %}"
-                                             alt="">
-                                    </div>
-                                </td>
-                                <td class="ps-3">
-                                    <div class="col-sm-6">
-                                        <div class="center text-center">
-                                            <p>PROMO 2</p>
-                                            <p>₱699.00</p>
-                                            <p>20 DAYS SUPPLY</p>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="col-sm-12 d-block d-sm-none">
-                            <div class="btn-group-toggle"
-                                 data-toggle="buttons"
-                                 data-price="699"
-                                 data-quantity="3"
-                                 onclick="checkout(this, 'promo8')">
-                                <label class="btn btn-secondary">
-                                    <input class="form-check-input" type="checkbox" value="">SELECT
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row d-none d-sm-block">
-                            <img class="img-fluid"
-                                 src="{% static 'funnel/products/img/boost_coffee/XL/promo2-xl.png' %}"
-                                 alt="">
-                            <div class="row">
-                                <div class="col">
+                            <div class="row d-none d-sm-block">
+                                <picture>
+                                    <source srcset="{% static 'funnel/products/img/boost_coffee/Tablet/promo1-tablet.png' %}"
+                                            media="(min-width: 768px) and (max-width: 991.98px)"/>
                                     <img class="img-fluid"
-                                         src="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-1.png' %}"
-                                         alt="freebies" style="margin-top:0">
+                                         src="{% static 'funnel/products/img/boost_coffee/XL/promo1-xl.png' %}" alt="">
+                                </picture>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <div class="center text-center">
+                                    <p>PROMO 1</p>
+                                    <p>₱380.00</p>
+                                    <p>10 DAYS SUPPLY</p>
+                                    <div class="btn-group-toggle"
+                                         data-toggle="buttons"
+                                         data-price="380"
+                                         data-quantity="1"
+                                         onclick="checkout(this, 'promo7')">
+                                        <label class="btn btn-secondary">
+                                            <input class="form-check-input" type="checkbox" value="">SELECT
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row d-none d-sm-block">
-                            <div class="center text-center">
-                                <p>PROMO 2</p>
-                                <p>₱699.00</p>
-                                <p>20 DAYS SUPPLY</p>
+                    </div>
+                    <div class="col">
+                        <div class="zoom2" id="two" onmouseover="transform('two')" onmouseout="againtransform('two')">
+                            <table class="d-block d-sm-none">
+                                <tr>
+                                    <td>
+                                        <div class="col-sm-6">
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/boost_coffee/mobile/promo-3boost.png' %}"
+                                                 alt="">
+                                        </div>
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="col-sm-6">
+                                            <div class="center text-center">
+                                                <p>PROMO 2</p>
+                                                <p>₱699.00</p>
+                                                <p>20 DAYS SUPPLY</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="col-sm-12 d-block d-sm-none">
                                 <div class="btn-group-toggle"
                                      data-toggle="buttons"
                                      data-price="699"
@@ -968,85 +942,315 @@
                                     </label>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col padding-left-0">
-                    <div class="zoom3" id="three" onmouseover="transform('three')" onmouseout="againtransform('three')">
-                        <table class="d-block d-sm-none">
-                            <tr>
-                                <td class="best-seller-block">
-                                    <div class="col-sm-6">
-                                        <img class="img-fluid best-seller"
-                                             src="{% static 'funnel/products/img/boost_coffee/mobile/best-seller-mobile.png' %}"
-                                             alt="">
+                            <div class="row d-none d-sm-block">
+                                <img class="img-fluid"
+                                     src="{% static 'funnel/products/img/boost_coffee/XL/promo2-xl.png' %}"
+                                     alt="">
+                                <div class="row">
+                                    <div class="col">
                                         <img class="img-fluid"
-                                             src="{% static 'funnel/products/img/boost_coffee/mobile/promo-4boost.png' %}"
-                                             alt="">
+                                             src="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-1.png' %}"
+                                             alt="freebies" style="margin-top:0">
                                     </div>
-                                </td>
-                                <td class="ps-3">
-                                    <div class="col-sm-6">
-                                        <div class="center text-center">
-                                            <p class="mt-0">PROMO 3</p>
-                                            <p>₱1,099.00</p>
-                                            <p style="margin-bottom: 50px">40 DAYS SUPPLY</p>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="col-sm-12 d-block d-sm-none">
-                            <div class="btn-group-toggle"
-                                 data-toggle="buttons"
-                                 data-price="1099"
-                                 data-quantity="6"
-                                 onclick="checkout(this, 'promo9')">
-                                <label class="btn btn-secondary">
-                                    <input class="form-check-input" type="checkbox" value="">SELECT
-                                </label>
+                                </div>
                             </div>
-                        </div>
-                        <picture class="d-none d-sm-block">
-                            <source srcset="{% static 'funnel/products/img/boost_coffee/Tablet/best-seller-tablet.png' %}"
-                                    media="(min-width: 768px) and (max-width: 991.98px)"/>
-                            <source srcset="{% static 'funnel/products/img/boost_coffee/mobile/best-seller-mobile.png' %}"
-                                    media="(max-width: 767.98px)"/>
-                            <img class="img-fluid best-seller"
-                                 src="{% static 'funnel/products/img/boost_coffee/XL/best-seller-xl.png' %}" alt="">
-                        </picture>
-                        <div class="row d-none d-sm-block">
-                            <img class="img-fluid"
-                                 src="{% static 'funnel/products/img/boost_coffee/XL/4pcs-boost.png' %}"
-                                 alt="">
-                            <div class="row">
-                                <div class="col">
-                                    <img class="img-fluid"
-                                         src="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-3.png' %}"
-                                         alt="freebies" style="margin-top:0">
+                            <div class="row d-none d-sm-block">
+                                <div class="center text-center">
+                                    <p>PROMO 2</p>
+                                    <p>₱699.00</p>
+                                    <p>20 DAYS SUPPLY</p>
+                                    <div class="btn-group-toggle"
+                                         data-toggle="buttons"
+                                         data-price="699"
+                                         data-quantity="3"
+                                         onclick="checkout(this, 'promo8')">
+                                        <label class="btn btn-secondary">
+                                            <input class="form-check-input" type="checkbox" value="">SELECT
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row d-none d-sm-block">
-                            <div class="center text-center">
-                                <p class="mt-0">PROMO 3</p>
-                                <p>₱1,099.00</p>
-                                <p style="margin-bottom: 50px">40 DAYS SUPPLY</p>
+                    </div>
+                    <div class="col padding-left-0">
+                        <div class="zoom3" id="three" onmouseover="transform('three')"
+                             onmouseout="againtransform('three')">
+                            <table class="d-block d-sm-none">
+                                <tr>
+                                    <td class="best-seller-block">
+                                        <div class="col-sm-6">
+                                            <img class="img-fluid best-seller"
+                                                 src="{% static 'funnel/products/img/boost_coffee/mobile/best-seller-mobile.png' %}"
+                                                 alt="">
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/boost_coffee/mobile/promo-4boost.png' %}"
+                                                 alt="">
+                                        </div>
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="col-sm-6">
+                                            <div class="center text-center">
+                                                <p class="mt-0">PROMO 3</p>
+                                                <p>₱1,099.00</p>
+                                                <p style="margin-bottom: 50px">40 DAYS SUPPLY</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="col-sm-12 d-block d-sm-none">
                                 <div class="btn-group-toggle"
                                      data-toggle="buttons"
                                      data-price="1099"
                                      data-quantity="6"
-                                     data-auth="{{ user.is_authenticated }}"
                                      onclick="checkout(this, 'promo9')">
                                     <label class="btn btn-secondary">
                                         <input class="form-check-input" type="checkbox" value="">SELECT
                                     </label>
                                 </div>
                             </div>
+                            <picture class="d-none d-sm-block">
+                                <source srcset="{% static 'funnel/products/img/boost_coffee/Tablet/best-seller-tablet.png' %}"
+                                        media="(min-width: 768px) and (max-width: 991.98px)"/>
+                                <source srcset="{% static 'funnel/products/img/boost_coffee/mobile/best-seller-mobile.png' %}"
+                                        media="(max-width: 767.98px)"/>
+                                <img class="img-fluid best-seller"
+                                     src="{% static 'funnel/products/img/boost_coffee/XL/best-seller-xl.png' %}" alt="">
+                            </picture>
+                            <div class="row d-none d-sm-block">
+                                <img class="img-fluid"
+                                     src="{% static 'funnel/products/img/boost_coffee/XL/4pcs-boost.png' %}"
+                                     alt="">
+                                <div class="row">
+                                    <div class="col">
+                                        <img class="img-fluid"
+                                             src="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-3.png' %}"
+                                             alt="freebies" style="margin-top:0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <div class="center text-center">
+                                    <p class="mt-0">PROMO 3</p>
+                                    <p>₱1,099.00</p>
+                                    <p style="margin-bottom: 50px">40 DAYS SUPPLY</p>
+                                    <div class="btn-group-toggle"
+                                         data-toggle="buttons"
+                                         data-price="1099"
+                                         data-quantity="6"
+                                         data-auth="{{ user.is_authenticated }}"
+                                         onclick="checkout(this, 'promo9')">
+                                        <label class="btn btn-secondary">
+                                            <input class="form-check-input" type="checkbox" value="">SELECT
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            {% else %}
+                <div class="row">
+                    <div class="col padding-right-0">
+                        <div class="zoom1" id="one" onmouseover="transform('one')" onmouseout="againtransform('one')">
+                            <table class="d-block d-sm-none">
+                                <tr>
+                                    <td>
+                                        <div class="col-sm-6">
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/boost_coffee/mobile/promo-2boost.png' %}"
+                                                 alt="">
+                                        </div>
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="col-sm-6">
+                                            <div class="center text-center">
+                                                <p>PROMO 1</p>
+                                                <p>₱899.00</p>
+                                                <p>20 DAYS SUPPLY</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="col-sm-12 d-block d-sm-none">
+                                <div class="btn-group-toggle"
+                                     data-toggle="buttons"
+                                     data-price="899"
+                                     data-quantity="3"
+                                     onclick="checkout(this, 'promo7-b')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="">SELECT
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <picture>
+                                    <source srcset="{% static 'funnel/products/img/boost_coffee/Tablet/promo1-tablet.png' %}"
+                                            media="(min-width: 768px) and (max-width: 991.98px)"/>
+                                    <img class="img-fluid"
+                                         src="{% static 'funnel/products/img/boost_coffee/XL/promo1-xl.png' %}" alt="">
+                                </picture>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <div class="center text-center">
+                                    <p>PROMO 1</p>
+                                    <p>₱899.00</p>
+                                    <p>20 DAYS SUPPLY</p>
+                                    <div class="btn-group-toggle"
+                                         data-toggle="buttons"
+                                         data-price="899"
+                                         data-quantity="1"
+                                         onclick="checkout(this, 'promo7-b')">
+                                        <label class="btn btn-secondary">
+                                            <input class="form-check-input" type="checkbox" value="">SELECT
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="zoom2" id="two" onmouseover="transform('two')" onmouseout="againtransform('two')">
+                            <table class="d-block d-sm-none">
+                                <tr>
+                                    <td>
+                                        <div class="col-sm-6">
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/boost_coffee/mobile/promo-3boost.png' %}"
+                                                 alt="">
+                                        </div>
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="col-sm-6">
+                                            <div class="center text-center">
+                                                <p>PROMO 2</p>
+                                                <p>₱1,399.00</p>
+                                                <p>40 DAYS SUPPLY</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="col-sm-12 d-block d-sm-none">
+                                <div class="btn-group-toggle"
+                                     data-toggle="buttons"
+                                     data-price="1399"
+                                     data-quantity="5"
+                                     onclick="checkout(this, 'promo8-b')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="">SELECT
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <img class="img-fluid"
+                                     src="{% static 'funnel/products/img/boost_coffee/XL/promo2-xl.png' %}"
+                                     alt="">
+                                <div class="row">
+                                    <div class="col">
+                                        <img class="img-fluid"
+                                             src="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-1.png' %}"
+                                             alt="freebies" style="margin-top:0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <div class="center text-center">
+                                    <p>PROMO 2</p>
+                                    <p>₱1,399.00</p>
+                                    <p>40 DAYS SUPPLY</p>
+                                    <div class="btn-group-toggle"
+                                         data-toggle="buttons"
+                                         data-price="1399"
+                                         data-quantity="5"
+                                         onclick="checkout(this, 'promo8-b')">
+                                        <label class="btn btn-secondary">
+                                            <input class="form-check-input" type="checkbox" value="">SELECT
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col padding-left-0">
+                        <div class="zoom3" id="three" onmouseover="transform('three')"
+                             onmouseout="againtransform('three')">
+                            <table class="d-block d-sm-none">
+                                <tr>
+                                    <td class="best-seller-block">
+                                        <div class="col-sm-6">
+                                            <img class="img-fluid best-seller"
+                                                 src="{% static 'funnel/products/img/boost_coffee/mobile/best-seller-mobile.png' %}"
+                                                 alt="">
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/boost_coffee/mobile/promo-4boost.png' %}"
+                                                 alt="">
+                                        </div>
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="col-sm-6">
+                                            <div class="center text-center">
+                                                <p class="mt-0">PROMO 3</p>
+                                                <p>₱2,599.00</p>
+                                                <p style="margin-bottom: 50px">80 DAYS SUPPLY</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="col-sm-12 d-block d-sm-none">
+                                <div class="btn-group-toggle"
+                                     data-toggle="buttons"
+                                     data-price="2599"
+                                     data-quantity="10"
+                                     onclick="checkout(this, 'promo9-b')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="">SELECT
+                                    </label>
+                                </div>
+                            </div>
+                            <picture class="d-none d-sm-block">
+                                <source srcset="{% static 'funnel/products/img/boost_coffee/Tablet/best-seller-tablet.png' %}"
+                                        media="(min-width: 768px) and (max-width: 991.98px)"/>
+                                <source srcset="{% static 'funnel/products/img/boost_coffee/mobile/best-seller-mobile.png' %}"
+                                        media="(max-width: 767.98px)"/>
+                                <img class="img-fluid best-seller"
+                                     src="{% static 'funnel/products/img/boost_coffee/XL/best-seller-xl.png' %}" alt="">
+                            </picture>
+                            <div class="row d-none d-sm-block">
+                                <img class="img-fluid"
+                                     src="{% static 'funnel/products/img/boost_coffee/XL/4pcs-boost.png' %}"
+                                     alt="">
+                                <div class="row">
+                                    <div class="col">
+                                        <img class="img-fluid"
+                                             src="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-3.png' %}"
+                                             alt="freebies" style="margin-top:0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <div class="center text-center">
+                                    <p class="mt-0">PROMO 3</p>
+                                    <p>₱2,599.00</p>
+                                    <p style="margin-bottom: 50px">80 DAYS SUPPLY</p>
+                                    <div class="btn-group-toggle"
+                                         data-toggle="buttons"
+                                         data-price="2599"
+                                         data-quantity="10"
+                                         data-auth="{{ user.is_authenticated }}"
+                                         onclick="checkout(this, 'promo9-b')">
+                                        <label class="btn btn-secondary">
+                                            <input class="form-check-input" type="checkbox" value="">SELECT
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
             <div class="row">
                 <div id="parent">
                     <div id="one" onmouseover="transform('one')" onmouseout="againtransform('one')"></div>

@@ -516,6 +516,21 @@ label.btn.btn-secondary {
     right: 1rem;
 }
 
+#rowthirteen {
+    .virtual-environment {
+        div.zoom1, div.zoom3 {
+            div.row img {
+                margin-top: 3rem;
+            }
+        }
+
+        div.zoom2 div picture img {
+            margin-top: 100px;
+        }
+    }
+
+}
+
 #rowthirteen div.zoom2 div picture img {
     margin-top: 165px;
 }
@@ -523,6 +538,7 @@ label.btn.btn-secondary {
 #rowthirteen div.zoom1 div.row img {
     margin-top: 8rem;
 }
+
 
 #rowthirteen div.zoom3 div.row img {
     margin-top: 8rem;
@@ -1716,10 +1732,21 @@ footer p {
         line-height: 1;
     }
 
+    #rowthirteen {
+        .virtual-environment {
+            div#one.zoom1 p:nth-child(1) {
+                font-size: 16px;
+                margin-top: 120px;
+            }
+        }
+    }
+
+
     #rowthirteen div#one.zoom1 p {
         font-size: 16px;
         margin-top: 133px;
     }
+
 
     #rowthirteen div#two.zoom2 p {
         font-size: 16px;
@@ -2017,9 +2044,9 @@ footer p {
     }
 
     .best-seller {
-        left: 5rem;
+        left: 11rem;
         height: 100px;
-        top: -25px;
+        top: 0;
     }
 
     #rowthirteen div.zoom2 div.row img {

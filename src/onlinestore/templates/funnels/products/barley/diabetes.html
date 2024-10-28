@@ -819,238 +819,440 @@
     </div>
 </section>
 <section id="rowthirteen">
-    <div class="container">
-        <div class="row">
-            <div class="col title">
-                <h1>READY TO TRANSFORM YOUR HEALTH, PERFORM BETTER, AND FEEL AMAZING?</h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col padding-right-0">
-                <div class="zoom1" id="one" onmouseover="transform('one')" onmouseout="againtransform('one')">
-                    <table class="d-block d-sm-none">
-                        <tr>
-                            <td>
-                                <div class="col-sm-6">
-                                    <img class="img-fluid"
-                                         src="{% static 'funnel/products/img/barley_for_diabetes/mobile-barley-promo-1.png' %}"
-                                         alt="promo1">
-                                </div>
-                            </td>
-                            <td class="ps-3">
-                                <div class="col-sm-6">
-                                    <p>PROMO 1</p>
-                                    <p>₱720.00</p>
-                                    <p>30g of Pure Barley Powder <br> (3g per sachet)</p>
-                                    <p>10 DAYS SUPPLY</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                    <div class="col-sm-12 d-block d-sm-none">
-                        <div class="btn-group-toggle" 
-                             data-toggle="buttons" 
-                             data-price="720"
-                             data-quantity="1"
-                             onclick="checkout(this, 'promo1')">
-                            <label class="btn btn-secondary">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">SELECT
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row d-none d-sm-block">
-                        <picture>
-                            <source srcset="{% static 'funnel/products/img/barley_for_diabetes/barley-promo-1.png' %}"
-                                    media="(min-width: 768px) and (max-width: 991.98px)">
-                            <img class="img-fluid"
-                                 src="{% static 'funnel/products/img/barley_for_diabetes/barley-promo-1.png' %}"
-                                 alt="promo-3">
-                        </picture>
-                        <div class="row" style="--bs-gutter-x: 0;">
-                            <div class="col">
-                                <picture>
-                                    <source
-                                            srcset="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-1.png' %}"
-                                            media="(min-width: 768px) and (max-width: 991.98px)">
-                                </picture>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row d-none d-sm-block">
-                        <p>PROMO 1</p>
-                        <p>₱720.00</p>
-                        <p>30g of Pure Barley Powder <br> (3g per sachet)</p>
-                        <p style="margin-bottom: 0">30 DAYS SUPPLY</p>
-                        <div id="sweetalert1" class="btn-group-toggle"
-                             data-toggle="buttons"
-                             data-price="720"
-                             data-quantity="1"
-                             onclick="checkout(this, 'promo1')">
-                            <label class="btn btn-secondary">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">SELECT
-                            </label>
-                        </div>
-                    </div> 
+        <div class="container">
+            <div class="row">
+                <div class="col title">
+                    <h1>READY TO TRANSFORM YOUR HEALTH, PERFORM BETTER, AND FEEL AMAZING?</h1>
                 </div>
             </div>
-            <div class="col">
-                <div class="zoom2" id="two" onmouseover="transform('two')" onmouseout="againtransform('two')">
-                    <table class="d-block d-sm-none">
-                        <tr>
-                            <td class="best-seller-block">
-                                <div class="col-sm-6">
-                                    <img class="img-fluid best-seller"
-                                         src="{% static 'funnel/products/img/barley_for_diabetes/mobile/best-seller-mobile.png' %}"
-                                         alt="best-seller">
-                                    <img class="img-fluid"
-                                         src="{% static 'funnel/products/img/barley_for_diabetes/mobile-barley-promo-2.png' %}"
-                                         alt="promo2">
+            {% if section == 'vw' %}
+                <div class="row virtual-environment">
+                    <div class="col padding-right-0">
+                        <div class="zoom1" id="one" onmouseover="transform('one')" onmouseout="againtransform('one')">
+                            <table class="d-block d-sm-none">
+                                <tr>
+                                    <td>
+                                        <div class="col-sm-6">
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/vw/mobile/barley-promo-1b.webp' %}"
+                                                 alt="promo1">
+                                        </div>
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="col-sm-6">
+                                            <p>PROMO 1</p>
+                                            <p>₱720.00</p>
+                                            <p>30g of Pure Barley Powder <br> (3g per sachet)</p>
+                                            <p>10 DAYS SUPPLY</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="col-sm-12 d-block d-sm-none">
+                                <div class="btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">SELECT
+                                    </label>
                                 </div>
-                            </td>
-                            <td class="ps-3">
-                                <div class="col-sm-6">
-                                    <p>PROMO 2</p>
-                                    <p>₱1,199.00</p>
-                                    <p>60g of Pure Barley Powder <br> (3g per sachet)</p>
-                                    <p>20 DAYS SUPPLY</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                    <div class="col-sm-12 d-block d-sm-none">
-                        <div class="btn-group-toggle" 
-                             data-toggle="buttons" 
-                             data-price="1199"
-                             data-quantity="3"
-                             onclick="checkout(this, 'promo2')">
-                            <label class="btn btn-secondary">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">SELECT
-                            </label>
-                        </div>
-                    </div>
-                    <picture class="d-none d-sm-block">
-                        <source
-                                srcset="{% static 'funnel/products/img/barley_for_diabetes/tablet/best-seller-tablet.png' %}"
-                                media="(min-width: 768px) and (max-width: 991.98px)">
-                        <img class="img-fluid best-seller"
-                             src="{% static 'funnel/products/img/barley_for_diabetes/xl/best-seller-xl.png' %}"
-                             alt="best-seller">
-                    </picture>
-                    <div class="d-none d-sm-block">
-                        <picture>
-                            <img class="img-fluid"
-                                 src="{% static 'funnel/products/img/barley_for_diabetes/barley-promo-2.png' %}"
-                                 alt="promo-1">
-                        </picture>
-                        <div class="row" style="--bs-gutter-x: 0;">
-                            <div class="col">
-                                <picture>
-                                    <img class="img-fluid"
-                                         src="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-1.png' %}"
-                                         alt="freebies" style="margin-top:0">
-                                </picture>
                             </div>
-                        </div>
-                    </div>
-                    <div class="d-none d-sm-block">
-                        <p>PROMO 2</p>
-                        <p>₱1,199.00</p>
-                        <p>60g of Pure Barley Powder <br> (3g per sachet)</p>
-                        <p style="font-weight: 900; font-size: 24px;">20 DAYS SUPPLY</p>
-                        <div class="btn-group-toggle"
-                             data-toggle="buttons"
-                             data-price="1199"
-                             data-quantity="3"
-                             data-auth="{{ user.is_authenticated }}"
-                             onclick="checkout(this, 'promo2')">
-                            <label class="btn btn-secondary">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">SELECT
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col padding-left-0">
-                <div class="zoom3" id="three" onmouseover="transform('three')" onmouseout="againtransform('three')">
-                    <table class="d-block d-sm-none">
-                        <tr>
-                            <td>
-                                <div class="col-sm-6 wd-157">
-                                    <img class="img-fluid"
-                                         src="{% static 'funnel/products/img/barley_for_diabetes/mobile-barley-promo-3b.png' %}"
-                                         alt="promo3">
-                                </div>
-                            </td>
-                            <td class="ps-3">
-                                <div class="col-sm-6">
-                                    <p>PROMO 3</p>
-                                    <p>₱1,999.00</p>
-                                    <p>120g of Pure Barley Powder <br> (3g per scoop)</p>
-                                    <p>40 DAYS SUPPLY</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                    <div class="col-sm-12 d-block d-sm-none">
-                        <div class="btn-group-toggle"
-                             data-toggle="buttons"
-                             data-price="1999"
-                             data-quantity="6"
-                             onclick="checkout(this, 'promo3')">
-                            <label class="btn btn-secondary">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">SELECT
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row d-none d-sm-block">
-                        <picture>
-                            <source srcset="{% static 'funnel/products/img/barley_for_diabetes/barley-promo-3b.png' %}"
-                                    media="(min-width: 768px) and (max-width: 991.98px)">
-                            <img class="img-fluid"
-                                 src="{% static 'funnel/products/img/barley_for_diabetes/barley-promo-3b.png' %}"
-                                 alt="promo-3">
-                        </picture>
-                        <div class="row" style="--bs-gutter-x: 0;">
-                            <div class="col">
+                            <div class="row d-none d-sm-block">
                                 <picture>
-                                    <source
-                                            srcset="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-3.png' %}"
+                                    <source srcset="{% static 'funnel/products/img/vw/barley-promo-1b.webp' %}"
                                             media="(min-width: 768px) and (max-width: 991.98px)">
                                     <img class="img-fluid"
-                                         src="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-3.png' %}"
-                                         alt="freebies" style="margin-top:0">
+                                         src="{% static 'funnel/products/img/vw/barley-promo-1b.webp' %}"
+                                         alt="promo-3">
                                 </picture>
+                                <div class="row" style="--bs-gutter-x: 0;">
+                                    <div class="col">
+                                        <picture>
+                                            <source
+                                                    srcset="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-1.png' %}"
+                                                    media="(min-width: 768px) and (max-width: 991.98px)">
+                                        </picture>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <p>PROMO 1</p>
+                                <p>₱720.00</p>
+                                <p>30g of Pure Barley Powder <br> (3g per sachet)</p>
+                                <p style="margin-bottom: 0">10 DAYS SUPPLY</p>
+                                <div id="sweetalert1" class="btn-group-toggle"
+                                     data-toggle="buttons"
+                                     data-price="720"
+                                     data-quantity="1"
+                                     data-auth="{{ user.is_authenticated }}"
+                                     onclick="checkout(this, 'promo1')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">SELECT
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row d-none d-sm-block">
-                        <p style="margin-top: 0">PROMO 3</p>
-                        <p>₱1,099.00</p>
-                        <p>120g of Pure Barley Powder <br> (3g per scoop)</p>
-                        <p>40 DAYS SUPPLY</p>
-                        <div class="btn-group-toggle"
-                             data-price="1999"
-                             data-toggle="buttons"
-                             data-quantity="6"
-                             data-auth="{{ user.is_authenticated }}"
-                             onclick="checkout(this, 'promo3')">
-                            <label class="btn btn-secondary">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">SELECT
-                            </label>
+                    <div class="col">
+                        <div class="zoom2" id="two" onmouseover="transform('two')" onmouseout="againtransform('two')">
+                            <table class="d-block d-sm-none">
+                                <tr>
+                                    <td>
+                                        <div class="col-sm-6">
+                                            <img class="img-fluid best-seller"
+                                                 src="{% static 'funnel/products/img/barley_for_diabetes/mobile/best-seller-mobile.png' %}"
+                                                 alt="best-seller">
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/vw/mobile/barley-promo-2b.webp' %}"
+                                                 alt="promo2">
+                                        </div>
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="col-sm-6">
+                                            <p>PROMO 2</p>
+                                            <p>₱699.00</p>
+                                            <p>60g of Pure Barley Powder <br> (3g per sachet)</p>
+                                            <p>20 DAYS SUPPLY</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="col-sm-12 d-block d-sm-none">
+                                <div class="btn-group-toggle" data-toggle="buttons" onclick="checkout('promo2')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">SELECT
+                                    </label>
+                                </div>
+                            </div>
+                            <picture class="d-none d-sm-block">
+                                <source
+                                        srcset="{% static 'funnel/products/img/barley_for_diabetes/tablet/best-seller-tablet.png' %}"
+                                        media="(min-width: 768px) and (max-width: 991.98px)">
+                                <img class="img-fluid best-seller"
+                                     src="{% static 'funnel/products/img/barley_for_diabetes/xl/best-seller-xl.png' %}"
+                                     alt="best-seller">
+                            </picture>
+                            <div class="d-none d-sm-block">
+                                <picture>
+                                    <img class="img-fluid"
+                                         src="{% static 'funnel/products/img/vw/barley-promo-2b.webp' %}"
+                                         alt="promo-1">
+                                </picture>
+                                <div class="row" style="--bs-gutter-x: 0;">
+                                    <div class="col">
+                                        <picture>
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-1.png' %}"
+                                                 alt="freebies" style="margin-top:0">
+                                        </picture>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-none d-sm-block">
+                                <p>PROMO 2</p>
+                                <p>₱1,199.00</p>
+                                <p>60g of Pure Barley Powder <br> (3g per sachet)</p>
+                                <p style="font-weight: 900; font-size: 24px;">20 DAYS SUPPLY</p>
+                                <div class="btn-group-toggle"
+                                     data-toggle="buttons"
+                                     data-price="1199"
+                                     data-quantity="3"
+                                     data-auth="{{ user.is_authenticated }}"
+                                     onclick="checkout(this, 'promo2')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">SELECT
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col padding-left-0">
+                        <div class="zoom3" id="three" onmouseover="transform('three')"
+                             onmouseout="againtransform('three')">
+                            <table class="d-block d-sm-none">
+                                <tr>
+                                    <td>
+                                        <div class="col-sm-6 wd-157">
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/vw/mobile/barley-promo-3b.webp' %}"
+                                                 alt="promo3">
+                                        </div>
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="col-sm-6">
+                                            <p>PROMO 3</p>
+                                            <p>₱1,099.00</p>
+                                            <p>120g of Pure Barley Powder <br> (3g per scoop)</p>
+                                            <p>40 DAYS SUPPLY</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="col-sm-12 d-block d-sm-none">
+                                <div class="btn-group-toggle"
+                                     data-toggle="buttons"
+                                     data-price="1099"
+                                     onclick="checkout('promo3')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">SELECT
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <picture>
+                                    <img class="img-fluid"
+                                         src="{% static 'funnel/products/img/vw/barley-promo-3b.webp' %}"
+                                         alt="promo-3">
+                                </picture>
+                                <div class="row" style="--bs-gutter-x: 0;">
+                                    <div class="col">
+                                        <picture>
+                                            <source
+                                                    srcset="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-3.png' %}"
+                                                    media="(min-width: 768px) and (max-width: 991.98px)">
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-3.png' %}"
+                                                 alt="freebies" style="margin-top:0">
+                                        </picture>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <p style="margin-top: 0">PROMO 3</p>
+                                <p>₱1,099.00</p>
+                                <p>120g of Pure Barley Powder <br> (3g per scoop)</p>
+                                <p>40 DAYS SUPPLY</p>
+                                <div class="btn-group-toggle"
+                                     data-price="1099"
+                                     data-toggle="buttons"
+                                     data-quantity=""
+                                     data-auth="{{ user.is_authenticated }}"
+                                     onclick="checkout(this, 'promo3')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">SELECT
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+            {% elif section == 'ds' %}
+                <div class="row">
+                    <div class="col padding-right-0">
+                        <div class="zoom1" id="one" onmouseover="transform('one')" onmouseout="againtransform('one')">
+                            <table class="d-block d-sm-none">
+                                <tr>
+                                    <td>
+                                        <div class="col-sm-6">
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/barley_for_diabetes/mobile-barley-promo-1.png' %}"
+                                                 alt="promo1">
+                                        </div>
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="col-sm-6">
+                                            <p>PROMO 1</p>
+                                            <p>₱2,199.00</p>
+                                            <p>90g of Pure Barley Powder <br> (3g per sachet)</p>
+                                            <p>30 DAYS SUPPLY</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="col-sm-12 d-block d-sm-none">
+                                <div class="btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">SELECT
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <picture>
+                                    <source srcset="{% static 'funnel/products/img/barley_for_diabetes/barley-promo-1.png' %}"
+                                            media="(min-width: 768px) and (max-width: 991.98px)">
+                                    <img class="img-fluid"
+                                         src="{% static 'funnel/products/img/barley_for_diabetes/barley-promo-1.png' %}"
+                                         alt="promo-3">
+                                </picture>
+                                <div class="row" style="--bs-gutter-x: 0;">
+                                    <div class="col">
+                                        <picture>
+                                            <source
+                                                    srcset="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-1.png' %}"
+                                                    media="(min-width: 768px) and (max-width: 991.98px)">
+                                        </picture>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <p>PROMO 1</p>
+                                <p>₱2,199.00</p>
+                                <p>30g of Pure Barley Powder <br> (3g per sachet)</p>
+                                <p style="margin-bottom: 0">30 DAYS SUPPLY</p>
+                                <div id="sweetalert1" class="btn-group-toggle"
+                                     data-toggle="buttons"
+                                     data-price="2199"
+                                     data-quantity="2"
+                                     data-auth="{{ user.is_authenticated }}"
+                                     onclick="checkout(this, 'promo1-b')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">SELECT
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="zoom2" id="two" onmouseover="transform('two')" onmouseout="againtransform('two')">
+                            <table class="d-block d-sm-none">
+                                <tr>
+                                    <td>
+                                        <div class="col-sm-6">
+                                            <img class="img-fluid best-seller"
+                                                 src="{% static 'funnel/products/img/barley_for_diabetes/mobile/best-seller-mobile.png' %}"
+                                                 alt="best-seller">
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/barley_for_diabetes/mobile-barley-promo-2.png' %}"
+                                                 alt="promo2">
+                                        </div>
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="col-sm-6">
+                                            <p>PROMO 2</p>
+                                            <p>₱2,299.00</p>
+                                            <p>120g of Pure Barley Powder <br> (3g per sachet)</p>
+                                            <p>40 DAYS SUPPLY</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="col-sm-12 d-block d-sm-none">
+                                <div class="btn-group-toggle" data-toggle="buttons" onclick="checkout('promo2')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">SELECT
+                                    </label>
+                                </div>
+                            </div>
+                            <picture class="d-none d-sm-block">
+                                <source
+                                        srcset="{% static 'funnel/products/img/barley_for_diabetes/tablet/best-seller-tablet.png' %}"
+                                        media="(min-width: 768px) and (max-width: 991.98px)">
+                                <img class="img-fluid best-seller"
+                                     src="{% static 'funnel/products/img/barley_for_diabetes/xl/best-seller-xl.png' %}"
+                                     alt="best-seller">
+                            </picture>
+                            <div class="d-none d-sm-block">
+                                <picture>
+                                    <img class="img-fluid"
+                                         src="{% static 'funnel/products/img/barley_for_diabetes/barley-promo-2.png' %}"
+                                         alt="promo-1">
+                                </picture>
+                                <div class="row" style="--bs-gutter-x: 0;">
+                                    <div class="col">
+                                        <picture>
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-1.png' %}"
+                                                 alt="freebies" style="margin-top:0">
+                                        </picture>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-none d-sm-block">
+                                <p>PROMO 2</p>
+                                <p>₱2,299.00</p>
+                                <p>120g of Pure Barley Powder <br> (3g per sachet)</p>
+                                <p style="font-weight: 900; font-size: 24px;">40 DAYS SUPPLY</p>
+                                <div class="btn-group-toggle"
+                                     data-toggle="buttons"
+                                     data-price="2299"
+                                     data-quantity="6"
+                                     onclick="checkout(this, 'promo2-b')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">SELECT
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col padding-left-0">
+                        <div class="zoom3" id="three" onmouseover="transform('three')"
+                             onmouseout="againtransform('three')">
+                            <table class="d-block d-sm-none">
+                                <tr>
+                                    <td>
+                                        <div class="col-sm-6 wd-157">
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/barley_for_diabetes/mobile-barley-promo-3b.png' %}"
+                                                 alt="promo3">
+                                        </div>
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="col-sm-6">
+                                            <p>PROMO 3</p>
+                                            <p>₱2,840.00</p>
+                                            <p>200g of Pure Barley Powder <br> (3g per scoop)</p>
+                                            <p>66 DAYS SUPPLY</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="col-sm-12 d-block d-sm-none">
+                                <div class="btn-group-toggle"
+                                     data-toggle="buttons"
+                                     data-price="2840"
+                                     onclick="checkout('promo3-b')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">SELECT
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <picture>
+                                    <source srcset="{% static 'funnel/products/img/barley_for_diabetes/barley-promo-3b.png' %}"
+                                            media="(min-width: 768px) and (max-width: 991.98px)">
+                                    <img class="img-fluid"
+                                         src="{% static 'funnel/products/img/barley_for_diabetes/barley-promo-3b.png' %}"
+                                         alt="promo-3">
+                                </picture>
+                                <div class="row" style="--bs-gutter-x: 0;">
+                                    <div class="col">
+                                        <picture>
+                                            <source
+                                                    srcset="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-3.png' %}"
+                                                    media="(min-width: 768px) and (max-width: 991.98px)">
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-3.png' %}"
+                                                 alt="freebies" style="margin-top:0">
+                                        </picture>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <p style="margin-top: 0">PROMO 3</p>
+                                <p>₱2,840.00</p>
+                                <p>200g of Pure Barley Powder <br> (3g per scoop)</p>
+                                <p>66 DAYS SUPPLY</p>
+                                <div class="btn-group-toggle"
+                                     data-price="2840"
+                                     data-toggle="buttons"
+                                     data-quantity="3"
+                                     onclick="checkout(this, 'promo3-b')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">SELECT
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="row">
+                <div id="parent">
+                    <div id="one" onmouseover="transform('one')" onmouseout="againtransform('one')"></div>
+                    <div id="two" onmouseover="transform('two')" onmouseout="againtransform('two')"></div>
+                    <div id="three" onmouseover="transform('three')" onmouseout="againtransform('three')"></div>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div id="parent">
-                <div id="one" onmouseover="transform('one')" onmouseout="againtransform('one')"></div>
-                <div id="two" onmouseover="transform('two')" onmouseout="againtransform('two')"></div>
-                <div id="three" onmouseover="transform('three')" onmouseout="againtransform('three')"></div>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
 <section class="rowfourteen">
     <div class="container">
         <div class="row">
