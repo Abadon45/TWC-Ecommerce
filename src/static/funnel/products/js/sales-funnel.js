@@ -104,7 +104,7 @@ function addBundle(bundleId) {
         };
     } else if (bundleId === "promo4-b") {
         bundleDetails = {
-            products: [{slug: "fusion-coffee", quantity: 1}],
+            products: [{slug: "fusion-coffee", quantity: 2}],
         };
     } else if (bundleId === "promo5") {
         bundleDetails = {
@@ -116,8 +116,9 @@ function addBundle(bundleId) {
     } else if (bundleId === "promo5-b") {
         bundleDetails = {
             products: [
-                {slug: "fusion-coffee", quantity: 2},
+                {slug: "fusion-coffee", quantity: 3},
                 {slug: "water-bottle", quantity: 1},
+                {slug: "freebie-watch", quantity: 1},
             ],
         };
     } else if (bundleId === "promo6") {
@@ -134,6 +135,7 @@ function addBundle(bundleId) {
                 {slug: "fusion-coffee", quantity: 4},
                 {slug: "water-bottle", quantity: 1},
                 {slug: "water-stirrer", quantity: 1},
+                {slug: "freebie-watch", quantity: 1},
             ],
         };
     } else if (bundleId === "promo7") {

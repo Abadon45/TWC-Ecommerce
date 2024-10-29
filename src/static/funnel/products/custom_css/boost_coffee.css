@@ -629,6 +629,18 @@ label.btn.btn-secondary {
 
 }
 
+#rowthirteen {
+    .virtual-environment {
+        div.zoom2 div.row img {
+            margin-top: 5rem;
+        }
+
+        div.zoom1 div.row img {
+            margin-top: 5.5rem;
+        }
+    }
+}
+
 .btn-secondary {
     width: 21rem;
     background-color: #21862f;
@@ -1231,8 +1243,16 @@ footer p {
         position: absolute;
         left: 225%;
         bottom: 11vh;
-        /*transform: translate(-50%, -50%);*/
         height: 50px;
+    }
+
+    .virtual-environment {
+        .best-seller {
+            position: absolute;
+            left: 250%;
+            bottom: 9.5vh;
+            height: 50px;
+        }
     }
 
     .rowfourteen {
@@ -1316,6 +1336,13 @@ footer p {
     .best-seller {
         left: 210%;
         bottom: 64%;
+    }
+
+    .virtual-environment {
+        .best-seller {
+            left: 225%;
+            bottom: 11vh;
+        }
     }
 }
 
@@ -1470,6 +1497,13 @@ footer p {
     .best-seller {
         left: 199%;
         bottom: 64%;
+    }
+
+    .virtual-environment {
+        .best-seller {
+            left: 215%;
+            bottom: 64%;
+        }
     }
 
     #delivery1 {
@@ -1654,6 +1688,15 @@ footer p {
         max-height: 30%;
         left: 250%;
         bottom: 10vh;
+    }
+
+    .virtual-environment {
+        .best-seller {
+            max-width: 30%;
+            max-height: 30%;
+            left: 252%;
+            bottom: 10vh;
+        }
     }
 
     .wd-157 {
@@ -1937,7 +1980,7 @@ footer p {
     }
 
     #rowthirteen div.zoom3 .center p:nth-child(1) {
-        margin-top: 20px!important;
+        margin-top: 20px !important;
         font-size: 16px;
     }
 
@@ -1993,6 +2036,14 @@ footer p {
     .best-seller {
         top: -10px;
         left: 60px;
+    }
+
+    #rowthirteen {
+        .virtual-environment {
+            div.zoom1 div.row img {
+                margin-top: 2rem;
+            }
+        }
     }
 
     #rowthirteen div.zoom2 div.row img {
@@ -2140,6 +2191,14 @@ footer p {
     .zoom1, .zoom2, .zoom3 {
         width: 16rem;
         padding: 25px;
+    }
+
+    #rowthirteen {
+        .virtual-environment {
+            div.zoom1 div.row img {
+                margin-top: 4rem;
+            }
+        }
     }
 
     #rowthirteen div.zoom1 .center p:nth-child(1) {

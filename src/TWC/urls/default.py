@@ -19,8 +19,8 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('', IndexView.as_view(), name="home_view"),
     path('pf/', ProductFunnelView.as_view(), name='product_funnel'),
-    path('pf/<str:product>/1/', ProductFunnelView.as_view(), name='product_funnel_vw'),
-    path('pf/<str:product>/2/', ProductFunnelView.as_view(), name='product_funnel_ds'),
+    path('pf-vw/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_vw'),
+    path('pf-ds/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_ds'),
     path('pf/create-order', create_order, name='create_order'),
 
 ]

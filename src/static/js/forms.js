@@ -42,6 +42,8 @@ $(document).ready(function () {
                 $("#step2-tab").addClass("active done");
                 $(".checkout-btn").removeAttr("hidden");
                 $(".dummy-submit").addClass("hide");
+                $(".shipping-details h1, .shipping-details p, .shipping-details span").css("color", "#56a27b");
+                $(".payment-method h1, .payment-method p, .payment-method span").css("color", "#ffffff");
 
                 // Update shipping fees and totals
                 successData.updated_orders.forEach(function (order) {

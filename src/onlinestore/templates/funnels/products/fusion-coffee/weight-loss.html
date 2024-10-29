@@ -746,205 +746,440 @@
         <div class="container">
             <div class="row">
                 <div class="col title">
-                    <h1>READY TO TRANSFORM YOUR HEALTH, PERFORM BETTER, AND FEEL AMAZING?</h1>
+                    <div class="text-center center">
+                        <p>READY TO TRANSFORM YOUR HEALTH, PERFORM BETTER, AND FEEL AMAZING?</p>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col padding-right-0">
-                    <div class="zoom1" id="one" onmouseover="transform('one')" onmouseout="againtransform('one')">
-                        <table class="d-block d-sm-none">
-                            <tr>
-                                <td>
-                                    <div class="col-sm-6">
-                                        <img class="img-fluid"
-                                             src="{% static 'funnel/products/img/fusion_for_weightloss/mobile-weight/promo1-mobile.png' %}"
-                                             alt="promo1">
-                                    </div>
-                                </td>
-                                <td class="ps-3">
-                                    <div class="col-sm-6">
-                                        <p>PROMO 1</p>
-                                        <p>₱340.00</p>
-                                        <p>Coffee Mix with Barley per sachet 1 box = 10 sachets</p>
-                                        <p>10 DAYS SUPPLY</p>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="col-sm-12 d-block d-sm-none">
-                            <div id="sweetalert11" class="btn-group-toggle" data-toggle="buttons"
-                                 onclick="checkout('promo4')">
-                                <label class="btn btn-secondary">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">SELECT
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row d-none d-sm-block">
-                            <picture>
-                                <source srcset="{% static 'funnel/products/img/fusion_for_weightloss/tablet-weight/promo1-tablet.png' %}"
-                                        media="(min-width: 768px) and (max-width: 991.98px)">
-                                <img class="img-fluid"
-                                     src="{% static 'funnel/products/img/fusion_for_weightloss/xl-weight/promo1-xl.png' %}"
-                                     alt="promo-1">
-                            </picture>
-                        </div>
-                        <div class="row d-none d-sm-block">
-                            <p>PROMO 1</p>
-                            <p>₱340.00</p>
-                            <p>Coffee Mix with Barley per sachet <br>1 box = 10 sachets</p>
-                            <p>10 DAYS SUPPLY</p>
-                            <div id="sweetalert1" class="btn-group-toggle"
-                                 data-toggle="buttons"
-                                 data-price="340"
-                                 data-quantity="1"
-                                 data-auth="{{ user.is_authenticated }}"
-                                 onclick="checkout(this, 'promo4')">
-                                <label class="btn btn-secondary">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">SELECT
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="zoom2" id="two" onmouseover="transform('two')" onmouseout="againtransform('two')">
-                        <table class="d-block d-sm-none">
-                            <tr>
-                                <td>
-                                    <div class="col-sm-6">
-                                        <img class="img-fluid best-seller"
-                                             src="{% static 'funnel/products/img/fusion_for_weightloss/mobile-weight/best-seller-mobile.png' %}"
-                                             alt="best-seller">
-                                        <img class="img-fluid"
-                                             src="{% static 'funnel/products/img/fusion_coffee_old_age/mobile/promo-3fusion.png' %}"
-                                             alt="promo2">
-                                    </div>
-                                </td>
-                                <td class="ps-3">
-                                    <div class="col-sm-6">
-                                        <p>PROMO 2</p>
-                                        <p>₱649.00</p>
-                                        <p>FREE Water Bottle and Watch</p>
-                                        <p>20 DAYS SUPPLY</p>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="col-sm-12 d-block d-sm-none">
-                            <div id="sweetalert22" class="btn-group-toggle" data-toggle="buttons"
-                                 onclick="checkout('promo5')">
-                                <label class="btn btn-secondary">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">SELECT
-                                </label>
-                            </div>
-                        </div>
-                        <picture class="d-none d-sm-block">
-                            <source srcset="{% static 'funnel/products/img/fusion_for_weightloss/tablet-weight/best-seller-tablet.png' %}"
-                                    media="(min-width: 768px) and (max-width: 991.98px)">
-                            <img class="img-fluid best-seller"
-                                 src="{% static 'funnel/products/img/fusion_for_weightloss/xl-weight/best-seller-xl.png' %}"
-                                 alt="best-seller">
-                        </picture>
-                        <div class="d-none d-sm-block">
-                            <picture>
-                                <img class="img-fluid"
-                                     src="{% static 'funnel/products/img/fusion_for_weightloss/xl-weight/promo1-xl.png' %}"
-                                     alt="promo-1">
-                            </picture>
-                            <div class="row" style="--bs-gutter-x: 0; margin-top: 50px">
-                                <div class="col">
-                                    <picture>
-                                        <img class="img-fluid"
-                                             src="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-1.png' %}"
-                                             alt="freebies" style="margin-top:0">
-                                    </picture>
+            {% if section == 'vw' %}
+                <div class="row virtual-environment">
+                    <div class="col padding-right-0">
+                        <div class="zoom1" id="one" onmouseover="transform('one')" onmouseout="againtransform('one')">
+                            <table class="d-block d-sm-none">
+                                <tr>
+                                    <td>
+                                        <div class="col-sm-6">
+                                            <img class="img-fluid"
+                                                 src="{% static '/funnel/products/img/vw/mobile/fusion-promo-1b.webp' %}"
+                                                 alt="">
+                                        </div>
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="col-sm-6">
+                                            <center>
+                                                <p>PROMO 1</p>
+                                                <p>₱340.00</p>
+                                                <p>Coffee Mix with Barley per sachet 1 box = 10 sachets</p>
+                                                <p>10 DAYS SUPPLY</p>
+                                            </center>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="col-sm-12 d-block d-sm-none">
+                                <div class="btn-group-toggle"
+                                     data-toggle="buttons"
+                                     data-price="340"
+                                     data-quantity="1"
+                                     onclick="checkout(this, 'promo4')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">SELECT
+                                    </label>
                                 </div>
                             </div>
-                        </div>
-                        <div class="d-none d-sm-block">
-                            <p>PROMO 2</p>
-                            <p>₱649.00</p>
-                            <p>FREE Water Bottle and Watch</p>
-                            <p></p>
-                            <p>20 DAYS SUPPLY</p>
-                            <div id="sweetalert2" class="btn-group-toggle"
-                                 data-toggle="buttons"
-                                 data-price="649"
-                                 data-quantity="3"
-                                 data-auth="{{ user.is_authenticated }}"
-                                 onclick="checkout(this, 'promo5')">
-                                <label class="btn btn-secondary">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">SELECT
-                                </label>
+                            <div class="row d-none d-sm-block">
+                                <picture>
+                                    <img class="img-fluid"
+                                         src="{% static '/funnel/products/img/vw/fusion-promo-1b.webp' %}"
+                                         alt="">
+                                </picture>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <center>
+                                    <p>PROMO 1</p>
+                                    <p>₱340.00</p>
+                                    <p>Coffee Mix with Barley per sachet 1 box = 10 sachets</p>
+                                    <p>10 DAYS SUPPLY</p>
+                                    <div class="btn-group-toggle"
+                                         data-toggle="buttons"
+                                         data-price="340"
+                                         data-quantity="1"
+                                         onclick="checkout(this, 'promo4')">
+                                        <label class="btn btn-secondary">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                   id="flexCheckDefault1">SELECT
+                                        </label>
+                                    </div>
+                                </center>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col padding-left-0">
-                    <div class="zoom3" id="three" onmouseover="transform('three')" onmouseout="againtransform('three')">
-                        <table class="d-block d-sm-none">
-                            <tr>
-                                <td>
-                                    <div class="col-sm-6 wd-157">
-                                        <img class="img-fluid"
-                                             src="{% static 'funnel/products/img/fusion_coffee_old_age/mobile/promo-4fusion.png' %}"
-                                             alt="promo3">
-                                    </div>
-                                </td>
-                                <td class="ps-3">
-                                    <div class="col-sm-6">
-                                        <p>PROMO 3</p>
-                                        <p>₱1,049.00</p>
-                                        <p>FREE Electric Stirrer, Water Bottle and Watch</p>
-                                        <p>40 DAYS SUPPLY</p>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="col-sm-12 d-block d-sm-none">
-                            <div id="sweetalert33" class="btn-group-toggle"
-                                 data-toggle="buttons"
-                                 onclick="checkout('promo6')">
-                                <label class="btn btn-secondary">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">SELECT
-                                </label>
+                    <div class="col">
+                        <div class="zoom2" id="two" onmouseover="transform('two')" onmouseout="againtransform('two')">
+                            <table class="d-block d-sm-none">
+                                <tr>
+                                    <td class="best-seller-block">
+                                        <div class="col-sm-6">
+                                            <img class="img-fluid best-seller"
+                                                 src="{% static 'funnel/products/img/boost_coffee/mobile/best-seller-mobile.png' %}"
+                                                 alt="">
+                                            <img class="img-fluid"
+                                                 src="{% static '/funnel/products/img/vw/mobile/fusion-promo-2b.webp' %}"
+                                                 alt="">
+                                        </div>
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="col-sm-6">
+                                            <center>
+                                                <p>PROMO 2</p>
+                                                <p>₱649.00</p>
+                                                <p>FREE Water Bottle and Watch</p>
+                                                <p>20 DAYS SUPPLY</p>
+                                            </center>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="col-sm-12 d-block d-sm-none">
+                                <div class="btn-group-toggle"
+                                     data-toggle="buttons"
+                                     data-price="649"
+                                     data-quantity="3"
+                                     onclick="checkout(this, 'promo5')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">SELECT
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row d-none d-sm-block">
-                            <picture>
-                                <source srcset="{% static 'funnel/products/img/fusion_coffee_old_age/tablet/promo2-tablet.png' %}"
+                            <picture class="d-none d-sm-block best-seller-block">
+                                <source srcset="{% static 'funnel/products/img/fusion_coffee_old_age/tablet/best-seller-tablet.png' %}"
                                         media="(max-width: 768px)">
-                                <img class="img-fluid"
-                                     src="{% static 'funnel/products/img/fusion_coffee_old_age/xl/promo2-xl.png' %}"
+                                <img class="img-fluid best-seller"
+                                     src="{% static 'funnel/products/img/fusion_coffee_old_age/xl/best-seller-xl.png' %}"
                                      alt="">
                             </picture>
-                            <div class="row" style="--bs-gutter-x: 0;">
-                                <div class="col">
-                                    <img class="img-fluid"
-                                         src="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-3.png' %}"
-                                         alt="freebies" style="margin-top:0">
+                            <div class="d-none d-sm-block">
+                                <img class="img-fluid promo-product"
+                                     src="{% static '/funnel/products/img/vw/fusion-promo-2b.webp' %}"
+                                     alt="">
+                                <div class="row" style="--bs-gutter-x: 0;">
+                                    <div class="col">
+                                        <picture>
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-1.png' %}"
+                                                 alt="freebies" style="margin-top:0">
+                                        </picture>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="d-none d-sm-block">
+                                <center>
+                                    <p>PROMO 2</p>
+                                    <p>₱649.00</p>
+                                    <p>FREE Water Bottle and Watch</p>
+                                    <p>20 DAYS SUPPLY</p>
+                                    <div class="btn-group-toggle"
+                                         data-toggle="buttons"
+                                         data-price="649"
+                                         data-quantity="3"
+                                         onclick="checkout(this, 'promo5')">
+                                        <label class="btn btn-secondary">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                   id="flexCheckDefault2">SELECT
+                                        </label>
+                                    </div>
+                                </center>
+                            </div>
                         </div>
-                        <div class="row d-none d-sm-block">
-                            <p style="margin-top: 0">PROMO 3</p>
-                            <p>₱1,049.00</p>
-                            <p>FREE Electric Stirrer, Water Bottle and Watch</p>
-                            <p>40 DAYS SUPPLY</p>
-                            <div id="sweetalert3" class="btn-group-toggle"
-                                 data-toggle="buttons"
-                                 data-price="1049"
-                                 data-quantity="6"
-                                 data-promo="promo6"
-                                 onclick="checkout(this, 'promo6')">
-                                <label class="btn btn-secondary">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">SELECT
-                                </label>
+                    </div>
+                    <div class="col padding-left-0">
+                        <div class="zoom3" id="three" onmouseover="transform('three')"
+                             onmouseout="againtransform('three')">
+                            <table class="d-block d-sm-none">
+                                <tr>
+                                    <td>
+                                        <div class="col-sm-6 wd-157">
+                                            <img class="img-fluid"
+                                                 src="{% static '/funnel/products/img/vw/mobile/fusion-promo-3b.webp' %}"
+                                                 alt="">
+                                        </div>
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="col-sm-6">
+                                            <center>
+                                                <p>PROMO 3</p>
+                                                <p>₱1,049.00</p>
+                                                <p>FREE Electric Stirrer, Water Bottle and Watch</p>
+                                                <p>40 DAYS SUPPLY</p>
+                                            </center>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="col-sm-12 d-block d-sm-none">
+                                <div class="btn-group-toggle"
+                                     data-toggle="buttons"
+                                     data-price="1049"
+                                     data-quantity="6"
+                                     onclick="checkout(this, 'promo6')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value=""
+                                               id="flexCheckDefault3">SELECT
+                                    </label>
+                                </div>
+                            </div>
+                            -
+                            <div class="row d-none d-sm-block">
+                                <picture>
+                                    <img class="img-fluid"
+                                         src="{% static '/funnel/products/img/vw/fusion-promo-3b.webp' %}"
+                                         alt="">
+                                </picture>
+                                <div class="row" style="--bs-gutter-x: 0;">
+                                    <div class="col">
+                                        <img class="img-fluid"
+                                             src="{% static 'funnel/products/img/barley_for_diabetes/barley-freebie-3.png' %}"
+                                             alt="freebies" style="margin-top:0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <center>
+                                    <p>PROMO 3</p>
+                                    <p>₱1,049.00</p>
+                                    <p>FREE Electric Stirrer, Water Bottle and Watch</p>
+                                    <p>40 DAYS SUPPLY</p>
+                                    <div class="btn-group-toggle"
+                                         data-toggle="buttons"
+                                         data-price="1049"
+                                         data-quantity="6"
+                                         onclick="checkout(this, 'promo6')">
+                                        <label class="btn btn-secondary">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                   id="flexCheckDefault3">SELECT
+                                        </label>
+                                    </div>
+                                </center>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            {% elif section == 'ds' %}
+                <div class="row">
+                    <div class="col padding-right-0">
+                        <div class="zoom1" id="one" onmouseover="transform('one')" onmouseout="againtransform('one')">
+                            <table class="d-block d-sm-none">
+                                <tr>
+                                    <td>
+                                        <div class="col-sm-6">
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/fusion_coffee_old_age/mobile/promo-2fusion.png' %}"
+                                                 alt="">
+                                        </div>
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="col-sm-6">
+                                            <center>
+                                                <p>PROMO 1</p>
+                                                <p>₱799.00</p>
+                                                <p>Coffee Mix with Barley per sachet 1 box = 10 sachets</p>
+                                                <p>20 DAYS SUPPLY</p>
+                                            </center>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="col-sm-12 d-block d-sm-none">
+                                <div class="btn-group-toggle"
+                                     data-toggle="buttons"
+                                     data-price="799"
+                                     data-quantity="2"
+                                     onclick="checkout(this, 'promo4-b')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">SELECT
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <picture>
+                                    <source srcset="{% static 'funnel/products/img/fusion_coffee_old_age/tablet/promo1-tablet.png' %}"
+                                            media="(max-width: 768px)">
+                                    <img class="img-fluid"
+                                         src="{% static 'funnel/products/img/fusion_coffee_old_age/xl/promo1-xl.png' %}"
+                                         alt="">
+                                </picture>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <center>
+                                    <p>PROMO 1</p>
+                                    <p>₱799.00</p>
+                                    <p>Coffee Mix with Barley per sachet 1 box = 10 sachets</p>
+                                    <p>20 DAYS SUPPLY</p>
+                                    <div class="btn-group-toggle"
+                                         data-toggle="buttons"
+                                         data-price="799"
+                                         data-quantity="2"
+                                         onclick="checkout(this, 'promo4-b')">
+                                        <label class="btn btn-secondary">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                   id="flexCheckDefault1">SELECT
+                                        </label>
+                                    </div>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="zoom2" id="two" onmouseover="transform('two')" onmouseout="againtransform('two')">
+                            <table class="d-block d-sm-none">
+                                <tr>
+                                    <td class="best-seller-block">
+                                        <div class="col-sm-6">
+                                            <img class="img-fluid best-seller"
+                                                 src="{% static 'funnel/products/img/boost_coffee/mobile/best-seller-mobile.png' %}"
+                                                 alt="">
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/fusion_coffee_old_age/mobile/promo-3fusion.png' %}"
+                                                 alt="">
+                                        </div>
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="col-sm-6">
+                                            <center>
+                                                <p>PROMO 2</p>
+                                                <p>₱1,249.00</p>
+                                                <p>FREE Water Bottle and Watch</p>
+                                            </center>
+                                            <p>30 DAYS SUPPLY</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="col-sm-12 d-block d-sm-none">
+                                <div class="btn-group-toggle"
+                                     data-toggle="buttons"
+                                     data-price="1249"
+                                     data-quantity="5"
+                                     onclick="checkout(this, 'promo5-b')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">SELECT
+                                    </label>
+                                </div>
+                            </div>
+                            <picture class="d-none d-sm-block best-seller-block">
+                                <source srcset="{% static 'funnel/products/img/fusion_coffee_old_age/tablet/best-seller-tablet.png' %}"
+                                        media="(max-width: 768px)">
+                                <img class="img-fluid best-seller"
+                                     src="{% static 'funnel/products/img/fusion_coffee_old_age/xl/best-seller-xl.png' %}"
+                                     alt="">
+                            </picture>
+                            <div class="d-none d-sm-block">
+                                <img class="img-fluid promo-product"
+                                     src="{% static '/funnel/products/img/fusion_coffee_old_age/xl/3pcs-fusion.png' %}"
+                                     alt="">
+                                <div class="row" style="--bs-gutter-x: 0;">
+                                    <div class="col">
+                                        <picture>
+                                            <img class="img-fluid"
+                                                 src="{% static '/funnel/products/img/fusion_coffee_old_age/xl/free-xl.png' %}"
+                                                 alt="freebies" style="margin-top:0">
+                                        </picture>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-none d-sm-block">
+                                <center>
+                                    <p>PROMO 2</p>
+                                    <p>₱1,249.00</p>
+                                    <p>FREE Water Bottle and Watch</p>
+                                    <p>30 DAYS SUPPLY</p>
+                                    <div class="btn-group-toggle"
+                                         data-toggle="buttons"
+                                         data-price="1249"
+                                         data-quantity="5"
+                                         onclick="checkout(this, 'promo5-b')">
+                                        <label class="btn btn-secondary">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                   id="flexCheckDefault2">SELECT
+                                        </label>
+                                    </div>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col padding-left-0">
+                        <div class="zoom3" id="three" onmouseover="transform('three')"
+                             onmouseout="againtransform('three')">
+                            <table class="d-block d-sm-none">
+                                <tr>
+                                    <td>
+                                        <div class="col-sm-6 wd-157">
+                                            <img class="img-fluid"
+                                                 src="{% static 'funnel/products/img/fusion_coffee_old_age/mobile/promo-4fusion.png' %}"
+                                                 alt="">
+                                        </div>
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="col-sm-6">
+                                            <center>
+                                                <p>PROMO 3</p>
+                                                <p>₱1,649.00</p>
+                                                <p>FREE Electric Stirrer, Water Bottle and Watch</p>
+                                                <p>40 DAYS SUPPLY</p>
+                                            </center>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="col-sm-12 d-block d-sm-none">
+                                <div class="btn-group-toggle"
+                                     data-toggle="buttons"
+                                     data-price="1649"
+                                     data-quantity="7"
+                                     onclick="checkout(this, 'promo6-b')">
+                                    <label class="btn btn-secondary">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">SELECT
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <picture>
+                                    <source srcset="{% static 'funnel/products/img/fusion_coffee_old_age/tablet/promo2-tablet.png' %}"
+                                            media="(max-width: 768px)">
+                                    <img class="img-fluid"
+                                         src="{% static 'funnel/products/img/fusion_coffee_old_age/xl/promo2-xl.png' %}"
+                                         alt="">
+                                </picture>
+                                <div class="row" style="--bs-gutter-x: 0;">
+                                    <div class="col">
+                                        <img class="img-fluid"
+                                             src="{% static 'funnel/products/img/boost_coffee/XL/all-freebies.png' %}"
+                                             alt="freebies" style="margin-top:0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row d-none d-sm-block">
+                                <center>
+                                    <p>PROMO 3</p>
+                                    <p>₱1,649.00</p>
+                                    <p>FREE Electric Stirrer, Water Bottle and Watch</p>
+                                    <p>40 DAYS SUPPLY</p>
+                                    <div class="btn-group-toggle"
+                                         data-toggle="buttons"
+                                         data-price="1649"
+                                         data-quantity="7"
+                                         onclick="checkout(this, 'promo6-b')">
+                                        <label class="btn btn-secondary">
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                   id="flexCheckDefault3">SELECT
+                                        </label>
+                                    </div>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
             <div class="row">
                 <div id="parent">
                     <div id="one" onmouseover="transform('one')" onmouseout="againtransform('one')"></div>

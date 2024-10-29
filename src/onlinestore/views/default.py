@@ -112,9 +112,9 @@ class ProductFunnelView(View):
         product = kwargs.get('product', None)
 
         # Determine which URL pattern was used
-        if '1' in request.path:
+        if 'pf-vw' in request.path:
             section = 'vw'
-        elif '2' in request.path:
+        elif 'pf-ds' in request.path:
             section = 'ds'
         else:
             raise Http404("Invalid URL pattern")

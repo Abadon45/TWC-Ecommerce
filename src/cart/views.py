@@ -260,9 +260,11 @@ class UpdateCartView(View):
 
 
 class CheckoutView(View):
+    title = "Checkout"
     template_name = 'cart/shop-checkout.html'
 
     def get_context_data(self, **kwargs):
+        print(f'Orders: {self.get_orders()}')
         context = {
             'shipping_form': AddressForm(),
             'orders': self.get_orders(),
@@ -368,11 +370,24 @@ def submit_checkout(request):
     response_data = token.json()
     access_token = response_data.get('access')
 
+    redirect_url = None
+    checkout_source = request.GET.get('checkout_source', "")
+    is_promo = request.session.get('promo', False)
+
+    if checkout_source or is_promo:
+        print("Redirecting to Promo Checkout")
+        request.session['promo'] = True
+        redirect_url = 'cart:promo_checkout_done'
+    else:
+        print("Redirecting to Normal Checkout Complete")
+        redirect_url = 'cart:checkout_complete'
+
     # If the request method is POST, handle the form submission
     if request.method == 'GET':
         # Get the referrer's username from the POST data
 
         payment_method = request.GET.get('payment_method', 'Cash On Delivery')
+
 
         ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
         address_from_session = request.session.get('shipping_address', {})
@@ -385,7 +400,6 @@ def submit_checkout(request):
 
         shipping_amount = float(SiteSetting.get_fixed_shipping_fee())
 
-        print(f'Email: {customer_email}')
 
         # Prepare ordered items list
         items = []
@@ -555,7 +569,8 @@ def submit_checkout(request):
                 total_discount=total_discount,
             )
 
-        return redirect('cart:checkout_complete')
+
+        return redirect(redirect_url)
 
     return redirect('cart:cart')
 
@@ -566,6 +581,7 @@ def submit_checkout(request):
 
 
 class PromoCheckoutView(CheckoutView):
+    title = "Promo Checkout"
     template_name = 'cart/bundle-checkout.html'
 
 
@@ -574,51 +590,57 @@ class PromoCheckoutView(CheckoutView):
 #########################################################
 
 
-class CheckoutDoneView(TemplateView):
-    template_name = 'cart/shop-checkout-complete.html'
+class CheckoutDoneView(View):
     title = "Checkout Done"
+    template_name = 'cart/shop-checkout-complete.html'
 
     def get(self, request, *args, **kwargs):
         # Check if 'order_complete' exists in the session
-        order_complete = self.request.session.get('order_complete', False)
+        order_complete = request.session.get('order_complete', False)
+        if request.session.get('is_promo_checkout', False):
+            return redirect('cart:promo_checkout_done')
 
         # Redirect to home if the order is not complete
         if not order_complete:
             return redirect("home_view")
 
-        # Otherwise, proceed with rendering the template
-        return super().get(request, *args, **kwargs)
+        # Prepare the context data for rendering
+        context = self.get_context_data()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        # Render the template with the context
+        return render(request, self.template_name, context)
+
+    def get_context_data(self):
+        context = {}
 
         total_payment = 0.0
         total_quantity = 0
         current_date = timezone.now().strftime('%b %d, %Y')
 
         # Retrieve ordered_items_by_shop and total_cart_subtotal from the session
-        if 'ordered_items_by_shop' in self.request.session:
-            ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
+        request = self.request
+        if 'ordered_items_by_shop' in request.session:
+            ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
             orders = ordered_items_by_shop.copy()
 
-            self.request.session.pop('cart', None)
-            self.request.session.pop('ordered_items_by_shop', None)
+            request.session.pop('cart', None)
+            request.session.pop('ordered_items_by_shop', None)
 
-            self.request.session['orders'] = orders
+            request.session['orders'] = orders
         else:
-            orders = self.request.session.get('orders', [])
+            orders = request.session.get('orders', [])
 
-        checkout_details = self.request.session.get('updated_orders', {})
-        address_from_session = self.request.session.get('shipping_address', {})
-        sponsor_mobile = self.request.session.get('sponsor_mobile')
-        payment_method = self.request.session.get('payment_method')
+        checkout_details = request.session.get('updated_orders', {})
+        address_from_session = request.session.get('shipping_address', {})
+        sponsor_mobile = request.session.get('sponsor_mobile')
+        payment_method = request.session.get('payment_method')
         print(f'Selected Payment Method: {payment_method}')
 
         region_name = address_from_session.get('region', 'Unknown')
         region_detected = detect_region(region_name)
 
         print(f'region_detected: {region_detected}')
-        print(f'Referrer saved: {self.request.session.get("referrer")}')
+        print(f'Referrer saved: {request.session.get("referrer")}')
         print(f'Orders: {orders}')
         print(f'Address: {address_from_session}')
 
@@ -627,10 +649,9 @@ class CheckoutDoneView(TemplateView):
             total_quantity = sum(item['quantity'] for item in items)
             orders[shop]['total_quantity'] = total_quantity
 
-
         total_cod_amount = sum(Decimal(shop['cod_amount']) for shop in orders.values())
         # Update the context with data retrieved from the session
-        cart_total = self.request.session['cart_total']
+        cart_total = request.session.get('cart_total', 0)  # Add a default value if needed
         context.update({
             'title': self.title,
             'sponsor_mobile': sponsor_mobile,
@@ -639,13 +660,20 @@ class CheckoutDoneView(TemplateView):
             'address': address_from_session,
             'total_payment': total_payment,
             'current_date': current_date,
-            'sponsor': self.request.session.get('referrer', 'No referrer set'),
+            'sponsor': request.session.get('referrer', 'No referrer set'),
             'total_cod_amount': total_cod_amount,
             'detect_region': region_detected,
             'payment_method': payment_method,
+            'cart_total': cart_total,
         })
 
         return context
+
+
+class PromoCheckoutDoneView(CheckoutDoneView):
+    title = "Thank You"
+    template_name = 'cart/bundle-thank-you.html'
+    print(template_name)
 
 
 def set_order_id_session_variable(request):

@@ -603,7 +603,7 @@ label.btn.btn-secondary {
 }
 
 #rowthirteen div.zoom3 div.row img {
-    margin-top: 3rem;
+    margin-top: 1.5rem;
 }
 
 #rowthirteen div.zoom3 div.row img.freebie {
@@ -618,6 +618,19 @@ label.btn.btn-secondary {
     margin-bottom: 15px;
 
 }
+
+#rowthirteen {
+    .virtual-environment {
+        div.zoom1 div.row img {
+            margin-top: 4rem;
+        }
+
+        div.zoom3 div.row img {
+            margin-top: 2rem;
+        }
+    }
+}
+
 
 .btn-secondary {
     width: 21rem;
@@ -1278,7 +1291,7 @@ footer p {
     }
 
     .best-seller-block {
-        position: relative!important;
+        position: relative !important;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -1954,7 +1967,7 @@ footer p {
     }
 
     #rowthirteen div.zoom3 div.row img {
-        margin-top: 7rem;
+        margin-top: 6rem;
     }
 
     #rowthirteen div.col center p:nth-child(1) {
@@ -2054,6 +2067,14 @@ footer p {
     .padding-0 {
         padding-right: 0;
         padding-left: 0;
+    }
+
+    #rowthirteen {
+        .virtual-environment {
+            div.zoom3 div.row img {
+                margin-top: 4rem;
+            }
+        }
     }
 
     #rowthirteen div.zoom2 label.btn.btn-secondary {
@@ -2199,6 +2220,14 @@ footer p {
     .zoom1, .zoom2, .zoom3 {
         width: 16rem;
         padding: 25px;
+    }
+
+    #rowthirteen {
+        .virtual-environment {
+            div.zoom1 div.row img {
+                margin-top: 3rem;
+            }
+        }
     }
 
     #rowthirteen div.col center p:nth-child(1) {

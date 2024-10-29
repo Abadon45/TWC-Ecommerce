@@ -14,6 +14,7 @@ urlpatterns = [
     path('get-checkout-address-details/', get_checkout_address_details, name='get_checkout_address_details'),
     path('submit-checkout/', submit_checkout, name='submit_checkout'),
     path('checkout/complete/', CheckoutDoneView.as_view(), name='checkout_complete'),
+    path('promo-checkout/thank-you', PromoCheckoutDoneView.as_view(), name='promo_checkout_done'),
     path('checkout/orderid-session/', set_order_id_session_variable, name='set_order_id_session_variable'),
 ]
 

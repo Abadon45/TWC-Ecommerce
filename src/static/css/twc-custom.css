@@ -471,14 +471,14 @@ input, textarea {
         }
 
         .theme-btn {
-            background-color: #3D8382 !important;
+            background-color: #3D835F !important;
             width: 100%;
             font-size: x-large;
         }
 
         .theme-btn:hover {
-            color: #3D8382 !important;
-            outline: 2px solid #3D8382;
+            color: #3D835F !important;
+            outline: 2px solid #3D835F;
         }
     }
 }
