@@ -1276,6 +1276,10 @@ input, textarea {
             border-radius: 5px;
         }
 
+        .payment-icon {
+            width: 50px;
+        }
+
         td:first-child {
             width: 200px; /* Set your desired width */
         }
@@ -1311,7 +1315,7 @@ input, textarea {
         float: right;
     }
 
-    .checkout-btn {
+    .checkout-btn, .next-step-btn {
         width: 100%;
         font-weight: 500;
         font-size: 20px;
@@ -1353,6 +1357,7 @@ input, textarea {
     .shop-cart-summary {
         padding: 0;
         border: unset;
+        background: var(--color-white);
     }
 
     .index-card {

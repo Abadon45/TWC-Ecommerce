@@ -1,5 +1,6 @@
 from django.db.models import Avg
 from django.shortcuts import render
+from django.template.defaultfilters import title
 from django.views.generic import TemplateView, View
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse, Http404
@@ -21,7 +22,6 @@ class ShopView(TemplateView):
     context_object_name = 'products'
     paginate_by = 9
     _product_choices = None
-    title = "Shop"
 
     def get(self, request, username=None, *args, **kwargs):
 
@@ -146,12 +146,18 @@ class ShopView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         sort_option = self.request.GET.get('sort', '1')
+        category_id = self.request.GET.get('category_id', 'all')
 
         # Fetch the products from the API using the get_queryset method
         products, category_product_count, _ = self.get_paginated_queryset()
         user_ratings = self.get_user_ratings(products)
 
-        category_id = self.request.GET.get('category_id', 'all')
+        # Determine the title based on the category
+        if category_id and category_id.lower() != 'all':
+            context['title'] = category_id.title()  # Use the category name as the title
+        else:
+            context['title'] = "Shop"  # Default to "Shop" if no specific category
+
 
 
         # Render the products to the 'shop/products_grid.html' template
@@ -159,7 +165,8 @@ class ShopView(TemplateView):
 
         # Get products in cart (assuming 'ordered_items_by_shop' is a session variable containing the cart items)
         ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
-        products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in shop['items']]
+        products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
+                            shop['items']]
 
         context['products_grid_html'] = products_grid_html
         context['category_id'] = category_id
@@ -228,15 +235,16 @@ class ShopDetailView(View):
         # Get related products based on category
         related_products = self.get_related_products(product.get('slug'), product.get('category_1'))
 
-
         # Get products in cart (assuming 'ordered_items_by_shop' is a session variable containing the cart items)
         ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
-        products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in shop['items']]
+        products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
+                            shop['items']]
 
         context = {
             'product': product,
             'related_products': related_products,
             'products_in_cart': products_in_cart,
+            'title': product['name'],
         }
 
         return render(request, self.template_name, context)
@@ -343,5 +351,3 @@ class ShopDetailView(View):
 #     except Exception as e:
 #         print(f"Exception: {e}")
 #         return JsonResponse({'success': False, 'message': str(e)})
-
-

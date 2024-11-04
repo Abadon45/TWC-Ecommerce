@@ -1,6 +1,10 @@
 import requests
 from django.conf import settings
 from django.http import JsonResponse
+from django.shortcuts import redirect
+from django.urls import reverse
+
+from onlinestore.models import *
 
 
 def sf_calculator(region=None, qty=0):
@@ -97,6 +101,81 @@ def detect_region(region):
         return "unknown"
 
 
+def get_access_token():
+    """Fetches a fresh access token for API calls."""
+    token_data = {"refresh": settings.RESPONSE_TOKEN}
+    headers = {'Content-Type': 'application/json'}
+    response = requests.post('https://dashboard.twcako.com/order/api/token/refresh/', json=token_data, headers=headers)
+    response.raise_for_status()
+    return response.json().get('access')
+
+
+def submit_checkout_base(request, redirect_url):
+    access_token = get_access_token()
+    payment_method = request.GET.get('payment_method', 'Cash On Delivery')
+    ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
+    address_from_session = request.session.get('shipping_address', {})
+    customer_email = address_from_session.get('email')
+    customer_name = f"{address_from_session.get('first_name')} {address_from_session.get('last_name')}"
+    customer_phone = address_from_session.get('phone')
+    shipping_amount = float(SiteSetting.get_fixed_shipping_fee())
+
+    # Prepare the shipping details for the order
+    shipping_details = {
+        "first_name": address_from_session.get('first_name'),
+        "last_name": address_from_session.get('last_name'),
+        "mobile": customer_phone,
+        "address": address_from_session.get('line1'),
+        "barangay": address_from_session.get('barangay'),
+        "region": address_from_session.get('region'),
+        "city": address_from_session.get('city'),
+        "province": address_from_session.get('province'),
+        "country": 'Philippines',
+        "postal_code": address_from_session.get('postcode'),
+        "shipping_notes": address_from_session.get('message', "")
+    }
+
+    # If COD, create the order directly
+    if payment_method.lower() == 'cash on delivery':
+        unique_invoice_ids = create_order(
+            request,
+            referrer=request.session.get('referrer'),
+            shipping_details=shipping_details,
+            payment_method=payment_method,
+            items=request.session.get('ordered_items', []),
+            discount_price=request.session.get('total_discount', 0),
+            access_token=access_token
+        )
+        if unique_invoice_ids:
+            return redirect(redirect_url)
+        return redirect('cart:cart')  # On failure
+
+    # If Xendit, prepare for invoice creation
+    elif payment_method.lower() == 'xendit':
+        customer = create_or_get_xendit_customer(customer_name, customer_email, customer_phone)
+        success_redirect_url = request.build_absolute_uri(reverse('cart:checkout_complete'))
+        failure_redirect_url = request.build_absolute_uri(reverse('cart:cart'))
+
+        return create_xendit_invoice(
+            customer_name=customer_name,
+            customer_email=customer_email,
+            customer_phone=customer_phone,
+            items=[
+                {"name": item['product']['name'], "quantity": item['quantity'],
+                 "price": float(item['product']['price'])}
+                for shop, shop_data in ordered_items_by_shop.items() for item in shop_data['items']
+            ],
+            shipping_amount=shipping_amount,
+            unique_invoice_id=[],
+            success_redirect_url=success_redirect_url,
+            failure_redirect_url=failure_redirect_url,
+            shop_count=len(ordered_items_by_shop),
+            total_discount=request.session.get('total_discount', 0)
+        )
+
+    return redirect('cart:cart')
+
+
 def create_xendit_invoice(
         customer_name, customer_email, customer_phone,
         items, shipping_amount, unique_invoice_id,
@@ -124,13 +203,6 @@ def create_xendit_invoice(
         for item in items
     ]
 
-    # if total_discount:
-    #     invoice_items.append({
-    #         "name": "Total Discount",  # For all shops
-    #         "quantity": 1,  # Number of shops in the order
-    #         "price": total_discount,  # Fixed shipping fee per shop
-    #         "description": "Discount for your order."
-    #     })
 
     invoice_items.append({
         "name": "Shipping Cost",  # For all shops
@@ -255,3 +327,95 @@ def create_or_get_xendit_customer(customer_name, customer_email, customer_phone)
         return None
 
 
+def create_order(request, referrer, shipping_details, payment_method, items, discount_price, access_token):
+    """
+    Creates an order by sending a request to the TWC Ako API.
+    """
+    order_url = 'https://dashboard.twcako.com/order/api/create-order/'
+    ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
+    unique_invoice_ids = []
+
+    for shop, shop_data in ordered_items_by_shop.items():
+        shop_total_barley_point = sum(
+            item['product'].get('barley_point', 0) * item['quantity']
+            for item in shop_data['items']
+        )
+
+        cart_items = [
+            {'sku': item['product']['id'], 'qty': item['quantity']}
+            for item in shop_data['items']
+        ]
+
+        order_data = {
+            "username": referrer,
+            "shipping_details": shipping_details,
+            "order_details": {
+                "cod_amount": shop_data['cod_amount'],
+                "discount_price": discount_price,
+                "payment_method": payment_method,
+            },
+            "cart_items": cart_items,
+            "barley_point": shop_total_barley_point,
+        }
+
+        headers = {
+            'Authorization': f'Bearer {access_token}',
+            'Content-Type': 'application/json'
+        }
+
+        response = requests.post(order_url, json=order_data, headers=headers)
+
+        if response.status_code == 201:
+            order_response = response.json()
+            order_number = order_response.get('order_number')
+            unique_invoice_ids.append(order_number)
+            ordered_items_by_shop[shop]['order_number'] = order_number
+        else:
+            print(f"Error creating order: {response.status_code} {response.text}")
+            return None  # or handle error as needed
+
+    request.session['ordered_items_by_shop'] = ordered_items_by_shop
+    return unique_invoice_ids  # Return the list of unique invoice IDs
+
+
+def payment_success(request):
+    # Retrieve payment method
+    payment_method = request.session.get('payment_method', 'cod')
+
+    # Gather order details from session or other sources as needed
+    referrer = request.session.get('referrer')
+    shipping_details = request.session.get('shipping_address', {})
+    items = request.session.get('ordered_items', [])
+    discount_price = request.session.get('total_discount', 0)
+    access_token = request.session.get('access_token', '')
+
+    # For Xendit payment, validate the success status from Xendit response
+    if payment_method == 'xendit':
+        # Assuming this function is accessed only after Xendit payment success
+        unique_invoice_ids = create_order(
+            request,
+            referrer=referrer,
+            shipping_details=shipping_details,
+            payment_method=payment_method,
+            items=items,
+            discount_price=discount_price,
+            access_token=access_token
+        )
+
+    elif payment_method == 'cod':
+        # Directly create order without Xendit processing
+        unique_invoice_ids = create_order(
+            request,
+            referrer=referrer,
+            shipping_details=shipping_details,
+            payment_method=payment_method,
+            items=items,
+            discount_price=discount_price,
+            access_token=access_token
+        )
+
+    # Check if order creation was successful
+    if unique_invoice_ids:
+        return JsonResponse({'status': 'success', 'order_numbers': unique_invoice_ids})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Order creation failed'}, status=500)

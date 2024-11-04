@@ -1,3 +1,4 @@
+from django.template.defaultfilters import title
 from django.urls import reverse
 from django.utils import timezone
 from django.conf import settings
@@ -260,7 +261,6 @@ class UpdateCartView(View):
 
 
 class CheckoutView(View):
-    title = "Checkout"
     template_name = 'cart/shop-checkout.html'
 
     def get_context_data(self, **kwargs):
@@ -270,6 +270,7 @@ class CheckoutView(View):
             'orders': self.get_orders(),
             'cart_total': self.request.session.get('cart_total', 0),
             'referred_by': self.request.session.get('referrer'),
+            'title': "Checkout",
         }
         return context
 
@@ -359,220 +360,16 @@ class CheckoutView(View):
 # Set Order to Complete #
 #########################
 
+
 def submit_checkout(request):
-    request_token_url = 'https://dashboard.twcako.com/order/api/token/refresh/'
-    order_url = 'https://dashboard.twcako.com/order/api/create-order/'
-    refresh_token = settings.RESPONSE_TOKEN
-    token_data = {"refresh": refresh_token}
-    headers = {'Content-Type': 'application/json'}
+    redirect_url = 'cart:checkout_complete'  # Normal checkout URL
+    return submit_checkout_base(request, redirect_url)
 
-    token = requests.post(request_token_url, json=token_data, headers=headers)
-    response_data = token.json()
-    access_token = response_data.get('access')
+def submit_promo_checkout(request):
+    redirect_url = 'cart:promo_checkout_done'  # Promo checkout URL
+    request.session['promo'] = True  # Set promo session flag
+    return submit_checkout_base(request, redirect_url)
 
-    redirect_url = None
-    checkout_source = request.GET.get('checkout_source', "")
-    is_promo = request.session.get('promo', False)
-
-    if checkout_source or is_promo:
-        print("Redirecting to Promo Checkout")
-        request.session['promo'] = True
-        redirect_url = 'cart:promo_checkout_done'
-    else:
-        print("Redirecting to Normal Checkout Complete")
-        redirect_url = 'cart:checkout_complete'
-
-    # If the request method is POST, handle the form submission
-    if request.method == 'GET':
-        # Get the referrer's username from the POST data
-
-        payment_method = request.GET.get('payment_method', 'Cash On Delivery')
-
-
-        ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
-        address_from_session = request.session.get('shipping_address', {})
-
-        customer_email = address_from_session.get('email')
-        first_name = address_from_session.get('first_name')
-        last_name = address_from_session.get('last_name')
-        customer_name = f"{address_from_session.get('first_name')} {address_from_session.get('last_name')}"
-        customer_phone = address_from_session.get('phone')
-
-        shipping_amount = float(SiteSetting.get_fixed_shipping_fee())
-
-
-        # Prepare ordered items list
-        items = []
-        shop_count = 0
-        total_barley_point = 0
-
-        for shop, shop_data in ordered_items_by_shop.items():
-            shop_count += 1
-            for item in shop_data['items']:
-                items.append({
-                    "name": item['product']['name'],
-                    "quantity": item['quantity'],
-                    "price": float(item['product']['price']),
-                })
-
-        # Generate unique invoice ID
-        unique_invoice_id = []
-
-
-        referrer_username = request.GET.get('username')
-
-        if referrer_username:
-            # API URL to check if the referrer username exists in the system
-            api_url = f'https://dashboard.twcako.com/account/api/check-username/{referrer_username}/'
-
-            try:
-                if referrer_username != 'admin':
-                    # Make an API request to validate the referrer username
-                    response = requests.get(api_url)
-                    response.raise_for_status()  # Raise an error for bad HTTP status codes
-                    data = response.json()
-
-                    # Ensure the API response is a valid JSON object
-                    if not isinstance(data, dict):
-                        raise ValueError("API response is not a valid JSON object")
-
-                    # Check if the API response indicates success
-                    is_success = data.get('success')
-                    messenger_link = data.get('messenger_link')
-                    sponsor_mobile = data.get('mobile')
-                    order_complete = True
-                    request.session['order_complete'] = order_complete
-                    request.session['referrer'] = referrer_username
-                    request.session['messenger_link'] = messenger_link
-                    request.session['sponsor_mobile'] = sponsor_mobile
-                    request.session.modified = True
-
-                    # If the username doesn't exist, return an error response
-                    if not is_success:
-                        return JsonResponse({'success': False, 'error': 'Referrer username does not exist'}, status=400)
-
-            except requests.RequestException as e:
-                # Handle request exceptions (e.g., network issues, server errors)
-                print(f"Request failed: {e}")
-                return JsonResponse({'success': False, 'error': 'Failed to check referrer username'}, status=500)
-            except ValueError as e:
-                # Handle JSON parsing errors
-                print(f"Error parsing response: {e}")
-                return JsonResponse({'success': False, 'error': 'Invalid API response'}, status=500)
-
-        # if customer_email:
-        #     subject = 'TWC Online Store Order'
-        #     message = f'Good Day {customer_name},\n\n\nYou have successfully registered an account on TWConline.store!!\n\n\nHere are your temporary account details:\n\nUsername: {first_name}\nPassword: {last_name}\n\n\nThank you for your order!'
-        #     from_email = 'TWCAKO <support@twcako.com>'
-        #     recipient_list = [customer_email]
-        #
-        #     try:
-        #         send_mail(subject, message, from_email, recipient_list, fail_silently=False)
-        #         print("Email sent successfully!")
-        #     except Exception as e:
-        #         print(f"Error sending email: {e}")
-
-        shipping_details = {
-            "first_name": first_name,
-            "last_name": last_name,
-            "mobile": customer_phone,
-            "address": address_from_session.get('line1'),
-            "barangay": address_from_session.get('barangay'),
-            "region": address_from_session.get('region'),
-            "city": address_from_session.get('city'),
-            "province": address_from_session.get('province'),
-            "country": 'Philippines',
-            "postal_code": address_from_session.get('postcode'),
-            "shipping_notes": address_from_session.get('message', "")}
-
-        total_discount = 0
-
-        for shop, shop_data in ordered_items_by_shop.items():
-            cart_items = []
-            shop_total_barley_point = 0
-            discount_price = float(shop_data.get('discount', 0))
-            total_discount += discount_price
-
-            for item in shop_data['items']:
-                product_name = item['product']['name']
-                barley_point = item['product'].get('barley_point', 0)
-                quantity = item.get('quantity', 1)
-
-                # Debugging to check individual values
-                print(f"Product: {product_name}, Barley Point: {barley_point}, Quantity: {quantity}")
-
-                # Multiply the barley point by the quantity and add to total
-                shop_total_barley_point += barley_point * quantity
-                cart_items.append({
-                    'sku': item['product']['id'],
-                    'qty': item['quantity'],
-                })
-
-            cod_amount = ordered_items_by_shop[shop]['cod_amount']
-            discount_price = ordered_items_by_shop[shop].get('discount', 0)
-            print(f'Total Barley Point: {shop_total_barley_point} for shop: {shop}')
-
-            const_data = {
-                "username": request.session['referrer'],
-                "shipping_details": shipping_details,
-                "order_details": {
-                    "cod_amount": cod_amount,
-                    "discount_price": discount_price,
-                    "payment_method": "cod",
-                },
-                "cart_items": cart_items,
-                "barley_point": shop_total_barley_point,
-            }
-
-            print(f'const_data: {const_data}')
-
-            headers = {
-                'Authorization': f'Bearer {access_token}',
-                'Content-Type': 'application/json'
-            }
-
-            response = requests.post(order_url, json=const_data, headers=headers)
-
-            if response.status_code == 201:
-                print("Order created successfully:", response.json())
-                order_data = response.json()  # Get the order data from the response
-                order_number = order_data.get('order_number')
-
-                unique_invoice_id.append(order_number)
-                print(f"Order number set in session: {order_number}")
-
-                ordered_items_by_shop[shop]['order_number'] = order_number
-            else:
-                print("Error creating order:", response.status_code, response.text)
-                return redirect('cart:cart')
-
-
-        print(f'Total Discount: {total_discount}')
-        request.session['payment_method'] = payment_method
-        # Handle Xendit payment method
-        if payment_method == 'xendit':
-            #creates customer object in xendit if it does not exist, skips when customer already exist
-            customer = create_or_get_xendit_customer(customer_name, customer_email, customer_phone)
-
-            success_redirect_url = request.build_absolute_uri(reverse('cart:checkout_complete'))
-            failure_redirect_url = request.build_absolute_uri(reverse('cart:cart'))
-            return create_xendit_invoice(
-                customer_name=customer_name,
-                customer_email=customer_email,
-                customer_phone=customer_phone,
-                items=items,
-                shipping_amount=shipping_amount,
-                unique_invoice_id=unique_invoice_id,
-                success_redirect_url = success_redirect_url,
-                failure_redirect_url = failure_redirect_url,
-                shop_count=shop_count,
-                total_discount=total_discount,
-            )
-
-
-        return redirect(redirect_url)
-
-    return redirect('cart:cart')
 
 
 #########################
@@ -591,14 +388,13 @@ class PromoCheckoutView(CheckoutView):
 
 
 class CheckoutDoneView(View):
-    title = "Checkout Done"
+    title = "Thank You"
     template_name = 'cart/shop-checkout-complete.html'
 
     def get(self, request, *args, **kwargs):
         # Check if 'order_complete' exists in the session
         order_complete = request.session.get('order_complete', False)
-        if request.session.get('is_promo_checkout', False):
-            return redirect('cart:promo_checkout_done')
+        request.session['promo'] = False
 
         # Redirect to home if the order is not complete
         if not order_complete:

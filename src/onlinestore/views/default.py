@@ -77,7 +77,7 @@ class IndexView(TemplateView):
         }
 
         context = {
-            'title': "HOME",
+            'title': "Home",
             'username': guest_user_info.get('username'),
             'password': guest_user_info.get('password'),
             'email': guest_user_info.get('email'),
@@ -248,8 +248,6 @@ def create_order(request):
     except Exception as e:
         print(f"Exception in create_order: {e}")
         return JsonResponse({'error': 'Internal Server Error'}, status=500)
-
-
 
 
 
