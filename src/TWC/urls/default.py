@@ -3,14 +3,27 @@ from django.conf.urls import handler404
 from django.conf.urls.static import static
 from onlinestore.views import *
 from ..views import EmailFormView
-from django.conf import settings
-
 
 urlpatterns = [
     path('become-seller/', BecomeSellerView.as_view(), name="become_seller"),
     path('mail-success/', TemplateView.as_view(template_name='mail-success.html'), name="mail_success"),
     path('terms/', TemplateView.as_view(template_name='terms.html'), name="terms"),
-    path('privacy/', TemplateView.as_view(template_name='privacy.html'), name="privacy"),
+    path(
+        'return-policy/',
+        TemplateView.as_view(
+            template_name='return-policy.html',
+            extra_context={'title': 'TWC Store | Return Policy'}
+        ),
+        name="return_policy"
+    ),
+    path(
+        'terms-of-service/',
+        TemplateView.as_view(
+            template_name='terms-of-service.html',
+            extra_context={'title': 'TWC Store | Terms of Service'}
+        ),
+        name="terms_of_service"
+    ),
     path('test-email/', EmailFormView.as_view(), name="test_email"),
     path('login/', include('TWC.urls.login', namespace='login')),
     path('shop/', include('TWC.urls.shop', namespace='shop')),
@@ -19,9 +32,9 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('', IndexView.as_view(), name="home_view"),
     path('pf/', ProductFunnelView.as_view(), name='product_funnel'),
-    path('pf-vw/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_vw'),
-    path('pf-ds/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_ds'),
+    path('pf/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_with_params'),
     path('pf/create-order', create_order, name='create_order'),
+    path('create-invoice/', create_xendit_invoice, name='create_xendit_invoice'),
 
 ]
 
