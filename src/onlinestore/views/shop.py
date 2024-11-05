@@ -48,52 +48,50 @@ class ShopView(TemplateView):
         search_query = self.request.GET.get('q')
         sort_option = self.request.GET.get('sort', '1')
         queryset = []
-        full_product_list = []
         category_product_count = defaultdict(int)
 
-        api_url = 'https://dashboard.twcako.com/shop/api/get-product/'
+        domain = self.request.get_host()
+        base_api_url = 'https://dashboard.twcako.com/shop/api/get-product/?'
+        api_url = f"{base_api_url}domain=twcstoredevtest.com" if 'twcstoredevtest.com' in domain or 'devtest.store' in domain else base_api_url
 
+        # Full API request for category counting
         try:
-            # Make the API request
-            response = requests.get(api_url)
+            response_full = requests.get(api_url)
+            response_full.raise_for_status()
+            data_full = response_full.json()
+
+            if data_full.get("success"):
+                full_product_list = data_full.get("products", [])
+
+                # Count products in each category (exclude 'twc')
+                for product in full_product_list:
+                    category_1 = product.get('category_1')
+                    category_2 = product.get('category_2')
+                    if category_1 and category_1.lower() != 'twc':
+                        category_product_count[category_1] += 1
+                    if category_2 and category_2.lower() != 'twc':
+                        category_product_count[category_2] += 1
+
+        except requests.exceptions.RequestException as e:
+            return [], {}  # Return empty if there's an issue with the full product list
+
+        # Filtered API request for specific category_id
+        filtered_api_url = f"{api_url}&category_id={category_id}" if category_id and category_id.lower() != 'all' else api_url
+        try:
+            response = requests.get(filtered_api_url)
             response.raise_for_status()
             data = response.json()
 
             if data.get("success"):
-                full_product_list = data.get("products", [])
+                queryset = data.get("products", [])
 
-                # Count products in each category before filtering
-                for product in full_product_list:
-                    category_1 = product.get('category_1')
-                    category_2 = product.get('category_2')
-
-                    if category_1 and category_1.lower() != 'twc':  # Exclude 'twc' products
-                        category_product_count[category_1] += 1
-                    if category_2 and category_2.lower() != 'twc':  # Exclude 'twc' products
-                        category_product_count[category_2] += 1
-
-                # Start with the unfiltered list for further processing
-                queryset = full_product_list
-
-                queryset = [
-                    product for product in queryset
-                    if product.get('category_1', '').lower() != 'twc'
-                ]
-
-                # Filter by search query if provided
+                # Apply search filter if present
                 if search_query:
                     queryset = [
                         product for product in queryset
                         if search_query.lower() in product.get('name', '').lower()
                            or search_query.lower() in product.get('category_1', '').lower()
                            or search_query.lower() in product.get('category_2', '').lower()
-                    ]
-
-                # Filter by category if provided
-                if category_id and category_id.lower() != 'all':
-                    queryset = [
-                        product for product in queryset
-                        if product.get('category_1') == category_id or product.get('category_2') == category_id
                     ]
 
                 # Sorting logic
@@ -104,25 +102,17 @@ class ShopView(TemplateView):
                 elif sort_option == '4':  # Price - High To Low
                     queryset = sorted(queryset, key=lambda p: p.get('customer_price', 0), reverse=True)
 
-                # Apply offset and limit for lazy loading
-                print(f'Products: {queryset}')
-
-                # Count products in each category
+                # Aggregate ratings
                 for product in queryset:
-                    # Fetch all ratings for this product from the Rating model
                     product_slug = product.get('slug')
                     ratings = Rating.objects.filter(product_slug=product_slug)
-                    if ratings.exists():
-                        aggregate_rating = ratings.aggregate(Avg('score'))['score__avg']
-                        product['aggregate_rating'] = round(aggregate_rating, 1)
-                    else:
-                        product['aggregate_rating'] = 3
+                    aggregate_rating = ratings.aggregate(Avg('score'))['score__avg'] if ratings.exists() else 3
+                    product['aggregate_rating'] = round(aggregate_rating, 1)
 
             return queryset, dict(category_product_count)
 
-        except requests.exceptions.RequestException as e:
-            # Handle API request errors by returning empty queryset and product count
-            return [], {}
+        except requests.exceptions.RequestException:
+            return [], {}  # Handle API request errors by returning empty queryset and product count
 
     def get_paginated_queryset(self):
         """
@@ -157,8 +147,6 @@ class ShopView(TemplateView):
             context['title'] = category_id.title()  # Use the category name as the title
         else:
             context['title'] = "Shop"  # Default to "Shop" if no specific category
-
-
 
         # Render the products to the 'shop/products_grid.html' template
         products_grid_html = render_to_string('shop/products_grid.html', {'products': products}, request=self.request)

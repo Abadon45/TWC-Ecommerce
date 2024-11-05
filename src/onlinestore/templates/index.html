@@ -77,7 +77,7 @@
                 </div>
                 <div class="card-body product-body carousel-body bg-light-blue">
                     <div class="product-slider owl-carousel owl-theme product-column">
-                        {% for product in products %}
+                        {% for product in is_trending %}
                             <div class="product-item bg-light-blue">
                                 <div class="product-img">
                                     <a href="{% url 'shop:single' slug=product.slug %}">
@@ -155,7 +155,7 @@
                 </div>
                 <div class="card-body product-body">
                     <div class="row">
-                        {% for product in random_products %}
+                        {% for product in is_popular %}
                             <div class="col-md-3 col-6 product-column">
                                 <div class="product-item">
                                     <div class="product-img">
@@ -257,7 +257,7 @@
                 </div>
                 <div class="card-body product-body carousel-body">
                     <div class="product-slider owl-carousel owl-theme product-column">
-                        {% for product in products %}
+                        {% for product in new_arrival %}
                             <div class="product-item">
                                 <div class="product-img">
                                     <a href="{% url 'shop:single' slug=product.slug %}">

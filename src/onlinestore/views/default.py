@@ -23,16 +23,33 @@ class IndexView(TemplateView):
 
     def get(self, request, *args, **kwargs):
 
-        api_url = 'https://dashboard.twcako.com/shop/api/get-product/'
+        base_api_url = 'https://dashboard.twcako.com/shop/api/get-product/'
 
+        endpoints = {
+            'is_trending': f"{base_api_url}?is_trending=true",
+            'is_popular': f"{base_api_url}?is_popular=true",
+            'new_arrival': f"{base_api_url}?new_arrival=true",
+        }
+
+        # Fetch each filtered list from the API
+        products_data = {}
+        for key, url in endpoints.items():
+            try:
+                response = requests.get(url)
+                response.raise_for_status()
+                data = response.json()
+                products_data[key] = data.get("products", []) if data.get("success") else []
+            except requests.exceptions.RequestException as e:
+                products_data[key] = []  # Fallback to empty list in case of API error
+
+        # Fetch the main products list (e.g., without "twc" in `category_1`)
         try:
-            # Make the API request
-            response = requests.get(api_url)
+            response = requests.get(base_api_url)
             response.raise_for_status()
             data = response.json()
             products = data.get("products", []) if data.get("success") else []
+            products = [product for product in products if product.get('category_1') != 'twc']
         except requests.exceptions.RequestException as e:
-            # Handle API request errors
             return JsonResponse({'error': str(e)})
 
         # Exclude products with category_1 = 'twc'
@@ -48,11 +65,6 @@ class IndexView(TemplateView):
 
         # Convert products list to a list if it's a queryset or similar iterable
         products_list = list(products)
-
-        random_products = random.sample(products_list, min(len(products_list), 4)) if products_list else []
-        rand_on_sale_products = random.sample(products_list, min(len(products_list), 3)) if products_list else []
-        rand_best_seller_products = random.sample(products_list, min(len(products_list), 3)) if products_list else []
-        rand_top_rated_products = random.sample(products_list, min(len(products_list), 3)) if products_list else []
 
         subcategories_choices = [
             ('sante-nutraceutical', 'Health & Wellness'),
@@ -84,10 +96,9 @@ class IndexView(TemplateView):
             'new_guest_user': new_guest_user,
             'has_existing_order': request.session.get('has_existing_order', False),
             'products': products,
-            'random_products': random_products,
-            'rand_on_sale_products': rand_on_sale_products,
-            'rand_best_seller_products': rand_best_seller_products,
-            'rand_top_rated_products': rand_top_rated_products,
+            'is_trending': products_data['is_trending'],
+            'is_popular': products_data['is_popular'],
+            'new_arrival': products_data['new_arrival'],
             'categories': subcategory_counts_display,
             'is_authenticated': request.user.is_authenticated,
             'products_in_cart': products_in_cart,

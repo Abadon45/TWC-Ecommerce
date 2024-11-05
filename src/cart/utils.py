@@ -448,7 +448,6 @@ def create_order(request):
         const_data = {
             "username": request.session['referrer'],
             "shipping_details": shipping_details,
-            "category": shop,
             "order_details": {
                 "cod_amount": cod_amount,
                 "discount_price": discount_price,
