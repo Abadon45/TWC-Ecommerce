@@ -31,7 +31,7 @@ RESPONSE_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmc
 
 #XENDIT KEYS
 
-XENDIT_API_KEY = '_jNlPQ7EWOktl9TwOO5E7MhsBmy3Ja2LqFYqUbQoIimep8Cvn1OpW80MrJZwml'
+XENDIT_API_KEY = '_DojwSSls9roavWB4cZSMB5S1I8ZdgTdAddc2TNLwA0eyIoZLKyyzahEp20tkDXg3'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!

@@ -307,7 +307,6 @@
                 event.preventDefault();
 
                 var paymentMethod;
-                var checkoutSource = "promo";
                 if ($(window).width() < 768) { // Assuming mobile viewport is less than 768px
                     paymentMethod = $('input[name="paymentMethod"]:checked').val();
 
@@ -341,12 +340,12 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             // If confirmed, call checkoutBtn
-                            checkoutBtn(event, paymentMethod, checkoutSource);
+                            checkoutBtn(event, paymentMethod);
                         }
                     });
                 } else {
                     // If the payment method is not Xendit, proceed directly to checkout
-                    checkoutBtn(event, paymentMethod, checkoutSource);
+                    checkoutBtn(event, paymentMethod);
                 }
             });
 
@@ -360,7 +359,7 @@
 
         $('.dummy-submit button').click(submitForm);
 
-        function checkoutBtn(event, paymentMethod, checkoutSource) {
+        function checkoutBtn(event, paymentMethod) {
             event.preventDefault();
             var referrerId = $(event.currentTarget).data('referrer-id');
 
@@ -388,24 +387,23 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         var username = result.value;
-                        saveReferrerUsername(username, paymentMethod, checkoutSource);
+                        saveReferrerUsername(username, paymentMethod);
                     }
                 });
             } else {
                 var username = referrerId;
-                saveReferrerUsername(username, paymentMethod, checkoutSource);
+                saveReferrerUsername(username, paymentMethod);
             }
         }
 
-        function saveReferrerUsername(username, paymentMethod, checkoutSource) {
-            const url = `{% url "cart:submit_checkout" %}?username=${encodeURIComponent(username)}`;
+        function saveReferrerUsername(username, paymentMethod) {
+            const url = `{% url "cart:submit_promo_checkout" %}?username=${encodeURIComponent(username)}`;
             $.ajax({
                 url: url,
                 method: 'GET',
                 data: {
                     username: username,
                     payment_method: paymentMethod,
-                    checkout_source: checkoutSource,
                 },
                 success: function (response) {
                     if (response.redirect_url) {

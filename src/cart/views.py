@@ -37,7 +37,7 @@ class CartView(TemplateView):
         # Log the structure of each product's slug
         for shop, data in ordered_items_by_shop.items():
             cod_amount = data.get('cod_amount', 0)
-            cart_total += cod_amount
+            cart_total += int(cod_amount)
 
         self.request.session['cart_total'] = cart_total
         # Update the context with data retrieved from the session
@@ -287,8 +287,6 @@ class CheckoutView(View):
 
     def process_shipping_info(self, data):
 
-        payment_method = data.get('payment_method')
-
         shipping_address = {
             'first_name': data.get('first_name'),
             'last_name': data.get('last_name'),
@@ -330,6 +328,7 @@ class CheckoutView(View):
                 print("Unexpected order format:", order_data)
 
         self.request.session['updated_orders'] = updated_orders
+        self.request.session['checkout_completed'] = False
 
         # Return a JsonResponse if the request was made via AJAX
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -362,12 +361,26 @@ class CheckoutView(View):
 
 
 def submit_checkout(request):
-    redirect_url = 'cart:checkout_complete'  # Normal checkout URL
+    # Check if the checkout has already been completed
+    if request.session.get('checkout_completed', False):
+        redirect_url = reverse('cart:checkout_complete')
+        request.session['redirect_url'] = redirect_url
+        return redirect(reverse('cart:checkout_complete'))
+
+    redirect_url = reverse('cart:checkout_complete')
+    request.session['redirect_url'] = redirect_url
     return submit_checkout_base(request, redirect_url)
 
+
 def submit_promo_checkout(request):
-    redirect_url = 'cart:promo_checkout_done'  # Promo checkout URL
-    request.session['promo'] = True  # Set promo session flag
+    if request.session.get('checkout_completed', False):
+        redirect_url = reverse('cart:promo_checkout_done')
+        request.session['redirect_url'] = redirect_url
+        return redirect(reverse('cart:promo_checkout_done'))
+
+    redirect_url = reverse('cart:promo_checkout_done')
+    request.session['redirect_url'] = redirect_url
+    print(f'redirect_url: {redirect_url}')
     return submit_checkout_base(request, redirect_url)
 
 
@@ -415,6 +428,7 @@ class CheckoutDoneView(View):
 
         # Retrieve ordered_items_by_shop and total_cart_subtotal from the session
         request = self.request
+        request.session['checkout_completed'] = False
         if 'ordered_items_by_shop' in request.session:
             ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
             orders = ordered_items_by_shop.copy()

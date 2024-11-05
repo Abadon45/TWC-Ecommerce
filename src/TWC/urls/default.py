@@ -32,14 +32,12 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('', IndexView.as_view(), name="home_view"),
     path('pf/', ProductFunnelView.as_view(), name='product_funnel'),
-    path('pf/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_with_params'),
+    path('pf-vw/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_vw'),
+    path('pf-ds/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_ds'),
     path('pf/create-order', create_order, name='create_order'),
-    path('create-invoice/', create_xendit_invoice, name='create_xendit_invoice'),
 
 ]
 
 handler404 = Handle404View.as_view()
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+

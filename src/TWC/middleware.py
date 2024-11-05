@@ -56,10 +56,12 @@ class SubdomainMiddleware:
             data = api_response.json()
             is_success = data.get('success')
             messenger_link = data.get('messenger_link')
+            sponsor_mobile = data.get('sponsor_mobile')
 
             if is_success:
                 request.session['referrer'] = username
                 request.session['messenger_link'] = messenger_link
+                request.session['sponsor_mobile'] = sponsor_mobile
                 print(f"Referrer set: {username}, Messenger Link: {messenger_link}")
                 return None
             else:

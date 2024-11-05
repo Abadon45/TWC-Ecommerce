@@ -1,9 +1,12 @@
+import uuid
+
 import requests
 from django.conf import settings
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
 
+from onlinestore.context_processors import referrer
 from onlinestore.models import *
 
 
@@ -111,69 +114,110 @@ def get_access_token():
 
 
 def submit_checkout_base(request, redirect_url):
-    access_token = get_access_token()
+    referrer_username = request.GET.get('username')
     payment_method = request.GET.get('payment_method', 'Cash On Delivery')
     ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
     address_from_session = request.session.get('shipping_address', {})
+
     customer_email = address_from_session.get('email')
     customer_name = f"{address_from_session.get('first_name')} {address_from_session.get('last_name')}"
     customer_phone = address_from_session.get('phone')
+
     shipping_amount = float(SiteSetting.get_fixed_shipping_fee())
 
-    # Prepare the shipping details for the order
-    shipping_details = {
-        "first_name": address_from_session.get('first_name'),
-        "last_name": address_from_session.get('last_name'),
-        "mobile": customer_phone,
-        "address": address_from_session.get('line1'),
-        "barangay": address_from_session.get('barangay'),
-        "region": address_from_session.get('region'),
-        "city": address_from_session.get('city'),
-        "province": address_from_session.get('province'),
-        "country": 'Philippines',
-        "postal_code": address_from_session.get('postcode'),
-        "shipping_notes": address_from_session.get('message', "")
-    }
+    request.session['payment_method'] = payment_method
+    print(f'Payment Method: {payment_method}')
+
+    if 'referrer' not in request.session:
+        request.session['referrer'] = referrer_username
+
+    # Prepare ordered items list
+    items = []
+    total_discount = 0
+    shop_count = 0
+    temp_order_id = f"twc-{str(uuid.uuid4())[:8]}"
+
+
+    for shop, shop_data in ordered_items_by_shop.items():
+        shop_count += 1
+        discount_price = float(shop_data.get('discount', 0))
+        total_discount += discount_price
+        for item in shop_data['items']:
+            items.append({
+                "name": item['product']['name'],
+                "quantity": item['quantity'],
+                "price": float(item['product']['price']),
+            })
+
+    if referrer_username:
+        referrer_data = validate_referrer(referrer_username)
+
+        if not referrer_data['success']:
+            return JsonResponse(referrer_data, status=400)
+
+    # Prepare the redirect URL
+    redirect_to_create_order = reverse('cart:create_order')
 
     # If COD, create the order directly
-    if payment_method.lower() == 'cash on delivery':
-        unique_invoice_ids = create_order(
-            request,
-            referrer=request.session.get('referrer'),
-            shipping_details=shipping_details,
-            payment_method=payment_method,
-            items=request.session.get('ordered_items', []),
-            discount_price=request.session.get('total_discount', 0),
-            access_token=access_token
-        )
-        if unique_invoice_ids:
-            return redirect(redirect_url)
-        return redirect('cart:cart')  # On failure
+    if payment_method == 'Cash On Delivery':
+        request.session['checkout_completed'] = True
+        return HttpResponseRedirect(reverse('cart:create_order'))
 
     # If Xendit, prepare for invoice creation
     elif payment_method.lower() == 'xendit':
+        request.session['checkout_completed'] = True
         customer = create_or_get_xendit_customer(customer_name, customer_email, customer_phone)
-        success_redirect_url = request.build_absolute_uri(reverse('cart:checkout_complete'))
+        success_redirect_url = request.build_absolute_uri(redirect_to_create_order)
         failure_redirect_url = request.build_absolute_uri(reverse('cart:cart'))
 
         return create_xendit_invoice(
             customer_name=customer_name,
             customer_email=customer_email,
             customer_phone=customer_phone,
-            items=[
-                {"name": item['product']['name'], "quantity": item['quantity'],
-                 "price": float(item['product']['price'])}
-                for shop, shop_data in ordered_items_by_shop.items() for item in shop_data['items']
-            ],
+            items=items,
             shipping_amount=shipping_amount,
-            unique_invoice_id=[],
+            unique_invoice_id=temp_order_id,
             success_redirect_url=success_redirect_url,
             failure_redirect_url=failure_redirect_url,
             shop_count=len(ordered_items_by_shop),
-            total_discount=request.session.get('total_discount', 0)
+            total_discount=total_discount
         )
 
     return redirect('cart:cart')
+
+
+def validate_referrer(referrer_username):
+    if referrer_username == 'admin':
+        return {'success': True}  # Skip admin validation
+
+    # Define API URL
+    api_url = f'https://dashboard.twcako.com/account/api/check-username/{referrer_username}/'
+
+    try:
+        response = requests.get(api_url)
+        response.raise_for_status()
+        data = response.json()
+
+        if not isinstance(data, dict):
+            raise ValueError("API response is not a valid JSON object")
+
+        # If validation fails, return a failure response
+        if not data.get('success'):
+            return {'success': False, 'error': 'Referrer username does not exist'}
+
+        # Otherwise, return referrer details for session handling
+        return {
+            'success': True,
+            'messenger_link': data.get('messenger_link'),
+            'sponsor_mobile': data.get('mobile')
+        }
+
+    except requests.RequestException as e:
+        print(f"Request failed: {e}")
+        return {'success': False, 'error': 'Failed to check referrer username'}
+    except ValueError as e:
+        print(f"Error parsing response: {e}")
+        return {'success': False, 'error': 'Invalid API response'}
 
 
 def create_xendit_invoice(
@@ -214,7 +258,8 @@ def create_xendit_invoice(
     # Update the total amount to include shipping costs
     total_amount += shipping_amount * shop_count
 
-    unique_invoice_id_str = ", ".join(unique_invoice_id)
+    # unique_invoice_id_str = ", ".join(unique_invoice_id)
+    unique_invoice_id_str = unique_invoice_id
 
     # Invoice data that will be sent to Xendit API
     payload = {
@@ -327,30 +372,68 @@ def create_or_get_xendit_customer(customer_name, customer_email, customer_phone)
         return None
 
 
-def create_order(request, referrer, shipping_details, payment_method, items, discount_price, access_token):
+def create_order(request):
     """
     Creates an order by sending a request to the TWC Ako API.
     """
     order_url = 'https://dashboard.twcako.com/order/api/create-order/'
+    access_token = get_access_token()
     ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
-    unique_invoice_ids = []
+    address_from_session = request.session.get('shipping_address', {})
+    redirect_url = request.session.get('redirect_url', None)
 
+    payment_method = request.session.get('payment_method')
+
+
+    print(f'Redirect URL: {redirect_url}')
+    print(f'Ordered Items by Shop: {ordered_items_by_shop}')
+    print(f'Shipping Address from Session: {address_from_session}')
+
+    # Prepare the shipping details for the order
+    shipping_details = {
+        "first_name": address_from_session.get('first_name'),
+        "last_name": address_from_session.get('last_name'),
+        "mobile": address_from_session.get('phone'),
+        "address": address_from_session.get('line1'),
+        "barangay": address_from_session.get('barangay'),
+        "region": address_from_session.get('region'),
+        "city": address_from_session.get('city'),
+        "province": address_from_session.get('province'),
+        "country": 'Philippines',
+        "postal_code": address_from_session.get('postcode'),
+        "shipping_notes": address_from_session.get('message', "")
+    }
+
+    # Order creation logic remains the same
     for shop, shop_data in ordered_items_by_shop.items():
-        shop_total_barley_point = sum(
-            item['product'].get('barley_point', 0) * item['quantity']
-            for item in shop_data['items']
-        )
+        cart_items = []
+        shop_total_barley_point = 0
 
-        cart_items = [
-            {'sku': item['product']['id'], 'qty': item['quantity']}
-            for item in shop_data['items']
-        ]
 
-        order_data = {
-            "username": referrer,
+        for item in shop_data['items']:
+            product_name = item['product']['name']
+            barley_point = item['product'].get('barley_point', 0)
+            quantity = item.get('quantity', 1)
+
+            # Debugging to check individual values
+            print(f"Product: {product_name}, Barley Point: {barley_point}, Quantity: {quantity}")
+
+            # Multiply the barley point by the quantity and add to total
+            shop_total_barley_point += barley_point * quantity
+            cart_items.append({
+                'sku': item['product']['id'],
+                'qty': item['quantity'],
+            })
+
+        cod_amount = ordered_items_by_shop[shop]['cod_amount']
+        discount_price = ordered_items_by_shop[shop].get('discount', 0)
+        print(f'Total Barley Point: {shop_total_barley_point} for shop: {shop}')
+
+        const_data = {
+            "username": request.session['referrer'],
             "shipping_details": shipping_details,
             "order_details": {
-                "cod_amount": shop_data['cod_amount'],
+                "cod_amount": cod_amount,
                 "discount_price": discount_price,
                 "payment_method": payment_method,
             },
@@ -358,64 +441,42 @@ def create_order(request, referrer, shipping_details, payment_method, items, dis
             "barley_point": shop_total_barley_point,
         }
 
+        print(f'const_data: {const_data}')
+
         headers = {
             'Authorization': f'Bearer {access_token}',
             'Content-Type': 'application/json'
         }
 
-        response = requests.post(order_url, json=order_data, headers=headers)
+        response = requests.post(order_url, json=const_data, headers=headers)
+
+        # Log the response status code and content
+        print(f'POST {order_url} - Status Code: {response.status_code}, Response: {response.text}')
 
         if response.status_code == 201:
-            order_response = response.json()
-            order_number = order_response.get('order_number')
-            unique_invoice_ids.append(order_number)
+            print("Order created successfully:", response.json())
+            order_data = response.json()  # Get the order data from the response
+            order_number = order_data.get('order_number')
+
+            print(f"Order number set in session: {order_number}")
+
             ordered_items_by_shop[shop]['order_number'] = order_number
         else:
-            print(f"Error creating order: {response.status_code} {response.text}")
-            return None  # or handle error as needed
+            print("Error creating order:", response.status_code, response.text)
+            return HttpResponseRedirect(reverse('cart:cart'))
 
+    if 'promo' in ordered_items_by_shop:
+        redirect_url = reverse('cart:promo_checkout_done')
+
+    # Save order details to session
     request.session['ordered_items_by_shop'] = ordered_items_by_shop
-    return unique_invoice_ids  # Return the list of unique invoice IDs
-
-
-def payment_success(request):
-    # Retrieve payment method
-    payment_method = request.session.get('payment_method', 'cod')
-
-    # Gather order details from session or other sources as needed
-    referrer = request.session.get('referrer')
-    shipping_details = request.session.get('shipping_address', {})
-    items = request.session.get('ordered_items', [])
-    discount_price = request.session.get('total_discount', 0)
-    access_token = request.session.get('access_token', '')
-
-    # For Xendit payment, validate the success status from Xendit response
-    if payment_method == 'xendit':
-        # Assuming this function is accessed only after Xendit payment success
-        unique_invoice_ids = create_order(
-            request,
-            referrer=referrer,
-            shipping_details=shipping_details,
-            payment_method=payment_method,
-            items=items,
-            discount_price=discount_price,
-            access_token=access_token
-        )
-
-    elif payment_method == 'cod':
-        # Directly create order without Xendit processing
-        unique_invoice_ids = create_order(
-            request,
-            referrer=referrer,
-            shipping_details=shipping_details,
-            payment_method=payment_method,
-            items=items,
-            discount_price=discount_price,
-            access_token=access_token
-        )
-
-    # Check if order creation was successful
-    if unique_invoice_ids:
-        return JsonResponse({'status': 'success', 'order_numbers': unique_invoice_ids})
+    request.session['order_complete'] = True
+    # Ensure redirect_url is properly used for redirection
+    print(f'Redirecting to: {redirect_url if redirect_url else "cart"}')
+    if redirect_url:
+        return HttpResponseRedirect(redirect_url)
     else:
-        return JsonResponse({'status': 'error', 'message': 'Order creation failed'}, status=500)
+        # Fallback redirect if redirect_url is not set
+        return HttpResponseRedirect(reverse('cart:cart'))
+
+
