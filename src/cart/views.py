@@ -474,6 +474,7 @@ class CheckoutDoneView(View):
             'total_cod_amount': total_cod_amount,
             'detect_region': region_detected,
             'payment_method': payment_method,
+            'invoice_number': request.session.get('invoice_number', ""),
             'cart_total': cart_total,
         })
 

@@ -1,12 +1,13 @@
-import uuid
-
+import random
+import string
 import requests
+
+from datetime import datetime
 from django.conf import settings
 from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
 
-from onlinestore.context_processors import referrer
 from onlinestore.models import *
 
 
@@ -104,6 +105,15 @@ def detect_region(region):
         return "unknown"
 
 
+def generate_invoice_number():
+    # Get the current date and time in the specified format
+    date_time_str = datetime.now().strftime("%y%m%d%H%M%S")
+    # Generate 3 random alphanumeric characters
+    random_chars = ''.join(random.choices(string.ascii_uppercase + string.digits, k=3))
+    # Combine date, time, and random characters
+    invoice_number = f"{date_time_str}{random_chars}"
+    return invoice_number
+
 def get_access_token():
     """Fetches a fresh access token for API calls."""
     token_data = {"refresh": settings.RESPONSE_TOKEN}
@@ -135,7 +145,8 @@ def submit_checkout_base(request, redirect_url):
     items = []
     total_discount = 0
     shop_count = 0
-    temp_order_id = f"twc-{str(uuid.uuid4())[:8]}"
+    invoice_number = generate_invoice_number()
+    request.session['invoice_number'] = invoice_number
 
 
     for shop, shop_data in ordered_items_by_shop.items():
@@ -176,7 +187,7 @@ def submit_checkout_base(request, redirect_url):
             customer_phone=customer_phone,
             items=items,
             shipping_amount=shipping_amount,
-            unique_invoice_id=temp_order_id,
+            unique_invoice_id=invoice_number,
             success_redirect_url=success_redirect_url,
             failure_redirect_url=failure_redirect_url,
             shop_count=len(ordered_items_by_shop),
@@ -383,6 +394,8 @@ def create_order(request):
     redirect_url = request.session.get('redirect_url', None)
 
     payment_method = request.session.get('payment_method')
+    if payment_method == 'Cash On Delivery':
+        payment_method = 'cod'
 
 
     print(f'Redirect URL: {redirect_url}')
@@ -427,11 +440,15 @@ def create_order(request):
 
         cod_amount = ordered_items_by_shop[shop]['cod_amount']
         discount_price = ordered_items_by_shop[shop].get('discount', 0)
+        invoice_number = request.session.get('invoice_number', "")
+        print(f'Shop in create order: {shop}')
         print(f'Total Barley Point: {shop_total_barley_point} for shop: {shop}')
+        print(f'Invoice Number in Create Order: {invoice_number}')
 
         const_data = {
             "username": request.session['referrer'],
             "shipping_details": shipping_details,
+            "category": shop,
             "order_details": {
                 "cod_amount": cod_amount,
                 "discount_price": discount_price,
@@ -439,6 +456,7 @@ def create_order(request):
             },
             "cart_items": cart_items,
             "barley_point": shop_total_barley_point,
+            "invoice_number": invoice_number,
         }
 
         print(f'const_data: {const_data}')
