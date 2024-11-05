@@ -460,7 +460,7 @@ input, textarea {
     }
 
     .shop-cart-summary {
-        background-color: unset;
+        background-color: #eeeeee!important;
 
         .index-card {
             .card-header {
