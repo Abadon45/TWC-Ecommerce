@@ -460,7 +460,7 @@ input, textarea {
     }
 
     .shop-cart-summary {
-        background-color: #eeeeee!important;
+        background-color: #eeeeee !important;
 
         .index-card {
             .card-header {
@@ -4916,6 +4916,7 @@ a.disabled:hover {
             line-height: 15px;
         }
 
+
         .col-sm-8.mb-20 {
             margin-bottom: 10px !important;
         }
@@ -4943,6 +4944,33 @@ a.disabled:hover {
             }
 
             .tab-content {
+                input {
+                    height: 15px !important;
+                    font-size: 15px;
+                }
+
+                .payment-form {
+                    hr {
+                        margin: 8px auto;
+                    }
+
+                    .form-check {
+                        display: flow;
+
+                        .form-check-label {
+                            display: flex;
+                            align-items: center;
+                            color: var(--color-dark);
+
+                            .payment-icon {
+                                height: 35px !important;
+                                margin: 0 5px 0 10px;
+                            }
+                        }
+                    }
+
+                }
+
                 .shop-checkout-form.cod {
                     padding: 20px 15px 10px;
 

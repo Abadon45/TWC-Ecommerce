@@ -72,55 +72,22 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="2"><h6>Payment Info</h6></td>
+                                                    <td colspan="2"></td>
                                                     <td>
                                                         <div class="tab-content" id="payment-tabContent">
                                                             <div class="tab-pane fade show active" id="xendit"
                                                                  role="tabpanel"
                                                                  aria-labelledby="xendit-tab" tabindex="0">
                                                                 <!-- Xendit Payment Information -->
-                                                                <div class="shop-checkout-form cod">
-                                                                    <form class="payment-form" action="#"
-                                                                          method="get">
-                                                                        <div class="row">
-                                                                            <div class="col-lg-12">
-                                                                                <div class="form-check">
-                                                                                    <label class="form-check-label"
-                                                                                           for="cod">
-                                                                                        Xendit
-                                                                                        <span>
-                                                                                        Pay using E-Wallet,
-                                                                                        Online Banking and
-                                                                                        other payment methods.
-                                                                                    </span>
-                                                                                    </label>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
+                                                                <small>**Pay using E-Wallet, Online Banking and other
+                                                                    payment methods.</small>
                                                             </div>
                                                             <div class="tab-pane fade" id="cod" role="tabpanel"
                                                                  aria-labelledby="cod-tab" tabindex="0">
                                                                 <!-- COD Payment Information -->
-                                                                <div class="shop-checkout-form cod">
-                                                                    <form class="payment-form" action="#"
-                                                                          method="get">
-                                                                        <div class="row">
-                                                                            <div class="col-lg-12">
-                                                                                <div class="form-check">
-                                                                                    <label class="form-check-label"
-                                                                                           for="cod">
-                                                                                        Cash On Delivery
-                                                                                        <span>Please read our <a
-                                                                                                href="{% url 'terms' %}">Terms And
-                                                                            Conditions</a> for cash on delivery.</span>
-                                                                                    </label>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
+                                                                <small>**Please read our <a href="{% url 'terms' %}">Terms
+                                                                    And
+                                                                    Conditions</a> for cash on delivery.</small>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -140,7 +107,6 @@
                                                                 <img src="{% static 'img/icon/payment/xendit.svg' %}"
                                                                      alt="Xendit Payment" class="payment-icon">
                                                                 Pay With Xendit (E-Wallet, Online Banking, etc.)
-                                                                {# <span>Pay using E-Wallet, Online Banking, and other payment methods.</span> #}
                                                             </label>
                                                         </div>
                                                         <hr>
@@ -149,12 +115,13 @@
                                                                    name="paymentMethod" id="cod" value="cod">
                                                             <label class="form-check-label" for="cod">
                                                                 <img src="{% static 'img/icon/payment/cod.svg' %}"
-                                                                     alt="Cod Payment" class="payment-icon">
+                                                                     alt="Cash on Delivery Payment"
+                                                                     class="payment-icon">
                                                                 Cash On Delivery
-                                                                {#                                                                <span>Please read our <a href="{% url 'terms' %}">Terms And Conditions</a> for cash on delivery.</span>#}
                                                             </label>
                                                         </div>
                                                     </form>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -330,7 +297,10 @@
                     checkoutBtn(event, paymentMethod);
                 }
             });
-
+            $('.form-check-label').on('click', function () {
+                const radioButtonId = $(this).attr('for');
+                $('#' + radioButtonId).prop('checked', true); // Set the radio button as checked
+            });
         });
     </script>
     <script>
