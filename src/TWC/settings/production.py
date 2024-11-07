@@ -4,6 +4,10 @@ from .base import *
 
 DEBUG = False
 
+#XENDIT KEYS
+
+XENDIT_API_KEY = '_NozeJCKUkaS5twMtIEsgJR3DlRRJEyOtCfv5HDmHr9SQSKEVXnPxeZcsmJVx1ef'
+
 # Default settings
 PARENT_HOST = 'twconline.store'
 SITE_DOMAIN = 'twconline.store'
