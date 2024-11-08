@@ -6,7 +6,7 @@ DEBUG = False
 
 #XENDIT KEYS
 
-XENDIT_API_KEY = '_NozeJCKUkaS5twMtIEsgJR3DlRRJEyOtCfv5HDmHr9SQSKEVXnPxeZcsmJVx1ef'
+XENDIT_API_KEY = '_gyFfI1cqWWOTpXRWcfg1RMPC3UkCTAfAVsqSDl6fjFuZqs6mFaPZw9yzqO7B5'
 
 # Default settings
 PARENT_HOST = 'twconline.store'

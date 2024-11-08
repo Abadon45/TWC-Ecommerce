@@ -298,7 +298,7 @@ def create_xendit_invoice(
     if root_domain == 'twconline.store':
         api_key = settings.XENDIT_API_KEY
     else:
-        api_key = 'xnd_development_DojwSSls9roavWB4cZSMB5S1I8ZdgTdAddc2TNLwA0eyIoZLKyyzahEp20tkDXg3'
+        api_key = 'xnd_development_Vhp4vooIYG0v2p3z0DLdnhgjRTgD36Pf4qRM5Uhgds66NPvzP7IRw9Wm9rdw'
 
     try:
         # Send the POST request to Xendit API
