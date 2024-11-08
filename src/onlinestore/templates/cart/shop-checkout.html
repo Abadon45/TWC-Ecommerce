@@ -50,9 +50,25 @@
                                                                    data-bs-toggle="pill"
                                                                    data-bs-target="#xendit" type="button" role="tab"
                                                                    aria-controls="xendit" aria-selected="true">
-                                                                    <img class="payment-icon"
-                                                                         src="{% static 'img/icon/payment/xendit.svg' %}"
-                                                                         alt="">
+                                                                    <div class="checkout-card-img">
+                                                                        <img class="payment-icon-border"
+                                                                             src="{% static 'img/icon/payment/mastercard.svg' %}"
+                                                                             alt="">
+                                                                        <img class="payment-icon-border"
+                                                                             src="{% static 'img/icon/payment/visa.svg' %}"
+                                                                             alt="">
+                                                                        <img class="payment-icon-border"
+                                                                             src="{% static 'img/icon/payment/jcb.svg' %}"
+                                                                             alt="">
+                                                                        <img class="payment-icon-border"
+                                                                             src="{% static 'img/icon/payment/gcash.svg' %}"
+                                                                             alt="">
+                                                                        <img class="payment-icon-border"
+                                                                             src="{% static 'img/icon/payment/paymaya.svg' %}"
+                                                                             alt="">
+
+                                                                    </div>
+
                                                                     &nbsp;&nbsp;&nbsp;<span>Pay With Xendit</span>
                                                                 </a>
                                                             </li>
@@ -62,10 +78,12 @@
                                                                    data-bs-target="#cod" type="button" role="tab"
                                                                    aria-controls="cod" aria-selected="false"
                                                                    tabindex="-1">
-                                                                    <img class="payment-icon"
-                                                                         src="{% static 'img/icon/payment/cod.svg' %}"
-                                                                         alt="">
-                                                                    &nbsp;&nbsp;&nbsp;<span>Cash On Delivery</span>
+                                                                    <div class="checkout-card-img">
+                                                                        <img class="payment-icon"
+                                                                             src="{% static 'img/icon/payment/cod.svg' %}"
+                                                                             alt="">
+                                                                    </div>
+                                                                    <span>Cash On Delivery</span>
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -104,9 +122,9 @@
                                                                    name="paymentMethod" id="xendit" value="xendit"
                                                                    checked>
                                                             <label class="form-check-label" for="xendit">
-                                                                <img src="{% static 'img/icon/payment/xendit.svg' %}"
+                                                                <img src="{% static 'img/icon/payment/mastercard.svg' %}"
                                                                      alt="Xendit Payment" class="payment-icon">
-                                                                Pay With Xendit (E-Wallet, Online Banking, etc.)
+                                                                <span>Pay With Xendit (E-Wallet, Online Banking, etc.)</span>
                                                             </label>
                                                         </div>
                                                         <hr>
