@@ -202,7 +202,7 @@
                                                         <h6 class="mt10">Quantity</h6>
                                                         <h5 class="mt5">{{ item.quantity }}</h5>
                                                         <h6 class="mt10">Unit Price</h6>
-                                                        <h5 class="mt5">{{ item.product.customer_price|currency }}</h5>
+                                                        <h5 class="mt5">{{ item.get_total|currency }}</h5>
                                                     </div>
                                                 </div>
                                             </div>
@@ -210,10 +210,10 @@
                                     </div>
                                     <div class="checkout-payment mobile-only">
                                         <h5 class="checkout-shipping">
-                                            Shipping Fee <span>{{ data.shipping_fee|currency }}</span>
+                                            Shipping Fee <span>{{ FIXED_SHIPPING_FEE|currency }}</span>
                                         </h5>
                                         <h5 class="checkout-discount bb">
-                                            Di <span>{{ data.discount|currency }}</span>
+                                            Discount <span>{{ data.discount|currency }}</span>
                                         </h5>
                                         <h4>
                                             Total <span>{{ data.cod_amount|currency }}</span>
@@ -283,11 +283,11 @@
                     </div>
                 </div>
             </div>
-{#            <div class="container cont-shop">#}
-{#                <div class="col-lg-12 mt-20 continue-shopping">#}
-{#                    <a href="{% url 'shop:shop' %}" type="button" class="theme-btn theme-btn2">CONTINUE SHOPPING</a>#}
-{#                </div>#}
-{#            </div>#}
+            {#            <div class="container cont-shop">#}
+            {#                <div class="col-lg-12 mt-20 continue-shopping">#}
+            {#                    <a href="{% url 'shop:shop' %}" type="button" class="theme-btn theme-btn2">CONTINUE SHOPPING</a>#}
+            {#                </div>#}
+            {#            </div>#}
 
         </div>
     </section>
