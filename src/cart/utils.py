@@ -292,8 +292,10 @@ def create_xendit_invoice(
     print(f'Payload: {payload}')
 
     # Xendit API key from settings
-    domain = request.get_host()
-    if domain == 'twconline.store':
+    domain = request.get_host().split('.')
+    root_domain = '.'.join(domain[-2:])
+    print (f"Current Domain: {root_domain}")
+    if root_domain == 'twconline.store':
         api_key = settings.XENDIT_API_KEY
     else:
         api_key = 'xnd_development_DojwSSls9roavWB4cZSMB5S1I8ZdgTdAddc2TNLwA0eyIoZLKyyzahEp20tkDXg3'
