@@ -232,7 +232,7 @@ def validate_referrer(referrer_username):
 
 
 def create_xendit_invoice(
-        customer_name, customer_email, customer_phone,
+        request, customer_name, customer_email, customer_phone,
         items, shipping_amount, unique_invoice_id,
         success_redirect_url, failure_redirect_url, shop_count, total_discount):
     # Xendit API URL for creating an invoice
@@ -291,7 +291,11 @@ def create_xendit_invoice(
     print(f'Payload: {payload}')
 
     # Xendit API key from settings
-    api_key = settings.XENDIT_API_KEY
+    domain = request.get_host()
+    if domain == 'twconline.store':
+        api_key = settings.XENDIT_API_KEY
+    else:
+        api_key = 'xnd_development_DojwSSls9roavWB4cZSMB5S1I8ZdgTdAddc2TNLwA0eyIoZLKyyzahEp20tkDXg3'
 
     try:
         # Send the POST request to Xendit API
