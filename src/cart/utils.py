@@ -182,6 +182,7 @@ def submit_checkout_base(request, redirect_url):
         failure_redirect_url = request.build_absolute_uri(reverse('cart:cart'))
 
         return create_xendit_invoice(
+            request,
             customer_name=customer_name,
             customer_email=customer_email,
             customer_phone=customer_phone,
