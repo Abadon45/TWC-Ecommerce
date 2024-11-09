@@ -1204,20 +1204,100 @@ input, textarea {
         }
     }
 
+
+    .payment-head {
+        font-size: larger;
+        font-weight: 600;
+    }
+
+    .accordion-body {
+        .payment-icon {
+            width: 30%;
+            justify-self: center;
+            margin: 20px;
+        }
+
+        p {
+            text-align: center;
+            padding: 0 120px;
+        }
+    }
+
+
+    .accordion {
+        margin-top: 20px;
+
+        .accordion-header {
+            button label {
+                color: var(--color-dark);
+            }
+
+            .accordion-button::after {
+                content: unset;
+            }
+
+            .payment-method-img {
+                width: 60px;
+                border: 1px solid var(--border-info-color);
+                padding: 0 4px;
+            }
+        }
+    }
+
+
+    .accordion-item {
+        margin-bottom: 0;
+        border: 1px solid var(--border-info-color);
+
+        .form-check-input {
+            margin-top: 0;
+        }
+    }
+
+    .accordion-item:first-child {
+        border-radius: 8px 8px 0 0;
+    }
+
+    .accordion-item:last-child {
+        border-radius: 0 0 8px 8px;
+    }
+
+
 }
 
 .shop-checkout2 {
     .checkout-step-list {
         .nav-link.done .step-count::before {
+            border-color: var(--color-green);
+        }
+
+        .nav-link.done.active .step-count::before {
             border-color: var(--theme-color);
         }
 
         .nav-link.done::before,
         .shop-checkout2 .checkout-step-list .nav-link.done span {
+            background: var(--color-green);
+        }
+
+        .nav-link.done.active::before,
+        .shop-checkout2 .checkout-step-list .nav-link.done {
             background: var(--theme-color);
         }
 
         .nav-link.done::before, .nav-link.done span {
+            background: var(--theme-color);
+        }
+
+        .nav-link.done::before, .nav-link.done {
+            background: var(--color-green);
+        }
+
+        #step1-tab.done .step-count {
+            background: var(--color-green);
+        }
+
+        #step1-tab.done.active .step-count {
             background: var(--theme-color);
         }
 
@@ -1230,6 +1310,7 @@ input, textarea {
             left: 0;
             top: 0;
         }
+
 
         .nav-link {
             position: relative;
@@ -1262,6 +1343,7 @@ input, textarea {
                 bottom: -4px;
                 border-radius: 50px;
             }
+
         }
 
         .nav-link.done {
@@ -1274,6 +1356,7 @@ input, textarea {
     .shop-checkout-payment table {
         .nav-item {
             display: flex;
+
             .nav-link {
                 justify-items: center;
                 border-radius: 5px;
@@ -1296,7 +1379,6 @@ input, textarea {
         .payment-icon {
             width: 50px;
         }
-
 
 
         td:first-child {
@@ -2484,7 +2566,7 @@ a.disabled:hover {
                     }
                 }
 
-                .checkout-btn .next-step-btn{
+                .checkout-btn .next-step-btn {
                     font-size: 20px !important;
                 }
 
@@ -3825,7 +3907,7 @@ a.disabled:hover {
                     }
                 }
 
-                .checkout-btn .next-step-btn{
+                .checkout-btn .next-step-btn {
                     margin: 15px 0 5px;
                     padding: 7px;
                     font-size: 15px !important;
@@ -3908,6 +3990,7 @@ a.disabled:hover {
                 font-size: 12px !important;
             }
         }
+
         .next-step-btn {
             font-size: 14px;
             border-radius: 5px;

@@ -26,6 +26,12 @@
                                     <span class="step-count">2</span>
                                     PAYMENT
                                 </a>
+                                <a href="#" class="nav-link" id="step3-tab" data-bs-toggle="pill"
+                                   data-bs-target="#step3"
+                                   type="button" role="tab" aria-controls="step3" aria-selected="false" disabled>
+                                    <span class="step-count">3</span>
+                                    ORDER COMPLETE
+                                </a>
                             </nav>
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="step1" role="tabpanel"
@@ -37,109 +43,81 @@
                                 <div class="tab-pane fade" id="step2" role="tabpanel" aria-labelledby="step2-tab"
                                      tabindex="0">
                                     {% if dev_admin %}
-                                        <div class="shop-checkout-payment">
-                                            <table class="mobile-hidden">
-                                                <tbody>
-                                                <tr>
-                                                    <td colspan="2"><h5>Payment Method</h5></td>
-                                                    <td>
-                                                        <ul class="nav nav-pills mb-3" id="payment-tabs"
-                                                            role="tablist">
-                                                            <li class="nav-item" role="presentation">
-                                                                <a class="nav-link active" id="xendit-tab"
-                                                                   data-bs-toggle="pill"
-                                                                   data-bs-target="#xendit" type="button" role="tab"
-                                                                   aria-controls="xendit" aria-selected="true">
-                                                                    <div class="checkout-card-img">
-                                                                        <img class="payment-icon-border"
-                                                                             src="{% static 'img/icon/payment/mastercard.svg' %}"
-                                                                             alt="">
-                                                                        <img class="payment-icon-border"
-                                                                             src="{% static 'img/icon/payment/visa.svg' %}"
-                                                                             alt="">
-                                                                        <img class="payment-icon-border"
-                                                                             src="{% static 'img/icon/payment/jcb.svg' %}"
-                                                                             alt="">
-                                                                        <img class="payment-icon-border"
-                                                                             src="{% static 'img/icon/payment/gcash.svg' %}"
-                                                                             alt="">
-                                                                        <img class="payment-icon-border"
-                                                                             src="{% static 'img/icon/payment/paymaya.svg' %}"
-                                                                             alt="">
-
-                                                                    </div>
-
-                                                                    &nbsp;&nbsp;&nbsp;<span>Pay With Xendit</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item" role="presentation">
-                                                                <a class="nav-link" id="cod-tab"
-                                                                   data-bs-toggle="pill"
-                                                                   data-bs-target="#cod" type="button" role="tab"
-                                                                   aria-controls="cod" aria-selected="false"
-                                                                   tabindex="-1">
-                                                                    <div class="checkout-card-img">
-                                                                        <img class="payment-icon"
-                                                                             src="{% static 'img/icon/payment/cod.svg' %}"
-                                                                             alt="">
-                                                                    </div>
-                                                                    <span>Cash On Delivery</span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2"></td>
-                                                    <td>
-                                                        <div class="tab-content" id="payment-tabContent">
-                                                            <div class="tab-pane fade show active" id="xendit"
-                                                                 role="tabpanel"
-                                                                 aria-labelledby="xendit-tab" tabindex="0">
-                                                                <!-- Xendit Payment Information -->
-                                                                <small>**Pay using E-Wallet, Online Banking and other
-                                                                    payment methods.</small>
+                                        <div class="container mt-5">
+                                            <h3 class="payment-head">How Would You Like to Pay?</h3>
+                                            <p class="payment-des">Choose Your Option Below.</p>
+                                            <div class="accordion" id="accordionExample">
+                                                <!-- Accordion Item 1 -->
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="headingOne">
+                                                        <button class="accordion-button d-flex justify-content-between"
+                                                                type="button"
+                                                                data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                                aria-expanded="true" aria-controls="collapseOne">
+                                                            <div class="d-flex align-items-center">
+                                                                <input class="form-check-input me-2" type="radio"
+                                                                       name="paymentMethod" id="xendit" value="xendit"
+                                                                       checked>
+                                                                <label class="form-check-label" for="xendit">
+                                                                    Credit Cards | GCash | Maya | Shopee Pay | BDO | BPI
+                                                                </label>
                                                             </div>
-                                                            <div class="tab-pane fade" id="cod" role="tabpanel"
-                                                                 aria-labelledby="cod-tab" tabindex="0">
-                                                                <!-- COD Payment Information -->
-                                                                <small>**Please read our <a href="{% url 'terms' %}">Terms
-                                                                    And
-                                                                    Conditions</a> for cash on delivery.</small>
+                                                            <div class="d-flex align-items-center">
+                                                                <img class="img-fluid ms-2 payment-method-img"
+                                                                     src="{% static 'img/icon/payment/visa.svg' %}"
+                                                                     alt="Visa">
+                                                                <img class="img-fluid ms-2 payment-method-img"
+                                                                     src="{% static 'img/icon/payment/mastercard.svg' %}"
+                                                                     alt="Mastercard">
+                                                                <img class="img-fluid ms-2 payment-method-img"
+                                                                     src="{% static 'img/icon/payment/gcash.svg' %}"
+                                                                     alt="Mastercard">
+                                                                <img class="img-fluid ms-2 payment-method-img"
+                                                                     src="{% static 'img/icon/payment/paymaya.svg' %}"
+                                                                     alt="Mastercard">
+                                                                <img class="img-fluid ms-2 payment-method-img"
+                                                                     src="{% static 'img/icon/payment/shopeepay.svg' %}"
+                                                                     alt="Mastercard">
                                                             </div>
+                                                        </button>
+                                                    </h2>
+                                                    <div id="collapseOne" class="accordion-collapse collapse show"
+                                                         aria-labelledby="headingOne"
+                                                         data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
+                                                            <img class="payment-icon"
+                                                                 src="{% static 'img/icon/payment/payment.svg' %}"
+                                                                 alt="payment-icon">
+                                                            <p>After clicking “Checkout”, you will be redirected to
+                                                                Credit Cards | VISA | Mastercard | GCash | Shopee Pay |
+                                                                Maya to complete your purchase securely.</p>
                                                         </div>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="row mobile-only">
-                                            <div class="card index-card">
-                                                <div class="card-body">
-                                                    <form class="payment-form" action="#" method="get">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio"
-                                                                   name="paymentMethod" id="xendit" value="xendit"
-                                                                   checked>
-                                                            <label class="form-check-label" for="xendit">
-                                                                <img src="{% static 'img/icon/payment/mastercard.svg' %}"
-                                                                     alt="Xendit Payment" class="payment-icon">
-                                                                <span>Pay With Xendit (E-Wallet, Online Banking, etc.)</span>
-                                                            </label>
-                                                        </div>
-                                                        <hr>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio"
+                                                    </div>
+                                                </div>
+
+                                                <!-- Accordion Item 2 -->
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="headingTwo">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                                                aria-expanded="false" aria-controls="collapseTwo">
+                                                            <input class="form-check-input me-2" type="radio"
                                                                    name="paymentMethod" id="cod" value="cod">
-                                                            <label class="form-check-label" for="cod">
-                                                                <img src="{% static 'img/icon/payment/cod.svg' %}"
-                                                                     alt="Cash on Delivery Payment"
-                                                                     class="payment-icon">
-                                                                Cash On Delivery
-                                                            </label>
+                                                            <label class="form-check-label" for="cod">Pay with Cash on
+                                                                Delivery</label>
+                                                        </button>
+                                                    </h2>
+                                                    <div id="collapseTwo" class="accordion-collapse collapse"
+                                                         aria-labelledby="headingTwo"
+                                                         data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
+                                                            <img class="payment-icon"
+                                                                 src="{% static 'img/icon/payment/payment.svg' %}"
+                                                                 alt="payment-icon">
+                                                            <p>After clicking “Checkout”, your order will be confirmed
+                                                                with Cash on Delivery as the payment method.</p>
                                                         </div>
-                                                    </form>
-
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -270,33 +248,57 @@
 {% block extra_js %}
     <script>
         $(document).ready(function () {
+
+            updateStepCounts();
+
+            // Listen for any class changes to update dynamically
+            $('.nav-link').on('click', function () {
+                updateStepCounts();
+            });
+
+            function updateStepCounts() {
+                $('.nav-link').each(function () {
+                    const stepCount = $(this).find('.step-count');
+                    const originalText = stepCount.data('original-text') || stepCount.text();
+
+                    // Store the original text if not already stored
+                    if (!stepCount.data('original-text')) {
+                        stepCount.data('original-text', originalText);
+                    }
+
+                    // Set checkmark if `done` is present without `active`, else revert to original text
+                    if ($(this).hasClass('done') && !$(this).hasClass('active')) {
+                        stepCount.text('\u2713'); // Unicode for checkmark
+                    } else {
+                        stepCount.text(originalText); // Revert to original text
+                    }
+                });
+            }
+
+            $('input[name="paymentMethod"][value="xendit"]').prop('checked', true);
+            console.log('Default payment method set to: xendit');
+
+            $('.accordion-button').on('click', function () {
+                var radioId = $(this).find('input[type="radio"]').attr('id');
+                $('#' + radioId).prop('checked', true);
+                console.log('Radio button selected:', radioId);// Check the radio button
+            });
+
+            // Checkout button click handling
             $('.checkout-btn').on('click', function (event) {
-                // Get the active tab's ID
                 event.preventDefault();
 
                 var paymentMethod;
-                if ($(window).width() < 768) { // Assuming mobile viewport is less than 768px
-                    paymentMethod = $('input[name="paymentMethod"]:checked').val();
+                paymentMethod = $('input[name="paymentMethod"]:checked').val();
 
-                    // Set COD as default if no radio button is selected
-                    if (!paymentMethod) {
-                        paymentMethod = 'cod';
-                    }
-                } else {
-                    // Get the active tab's ID for desktop
-                    var activePaymentMethod = $('#payment-tabs .nav-link.active').attr('id');
-                    paymentMethod = activePaymentMethod === 'xendit-tab' ? 'xendit' : 'cod';
-                }
+                $('input[name="paymentMethod"]').on('change', function () {
+                    console.log('Selected Payment Method:', $(this).val());
+                });
 
-                // Determine the payment method based on the active tab
-                {#var paymentMethod = activePaymentMethod === 'xendit-tab' ? 'xendit' : 'cod';#}
 
-                // Log the selected payment method
                 console.log('Selected Payment Method:', paymentMethod);
 
-                // Check if the payment method is Xendit
                 if (paymentMethod === 'xendit') {
-                    // Confirm with the user if they want to proceed with the Xendit payment
                     Swal.fire({
                         title: 'Confirm Payment',
                         text: 'Do you want to proceed with the Xendit payment?',
@@ -306,119 +308,115 @@
                         cancelButtonText: 'No, cancel'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            // If confirmed, call checkoutBtn
                             checkoutBtn(event, paymentMethod);
                         }
                     });
                 } else {
-                    // If the payment method is not Xendit, proceed directly to checkout
                     checkoutBtn(event, paymentMethod);
                 }
             });
+
+            // Handle form check label click to check the corresponding radio button
             $('.form-check-label').on('click', function () {
                 const radioButtonId = $(this).attr('for');
                 $('#' + radioButtonId).prop('checked', true); // Set the radio button as checked
             });
-        });
-    </script>
-    <script>
-        // dummy button for submitting form
-        function submitForm() {
-            $('#addUserData').click();
-        }
 
-        $('.dummy-submit button').click(submitForm);
+            // Handle the checkout process (dummy form submission)
+            function submitForm() {
+                $('#addUserData').click();
+            }
 
-        function checkoutBtn(event, paymentMethod) {
-            event.preventDefault();
-            var referrerId = $(event.currentTarget).data('referrer-id');
+            $('.dummy-submit button').click(submitForm);
 
-            if (referrerId === "None" || referrerId === '') {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'REQUIRED INFORMATION',
-                    text: 'To complete checkout, please input the USERNAME of your sponsor.',
-                    input: 'text',
-                    inputPlaceholder: 'Enter username',
-                    showCancelButton: true,
-                    confirmButtonText: 'Submit',
-                    cancelButtonText: 'Cancel',
-                    preConfirm: (username) => {
-                        if (!username) {
-                            Swal.showValidationMessage('Username is required!');
-                        } else if (username.toLowerCase() === 'None') {
-                            Swal.showValidationMessage('Username is required!');
-                        } else if (username.toLowerCase() === 'admin') {
-                            Swal.showValidationMessage('You cannot use this username!');
-                        } else {
-                            return username;
+            function checkoutBtn(event, paymentMethod) {
+                event.preventDefault();
+                var referrerId = $(event.currentTarget).data('referrer-id');
+
+                if (referrerId === "None" || referrerId === '') {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'REQUIRED INFORMATION',
+                        text: 'To complete checkout, please input the USERNAME of your sponsor.',
+                        input: 'text',
+                        inputPlaceholder: 'Enter username',
+                        showCancelButton: true,
+                        confirmButtonText: 'Submit',
+                        cancelButtonText: 'Cancel',
+                        preConfirm: (username) => {
+                            if (!username) {
+                                Swal.showValidationMessage('Username is required!');
+                            } else if (username.toLowerCase() === 'None') {
+                                Swal.showValidationMessage('Username is required!');
+                            } else if (username.toLowerCase() === 'admin') {
+                                Swal.showValidationMessage('You cannot use this username!');
+                            } else {
+                                return username;
+                            }
                         }
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        var username = result.value;
-                        saveReferrerUsername(username, paymentMethod);
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            var username = result.value;
+                            saveReferrerUsername(username, paymentMethod);
+                        }
+                    });
+                } else {
+                    var username = referrerId;
+                    saveReferrerUsername(username, paymentMethod);
+                }
+            }
+
+            function saveReferrerUsername(username, paymentMethod) {
+                const url = `{% url "cart:submit_checkout" %}?username=${encodeURIComponent(username)}`;
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    data: {
+                        username: username,
+                        payment_method: paymentMethod,
+                    },
+                    success: function (response) {
+                        if (response.redirect_url) {
+                            Swal.fire({
+                                title: 'Redirecting to Xendit Payment Portal',
+                                icon: 'info',
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                }
+                            });
+
+                            setTimeout(() => {
+                                window.location.href = response.redirect_url;
+                            }, 2000);
+                        } else {
+                            Swal.fire({
+                                title: 'Thank You for Your Order!',
+                                text: 'Now completing checkout...',
+                                icon: 'success',
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                }
+                            });
+
+                            setTimeout(() => {
+                                $('#checkoutForm').submit();
+                            }, 2000);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error saving referrer username:', error);
+                        var responseData = JSON.parse(xhr.responseText);
+                        var errorMessage = responseData.error;
+                        Swal.fire({
+                            title: 'Error',
+                            text: errorMessage,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
                     }
                 });
-            } else {
-                var username = referrerId;
-                saveReferrerUsername(username, paymentMethod);
             }
-        }
-
-        function saveReferrerUsername(username, paymentMethod) {
-            const url = `{% url "cart:submit_checkout" %}?username=${encodeURIComponent(username)}`;
-            $.ajax({
-                url: url,
-                method: 'GET',
-                data: {
-                    username: username,
-                    payment_method: paymentMethod,
-                },
-                success: function (response) {
-                    if (response.redirect_url) {
-                        // Redirect to the Xendit invoice URL
-                        Swal.fire({
-                            title: 'Redirecting to Xendit Payment Portal',
-                            icon: 'info',
-                            didOpen: () => {
-                                Swal.showLoading(); // Show loading spinner
-                            }
-                        });
-
-                        // After a short delay, redirect to the invoice URL
-                        setTimeout(() => {
-                            window.location.href = response.redirect_url; // Redirect to Xendit Payment Portal
-                        }, 2000);
-                    } else {
-                        // Show the thank you alert
-                        Swal.fire({
-                            title: 'Thank You for Your Order!',
-                            text: 'Now completing checkout...',
-                            icon: 'success',
-                            didOpen: () => {
-                                Swal.showLoading(); // Show loading spinner
-                            }
-                        });
-
-                        // After a short delay, submit the form
-                        setTimeout(() => {
-                            $('#checkoutForm').submit();
-                        }, 2000); // Adjust the delay time as needed
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error saving referrer username:', error);
-                    var responseData = JSON.parse(xhr.responseText);
-                    var errorMessage = responseData.error;
-                    Swal.fire({
-                        title: 'Error',
-                        text: errorMessage,
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                }
-            });
-        }
+        });
     </script>
+
 {% endblock %}
