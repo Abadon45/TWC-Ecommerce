@@ -58,37 +58,34 @@
                                                                 <input class="form-check-input me-2" type="radio"
                                                                        name="paymentMethod" id="xendit" value="xendit"
                                                                        checked>
-                                                                <label class="form-check-label" for="xendit">
-                                                                    Credit Cards | GCash | Maya | Shopee Pay | BDO | BPI
-                                                                </label>
+                                                                <div class="d-flex align-items-center">
+                                                                    <img class="img-fluid ms-2 payment-method-img"
+                                                                         src="{% static 'img/icon/payment/visa.svg' %}"
+                                                                         alt="Visa">
+                                                                    <img class="img-fluid ms-2 payment-method-img"
+                                                                         src="{% static 'img/icon/payment/mastercard.svg' %}"
+                                                                         alt="Mastercard">
+                                                                    <img class="img-fluid ms-2 payment-method-img"
+                                                                         src="{% static 'img/icon/payment/gcash.svg' %}"
+                                                                         alt="Mastercard">
+                                                                    <img class="img-fluid ms-2 payment-method-img"
+                                                                         src="{% static 'img/icon/payment/paymaya.svg' %}"
+                                                                         alt="Mastercard">
+                                                                    <img class="img-fluid ms-2 payment-method-img"
+                                                                         src="{% static 'img/icon/payment/shopeepay.svg' %}"
+                                                                         alt="Mastercard">
+                                                                </div>
+
                                                             </div>
-                                                            <div class="d-flex align-items-center">
-                                                                <img class="img-fluid ms-2 payment-method-img"
-                                                                     src="{% static 'img/icon/payment/visa.svg' %}"
-                                                                     alt="Visa">
-                                                                <img class="img-fluid ms-2 payment-method-img"
-                                                                     src="{% static 'img/icon/payment/mastercard.svg' %}"
-                                                                     alt="Mastercard">
-                                                                <img class="img-fluid ms-2 payment-method-img"
-                                                                     src="{% static 'img/icon/payment/gcash.svg' %}"
-                                                                     alt="Mastercard">
-                                                                <img class="img-fluid ms-2 payment-method-img"
-                                                                     src="{% static 'img/icon/payment/paymaya.svg' %}"
-                                                                     alt="Mastercard">
-                                                                <img class="img-fluid ms-2 payment-method-img"
-                                                                     src="{% static 'img/icon/payment/shopeepay.svg' %}"
-                                                                     alt="Mastercard">
-                                                            </div>
+
                                                         </button>
                                                     </h2>
                                                     <div id="collapseOne" class="accordion-collapse collapse show"
                                                          aria-labelledby="headingOne"
                                                          data-bs-parent="#accordionExample">
                                                         <div class="accordion-body">
-                                                            <img class="payment-icon"
-                                                                 src="{% static 'img/icon/payment/payment.svg' %}"
-                                                                 alt="payment-icon">
-                                                            <p>After clicking “Checkout”, you will be redirected to
+                                                            <p class="text-left">After clicking “Checkout”, you will be
+                                                                redirected to
                                                                 Credit Cards | VISA | Mastercard | GCash | Shopee Pay |
                                                                 Maya to complete your purchase securely.</p>
                                                         </div>
@@ -111,9 +108,6 @@
                                                          aria-labelledby="headingTwo"
                                                          data-bs-parent="#accordionExample">
                                                         <div class="accordion-body">
-                                                            <img class="payment-icon"
-                                                                 src="{% static 'img/icon/payment/payment.svg' %}"
-                                                                 alt="payment-icon">
                                                             <p>After clicking “Checkout”, your order will be confirmed
                                                                 with Cash on Delivery as the payment method.</p>
                                                         </div>
