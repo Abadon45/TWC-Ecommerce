@@ -267,6 +267,13 @@
                     console.log('Selected Payment Method:', $(this).val());
                 });
 
+                // Set to 'cod' if no payment method is selected
+                if (!paymentMethod) {
+                    paymentMethod = 'cod';
+                    $('input[name="paymentMethod"][value="cod"]').prop('checked', true);
+                    console.log('Defaulting to COD as payment method');
+                }
+
 
                 console.log('Selected Payment Method:', paymentMethod);
 
