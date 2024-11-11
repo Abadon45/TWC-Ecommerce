@@ -301,7 +301,8 @@ class CheckoutView(View):
         }
 
         # Save the address to session
-        del self.request.session['shipping_address']
+        if "shipping_address" in self.request.session:
+            del self.request.session['shipping_address']
         self.request.session['shipping_address'] = shipping_address
         print(f"Address: {shipping_address}")
 
