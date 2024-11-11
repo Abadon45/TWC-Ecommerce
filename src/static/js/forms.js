@@ -38,6 +38,7 @@ $(document).ready(function () {
                 $("#step2-tab").click();
                 $("#step1").removeClass("active show");
                 $("#step1-tab").removeClass("nav-link active done").addClass("nav-link done");
+                $("#step1-tab .step-count").text('\u2713');
                 $("#step2").addClass("active show");
                 $("#step2-tab").addClass("active done");
                 $(".checkout-btn").removeAttr("hidden");

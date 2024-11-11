@@ -16,13 +16,13 @@
                                  role="tablist">
                                 <a href="#" class="nav-link active done" id="step1-tab" data-bs-toggle="pill"
                                    data-bs-target="#step1" type="button" role="tab" aria-controls="step1"
-                                   aria-selected="true">
+                                   aria-selected="true" disabled>
                                     <span class="step-count">1</span>
                                     SHIPPING ADDRESS
                                 </a>
                                 <a href="#" class="nav-link" id="step2-tab" data-bs-toggle="pill"
                                    data-bs-target="#step2"
-                                   type="button" role="tab" aria-controls="step2" aria-selected="false">
+                                   type="button" role="tab" aria-controls="step2" aria-selected="false" disabled>
                                     <span class="step-count">2</span>
                                     PAYMENT
                                 </a>
@@ -58,39 +58,38 @@
                                                                 <input class="form-check-input me-2" type="radio"
                                                                        name="paymentMethod" id="xendit" value="xendit"
                                                                        checked>
-                                                                <label class="form-check-label" for="xendit">
-                                                                    Credit Cards | GCash | Maya | Shopee Pay | BDO | BPI
-                                                                </label>
+                                                                <div class="d-flex align-items-center">
+                                                                    <img class="img-fluid ms-2 payment-method-img"
+                                                                         src="{% static 'img/icon/payment/visa.svg' %}"
+                                                                         alt="Visa">
+                                                                    <img class="img-fluid ms-2 payment-method-img"
+                                                                         src="{% static 'img/icon/payment/mastercard.svg' %}"
+                                                                         alt="Mastercard">
+                                                                    <img class="img-fluid ms-2 payment-method-img"
+                                                                         src="{% static 'img/icon/payment/gcash.svg' %}"
+                                                                         alt="Mastercard">
+                                                                    <img class="img-fluid ms-2 payment-method-img"
+                                                                         src="{% static 'img/icon/payment/paymaya.svg' %}"
+                                                                         alt="Mastercard">
+                                                                    <img class="img-fluid ms-2 payment-method-img"
+                                                                         src="{% static 'img/icon/payment/shopeepay.svg' %}"
+                                                                         alt="Mastercard">
+                                                                </div>
+
                                                             </div>
-                                                            <div class="d-flex align-items-center">
-                                                                <img class="img-fluid ms-2 payment-method-img"
-                                                                     src="{% static 'img/icon/payment/visa.svg' %}"
-                                                                     alt="Visa">
-                                                                <img class="img-fluid ms-2 payment-method-img"
-                                                                     src="{% static 'img/icon/payment/mastercard.svg' %}"
-                                                                     alt="Mastercard">
-                                                                <img class="img-fluid ms-2 payment-method-img"
-                                                                     src="{% static 'img/icon/payment/gcash.svg' %}"
-                                                                     alt="Mastercard">
-                                                                <img class="img-fluid ms-2 payment-method-img"
-                                                                     src="{% static 'img/icon/payment/paymaya.svg' %}"
-                                                                     alt="Mastercard">
-                                                                <img class="img-fluid ms-2 payment-method-img"
-                                                                     src="{% static 'img/icon/payment/shopeepay.svg' %}"
-                                                                     alt="Mastercard">
-                                                            </div>
+
                                                         </button>
                                                     </h2>
                                                     <div id="collapseOne" class="accordion-collapse collapse show"
                                                          aria-labelledby="headingOne"
                                                          data-bs-parent="#accordionExample">
                                                         <div class="accordion-body">
-                                                            <img class="payment-icon"
-                                                                 src="{% static 'img/icon/payment/payment.svg' %}"
-                                                                 alt="payment-icon">
-                                                            <p>After clicking “Checkout”, you will be redirected to
-                                                                Credit Cards | VISA | Mastercard | GCash | Shopee Pay |
-                                                                Maya to complete your purchase securely.</p>
+                                                            <p class="text-left">Complete your purchase by clicking the
+                                                                “Checkout Now”
+                                                                button below, you’ll be redirected to our secure payment
+                                                                provider, powered by <a
+                                                                        href="https://www.xendit.co/en-ph/">Xendit
+                                                                    PH</a>.</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -111,11 +110,10 @@
                                                          aria-labelledby="headingTwo"
                                                          data-bs-parent="#accordionExample">
                                                         <div class="accordion-body">
-                                                            <img class="payment-icon"
-                                                                 src="{% static 'img/icon/payment/payment.svg' %}"
-                                                                 alt="payment-icon">
                                                             <p>After clicking “Checkout”, your order will be confirmed
-                                                                with Cash on Delivery as the payment method.</p>
+                                                                with Cash on Delivery as the payment method. Please read
+                                                                our <a href="{% url 'terms' %}">Terms And
+                                                                    Conditions</a> for cash on delivery.</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -249,32 +247,6 @@
     <script>
         $(document).ready(function () {
 
-            updateStepCounts();
-
-            // Listen for any class changes to update dynamically
-            $('.nav-link').on('click', function () {
-                updateStepCounts();
-            });
-
-            function updateStepCounts() {
-                $('.nav-link').each(function () {
-                    const stepCount = $(this).find('.step-count');
-                    const originalText = stepCount.data('original-text') || stepCount.text();
-
-                    // Store the original text if not already stored
-                    if (!stepCount.data('original-text')) {
-                        stepCount.data('original-text', originalText);
-                    }
-
-                    // Set checkmark if `done` is present without `active`, else revert to original text
-                    if ($(this).hasClass('done') && !$(this).hasClass('active')) {
-                        stepCount.text('\u2713'); // Unicode for checkmark
-                    } else {
-                        stepCount.text(originalText); // Revert to original text
-                    }
-                });
-            }
-
             $('input[name="paymentMethod"][value="xendit"]').prop('checked', true);
             console.log('Default payment method set to: xendit');
 
@@ -294,6 +266,13 @@
                 $('input[name="paymentMethod"]').on('change', function () {
                     console.log('Selected Payment Method:', $(this).val());
                 });
+
+                // Set to 'cod' if no payment method is selected
+                if (!paymentMethod) {
+                    paymentMethod = 'cod';
+                    $('input[name="paymentMethod"][value="cod"]').prop('checked', true);
+                    console.log('Defaulting to COD as payment method');
+                }
 
 
                 console.log('Selected Payment Method:', paymentMethod);
