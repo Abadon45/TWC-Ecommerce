@@ -107,7 +107,7 @@ def detect_region(region):
 
 def split_full_name(full_name):
     # Common last name prefixes in some languages
-    last_name_prefixes = {"de", "de la", "van", "von", "da", "del", "la"}
+    last_name_prefixes = {"de", "de la", "van", "von", "da", "del", "la", "san", "dela"}
 
     # Strip leading/trailing spaces and split by spaces
     parts = full_name.strip().split()
@@ -148,11 +148,28 @@ def generate_invoice_number():
 
 def get_access_token():
     """Fetches a fresh access token for API calls."""
-    token_data = {"refresh": settings.RESPONSE_TOKEN}
-    headers = {'Content-Type': 'application/json'}
-    response = requests.post('https://dashboard.twcako.com/order/api/token/refresh/', json=token_data, headers=headers)
+    url = 'https://dashboard.twcako.com/order/api/get-access-token/'
+    data = {
+        "refresh": settings.REFRESH_TOKEN
+    }
+    print(f'Refresh Token: {data}')
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    response = requests.post(url, json=data)
     response.raise_for_status()
-    return response.json().get('access')
+    if response.status_code == 200:
+        print("Access Token:", response.json().get("access_token"))
+    else:
+        print("Error:", response.json())
+    if response.status_code == 401:
+        print("Authentication failed. Please check the token or credentials.")
+        print(f"Response Status Code: {response.status_code}")
+        print(f"Response Body: {response.text}")
+
+
+
+    return response.json().get('access_token')
 
 
 def submit_checkout_base(request, redirect_url):
@@ -424,6 +441,7 @@ def create_order(request):
     """
     order_url = 'https://dashboard.twcako.com/order/api/create-order/'
     access_token = get_access_token()
+    print(f'Access Token: {access_token}')
     ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
     address_from_session = request.session.get('shipping_address', {})
     redirect_url = request.session.get('redirect_url', None)
@@ -445,7 +463,7 @@ def create_order(request):
         "name": first_name,
         "last_name": last_name,
         "mobile": address_from_session.get('phone'),
-        "address": address_from_session.get('line1'),
+        "address": address_from_session.get('address'),
         "barangay": address_from_session.get('barangay'),
         "city": address_from_session.get('city'),
         "province": address_from_session.get('province'),
@@ -506,6 +524,11 @@ def create_order(request):
 
         # Log the response status code and content
         print(f'POST {order_url} - Status Code: {response.status_code}, Response: {response.text}')
+
+        if response.status_code == 401:
+            print("Authentication failed. Please check the token or credentials.")
+            print(f"Response Status Code: {response.status_code}")
+            print(f"Response Body: {response.text}")
 
         if response.status_code == 201:
             print("Order created successfully:", response.json())
