@@ -6,8 +6,9 @@
 
 {% block css %}
     <style>
-    
-
+    .url-link {
+        color: var(--color-blue);
+    }
     </style>
 {% endblock %}
 
@@ -94,7 +95,7 @@
                                                             <p class="text-left">Complete your purchase by clicking the
                                                                 “Checkout Now”
                                                                 button below, you’ll be redirected to our secure payment
-                                                                provider, powered by <a
+                                                                provider, powered by <a class="url-link"
                                                                         href="https://www.xendit.co/en-ph/">Xendit
                                                                     PH</a>.</p>
                                                         </div>
@@ -119,7 +120,7 @@
                                                         <div class="accordion-body">
                                                             <p>After clicking “Checkout”, your order will be confirmed
                                                                 with Cash on Delivery as the payment method. Please read
-                                                                our <a href="{% url 'terms' %}">Terms And
+                                                                our <a class="url-link" href="{% url 'terms' %}">Terms And
                                                                     Conditions</a> for cash on delivery.</p>
                                                         </div>
                                                     </div>
