@@ -197,8 +197,7 @@ function deleteAddress(addressId) {
       },
       success: function (response) {
         // Populate the form fields in the modal with the retrieved address details
-        $(".inputFirstName").val(response.address.first_name);
-        $(".inputLastName").val(response.address.last_name);
+        $(".inputFirstName").val(response.address.full_name);
         $(".inputEmail").val(response.address.email);
         $(".inputPhone").val(response.address.phone);
         $(".inputLine1").val(response.address.line1);
@@ -251,8 +250,7 @@ function deleteAddress(addressId) {
     console.log("Address ID:", addressId);
 
     // Retrieve form field values
-    formData.append("first_name", $(".inputFirstName").val());
-    formData.append("last_name", $(".inputLastName").val());
+    formData.append("full_name", $(".inputFullName").val());
     formData.append("email", $(".inputEmail").val());
     formData.append("phone", $(".inputPhone").val());
     formData.append("region", $(".regionDropdown").val());
@@ -293,7 +291,7 @@ function deleteAddress(addressId) {
     var row = $("#address-" + addressId);
     row
       .find(".table-list-code")
-      .text(newData.first_name + " " + newData.last_name);
+      .text(newData.full_name);
     row
       .find("td:nth-child(2)")
       .text(newData.line1 + ", " + newData.city + ", " + newData.postcode);
@@ -301,7 +299,7 @@ function deleteAddress(addressId) {
   }
 
   function updateShippingDetails(newData) {
-    $("#customer-name").text(newData.first_name + " " + newData.last_name);
+    $("#customer-name").text(newData.full_name);
     $("#customer-mobile").text("+" + newData.phone);
     $("#customer-address").text(newData.postcode + ", " + newData.barangay + ", " + newData.city + ", " + newData.province + ", " + newData.region + ", Philippines");
   }

@@ -113,7 +113,7 @@ $(document).ready(function () {
                 });
             },
             error: function (errorData) {
-                console.log(errorData);
+                console.log("Error Data" + errorData);
                 if (errorData.responseJSON) {
                     console.log("Error Message:", errorData.responseJSON.error);
                 } else {

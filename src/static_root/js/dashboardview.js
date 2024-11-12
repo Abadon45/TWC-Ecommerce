@@ -197,12 +197,10 @@ function deleteAddress(addressId) {
       },
       success: function (response) {
         // Populate the form fields in the modal with the retrieved address details
-        $(".inputFirstName").val(response.address.first_name);
-        $(".inputLastName").val(response.address.last_name);
+        $(".inputFirstName").val(response.address.full_name);
         $(".inputEmail").val(response.address.email);
         $(".inputPhone").val(response.address.phone);
-        $(".inputLine1").val(response.address.line1);
-        $(".inputLine2").val(response.address.line2);
+        $(".inputLine1").val(response.address.address);
         $(".inputPostcode").val(response.address.postcode);
         $(".inputMessage").val(response.address.message);
 
@@ -251,8 +249,7 @@ function deleteAddress(addressId) {
     console.log("Address ID:", addressId);
 
     // Retrieve form field values
-    formData.append("first_name", $(".inputFirstName").val());
-    formData.append("last_name", $(".inputLastName").val());
+    formData.append("full_name", $(".inputFullName").val());
     formData.append("email", $(".inputEmail").val());
     formData.append("phone", $(".inputPhone").val());
     formData.append("region", $(".regionDropdown").val());

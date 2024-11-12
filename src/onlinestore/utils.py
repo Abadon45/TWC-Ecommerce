@@ -72,13 +72,13 @@ def check_sponsor_and_redirect(request, username, success_redirect_url, slug=Non
         return HttpResponseNotFound("API request failed.")
 
 
-def send_temporary_account_email(user, first_name, temporary_username, temporary_password):
+def send_temporary_account_email(user, full_name, temporary_username, temporary_password):
     """
     Sends a temporary account email to the user.
 
     Args:
         user: The user instance to whom the email will be sent.
-        first_name: First name of the user.
+        full_name: First name of the user.
         temporary_username: The temporary username generated for the user.
         temporary_password: The temporary password generated for the user.
 
@@ -86,7 +86,7 @@ def send_temporary_account_email(user, first_name, temporary_username, temporary
         None
     """
     subject = 'TWC Online Store Temporary Account'
-    message = (f'Good Day {first_name},\n\n\nYou have successfully registered an account on TWConline.store!!'
+    message = (f'Good Day {full_name},\n\n\nYou have successfully registered an account on TWConline.store!!'
                f'\n\n\nHere are your temporary account details:\n\n'
                f'Username: {temporary_username}\nPassword: {temporary_password}\n\n\nThank you for your order!')
     from_email = settings.EMAIL_MAIN

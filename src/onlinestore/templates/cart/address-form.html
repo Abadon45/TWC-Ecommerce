@@ -6,31 +6,11 @@
                 <!-- use this to display input for address in modal-->
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" class="form-control inputFirstName" placeholder="First Name"
-                            name="first_name" required>
+                        <label>Full Name</label>
+                        <input type="text" class="form-control inputFullName" placeholder="Full Name"
+                               name="full_name" required>
                         {% if form.errors.first_name %}
-                        <div class="text-danger">{{ form.errors.first_name }}</div>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" class="form-control inputLastName" placeholder="Last Name" name="last_name"
-                            required>
-                        {% if form.errors.last_name %}
-                        <div class="text-danger">{{ form.errors.last_name }}</div>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" class="form-control inputEmail" placeholder="Email Address" name="email"
-                            required>
-                        {% if form.errors.email %}
-                        <div class="text-danger">{{ form.errors.email }}</div>
+                            <div class="text-danger">{{ form.errors.full_name }}</div>
                         {% endif %}
                     </div>
                 </div>
@@ -38,30 +18,21 @@
                     <div class="form-group">
                         <label>Phone Number</label>
                         <div class="input-group mb-3 mobile-input">
-                            <input type="text" class="form-control id_mobile" aria-label="Default"
-                                aria-describedby="inputGroup-sizing-default" placeholder="Phone Number" name="phone"
-                                required>
+                            <input type="hidden" id="id_full_mobile" name="phone" >
+                            <input type="text" class="form-control id_mobile" placeholder="Phone Number"
+                                   name="phone_display" required>
+                            <input type="hidden" id="id_mobile_full" name="phone">
+                            <!-- Hidden input with the full number -->
                         </div>
-                        {% if form.errors.phone %}
-                        <div class="text-danger">{{ form.errors.phone }}</div>
-                        {% endif %}
                     </div>
                 </div>
+
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <label>Address Line 1</label>
-                        <input type="text" class="form-control" placeholder="Address Line 1" name="line1" required>
-                        {% if form.errors.line1 %}
-                        <div class="text-danger">{{ form.errors.line1 }}</div>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="col-lg-12 mb10 address-line2">
-                    <div class="form-group">
-                        <label>Address Line 2</label>
-                        <input type="text" class="form-control" placeholder="Address Line 2" name="line2">
-                        {% if form.errors.line2 %}
-                        <div class="text-danger">{{ form.errors.line2 }}</div>
+                        <label>Address</label>
+                        <input type="text" class="form-control" placeholder="Address" name="address" required>
+                        {% if form.errors.address %}
+                            <div class="text-danger">{{ form.errors.address }}</div>
                         {% endif %}
                     </div>
                 </div>
@@ -97,7 +68,9 @@
                         <label class="input-group-text">City</label>
                         <input type="text" class="form-control" placeholder="Specify City" name="city_input">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary back-to-dropdown city-dropdown" tooltip="tooltip" title="Back to dropdown select" type="button"><i class="fa-regular fa-circle-xmark"></i></button>
+                            <button class="btn btn-outline-secondary back-to-dropdown city-dropdown" tooltip="tooltip"
+                                    title="Back to dropdown select" type="button"><i
+                                    class="fa-regular fa-circle-xmark"></i></button>
                         </div>
                     </div>
                 </div>
@@ -115,17 +88,20 @@
                         <label class="input-group-text">Barangay</label>
                         <input type="text" class="form-control" placeholder="Specify Barangay" name="barangay_input">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary back-to-dropdown barangay-dropdown" tooltip="tooltip" title="Back to dropdown select" type="button"><i class="fa-regular fa-circle-xmark"></i></button>
+                            <button class="btn btn-outline-secondary back-to-dropdown barangay-dropdown"
+                                    tooltip="tooltip" title="Back to dropdown select" type="button"><i
+                                    class="fa-regular fa-circle-xmark"></i></button>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-12 postal-line postalInputBox">
                     <div class="form-group">
                         <label>Postal Code</label>
-                        <input type="text" class="form-control inputPostcode" placeholder="Manually input ZIP CODE" name="postcode"
-                            required>
+                        <input type="text" class="form-control inputPostcode" placeholder="Manually input ZIP CODE"
+                               name="postcode"
+                               required>
                         {% if form.errors.postcode %}
-                        <div class="text-danger">{{ form.errors.postcode }}</div>
+                            <div class="text-danger">{{ form.errors.postcode }}</div>
                         {% endif %}
                     </div>
                 </div>
@@ -133,16 +109,16 @@
                     <div class="form-group">
                         <label>Shipping Notes</label>
                         <textarea cols="30" rows="4" class="form-control" placeholder="Your Message"
-                            name="message"></textarea>
+                                  name="message"></textarea>
                         {% if form.errors.message %}
-                        <div class="text-danger">{{ form.errors.message }}</div>
+                            <div class="text-danger">{{ form.errors.message }}</div>
                         {% endif %}
                     </div>
                 </div>
             </div>
         </div>
         <div class="d-flex justify-content-between align-items-center address-form-btn-grp">
-{#            <a href="{% url 'cart:cart' %}" type="button" class="theme-btn">CONTINUE SHOPPING</a>#}
+            {#            <a href="{% url 'cart:cart' %}" type="button" class="theme-btn">CONTINUE SHOPPING</a>#}
             <input type="hidden" name="submit_type" value="shipping">
             <button type="submit" id="addUserData" class="theme-btn" hidden>NEXT STEP</button>
         </div>

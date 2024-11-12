@@ -4,6 +4,13 @@
 
 {% block title %} {{ title }} {% endblock %}
 
+{% block css %}
+    <style>
+    
+
+    </style>
+{% endblock %}
+
 {% block content %}
 
     <div class="shop-checkout2 twc-checkout py-100 mobile-width">
@@ -71,9 +78,9 @@
                                                                     <img class="img-fluid ms-2 payment-method-img"
                                                                          src="{% static 'img/icon/payment/paymaya.svg' %}"
                                                                          alt="Mastercard">
-                                                                    <img class="img-fluid ms-2 payment-method-img"
-                                                                         src="{% static 'img/icon/payment/shopeepay.svg' %}"
-                                                                         alt="Mastercard">
+{#                                                                    <img class="img-fluid ms-2 payment-method-img"#}
+{#                                                                         src="{% static 'img/icon/payment/shopeepay.svg' %}"#}
+{#                                                                         alt="Mastercard">#}
                                                                 </div>
 
                                                             </div>
@@ -229,7 +236,7 @@
                             </div>
                             <div class="d-flex justify-content-between align-items-center dummy-submit">
                                 <input type="hidden" name="submit_type" value="shipping">
-                                <button type="button" class="theme-btn next-step-btn" onclick="submitForm()">NEXT
+                                <button type="button" class="theme-btn next-step-btn">NEXT
                                     STEP
                                 </button>
                             </div>
@@ -397,5 +404,5 @@
             }
         });
     </script>
-
+    <script src="{% static 'js/plugins/int-tel-input/utils.js' %}"></script>
 {% endblock %}

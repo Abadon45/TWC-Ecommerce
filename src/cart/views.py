@@ -279,7 +279,7 @@ class CheckoutView(View):
         if not orders:
             return redirect('shop:shop')
 
-        if 'first_name' in request.GET:  # Check if the form was submitted
+        if 'full_name' in request.GET:  # Check if the form was submitted
             return self.process_shipping_info(request.GET)
 
         context = self.get_context_data()
@@ -288,11 +288,9 @@ class CheckoutView(View):
     def process_shipping_info(self, data):
 
         shipping_address = {
-            'first_name': data.get('first_name'),
-            'last_name': data.get('last_name'),
-            'email': data.get('email'),
+            'full_name': data.get('full_name'),
             'phone': data.get('phone'),
-            'line1': data.get('line1'),
+            'address': data.get('address'),
             'region': data.get('region'),
             'province': data.get('province'),
             'city': data.get('city'),
@@ -304,6 +302,7 @@ class CheckoutView(View):
         if 'shipping_address' in self.request.session:
             del self.request.session['shipping_address']
         self.request.session['shipping_address'] = shipping_address
+
         print(f"Address: {shipping_address}")
 
         region = shipping_address['region']

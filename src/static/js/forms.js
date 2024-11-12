@@ -69,7 +69,7 @@ $(document).ready(function () {
             },
             error: function (errorData) {
                 console.log(errorData);
-                var errorMessage = "Something went wrong! Please try again later.";
+                var errorMessage = "Something went wrong! Please try again later. " + errorData;
 
                 if (errorData.responseJSON && errorData.responseJSON.errors) {
                     console.log("Error Message:", errorData.responseJSON.errors);
@@ -88,17 +88,14 @@ $(document).ready(function () {
     // Function to prepare user data
     function prepareUserData() {
         var userDetails = {
-            first_name: $(".inputFirstName").val().charAt(0),
-            last_name: $(".inputLastName").val(),
-            email: $(".inputEmail").val(),
+            full_name: $(".inputFullName").val().charAt(0),
         };
 
-        var userName = userDetails.first_name + userDetails.last_name + generateRandomString(3);
+        var userName = userDetails.full_name + generateRandomString(3);
         console.log("User Details:", userDetails);
 
         return {
             username: userName,
-            email: userDetails.email,
         };
     }
 

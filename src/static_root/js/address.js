@@ -63,9 +63,7 @@ $(document).ready(function () {
 
         $(".selected_address").html(
           "<b>" +
-            response.address.first_name +
-            " " +
-            response.address.last_name +
+            response.address.full_name +
             " " +
             response.address.phone +
             "</b>"

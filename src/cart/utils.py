@@ -105,6 +105,38 @@ def detect_region(region):
         return "unknown"
 
 
+def split_full_name(full_name):
+    # Common last name prefixes in some languages
+    last_name_prefixes = {"de", "de la", "van", "von", "da", "del", "la"}
+
+    # Strip leading/trailing spaces and split by spaces
+    parts = full_name.strip().split()
+
+    if len(parts) <= 1:
+        # Return the name as first name only if there's only one part
+        return full_name, None
+
+    # Start by assuming the last part is the last name
+    first_name = []
+    last_name = []
+
+    # Reverse through the name parts to detect last name prefixes
+    for i in range(len(parts) - 1, -1, -1):
+        if ' '.join(parts[i:]).lower() in last_name_prefixes or not last_name:
+            # Add part to last name (to be joined later in correct order)
+            last_name.insert(0, parts[i])
+        else:
+            # Add remaining parts to first name
+            first_name = parts[:i + 1]
+            break
+
+    # Join the first and last names into strings
+    first_name = ' '.join(first_name) if first_name else parts[0]
+    last_name = ' '.join(last_name) if last_name else None
+
+    return first_name, last_name
+
+
 def generate_invoice_number():
     # Get the current date and time in the specified format
     date_time_str = datetime.now().strftime("%y%m%d%H%M%S")
@@ -129,8 +161,7 @@ def submit_checkout_base(request, redirect_url):
     ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
     address_from_session = request.session.get('shipping_address', {})
 
-    customer_email = address_from_session.get('email')
-    customer_name = f"{address_from_session.get('first_name')} {address_from_session.get('last_name')}"
+    customer_name = address_from_session.get('full_name')
     customer_phone = address_from_session.get('phone')
 
     shipping_amount = float(SiteSetting.get_fixed_shipping_fee())
@@ -177,14 +208,13 @@ def submit_checkout_base(request, redirect_url):
     # If Xendit, prepare for invoice creation
     elif payment_method.lower() == 'xendit':
         request.session['checkout_completed'] = True
-        customer = create_or_get_xendit_customer(customer_name, customer_email, customer_phone)
+        customer = create_or_get_xendit_customer(customer_name, customer_phone)
         success_redirect_url = request.build_absolute_uri(redirect_to_create_order)
         failure_redirect_url = request.build_absolute_uri(reverse('cart:cart'))
 
         return create_xendit_invoice(
             request,
             customer_name=customer_name,
-            customer_email=customer_email,
             customer_phone=customer_phone,
             items=items,
             shipping_amount=shipping_amount,
@@ -233,7 +263,7 @@ def validate_referrer(referrer_username):
 
 
 def create_xendit_invoice(
-        request, customer_name, customer_email, customer_phone,
+        request, customer_name, customer_phone,
         items, shipping_amount, unique_invoice_id,
         success_redirect_url, failure_redirect_url, shop_count, total_discount):
     # Xendit API URL for creating an invoice
@@ -276,7 +306,6 @@ def create_xendit_invoice(
     # Invoice data that will be sent to Xendit API
     payload = {
         "external_id": unique_invoice_id_str,  # Pass the unique invoice ID
-        "payer_email": customer_email,  # Customer email
         "description": "TWC Online Store Payment",  # Description of the payment
         "amount": total_amount,  # Total amount in IDR
         "success_redirect_url": success_redirect_url,
@@ -284,7 +313,6 @@ def create_xendit_invoice(
         "items": invoice_items,  # List of items in the invoice
         "customer": {
             "given_names": customer_name,
-            "email": customer_email,
             "mobile_number": customer_phone,
         }
     }
@@ -325,11 +353,11 @@ def create_xendit_invoice(
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
 
 
-def create_or_get_xendit_customer(customer_name, customer_email, customer_phone):
+def create_or_get_xendit_customer(customer_name, customer_phone):
     api_key = settings.XENDIT_API_KEY
 
-    # Construct reference_id based on email
-    reference_id = f"customer-{customer_email}"
+    # Construct reference_id based on name
+    reference_id = f"customer-{customer_name}"
 
     # Xendit API URL to search for customers
     xendit_search_url = f"https://api.xendit.co/customers?reference_id={reference_id}"
@@ -363,12 +391,11 @@ def create_or_get_xendit_customer(customer_name, customer_email, customer_phone)
     xendit_create_url = "https://api.xendit.co/customers"
 
     customer_payload = {
-        "reference_id": f"customer-{customer_email}",
+        "reference_id": reference_id ,
         "type": "INDIVIDUAL",
         "individual_detail": {
             "given_names": customer_name,
         },
-        "email": customer_email,
         "mobile_number": customer_phone,
     }
 
@@ -410,14 +437,16 @@ def create_order(request):
     print(f'Ordered Items by Shop: {ordered_items_by_shop}')
     print(f'Shipping Address from Session: {address_from_session}')
 
+    full_name = address_from_session.get('full_name')
+    first_name, last_name = split_full_name (full_name)
+
     # Prepare the shipping details for the order
     shipping_details = {
-        "first_name": address_from_session.get('first_name'),
-        "last_name": address_from_session.get('last_name'),
+        "name": first_name,
+        "last_name": last_name,
         "mobile": address_from_session.get('phone'),
         "address": address_from_session.get('line1'),
         "barangay": address_from_session.get('barangay'),
-        "region": address_from_session.get('region'),
         "city": address_from_session.get('city'),
         "province": address_from_session.get('province'),
         "country": 'Philippines',
