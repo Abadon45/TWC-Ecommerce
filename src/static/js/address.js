@@ -22,7 +22,6 @@ $(document).ready(function () {
             const dialCode = $(".iti__selected-country .iti__selected-dial-code");
             const countryPrimary = $(".iti__selected-country .iti__selected-country-primary");
 
-            // If dial code exists and it's not already inside the country primary div, move it
             if (dialCode.length > 0 && !dialCode.closest('.iti__selected-country-primary').length) {
                 dialCode.detach().insertBefore(countryPrimary.find('.iti__arrow')); // Insert before the arrow
             }
@@ -90,18 +89,8 @@ $(document).ready(function () {
     // =======================================================//
     // -------- Populate regions on page load --------//
     // =======================================================//
-    populateDropdown(".regionDropdown", Philippines.regions, "Select Region");
+    populateDropdown(".provinceDropdown", Philippines.provinces, "Select Province");
     $(".postalInputBox").hide();
-
-    // Handle region selection
-    $(".regionDropdown").change(function () {
-        selectedRegionCode = $(this).find(":selected").data("code");
-        console.log("Selected Region Code: " + selectedRegionCode);
-        var provincesInRegion = Philippines.provinces.filter(function (province) {
-            return province.reg_code === selectedRegionCode;
-        });
-        populateDropdown(".provinceDropdown", provincesInRegion, "Select Province");// Clear other dropdowns
-    });
 
     // Handle province selection
     $(".provinceDropdown").change(function () {

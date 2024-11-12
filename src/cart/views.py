@@ -291,7 +291,6 @@ class CheckoutView(View):
             'full_name': data.get('full_name'),
             'phone': data.get('phone'),
             'address': data.get('address'),
-            'region': data.get('region'),
             'province': data.get('province'),
             'city': data.get('city'),
             'barangay': data.get('barangay'),
@@ -305,7 +304,7 @@ class CheckoutView(View):
 
         print(f"Address: {shipping_address}")
 
-        region = shipping_address['region']
+        region = shipping_address['province']
         orders = self.get_orders()
         updated_orders = []
         total_shipping = Decimal(0)
@@ -447,8 +446,8 @@ class CheckoutDoneView(View):
         payment_method = request.session.get('payment_method')
         print(f'Selected Payment Method: {payment_method}')
 
-        region_name = address_from_session.get('region', 'Unknown')
-        region_detected = detect_region(region_name)
+        province_name = address_from_session.get('province', 'Unknown')
+        region_detected = detect_region(province_name)
 
         print(f'region_detected: {region_detected}')
         print(f'Referrer saved: {request.session.get("referrer")}')
@@ -540,7 +539,6 @@ def get_selected_address(request):
         'last_name': selected_address.last_name,
         'email': selected_address.email,
         'phone': selected_address.phone,
-        'region': selected_address.region,
         'province': selected_address.province,
         'city': selected_address.city,
         'barangay': selected_address.barangay,
@@ -568,7 +566,6 @@ def edit_checkout_address(request):
             'last_name': request.POST.get('last_name'),
             'email': request.POST.get('email'),
             'phone': request.POST.get('phone'),
-            'region': request.POST.get('region'),
             'province': request.POST.get('province'),
             'city': request.POST.get('city'),
             'barangay': request.POST.get('barangay'),
@@ -611,7 +608,6 @@ def get_checkout_address_details(request):
                 'last_name': address.last_name,
                 'email': address.email,
                 'phone': address.phone,
-                'region': address.region,
                 'province': address.province,
                 'city': address.city,
                 'barangay': address.barangay,

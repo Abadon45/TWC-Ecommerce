@@ -207,10 +207,7 @@
                             <div class="bb mb-10 address-details">
                                 <p class="pb10">
                                     <b>Address:</b><br>
-                                    {{ address.line1 }},
-                                    {% if address.line2 %}
-                                        {{ address.line2 }},
-                                    {% endif %}
+                                    {{ address.address }},
                                     Brgy. {{ address.barangay }},
                                     {{ address.city }},
                                     {{ address.province }},

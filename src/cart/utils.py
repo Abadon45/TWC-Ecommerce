@@ -11,40 +11,37 @@ from django.urls import reverse
 from onlinestore.models import *
 
 
-def sf_calculator(region=None, qty=0):
+def sf_calculator(province=None, qty=0):
     qty = int(qty)
 
-    ncr = {"NATIONAL CAPITAL REGION (NCR)"}
+    ncr = {"NCR, CITY OF MANILA, FIRST DISTRICT", "CITY OF MANILA", "NCR, SECOND DISTRICT", "NCR, THIRD DISTRICT",
+           "NCR, FOURTH DISTRICT"}
     luzon = {
-        "REGION I (ILOCOS REGION)",
-        "REGION II (CAGAYAN VALLEY)",
-        "REGION III (CENTRAL LUZON)",
-        "REGION IV-A (CALABARZON)",
-        "REGION V (BICOL REGION)",
-        "REGION IV-B (MIMAROPA)",
-        "CORDILLERA ADMINISTRATIVE REGION (CAR)"
+        "ILOCOS NORTE", "ILOCOS SUR", "LA UNION", "PANGASINAN", "BATANES", "CAGAYAN", "ISABELA", "NUEVA VIZCAYA",
+        "QUIRINO", "BATAAN", "BULACAN", "NUEVA ECIJA", "PAMPANGA", "TARLAC", "ZAMBALES", "AURORA", "BATANGAS",
+        "CAVITE", "LAGUNA", "QUEZON", "RIZAL", "MARINDUQUE", "OCCIDENTAL MINDORO", "ORIENTAL MINDORO",
+        "PALAWAN", "ROMBLON", "ABRA", "BENGUET", "IFUGAO", "KALINGA", "MOUNTAIN PROVINCE", "APAYAO"
     }
     visayas = {
-        "REGION VI (WESTERN VISAYAS)",
-        "REGION VII (CENTRAL VISAYAS)",
-        "REGION VIII (EASTERN VISAYAS)"
+        "AKLAN", "ANTIQUE", "CAPIZ", "ILOILO", "NEGROS OCCIDENTAL", "GUIMARAS", "BOHOL", "CEBU",
+        "NEGROS ORIENTAL", "SIQUIJOR", "EASTERN SAMAR", "LEYTE", "NORTHERN SAMAR", "SAMAR (WESTERN SAMAR)",
+        "SOUTHERN LEYTE", "BILIRAN"
     }
     mindanao = {
-        "REGION IX (ZAMBOANGA PENINSULA)",
-        "REGION X (NORTHERN MINDANAO)",
-        "REGION XI (DAVAO REGION)",
-        "REGION XII (SOCCSKSARGEN)",
-        "AUTONOMOUS REGION IN MUSLIM MINDANAO (ARMM)",
-        "REGION XIII (Caraga)"
+        "ZAMBOANGA DEL NORTE", "ZAMBOANGA DEL SUR", "ZAMBOANGA SIBUGAY", "CITY OF ISABELA", "BUKIDNON", "CAMIGUIN",
+        "LANAO DEL NORTE", "MISAMIS OCCIDENTAL", "MISAMIS ORIENTAL", "DAVAO DEL NORTE", "DAVAO DEL SUR",
+        "DAVAO ORIENTAL", "COMPOSTELA VALLEY", "DAVAO OCCIDENTAL", "COTABATO (NORTH COTABATO)", "SOUTH COTABATO",
+        "SULTAN KUDARAT", "SARANGANI", "COTABATO CITY", "BASILAN", "LANAO DEL SUR", "MAGUINDANAO", "SULU",
+        "TAWI-TAWI", "AGUSAN DEL NORTE", "AGUSAN DEL SUR", "SURIGAO DEL NORTE", "SURIGAO DEL SUR", "DINAGAT ISLANDS"
     }
 
-    if region in ncr:
+    if province in ncr:
         region = "ncr"
-    elif region in luzon:
+    elif province in luzon:
         region = "luzon"
-    elif region in visayas:
+    elif province in visayas:
         region = "visayas"
-    elif region in mindanao:
+    elif province in mindanao:
         region = "mindanao"
     else:
         region = None
@@ -68,38 +65,37 @@ def sf_calculator(region=None, qty=0):
     return 0.00
 
 
-def detect_region(region):
-    ncr = {"NATIONAL CAPITAL REGION (NCR)"}
+def detect_region(province):
+    # Define mappings of provinces to regions
+    ncr = {"NCR, CITY OF MANILA, FIRST DISTRICT", "CITY OF MANILA", "NCR, SECOND DISTRICT", "NCR, THIRD DISTRICT",
+           "NCR, FOURTH DISTRICT"}
     luzon = {
-        "REGION I (ILOCOS REGION)",
-        "REGION II (CAGAYAN VALLEY)",
-        "REGION III (CENTRAL LUZON)",
-        "REGION IV-A (CALABARZON)",
-        "REGION V (BICOL REGION)",
-        "REGION IV-B (MIMAROPA)",
-        "CORDILLERA ADMINISTRATIVE REGION (CAR)"
+        "ILOCOS NORTE", "ILOCOS SUR", "LA UNION", "PANGASINAN", "BATANES", "CAGAYAN", "ISABELA", "NUEVA VIZCAYA",
+        "QUIRINO", "BATAAN", "BULACAN", "NUEVA ECIJA", "PAMPANGA", "TARLAC", "ZAMBALES", "AURORA", "BATANGAS",
+        "CAVITE", "LAGUNA", "QUEZON", "RIZAL", "MARINDUQUE", "OCCIDENTAL MINDORO", "ORIENTAL MINDORO",
+        "PALAWAN", "ROMBLON", "ABRA", "BENGUET", "IFUGAO", "KALINGA", "MOUNTAIN PROVINCE", "APAYAO"
     }
     visayas = {
-        "REGION VI (WESTERN VISAYAS)",
-        "REGION VII (CENTRAL VISAYAS)",
-        "REGION VIII (EASTERN VISAYAS)"
+        "AKLAN", "ANTIQUE", "CAPIZ", "ILOILO", "NEGROS OCCIDENTAL", "GUIMARAS", "BOHOL", "CEBU",
+        "NEGROS ORIENTAL", "SIQUIJOR", "EASTERN SAMAR", "LEYTE", "NORTHERN SAMAR", "SAMAR (WESTERN SAMAR)",
+        "SOUTHERN LEYTE", "BILIRAN"
     }
     mindanao = {
-        "REGION IX (ZAMBOANGA PENINSULA)",
-        "REGION X (NORTHERN MINDANAO)",
-        "REGION XI (DAVAO REGION)",
-        "REGION XII (SOCCSKSARGEN)",
-        "AUTONOMOUS REGION IN MUSLIM MINDANAO (ARMM)",
-        "REGION XIII (Caraga)"
+        "ZAMBOANGA DEL NORTE", "ZAMBOANGA DEL SUR", "ZAMBOANGA SIBUGAY", "CITY OF ISABELA", "BUKIDNON", "CAMIGUIN",
+        "LANAO DEL NORTE", "MISAMIS OCCIDENTAL", "MISAMIS ORIENTAL", "DAVAO DEL NORTE", "DAVAO DEL SUR",
+        "DAVAO ORIENTAL", "COMPOSTELA VALLEY", "DAVAO OCCIDENTAL", "COTABATO (NORTH COTABATO)", "SOUTH COTABATO",
+        "SULTAN KUDARAT", "SARANGANI", "COTABATO CITY", "BASILAN", "LANAO DEL SUR", "MAGUINDANAO", "SULU",
+        "TAWI-TAWI", "AGUSAN DEL NORTE", "AGUSAN DEL SUR", "SURIGAO DEL NORTE", "SURIGAO DEL SUR", "DINAGAT ISLANDS"
     }
 
-    if region in ncr:
+    # Check the province against each region mapping
+    if province in ncr:
         return "ncr"
-    elif region in luzon:
+    elif province in luzon:
         return "luzon"
-    elif region in visayas:
+    elif province in visayas:
         return "visayas"
-    elif region in mindanao:
+    elif province in mindanao:
         return "mindanao"
     else:
         return "unknown"
@@ -146,28 +142,26 @@ def generate_invoice_number():
     invoice_number = f"{date_time_str}{random_chars}"
     return invoice_number
 
+
 def get_access_token():
     """Fetches a fresh access token for API calls."""
     url = 'https://dashboard.twcako.com/order/api/get-access-token/'
     data = {
         "refresh": settings.REFRESH_TOKEN
     }
-    print(f'Refresh Token: {data}')
-    headers = {
-        'Content-Type': 'application/json'
-    }
+
     response = requests.post(url, json=data)
+
     response.raise_for_status()
     if response.status_code == 200:
         print("Access Token:", response.json().get("access_token"))
     else:
         print("Error:", response.json())
+
     if response.status_code == 401:
         print("Authentication failed. Please check the token or credentials.")
         print(f"Response Status Code: {response.status_code}")
         print(f"Response Body: {response.text}")
-
-
 
     return response.json().get('access_token')
 
@@ -195,7 +189,6 @@ def submit_checkout_base(request, redirect_url):
     shop_count = 0
     invoice_number = generate_invoice_number()
     request.session['invoice_number'] = invoice_number
-
 
     for shop, shop_data in ordered_items_by_shop.items():
         shop_count += 1
@@ -306,7 +299,6 @@ def create_xendit_invoice(
         for item in items
     ]
 
-
     invoice_items.append({
         "name": "Shipping Cost",  # For all shops
         "quantity": shop_count,  # Number of shops in the order
@@ -339,7 +331,7 @@ def create_xendit_invoice(
     # Xendit API key from settings
     domain = request.get_host().split('.')
     root_domain = '.'.join(domain[-2:])
-    print (f"Current Domain: {root_domain}")
+    print(f"Current Domain: {root_domain}")
     if root_domain == 'twconline.store':
         api_key = settings.XENDIT_API_KEY
     else:
@@ -408,7 +400,7 @@ def create_or_get_xendit_customer(customer_name, customer_phone):
     xendit_create_url = "https://api.xendit.co/customers"
 
     customer_payload = {
-        "reference_id": reference_id ,
+        "reference_id": reference_id,
         "type": "INDIVIDUAL",
         "individual_detail": {
             "given_names": customer_name,
@@ -450,13 +442,12 @@ def create_order(request):
     if payment_method == 'Cash On Delivery':
         payment_method = 'cod'
 
-
     print(f'Redirect URL: {redirect_url}')
     print(f'Ordered Items by Shop: {ordered_items_by_shop}')
     print(f'Shipping Address from Session: {address_from_session}')
 
     full_name = address_from_session.get('full_name')
-    first_name, last_name = split_full_name (full_name)
+    first_name, last_name = split_full_name(full_name)
 
     # Prepare the shipping details for the order
     shipping_details = {
@@ -476,7 +467,6 @@ def create_order(request):
     for shop, shop_data in ordered_items_by_shop.items():
         cart_items = []
         shop_total_barley_point = 0
-
 
         for item in shop_data['items']:
             product_name = item['product']['name']
@@ -555,5 +545,3 @@ def create_order(request):
     else:
         # Fallback redirect if redirect_url is not set
         return HttpResponseRedirect(reverse('cart:cart'))
-
-
