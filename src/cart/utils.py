@@ -150,20 +150,17 @@ def get_access_token():
         "refresh": settings.REFRESH_TOKEN
     }
 
-    response = requests.post(url, json=data)
+    try:
+        response = requests.post(url, json=data)
+        response.raise_for_status()
 
-    response.raise_for_status()
-    if response.status_code == 200:
-        print("Access Token:", response.json().get("access_token"))
-    else:
-        print("Error:", response.json())
+        if response.status_code == 200 and "access_token" in response.json():
+            return response.json().get("access_token")
 
-    if response.status_code == 401:
-        print("Authentication failed. Please check the token or credentials.")
-        print(f"Response Status Code: {response.status_code}")
-        print(f"Response Body: {response.text}")
-
-    return response.json().get('access_token')
+    except requests.exceptions.RequestException as e:
+        print("Error fetching access token:", e)
+        # Log the error details for debugging purposes
+        return None
 
 
 def submit_checkout_base(request, redirect_url):

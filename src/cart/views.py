@@ -166,10 +166,10 @@ class UpdateCartView(View):
             if shop not in ordered_items_by_shop:
                 ordered_items_by_shop[shop] = {
                     'items': [],
-                    'total_quantity':0,
+                    'total_quantity': 0,
                     'subtotal': 0,
-                    'shipping_fee':0,
-                    'discount':0,
+                    'shipping_fee': 0,
+                    'discount': 0,
                     'cod_amount': 0,
                 }
 
@@ -242,7 +242,6 @@ class UpdateCartView(View):
             subtotal = sum(Decimal(item['get_total']) for item in items)
             total_amount = subtotal + Decimal(FIXED_SHIPPING_FEE)
             total_price += total_amount
-
 
         # Add get_total for each item in the cart response
         for item in cart.values():
@@ -367,6 +366,12 @@ def submit_checkout(request):
         request.session['redirect_url'] = redirect_url
         return redirect(reverse('cart:checkout_complete'))
 
+    access_token = get_access_token()
+    if not access_token:
+        return JsonResponse({
+            'error': 'Failed to retrieve access token. Please try again later.'
+        }, status=400)
+
     redirect_url = reverse('cart:checkout_complete')
     request.session['redirect_url'] = redirect_url
     return submit_checkout_base(request, redirect_url)
@@ -378,11 +383,16 @@ def submit_promo_checkout(request):
         request.session['redirect_url'] = redirect_url
         return redirect(reverse('cart:promo_checkout_done'))
 
+    access_token = get_access_token()
+    if not access_token:
+        return JsonResponse({
+            'error': 'Failed to retrieve access token. Please try again later.'
+        }, status=400)
+
     redirect_url = reverse('cart:promo_checkout_done')
     request.session['redirect_url'] = redirect_url
     print(f'redirect_url: {redirect_url}')
     return submit_checkout_base(request, redirect_url)
-
 
 
 #########################

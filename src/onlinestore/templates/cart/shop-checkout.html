@@ -125,9 +125,10 @@
                                                                 with Cash on Delivery as the payment method. Please read
                                                                 our
                                                                 <a class="url-link" href="{% url 'terms' %}"
-                                                                   onclick="openPopup('{% url 'terms' %}'); return false;">
+                                                                   onclick="showTerms(); return false;">
                                                                     Terms and Conditions
-                                                                </a> for cash on delivery.
+                                                                </a>
+                                                                for cash on delivery.
                                                             </p>
                                                         </div>
                                                     </div>
@@ -413,14 +414,33 @@
         });
     </script>
     <script>
-        function openPopup(url) {
-            const width = 600;
-            const height = 400;
-            const left = (window.innerWidth - width) / 2;
-            const top = (window.innerHeight - height) / 2;
-
-            window.open(url, 'TermsConditionsPopup', `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`);
+        function showTerms() {
+            Swal.fire({
+                title: 'CASH ON DELIVERY (COD) TERMS AND CONDITIONS',
+                html: `
+            <div>
+                <p>By using the COD (Cash-on-Delivery) payment facility of TWC ONLINE STORE, I hereby agree to the following condition:</p>
+                <p>I will ensure that I and/or my authorized representative will be available to receive and pay for the orders, on the date and address specified.</p>
+                <p>Should you have any question(s), you can send a message at this link: <a href="https://m.me/contactcyra" target="_blank">https://m.me/contactcyra</a>.</p>
+            </div>
+        `,
+                icon: 'info',
+                confirmButtonText: 'I Agree',
+                showCancelButton: true,
+                cancelButtonText: 'Cancel',
+                width: '80%',
+                padding: '2em',
+                background: '#fff',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Logic to proceed with COD payment or other actions
+                    console.log('User agreed to the terms');
+                }
+            });
         }
+
     </script>
     <script src="{% static 'js/plugins/int-tel-input/utils.js' %}"></script>
 {% endblock %}
