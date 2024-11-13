@@ -2,6 +2,13 @@
 {% load static %}
 
 {% block title %} {{ title }} {% endblock %}
+{% block extra_css %}
+    <style>
+    #chat-seller {
+        display: none;
+    }
+    </style>
+{% endblock %}
 
 {% block content %}
 

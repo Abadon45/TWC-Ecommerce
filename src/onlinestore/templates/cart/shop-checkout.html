@@ -6,9 +6,9 @@
 
 {% block css %}
     <style>
-    .url-link {
-        color: var(--color-blue);
-    }
+        .url-link {
+            color: var(--color-blue);
+        }
     </style>
 {% endblock %}
 
@@ -79,9 +79,9 @@
                                                                     <img class="img-fluid ms-2 payment-method-img"
                                                                          src="{% static 'img/icon/payment/paymaya.svg' %}"
                                                                          alt="Mastercard">
-{#                                                                    <img class="img-fluid ms-2 payment-method-img"#}
-{#                                                                         src="{% static 'img/icon/payment/shopeepay.svg' %}"#}
-{#                                                                         alt="Mastercard">#}
+                                                                    {#                                                                    <img class="img-fluid ms-2 payment-method-img"#}
+                                                                    {#                                                                         src="{% static 'img/icon/payment/shopeepay.svg' %}"#}
+                                                                    {#                                                                         alt="Mastercard">#}
                                                                 </div>
 
                                                             </div>
@@ -93,11 +93,13 @@
                                                          data-bs-parent="#accordionExample">
                                                         <div class="accordion-body">
                                                             <p class="text-left">Complete your purchase by clicking the
-                                                                “Checkout Now”
-                                                                button below, you’ll be redirected to our secure payment
-                                                                provider, powered by <a class="url-link"
-                                                                        href="https://www.xendit.co/en-ph/">Xendit
-                                                                    PH</a>.</p>
+                                                                “Checkout Now” button below, you’ll be redirected to our
+                                                                secure payment provider, powered by
+                                                                <a class="url-link" href="https://www.xendit.co/en-ph/"
+                                                                   target="_blank">
+                                                                    Xendit PH
+                                                                </a>.
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -118,10 +120,15 @@
                                                          aria-labelledby="headingTwo"
                                                          data-bs-parent="#accordionExample">
                                                         <div class="accordion-body">
-                                                            <p>After clicking “Checkout”, your order will be confirmed
+                                                            <p>
+                                                                After clicking “Checkout,” your order will be confirmed
                                                                 with Cash on Delivery as the payment method. Please read
-                                                                our <a class="url-link" href="{% url 'terms' %}">Terms And
-                                                                    Conditions</a> for cash on delivery.</p>
+                                                                our
+                                                                <a class="url-link" href="{% url 'terms' %}"
+                                                                   onclick="openPopup('{% url 'terms' %}'); return false;">
+                                                                    Terms and Conditions
+                                                                </a> for cash on delivery.
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -404,6 +411,16 @@
                 });
             }
         });
+    </script>
+    <script>
+        function openPopup(url) {
+            const width = 600;
+            const height = 400;
+            const left = (window.innerWidth - width) / 2;
+            const top = (window.innerHeight - height) / 2;
+
+            window.open(url, 'TermsConditionsPopup', `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`);
+        }
     </script>
     <script src="{% static 'js/plugins/int-tel-input/utils.js' %}"></script>
 {% endblock %}

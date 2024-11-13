@@ -1,5 +1,5 @@
-$(document).ready(function() {
-    $('#chat-seller, #user-chat-seller').on('click', function(event) {
+$(document).ready(function () {
+    $('#chat-seller, #user-chat-seller').on('click', function (event) {
         event.preventDefault();
         const chatLink = $(this).attr('href');
 
@@ -25,3 +25,4 @@ $(document).ready(function() {
         }
     });
 });
+
