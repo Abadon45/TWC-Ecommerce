@@ -1196,7 +1196,7 @@ input, textarea {
 
 /* CHECKOUT */
 
-.twc-checkout {
+.twc-checkout, .bundle-checkout {
     .mobile-input {
         .country-code {
             width: 75px !important;

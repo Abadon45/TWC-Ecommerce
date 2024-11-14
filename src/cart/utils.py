@@ -311,12 +311,12 @@ def create_xendit_invoice(
 
     # Invoice data that will be sent to Xendit API
     payload = {
-        "external_id": unique_invoice_id_str,  # Pass the unique invoice ID
-        "description": "TWC Online Store Payment",  # Description of the payment
-        "amount": total_amount,  # Total amount in IDR
+        "external_id": unique_invoice_id_str,
+        "description": "TWC Online Store Payment",
+        "amount": total_amount,
         "success_redirect_url": success_redirect_url,
         "failure_redirect_url": failure_redirect_url,
-        "items": invoice_items,  # List of items in the invoice
+        "items": invoice_items,
         "customer": {
             "given_names": customer_name,
             "mobile_number": customer_phone,
@@ -343,9 +343,11 @@ def create_xendit_invoice(
             auth=(api_key, '')  # Xendit API uses basic auth with just the API key and empty password
         )
 
-        # Check if the request was successful
         if response.status_code == 200:
             invoice_data = response.json()
+
+            print(f'Invoice Data: {invoice_data}')
+
             invoice_url = invoice_data['invoice_url']
             print(f'Redirecting to Xendit Invoice URL: {invoice_url}')  # Debugging log
             return JsonResponse({'redirect_url': invoice_url})
