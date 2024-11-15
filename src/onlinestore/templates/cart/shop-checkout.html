@@ -400,7 +400,7 @@
 
                             setTimeout(() => {
                                 window.location.href = response.redirect_url;
-                            }, 2000);
+                            }, 500);
                         } else {
                             Swal.fire({
                                 title: 'Thank You for Your Order!',
@@ -413,7 +413,7 @@
 
                             setTimeout(() => {
                                 $('#checkoutForm').submit();
-                            }, 2000);
+                            }, 500);
                         }
                     },
                     error: function (xhr, status, error) {
