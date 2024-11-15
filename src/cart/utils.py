@@ -7,6 +7,7 @@ from django.conf import settings
 from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
+from requests.auth import HTTPBasicAuth
 
 from onlinestore.models import *
 
@@ -102,7 +103,6 @@ def detect_region(province):
 
 
 
-
 def split_full_name(full_name):
     # Common last name prefixes in some languages
     last_name_prefixes = {"de", "de la", "van", "von", "da", "del", "la", "san", "dela"}
@@ -140,6 +140,66 @@ def generate_invoice_number():
     # Combine date, time, and random characters
     invoice_number = f"{date_time_str}{random_chars}"
     return invoice_number
+
+def get_xendit_api_key(request):
+    """
+    Determines the appropriate Xendit API key based on the root domain of the request.
+
+    Returns:
+        str: The appropriate Xendit API key (live or test).
+    """
+    # Extract the root domain from the request host
+    domain = request.get_host().split('.')
+    root_domain = '.'.join(domain[-2:])  # Get the last two parts of the domain
+    print(f"Current Domain: {root_domain}")
+
+    # Determine which API key to return based on the root domain
+    if root_domain == 'twconline.store':
+        return settings.XENDIT_API_KEY  # Use live API key
+    else:
+        return settings.XENDIT_TEST_API  # Use test API key
+
+
+def check_xendit_invoice_status(request, invoice_id):
+    # Xendit API URL for invoice status
+    xendit_url = f"https://api.xendit.co/v2/invoices/{invoice_id}"
+
+    # Xendit API key (replace with your actual key)
+    api_key = get_xendit_api_key(request)
+
+    try:
+        # Send GET request to Xendit API to fetch invoice status
+        response = requests.get(xendit_url, auth=HTTPBasicAuth(api_key, ''))
+
+        # Print the response content for debugging
+        print("Response Content:", response.content)  # This will show the full response body
+
+        # Check if the response is successful
+        if response.status_code == 200:
+            # Parse the response JSON
+            invoice_data = response.json()
+            status = invoice_data.get('status')
+
+            # Check the status and print appropriate message
+            if status == 'PAID':
+                print(f"Invoice {invoice_id} has been paid. Payment approved.")
+                return 'PAID'
+            elif status == 'UNPAID':
+                print(f"Invoice {invoice_id} is still pending.")
+                return 'UNPAID'
+            else:
+                print(f"Invoice {invoice_id} status is {status}.")
+                return status
+        else:
+            # Print error if API request fails
+            print(f"Failed to fetch invoice status. HTTP Status Code: {response.status_code}")
+            print(f"Error Response: {response.json()}")  # Detailed error message
+            return None
+
+    except requests.exceptions.RequestException as e:
+        # Handle any request exceptions (network errors, invalid API key, etc.)
+        print(f"Exception occurred: {str(e)}")
+        return None
 
 
 def get_access_token():
@@ -324,14 +384,7 @@ def create_xendit_invoice(
 
     print(f'Payload: {payload}')
 
-    # Xendit API key from settings
-    domain = request.get_host().split('.')
-    root_domain = '.'.join(domain[-2:])
-    print(f"Current Domain: {root_domain}")
-    if root_domain == 'twconline.store':
-        api_key = settings.XENDIT_API_KEY
-    else:
-        api_key = 'xnd_development_Vhp4vooIYG0v2p3z0DLdnhgjRTgD36Pf4qRM5Uhgds66NPvzP7IRw9Wm9rdw'
+    api_key = get_xendit_api_key(request)
 
     try:
 

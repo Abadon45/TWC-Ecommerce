@@ -30,6 +30,8 @@ SECRET_KEY = 'django-insecure-)!a@6)s)$_u_o6*b7&#vqo++i)i5f^$_8nid!r0w^wm3#w47$y
 REFRESH_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc2Mjk0MzM5OSwiaWF0IjoxNzMxNDA3Mzk5LCJqdGkiOiJiNjNjMTNlYzdkNjA0OGYxYmE3NDU2NzQwNmFiZTU1ZSIsInVzZXJfaWQiOjE5ODgzfQ.CoHhMbk89oiwTVKk-Y7VAaMBa3WkzwrLRJo-6IKTZ70"
 
 
+XENDIT_TEST_API = '_Vhp4vooIYG0v2p3z0DLdnhgjRTgD36Pf4qRM5Uhgds66NPvzP7IRw9Wm9rdw'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
