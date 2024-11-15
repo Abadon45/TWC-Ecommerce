@@ -502,7 +502,7 @@ class PromoCheckoutDoneView(CheckoutDoneView):
 def xendit_webhook(request):
     WEBHOOK_VERIFICATION_TOKEN = '5CpBwam1AYBUJGQXVGWWOp7onHREjDb3ulDQCabWjpL4BmVS'
 
-    print("Webhook endpoint accessed")  # Print to confirm the URL is hit
+    print("Webhook endpoint accessed")  # Confirm endpoint is hit
 
     if request.method not in ['POST', 'GET']:
         return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
@@ -511,10 +511,14 @@ def xendit_webhook(request):
     if request.method == 'GET':
         return JsonResponse({'status': 'ok', 'message': 'GET request received for testing'})
 
+    # Print all headers to confirm if X-Webhook-Token is present
+    print("Request headers:", request.headers)  # Debug: view all headers
+
     # Only allow POST method for the webhook
     if request.method == 'POST':
         # Get the token from the headers (assuming the token is passed in the header)
         token = request.headers.get('X-Webhook-Token')
+        print("Received Token:", token)  # Debug: log the token received
 
         if not token:
             print("Token missing")  # Log missing token
