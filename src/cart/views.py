@@ -500,7 +500,7 @@ class PromoCheckoutDoneView(CheckoutDoneView):
 
 @csrf_exempt  # Exempt from CSRF protection, as it's a webhook
 def xendit_webhook(request):
-    WEBHOOK_VERIFICATION_TOKEN = '5CpBwam1AYBUJGQXVGWWOp7onHREjDb3ulDQCabWjpL4BmVS'
+    WEBHOOK_VERIFICATION_TOKEN = 'Fq3Io8PyPn7vkIcXY7nz9SXVu0OMAFKl45xWMeqmdbriIPFG'
 
     print("Webhook endpoint accessed")  # Confirm endpoint is hit
 
