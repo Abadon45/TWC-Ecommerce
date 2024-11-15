@@ -6,6 +6,7 @@ from decimal import Decimal
 from django.shortcuts import redirect, get_object_or_404, render
 from django.http import Http404
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from django.http import JsonResponse
 from urllib.parse import urlencode
@@ -497,137 +498,36 @@ class PromoCheckoutDoneView(CheckoutDoneView):
     print(template_name)
 
 
-def set_order_id_session_variable(request):
-    if request.method == 'POST' and request.is_ajax():
-        order_id = request.POST.get('order_id')
-        request.session['clicked_order_id'] = order_id
-        print(f'Order ID: {order_id}')
-        return JsonResponse({'success': True})
-    return JsonResponse({'success': False})
+@csrf_exempt  # Exempt from CSRF protection, as it's a webhook
+def xendit_webhook(request):
+    WEBHOOK_VERIFICATION_TOKEN = '5CpBwam1AYBUJGQXVGWWOp7onHREjDb3ulDQCabWjpL4BmVS'
 
-
-#########################################################
-# ----------Change address from list of addresses--------#
-#########################################################
-
-def get_selected_address(request):
-    # Log the incoming GET request to 'get-selected-address'
-    print("Incoming GET request to 'get-selected-address'")
-
-    # Ensure that the request method is GET; return an error response if not
-    if request.method != 'GET':
-        return JsonResponse({'success': False, 'error': 'Invalid request method.'})
-
-    # Retrieve the selected address ID from the GET parameters
-    selected_address_id = request.GET.get('selected_address_id')
-    print(f"selected address: {selected_address_id}")
-
-    # If the selected address ID is missing, return an error response
-    if not selected_address_id:
-        return JsonResponse({'success': False, 'error': 'Missing address ID.'})
-
-    try:
-        # Attempt to retrieve the selected address from the database
-        selected_address = get_object_or_404(Address, pk=selected_address_id)
-        print(selected_address.barangay)
-    except Http404:
-        # If the address is not found, return an error response
-        return JsonResponse({'success': False, 'error': 'Address not found.'})
-
-    try:
-        # Get the current user and their incomplete orders
-        user = request.user
-
-    except Exception as e:
-        # Handle any exceptions during the update process and return an error response
-        print(f"Exception in checkout view: {e}")
-        return JsonResponse({'error': 'Internal Server Error'}, status=500)
-
-    # Prepare the selected address data to be returned in the JSON response
-    address_data = {
-        'first_name': selected_address.first_name,
-        'last_name': selected_address.last_name,
-        'email': selected_address.email,
-        'phone': selected_address.phone,
-        'province': selected_address.province,
-        'city': selected_address.city,
-        'barangay': selected_address.barangay,
-        'line1': selected_address.line1,
-        'line2': selected_address.line2,
-        'postcode': selected_address.postcode,
-        'message': selected_address.message,
-        'is_default': selected_address.is_default,
-    }
-
-    # Return a success response with the selected address data
-    return JsonResponse({'success': True, 'address': address_data})
-
-
-#########################################################
-# -------Edit an address from the list of addresses------#
-#########################################################
-
-def edit_checkout_address(request):
+    # Only allow POST method for the webhook
     if request.method == 'POST':
-        address_id = request.POST.get('address_id')
+        # Get the token from the headers (assuming the token is passed in the header)
+        token = request.headers.get('X-Webhook-Token')
 
-        new_data = {
-            'first_name': request.POST.get('first_name'),
-            'last_name': request.POST.get('last_name'),
-            'email': request.POST.get('email'),
-            'phone': request.POST.get('phone'),
-            'province': request.POST.get('province'),
-            'city': request.POST.get('city'),
-            'barangay': request.POST.get('barangay'),
-            'line1': request.POST.get('line1'),
-            'line2': request.POST.get('line2'),
-            'postcode': request.POST.get('postcode'),
-            'message': request.POST.get('message'),
-        }
+        if not token:
+            return JsonResponse({'error': 'Token missing'}, status=400)
 
-        print("Address ID:", address_id)
-        print("New Data:", new_data)
+        # Verify the token
+        if token != WEBHOOK_VERIFICATION_TOKEN:
+            return JsonResponse({'error': 'Invalid token'}, status=403)
 
-        # Update the address
         try:
-            address = Address.objects.get(pk=address_id)
-            print("Existing Address:", address)
+            # Parse the incoming JSON data from the webhook
+            data = json.loads(request.body.decode('utf-8'))
+            print("Webhook Data:", data)  # Log data for debugging
 
-            for key, value in new_data.items():
-                setattr(address, key, value)
-            address.save()
-            print("Address Updated Successfully")
-            return JsonResponse({'success': True, 'address_id': address_id, 'new_data': new_data})
-        except Address.DoesNotExist:
-            print("Address not found")
-            return JsonResponse({'success': False, 'error': 'Address not found'})
+            # You can add further processing of the data here, like updating models or sending notifications
+
+            # Return success response
+            return JsonResponse({'status': 'success', 'message': 'Webhook received and verified'})
+
+        except json.JSONDecodeError:
+            # Return error if the JSON is invalid
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+
     else:
-        print("Invalid request method")
-        return JsonResponse({'success': False, 'error': 'Invalid request method'})
-
-
-def get_checkout_address_details(request):
-    if request.method == 'GET':
-        address_id = request.GET.get('address_id')
-        try:
-            address = Address.objects.get(pk=address_id)
-
-            address_data = {
-                'address_id': address_id,
-                'first_name': address.first_name,
-                'last_name': address.last_name,
-                'email': address.email,
-                'phone': address.phone,
-                'province': address.province,
-                'city': address.city,
-                'barangay': address.barangay,
-                'line1': address.line1,
-                'line2': address.line2,
-                'postcode': address.postcode,
-                'message': address.message,
-            }
-            return JsonResponse({'success': True, 'address': address_data})
-        except Address.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'Address not found'})
-    else:
-        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+        # Return error if method is not POST
+        return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
