@@ -528,35 +528,18 @@ def xendit_webhook(request):
             print("Webhook Data:", data)  # Log the data for debugging
 
             # Get the event type
-            event = data.get('event')
-            print(f"Received event: {event}")  # Log the event for debugging
+            status = data.get('status')
 
-            # Check if the event is for invoice status update
-            if event == 'invoice.status':
-                # Extract invoice data
-                invoice_data = data.get('data', {})
-                invoice_id = invoice_data.get('id')
-                amount = invoice_data.get('amount')
-                currency = invoice_data.get('currency')
-                status = invoice_data.get('status')
-                reference_id = invoice_data.get('external_id')
+            if status == 'PAID':
+                # Process the payment (e.g., mark order as paid)
+                print(f"Invoice {data.get('external_id')} has been paid successfully.")
 
-                # Log invoice status
-                print(f"Invoice status: {status} for invoice {invoice_id}. Amount: {amount} {currency}, Reference ID: {reference_id}")
-
-                # Check if the status is 'PAID'
-                if status == 'PAID':
-                    # Process the payment (e.g., mark order as paid)
-                    print(f"Invoice {invoice_id} has been paid successfully.")
-
-                    # Return success response
-                    return JsonResponse({'status': 'success', 'message': 'Invoice status is PAID and processed'})
-
-                else:
-                    return JsonResponse({'status': 'success', 'message': f"Invoice status is {status}, no further action taken."})
+                # Return success response
+                return JsonResponse({'status': 'success', 'message': 'Invoice status is PAID and processed'})
 
             else:
-                return JsonResponse({'error': f'Unsupported event type: {event}'}, status=400)
+                return JsonResponse({'status': 'success', 'message': f"Invoice status is {status}, no further action taken."})
+
 
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON data'}, status=400)
