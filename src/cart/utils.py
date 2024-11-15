@@ -101,18 +101,17 @@ def detect_region(province):
         return "unknown"
 
 
+
+
 def split_full_name(full_name):
     # Common last name prefixes in some languages
     last_name_prefixes = {"de", "de la", "van", "von", "da", "del", "la", "san", "dela"}
 
-    # Strip leading/trailing spaces and split by spaces
     parts = full_name.strip().split()
 
     if len(parts) <= 1:
-        # Return the name as first name only if there's only one part
         return full_name, None
 
-    # Start by assuming the last part is the last name
     first_name = []
     last_name = []
 

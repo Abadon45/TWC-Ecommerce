@@ -230,6 +230,60 @@
 {% endblock %}
 {% block extra_js %}
     <script>
+        // Handle the checkout process (dummy form submission)
+        function submitForm() {
+            console.log("submitForm called"); // Check if this appears in the console
+            const fullName = $('input[name="full_name"]').val().trim();
+            const phone = $('input[name="phone_display"]').val().trim();
+            const address = $('input[name="address"]').val().trim();
+            const province = $('select[name="province"]').val();
+            const city = $('select[name="city"]').val();
+            const barangay = $('select[name="barangay"]').val();
+            const postcode = $('input[name="postcode"]').val().trim();
+
+            // Log the values to console for debugging
+            console.log("Full Name:", fullName);
+            console.log("Phone:", phone);
+            console.log("Address:", address);
+            console.log("Province:", province);
+            console.log("City:", city);
+            console.log("Barangay:", barangay);
+            console.log("Postcode:", postcode);
+
+            // Validate if any required field is missing
+            let missingFields = [];
+
+            if (!fullName) missingFields.push('Full Name');
+            if (!phone) missingFields.push('Phone');
+            if (!address) missingFields.push('Address');
+            if (!province || province === "- Select Province -") missingFields.push('Province');
+            if (!city || city === "- Select City -") missingFields.push('City');
+            if (!barangay || barangay === "- Select Barangay -") missingFields.push('Barangay');
+            if (!postcode) missingFields.push('Postcode');
+
+            if (missingFields.length > 0) {
+                if (missingFields.length > 1) {
+                    const lastField = missingFields.pop();
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Incomplete Address',
+                        text: 'Please fill in or select the following fields: ' + missingFields.join(', ') + ', and ' + lastField,
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Incomplete Address',
+                        text: 'Please fill in or select the following field: ' + missingFields[0],
+                        confirmButtonText: 'OK'
+                    });
+                }
+
+            } else {
+                $('#addUserData').click();
+            }
+        }
+
         $(document).ready(function () {
 
             $('input[name="paymentMethod"][value="xendit"]').prop('checked', true);
@@ -285,11 +339,6 @@
                 const radioButtonId = $(this).attr('for');
                 $('#' + radioButtonId).prop('checked', true); // Set the radio button as checked
             });
-
-            // Handle the checkout process (dummy form submission)
-            function submitForm() {
-                $('#addUserData').click();
-            }
 
             $('.dummy-submit button').click(submitForm);
 
