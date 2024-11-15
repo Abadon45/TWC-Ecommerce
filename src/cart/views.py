@@ -527,7 +527,7 @@ def xendit_webhook(request):
         # Verify the token
         if token != WEBHOOK_VERIFICATION_TOKEN:
             print("Invalid token")  # Log invalid token
-            return JsonResponse({'error': 'Invalid token'}, status=403)
+            return JsonResponse({'error': f'Invalid token{token}'}, status=403)
 
         try:
             # Parse the incoming JSON data from the webhook
