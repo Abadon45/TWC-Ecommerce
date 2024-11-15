@@ -517,12 +517,29 @@ def xendit_webhook(request):
         try:
             # Parse the incoming JSON data from the webhook
             data = json.loads(request.body.decode('utf-8'))
-            print("Webhook Data:", data)  # Log data for debugging
+            print("Webhook Data:", data)  # Log the data for debugging
 
-            # You can add further processing of the data here, like updating models or sending notifications
+            # Check for the event type to ensure it's a successful payment
+            if data.get('event') == 'payment.succeeded':
+                payment_data = data.get('data', {})
+                amount = payment_data.get('amount')
+                currency = payment_data.get('currency')
+                payment_method = payment_data.get('payment_method', {}).get('type')
+                customer_id = payment_data.get('customer_id')
+                reference_id = payment_data.get('reference_id')
+                status = payment_data.get('status')
 
-            # Return success response
-            return JsonResponse({'status': 'success', 'message': 'Webhook received and verified'})
+                # Example: Log or save the data to the database
+                print(
+                    f"Payment succeeded: {amount} {currency} from customer {customer_id} using {payment_method}. Reference ID: {reference_id}")
+
+                # You can also perform database updates or other actions based on the payment status
+
+                # Return success response
+                return JsonResponse({'status': 'success', 'message': 'Webhook received and verified'})
+
+            else:
+                return JsonResponse({'error': 'Unsupported event type'}, status=400)
 
         except json.JSONDecodeError:
             # Return error if the JSON is invalid
