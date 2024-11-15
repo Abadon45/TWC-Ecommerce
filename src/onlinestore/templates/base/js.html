@@ -6,10 +6,6 @@
     const checkoutUrl = "{% url 'cart:checkout' %}";
     const checkoutCompleteUrl = "{% url 'cart:checkout_complete' %}";
     const registerURL = "{% url 'login:register' %}";
-    const selectedAddressUrl = "{% url 'cart:get_selected_address' %}";
-    const editCheckoutAddressUrl = "{% url 'cart:edit_checkout_address' %}";
-    const getOrderId = "{% url 'cart:set_order_id_session_variable' %}";
-    const getCheckoutAddressDetailsUrl = "{% url 'cart:get_checkout_address_details' %}";
     var csrf = "{{ csrf_token }}";
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
