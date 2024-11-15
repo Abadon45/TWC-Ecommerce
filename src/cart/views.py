@@ -511,13 +511,13 @@ def xendit_webhook(request):
     if request.method == 'GET':
         return JsonResponse({'status': 'ok', 'message': 'GET request received for testing'})
 
-    # Print all headers to confirm if X-Webhook-Token is present
+    # Print all headers to confirm if x-callback-token is present
     print("Request headers:", request.headers)  # Debug: view all headers
 
     # Only allow POST method for the webhook
     if request.method == 'POST':
-        # Get the token from the headers (assuming the token is passed in the header)
-        token = request.headers.get('X-Webhook-Token')
+        # Get the token from the headers (updated to use x-callback-token)
+        token = request.headers.get('x-callback-token')
         print("Received Token:", token)  # Debug: log the token received
 
         if not token:
@@ -534,23 +534,21 @@ def xendit_webhook(request):
             data = json.loads(request.body.decode('utf-8'))
             print("Webhook Data:", data)  # Log the data for debugging
 
-            # Check for the event type to ensure it's for invoice status updates
-            if data.get('event') == 'invoice.status':
-                invoice_data = data.get('data', {})
-                invoice_id = invoice_data.get('id')
-                amount = invoice_data.get('amount')
-                currency = invoice_data.get('currency')
-                status = invoice_data.get('status')
-                reference_id = invoice_data.get('reference_id')
+            # Check for the event type to handle successful or failed payment events
+            event_type = data.get('event')
+            if event_type == 'payment.succeeded':
+                payment_data = data.get('data', {})
+                print("Payment succeeded:", payment_data)  # Log payment success
 
-                # Log or process the invoice data as needed
-                print(
-                    f"Invoice status updated: {status} for invoice {invoice_id}. "
-                    f"Amount: {amount} {currency}, Reference ID: {reference_id}"
-                )
+                # Process successful payment data as needed (e.g., update order status)
+                return JsonResponse({'status': 'success', 'message': 'Payment succeeded webhook received'})
 
-                # Return success response
-                return JsonResponse({'status': 'success', 'message': 'Invoice status webhook received and verified'})
+            elif event_type == 'payment.failed':
+                payment_data = data.get('data', {})
+                print("Payment failed:", payment_data)  # Log payment failure
+
+                # Process failed payment data as needed (e.g., update order status, notify customer)
+                return JsonResponse({'status': 'success', 'message': 'Payment failed webhook received'})
 
             else:
                 print("Unsupported event type")  # Log unsupported event type
