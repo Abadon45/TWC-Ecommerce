@@ -532,10 +532,10 @@ def xendit_webhook(request):
 
             if status == 'PAID':
                 # Process the payment (e.g., mark order as paid)
-                print(f"Invoice {data.get('external_id')} has been paid successfully.")
+                invoice_id = data.get('external_id')
 
                 # Return success response
-                return JsonResponse({'status': 'success', 'message': 'Invoice status is PAID and processed'})
+                return JsonResponse({'status': 'success', 'message': f'Invoice {invoice_id } status is PAID and processed'})
 
             else:
                 return JsonResponse({'status': 'success', 'message': f"Invoice status is {status}, no further action taken."})
