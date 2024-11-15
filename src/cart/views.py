@@ -500,64 +500,67 @@ class PromoCheckoutDoneView(CheckoutDoneView):
 
 @csrf_exempt  # Exempt from CSRF protection, as it's a webhook
 def xendit_webhook(request):
-    WEBHOOK_VERIFICATION_TOKEN = 'Fq3Io8PyPn7vkIcXY7nz9SXVu0OMAFKl45xWMeqmdbriIPFG'
+    WEBHOOK_VERIFICATION_TOKEN = '5CpBwam1AYBUJGQXVGWWOp7onHREjDb3ulDQCabWjpL4BmVS'
 
-    print("Webhook endpoint accessed")  # Confirm endpoint is hit
-
+    # Only allow POST and GET requests
     if request.method not in ['POST', 'GET']:
         return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
 
-    # Allow test GET requests without processing
+    # Allow GET requests for testing
     if request.method == 'GET':
         return JsonResponse({'status': 'ok', 'message': 'GET request received for testing'})
 
-    # Print all headers to confirm if x-callback-token is present
-    print("Request headers:", request.headers)  # Debug: view all headers
-
-    # Only allow POST method for the webhook
     if request.method == 'POST':
-        # Get the token from the headers (updated to use x-callback-token)
-        token = request.headers.get('x-callback-token')
-        print("Received Token:", token)  # Debug: log the token received
+        # Get the token from the headers (assuming the token is passed in the header)
+        token = request.headers.get('x-callback-token')  # Ensure the correct header is used
 
         if not token:
-            print("Token missing")  # Log missing token
             return JsonResponse({'error': 'Token missing'}, status=400)
 
         # Verify the token
         if token != WEBHOOK_VERIFICATION_TOKEN:
-            print("Invalid token")  # Log invalid token
-            return JsonResponse({'error': f'Invalid token{token}'}, status=403)
+            print(f"Invalid token: {token}")  # Log invalid token
+            return JsonResponse({'error': f'Invalid token {token}'}, status=403)
 
         try:
             # Parse the incoming JSON data from the webhook
             data = json.loads(request.body.decode('utf-8'))
             print("Webhook Data:", data)  # Log the data for debugging
 
-            # Check for the event type to handle successful or failed payment events
-            event_type = data.get('event')
-            if event_type == 'payment.succeeded':
-                payment_data = data.get('data', {})
-                print("Payment succeeded:", payment_data)  # Log payment success
+            # Get the event type
+            event = data.get('event')
+            print(f"Received event: {event}")  # Log the event for debugging
 
-                # Process successful payment data as needed (e.g., update order status)
-                return JsonResponse({'status': 'success', 'message': 'Payment succeeded webhook received'})
+            # Check if the event is for invoice status update
+            if event == 'invoice.status':
+                # Extract invoice data
+                invoice_data = data.get('data', {})
+                invoice_id = invoice_data.get('id')
+                amount = invoice_data.get('amount')
+                currency = invoice_data.get('currency')
+                status = invoice_data.get('status')
+                reference_id = invoice_data.get('external_id')
 
-            elif event_type == 'payment.failed':
-                payment_data = data.get('data', {})
-                print("Payment failed:", payment_data)  # Log payment failure
+                # Log invoice status
+                print(f"Invoice status: {status} for invoice {invoice_id}. Amount: {amount} {currency}, Reference ID: {reference_id}")
 
-                # Process failed payment data as needed (e.g., update order status, notify customer)
-                return JsonResponse({'status': 'success', 'message': 'Payment failed webhook received'})
+                # Check if the status is 'PAID'
+                if status == 'PAID':
+                    # Process the payment (e.g., mark order as paid)
+                    print(f"Invoice {invoice_id} has been paid successfully.")
+
+                    # Return success response
+                    return JsonResponse({'status': 'success', 'message': 'Invoice status is PAID and processed'})
+
+                else:
+                    return JsonResponse({'status': 'success', 'message': f"Invoice status is {status}, no further action taken."})
 
             else:
-                print("Unsupported event type")  # Log unsupported event type
-                return JsonResponse({'error': 'Unsupported event type'}, status=400)
+                return JsonResponse({'error': f'Unsupported event type: {event}'}, status=400)
 
         except json.JSONDecodeError:
-            print("Invalid JSON data")  # Log JSON decode error
             return JsonResponse({'error': 'Invalid JSON data'}, status=400)
 
     else:
-        print("Method not allowed")  # Log incorrect method
         return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
+
