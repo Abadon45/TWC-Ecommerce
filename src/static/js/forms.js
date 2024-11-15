@@ -64,7 +64,7 @@ $(document).ready(function () {
                         $("#total-payment").text(totalPaymentFormatted);
 
                         Swal.close();
-                    }, 2000);
+                    }, 500);
                 });
             },
             error: function (errorData) {
