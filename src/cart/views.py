@@ -502,6 +502,13 @@ class PromoCheckoutDoneView(CheckoutDoneView):
 def xendit_webhook(request):
     WEBHOOK_VERIFICATION_TOKEN = '5CpBwam1AYBUJGQXVGWWOp7onHREjDb3ulDQCabWjpL4BmVS'
 
+    if request.method not in ['POST', 'GET']:
+        return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
+
+        # Allow test GET requests without processing
+    if request.method == 'GET':
+        return JsonResponse({'status': 'ok', 'message': 'GET request received for testing'})
+
     # Only allow POST method for the webhook
     if request.method == 'POST':
         # Get the token from the headers (assuming the token is passed in the header)
@@ -519,24 +526,25 @@ def xendit_webhook(request):
             data = json.loads(request.body.decode('utf-8'))
             print("Webhook Data:", data)  # Log the data for debugging
 
-            # Check for the event type to ensure it's a successful payment
-            if data.get('event') == 'payment.succeeded':
-                payment_data = data.get('data', {})
-                amount = payment_data.get('amount')
-                currency = payment_data.get('currency')
-                payment_method = payment_data.get('payment_method', {}).get('type')
-                customer_id = payment_data.get('customer_id')
-                reference_id = payment_data.get('reference_id')
-                status = payment_data.get('status')
+            # Check for the event type to ensure it's for invoice status updates
+            if data.get('event') == 'invoice.status':
+                invoice_data = data.get('data', {})
+                invoice_id = invoice_data.get('id')
+                amount = invoice_data.get('amount')
+                currency = invoice_data.get('currency')
+                status = invoice_data.get('status')
+                reference_id = invoice_data.get('reference_id')
 
-                # Example: Log or save the data to the database
+                # Log or process the invoice data as needed
                 print(
-                    f"Payment succeeded: {amount} {currency} from customer {customer_id} using {payment_method}. Reference ID: {reference_id}")
+                    f"Invoice status updated: {status} for invoice {invoice_id}. "
+                    f"Amount: {amount} {currency}, Reference ID: {reference_id}"
+                )
 
-                # You can also perform database updates or other actions based on the payment status
+                # Example: Perform actions based on invoice status (e.g., updating an order in the database)
 
                 # Return success response
-                return JsonResponse({'status': 'success', 'message': 'Webhook received and verified'})
+                return JsonResponse({'status': 'success', 'message': 'Invoice status webhook received and verified'})
 
             else:
                 return JsonResponse({'error': 'Unsupported event type'}, status=400)
