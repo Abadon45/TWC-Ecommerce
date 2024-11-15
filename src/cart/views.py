@@ -502,10 +502,12 @@ class PromoCheckoutDoneView(CheckoutDoneView):
 def xendit_webhook(request):
     WEBHOOK_VERIFICATION_TOKEN = '5CpBwam1AYBUJGQXVGWWOp7onHREjDb3ulDQCabWjpL4BmVS'
 
+    print("Webhook endpoint accessed")  # Print to confirm the URL is hit
+
     if request.method not in ['POST', 'GET']:
         return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
 
-        # Allow test GET requests without processing
+    # Allow test GET requests without processing
     if request.method == 'GET':
         return JsonResponse({'status': 'ok', 'message': 'GET request received for testing'})
 
@@ -515,10 +517,12 @@ def xendit_webhook(request):
         token = request.headers.get('X-Webhook-Token')
 
         if not token:
+            print("Token missing")  # Log missing token
             return JsonResponse({'error': 'Token missing'}, status=400)
 
         # Verify the token
         if token != WEBHOOK_VERIFICATION_TOKEN:
+            print("Invalid token")  # Log invalid token
             return JsonResponse({'error': 'Invalid token'}, status=403)
 
         try:
@@ -541,18 +545,17 @@ def xendit_webhook(request):
                     f"Amount: {amount} {currency}, Reference ID: {reference_id}"
                 )
 
-                # Example: Perform actions based on invoice status (e.g., updating an order in the database)
-
                 # Return success response
                 return JsonResponse({'status': 'success', 'message': 'Invoice status webhook received and verified'})
 
             else:
+                print("Unsupported event type")  # Log unsupported event type
                 return JsonResponse({'error': 'Unsupported event type'}, status=400)
 
         except json.JSONDecodeError:
-            # Return error if the JSON is invalid
+            print("Invalid JSON data")  # Log JSON decode error
             return JsonResponse({'error': 'Invalid JSON data'}, status=400)
 
     else:
-        # Return error if method is not POST
+        print("Method not allowed")  # Log incorrect method
         return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
