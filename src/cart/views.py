@@ -494,13 +494,12 @@ class CheckoutDoneView(View):
 
 class PromoCheckoutDoneView(CheckoutDoneView):
     title = "Thank You"
-    template_name = 'cart/bundle-thank-you.html'
+    template_name = 'cart/bundle-thank-you.html'git
     print(template_name)
 
 
 @csrf_exempt
 def xendit_webhook(request):
-    WEBHOOK_VERIFICATION_TOKEN = 'xnd_public_production_9U8m69Xc65vzDJp8IU8w2LDXXSFlSSIwRKnQvrR6rT3Vdeq6THlFr3xOB95aE'
     WEBHOOK_VERIFICATION_TOKEN = 'Fq3Io8PyPn7vkIcXY7nz9SXVu0OMAFKl45xWMeqmdbriIPFG'
 
     if request.method == 'POST':
