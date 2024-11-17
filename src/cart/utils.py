@@ -167,6 +167,7 @@ def check_xendit_invoice_status(request, invoice_id):
 
     try:
         response = requests.get(xendit_url, auth=HTTPBasicAuth(api_key, ''))
+        response.raise_for_status()
 
         if response.status_code == 200:
             invoice_data = response.json()
@@ -390,6 +391,7 @@ def create_xendit_invoice(
             print(f'Invoice Data: {invoice_data}')
 
             invoice_url = invoice_data['invoice_url']
+            invoice_id = invoice_data['id']
             print(f'Redirecting to Xendit Invoice URL: {invoice_url}')  # Debugging log
             return JsonResponse({'redirect_url': invoice_url})
             # return HttpResponseRedirect(invoice_url)

@@ -494,7 +494,7 @@ class CheckoutDoneView(View):
 
 class PromoCheckoutDoneView(CheckoutDoneView):
     title = "Thank You"
-    template_name = 'cart/bundle-thank-you.html'git
+    template_name = 'cart/bundle-thank-you.html'
     print(template_name)
 
 
