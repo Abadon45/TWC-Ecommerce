@@ -392,6 +392,7 @@ def create_xendit_invoice(
 
             invoice_url = invoice_data['invoice_url']
             invoice_id = invoice_data['id']
+            request.session['invoice_id'] = invoice_id
             print(f'Redirecting to Xendit Invoice URL: {invoice_url}')  # Debugging log
             return JsonResponse({'redirect_url': invoice_url})
             # return HttpResponseRedirect(invoice_url)
@@ -475,115 +476,124 @@ def create_order(request):
     """
     order_url = 'https://dashboard.twcako.com/order/api/create-order/'
     access_token = get_access_token()
-    print(f'Access Token: {access_token}')
     ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
     address_from_session = request.session.get('shipping_address', {})
     redirect_url = request.session.get('redirect_url', None)
+    invoice_id = request.session.get('invoice_id', None)
 
-    payment_method = request.session.get('payment_method')
-    if payment_method == 'Cash On Delivery':
-        payment_method = 'cod'
+    status = check_xendit_invoice_status(request, invoice_id)
+    print(f'Invoice ID: {invoice_id}')
+    print(f'xendit status: {status}')
 
-    print(f'Redirect URL: {redirect_url}')
-    print(f'Ordered Items by Shop: {ordered_items_by_shop}')
-    print(f'Shipping Address from Session: {address_from_session}')
+    if status == 'PAID':
 
-    full_name = address_from_session.get('full_name')
-    first_name, last_name = split_full_name(full_name)
+        payment_method = request.session.get('payment_method')
+        if payment_method == 'Cash On Delivery':
+            payment_method = 'cod'
 
-    # Prepare the shipping details for the order
-    shipping_details = {
-        "name": first_name,
-        "last_name": last_name,
-        "mobile": address_from_session.get('phone'),
-        "address": address_from_session.get('address'),
-        "barangay": address_from_session.get('barangay'),
-        "city": address_from_session.get('city'),
-        "province": address_from_session.get('province'),
-        "country": 'Philippines',
-        "postal_code": address_from_session.get('postcode'),
-        "shipping_notes": address_from_session.get('message', "")
-    }
+        print(f'Redirect URL: {redirect_url}')
+        print(f'Ordered Items by Shop: {ordered_items_by_shop}')
+        print(f'Shipping Address from Session: {address_from_session}')
 
-    # Order creation logic remains the same
-    for shop, shop_data in ordered_items_by_shop.items():
-        cart_items = []
-        shop_total_barley_point = 0
+        full_name = address_from_session.get('full_name')
+        first_name, last_name = split_full_name(full_name)
 
-        for item in shop_data['items']:
-            product_name = item['product']['name']
-            barley_point = item['product'].get('barley_point', 0)
-            quantity = item.get('quantity', 1)
-
-            # Debugging to check individual values
-            print(f"Product: {product_name}, Barley Point: {barley_point}, Quantity: {quantity}")
-
-            # Multiply the barley point by the quantity and add to total
-            shop_total_barley_point += barley_point * quantity
-            cart_items.append({
-                'sku': item['product']['id'],
-                'qty': item['quantity'],
-            })
-
-        cod_amount = ordered_items_by_shop[shop]['cod_amount']
-        discount_price = ordered_items_by_shop[shop].get('discount', 0)
-        invoice_number = request.session.get('invoice_number', "")
-        print(f'Shop in create order: {shop}')
-        print(f'Total Barley Point: {shop_total_barley_point} for shop: {shop}')
-        print(f'Invoice Number in Create Order: {invoice_number}')
-
-        const_data = {
-            "username": request.session['referrer'],
-            "shipping_details": shipping_details,
-            "order_details": {
-                "cod_amount": cod_amount,
-                "discount_price": discount_price,
-                "payment_method": payment_method,
-            },
-            "cart_items": cart_items,
-            "barley_point": shop_total_barley_point,
-            "invoice_number": invoice_number,
+        # Prepare the shipping details for the order
+        shipping_details = {
+            "name": first_name,
+            "last_name": last_name,
+            "mobile": address_from_session.get('phone'),
+            "address": address_from_session.get('address'),
+            "barangay": address_from_session.get('barangay'),
+            "city": address_from_session.get('city'),
+            "province": address_from_session.get('province'),
+            "country": 'Philippines',
+            "postal_code": address_from_session.get('postcode'),
+            "shipping_notes": address_from_session.get('message', "")
         }
 
-        print(f'const_data: {const_data}')
+        # Order creation logic remains the same
+        for shop, shop_data in ordered_items_by_shop.items():
+            cart_items = []
+            shop_total_barley_point = 0
 
-        headers = {
-            'Authorization': f'Bearer {access_token}',
-            'Content-Type': 'application/json'
-        }
+            for item in shop_data['items']:
+                product_name = item['product']['name']
+                barley_point = item['product'].get('barley_point', 0)
+                quantity = item.get('quantity', 1)
 
-        response = requests.post(order_url, json=const_data, headers=headers)
+                # Debugging to check individual values
+                print(f"Product: {product_name}, Barley Point: {barley_point}, Quantity: {quantity}")
 
-        # Log the response status code and content
-        print(f'POST {order_url} - Status Code: {response.status_code}, Response: {response.text}')
+                # Multiply the barley point by the quantity and add to total
+                shop_total_barley_point += barley_point * quantity
+                cart_items.append({
+                    'sku': item['product']['id'],
+                    'qty': item['quantity'],
+                })
 
-        if response.status_code == 401:
-            print("Authentication failed. Please check the token or credentials.")
-            print(f"Response Status Code: {response.status_code}")
-            print(f"Response Body: {response.text}")
+            cod_amount = ordered_items_by_shop[shop]['cod_amount']
+            discount_price = ordered_items_by_shop[shop].get('discount', 0)
+            invoice_number = request.session.get('invoice_number', "")
+            print(f'Shop in create order: {shop}')
+            print(f'Total Barley Point: {shop_total_barley_point} for shop: {shop}')
+            print(f'Invoice Number in Create Order: {invoice_number}')
 
-        if response.status_code == 201:
-            print("Order created successfully:", response.json())
-            order_data = response.json()  # Get the order data from the response
-            order_number = order_data.get('order_number')
+            const_data = {
+                "username": request.session['referrer'],
+                "shipping_details": shipping_details,
+                "order_details": {
+                    "cod_amount": cod_amount,
+                    "discount_price": discount_price,
+                    "payment_method": payment_method,
+                },
+                "cart_items": cart_items,
+                "barley_point": shop_total_barley_point,
+                "invoice_number": invoice_number,
+            }
 
-            print(f"Order number set in session: {order_number}")
+            print(f'const_data: {const_data}')
 
-            ordered_items_by_shop[shop]['order_number'] = order_number
+            headers = {
+                'Authorization': f'Bearer {access_token}',
+                'Content-Type': 'application/json'
+            }
+
+            response = requests.post(order_url, json=const_data, headers=headers)
+
+            # Log the response status code and content
+            print(f'POST {order_url} - Status Code: {response.status_code}, Response: {response.text}')
+
+            if response.status_code == 401:
+                print("Authentication failed. Please check the token or credentials.")
+                print(f"Response Status Code: {response.status_code}")
+                print(f"Response Body: {response.text}")
+
+            if response.status_code == 201:
+                print("Order created successfully:", response.json())
+                order_data = response.json()  # Get the order data from the response
+                order_number = order_data.get('order_number')
+
+                print(f"Order number set in session: {order_number}")
+
+                ordered_items_by_shop[shop]['order_number'] = order_number
+            else:
+                print("Error creating order:", response.status_code, response.text)
+                return HttpResponseRedirect(reverse('cart:cart'))
+
+        if 'promo' in ordered_items_by_shop:
+            redirect_url = reverse('cart:promo_checkout_done')
+
+        # Save order details to session
+        request.session['ordered_items_by_shop'] = ordered_items_by_shop
+        request.session['order_complete'] = True
+        # Ensure redirect_url is properly used for redirection
+        print(f'Redirecting to: {redirect_url if redirect_url else "cart"}')
+        if redirect_url:
+            return HttpResponseRedirect(redirect_url)
         else:
-            print("Error creating order:", response.status_code, response.text)
+            # Fallback redirect if redirect_url is not set
             return HttpResponseRedirect(reverse('cart:cart'))
-
-    if 'promo' in ordered_items_by_shop:
-        redirect_url = reverse('cart:promo_checkout_done')
-
-    # Save order details to session
-    request.session['ordered_items_by_shop'] = ordered_items_by_shop
-    request.session['order_complete'] = True
-    # Ensure redirect_url is properly used for redirection
-    print(f'Redirecting to: {redirect_url if redirect_url else "cart"}')
-    if redirect_url:
-        return HttpResponseRedirect(redirect_url)
     else:
         # Fallback redirect if redirect_url is not set
         return HttpResponseRedirect(reverse('cart:cart'))
