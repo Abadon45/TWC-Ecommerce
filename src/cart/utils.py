@@ -161,26 +161,17 @@ def get_xendit_api_key(request):
 
 
 def check_xendit_invoice_status(request, invoice_id):
-    # Xendit API URL for invoice status
-    xendit_url = f"https://api.xendit.co/v2/invoices/{invoice_id}"
 
-    # Xendit API key (replace with your actual key)
+    xendit_url = f"https://api.xendit.co/v2/invoices/{invoice_id}"
     api_key = get_xendit_api_key(request)
 
     try:
-        # Send GET request to Xendit API to fetch invoice status
         response = requests.get(xendit_url, auth=HTTPBasicAuth(api_key, ''))
 
-        # Print the response content for debugging
-        print("Response Content:", response.content)  # This will show the full response body
-
-        # Check if the response is successful
         if response.status_code == 200:
-            # Parse the response JSON
             invoice_data = response.json()
             status = invoice_data.get('status')
 
-            # Check the status and print appropriate message
             if status == 'PAID':
                 print(f"Invoice {invoice_id} has been paid. Payment approved.")
                 return 'PAID'
@@ -191,13 +182,11 @@ def check_xendit_invoice_status(request, invoice_id):
                 print(f"Invoice {invoice_id} status is {status}.")
                 return status
         else:
-            # Print error if API request fails
             print(f"Failed to fetch invoice status. HTTP Status Code: {response.status_code}")
-            print(f"Error Response: {response.json()}")  # Detailed error message
+            print(f"Error Response: {response.json()}")
             return None
 
     except requests.exceptions.RequestException as e:
-        # Handle any request exceptions (network errors, invalid API key, etc.)
         print(f"Exception occurred: {str(e)}")
         return None
 

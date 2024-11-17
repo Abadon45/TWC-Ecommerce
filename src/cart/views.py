@@ -498,21 +498,13 @@ class PromoCheckoutDoneView(CheckoutDoneView):
     print(template_name)
 
 
-@csrf_exempt  # Exempt from CSRF protection, as it's a webhook
+@csrf_exempt
 def xendit_webhook(request):
     WEBHOOK_VERIFICATION_TOKEN = 'xnd_public_production_9U8m69Xc65vzDJp8IU8w2LDXXSFlSSIwRKnQvrR6rT3Vdeq6THlFr3xOB95aE'
-
-    # Only allow POST and GET requests
-    if request.method not in ['POST', 'GET']:
-        return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
-
-    # Allow GET requests for testing
-    if request.method == 'GET':
-        return JsonResponse({'status': 'ok', 'message': 'GET request received for testing'})
+    WEBHOOK_VERIFICATION_TOKEN = 'Fq3Io8PyPn7vkIcXY7nz9SXVu0OMAFKl45xWMeqmdbriIPFG'
 
     if request.method == 'POST':
-        # Get the token from the headers (assuming the token is passed in the header)
-        token = request.headers.get('x-callback-token')  # Ensure the correct header is used
+        token = request.headers.get('x-callback-token')
 
         if not token:
             return JsonResponse({'error': 'Token missing'}, status=400)
@@ -523,15 +515,10 @@ def xendit_webhook(request):
             return JsonResponse({'error': f'Invalid token {token}'}, status=403)
 
         try:
-            # Parse the incoming JSON data from the webhook
             data = json.loads(request.body.decode('utf-8'))
-            print("Webhook Data:", data)  # Log the data for debugging
-
-            # Get the event type
             status = data.get('status')
 
             if status == 'PAID':
-                # Process the payment (e.g., mark order as paid)
                 invoice_id = data.get('external_id')
 
                 # Return success response
