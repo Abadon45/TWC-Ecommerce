@@ -55,53 +55,54 @@
                                         <p class="payment-des">Choose Your Option Below.</p>
                                         <div class="accordion" id="accordionExample">
                                             <!-- Accordion Item 1 -->
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="headingOne">
-                                                    <button class="accordion-button d-flex justify-content-between"
-                                                            type="button"
-                                                            data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                                                            aria-expanded="true" aria-controls="collapseOne">
-                                                        <div class="d-flex align-items-center">
-                                                            <input class="form-check-input me-2" type="radio"
-                                                                   name="paymentMethod" id="xendit" value="xendit"
-                                                                   checked>
-                                                            <div class="d-flex align-items-center">
-                                                                <img class="img-fluid ms-2 payment-method-img"
-                                                                     src="{% static 'img/icon/payment/visa.svg' %}"
-                                                                     alt="Visa">
-                                                                <img class="img-fluid ms-2 payment-method-img"
-                                                                     src="{% static 'img/icon/payment/mastercard.svg' %}"
-                                                                     alt="Mastercard">
-                                                                <img class="img-fluid ms-2 payment-method-img"
-                                                                     src="{% static 'img/icon/payment/gcash.svg' %}"
-                                                                     alt="Mastercard">
-                                                                <img class="img-fluid ms-2 payment-method-img"
-                                                                     src="{% static 'img/icon/payment/paymaya.svg' %}"
-                                                                     alt="Mastercard">
-                                                            </div>
-                                                        </div>
-                                                    </button>
-                                                </h2>
-                                                <div id="collapseOne" class="accordion-collapse collapse show"
-                                                     aria-labelledby="headingOne"
-                                                     data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body">
-                                                        <p class="text-left">Complete your purchase by clicking the
-                                                            “Checkout Now” button below, you’ll be redirected to our
-                                                            secure payment provider, powered by
-                                                            <a class="url-link" href="https://www.xendit.co/en-ph/"
-                                                               target="_blank">
-                                                                Xendit PH
-                                                            </a>.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
+{#                                            <div class="accordion-item">#}
+{#                                                <h2 class="accordion-header" id="headingOne">#}
+{#                                                    <button class="accordion-button d-flex justify-content-between"#}
+{#                                                            type="button"#}
+{#                                                            data-bs-toggle="collapse" data-bs-target="#collapseOne"#}
+{#                                                            aria-expanded="true" aria-controls="collapseOne">#}
+{#                                                        <div class="d-flex align-items-center">#}
+{#                                                            <input class="form-check-input me-2" type="radio"#}
+{#                                                                   name="paymentMethod" id="xendit" value="xendit"#}
+{#                                                                   checked>#}
+{#                                                            <div class="d-flex align-items-center">#}
+{#                                                                <img class="img-fluid ms-2 payment-method-img"#}
+{#                                                                     src="{% static 'img/icon/payment/visa.svg' %}"#}
+{#                                                                     alt="Visa">#}
+{#                                                                <img class="img-fluid ms-2 payment-method-img"#}
+{#                                                                     src="{% static 'img/icon/payment/mastercard.svg' %}"#}
+{#                                                                     alt="Mastercard">#}
+{#                                                                <img class="img-fluid ms-2 payment-method-img"#}
+{#                                                                     src="{% static 'img/icon/payment/gcash.svg' %}"#}
+{#                                                                     alt="Mastercard">#}
+{#                                                                <img class="img-fluid ms-2 payment-method-img"#}
+{#                                                                     src="{% static 'img/icon/payment/paymaya.svg' %}"#}
+{#                                                                     alt="Mastercard">#}
+{#                                                                <h6 style="color: var(--border-info-color3);margin-left: 25px"> (CURRENTLY UNAVAILABLE)</h6>#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+{#                                                    </button>#}
+{#                                                </h2>#}
+{#                                                <div id="collapseOne" class="accordion-collapse collapse show"#}
+{#                                                     aria-labelledby="headingOne"#}
+{#                                                     data-bs-parent="#accordionExample">#}
+{#                                                    <div class="accordion-body">#}
+{#                                                        <p class="text-left">Complete your purchase by clicking the#}
+{#                                                            “Checkout Now” button below, you’ll be redirected to our#}
+{#                                                            secure payment provider, powered by#}
+{#                                                            <a class="url-link" href="https://www.xendit.co/en-ph/"#}
+{#                                                               target="_blank">#}
+{#                                                                Xendit PH#}
+{#                                                            </a>.#}
+{#                                                        </p>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
 
                                             <!-- Accordion Item 2 -->
                                             <div class="accordion-item">
                                                 <h2 class="accordion-header" id="headingTwo">
-                                                    <button class="accordion-button collapsed" type="button"
+                                                    <button class="accordion-button {# collapsed #} show {# REMOVE SHOW, UNCOMMENT COLLAPSE AFTER BUG #}" type="button"
                                                             data-bs-toggle="collapse" data-bs-target="#collapseTwo"
                                                             aria-expanded="false" aria-controls="collapseTwo">
                                                         <input class="form-check-input me-2" type="radio"
@@ -110,7 +111,7 @@
                                                             Delivery</label>
                                                     </button>
                                                 </h2>
-                                                <div id="collapseTwo" class="accordion-collapse collapse"
+                                                <div id="collapseTwo" class="accordion-collapse collapse show {# REMOVE SHOW AFTER BUG #}"
                                                      aria-labelledby="headingTwo"
                                                      data-bs-parent="#accordionExample">
                                                     <div class="accordion-body">
@@ -286,9 +287,13 @@
 
         $(document).ready(function () {
 
-            $('input[name="paymentMethod"][value="xendit"]').prop('checked', true);
-            console.log('Default payment method set to: xendit');
+            {#$('input[name="paymentMethod"][value="xendit"]').prop('checked', true);#}
+            {#console.log('Default payment method set to: xendit');#}
 
+            $('input[name="paymentMethod"][value="cod"]').prop('checked', true);
+            console.log('Default payment method set to: COD');
+
+            
             $('.accordion-button').on('click', function () {
                 var radioId = $(this).find('input[type="radio"]').attr('id');
                 $('#' + radioId).prop('checked', true);
