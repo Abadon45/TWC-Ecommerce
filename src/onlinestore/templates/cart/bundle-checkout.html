@@ -27,23 +27,89 @@
             color: var(--color-blue);
         }
 
+
         .details {
             .payment-des {
-                    text-align: left;
-                    font-size: 16px;
-                }
+                text-align: left;
+                font-size: 16px;
+            }
+
             .accordion-body {
                 .payment-icon {
                     width: 30%;
                     justify-self: center;
                     margin: 20px;
                 }
-                
+
                 p {
                     text-align: left !important;
                     font-size: 16px;
                     font-weight: 400;
                 }
+            }
+        }
+        
+        @media (max-width: 991.98px) {
+            .iti__selected-country-primary{
+                padding-bottom: 12px!important;
+            }
+        }
+
+        @media only screen and (max-width: 428px) {
+            .ps-5 {
+                padding: 0 12px !important;
+            }
+            
+            .iti__selected-country-primary{
+                padding-bottom: 23px!important;
+            }
+
+            .bundle-checkout {
+                & .shop-cart-summary {
+                    .theme-btn {
+                        font-size: small;
+                        margin: 0 0 20px
+                    }
+                }
+            }
+
+            .cart-page, .twc-checkout {
+                & .shop-checkout-form {
+                    .form-row {
+                        height: 470px;
+                        .row {
+                            div:nth-of-type(4) {
+                                margin-top: 8px;
+                            }
+                        }
+                    }
+                    .input-group {
+                        height: 35px;
+                    }
+                }
+                & .shop-checkout-step {
+                    & .tab-content {
+                        input {
+                            height: 15px !important;
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+
+
+            .order {
+                h1 {
+                    font-size: 45px;
+                }
+
+                p {
+                    margin: 0;
+                }
+            }
+
+            .details {
+                padding: 0;
             }
         }
     </style>
@@ -96,127 +162,89 @@
                                     <div class="tab-pane fade" id="step2" role="tabpanel"
                                          aria-labelledby="step2-tab"
                                          tabindex="0">
-                                        {% if dev_admin %}
-                                            <div class="container mt-5">
-                                                <h3 class="payment-head">How Would You Like to Pay?</h3>
-                                                <p class="payment-des">Choose Your Option Below.</p>
-                                                <div class="accordion" id="accordionExample">
-                                                    <!-- Accordion Item 1 -->
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="headingOne">
-                                                            <button class="accordion-button d-flex justify-content-between"
-                                                                    type="button"
-                                                                    data-bs-toggle="collapse"
-                                                                    data-bs-target="#collapseOne"
-                                                                    aria-expanded="true" aria-controls="collapseOne">
-                                                                <div class="d-flex align-items-center">
-                                                                    <input class="form-check-input me-2" type="radio"
-                                                                           name="paymentMethod" id="xendit"
-                                                                           value="xendit"
-                                                                           checked>
-                                                                    <div class="d-flex align-items-center">
-                                                                        <img class="img-fluid ms-2 payment-method-img"
-                                                                             src="{% static 'img/icon/payment/visa.svg' %}"
-                                                                             alt="Visa">
-                                                                        <img class="img-fluid ms-2 payment-method-img"
-                                                                             src="{% static 'img/icon/payment/mastercard.svg' %}"
-                                                                             alt="Mastercard">
-                                                                        <img class="img-fluid ms-2 payment-method-img"
-                                                                             src="{% static 'img/icon/payment/gcash.svg' %}"
-                                                                             alt="Mastercard">
-                                                                        <img class="img-fluid ms-2 payment-method-img"
-                                                                             src="{% static 'img/icon/payment/paymaya.svg' %}"
-                                                                             alt="Mastercard">
-                                                                        {#                                                                    <img class="img-fluid ms-2 payment-method-img"#}
-                                                                        {#                                                                         src="{% static 'img/icon/payment/shopeepay.svg' %}"#}
-                                                                        {#                                                                         alt="Mastercard">#}
-                                                                    </div>
+                                        <div class="container mt-5">
+                                            <h3 class="payment-head">How Would You Like to Pay?</h3>
+                                            <p class="payment-des">Choose Your Option Below.</p>
+                                            <div class="accordion" id="accordionExample">
+                                                <!-- Accordion Item 1 -->
+                                                {#                                            <div class="accordion-item">#}
+                                                {#                                                <h2 class="accordion-header" id="headingOne">#}
+                                                {#                                                    <button class="accordion-button d-flex justify-content-between"#}
+                                                {#                                                            type="button"#}
+                                                {#                                                            data-bs-toggle="collapse" data-bs-target="#collapseOne"#}
+                                                {#                                                            aria-expanded="true" aria-controls="collapseOne">#}
+                                                {#                                                        <div class="d-flex align-items-center">#}
+                                                {#                                                            <input class="form-check-input me-2" type="radio"#}
+                                                {#                                                                   name="paymentMethod" id="xendit" value="xendit"#}
+                                                {#                                                                   checked>#}
+                                                {#                                                            <div class="d-flex align-items-center">#}
+                                                {#                                                                <img class="img-fluid ms-2 payment-method-img"#}
+                                                {#                                                                     src="{% static 'img/icon/payment/visa.svg' %}"#}
+                                                {#                                                                     alt="Visa">#}
+                                                {#                                                                <img class="img-fluid ms-2 payment-method-img"#}
+                                                {#                                                                     src="{% static 'img/icon/payment/mastercard.svg' %}"#}
+                                                {#                                                                     alt="Mastercard">#}
+                                                {#                                                                <img class="img-fluid ms-2 payment-method-img"#}
+                                                {#                                                                     src="{% static 'img/icon/payment/gcash.svg' %}"#}
+                                                {#                                                                     alt="Mastercard">#}
+                                                {#                                                                <img class="img-fluid ms-2 payment-method-img"#}
+                                                {#                                                                     src="{% static 'img/icon/payment/paymaya.svg' %}"#}
+                                                {#                                                                     alt="Mastercard">#}
+                                                {#                                                                <h6 style="color: var(--border-info-color3);margin-left: 25px"> (CURRENTLY UNAVAILABLE)</h6>#}
+                                                {#                                                            </div>#}
+                                                {#                                                        </div>#}
+                                                {#                                                    </button>#}
+                                                {#                                                </h2>#}
+                                                {#                                                <div id="collapseOne" class="accordion-collapse collapse show"#}
+                                                {#                                                     aria-labelledby="headingOne"#}
+                                                {#                                                     data-bs-parent="#accordionExample">#}
+                                                {#                                                    <div class="accordion-body">#}
+                                                {#                                                        <p class="text-left">Complete your purchase by clicking the#}
+                                                {#                                                            “Checkout Now” button below, you’ll be redirected to our#}
+                                                {#                                                            secure payment provider, powered by#}
+                                                {#                                                            <a class="url-link" href="https://www.xendit.co/en-ph/"#}
+                                                {#                                                               target="_blank">#}
+                                                {#                                                                Xendit PH#}
+                                                {#                                                            </a>.#}
+                                                {#                                                        </p>#}
+                                                {#                                                    </div>#}
+                                                {#                                                </div>#}
+                                                {#                                            </div>#}
 
-                                                                </div>
-
-                                                            </button>
-                                                        </h2>
-                                                        <div id="collapseOne" class="accordion-collapse collapse show"
-                                                             aria-labelledby="headingOne"
-                                                             data-bs-parent="#accordionExample">
-                                                            <div class="accordion-body">
-                                                                <p class="text-left">Complete your purchase by clicking
-                                                                    the
-                                                                    “Checkout Now” button below, you’ll be redirected to
-                                                                    our
-                                                                    secure payment provider, powered by
-                                                                    <a class="url-link"
-                                                                       href="https://www.xendit.co/en-ph/"
-                                                                       target="_blank">
-                                                                        Xendit PH
-                                                                    </a>.
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Accordion Item 2 -->
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="headingTwo">
-                                                            <button class="accordion-button collapsed" type="button"
-                                                                    data-bs-toggle="collapse"
-                                                                    data-bs-target="#collapseTwo"
-                                                                    aria-expanded="false" aria-controls="collapseTwo">
-                                                                <input class="form-check-input me-2" type="radio"
-                                                                       name="paymentMethod" id="cod" value="cod">
-                                                                <label class="form-check-label" for="cod">Pay with Cash
-                                                                    on
-                                                                    Delivery</label>
-                                                            </button>
-                                                        </h2>
-                                                        <div id="collapseTwo" class="accordion-collapse collapse"
-                                                             aria-labelledby="headingTwo"
-                                                             data-bs-parent="#accordionExample">
-                                                            <div class="accordion-body">
-                                                                <p>
-                                                                    After clicking “Checkout,” your order will be
-                                                                    confirmed
-                                                                    with Cash on Delivery as the payment method. Please
-                                                                    read
-                                                                    our
-                                                                    <a class="url-link" href="{% url 'terms' %}"
-                                                                       onclick="showTerms(); return false;">
-                                                                        Terms and Conditions
-                                                                    </a>
-                                                                    for cash on delivery.
-                                                                </p>
-                                                            </div>
+                                                <!-- Accordion Item 2 -->
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="headingTwo">
+                                                        <button class="accordion-button {# collapsed #} show
+                                                                {# REMOVE SHOW, UNCOMMENT COLLAPSE AFTER BUG #}"
+                                                                type="button"
+                                                                data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                                                aria-expanded="false" aria-controls="collapseTwo">
+                                                            <input class="form-check-input me-2" type="radio"
+                                                                   name="paymentMethod" id="cod" value="cod">
+                                                            <label class="form-check-label" for="cod">Pay with Cash on
+                                                                Delivery</label>
+                                                        </button>
+                                                    </h2>
+                                                    <div id="collapseTwo" class="accordion-collapse collapse show
+                                                            {# REMOVE SHOW AFTER BUG #}"
+                                                         aria-labelledby="headingTwo"
+                                                         data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
+                                                            <p>
+                                                                After clicking “Checkout,” your order will be confirmed
+                                                                with Cash on Delivery as the payment method. Please read
+                                                                our
+                                                                <a class="url-link" href="{% url 'terms' %}"
+                                                                   onclick="showTerms(); return false;">
+                                                                    Terms and Conditions
+                                                                </a>
+                                                                for cash on delivery.
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        {% else %}
-                                            <div class="shop-checkout-payment">
-                                                <div class="tab-content" id="pills-tabContent">
-                                                    <div class="tab-pane fade show active" id="pills-1"
-                                                         role="tabpanel"
-                                                         aria-labelledby="pills-tab-1" tabindex="0">
-                                                        <div class="shop-checkout-form cod">
-                                                            <form class="payment-form" action="#" method="get">
-                                                                <div class="row">
-                                                                    <div class="col-lg-12">
-                                                                        <div class="form-check">
-                                                                            <label class="form-check-label"
-                                                                                   for="cod">
-                                                                                Cash On Delivery
-                                                                                <span>Please read our <a
-                                                                                        href="{% url 'terms' %}">Terms And
-                                                                            Conditions</a> for cash on delivery.</span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        {% endif %}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -239,7 +267,7 @@
                                                 </li>
                                                 {% if data.discount %}
                                                     <li class="list-discount">Discount:
-                                                        <span>({{ data.discount|currency }})</span></li>
+                                                        <span>- {{ data.discount|currency }}</span></li>
                                                 {% else %}
                                                     <li class="list-discount">Discount:
                                                         <span>No discount applied</span>
@@ -292,10 +320,79 @@
 {% endblock %}
 {% block js %}
     <script>
+        $(".iti").each(function () {
+            const itiWrapper = $(this);
+            const duplicates = itiWrapper.find(".iti__country-container").nextAll(".iti");
+
+            // Remove any duplicates found
+            if (duplicates.length > 0) {
+                duplicates.remove();
+                console.log("Duplicate dropdown removed.");
+            }
+        });
+
+        // Handle the checkout process (dummy form submission)
+        function submitForm() {
+            console.log("submitForm called"); // Check if this appears in the console
+            const fullName = $('input[name="full_name"]').val().trim();
+            const phone = $('input[name="phone_display"]').val().trim();
+            const address = $('input[name="address"]').val().trim();
+            const province = $('select[name="province"]').val();
+            const city = $('select[name="city"]').val();
+            const barangay = $('select[name="barangay"]').val();
+            const postcode = $('input[name="postcode"]').val().trim();
+
+            // Log the values to console for debugging
+            console.log("Full Name:", fullName);
+            console.log("Phone:", phone);
+            console.log("Address:", address);
+            console.log("Province:", province);
+            console.log("City:", city);
+            console.log("Barangay:", barangay);
+            console.log("Postcode:", postcode);
+
+            // Validate if any required field is missing
+            let missingFields = [];
+
+            if (!fullName) missingFields.push('Full Name');
+            if (!phone) missingFields.push('Phone');
+            if (!address) missingFields.push('Address');
+            if (!province || province === "- Select Province -") missingFields.push('Province');
+            if (!city || city === "- Select City -") missingFields.push('City');
+            if (!barangay || barangay === "- Select Barangay -") missingFields.push('Barangay');
+            if (!postcode) missingFields.push('Postcode');
+
+            if (missingFields.length > 0) {
+                if (missingFields.length > 1) {
+                    const lastField = missingFields.pop();
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Incomplete Address',
+                        text: 'Please fill in or select the following fields: ' + missingFields.join(', ') + ', and ' + lastField,
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Incomplete Address',
+                        text: 'Please fill in or select the following field: ' + missingFields[0],
+                        confirmButtonText: 'OK'
+                    });
+                }
+
+            } else {
+                $('#addUserData').click();
+            }
+        }
+
         $(document).ready(function () {
 
-            $('input[name="paymentMethod"][value="xendit"]').prop('checked', true);
-            console.log('Default payment method set to: xendit');
+            {#$('input[name="paymentMethod"][value="xendit"]').prop('checked', true);#}
+            {#console.log('Default payment method set to: xendit');#}
+
+            $('input[name="paymentMethod"][value="cod"]').prop('checked', true);
+            console.log('Default payment method set to: COD');
+
 
             $('.accordion-button').on('click', function () {
                 var radioId = $(this).find('input[type="radio"]').attr('id');
@@ -348,11 +445,6 @@
                 $('#' + radioButtonId).prop('checked', true); // Set the radio button as checked
             });
 
-            // Handle the checkout process (dummy form submission)
-            function submitForm() {
-                $('#addUserData').click();
-            }
-
             $('.dummy-submit button').click(submitForm);
 
             function checkoutBtn(event, paymentMethod) {
@@ -393,7 +485,7 @@
             }
 
             function saveReferrerUsername(username, paymentMethod) {
-                const url = `{% url "cart:submit_checkout" %}?username=${encodeURIComponent(username)}`;
+                const url = `{% url "cart:submit_promo_checkout" %}?username=${encodeURIComponent(username)}`;
                 $.ajax({
                     url: url,
                     method: 'GET',
@@ -473,5 +565,4 @@
         }
 
     </script>
-    <script src="{% static 'js/plugins/int-tel-input/utils.js' %}"></script>
 {% endblock %}

@@ -113,7 +113,7 @@
                                             <th colspan="3">Shipping</th>
                                             <th class="price-column">{{ FIXED_SHIPPING_FEE|currency }}</th>
                                         </tr>
-                                        {% if data.discount %}
+                                        {% if data.discount > 0 %}
                                             <tr class="discount-row" style="text-align: left;">
                                                 <th colspan="3">Discount</th>
                                                 <th class="price-column">({{ data.discount|currency }})</th>
@@ -161,9 +161,11 @@
                                     <h5 class="checkout-shipping">
                                         Shipping Fee <span>{{ FIXED_SHIPPING_FEE|currency }}</span>
                                     </h5>
-                                    <h5 class="checkout-discount bb">
-                                        Discount <span>{{ data.discount|currency }}</span>
-                                    </h5>
+                                    {% if data.discount %}
+                                        <h5 class="checkout-discount bb">
+                                            Discount <span>- {{ data.discount|currency }}</span>
+                                        </h5>
+                                    {% endif %}
                                     <h4>
                                         Total <span>{{ data.cod_amount|currency }}</span>
                                     </h4>

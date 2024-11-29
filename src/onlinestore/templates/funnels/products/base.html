@@ -176,15 +176,6 @@
 
 <!-- International Telephone Input -->
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.1/build/js/intlTelInput.min.js"></script>
-<script>
-    const input = document.querySelector("#id_mobile");
-    window.intlTelInput(input, {
-        initialCountry: "ph",
-        strictMode: true,
-        preferredCountries: ["ph"],
-        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.1/build/js/utils.js",
-    });
-</script>
 
 <!-- Philippine Addresses -->
 <script src="{% static 'js/phil.min.js' %}"></script>
