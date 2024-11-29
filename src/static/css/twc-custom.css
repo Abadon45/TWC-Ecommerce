@@ -3698,6 +3698,10 @@ a.disabled:hover {
     .twc-checkout {
         min-height: 75vh;
 
+        .iti .iti__selected-dial-code {
+          font-size: 12px!important;
+        }
+
         .pb15 {
             padding-bottom: 10px !important;
         }
@@ -4242,6 +4246,7 @@ a.disabled:hover {
 /* Small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) {
     /* MISC */
+
     .bt2-m {
         border-top: 2px solid var(--border-info-color);
     }
@@ -5021,6 +5026,7 @@ a.disabled:hover {
     .cart-page, .twc-checkout {
         min-height: 83vh;
 
+
         p, p.address-details {
             font-size: 12px;
             font-weight: 500;
@@ -5117,7 +5123,7 @@ a.disabled:hover {
             }
 
             .form-row {
-                height: 690px;
+                height: 470px;
                 padding: 10px;
                 border-radius: 10px;
 

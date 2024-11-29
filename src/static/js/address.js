@@ -7,25 +7,42 @@ $(document).ready(function () {
     const input = $(".id_mobile")[0]; // Using jQuery to select the input element
 
     if (input) {
+        // Clean up any existing intlTelInput instances
+        if ($(input).data("iti")) {
+            $(input).data("iti").destroy();
+            $(input).removeData("iti");
+        }
+        if ($(input).parent().hasClass("iti")) {
+            $(input).unwrap(); // Remove the .iti wrapper
+        }
+
         const iti = window.intlTelInput(input, {
             initialCountry: "PH",
-            onlyCountries: ["PH", "HK", "SA"],
+            onlyCountries: ["PH"],
             separateDialCode: true,
             nationalMode: false, // Allow full international format
             showFlags: true,
             utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.1/build/js/utils.js",
         });
 
+        // Store the instance for reference
+        $(input).data("iti", iti);
+
         // This function moves the dial code inside the selected country primary div
         const moveDialCode = function () {
-            // Select the dial code and country primary div
-            const dialCode = $(".iti__selected-country .iti__selected-dial-code");
-            const countryPrimary = $(".iti__selected-country .iti__selected-country-primary");
+            // Target the correct selected country container for this specific input
+            const selectedCountry = $(input).closest(".iti").find(".iti__selected-country");
 
+            // Find the dial code and country primary div inside the selected container
+            const dialCode = selectedCountry.find(".iti__selected-dial-code");
+            const countryPrimary = selectedCountry.find(".iti__selected-country-primary");
+
+            // Only move if dial code exists and isn't already in the correct place
             if (dialCode.length > 0 && !dialCode.closest('.iti__selected-country-primary').length) {
                 dialCode.detach().insertBefore(countryPrimary.find('.iti__arrow')); // Insert before the arrow
             }
         };
+
 
         // Move dial code when the country is changed
         $(input).on('countrychange', function () {
@@ -85,6 +102,7 @@ $(document).ready(function () {
             handleChange();
         });
     }
+
 
     // =======================================================//
     // -------- Populate regions on page load --------//
