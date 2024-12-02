@@ -380,16 +380,6 @@
                                                     no image
                                                 {% endif %}
                                             </a>
-                                            {#                                            <div class="product-action-wrap">#}
-                                            {#                                                <div class="product-action">#}
-                                            {#                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"#}
-                                            {#                                                       data-tooltip="tooltip"#}
-                                            {#                                                       title="Quick View"><i class="far fa-eye"></i></a>#}
-                                            {#                                                    <!-- <a href="#" data-tooltip="tooltip" title="Add To Wishlist"><i class="far fa-heart"></i></a>#}
-                                            {#                                                    <a href="#" data-tooltip="tooltip" title="Add To Compare"><i#}
-                                            {#                                                            class="far fa-arrows-repeat"></i></a> -->#}
-                                            {#                                                </div>#}
-                                            {#                                            </div>#}
                                         </div>
                                         <div class="product-content">
                                             <h3 class="product-title"><a
@@ -410,15 +400,15 @@
                                             </div>
                                         </div>
                                         <div class="product-button">
-                                            {% if product.slug in products_in_cart %}
+                                            {% if related_product.slug in products_in_cart %}
                                                 <button type="button"
-                                                        class="btn btn-secondary item-id-{{ product.slug }}"
+                                                        class="btn btn-secondary item-id-{{ related_product.slug }}"
                                                         disabled>ADDED TO CART
                                                 </button>
                                             {% else %}
-                                                <button data-product="{{ product.slug }}" data-action="add"
+                                                <button data-product="{{ related_product.slug }}" data-action="add"
                                                         type="button"
-                                                        class="btn theme-btn update-cart item-id-{{ product.slug }}">ADD
+                                                        class="btn theme-btn update-cart item-id-{{ related_product.slug }}">ADD
                                                     TO CART
                                                 </button>
                                             {% endif %}
