@@ -86,12 +86,6 @@
                                             {% if category_id == 'mood' %}selected{% endif %}>
                                         Mood Timepieces
                                     </option>
-                                    {% if user.is_admin %}
-                                        <option value="{% url 'shop:promo' %}"
-                                                {% if category_id == 'promo' %}selected{% endif %}>
-                                            Promo Bundles
-                                        </option>
-                                    {% endif %}
                                 </select>
                                 <select class="shop-category-select mobile-only"
                                         onchange="handleSubcategoryChange(this.value)">

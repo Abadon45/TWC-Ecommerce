@@ -31,3 +31,6 @@ src/TWC/logs/error.log
 src/TWC/settings/local.py
 
 >>>>>>> main
+
+#ENV
+.env

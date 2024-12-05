@@ -44,7 +44,7 @@ class SubdomainMiddleware:
 
     def check_username(self, request, username):
 
-        if username == "www":
+        if username == "www" or username == "admin":
             return None
 
         api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'

@@ -1,3 +1,8 @@
+import requests
+import random
+
+from allauth.socialaccount.providers.mediawiki.provider import settings
+from django.conf import settings
 from django.db.models import Avg
 from django.shortcuts import render
 from django.template.defaultfilters import title
@@ -7,12 +12,9 @@ from django.http import JsonResponse, Http404
 from django.template.loader import render_to_string
 from django.contrib.auth import get_user_model
 from collections import defaultdict
-
 from onlinestore.utils import check_sponsor_and_redirect
 from onlinestore.models import *
 
-import requests
-import random
 
 User = get_user_model()
 
@@ -51,7 +53,8 @@ class ShopView(TemplateView):
         category_product_count = defaultdict(int)
 
         domain = self.request.get_host()
-        base_api_url = 'https://dashboard.twcako.com/shop/api/get-product/?'
+        base_api_url = settings.SHOP_PRODUCTS_API
+        print(f'SHOP API: {base_api_url}')
         api_url = f"{base_api_url}domain=twcstoredevtest.com" if 'twcstoredevtest.com' in domain or 'devtest.store' in domain else base_api_url
 
         # Full API request for category counting

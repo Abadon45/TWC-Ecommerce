@@ -141,29 +141,11 @@ def generate_invoice_number():
     invoice_number = f"{date_time_str}{random_chars}"
     return invoice_number
 
-def get_xendit_api_key(request):
-    """
-    Determines the appropriate Xendit API key based on the root domain of the request.
-
-    Returns:
-        str: The appropriate Xendit API key (live or test).
-    """
-    # Extract the root domain from the request host
-    domain = request.get_host().split('.')
-    root_domain = '.'.join(domain[-2:])  # Get the last two parts of the domain
-    print(f"Current Domain: {root_domain}")
-
-    # Determine which API key to return based on the root domain
-    if root_domain == 'twconline.store':
-        return settings.XENDIT_API_KEY  # Use live API key
-    else:
-        return settings.XENDIT_TEST_API  # Use test API key
-
 
 def check_xendit_invoice_status(request, invoice_id):
 
     xendit_url = f"https://api.xendit.co/v2/invoices/{invoice_id}"
-    api_key = get_xendit_api_key(request)
+    api_key = settings.XENDIT_API_KEY
 
     try:
         response = requests.get(xendit_url, auth=HTTPBasicAuth(api_key, ''))
@@ -194,7 +176,7 @@ def check_xendit_invoice_status(request, invoice_id):
 
 def get_access_token():
     """Fetches a fresh access token for API calls."""
-    url = 'https://dashboard.twcako.com/order/api/get-access-token/'
+    url = settings.REFRESH_TOKEN_API
     data = {
         "refresh": settings.REFRESH_TOKEN
     }
@@ -474,7 +456,7 @@ def create_order(request):
     """
     Creates an order by sending a request to the TWC Ako API.
     """
-    order_url = 'https://dashboard.twcako.com/order/api/create-order/'
+    order_url = settings.ORDER_URL_API
     access_token = get_access_token()
     ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
     address_from_session = request.session.get('shipping_address', {})

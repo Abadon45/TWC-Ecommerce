@@ -1,6 +1,7 @@
 # ecommerce context_processors.py
 
 from .models import SiteSetting
+from django.conf import settings
 
 import requests
 
@@ -63,7 +64,7 @@ def cart_items(request):
             quantity = item.get('quantity', 0)
 
             # Fetch product details from the API
-            product_url = f'https://dashboard.twcako.com/shop/api/get-product/?slug={product_slug}'
+            product_url = f'{settings.PRODUCT_URL_API}{product_slug}'
             response = requests.get(product_url)
             if response.status_code == 200:
                 product_data = response.json().get('product', {})

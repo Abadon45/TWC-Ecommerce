@@ -54,7 +54,7 @@ class CartView(TemplateView):
 class UpdateCartView(View):
     def get_product_data(self, product_slug):
         """Fetch product data from the API."""
-        product_url = f'https://dashboard.twcako.com/shop/api/get-product/?slug={product_slug}'
+        product_url = f'{settings.PRODUCT_URL_API}{product_slug}'
         try:
             response = requests.get(product_url)
             response.raise_for_status()
