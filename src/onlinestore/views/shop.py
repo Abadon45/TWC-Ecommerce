@@ -54,7 +54,6 @@ class ShopView(TemplateView):
 
         domain = self.request.get_host()
         base_api_url = settings.SHOP_PRODUCTS_API
-        print(f'SHOP API: {base_api_url}')
         api_url = f"{base_api_url}domain=twcstoredevtest.com" if 'twcstoredevtest.com' in domain or 'devtest.store' in domain else base_api_url
 
         # Full API request for category counting

@@ -53,6 +53,9 @@
                                     <li><a href="{% url 'shop:shop' %}?category_id=mood">Watches
                                         <span>({{ category_product_count|get_item:'mood-bundle' }})</span></a>
                                     </li>
+                                    <li><a href="{% url 'shop:shop' %}?category_id=electronics">Electronics
+                                        <span>({{ category_product_count|get_item:'electronics' }})</span></a>
+                                    </li>
                                     <li><a href="{% url 'shop:shop' %}?category_id=accessories">Accessories
                                         <span>({{ category_product_count|get_item:'accessories' }})</span></a>
                                     </li>
