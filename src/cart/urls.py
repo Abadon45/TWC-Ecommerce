@@ -15,7 +15,7 @@ urlpatterns = [
     path('checkout/complete/', CheckoutDoneView.as_view(), name='checkout_complete'),
     path('checkout/create-order/', create_order, name='create_order'),
     path('checkout/promo/thank-you', PromoCheckoutDoneView.as_view(), name='promo_checkout_done'),
-    path('xendit-webhook/', xendit_webhook, name='xendit_webhook'),
+    path('checkout/xendit/webhook-payment-success/', xendit_webhook_payment_success, name='xendit_webhook_payment_success'),
 ]
 
 if settings.DEBUG:

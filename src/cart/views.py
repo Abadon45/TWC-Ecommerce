@@ -499,37 +499,28 @@ class PromoCheckoutDoneView(CheckoutDoneView):
 
 
 @csrf_exempt
-def xendit_webhook(request):
+def xendit_webhook_payment_success(request):
     WEBHOOK_VERIFICATION_TOKEN = 'Fq3Io8PyPn7vkIcXY7nz9SXVu0OMAFKl45xWMeqmdbriIPFG'
+    callback_token = request.headers.get('x-callback-token')
 
-    if request.method == 'POST':
-        token = request.headers.get('x-callback-token')
+    if callback_token != WEBHOOK_VERIFICATION_TOKEN:
+        print(f"Invalid token: {callback_token}")  # Log invalid token
+        return JsonResponse({'error': f'Invalid token {callback_token}'}, status=403)
 
-        if not token:
-            return JsonResponse({'error': 'Token missing'}, status=400)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        status = data.get('status')
 
-        # Verify the token
-        if token != WEBHOOK_VERIFICATION_TOKEN:
-            print(f"Invalid token: {token}")  # Log invalid token
-            return JsonResponse({'error': f'Invalid token {token}'}, status=403)
+        if status == 'PAID':
+            invoice_id = data.get('external_id')
 
-        try:
-            data = json.loads(request.body.decode('utf-8'))
-            status = data.get('status')
+            # Return success response
+            return JsonResponse({'status': 'success', 'message': f'Invoice {invoice_id } status is PAID and processed'})
 
-            if status == 'PAID':
-                invoice_id = data.get('external_id')
-
-                # Return success response
-                return JsonResponse({'status': 'success', 'message': f'Invoice {invoice_id } status is PAID and processed'})
-
-            else:
-                return JsonResponse({'status': 'success', 'message': f"Invoice status is {status}, no further action taken."})
+        else:
+            return JsonResponse({'status': 'success', 'message': f"Invoice status is {status}, no further action taken."})
 
 
-        except json.JSONDecodeError:
-            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
-
-    else:
-        return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON data'}, status=400)
 

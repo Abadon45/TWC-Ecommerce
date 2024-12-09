@@ -27,6 +27,10 @@ PRODUCT_URL_API = f'https://dashboard.twcako.com/shop/api/get-product/?slug='
 REFRESH_TOKEN_API = f'https://dashboard.twcako.com/order/api/get-access-token/'
 ORDER_URL_API = f'https://dashboard.twcako.com/order/api/create-order/'
 
+#WEBHOOK
+
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
