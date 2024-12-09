@@ -356,7 +356,7 @@ def create_xendit_invoice(
 
     print(f'Payload: {payload}')
 
-    api_key = get_xendit_api_key(request)
+    api_key = settings.XENDIT_API_KEY
 
     try:
 
