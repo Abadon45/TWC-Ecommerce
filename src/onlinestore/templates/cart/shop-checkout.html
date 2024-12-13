@@ -60,11 +60,11 @@
                                                     <button class="accordion-button d-flex justify-content-between"
                                                             type="button"
                                                             data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                                                            aria-expanded="true" aria-controls="collapseOne">
+                                                            aria-expanded="true" aria-controls="collapseOne" disabled>
                                                         <div class="d-flex align-items-center">
                                                             <input class="form-check-input me-2" type="radio"
                                                                    name="paymentMethod" id="xendit" value="xendit"
-                                                                   checked>
+                                                                   checked disabled>
                                                             <div class="d-flex align-items-center">
                                                                 <img class="img-fluid ms-2 payment-method-img"
                                                                      src="{% static 'img/icon/payment/visa.svg' %}"
@@ -78,12 +78,12 @@
                                                                 <img class="img-fluid ms-2 payment-method-img"
                                                                      src="{% static 'img/icon/payment/paymaya.svg' %}"
                                                                      alt="Mastercard">
-                                                                <h6 style="color: var(--border-info-color3);margin-left: 25px"> {# (CURRENTLY UNAVAILABLE) #}</h6>
+                                                                <h6 style="color: var(--border-info-color3);margin-left: 25px"> (CURRENTLY UNAVAILABLE) </h6>
                                                             </div>
                                                         </div>
                                                     </button>
                                                 </h2>
-                                                <div id="collapseOne" class="accordion-collapse collapse show"
+                                                <div id="collapseOne" class="accordion-collapse collapse {# show #}"
                                                      aria-labelledby="headingOne"
                                                      data-bs-parent="#accordionExample">
                                                     <div class="accordion-body">
@@ -231,7 +231,7 @@
 {% endblock %}
 {% block extra_js %}
     <script>
-        
+
         // Handle the checkout process (dummy form submission)
         function submitForm() {
             console.log("submitForm called"); // Check if this appears in the console
@@ -294,7 +294,7 @@
             $('input[name="paymentMethod"][value="cod"]').prop('checked', true);
             console.log('Default payment method set to: COD');
 
-            
+
             $('.accordion-button').on('click', function () {
                 var radioId = $(this).find('input[type="radio"]').attr('id');
                 $('#' + radioId).prop('checked', true);
