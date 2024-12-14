@@ -5,7 +5,7 @@
 
 
 {% block content %}
-    
+
     <!-- shop-area -->
     <div class="shop-area py-100 shop-page">
         <div class="container">
@@ -35,7 +35,8 @@
                             </div>
                             <div class="card-body index-card-body">
                                 <ul class="shop-category-list category-2">
-                                    <li><a href="{% url 'shop:shop' %}?category_id=sante-nutraceutical">Health & Wellness
+                                    <li><a href="{% url 'shop:shop' %}?category_id=sante-nutraceutical">Health &
+                                        Wellness
                                         <span>({{ category_product_count|get_item:'sante-nutraceutical' }})</span></a>
                                     </li>
                                     <li><a href="{% url 'shop:shop' %}?category_id=sante-beverage">Healthy Beverages
@@ -90,20 +91,41 @@
                                     </option>
                                     <option value="{% url 'shop:shop' %}?category_id=mood"
                                             {% if category_id == 'mood' %}selected{% endif %}>
-                                        Mood Timepieces
+                                        Mood
                                     </option>
                                 </select>
                                 <select class="shop-category-select mobile-only"
                                         onchange="handleSubcategoryChange(this.value)">
                                     <option value="{% url 'shop:shop' %}" selected>Select a Subcategory</option>
-                                    {% for subcategory, count in subcategory_counts.items %}
-                                        <option value="{% url 'shop:shop' %}?category_id={{ subcategory }}"
-                                                data-category-id="{{ subcategory }}"
-                                                {% if category_id == subcategory %}selected{% endif %}>
-                                            {{ subcategory|replace_underscore_to_space|title }} ({{ count }})
-                                        </option>
-                                    {% endfor %}
+                                    <option value="{% url 'shop:shop' %}?category_id=sante-nutraceutical">
+                                        Health & Wellness ({{ category_product_count|get_item:'sante-nutraceutical' }})
+                                    </option>
+                                    <option value="{% url 'shop:shop' %}?category_id=sante-beverage">
+                                        Healthy Beverages ({{ category_product_count|get_item:'sante-beverage' }})
+                                    </option>
+                                    <option value="{% url 'shop:shop' %}?category_id=sante-intimate_care">
+                                        Intimate Care ({{ category_product_count|get_item:'sante-intimate_care' }})
+                                    </option>
+                                    <option value="{% url 'shop:shop' %}?category_id=bath-body">
+                                        Bath & Body ({{ category_product_count|get_item:'bath-body' }})
+                                    </option>
+                                    <option value="{% url 'shop:shop' %}?category_id=chingu">
+                                        Bags ({{ category_product_count|get_item:'chingu' }})
+                                    </option>
+                                    <option value="{% url 'shop:shop' %}?category_id=mood">
+                                        Watches ({{ category_product_count|get_item:'mood-bundle' }})
+                                    </option>
+                                    <option value="{% url 'shop:shop' %}?category_id=mood-electronics">
+                                        Electronics ({{ category_product_count|get_item:'mood-electronics' }})
+                                    </option>
+                                    <option value="{% url 'shop:shop' %}?category_id=mood-perfume">
+                                        Perfumes ({{ category_product_count|get_item:'mood-perfume' }})
+                                    </option>
+                                    <option value="{% url 'shop:shop' %}?category_id=accessories">
+                                        Accessories ({{ category_product_count|get_item:'accessories' }})
+                                    </option>
                                 </select>
+
 
                                 <!-- SORT FOR MOBILE -->
                                 <select class="shop-sort-products mobile-only">

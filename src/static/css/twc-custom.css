@@ -4720,6 +4720,7 @@ a.disabled:hover {
             .shop-sort-box {
                 flex-direction: row;
                 width: 100%;
+                margin-bottom: 20px;
 
                 .shop-sorty-label, .nice-select, .shop-sort-show {
                     font-size: 9px;
