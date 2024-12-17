@@ -70,7 +70,7 @@ class SubdomainMiddleware:
 
         except requests.RequestException as e:
             print(f"API request failed: {e}")  # Debugging
-            raise Http404('User Does Not Exist.')
+            raise Http404('User Does Not Exist Or Server Is Under Maintainance.')
 
 
 class RedirectToWWW:
