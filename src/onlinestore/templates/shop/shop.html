@@ -51,8 +51,8 @@
                                     <li><a href="{% url 'shop:shop' %}?category_id=chingu">Bags
                                         <span>({{ category_product_count|get_item:'chingu' }})</span></a>
                                     </li>
-                                    <li><a href="{% url 'shop:shop' %}?category_id=mood">Watches
-                                        <span>({{ category_product_count|get_item:'mood-bundle' }})</span></a>
+                                    <li><a href="{% url 'shop:shop' %}?category_id=mood-watches">Watches
+                                        <span>({{ category_product_count|get_item:'mood-watches' }})</span></a>
                                     </li>
                                     <li><a href="{% url 'shop:shop' %}?category_id=mood-electronics">Electronics
                                         <span>({{ category_product_count|get_item:'mood-electronics' }})</span></a>
@@ -112,8 +112,8 @@
                                     <option value="{% url 'shop:shop' %}?category_id=chingu">
                                         Bags ({{ category_product_count|get_item:'chingu' }})
                                     </option>
-                                    <option value="{% url 'shop:shop' %}?category_id=mood">
-                                        Watches ({{ category_product_count|get_item:'mood-bundle' }})
+                                    <option value="{% url 'shop:shop' %}?category_id=mood-watches">
+                                        Watches ({{ category_product_count|get_item:'mood-watches' }})
                                     </option>
                                     <option value="{% url 'shop:shop' %}?category_id=mood-electronics">
                                         Electronics ({{ category_product_count|get_item:'mood-electronics' }})

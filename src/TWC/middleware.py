@@ -50,7 +50,7 @@ class SubdomainMiddleware:
         api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
 
         try:
-            api_response = requests.get(api_url)
+            api_response = requests.get(api_url, verify=False)
             api_response.raise_for_status()  # Raise an exception for HTTP errors
 
             data = api_response.json()
