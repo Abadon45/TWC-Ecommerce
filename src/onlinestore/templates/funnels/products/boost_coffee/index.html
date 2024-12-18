@@ -16,33 +16,38 @@
 {% block custom_css %}
     <link href="{% static 'funnel/products/custom_css/boost_coffee.css' %}" rel="stylesheet">
     <style>
-        .embed-responsive {
+        .rowseven .embed-responsive .embed-responsive-item,
+        .embed-responsive embed,
+        .embed-responsive iframe,
+        .embed-responsive object,
+        .embed-responsive video, .embed-responsive {
             display: flex;
-            place-self: center;
             width: 33vw;
+            margin: auto;
         }
 
-        @media (min-width: 1440px) {
-            .embed-responsive {
-                height: 358px;
-                width: 636px;
-            }
-
+        @media (max-width: 1439px) {
             .rowseven .embed-responsive .embed-responsive-item,
             .embed-responsive embed,
             .embed-responsive iframe,
             .embed-responsive object,
-            .embed-responsive video {
-                height: 358px;
-                width: 636px;
+            .embed-responsive video, .embed-responsive {
+                height: 339px !important;
+                width: 546px !important;
             }
         }
 
-        @media (max-width: 1439px) {
-            .embed-responsive {
-                width: 44vw;
+        @media (max-width: 1279px) {
+            .rowseven .embed-responsive .embed-responsive-item,
+            .embed-responsive embed,
+            .embed-responsive iframe,
+            .embed-responsive object,
+            .embed-responsive video, .embed-responsive {
+                height: 339px;
+                width: 546px;
             }
         }
+
 
         @media only screen and (max-width: 480px) {
             .carousel-indicators li {
@@ -57,6 +62,17 @@
             .roweleven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
                 width: 199px;
                 height: 112px;
+            }
+        }
+
+        @media (min-width: 1440px) {
+            .rowseven .embed-responsive .embed-responsive-item,
+            .embed-responsive embed,
+            .embed-responsive iframe,
+            .embed-responsive object,
+            .embed-responsive video, .embed-responsive {
+                height: 358px;
+                width: 636px;
             }
         }
     </style>
