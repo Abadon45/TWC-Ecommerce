@@ -11,14 +11,24 @@
             place-self: center;
             width: 33vw;
         }
-        
-        @media (max-width: 2560px) {
+
+        @media (min-width: 1440px) {
             .embed-responsive {
-                width: 24.8vw;
+                height: 445px;
+                width: 791px;
+            }
+
+            .rowseven .embed-responsive .embed-responsive-item,
+            .embed-responsive embed,
+            .embed-responsive iframe,
+            .embed-responsive object,
+            .embed-responsive video {
+                height: 445px;
+                width: 791px
             }
         }
 
-        @media (max-width: 1440px) {
+        @media (max-width: 1439px) {
             .embed-responsive {
                 width: 44vw;
             }
