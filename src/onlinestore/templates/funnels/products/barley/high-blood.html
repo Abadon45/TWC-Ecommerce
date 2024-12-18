@@ -11,6 +11,13 @@
 
 {% block custom_css %}
     <link href="{% static 'funnel/products/custom_css/barley_for_high_blood.css' %}" rel="stylesheet">
+    <style>
+        @media only screen and (max-width: 480px) {
+            .carousel-indicators li {
+                font-size: 0; /* Hides any text or numbers */
+            }
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -554,6 +561,13 @@
                 <div class="col d-none d-sm-block">
                     <div class="embed-responsive embed-responsive-16by9">
                         <iframe width="1080" height="698"
+                                src="https://www.loom.com/embed/4ed243706a3a47d3a1c971f0257b616b?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=truesid=d91a0f3f-df63-4772-a72e-baf50f292b85"
+                                frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="col d-none d-sm-block">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe width="1080" height="698"
                                 src="https://www.loom.com/embed/1907d84d5a7b487eaf184e6d4d937d7d?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=truesid=d91a0f3f-df63-4772-a72e-baf50f292b85"
                                 frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                     </div>
@@ -574,23 +588,32 @@
                         <ol class="carousel-indicators">
                             <li data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></li>
                             <li data-bs-target="#myCarousel" data-bs-slide-to="1"></li>
+                            <li data-bs-target="#myCarousel" data-bs-slide-to="2"></li>
                         </ol>
 
                         <!-- Wrapper for carousel items -->
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
+                            <div class="carousel-item active" data-bs-interval="5000">
                                 <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe src="https://player.vimeo.com/video/752530712?h=f4ee6edea2" width="640"
-                                            height="360" frameborder="0"
-                                            allow="autoplay; fullscreen; picture-in-picture"
+                                    <iframe width="1080" height="698"
+                                            src="https://www.loom.com/embed/4ed243706a3a47d3a1c971f0257b616b?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=truesid=d91a0f3f-df63-4772-a72e-baf50f292b85"
+                                            frameborder="0" webkitallowfullscreen mozallowfullscreen
                                             allowfullscreen></iframe>
                                 </div>
                             </div>
-                            <div class="carousel-item">
+                            <div class="carousel-item" data-bs-interval="5000">
                                 <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe src="https://player.vimeo.com/video/752535444?h=9b44809405" width="640"
-                                            height="360" frameborder="0"
-                                            allow="autoplay; fullscreen; picture-in-picture"
+                                    <iframe width="1080" height="698"
+                                            src="https://www.loom.com/embed/1907d84d5a7b487eaf184e6d4d937d7d?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=truesid=d91a0f3f-df63-4772-a72e-baf50f292b85"
+                                            frameborder="0" webkitallowfullscreen mozallowfullscreen
+                                            allowfullscreen></iframe>
+                                </div>
+                            </div>
+                            <div class="carousel-item" data-bs-interval="5000">
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <iframe width="1080" height="698"
+                                            src="https://www.loom.com/embed/a6b861db1f534335a08618065347d275?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=truesid=d91a0f3f-df63-4772-a72e-baf50f292b85"
+                                            frameborder="0" webkitallowfullscreen mozallowfullscreen
                                             allowfullscreen></iframe>
                                 </div>
                             </div>

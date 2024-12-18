@@ -11,6 +11,13 @@
 
 {% block custom_css %}
     <link href="{% static 'funnel/products/custom_css/barley_for_cancer.css' %}" rel="stylesheet">
+    <style>
+        @media only screen and (max-width: 480px) {
+            .carousel-indicators li {
+                font-size: 0; /* Hides any text or numbers */
+            }
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -561,66 +568,68 @@
     </section>
     <section class="roweleven">
         <div class="container">
-            <div class="row">
-                <div class="col">
-                    <h1>TESTIMONIAL VIDEOS</h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col d-none d-sm-block">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <iframe width="1080" height="698"
-                                src="https://www.loom.com/embed/dc13895b6e9b4182baf933a7b4f4d234?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=truesid=d91a0f3f-df63-4772-a72e-baf50f292b85"
-                                frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            {% comment %}
+                <div class="row">
+                    <div class="col">
+                        <h1>TESTIMONIAL VIDEOS</h1>
                     </div>
                 </div>
-                <div class="col d-none d-sm-block">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <iframe width="1080" height="698"
-                                src="https://www.loom.com/embed/e05915d3b90a49a8ab389f42e710a7fc?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=truesid=d91a0f3f-df63-4772-a72e-baf50f292b85"
-                                frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                    </div>
-                </div>
-            </div>
-            <!-- carousel start -->
-            <div class="row d-block d-sm-none">
-                <div class="col">
-                    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel2">
-                        <!-- Carousel indicators -->
-                        <ol class="carousel-indicators">
-                            <li data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></li>
-                            <li data-bs-target="#myCarousel" data-bs-slide-to="1"></li>
-                        </ol>
-
-                        <!-- Wrapper for carousel items -->
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe id="player" class="embed-responsive-item"
-                                            src="https://www.youtube-nocookie.com/embed/K1QICrgxTjA?autoplay=1&mute=1"
-                                            allowfullscreen></iframe>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe id="player" class="embed-responsive-item"
-                                            src="https://www.youtube-nocookie.com/embed/K1QICrgxTjA?autoplay=1&mute=1"
-                                            allowfullscreen></iframe>
-                                </div>
-                            </div>
+                <div class="row">
+                    <div class="col d-none d-sm-block">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe width="1080" height="698"
+                                    src="https://www.loom.com/embed/dc13895b6e9b4182baf933a7b4f4d234?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=truesid=d91a0f3f-df63-4772-a72e-baf50f292b85"
+                                    frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                         </div>
-
-                        <!-- Carousel controls -->
-                        <a class="carousel-control-prev" href="#myCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon"></span>
-                        </a>
-                        <a class="carousel-control-next" href="#myCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon"></span>
-                        </a>
+                    </div>
+                    <div class="col d-none d-sm-block">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe width="1080" height="698"
+                                    src="https://www.loom.com/embed/e05915d3b90a49a8ab389f42e710a7fc?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=truesid=d91a0f3f-df63-4772-a72e-baf50f292b85"
+                                    frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- carousel end -->
+                <!-- carousel start -->
+                <div class="row d-block d-sm-none">
+                    <div class="col">
+                        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel2">
+                            <!-- Carousel indicators -->
+                            <ol class="carousel-indicators">
+                                <li data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></li>
+                                <li data-bs-target="#myCarousel" data-bs-slide-to="1"></li>
+                            </ol>
+
+                            <!-- Wrapper for carousel items -->
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <div class="embed-responsive embed-responsive-16by9">
+                                        <iframe id="player" class="embed-responsive-item"
+                                                src="https://www.youtube-nocookie.com/embed/K1QICrgxTjA?autoplay=1&mute=1"
+                                                allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="embed-responsive embed-responsive-16by9">
+                                        <iframe id="player" class="embed-responsive-item"
+                                                src="https://www.youtube-nocookie.com/embed/K1QICrgxTjA?autoplay=1&mute=1"
+                                                allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Carousel controls -->
+                            <a class="carousel-control-prev" href="#myCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </a>
+                            <a class="carousel-control-next" href="#myCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- carousel end -->
+            {% endcomment %}
             <div class="row">
                 <div class="col">
                     <h1>CUSTOMER REVIEWS</h1>

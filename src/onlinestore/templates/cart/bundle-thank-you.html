@@ -60,12 +60,17 @@
             }
 
             .order {
+                padding: 30px 10px;
                 h1 {
                     font-size: 45px;
+                    text-align: center;
                 }
-
                 p {
+                    font-size: 20px;
                     margin: 0;
+                }
+                span {
+                    font-size: 16px;
                 }
             }
 
@@ -87,7 +92,7 @@
                 }
             }
         }
-        }
+        
     {% endblock %}
 </style>
 
@@ -238,8 +243,10 @@
                                                         </h5>
                                                         <h6 class="mt10">Quantity</h6>
                                                         <h5 class="mt5">{{ item.quantity }}</h5>
-                                                        <h6 class="mt10">Unit Price</h6>
-                                                        <h5 class="mt5">{{ item.get_total|currency }}</h5>
+                                                        {% if forloop.first %}
+                                                            <h6 class="mt10">Unit Price</h6>
+                                                            <h5 class="mt5">{{ item.get_total|currency }}</h5>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             </div>

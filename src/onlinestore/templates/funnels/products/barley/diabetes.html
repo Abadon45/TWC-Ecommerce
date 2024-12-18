@@ -11,6 +11,13 @@
 
 {% block custom_css %}
     <link href="{% static 'funnel/products/custom_css/barley_for_diabetes.css' %}" rel="stylesheet">
+    <style>
+        @media only screen and (max-width: 480px) {
+            .carousel-indicators li {
+                font-size: 0; /* Hides any text or numbers */
+            }
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -532,6 +539,7 @@
     </section>
     <section class="roweleven">
         <div class="container">
+            {% comment %}
             <div class="row">
                 <div class="col">
                     <h1>TESTIMONIAL VIDEOS</h1>
@@ -592,6 +600,7 @@
                 </div>
             </div>
             <!-- carousel end -->
+            {% endcomment %}
             <div class="row">
                 <div class="col">
                     <h1>CUSTOMER REVIEWS</h1>
