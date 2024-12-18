@@ -191,8 +191,14 @@
                                                         style="width: 50%;">{{ item.product.name }}</td>
                                                     <td class="quantity-column"
                                                         style="width: 10%; text-align: center;">{{ item.quantity }}</td>
+                                                
+                                                {%  if forloop.first %}
                                                     <td class="price-column" style="width: 20%;">
-                                                        ₱{{ item.get_total }}</td>
+                                                        ₱{{ data.subtotal }}</td>
+                                                {% else %}
+                                                    <td class="price-column" style="width: 20%;">
+                                                        FREE</td>
+                                                {% endif %}
                                                 </tr>
                                             {% endfor %}
                                             <tr style="height: 10px;">
@@ -243,16 +249,15 @@
                                                         </h5>
                                                         <h6 class="mt10">Quantity</h6>
                                                         <h5 class="mt5">{{ item.quantity }}</h5>
-                                                        {% if forloop.first %}
-                                                            <h6 class="mt10">Unit Price</h6>
-                                                            <h5 class="mt5">{{ item.get_total|currency }}</h5>
-                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             </div>
                                         {% endfor %}
                                     </div>
                                     <div class="checkout-payment mobile-only">
+                                        <h5 class="checkout-shipping">
+                                            Subtotal <span>{{ data.subtotal|currency }}</span>
+                                        </h5>
                                         <h5 class="checkout-shipping">
                                             Shipping Fee <span>{{ FIXED_SHIPPING_FEE|currency }}</span>
                                         </h5>

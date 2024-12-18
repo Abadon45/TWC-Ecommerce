@@ -16,9 +16,31 @@
 {% block custom_css %}
     <link href="{% static 'funnel/products/custom_css/boost_coffee.css' %}" rel="stylesheet">
     <style>
+        .embed-responsive {
+            display: flex;
+            place-self: center;
+            width: 33vw;
+        }
+
+        @media (max-width: 1440px) {
+            .embed-responsive {
+                width: 44vw;
+            }
+        }
+
         @media only screen and (max-width: 480px) {
             .carousel-indicators li {
-                font-size: 0;
+                font-size: 0; /* Hides any text or numbers */
+            }
+
+            .embed-responsive {
+                width: 199px;
+                height: 112px;
+            }
+
+            .roweleven .embed-responsive .embed-responsive-item, .embed-responsive embed, .embed-responsive iframe, .embed-responsive object, .embed-responsive video {
+                width: 199px;
+                height: 112px;
             }
         }
     </style>
