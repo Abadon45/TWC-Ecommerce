@@ -883,7 +883,9 @@ footer p {
         bottom: -60px;
     }
     .roweleven img.img-fluid {
-        height: 109%;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
     }
     .rowtwelve {
         background-image: url("../img/barley_for_high_blood/mobile-highblood/bg4-mobile.jpg");

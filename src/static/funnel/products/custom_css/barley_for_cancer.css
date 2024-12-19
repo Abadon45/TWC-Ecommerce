@@ -1063,6 +1063,8 @@ footer p {
 
     .roweleven img.img-fluid {
         height: 100%;
+        width: 100%;
+        object-fit: cover;
     }
 
     .rowtwelve {

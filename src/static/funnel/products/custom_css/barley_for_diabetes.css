@@ -878,6 +878,8 @@ footer p {
     }
     .roweleven img.img-fluid {
         height: 100%;
+        width: 100%;
+        object-fit: cover;
     }
     .rowtwelve {
         background-image: url("../img/barley_for_diabetes/mobile/bg4-mobile.jpg");

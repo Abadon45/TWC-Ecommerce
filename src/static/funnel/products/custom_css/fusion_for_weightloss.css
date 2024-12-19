@@ -1109,7 +1109,6 @@ footer p {
 
     .roweleven .carousel {
         margin-bottom: 40px;
-        height: 250px;
     }
 
     .roweleven .carousel-indicators.mb-60 {
@@ -1117,7 +1116,9 @@ footer p {
     }
 
     .roweleven img.img-fluid {
-        height: 80%;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
     }
 
     .rowtwelve {
