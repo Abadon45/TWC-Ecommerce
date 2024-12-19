@@ -52,8 +52,23 @@
     .embed-responsive iframe,
     .embed-responsive object,
     .embed-responsive video, .embed-responsive {
-        width: 250px;
-        height: 141px;
+        width: 300px;
+        height: 169px;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    .carousel-indicators li {
+        font-size: 0; /* Hides any text or numbers */
+    }
+
+    .rowseven .embed-responsive .embed-responsive-item,
+    .embed-responsive embed,
+    .embed-responsive iframe,
+    .embed-responsive object,
+    .embed-responsive video, .embed-responsive {
+        width: 256px;
+        height: 144px;
     }
 }
 
