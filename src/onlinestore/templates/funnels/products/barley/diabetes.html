@@ -11,76 +11,7 @@
 
 {% block custom_css %}
     <link href="{% static 'funnel/products/custom_css/barley_for_diabetes.css' %}" rel="stylesheet">
-    <style>
-        .rowseven .embed-responsive .embed-responsive-item,
-        .embed-responsive embed,
-        .embed-responsive iframe,
-        .embed-responsive object,
-        .embed-responsive video, .embed-responsive {
-            display: flex;
-            width: 33vw;
-            margin: auto;
-        }
-
-        @media (max-width: 1439px) {
-            .rowseven .embed-responsive .embed-responsive-item,
-            .embed-responsive embed,
-            .embed-responsive iframe,
-            .embed-responsive object,
-            .embed-responsive video, .embed-responsive {
-                height: 308px;
-                width: 546px;
-            }
-        }
-
-        @media (max-width: 1279px) {
-            .rowseven .embed-responsive .embed-responsive-item,
-            .embed-responsive embed,
-            .embed-responsive iframe,
-            .embed-responsive object,
-            .embed-responsive video, .embed-responsive {
-                height: 339px;
-                width: 546px;
-            }
-        }
-        
-        @media (max-width: 992px) {
-            .rowseven .embed-responsive .embed-responsive-item,
-            .embed-responsive embed,
-            .embed-responsive iframe,
-            .embed-responsive object,
-            .embed-responsive video, .embed-responsive {
-                height: 224px;
-                width: 393px;
-            }
-        }
-
-
-        @media only screen and (max-width: 480px) {
-            .carousel-indicators li {
-                font-size: 0; /* Hides any text or numbers */
-            }
-            
-            .rowseven .embed-responsive .embed-responsive-item,
-            .embed-responsive embed,
-            .embed-responsive iframe,
-            .embed-responsive object,
-            .embed-responsive video, .embed-responsive {
-                width: 199px;
-                height: 112px;
-            }
-        }
-        @media (min-width: 1440px) {
-            .rowseven .embed-responsive .embed-responsive-item,
-            .embed-responsive embed,
-            .embed-responsive iframe,
-            .embed-responsive object,
-            .embed-responsive video, .embed-responsive {
-                height: 358px;
-                width: 636px;
-            }
-        }
-    </style>
+    <link href="{% static 'funnel/products/custom_css/embed-responsive.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
