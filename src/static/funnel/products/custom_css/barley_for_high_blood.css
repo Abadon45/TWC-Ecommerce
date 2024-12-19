@@ -882,10 +882,13 @@ footer p {
     .roweleven .carousel-indicators.mb-60 {
         bottom: -60px;
     }
+    .roweleven .carousel-item {
+        text-align: center;
+    }
     .roweleven img.img-fluid {
         height: 100%;
         width: 100%;
-        object-fit: cover;
+        object-fit: contain;
     }
     .rowtwelve {
         background-image: url("../img/barley_for_high_blood/mobile-highblood/bg4-mobile.jpg");

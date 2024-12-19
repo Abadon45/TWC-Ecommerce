@@ -1061,6 +1061,10 @@ footer p {
         bottom: -60px;
     }
 
+    .roweleven .carousel-item {
+        text-align: center;
+    }
+
     .roweleven img.img-fluid {
         height: 100%;
         width: 100%;

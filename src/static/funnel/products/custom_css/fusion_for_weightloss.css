@@ -1115,11 +1115,16 @@ footer p {
         bottom: -60px;
     }
 
+    .roweleven .carousel-item {
+        text-align: center;
+    }
+
     .roweleven img.img-fluid {
         height: 100%;
         width: 100%;
-        object-fit: cover;
+        object-fit: contain;
     }
+
 
     .rowtwelve {
         background-image: url("../img/fusion_for_weightloss/mobile-weight/bg4-mobile.jpg");
