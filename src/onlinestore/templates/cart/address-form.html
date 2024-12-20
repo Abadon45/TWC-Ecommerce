@@ -36,15 +36,6 @@
                         {% endif %}
                     </div>
                 </div>
-{#                <div class="col-lg-12 input-group-area">#}
-{#                    <div class="input-group mb-3">#}
-{#                        <label class="input-group-text" for="regionDropdown">Region</label>#}
-{#                        <select class="form-select regionDropdown" name="region" required>#}
-{#                            <option selected>- Select Region -</option>#}
-{#                            <!-- Options will be populated dynamically by jQuery -->#}
-{#                        </select>#}
-{#                    </div>#}
-{#                </div>#}
                 <div class="col-lg-12">
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="provinceDropdown">Province</label>
@@ -94,21 +85,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-12 postal-line postalInputBox">
+                <div class="col-lg-12 landmark-line">
                     <div class="form-group">
-                        <label>Postal Code</label>
-                        <input type="text" class="form-control inputPostcode" placeholder="Manually input ZIP CODE"
-                               name="postcode"
-                               required>
-                        {% if form.errors.postcode %}
-                            <div class="text-danger">{{ form.errors.postcode }}</div>
+                        <label>Landmark</label>
+                        <textarea cols="30" rows="3" class="form-control" placeholder="Enter Landmark" 
+                                  name="landmark" required></textarea>
+                        {% if form.errors.message %}
+                            <div class="text-danger">{{ form.errors.message }}</div>
                         {% endif %}
                     </div>
                 </div>
                 <div class="col-lg-12 notes-line">
                     <div class="form-group">
                         <label>Shipping Notes</label>
-                        <textarea cols="30" rows="4" class="form-control" placeholder="Your Message"
+                        <textarea cols="30" rows="2" class="form-control" placeholder="Your Message"
                                   name="message"></textarea>
                         {% if form.errors.message %}
                             <div class="text-danger">{{ form.errors.message }}</div>

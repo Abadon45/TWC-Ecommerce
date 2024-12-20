@@ -241,7 +241,7 @@
             const province = $('select[name="province"]').val();
             const city = $('select[name="city"]').val();
             const barangay = $('select[name="barangay"]').val();
-            const postcode = $('input[name="postcode"]').val().trim();
+            const landmark = $('textarea[name="landmark"]').val().trim();
 
             // Log the values to console for debugging
             console.log("Full Name:", fullName);
@@ -250,7 +250,7 @@
             console.log("Province:", province);
             console.log("City:", city);
             console.log("Barangay:", barangay);
-            console.log("Postcode:", postcode);
+            console.log("Landmark:", landmark);
 
             // Validate if any required field is missing
             let missingFields = [];
@@ -261,7 +261,7 @@
             if (!province || province === "- Select Province -") missingFields.push('Province');
             if (!city || city === "- Select City -") missingFields.push('City');
             if (!barangay || barangay === "- Select Barangay -") missingFields.push('Barangay');
-            if (!postcode) missingFields.push('Postcode');
+            if (!landmark) missingFields.push('Landmark');
 
             if (missingFields.length > 0) {
                 if (missingFields.length > 1) {

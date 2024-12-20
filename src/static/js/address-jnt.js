@@ -1,17 +1,16 @@
 $(document).ready(function () {
-    const apiURL = 'https://dashboard.twcdevtest.com/addresses/api/get-address/';
+    const apiURL = addressApiUrl; // Updated API URL
 
-    // Fetch address data from the API
+    // Fetch address data from the Django view
     function fetchAddressData() {
-        $.ajax({
-            url: apiURL,
-            method: 'GET',
-            success: function (response) {
+        $.get(apiURL, function (response) {
+            if (response.error) {
+                console.error('Error:', response.error);
+            } else {
                 populateProvinces(response);
-            },
-            error: function (xhr, status, error) {
-                console.error('Failed to fetch address data:', error);
             }
+        }).fail(function (xhr, status, error) {
+            console.error('Failed to fetch address data:', error);
         });
     }
 
@@ -42,6 +41,41 @@ $(document).ready(function () {
             cityDropdown.append(`<option value="${city.city}">${city.city}</option>`);
         });
 
+        // Add "Other (Specify City)" option
+        cityDropdown.append('<option value="Other (Specify City)">Other (Specify City)</option>');
+
+        cityDropdown.on('change', function () {
+            const selectedCity = $(this).val();
+            if (selectedCity === "Other (Specify City)") {
+                $(".cityDropdownBox").hide();
+                $(".cityInputBox").show();
+                $(".cityDropdown").attr("name", "city_input");
+                $(".cityInputBox input")
+                    .attr("name", "city")
+                    .prop("required", true)
+                    .focus();
+                $('.barangayDropdown').empty()
+                    .append('<option selected>- Barangay -</option>')
+                    .append('<option value="Other (Specify Barangay)">Other (Specify Barangay)</option>');
+            } else {
+                $(".cityDropdownBox").show();
+                $(".cityDropdown").attr("name", "city");
+                $(".cityInputBox input")
+                    .attr("name", "city_input")
+                    .removeAttr("required");
+            }
+        });
+
+        $(".city-dropdown").click(function () {
+            $(".cityInputBox").hide();
+            $(".cityDropdownBox").show();
+            $(".cityDropdown").attr("name", "city");
+            $(".cityInputBox input")
+                .attr("name", "city_input")
+                .removeAttr("required");
+            $(".cityDropdown").val("");
+        });
+
         cityDropdown.on('change', function () {
             const selectedCity = $(this).val();
             const selectedCityData = cities.find(c => c.city === selectedCity);
@@ -58,6 +92,38 @@ $(document).ready(function () {
 
         barangays.forEach(barangay => {
             barangayDropdown.append(`<option value="${barangay}">${barangay}</option>`);
+        });
+
+        // Add "Other (Specify Barangay)" option
+        barangayDropdown.append('<option value="Other (Specify Barangay)">Other (Specify Barangay)</option>');
+
+        barangayDropdown.on('change', function () {
+            const selectedBarangay = $(this).val();
+            if (selectedBarangay === "Other (Specify Barangay)") {
+                $(".barangayDropdownBox").hide();
+                $(".barangayInputBox").show();
+                $(".barangayDropdown").attr("name", "barangay_input");
+                $(".barangayInputBox input")
+                    .attr("name", "barangay")
+                    .prop("required", true)
+                    .focus();
+            } else {
+                $(".barangayDropdownBox").show();
+                $(".barangayDropdown").attr("name", "barangay");
+                $(".barangayInputBox input")
+                    .attr("name", "barangay_input")
+                    .removeAttr("required");
+            }
+        });
+
+        $(".barangay-dropdown").click(function () {
+            $(".barangayInputBox").hide();
+            $(".barangayDropdownBox").show();
+            $(".barangayDropdown").attr("name", "barangay");
+            $(".barangayInputBox input")
+                .attr("name", "barangay_input")
+                .removeAttr("required");
+            $(".barangayDropdown").val("");
         });
     }
 

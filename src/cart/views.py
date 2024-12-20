@@ -294,7 +294,7 @@ class CheckoutView(View):
             'province': data.get('province'),
             'city': data.get('city'),
             'barangay': data.get('barangay'),
-            'postcode': data.get('postcode'),
+            'landmark': data.get('landmark'),
         }
 
         # Save the address to session

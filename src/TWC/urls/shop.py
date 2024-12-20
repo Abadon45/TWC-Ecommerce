@@ -2,6 +2,7 @@
 from django.urls import path
 from django.views.generic import TemplateView
 from onlinestore.views.shop import *
+from onlinestore.utils import fetch_address_data
 
 app_name='shop'
 
@@ -14,5 +15,8 @@ urlpatterns = [
     # path('single/edit-review/<int:review_id>/', edit_review, name='edit_review'),
     # path('single/remove-review/<int:review_id>/', remove_review, name='remove_review'),
     path('', ShopView.as_view(), name='shop'),
+
+    #API
+    path('api/get-address/', fetch_address_data, name='get_address_data'),
 ]
 

@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.http import HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponseNotFound, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.core.mail import send_mail
 from django.conf import settings
@@ -99,14 +99,16 @@ def send_temporary_account_email(user, full_name, temporary_username, temporary_
         print(f"Error sending email: {e}")
 
 
-def fetch_address():
-    address_api_url = 'https://dashboard.twcdevtest.com/addresses/api/get-address/'  # Ensure the URL is correct
+def fetch_address_data(request):
+    address_api_url = 'https://dashboard.twcdevtest.com/addresses/api/get-address/'
+
     try:
+        # Fetch address data from the external API
         response = requests.get(address_api_url, timeout=10)
         response.raise_for_status()
         data = response.json()
-        print("Address Data:", data)
-        return data
+        return JsonResponse(data, safe=False)
     except requests.exceptions.RequestException as e:
+        # Handle error gracefully
         print(f"Failed to fetch address data: {e}")
-        return None
+        return JsonResponse({'error': 'Failed to fetch address data'}, status=500)
