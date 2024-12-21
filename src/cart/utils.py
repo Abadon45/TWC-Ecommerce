@@ -344,7 +344,7 @@ def create_xendit_invoice(
     # Invoice data that will be sent to Xendit API
     payload = {
         "external_id": unique_invoice_id_str,
-        "description": "TWC Online Store Payment",
+        "description": "TWC Online Store",
         "amount": total_amount,
         "success_redirect_url": success_redirect_url,
         "failure_redirect_url": failure_redirect_url,
