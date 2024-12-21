@@ -24,8 +24,8 @@ HOST_DOMAIN = os.environ.get("HOST_DOMAIN", "twcako.com")
 # TWCAKO API
 SHOP_PRODUCTS_API = f'https://dashboard.twcako.com/shop/api/get-product/?'
 PRODUCT_URL_API = f'https://dashboard.twcako.com/shop/api/get-product/?slug='
-REFRESH_TOKEN_API = f'https://dashboard.{HOST_DOMAIN}/order/api/get-access-token/'
-ORDER_URL_API = f'https://dashboard.{HOST_DOMAIN}/order/api/create-order/'
+REFRESH_TOKEN_API = f'https://dashboard.{HOST_DOMAIN}.com/order/api/get-access-token/'
+ORDER_URL_API = f'https://dashboard.{HOST_DOMAIN}.com/order/api/create-order/'
 
 #WEBHOOK
 
