@@ -177,6 +177,7 @@ def check_xendit_invoice_status(request, invoice_id):
 def get_access_token():
     """Fetches a fresh access token for API calls."""
     url = settings.REFRESH_TOKEN_API
+    print(f'REFRESH_TOKEN: {settings.REFRESH_TOKEN}')
     data = {
         "refresh": settings.REFRESH_TOKEN
     }
@@ -489,7 +490,7 @@ def create_order(request):
         "city": address_from_session.get('city'),
         "province": address_from_session.get('province'),
         "country": 'Philippines',
-        "postal_code": address_from_session.get('postcode'),
+        "landmark": address_from_session.get('landmark'),
         "shipping_notes": address_from_session.get('message', "")
     }
 

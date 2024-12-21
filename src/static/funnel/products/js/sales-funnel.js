@@ -21,16 +21,19 @@ function checkout(element, promo) {
                 bundle_qty: bundleQty,
                 bundleDetails: JSON.stringify(bundleDetails),
             },
-            beforeSend: function () {
-                sweetAlertShowLoading("We are processing your order...");
-            },
             success: function (data) {
                 if (data.success) {
-                    sweetAlertShowSuccess("Order Successfully Placed!");
-                    setTimeout(function () {
-                        sweetAlertShowLoading("Redirecting to Thank You Page...");
-                        window.location.href = data.redirect_url;
-                    }, 2000);
+                    Swal.fire({
+                        title: "Please wait...",
+                        text: "We are creating your order.",
+                        showConfirmButton: false,
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                            window.location.href = data.redirect_url;
+                        },
+                        timer: 3000,
+                    });
                 } else {
                     sweetAlertShowError("Error: " + (data.error || "An unknown error occurred"));
                 }
@@ -114,3 +117,5 @@ function addBundle(bundleId) {
     }
     console.log('bundleDetails inside addBundle: ', bundleDetails);
 }
+
+

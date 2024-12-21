@@ -60,11 +60,11 @@
                                                     <button class="accordion-button d-flex justify-content-between"
                                                             type="button"
                                                             data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                                                            aria-expanded="true" aria-controls="collapseOne" disabled>
+                                                            aria-expanded="true" aria-controls="collapseOne">
                                                         <div class="d-flex align-items-center">
                                                             <input class="form-check-input me-2" type="radio"
                                                                    name="paymentMethod" id="xendit" value="xendit"
-                                                                   checked disabled>
+                                                                   checked>
                                                             <div class="d-flex align-items-center">
                                                                 <img class="img-fluid ms-2 payment-method-img"
                                                                      src="{% static 'img/icon/payment/visa.svg' %}"
@@ -78,12 +78,12 @@
                                                                 <img class="img-fluid ms-2 payment-method-img"
                                                                      src="{% static 'img/icon/payment/paymaya.svg' %}"
                                                                      alt="Mastercard">
-                                                                <h6 style="color: var(--border-info-color3);margin-left: 25px"> (CURRENTLY UNAVAILABLE) </h6>
+                                                                <h6 style="color: var(--border-info-color3);margin-left: 25px"></h6>
                                                             </div>
                                                         </div>
                                                     </button>
                                                 </h2>
-                                                <div id="collapseOne" class="accordion-collapse collapse {# show #}"
+                                                <div id="collapseOne" class="accordion-collapse collapse show"
                                                      aria-labelledby="headingOne"
                                                      data-bs-parent="#accordionExample">
                                                     <div class="accordion-body">
@@ -102,7 +102,7 @@
                                             <!-- Accordion Item 2 -->
                                             <div class="accordion-item">
                                                 <h2 class="accordion-header" id="headingTwo">
-                                                    <button class="accordion-button {# collapsed #} show {# REMOVE SHOW, UNCOMMENT COLLAPSE AFTER BUG #}" type="button"
+                                                    <button class="accordion-button collapsed" type="button"
                                                             data-bs-toggle="collapse" data-bs-target="#collapseTwo"
                                                             aria-expanded="false" aria-controls="collapseTwo">
                                                         <input class="form-check-input me-2" type="radio"
@@ -291,8 +291,8 @@
             {#$('input[name="paymentMethod"][value="xendit"]').prop('checked', true);#}
             {#console.log('Default payment method set to: xendit');#}
 
-            $('input[name="paymentMethod"][value="cod"]').prop('checked', true);
-            console.log('Default payment method set to: COD');
+            $('input[name="paymentMethod"][value="xendit"]').prop('checked', true);
+            console.log('Default payment method set to: Xendit');
 
 
             $('.accordion-button').on('click', function () {
