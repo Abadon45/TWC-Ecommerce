@@ -463,11 +463,6 @@ def create_order(request):
     address_from_session = request.session.get('shipping_address', {})
     redirect_url = request.session.get('redirect_url', None)
 
-    # invoice_id = request.session.get('invoice_id', None)
-    # status = check_xendit_invoice_status(request, invoice_id)
-    # print(f'Invoice ID: {invoice_id}')
-    # print(f'xendit status: {status}')
-
 
     payment_method = request.session.get('payment_method')
     if payment_method == 'Cash On Delivery':

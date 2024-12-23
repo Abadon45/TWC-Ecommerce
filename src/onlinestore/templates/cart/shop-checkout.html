@@ -9,6 +9,29 @@
         .url-link {
             color: var(--color-blue);
         }
+
+        @media only screen and (max-width: 480px) {
+            .landmark-line {
+                margin-bottom: 50px;
+            }
+            
+            .input-group.mb-3 {
+                    margin-bottom: 8px !important;
+
+                    .input-group-text {
+                        font-size: 8px;
+                    }
+                }
+
+            .cart-page, .twc-checkout {
+                .shop-checkout-form {
+                    .form-row {
+                        height: 500px !important;
+                    }
+                }
+            }
+
+        }
     </style>
 {% endblock %}
 
@@ -111,7 +134,8 @@
                                                             Delivery</label>
                                                     </button>
                                                 </h2>
-                                                <div id="collapseTwo" class="accordion-collapse collapse show {# REMOVE SHOW AFTER BUG #}"
+                                                <div id="collapseTwo" class="accordion-collapse collapse show 
+                                                        {# REMOVE SHOW AFTER BUG #}"
                                                      aria-labelledby="headingTwo"
                                                      data-bs-parent="#accordionExample">
                                                     <div class="accordion-body">
