@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from django.views.generic import View, TemplateView
 from django.http import JsonResponse, Http404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseNotFound
 from django.contrib.auth import get_user_model
 from django.utils.text import capfirst
@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.db import transaction
 from cart.utils import sf_calculator
 from onlinestore.models import SiteSetting
+from onlinestore.utils import fetch_vw_inventory
 
 import random
 import requests
@@ -122,9 +123,19 @@ class ProductFunnelView(View):
     def get(self, request, *args, **kwargs):
         product = kwargs.get('product', None)
 
-        # Determine which URL pattern was used
+        inventory = fetch_vw_inventory(request)
+
+        # Check the quantities of specific products
         if 'pf-vw' in request.path:
+            quantity_dict = inventory.get('quantity_dict', {})
             section = 'vw'
+            if product == ['weight-loss', 'old-age'] and quantity_dict.get('fusion_coffee', 0) == 0:
+                return redirect(f'/pf-ds/{product}/')
+            elif product == 'boost-coffee' and quantity_dict.get('boost_coffee', 0) == 0:
+                return redirect(f'/pf-ds/{product}/')
+            elif product in ['barley-for-cancer', 'barley-for-diabetes', 'barley-for-high-blood'] and quantity_dict.get(
+                    'barley_powder_10', 0) == 0:
+                return redirect(f'/pf-ds/{product}/')
         elif 'pf-ds' in request.path:
             section = 'ds'
         else:
@@ -149,7 +160,7 @@ class ProductFunnelView(View):
         context = {
             'title': self.title,
             'product': product,
-            'section': section,
+            'section': section
         }
 
         # Render the template with the context

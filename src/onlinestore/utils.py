@@ -1,13 +1,12 @@
+import requests
+
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseNotFound, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.core.mail import send_mail
 from django.conf import settings
-from datetime import datetime
+from urllib.parse import urlparse
 
-import string
-import requests
-import random
 
 User = get_user_model()
 
@@ -112,3 +111,57 @@ def fetch_address_data(request):
         # Handle error gracefully
         print(f"Failed to fetch address data: {e}")
         return JsonResponse({'error': 'Failed to fetch address data'}, status=500)
+
+
+def extract_username_from_request(request):
+    """
+    Extract the username (subdomain) from the request object.
+
+    Args:
+        request (HttpRequest): Django HttpRequest object.
+
+    Returns:
+        str: The subdomain (username) if found, else None.
+    """
+    host = request.get_host()
+    domain_parts = host.split('.')
+
+    # Assuming the subdomain is the first part of the domain
+    if len(domain_parts) > 2:
+        return domain_parts[0]
+
+    return None
+
+
+def fetch_vw_inventory(request):
+    """
+    Fetches the VW Inventory for a given username from the API.
+
+    Args:
+        request (HttpRequest): Django HttpRequest object.
+
+    Returns:
+        dict: A dictionary containing the quantity of each product and the grand total.
+        None: If the request fails or no data is available.
+    """
+    username = extract_username_from_request(request)
+    url = f"https://dashboard.twcdevtest.com/account/api/check-username/{username}/vwinventory/"
+
+    try:
+        # Make the API call
+        response = requests.get(url)
+        response.raise_for_status()
+
+        data = response.json()
+
+        if data.get('success'):
+            return {
+                'quantity_dict': data.get('quantity_dict', {}),
+                'grand_total': data.get('grand_total', 0),
+            }
+        else:
+            print(f"API responded with an error: {data.get('error', 'Unknown error')}")
+            return None
+    except requests.RequestException as e:
+        print(f"Error fetching VW inventory: {e}")
+        return None
