@@ -1,5 +1,7 @@
 import random
 import string
+from typing import re
+
 import requests
 
 from datetime import datetime
@@ -383,6 +385,9 @@ def create_xendit_invoice(
 
     # Subtract the total discount from the total amount
     total_amount -= total_discount
+    print(items)
+    total_price = sum(item["price"] * item["quantity"] for item in items) if items else 0
+
 
     # Ensure total amount doesn't go below 0
     if total_amount < 0:
@@ -393,7 +398,7 @@ def create_xendit_invoice(
             {
                 "name": items[0]["name"],
                 "quantity": items[0]["quantity"],
-                "price": total_amount / items[0]["quantity"],
+                "price": f"{total_price / items[0]['quantity']:.2f}" if items[0]["quantity"] else "0.00",
             }
         ] if items else []
     else:
@@ -467,6 +472,15 @@ def create_xendit_invoice(
     except requests.exceptions.RequestException as e:
         print(f'Exception occurred: {str(e)}')  # Debugging log
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
+
+
+def is_ph_mobile_number(number):
+    pattern = r'^(09|\+639)\d{9}$'
+    match = re.match(pattern, number)
+    if match:
+        return True
+    else:
+        return False
 
 
 

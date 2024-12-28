@@ -340,6 +340,7 @@
 {% endblock %}
 {% block js %}
     <script src="{% static 'js/address-jnt.js' %}"></script>
+    <script src="{% static 'js/submit-address-form.js' %}"></script>
     <script>
         $(".iti").each(function () {
             const itiWrapper = $(this);
@@ -351,52 +352,6 @@
                 console.log("Duplicate dropdown removed.");
             }
         });
-
-        // Handle the checkout process (dummy form submission)
-        function submitForm() {
-            console.log("submitForm called"); // Check if this appears in the console
-            const fullName = $('input[name="full_name"]').val().trim();
-            const phone = $('input[name="phone_display"]').val().trim();
-            const address = $('input[name="address"]').val().trim();
-            const province = $('select[name="province"]').val();
-            const city = $('select[name="city"]').val();
-            const barangay = $('select[name="barangay"]').val();
-            const landmark = $('textarea[name="landmark"]').val().trim();
-            
-
-            // Validate if any required field is missing
-            let missingFields = [];
-
-            if (!fullName) missingFields.push('Full Name');
-            if (!phone) missingFields.push('Phone');
-            if (!address) missingFields.push('Address');
-            if (!province || province === "- Select Province -") missingFields.push('Province');
-            if (!city || city === "- Select City -") missingFields.push('City');
-            if (!barangay || barangay === "- Barangay -") missingFields.push('Barangay');
-            if (!landmark) missingFields.push('Landmark');
-
-            if (missingFields.length > 0) {
-                if (missingFields.length > 1) {
-                    const lastField = missingFields.pop();
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Incomplete Address',
-                        text: 'Please fill in or select the following fields: ' + missingFields.join(', ') + ', and ' + lastField,
-                        confirmButtonText: 'OK'
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Incomplete Address',
-                        text: 'Please fill in or select the following field: ' + missingFields[0],
-                        confirmButtonText: 'OK'
-                    });
-                }
-
-            } else {
-                $('#addUserData').click();
-            }
-        }
 
         $(document).ready(function () {
 
