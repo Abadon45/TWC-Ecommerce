@@ -188,9 +188,6 @@
                                         <li>Date</li>
                                         <li>Mobile Number</li>
                                         <li>Payment Method</li>
-                                        {% if payment_method == 'xendit' %}
-                                            <li>Invoice Number</li>
-                                        {% endif %}
                                         <li>Total</li>
                                     </ul>
                                 </div>
@@ -199,9 +196,6 @@
                                         <li>{{ current_date }}</li>
                                         <li>{{ address.phone }}</li>
                                         <li>{{ payment_method|upper }}</li>
-                                        {% if payment_method == 'xendit' %}
-                                            <li>{{ invoice_number }}</li>
-                                        {% endif %}
                                         <li>{{ total_cod_amount|currency }}</li>
                                     </ul>
                                 </div>

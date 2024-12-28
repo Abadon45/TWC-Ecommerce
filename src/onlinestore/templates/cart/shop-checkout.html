@@ -14,7 +14,7 @@
             .landmark-line {
                 margin-bottom: 50px;
             }
-            
+
             .input-group.mb-3 {
                     margin-bottom: 8px !important;
 
@@ -134,7 +134,7 @@
                                                             Delivery</label>
                                                     </button>
                                                 </h2>
-                                                <div id="collapseTwo" class="accordion-collapse collapse show 
+                                                <div id="collapseTwo" class="accordion-collapse collapse show
                                                         {# REMOVE SHOW AFTER BUG #}"
                                                      aria-labelledby="headingTwo"
                                                      data-bs-parent="#accordionExample">
@@ -266,15 +266,7 @@
             const city = $('select[name="city"]').val();
             const barangay = $('select[name="barangay"]').val();
             const landmark = $('textarea[name="landmark"]').val().trim();
-
-            // Log the values to console for debugging
-            console.log("Full Name:", fullName);
-            console.log("Phone:", phone);
-            console.log("Address:", address);
-            console.log("Province:", province);
-            console.log("City:", city);
-            console.log("Barangay:", barangay);
-            console.log("Landmark:", landmark);
+            
 
             // Validate if any required field is missing
             let missingFields = [];
@@ -284,7 +276,7 @@
             if (!address) missingFields.push('Address');
             if (!province || province === "- Select Province -") missingFields.push('Province');
             if (!city || city === "- Select City -") missingFields.push('City');
-            if (!barangay || barangay === "- Select Barangay -") missingFields.push('Barangay');
+            if (!barangay || barangay === "- Barangay -") missingFields.push('Barangay');
             if (!landmark) missingFields.push('Landmark');
 
             if (missingFields.length > 0) {
@@ -410,7 +402,7 @@
             }
 
             function saveReferrerUsername(username, paymentMethod) {
-                const url = `{% url "cart:submit_checkout" %}?username=${encodeURIComponent(username)}`;
+                const url = `{% url "cart:submit_checkout" %}`;
                 $.ajax({
                     url: url,
                     method: 'GET',
@@ -419,7 +411,7 @@
                         payment_method: paymentMethod,
                     },
                     success: function (response) {
-                        if (response.redirect_url) {
+                        if (response.payment_method === 'xendit') {
                             Swal.fire({
                                 title: 'Redirecting to Xendit Payment Portal',
                                 icon: 'info',
@@ -442,7 +434,7 @@
                             });
 
                             setTimeout(() => {
-                                $('#checkoutForm').submit();
+                                window.location.href = response.redirect_url;
                             }, 500);
                         }
                     },

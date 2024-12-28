@@ -361,39 +361,21 @@ class CheckoutView(View):
 
 
 def submit_checkout(request):
-    # Check if the checkout has already been completed
-    if request.session.get('checkout_completed', False):
-        redirect_url = reverse('cart:checkout_complete')
-        request.session['redirect_url'] = redirect_url
-        return redirect(reverse('cart:checkout_complete'))
-
     access_token = get_access_token()
     if not access_token:
         return JsonResponse({
             'error': 'Failed to retrieve access token. Please try again later.'
         }, status=400)
-
-    redirect_url = reverse('cart:checkout_complete')
-    request.session['redirect_url'] = redirect_url
-    return submit_checkout_base(request, redirect_url)
+    return submit_checkout_base(request)
 
 
 def submit_promo_checkout(request):
-    if request.session.get('checkout_completed', False):
-        redirect_url = reverse('cart:promo_checkout_done')
-        request.session['redirect_url'] = redirect_url
-        return redirect(reverse('cart:promo_checkout_done'))
-
     access_token = get_access_token()
     if not access_token:
         return JsonResponse({
             'error': 'Failed to retrieve access token. Please try again later.'
         }, status=400)
-
-    redirect_url = reverse('cart:promo_checkout_done')
-    request.session['redirect_url'] = redirect_url
-    print(f'redirect_url: {redirect_url}')
-    return submit_checkout_base(request, redirect_url)
+    return submit_checkout_base(request)
 
 
 #########################

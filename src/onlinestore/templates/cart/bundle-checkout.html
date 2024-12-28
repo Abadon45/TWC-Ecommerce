@@ -361,16 +361,8 @@
             const province = $('select[name="province"]').val();
             const city = $('select[name="city"]').val();
             const barangay = $('select[name="barangay"]').val();
-            {#const landmark = $('input[name="landmark"]').val().trim();#}
-
-            // Log the values to console for debugging
-            console.log("Full Name:", fullName);
-            console.log("Phone:", phone);
-            console.log("Address:", address);
-            console.log("Province:", province);
-            console.log("City:", city);
-            console.log("Barangay:", barangay);
-            {#console.log("Landmark:", landmark);#}
+            const landmark = $('textarea[name="landmark"]').val().trim();
+            
 
             // Validate if any required field is missing
             let missingFields = [];
@@ -380,8 +372,8 @@
             if (!address) missingFields.push('Address');
             if (!province || province === "- Select Province -") missingFields.push('Province');
             if (!city || city === "- Select City -") missingFields.push('City');
-            if (!barangay || barangay === "- Select Barangay -") missingFields.push('Barangay');
-            {#if (!landmark) missingFields.push('Landmark');#}
+            if (!barangay || barangay === "- Barangay -") missingFields.push('Barangay');
+            if (!landmark) missingFields.push('Landmark');
 
             if (missingFields.length > 0) {
                 if (missingFields.length > 1) {
@@ -506,7 +498,7 @@
             }
 
             function saveReferrerUsername(username, paymentMethod) {
-                const url = `{% url "cart:submit_promo_checkout" %}?username=${encodeURIComponent(username)}`;
+                const url = `{% url "cart:submit_checkout" %}`;
                 $.ajax({
                     url: url,
                     method: 'GET',
@@ -515,7 +507,7 @@
                         payment_method: paymentMethod,
                     },
                     success: function (response) {
-                        if (response.redirect_url) {
+                        if (response.payment_method === 'xendit') {
                             Swal.fire({
                                 title: 'Redirecting to Xendit Payment Portal',
                                 icon: 'info',
@@ -526,7 +518,7 @@
 
                             setTimeout(() => {
                                 window.location.href = response.redirect_url;
-                            }, 2000);
+                            }, 500);
                         } else {
                             Swal.fire({
                                 title: 'Thank You for Your Order!',
@@ -538,8 +530,8 @@
                             });
 
                             setTimeout(() => {
-                                $('#checkoutForm').submit();
-                            }, 2000);
+                                window.location.href = response.redirect_url;
+                            }, 500);
                         }
                     },
                     error: function (xhr, status, error) {
