@@ -19,7 +19,10 @@ $(document).ready(function () {
         const provinceDropdown = $('.provinceDropdown');
         provinceDropdown.empty().append('<option selected>- Select Province -</option>');
 
-        data.forEach(province => {
+        // Sort provinces alphabetically
+        const sortedProvinces = data.sort((a, b) => a.province.localeCompare(b.province));
+
+        sortedProvinces.forEach(province => {
             provinceDropdown.append(`<option value="${province.province}">${province.province}</option>`);
         });
 
@@ -37,7 +40,10 @@ $(document).ready(function () {
         const cityDropdown = $('.cityDropdown');
         cityDropdown.empty().append('<option selected>- Select City -</option>');
 
-        cities.forEach(city => {
+        // Sort cities alphabetically
+        const sortedCities = cities.sort((a, b) => a.city.localeCompare(b.city));
+
+        sortedCities.forEach(city => {
             cityDropdown.append(`<option value="${city.city}">${city.city}</option>`);
         });
 
@@ -90,7 +96,10 @@ $(document).ready(function () {
         const barangayDropdown = $('.barangayDropdown');
         barangayDropdown.empty().append('<option selected>- Barangay -</option>');
 
-        barangays.forEach(barangay => {
+        // Sort barangays alphabetically
+        const sortedBarangays = barangays.sort((a, b) => a.localeCompare(b));
+
+        sortedBarangays.forEach(barangay => {
             barangayDropdown.append(`<option value="${barangay}">${barangay}</option>`);
         });
 
