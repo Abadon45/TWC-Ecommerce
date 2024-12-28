@@ -388,15 +388,23 @@ def create_xendit_invoice(
     if total_amount < 0:
         total_amount = 0
 
-    # Create invoice items for the payload
-    invoice_items = [
-        {
-            "name": item["name"],
-            "quantity": item["quantity"],
-            "price": item["price"]
-        }
-        for item in items
-    ]
+    if "promo" in success_redirect_url:
+        invoice_items = [
+            {
+                "name": items[0]["name"],
+                "quantity": items[0]["quantity"],
+                "price": total_amount / items[0]["quantity"],
+            }
+        ] if items else []
+    else:
+        invoice_items = [
+            {
+                "name": item["name"],
+                "quantity": item["quantity"],
+                "price": item["price"]
+            }
+            for item in items
+        ]
 
     invoice_items.append({
         "name": "Shipping Cost",  # For all shops
