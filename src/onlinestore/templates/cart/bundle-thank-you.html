@@ -194,7 +194,7 @@
 
                                                 {%  if forloop.first %}
                                                     <td class="price-column" style="width: 20%;">
-                                                        ₱{{ data.subtotal }}</td>
+                                                        {{ total_with_shipping|currency }}</td>
                                                 {% else %}
                                                     <td class="price-column" style="width: 20%;">
                                                         FREE</td>
@@ -206,11 +206,11 @@
                                             </tr>
                                             <tr class="subtotal-row" style="text-align: left;">
                                                 <th colspan="3">Subtotal</th>
-                                                <th class="price-column">{{ data.subtotal|currency }}</th>
+                                                <th class="price-column">{{ total_with_shipping|currency }}</th>
                                             </tr>
                                             <tr class="shipping-row" style="text-align: left;">
                                                 <th colspan="3">Shipping</th>
-                                                <th class="price-column">{{ FIXED_SHIPPING_FEE|currency }}</th>
+                                                <th class="price-column">FREE</th>
                                             </tr>
                                             {% if data.discount %}
                                                 <tr class="discount-row" style="text-align: left;">
@@ -256,10 +256,10 @@
                                     </div>
                                     <div class="checkout-payment mobile-only">
                                         <h5 class="checkout-shipping">
-                                            Subtotal <span>{{ data.subtotal|currency }}</span>
+                                            Subtotal <span>{{ data.cod_amount|currency }}</span>
                                         </h5>
                                         <h5 class="checkout-shipping">
-                                            Shipping Fee <span>{{ FIXED_SHIPPING_FEE|currency }}</span>
+                                            Shipping Fee <span>FREE</span>
                                         </h5>
                                         <h5 class="checkout-discount bb">
                                             Discount <span>- {{ data.discount|currency }}</span>

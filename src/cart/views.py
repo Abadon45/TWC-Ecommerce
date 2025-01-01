@@ -387,6 +387,25 @@ class PromoCheckoutView(CheckoutView):
     title = "Promo Checkout"
     template_name = 'cart/bundle-checkout.html'
 
+    def get_context_data(self, **kwargs):
+        # Get the context data from the parent class
+        context = super().get_context_data(**kwargs)
+
+        # Retrieve the promo order data from the session (if applicable)
+        order_data = context.get('orders', {}).get('promo', {})
+
+        # Get subtotal, shipping_fee, and discount
+        subtotal = Decimal(order_data.get('subtotal', 0))
+        shipping_fee = Decimal(order_data.get('shipping_fee', 0))
+
+        # Calculate the total including shipping and discount
+        total_with_shipping = subtotal + shipping_fee  # subtotal + shipping fee
+
+        # Update context with the new values
+        context['total_with_shipping'] = total_with_shipping
+
+        return context
+
 
 #########################################################
 # ------------------checkout is done---------------------#
@@ -477,8 +496,25 @@ class CheckoutDoneView(View):
 class PromoCheckoutDoneView(CheckoutDoneView):
     title = "Thank You"
     template_name = 'cart/bundle-thank-you.html'
-    print(template_name)
 
+    def get_context_data(self, **kwargs):
+        # Get the context data from the parent class
+        context = super().get_context_data(**kwargs)
+
+        # Retrieve the promo order data from the session (if applicable)
+        order_data = context.get('orders', {}).get('promo', {})
+
+        # Get subtotal, shipping_fee, and discount
+        subtotal = Decimal(order_data.get('subtotal', 0))
+        shipping_fee = Decimal(order_data.get('shipping_fee', 0))
+
+        # Calculate the total including shipping and discount
+        total_with_shipping = subtotal + shipping_fee  # subtotal + shipping fee
+
+        # Update context with the new values
+        context['total_with_shipping'] = total_with_shipping
+
+        return context
 
 @csrf_exempt
 def xendit_webhook_payment_success(request):

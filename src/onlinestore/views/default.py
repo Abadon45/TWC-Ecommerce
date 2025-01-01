@@ -190,6 +190,9 @@ def create_order(request):
         cod_amount = Decimal(request.GET.get("bundle_price", "0"))
         total_quantity = Decimal(request.GET.get("bundle_qty", "0"))
 
+        promo = request.GET.get("promo", "")
+        print(f'Promo: {promo}')
+
         print(f'Product details: {product_details}')
 
         items = []
@@ -198,7 +201,6 @@ def create_order(request):
         # Process each product in the order
         for product_detail in product_details.get('products', []):
             product_slug = product_detail['slug']
-            print(f'Product slug: {product_slug}')
 
             product_url = f'https://dashboard.twcako.com/shop/api/get-product/?slug={product_slug}'
             try:
@@ -230,7 +232,7 @@ def create_order(request):
             except requests.RequestException as e:
                 print(f"Error fetching product data: {e}")
 
-        print(f'Items: {items}')  # Verify that items are being populated
+        print(f'Items: {items}')
 
         # Retrieve bundle order data from session (provided by sales funnel jQuery)
         ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
@@ -238,8 +240,25 @@ def create_order(request):
         if 'promo' not in ordered_items_by_shop:
             ordered_items_by_shop['promo'] = {'items': []}
 
+        if items:  # Ensure the 'items' list is not empty
+            product_name = items[0]['product']['name']
+
+            # Modify the product name based on keywords
+            if 'Barley Powder' in product_name:
+                product_name = f"Barley Powder {promo}"
+            elif "Fusion Coffee" in product_name:
+                product_name = f"Fusion Coffee {promo}"
+            elif "Boost Coffee" in product_name:
+                product_name = f"Boost Coffee {promo}"
+
+            # Update the name in the first product
+            items[0]['product']['name'] = product_name
+
         # Append the items to the session data
         ordered_items_by_shop['promo']['items'] = items
+
+
+        print(f"Order: {ordered_items_by_shop}")
 
         # Calculate the discount and ensure values are Decimal
         discount = total_amount + shipping_fee - cod_amount

@@ -1,6 +1,5 @@
 import random
 import string
-from typing import re
 
 import requests
 
@@ -398,7 +397,7 @@ def create_xendit_invoice(
             {
                 "name": items[0]["name"],
                 "quantity": items[0]["quantity"],
-                "price": f"{total_price / items[0]['quantity']:.2f}" if items[0]["quantity"] else "0.00",
+                "price": f"{(total_price + shipping_amount ) / items[0]['quantity']:.2f}" if items[0]["quantity"] else "0.00",
             }
         ] if items else []
     else:
@@ -411,12 +410,12 @@ def create_xendit_invoice(
             for item in items
         ]
 
-    invoice_items.append({
-        "name": "Shipping Cost",  # For all shops
-        "quantity": shop_count,  # Number of shops in the order
-        "price": shipping_amount * shop_count,  # Fixed shipping fee per shop
-        "description": f"Flat rate shipping fee for {shop_count} shop(s)"
-    })
+        invoice_items.append({
+            "name": "Shipping Cost",  # For all shops
+            "quantity": shop_count,  # Number of shops in the order
+            "price": shipping_amount * shop_count,  # Fixed shipping fee per shop
+            "description": f"Flat rate shipping fee for {shop_count} shop(s)"
+        })
 
     # Update the total amount to include shipping costs
     total_amount += shipping_amount * shop_count
@@ -474,13 +473,6 @@ def create_xendit_invoice(
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
 
 
-def is_ph_mobile_number(number):
-    pattern = r'^(09|\+639)\d{9}$'
-    match = re.match(pattern, number)
-    if match:
-        return True
-    else:
-        return False
 
 
 

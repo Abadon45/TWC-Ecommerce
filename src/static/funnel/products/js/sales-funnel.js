@@ -1,4 +1,5 @@
 let bundleDetails = {};
+let bundlePromo = "";
 
 function checkout(element, promo) {
     var bundlePrice = $(element).data("price");
@@ -20,6 +21,7 @@ function checkout(element, promo) {
                 bundle_price: bundlePrice,
                 bundle_qty: bundleQty,
                 bundleDetails: JSON.stringify(bundleDetails),
+                promo: bundlePromo,
             },
             success: function (data) {
                 if (data.success) {
@@ -55,6 +57,13 @@ function checkout(element, promo) {
 
 function addBundle(bundleId) {
     console.log("Promo is: ", bundleId);
+    if (bundleId === "promo1" || bundleId === "promo4" || bundleId === "promo7") {
+        bundlePromo = "Promo 1"
+    } else if (bundleId === "promo2" || bundleId === "promo5" || bundleId === "promo8") {
+        bundlePromo = "Promo 2"
+    } else if (bundleId === "promo3" || bundleId === "promo6" || bundleId === "promo9") {
+        bundlePromo = "Promo 3"
+    }
     if (bundleId === "promo1") {
         bundleDetails = {
             products: [

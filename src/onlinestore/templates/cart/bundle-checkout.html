@@ -245,8 +245,7 @@
                                                             Delivery</label>
                                                     </button>
                                                 </h2>
-                                                <div id="collapseTwo" class="accordion-collapse collapse show 
-                                                        {# REMOVE SHOW AFTER BUG #}"
+                                                <div id="collapseTwo" class="accordion-collapse collapse"
                                                      aria-labelledby="headingTwo"
                                                      data-bs-parent="#accordionExample">
                                                     <div class="accordion-body">
@@ -283,7 +282,7 @@
                                                         Shop: <span>{{ shop|upper }}</span>
                                                     </h6>
                                                 </li>
-                                                <li>Order Sub Total: <span>{{ data.subtotal|currency }}</span>
+                                                <li>Order Sub Total: <span>{{ total_with_shipping|currency }}</span>
                                                 </li>
                                                 {% if data.discount %}
                                                     <li class="list-discount">Discount:
@@ -295,13 +294,7 @@
                                                 {% endif %}
                                                 <li id="shipping_fee_{{ shop }}" class="pb15">
                                                     Shipping fee:
-                                                    <span>
-                                                        {% if FIXED_SHIPPING_FEE == 0 %}
-                                                            Calculated at next step
-                                                        {% else %}
-                                                            {{ FIXED_SHIPPING_FEE|currency }}
-                                                        {% endif %}
-                                                    </span>
+                                                    <span>FREE</span>
                                                 </li>
                                             </ul>
                                             <h4 class="cart-total mt-3">
