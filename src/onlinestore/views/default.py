@@ -11,6 +11,7 @@ from django.db import transaction
 from cart.utils import sf_calculator
 from onlinestore.models import SiteSetting
 from onlinestore.utils import fetch_vw_inventory
+from django.templatetags.static import static
 
 import random
 import requests
@@ -198,6 +199,7 @@ def create_order(request):
         items = []
         total_amount = Decimal(0)
 
+
         # Process each product in the order
         for product_detail in product_details.get('products', []):
             product_slug = product_detail['slug']
@@ -253,6 +255,9 @@ def create_order(request):
 
             # Update the name in the first product
             items[0]['product']['name'] = product_name
+            product_name_format = product_name.lower().replace(' ', '-')
+            image = static(f'funnel/products/img/thank_you_page/{product_name_format}.webp')
+            items[0]['product']['image'] = image
 
         # Append the items to the session data
         ordered_items_by_shop['promo']['items'] = items
