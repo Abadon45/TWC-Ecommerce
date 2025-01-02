@@ -22,6 +22,7 @@ $(document).ready(function () {
         // Sort provinces alphabetically
         const sortedProvinces = data.sort((a, b) => a.province.localeCompare(b.province));
 
+        // Add each province as an option
         sortedProvinces.forEach(province => {
             provinceDropdown.append(`<option value="${province.province}">${province.province}</option>`);
         });
@@ -34,6 +35,7 @@ $(document).ready(function () {
             }
         });
     }
+
 
     // Populate cities dropdown
     function populateCities(cities) {
