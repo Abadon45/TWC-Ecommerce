@@ -198,8 +198,8 @@
                                                 <td colspan="4"></td>
                                             </tr>
                                             <tr class="subtotal-row" style="text-align: left;">
-                                                <th colspan="3">Subtotal</th>
-                                                <th class="price-column">{{ data.cod_amount|currency }}</th>
+                                                <th colspan="3" style="padding: 0"></th>
+                                                <th style="padding: 0"></th>
                                             </tr>
                                             <tr class="shipping-row" style="text-align: left;">
                                                 <th colspan="3">Shipping</th>
@@ -207,7 +207,7 @@
                                             </tr>
                                             <tr class="total-row table-active" style="text-align: left;">
                                                 <th colspan="2">Total:</th>
-                                                <th style="text-align: center;">{{ data.total_quantity }}</th>
+                                                <th style="text-align: center;"></th>
                                                 <th class="price-column">{{ data.cod_amount|currency }}</th>
                                             </tr>
                                             </tbody>
@@ -235,7 +235,7 @@
                                                             </a>
                                                         </h5>
                                                         <h6 class="mt10">Quantity</h6>
-                                                        <h5 class="mt5">{{ item.quantity }}</h5>
+                                                        <h5 class="mt5">1</h5>
                                                     </div>
                                                 </div>
                                             </div>
@@ -245,11 +245,8 @@
                                         <h5 class="checkout-shipping">
                                             Subtotal <span>{{ data.cod_amount|currency }}</span>
                                         </h5>
-                                        <h5 class="checkout-shipping">
+                                        <h5 class="checkout-shipping bb">
                                             Shipping Fee <span>FREE</span>
-                                        </h5>
-                                        <h5 class="checkout-discount bb">
-                                            Discount <span>- {{ data.discount|currency }}</span>
                                         </h5>
                                         <h4>
                                             Total <span>{{ data.cod_amount|currency }}</span>
