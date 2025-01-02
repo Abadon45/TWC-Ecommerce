@@ -146,13 +146,6 @@
                                             {#update this when theres api#}
                                             <h4>ORDER NUMBER: {{ data.order_number }}</h4>
                                         </div>
-                                        {% if user.is_authenticated %}
-                                            <div class="view-order">
-                                                <a href="{{ DASHBOARD_URL }}/order/order-detail/?order_id={{ order.order_id }}"
-                                                   target="_blank">
-                                                    View Order</a>
-                                            </div>
-                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="card-body fixed-height checkout-complete">
@@ -190,11 +183,11 @@
                                                     <td class="name-column"
                                                         style="width: 50%;">{{ item.product.name }}</td>
                                                     <td class="quantity-column"
-                                                        style="width: 10%; text-align: center;">{{ item.quantity }}</td>
+                                                        style="width: 10%; text-align: center;">1</td>
 
                                                 {%  if forloop.first %}
                                                     <td class="price-column" style="width: 20%;">
-                                                        {{ total_with_shipping|currency }}</td>
+                                                        {{ data.cod_amount|currency }}</td>
                                                 {% else %}
                                                     <td class="price-column" style="width: 20%;">
                                                         FREE</td>
@@ -206,18 +199,12 @@
                                             </tr>
                                             <tr class="subtotal-row" style="text-align: left;">
                                                 <th colspan="3">Subtotal</th>
-                                                <th class="price-column">{{ total_with_shipping|currency }}</th>
+                                                <th class="price-column">{{ data.cod_amount|currency }}</th>
                                             </tr>
                                             <tr class="shipping-row" style="text-align: left;">
                                                 <th colspan="3">Shipping</th>
                                                 <th class="price-column">FREE</th>
                                             </tr>
-                                            {% if data.discount %}
-                                                <tr class="discount-row" style="text-align: left;">
-                                                    <th colspan="3">Discount</th>
-                                                    <th class="price-column">- {{ data.discount|currency }}</th>
-                                                </tr>
-                                            {% endif %}
                                             <tr class="total-row table-active" style="text-align: left;">
                                                 <th colspan="2">Total:</th>
                                                 <th style="text-align: center;">{{ data.total_quantity }}</th>

@@ -385,7 +385,6 @@ def create_xendit_invoice(
     # Subtract the total discount from the total amount
     total_amount -= total_discount
     print(items)
-    total_price = sum(item["price"] * item["quantity"] for item in items) if items else 0
 
 
     # Ensure total amount doesn't go below 0
@@ -396,8 +395,8 @@ def create_xendit_invoice(
         invoice_items = [
             {
                 "name": items[0]["name"],
-                "quantity": items[0]["quantity"],
-                "price": f"{(total_price + shipping_amount ) / items[0]['quantity']:.2f}" if items[0]["quantity"] else "0.00",
+                "quantity": 1,
+                "price": total_amount + shipping_amount,
             }
         ] if items else []
     else:
