@@ -412,7 +412,7 @@ def create_xendit_invoice(
         invoice_items.append({
             "name": "Shipping Cost",  # For all shops
             "quantity": shop_count,  # Number of shops in the order
-            "price": shipping_amount * shop_count,  # Fixed shipping fee per shop
+            "price": shipping_amount,  # Fixed shipping fee per shop
             "description": f"Flat rate shipping fee for {shop_count} shop(s)"
         })
 
