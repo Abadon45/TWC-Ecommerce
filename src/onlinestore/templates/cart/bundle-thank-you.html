@@ -287,12 +287,15 @@
                                 </div>
                                 <div class="bb mb-10 address-details">
                                     <p class="pb10">
-                                        <b>Address:</b><br>
+                                        <b>Shipping Details:</b><br>
+                                        {{ address.full_name }}<br>
+                                        Mobile: {{ address.phone }}<br>
                                         {{ address.address }},
                                         Brgy. {{ address.barangay }},
                                         {{ address.city }},
                                         {{ address.province }},
-                                        {{ address.postcode }}
+                                        {{ address.postcode }}<br>
+                                        Landmark: {{ address.landmark }}
                                     </p>
                                     {% if address.landmark %}
                                         <p><b>Landmark:</b> <br>{{ address.landmark }}</p>

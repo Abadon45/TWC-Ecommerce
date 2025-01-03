@@ -29,16 +29,6 @@ function isPhMobileNumber(number) {
     return false;
 }
 
-// Example Tests
-console.log(isPhMobileNumber("9574654654"));    // false
-console.log(isPhMobileNumber("09574654654"));   // false
-console.log(isPhMobileNumber("09614654654"));   // true
-
-
-// Example Test
-console.log(isPhMobileNumber("09571234567")); // Should return false, and log "Checking prefix: 0957"
-
-
 function submitForm() {
     const fullName = $('input[name="full_name"]').val().trim();
     const phone = $('input[name="phone_display"]').val().trim();
@@ -47,8 +37,6 @@ function submitForm() {
     const city = $('select[name="city"]').val();
     const barangay = $('select[name="barangay"]').val();
     const landmark = $('textarea[name="landmark"]').val().trim();
-
-    console.log("Phone: " + phone)
 
 
     // Validate if any required field is missing
