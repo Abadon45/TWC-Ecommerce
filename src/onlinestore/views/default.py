@@ -158,10 +158,11 @@ class ProductFunnelView(View):
         else:
             raise Http404("Product is not available")
 
+
         context = {
             'title': self.title,
             'product': product,
-            'section': section
+            'section': section,
         }
 
         # Render the template with the context

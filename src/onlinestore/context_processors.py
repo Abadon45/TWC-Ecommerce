@@ -11,6 +11,8 @@ def referrer(request):
         sponsor_messenger = request.session.get('messenger_link', None)
         # sponsor_mobile = request.session.get('mobile', None)
         sponsor = request.session.get('referrer', None)
+        sponsor_fb_pixel = request.session.get('sponsor_fb_pixel', None)
+
 
         host = request.get_host().split(':')[0]  # Get the host without the port
         domain_parts = host.split('.')
@@ -36,11 +38,14 @@ def referrer(request):
         if sponsor in valid_sponsors:
             dev_admin = sponsor
 
+        print(f'Sponsor FB Pixel: {sponsor_fb_pixel}')
+
         if sponsor_messenger or dev_admin:
             return {
                 'referrer': sponsor_messenger,
                 'dev_admin': dev_admin,
                 'dev_domain': dev_domain,
+                'sponsor_fb_pixel': sponsor_fb_pixel,
             }
         return {'referrer': None}
     except Exception as e:
