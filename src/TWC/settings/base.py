@@ -19,7 +19,7 @@ REFRESH_TOKEN = os.environ.get("REFRESH_TOKEN", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI
 
 XENDIT_API_KEY = os.environ.get("XENDIT_API_KEY", '_gyFfI1cqWWOTpXRWcfg1RMPC3UkCTAfAVsqSDl6fjFuZqs6mFaPZw9yzqO7B5')
 
-HOST_DOMAIN = os.environ.get("HOST_DOMAIN", "twcako.com")
+HOST_DOMAIN = os.environ.get("HOST_DOMAIN", "twcako")
 
 # TWCAKO API
 SHOP_PRODUCTS_API = f'https://dashboard.twcako.com/shop/api/get-product/?'
