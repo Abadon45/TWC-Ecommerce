@@ -9,11 +9,19 @@
     </script>
 {% endblock %}
 
-{% block custom_css %}
-    <link href="{% static 'funnel/products/custom_css/fusion_for_weightloss.css' %}" rel="stylesheet">
-    <link href="{% static 'funnel/products/custom_css/embed-responsive.css' %}" rel="stylesheet">
+{% block fb_pixel_event %}
+    <script>
+        let contentIds = {{ content_ids|safe }};
+        fbq('track', 'ViewContent', {
+            content_name: '{{ product_name|escapejs }}',
+            content_category: '{% if section == "ds" %}Dropshipping{% else %}Virtual Warehouse{% endif %}',
+            content_ids: contentIds, 
+            content_type: 'product',
+        }, {
+            eventID: '{{ event_id }}',
+        });
+    </script>
 {% endblock %}
-
 {% block content %}
     <section class="rowone">
         <div class="container">

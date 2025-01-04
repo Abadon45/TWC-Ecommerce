@@ -5,7 +5,14 @@
 
 {% block fb_pixel_event %}
     <script>
-        fbq("trackCustom", "Barley for Cancer", {content_category: "Landing Page"});
+        fbq('track', 'ViewContent', {
+            content_name: '{{ product_name|escapejs }}',
+            content_category: '{% if section == "ds" %}Dropshipping{% else %}Virtual Warehouse{% endif %}',
+            content_ids: '{{ content_ids|safe }}', 
+            content_type: 'product',
+        }, {
+            eventID: '{{ event_id }}',
+        });
     </script>
 {% endblock %}
 

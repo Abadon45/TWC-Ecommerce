@@ -142,19 +142,34 @@ class ProductFunnelView(View):
         else:
             raise Http404("Invalid URL pattern")
 
+        product_name = ''
+        content_ids = []
+
         # Define the template based on the product
         if product == 'barley-for-cancer':
             template_name = 'funnels/products/barley/cancer.html'
+            product_name = 'Barley Juice For Cancer'
+            content_ids = ['SPHN09415', 'TP009', 'TP378']
         elif product == 'barley-for-diabetes':
             template_name = 'funnels/products/barley/diabetes.html'
+            product_name = 'Barley Juice For Diabetes'
+            content_ids = ['SPHN09415', 'TP009', 'TP378']
         elif product == 'barley-for-high-blood':
             template_name = 'funnels/products/barley/high-blood.html'
+            product_name = 'Barley Juice For Highblood'
+            content_ids = ['SPHN09415', 'TP009', 'TP378']
         elif product == 'old-age':
             template_name = 'funnels/products/fusion-coffee/old-age.html'
+            product_name = 'Fusion For Old Age'
+            content_ids = ['SN0910', 'TP009', 'TP378']
         elif product == 'weight-loss':
             template_name = 'funnels/products/fusion-coffee/weight-loss.html'
+            product_name = 'Fusion For Weightloss'
+            content_ids = ['SN0910', 'TP009', 'TP378']
         elif product == 'boost-coffee':
             template_name = 'funnels/products/boost_coffee/index.html'
+            product_name = 'Boost Coffee'
+            content_ids = ['SB0204', 'TP009', 'TP378']
         else:
             raise Http404("Product is not available")
 
@@ -163,6 +178,8 @@ class ProductFunnelView(View):
             'title': self.title,
             'product': product,
             'section': section,
+            'product_name': product_name,
+            'content_ids': content_ids,
         }
 
         # Render the template with the context
