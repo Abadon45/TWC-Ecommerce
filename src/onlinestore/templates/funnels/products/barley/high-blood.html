@@ -5,7 +5,15 @@
 
 {% block fb_pixel_event %}
     <script>
-        fbq("trackCustom", "Barley for High Blood", {content_category: "Landing Page"});
+        let contentIds = {{ content_ids|safe }};
+        fbq('track', 'ViewContent', {
+            content_name: '{{ product_name|escapejs }}',
+            content_category: '{% if section == "ds" %}Dropshipping{% else %}Virtual Warehouse{% endif %}',
+            content_ids: contentIds, 
+            content_type: 'product',
+        }, {
+            eventID: '{{ event_id }}',
+        });
     </script>
 {% endblock %}
 
