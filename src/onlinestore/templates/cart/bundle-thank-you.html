@@ -6,7 +6,11 @@
 
 {% block fb_pixel_event %}
     <script>
-        fbq("track", "{{ event_name }}", {content_name: {{ event_name }}}, {eventID:"{{ event_id }}"});
+        fbq('track', 'Purchase', {
+            content_name: '{{ event_name }}',
+        }, {
+            eventID: '{{ event_id }}',
+        });
     </script>
 {% endblock %}
 
