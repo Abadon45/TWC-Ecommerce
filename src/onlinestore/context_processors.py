@@ -12,6 +12,7 @@ def referrer(request):
         # sponsor_mobile = request.session.get('mobile', None)
         sponsor = request.session.get('referrer', None)
         sponsor_fb_pixel = request.session.get('sponsor_fb_pixel', None)
+        selling_capi_token = request.session.get('selling_capi_token', None)
 
 
         host = request.get_host().split(':')[0]  # Get the host without the port
@@ -46,6 +47,7 @@ def referrer(request):
                 'dev_admin': dev_admin,
                 'dev_domain': dev_domain,
                 'sponsor_fb_pixel': sponsor_fb_pixel,
+                'selling_capi_token': selling_capi_token,
             }
         return {'referrer': None}
     except Exception as e:

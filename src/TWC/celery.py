@@ -24,16 +24,6 @@ app.conf.beat_schedule = {
         'schedule': crontab(minute='*'),
         'args': (16, 16),
     },
-    # 'add-every-30-seconds': {
-    #     'task': 'run_test_script',
-    #     'schedule': 30,
-    #     'args': (16, 16)
-    # },
-    # 'add-every-5-seconds': {
-    #     'task': 'sum_two_numbers',
-    #     'schedule': 5.0,
-    #     'args': (16, 16)
-    # },
     'add-every-1st-day-of-month': {
         'task': 'run_test_script',
         'schedule': crontab(0, 0, day_of_month='1'),

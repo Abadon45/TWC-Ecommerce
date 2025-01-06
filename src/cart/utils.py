@@ -1,14 +1,21 @@
 import random
 import string
+import datetime
+import time
 
 import requests
 
-from datetime import datetime
+from datetime import datetime, time
 from django.conf import settings
 from django.http import JsonResponse, HttpResponseRedirect
-from django.shortcuts import redirect
 from django.urls import reverse
-from requests.auth import HTTPBasicAuth
+
+from facebook_business.adobjects.serverside.action_source import ActionSource
+from facebook_business.adobjects.serverside.custom_data import CustomData
+from facebook_business.adobjects.serverside.event import Event
+from facebook_business.adobjects.serverside.event_request import EventRequest
+from facebook_business.adobjects.serverside.user_data import UserData
+from facebook_business.api import FacebookAdsApi
 
 from onlinestore.models import *
 
@@ -101,6 +108,54 @@ def detect_region(province):
         return "mindanao"
     else:
         return "unknown"
+
+def generate_invoice_number():
+    # Get the current date and time in the specified format
+    date_time_str = datetime.now().strftime("%y%m%d%H%M%S")
+    # Generate 3 random alphanumeric characters
+    random_chars = ''.join(random.choices(string.ascii_uppercase + string.digits, k=3))
+    # Combine date, time, and random characters
+    invoice_number = f"{date_time_str}{random_chars}"
+    return invoice_number
+
+
+def conversion_api(request, access_token=None, pixel_id=None, event_name=None, event_id=None, user_data=UserData(),
+                   custom_data=CustomData(), ):
+    try:
+        FacebookAdsApi.init(access_token=access_token)
+
+        event = Event(
+            event_name=event_name,
+            event_id=event_id,
+            event_time=int(time.time()),
+            user_data=user_data,
+            custom_data=custom_data,
+            event_source_url=request.build_absolute_uri(),
+            action_source=ActionSource.WEBSITE,
+        )
+
+        events = [event]
+
+        event_request = EventRequest(
+            events=events,
+            pixel_id=pixel_id,
+        )
+
+        event_response = event_request.execute()
+    except:
+        pass
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]  # Get the first IP in the list
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+def get_client_user_agent(request):
+    return request.META.get('HTTP_USER_AGENT', '')
 
 
 

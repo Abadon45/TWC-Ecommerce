@@ -6,15 +6,7 @@
 
 {% block fb_pixel_event %}
     <script>
-        fbq('track', 'Purchase', {
-            content_category: "Seller Package",
-            content_name: "TWC Seller's Program",
-            content_type: "product",
-            content_ids: ["SANTE001",],
-            contents: [{"id": "TWC001", "quantity": 1},],
-            currency: "PHP",
-            value: "299.70",
-        });
+        fbq("track", "{{ event_name }}", {content_name: {{ event_name }}}, {eventID:{{ event_id }}});
     </script>
 {% endblock %}
 

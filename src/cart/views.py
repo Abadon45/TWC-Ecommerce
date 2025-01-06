@@ -387,6 +387,67 @@ class PromoCheckoutView(CheckoutView):
     title = "Promo Checkout"
     template_name = 'cart/bundle-checkout.html'
 
+    def get_context_data(self, request, **kwargs):
+        # Get the default context from the parent class
+        context = super().get_context_data(**kwargs)
+
+        # Ensure 'unique_id' exists in the session or generate a new one
+        unique_id = self.request.session.get('unique_id', generate_invoice_number())
+        if 'unique_id' not in self.request.session:
+            self.request.session['unique_id'] = unique_id
+
+        event_id = f'checkout_{unique_id}'
+
+        selling_capi_token = request.session.get('selling_capi_token', None)
+        sponsor_fb_pixel = request.session.get('sponsor_fb_pixel', None)
+        event_name = request.session.get('event_name', None)
+
+        if selling_capi_token and sponsor_fb_pixel:
+            # FUNNEL INTEGRATIONS
+            external_id = unique_id
+            fbp = request.COOKIES.get('_fbp')
+            fbc = request.COOKIES.get('_fbc')
+
+            try:
+                client_ip_address = get_client_ip(request)
+                client_user_agent = get_client_user_agent(request)
+                capi_token = selling_capi_token
+                first_name = request.GET.get('fn', '')
+                last_name = request.GET.get('ln', '')
+                mobile = request.GET.get('mobile', '')
+
+                user_data = UserData(
+                    first_name=first_name,
+                    last_name=last_name,
+                    phone=mobile if mobile else "",
+                    external_id=external_id,
+                    client_ip_address=client_ip_address,
+                    client_user_agent=client_user_agent,
+                    fbp=fbp,
+                    fbc=fbc
+                )
+
+                custom_data = CustomData(
+                    content_name=event_name,
+                )
+
+                conversion_api(
+                    request,
+                    access_token=capi_token,
+                    pixel_id=sponsor_fb_pixel,
+                    event_name=event_name,
+                    event_id=event_id,
+                    user_data=user_data,
+                    custom_data=custom_data
+                )
+            except:
+                pass
+
+        context['event_id'] = event_id
+        context['title'] = self.title
+        context['event_name'] = self.request.session.get('event_name', "")
+
+        return context
 
 
 #########################################################
@@ -479,6 +540,68 @@ class PromoCheckoutDoneView(CheckoutDoneView):
     title = "Thank You"
     template_name = 'cart/bundle-thank-you.html'
 
+    def get_context_data(self, **kwargs):
+        # Get the default context from the parent class
+        context = super().get_context_data(**kwargs)
+
+        unique_id = self.request.session.get('unique_id', generate_invoice_number())
+        if 'unique_id' not in self.request.session:
+            self.request.session['unique_id'] = unique_id
+
+        event_id = f'thank-you-page_{unique_id}'
+
+        selling_capi_token = self.request.session.get('selling_capi_token', None)
+        sponsor_fb_pixel = self.request.session.get('sponsor_fb_pixel', None)
+        event_name = self.request.session.get('event_name', None)
+
+        if selling_capi_token and sponsor_fb_pixel:
+            # FUNNEL INTEGRATIONS
+            external_id = unique_id
+            fbp = self.request.COOKIES.get('_fbp')
+            fbc = self.request.COOKIES.get('_fbc')
+
+            try:
+                client_ip_address = get_client_ip(self.request)
+                client_user_agent = get_client_user_agent(self.request)
+                capi_token = selling_capi_token
+                first_name = self.request.GET.get('fn', '')
+                last_name = self.request.GET.get('ln', '')
+                mobile = self.request.GET.get('mobile', '')
+
+                user_data = UserData(
+                    first_name=first_name,
+                    last_name=last_name,
+                    phone=mobile if mobile else "",
+                    external_id=external_id,
+                    client_ip_address=client_ip_address,
+                    client_user_agent=client_user_agent,
+                    fbp=fbp,
+                    fbc=fbc
+                )
+
+                custom_data = CustomData(
+                    content_name=event_name,
+                )
+
+                conversion_api(
+                    self.request,
+                    access_token=capi_token,
+                    pixel_id=sponsor_fb_pixel,
+                    event_name=event_name,
+                    event_id=event_id,
+                    user_data=user_data,
+                    custom_data=custom_data
+                )
+            except Exception as e:
+                print(f"Error in conversion API: {e}")
+
+        context['event_id'] = event_id
+        context['title'] = self.title
+        context['event_name'] = self.request.session.get('event_name', "")
+
+        return context
+
+
 
 @csrf_exempt
 def xendit_webhook_payment_success(request):
@@ -497,12 +620,12 @@ def xendit_webhook_payment_success(request):
             invoice_id = data.get('external_id')
 
             # Return success response
-            return JsonResponse({'status': 'success', 'message': f'Invoice {invoice_id } status is PAID and processed'})
+            return JsonResponse({'status': 'success', 'message': f'Invoice {invoice_id} status is PAID and processed'})
 
         else:
-            return JsonResponse({'status': 'success', 'message': f"Invoice status is {status}, no further action taken."})
+            return JsonResponse(
+                {'status': 'success', 'message': f"Invoice status is {status}, no further action taken."})
 
 
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid JSON data'}, status=400)
-

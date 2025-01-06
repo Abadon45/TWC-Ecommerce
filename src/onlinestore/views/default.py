@@ -8,10 +8,14 @@ from django.contrib.auth import get_user_model
 from django.utils.text import capfirst
 from django.urls import reverse
 from django.db import transaction
-from cart.utils import sf_calculator
+from cart.utils import generate_invoice_number, get_client_ip, get_client_user_agent, conversion_api
 from onlinestore.models import SiteSetting
 from onlinestore.utils import fetch_vw_inventory
 from django.templatetags.static import static
+
+from facebook_business.adobjects.serverside.custom_data import CustomData
+from facebook_business.adobjects.serverside.user_data import UserData
+
 
 import random
 import requests
@@ -145,7 +149,14 @@ class ProductFunnelView(View):
         product_name = ''
         content_ids = []
 
-        # Define the template based on the product
+        # Ensure 'unique_id' exists in the session or generate a new one
+        unique_id = request.session.get('unique_id', generate_invoice_number())
+        if 'unique_id' not in request.session:
+            request.session['unique_id'] = unique_id
+
+        # Create the event ID based on the unique_id
+        event_id = f'landing-page_{unique_id}'
+
         if product == 'barley-for-cancer':
             template_name = 'funnels/products/barley/cancer.html'
             product_name = 'Barley Juice For Cancer'
@@ -174,12 +185,58 @@ class ProductFunnelView(View):
             raise Http404("Product is not available")
 
 
+        request.session['event_name'] = product_name
+
+        selling_capi_token = request.session.get('selling_capi_token', None)
+        sponsor_fb_pixel = request.session.get('sponsor_fb_pixel', None)
+
+        if selling_capi_token and sponsor_fb_pixel:
+            # FUNNEL INTEGRATIONS
+            external_id = unique_id
+            fbp = request.COOKIES.get('_fbp')
+            fbc = request.COOKIES.get('_fbc')
+
+            try:
+                client_ip_address = get_client_ip(request)
+                client_user_agent = get_client_user_agent(request)
+                capi_token = selling_capi_token
+                first_name = request.GET.get('fn', '')
+                last_name = request.GET.get('ln', '')
+                mobile = request.GET.get('mobile', '')
+
+                user_data = UserData(
+                    first_name=first_name,
+                    last_name=last_name,
+                    phone=mobile if mobile else "",
+                    external_id=external_id,
+                    client_ip_address=client_ip_address,
+                    client_user_agent=client_user_agent,
+                    fbp=fbp,
+                    fbc=fbc
+                )
+
+                custom_data = CustomData(
+                    content_name=product_name,
+                )
+
+                conversion_api(
+                    request,
+                    access_token=capi_token,
+                    pixel_id=sponsor_fb_pixel,
+                    event_name=product_name,
+                    event_id=event_id,
+                    user_data=user_data,
+                    custom_data=custom_data
+                )
+            except:
+                pass
         context = {
             'title': self.title,
             'product': product,
             'section': section,
             'product_name': product_name,
             'content_ids': content_ids,
+            'event_id': event_id,
         }
 
         # Render the template with the context

@@ -58,12 +58,16 @@ class SubdomainMiddleware:
             messenger_link = data.get('messenger_link')
             sponsor_mobile = data.get('sponsor_mobile')
             sponsor_fb_pixel = data.get('selling_pixel')
+            selling_capi_token = data.get('selling_capi_token')
+
+            print(f'Data: {data}')
 
             if is_success:
                 request.session['referrer'] = username
                 request.session['messenger_link'] = messenger_link
                 request.session['sponsor_mobile'] = sponsor_mobile
                 request.session['sponsor_fb_pixel'] = sponsor_fb_pixel
+                request.session['selling_capi_token'] = selling_capi_token
                 print(f"Referrer set: {username}, Messenger Link: {messenger_link}, FB Pixel: {sponsor_fb_pixel}")
                 return None
             else:
