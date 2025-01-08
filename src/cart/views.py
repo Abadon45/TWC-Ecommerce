@@ -265,7 +265,12 @@ class CheckoutView(View):
 
     def get_context_data(self, **kwargs):
         print(f'Orders: {self.get_orders()}')
+        num_shops = len(self.get_orders().keys())
+        multishop = False
+        if num_shops > 1:
+            multishop = True
         context = {
+            'multishop': multishop,
             'shipping_form': AddressForm(),
             'orders': self.get_orders(),
             'cart_total': self.request.session.get('cart_total', 0),
@@ -309,6 +314,7 @@ class CheckoutView(View):
         updated_orders = []
         total_shipping = Decimal(0)
         total_payment = Decimal(0)
+        shop_count = 0
 
         # Calculate shipping fees and update orders
         for shop, order_data in orders.items():
