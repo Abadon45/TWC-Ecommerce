@@ -387,7 +387,7 @@ class PromoCheckoutView(CheckoutView):
     title = "Promo Checkout"
     template_name = 'cart/bundle-checkout.html'
 
-    def get_context_data(self, request, **kwargs):
+    def get_context_data(self, **kwargs):
         # Get the default context from the parent class
         context = super().get_context_data(**kwargs)
 
@@ -398,23 +398,23 @@ class PromoCheckoutView(CheckoutView):
 
         event_id = f'checkout_{unique_id}'
 
-        selling_capi_token = request.session.get('selling_capi_token', None)
-        sponsor_fb_pixel = request.session.get('sponsor_fb_pixel', None)
-        event_name = request.session.get('event_name', None)
+        selling_capi_token = self.request.session.get('selling_capi_token', None)
+        sponsor_fb_pixel = self.request.session.get('sponsor_fb_pixel', None)
+        event_name = self.request.session.get('event_name', None)
 
         if selling_capi_token and sponsor_fb_pixel:
             # FUNNEL INTEGRATIONS
             external_id = unique_id
-            fbp = request.COOKIES.get('_fbp')
-            fbc = request.COOKIES.get('_fbc')
+            fbp = self.request.COOKIES.get('_fbp')
+            fbc = self.request.COOKIES.get('_fbc')
 
             try:
-                client_ip_address = get_client_ip(request)
-                client_user_agent = get_client_user_agent(request)
+                client_ip_address = get_client_ip(self.request)
+                client_user_agent = get_client_user_agent(self.request)
                 capi_token = selling_capi_token
-                first_name = request.GET.get('fn', '')
-                last_name = request.GET.get('ln', '')
-                mobile = request.GET.get('mobile', '')
+                first_name = self.request.GET.get('fn', '')
+                last_name = self.request.GET.get('ln', '')
+                mobile = self.request.GET.get('mobile', '')
 
                 user_data = UserData(
                     first_name=first_name,
@@ -432,7 +432,7 @@ class PromoCheckoutView(CheckoutView):
                 )
 
                 conversion_api(
-                    request,
+                    self.request,
                     access_token=capi_token,
                     pixel_id=sponsor_fb_pixel,
                     event_name=event_name,
@@ -440,8 +440,9 @@ class PromoCheckoutView(CheckoutView):
                     user_data=user_data,
                     custom_data=custom_data
                 )
-            except:
-                pass
+            except Exception as e:
+                # Log the exception for debugging purposes
+                print(f"Conversion API error: {e}")
 
         context['event_id'] = event_id
         context['title'] = self.title
@@ -600,7 +601,6 @@ class PromoCheckoutDoneView(CheckoutDoneView):
         context['event_name'] = self.request.session.get('event_name', "")
 
         return context
-
 
 
 @csrf_exempt
