@@ -145,7 +145,9 @@ def fetch_vw_inventory(request):
         None: If the request fails or no data is available.
     """
     username = extract_username_from_request(request)
-    url = f"https://dashboard.twcdevtest.com/account/api/check-username/{username}/vwinventory/"
+    url = settings.VW_INVENTORY_API.format(username=username)
+
+    print(f'PRODUCT FUNNEL URL: {url}')
 
     try:
         # Make the API call
