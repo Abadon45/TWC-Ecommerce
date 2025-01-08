@@ -441,14 +441,14 @@ class PromoCheckoutView(CheckoutView):
                     custom_data=custom_data
                 )
             except Exception as e:
-                print(f"Error in conversion API: {e}")
+                # Log the exception for debugging purposes
+                print(f"Conversion API error: {e}")
 
         context['event_id'] = event_id
         context['title'] = self.title
         context['event_name'] = self.request.session.get('event_name', "")
 
         return context
-
 
 
 #########################################################
@@ -601,7 +601,6 @@ class PromoCheckoutDoneView(CheckoutDoneView):
         context['event_name'] = self.request.session.get('event_name', "")
 
         return context
-
 
 
 @csrf_exempt
