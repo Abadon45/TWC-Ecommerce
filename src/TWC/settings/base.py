@@ -27,9 +27,7 @@ PRODUCT_URL_API = f'https://dashboard.twcako.com/shop/api/get-product/?slug='
 REFRESH_TOKEN_API = f'https://dashboard.{HOST_DOMAIN}.com/order/api/get-access-token/'
 ORDER_URL_API = f'https://dashboard.{HOST_DOMAIN}.com/order/api/create-order/'
 VW_INVENTORY_API = f"https://dashboard.{HOST_DOMAIN}.com/account/api/check-username/{{username}}/vwinventory/"
-
-#WEBHOOK
-
+PH_NUMBERS_PREFIXES_API = f"https://dashboard.twcdevtest.com/addresses/api/ph-number-prefixes/"
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -131,6 +129,7 @@ TEMPLATES = [
                 'onlinestore.context_processors.referrer',
                 'onlinestore.context_processors.cart_items',
                 'onlinestore.context_processors.facebook_pixel_id',
+                'onlinestore.context_processors.ph_number_prefixes',
                 'TWC.context_processors.main_site_url',
                 'TWC.context_processors.site_urls',
             ],

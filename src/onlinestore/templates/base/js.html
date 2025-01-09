@@ -8,6 +8,7 @@
     const registerURL = "{% url 'login:register' %}";
     const addressApiUrl = "{% url 'shop:get_address_data' %}";
     var csrf = "{{ csrf_token }}";
+    const phNumbers = "{{ ph_number_prefixes|safe }}"
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bar-rating/1.2.2/jquery.barrating.min.js"></script>

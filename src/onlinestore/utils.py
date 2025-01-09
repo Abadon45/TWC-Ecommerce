@@ -113,6 +113,27 @@ def fetch_address_data(request):
         return JsonResponse({'error': 'Failed to fetch address data'}, status=500)
 
 
+def fetch_ph_number_prefixes(api_url):
+    """
+    Fetch Philippine mobile number prefixes from the API.
+
+    Args:
+        api_url (str): The URL of the PHNumberPrefixes API.
+
+    Returns:
+        list: A list of prefixes, or an empty list if the API call fails.
+    """
+    try:
+        response = requests.get(api_url)
+        response.raise_for_status()  # Raise an error for HTTP status codes 4xx/5xx
+        data = response.json()
+        return data.get('ph_number_prefixes', [])
+    except requests.RequestException as e:
+        # Log the error if needed
+        print(f"Error fetching prefixes: {e}")
+        return []
+
+
 def extract_username_from_request(request):
     """
     Extract the username (subdomain) from the request object.

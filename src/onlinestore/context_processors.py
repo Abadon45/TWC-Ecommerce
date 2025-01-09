@@ -115,3 +115,21 @@ def facebook_pixel_id(request):
     return {
         'pixel_id': pixel_id
     }
+
+
+def ph_number_prefixes(request):
+    """
+    Fetch PHNumberPrefixes from the API and add them to the context.
+    """
+    ph_numbers_api_url = settings.PH_NUMBERS_PREFIXES_API
+    try:
+        response = requests.get(ph_numbers_api_url)
+        response.raise_for_status()  # Raise an exception for HTTP errors
+        data = response.json()
+        prefixes = data.get('ph_number_prefixes', [])
+    except requests.RequestException as e:
+        # Log the error if necessary
+        print(f"Error fetching PHNumberPrefixes: {e}")
+        prefixes = []
+
+    return {'ph_number_prefixes': prefixes}
