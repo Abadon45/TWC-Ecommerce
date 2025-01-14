@@ -372,15 +372,6 @@ def create_order(request):
 
 
 
-class BecomeSellerView(TemplateView):
-    title = "BecomeSeller"
-    template_name = 'become-seller.html'
-    context = {'title': title}
-
-    def get_context_data(self, **kwargs):
-        return self.context
-
-
 class Handle404View(View):
     title = "404"
 

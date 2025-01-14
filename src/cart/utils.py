@@ -356,6 +356,7 @@ def create_order(request, items, shipping_amount, shop_count, total_discount):
             "username": request.session['referrer'],
             "shipping_details": shipping_details,
             "order_details": {
+                "supplier": shop,
                 "cod_amount": cod_amount,
                 "discount_price": discount_price,
                 "payment_method": payment_method,
@@ -392,7 +393,9 @@ def create_order(request, items, shipping_amount, shop_count, total_discount):
             ordered_items_by_shop[shop]['order_number'] = order_number
         else:
             print("Error creating order:", response.status_code, response.text)
-            return HttpResponseRedirect(reverse('cart:cart'))
+            return JsonResponse({
+                'redirect_url': reverse('cart:cart'),
+            })
 
     if 'promo' in ordered_items_by_shop:
         redirect_url = reverse('cart:promo_checkout_done')
