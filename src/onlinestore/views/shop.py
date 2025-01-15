@@ -108,7 +108,7 @@ class ShopView(TemplateView):
                 for product in queryset:
                     product_slug = product.get('slug')
                     ratings = Rating.objects.filter(product_slug=product_slug)
-                    aggregate_rating = ratings.aggregate(Avg('score'))['score__avg'] if ratings.exists() else 4
+                    aggregate_rating = ratings.aggregate(Avg('score'))['score__avg'] if ratings.exists() else 5
                     product['aggregate_rating'] = round(aggregate_rating, 1)
 
             return queryset, dict(category_product_count)
@@ -220,7 +220,7 @@ class ShopDetailView(View):
             aggregate_rating = ratings.aggregate(Avg('score'))['score__avg']
             product['aggregate_rating'] = round(aggregate_rating, 1)
         else:
-            product['aggregate_rating'] = 4  # Default rating if no ratings exist
+            product['aggregate_rating'] = 5  # Default rating if no ratings exist
 
         # Get related products based on category
         related_products = self.get_related_products(product.get('slug'), product.get('category_1'))
