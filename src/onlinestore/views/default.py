@@ -78,7 +78,7 @@ class IndexView(TemplateView):
             ('sante-intimate_care', 'Intimate Care'),
             ('bath-body', 'Bath & Body'),
             ('mood', 'Watches'),
-            ('chingu', 'Bags'),
+            ('mood-bags', 'Bags'),
             ('accessories', 'Accessories'),
         ]
 
