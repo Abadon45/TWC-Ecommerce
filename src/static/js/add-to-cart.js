@@ -45,7 +45,8 @@ $(document).ready(function () {
                 .done(function (response) {
                     // Compare quantity to available stock
                     console.log("Supplier Product: ", response.supplier_product)
-                    if (inputQuantity + 1 > response.quantity && action === 'add' && response.supplier_product) {
+                    console.log("input quantity: ", inputQuantity, " response quantity: ", response.quantity);
+                    if (parseInt(inputQuantity) + 1 > parseInt(response.quantity) && action === 'add' && response.supplier_product) {
                         Swal.fire({
                             title: 'Order Quantity Limit Exceeded!',
                             text: `Available stocks is only ${response.quantity}.`,
