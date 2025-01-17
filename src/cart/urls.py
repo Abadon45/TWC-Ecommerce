@@ -7,6 +7,7 @@ from django.conf.urls.static import static
 app_name = 'cart'
 urlpatterns = [
     path('', CartView.as_view(), name='cart'),
+    path('fetch-product-quantity/', fetch_product_quantity, name='fetch_product_quantity'),
     path('update-item/', UpdateCartView.as_view(), name='update_item'),
     path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('checkout/promo/', PromoCheckoutView.as_view(), name='promo_checkout'),

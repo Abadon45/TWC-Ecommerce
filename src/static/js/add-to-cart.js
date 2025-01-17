@@ -9,9 +9,12 @@ $(document).ready(function () {
         var action = button.data("action");
         var quantityInput = $(".quantity");
         var quantity = parseInt(quantityInput.val()) || 1;
+        var inputQuantity = $(".input-" + productId).val();
 
         console.log("Product Slug: " + productId)
         console.log("Quantity: ", quantity)
+        console.log("inputQuantity: ", inputQuantity)
+
 
         if (action === 'remove') {
             Swal.fire({
@@ -38,7 +41,26 @@ $(document).ready(function () {
                 }
             });
         } else {
-            updateUserOrder(productId, action, quantity, updateItemUrl, button);
+            fetchProductQuantity(productId)
+                .done(function (response) {
+                    // Compare quantity to available stock
+                    console.log("Supplier Product: ", response.supplier_product)
+                    if (inputQuantity + 1 > response.quantity && action === 'add' && response.supplier_product) {
+                        Swal.fire({
+                            title: 'Order Quantity Limit Exceeded!',
+                            text: `Available stocks is only ${response.quantity}.`,
+                            icon: 'error',
+                            confirmButtonText: 'OK',
+                        });
+                        return;  // Exit function if quantity exceeds max
+                    } else {
+                        // Proceed with the order update only if quantity is valid
+                        updateUserOrder(productId, action, quantity, updateItemUrl, button);
+                    }
+                })
+                .fail(function (xhr, status, error) {
+                    console.error(`Error fetching quantity for product ${productId}:`, error);
+                });
         }
     });
 
@@ -78,6 +100,7 @@ $(document).ready(function () {
                         minimumFractionDigits: 2,
                     }
                 );
+
 
                 console.log("Max Order: " + data.max_order_exceeded)
                 if (data.max_order_exceeded) {

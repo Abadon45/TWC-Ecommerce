@@ -1,3 +1,4 @@
+import os
 import random
 import string
 import datetime
@@ -7,7 +8,7 @@ import requests
 
 from datetime import datetime, time
 from django.conf import settings
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect, Http404
 from django.urls import reverse
 
 from facebook_business.adobjects.serverside.action_source import ActionSource
@@ -18,6 +19,7 @@ from facebook_business.adobjects.serverside.user_data import UserData
 from facebook_business.api import FacebookAdsApi
 
 from onlinestore.models import *
+
 
 
 def sf_calculator(province=None, qty=0):
@@ -108,6 +110,7 @@ def detect_region(province):
         return "mindanao"
     else:
         return "unknown"
+
 
 def generate_invoice_number():
     # Get the current date and time in the specified format

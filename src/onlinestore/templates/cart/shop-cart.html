@@ -80,8 +80,9 @@
                                                                         data-product="{{ item.product.slug }}"
                                                                         data-action="minus"
                                                                         class="update-cart excludeDisable minus-btn"
-                                                                        {% if item.quantity == 1 %}disabled{% endif %}><i
-                                                                        class="fal fa-minus"></i>
+                                                                        {% if item.quantity == 1 %}disabled{% endif %}>
+                                                                    <i
+                                                                            class="fal fa-minus"></i>
 
                                                                 </button>
                                                                 <label>
@@ -149,8 +150,9 @@
                                                                         data-product="{{ item.product.slug }}"
                                                                         data-action="minus"
                                                                         class="update-cart excludeDisable minus-btn"
-                                                                        {% if item.quantity == 1 %}disabled{% endif %}><i
-                                                                        class="fal fa-minus"></i>
+                                                                        {% if item.quantity == 1 %}disabled{% endif %}>
+                                                                    <i
+                                                                            class="fal fa-minus"></i>
 
                                                                 </button>
                                                                 <label>
@@ -215,7 +217,8 @@
                                             <li>Order Subtotal:
                                                 <span id="order-subtotal-{{ shop }}">{{ data.subtotal|currency }}</span>
                                             </li>
-                                            <li class="list-shipping">Shipping Fee: <span>{{ FIXED_SHIPPING_FEE|currency}}</span></li>
+                                            <li class="list-shipping">Shipping Fee:
+                                                <span>{{ FIXED_SHIPPING_FEE|currency }}</span></li>
                                             <li class="shop-cart-total">Order Total: <span
                                                     id="order-total-{{ shop }}">
                                                 {{ data.cod_amount|currency }}</span>
@@ -252,10 +255,10 @@
 {% block extra_js %}
     <script src="{% static 'js/save-scroll-position.js' %}"></script>
     <script>
-    var cartCount = parseInt($("#upper-cart-count").text());
+        var cartCount = parseInt($("#upper-cart-count").text());
 
-    if (cartCount === 0) {
-        window.location.href = "{% url 'shop:shop' %}";
-    }
+        if (cartCount === 0) {
+            window.location.href = "{% url 'shop:shop' %}";
+        }
     </script>
 {% endblock %}

@@ -143,6 +143,12 @@
                                         </h6>
                                     </div>
                                 </div>
+                                <div class="product-stock">
+                                    <div class="product-price">
+                                        <h6>In Stock: <span>{{ product.quantity }}</span>
+                                        </h6>
+                                    </div>
+                                </div>
                                 <div class="product-button">
                                     {% if product.slug in products_in_cart %}
                                         <button type="button" class="btn btn-secondary item-id-{{ product.slug }}"
@@ -408,7 +414,8 @@
                                             {% else %}
                                                 <button data-product="{{ related_product.slug }}" data-action="add"
                                                         type="button"
-                                                        class="btn theme-btn update-cart item-id-{{ related_product.slug }}">ADD
+                                                        class="btn theme-btn update-cart item-id-{{ related_product.slug }}">
+                                                    ADD
                                                     TO CART
                                                 </button>
                                             {% endif %}

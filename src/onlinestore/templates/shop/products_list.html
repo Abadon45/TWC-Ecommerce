@@ -101,9 +101,13 @@
                     <p>{{ product.description_1 }}</p>
                     <div class="product-bottom">
                         <div class="product-price">
-                            <span class="current-product-price">₱ {{ product.customer_price }}</span>
+                            <span class="current-product-price">₱ {{ product.customer_price }} {{ product.quantity }}</span>
                         </div>
+                        <div>
+                        <span>In Stock: {{ product.quantity }}</span>
                     </div>
+                    </div>
+                    
                     <div class="product-button">
                         {% if product.id in products_in_cart %}
                         <button type="button" class="btn btn-secondary item-id-{{ product.id }}"

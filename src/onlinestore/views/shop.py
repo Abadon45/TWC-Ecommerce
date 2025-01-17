@@ -1,3 +1,5 @@
+import os
+
 import requests
 import random
 
@@ -32,14 +34,15 @@ class ShopView(TemplateView):
             ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
             products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
                                 shop['items']]
-            products_grid_html = render_to_string('shop/products_grid.html', {'products': products}, request=request)
+            products_grid_html = render_to_string('shop/products_grid.html', {'products': products,'excluded_suppliers': ['sante', 'promos', 'twc']}, request=request)
 
             return JsonResponse({
                 'products_grid_html': products_grid_html,
                 'products': products,
                 'products_in_cart': products_in_cart,
                 'category_product_count': category_product_count,
-                'has_next': has_next
+                'has_next': has_next,
+                'excluded_suppliers': ['sante', 'promos', 'twc'],
 
             })
 
@@ -158,6 +161,7 @@ class ShopView(TemplateView):
         products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
                             shop['items']]
 
+
         context['products_grid_html'] = products_grid_html
         context['category_id'] = category_id
         context['products'] = products
@@ -165,6 +169,7 @@ class ShopView(TemplateView):
         context['products_in_cart'] = products_in_cart
         context['category_product_count'] = category_product_count
         context['user_ratings'] = user_ratings
+        context['excluded_suppliers'] = ['sante', 'promos', 'twc']
 
         return context
 
@@ -194,7 +199,8 @@ class ShopDetailView(View):
         if not product_slug:
             raise Http404("Product not found")
 
-        product_detail_url = f'https://dashboard.twcako.com/shop/api/get-product/?slug={product_slug}'
+        HOST_DOMAIN = os.environ.get("HOST_DOMAIN", "twcako")
+        product_detail_url = f'https://dashboard.{HOST_DOMAIN}.com/shop/api/get-product/?slug={product_slug}'
 
         try:
             response = requests.get(product_detail_url, verify=False)
