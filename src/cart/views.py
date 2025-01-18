@@ -1,27 +1,16 @@
-from django.template.defaultfilters import title
-from django.urls import reverse
+import json
+
 from django.utils import timezone
-from django.conf import settings
-from decimal import Decimal
-from django.shortcuts import redirect, get_object_or_404, render
-from django.http import Http404
+from django.shortcuts import redirect, render
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-from django.http import JsonResponse
 from urllib.parse import urlencode
 
+from onlinestore.api import *
 from onlinestore.forms import AddressForm
-from onlinestore.models import *
 from .utils import *
-# from TWC.settings.base import *
-from django.core.mail import send_mail
 
-import requests
-import decimal
-import json
-
-User = get_user_model()
 
 
 class CartView(TemplateView):
@@ -52,46 +41,22 @@ class CartView(TemplateView):
 
 
 def fetch_product_quantity(request):
-    # Get the product slug from the request parameters
     product_slug = request.GET.get('slug')
+
     if not product_slug:
         return JsonResponse({'error': 'Product slug is required.'}, status=400)
 
-    # Define the product detail API endpoint
-    HOST_DOMAIN = os.environ.get("HOST_DOMAIN", "twcako")
-    product_detail_url = f'https://dashboard.{HOST_DOMAIN}.com/shop/api/get-product/?slug={product_slug}'
-
     try:
-        # Make a request to the API
-        response = requests.get(product_detail_url, verify=False)
-        response.raise_for_status()  # Raise an error if the response status is not 200
-        product_data = response.json()
-
-        # Check if the product exists
-        product = product_data.get('product')
-        if not product:
-            raise Http404("Product not found.")
-
-        # Get the stock quantity
-        quantity = product.get('quantity', 0)
-        category = product.get('category_1', "")
-
-        excluded_category = ['promos', 'sante', 'twc']
-        supplier_product = False
-
-        if category not in excluded_category:
-            supplier_product = True
-
-
+        quantity, supplier_product = fetch_quantity_api(product_slug)
         return JsonResponse({'slug': product_slug, 'quantity': quantity, 'supplier_product': supplier_product})
 
-    except requests.exceptions.HTTPError as http_err:
-        print(f'HTTP error occurred: {http_err}')
-        return JsonResponse({'error': 'Unable to fetch product details from the server.'}, status=500)
+    except Http404 as e:
+        return JsonResponse({'error': str(e)}, status=404)
 
-    except requests.exceptions.RequestException as req_err:
-        print(f'Request error occurred: {req_err}')
-        return JsonResponse({'error': 'Request to product API failed.'}, status=500)
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return JsonResponse({'error': 'An unexpected error occurred.'}, status=500)
+
 
 
 class UpdateCartView(View):
@@ -410,6 +375,41 @@ class CheckoutView(View):
 
 
 def submit_checkout(request):
+    ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
+    cart = request.session.get('cart', {})  # Retrieve the cart from the session
+    print(f'Order: {ordered_items_by_shop}')
+    print(f'Cart: {cart}')
+
+    for shop, shop_data in ordered_items_by_shop.items():
+
+        for item in shop_data['items']:
+            product_name = item['product']['name']
+            product_quantity = item.get('quantity', 1)
+            slug = item['product']['slug']
+
+            quantity, supplier_product = fetch_quantity_api(slug)
+            quantity = int(quantity)
+
+            if int(product_quantity) > quantity and supplier_product:
+                message = f'{product_name} stock exceeds quantity of available stock: {quantity}'
+                item['quantity'] = quantity
+
+                if slug in cart:
+                    cart[slug]['quantity'] = quantity
+
+                if int(quantity) == 0:
+                    message = f'{product_name} is out of stock, deleting your product from the cart'
+                    shop_data['items'].remove(item)
+                    if slug in cart:
+                        del cart[slug]
+
+                request.session['ordered_items_by_shop'] = ordered_items_by_shop
+                request.session['cart'] = cart
+                return JsonResponse({
+                    'error': message,
+                    'redirect_url': reverse('cart:cart'),
+                }, status=400)
+
     access_token = get_access_token()
     if not access_token:
         return JsonResponse({
@@ -651,30 +651,3 @@ class PromoCheckoutDoneView(CheckoutDoneView):
 
         return context
 
-
-@csrf_exempt
-def xendit_webhook_payment_success(request):
-    WEBHOOK_VERIFICATION_TOKEN = 'Fq3Io8PyPn7vkIcXY7nz9SXVu0OMAFKl45xWMeqmdbriIPFG'
-    callback_token = request.headers.get('x-callback-token')
-
-    if callback_token != WEBHOOK_VERIFICATION_TOKEN:
-        print(f"Invalid token: {callback_token}")  # Log invalid token
-        return JsonResponse({'error': f'Invalid token {callback_token}'}, status=403)
-
-    try:
-        data = json.loads(request.body.decode('utf-8'))
-        status = data.get('status')
-
-        if status == 'PAID':
-            invoice_id = data.get('external_id')
-
-            # Return success response
-            return JsonResponse({'status': 'success', 'message': f'Invoice {invoice_id} status is PAID and processed'})
-
-        else:
-            return JsonResponse(
-                {'status': 'success', 'message': f"Invoice status is {status}, no further action taken."})
-
-
-    except json.JSONDecodeError:
-        return JsonResponse({'error': 'Invalid JSON data'}, status=400)

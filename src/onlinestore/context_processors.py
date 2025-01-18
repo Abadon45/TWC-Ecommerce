@@ -56,7 +56,6 @@ def referrer(request):
 
 def cart_items(request):
     try:
-        # Get the cart data from session
         cart = request.session.get('cart', {})
 
         # Initialize variables

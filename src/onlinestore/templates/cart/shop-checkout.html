@@ -402,13 +402,24 @@
                     },
                     error: function (xhr, status, error) {
                         console.error('Error saving referrer username:', error);
-                        var responseData = JSON.parse(xhr.responseText);
-                        var errorMessage = responseData.error;
+                        let errorMessage = 'An unknown error occurred.';
+                        let redirectUrl = '/cart'; // Default fallback URL
+
+                        try {
+                            const responseData = JSON.parse(xhr.responseText);
+                            errorMessage = responseData.error || errorMessage;
+                            redirectUrl = responseData.redirect_url || redirectUrl;
+                        } catch (e) {
+                            console.error('Failed to parse error response:', e);
+                        }
+
                         Swal.fire({
                             title: 'Error',
                             text: errorMessage,
                             icon: 'error',
                             confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.href = redirectUrl;
                         });
                     }
                 });

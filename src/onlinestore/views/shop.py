@@ -196,6 +196,9 @@ class ShopDetailView(View):
         # Fetch product from API
         product_slug = slug or request.GET.get('slug')
 
+        request.session.get['ordered_items_by_shop'] = {}
+        request.session.get['cart'] = {}
+
         if not product_slug:
             raise Http404("Product not found")
 
