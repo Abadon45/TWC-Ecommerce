@@ -6,6 +6,7 @@
 {% block custom_css %}
     <link href="{% static 'funnel/products/custom_css/fusion_for_weightloss.css' %}" rel="stylesheet">
     <link href="{% static 'funnel/products/custom_css/embed-responsive.css' %}" rel="stylesheet">
+    <link href="{% static 'funnel/products/custom_css/funnel-mod.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block fb_pixel_event %}
@@ -782,7 +783,7 @@
                                             <center>
                                                 <p>PROMO 1</p>
                                                 <p>₱340.00</p>
-                                                <p>10 DAYS SUPPLY</p>
+                                                <p class="supply-text">10 DAYS SUPPLY</p>
                                             </center>
                                         </div>
                                     </td>
@@ -810,7 +811,7 @@
                                 <center>
                                     <p>PROMO 1</p>
                                     <p>₱340.00</p>
-                                    <p>10 DAYS SUPPLY</p>
+                                    <p class="supply-text">10 DAYS SUPPLY</p>
                                     <div class="btn-group-toggle"
                                          data-toggle="buttons"
                                          data-price="340"
@@ -829,11 +830,8 @@
                         <div class="zoom2" id="two" onmouseover="transform('two')" onmouseout="againtransform('two')">
                             <table class="d-block d-sm-none">
                                 <tr>
-                                    <td class="best-seller-block">
+                                    <td>
                                         <div class="col-sm-6">
-                                            <img class="img-fluid best-seller"
-                                                 src="{% static 'funnel/products/img/boost_coffee/mobile/best-seller-mobile.png' %}"
-                                                 alt="">
                                             <img class="img-fluid"
                                                  src="{% static '/funnel/products/img/vw/mobile/fusion-promo-2b.webp' %}"
                                                  alt="">
@@ -844,7 +842,7 @@
                                             <center>
                                                 <p>PROMO 2</p>
                                                 <p>₱649.00</p>
-                                                <p>20 DAYS SUPPLY</p>
+                                                <p class="supply-text">20 DAYS SUPPLY</p>
                                             </center>
                                         </div>
                                     </td>
@@ -861,13 +859,6 @@
                                     </label>
                                 </div>
                             </div>
-                            <picture class="d-none d-sm-block best-seller-block">
-                                <source srcset="{% static 'funnel/products/img/fusion_coffee_old_age/tablet/best-seller-tablet.png' %}"
-                                        media="(max-width: 768px)">
-                                <img class="img-fluid best-seller"
-                                     src="{% static 'funnel/products/img/fusion_coffee_old_age/xl/best-seller-xl.png' %}"
-                                     alt="">
-                            </picture>
                             <div class="d-none d-sm-block">
                                 <img class="img-fluid promo-product"
                                      src="{% static '/funnel/products/img/vw/fusion-promo-2b.webp' %}"
@@ -886,7 +877,7 @@
                                 <center>
                                     <p>PROMO 2</p>
                                     <p>₱649.00</p>
-                                    <p>20 DAYS SUPPLY</p>
+                                    <p class="supply-text">20 DAYS SUPPLY</p>
                                     <div class="btn-group-toggle"
                                          data-toggle="buttons"
                                          data-price="649"
@@ -908,6 +899,9 @@
                                 <tr>
                                     <td>
                                         <div class="col-sm-6 wd-157">
+                                            <img class="img-fluid best-seller"
+                                                 src="{% static 'funnel/products/img/boost_coffee/mobile/best-seller-mobile.png' %}"
+                                                 alt="">
                                             <img class="img-fluid"
                                                  src="{% static '/funnel/products/img/vw/mobile/fusion-promo-3b.webp' %}"
                                                  alt="">
@@ -918,7 +912,7 @@
                                             <center>
                                                 <p>PROMO 3</p>
                                                 <p>₱1,049.00</p>
-                                                <p>40 DAYS SUPPLY</p>
+                                                <p class="supply-text">40 DAYS SUPPLY</p>
                                             </center>
                                         </div>
                                     </td>
@@ -936,7 +930,13 @@
                                     </label>
                                 </div>
                             </div>
-                            -
+                            <picture class="d-none d-sm-block best-seller-block">
+                                <source srcset="{% static 'funnel/products/img/fusion_coffee_old_age/tablet/best-seller-tablet.png' %}"
+                                        media="(max-width: 768px)">
+                                <img class="img-fluid best-seller"
+                                     src="{% static 'funnel/products/img/fusion_coffee_old_age/xl/best-seller-xl.png' %}"
+                                     alt="">
+                            </picture>
                             <div class="row d-none d-sm-block">
                                 <picture>
                                     <img class="img-fluid"
@@ -955,7 +955,7 @@
                                 <center>
                                     <p>PROMO 3</p>
                                     <p>₱1,049.00</p>
-                                    <p>40 DAYS SUPPLY</p>
+                                    <p class="supply-text">40 DAYS SUPPLY</p>
                                     <div class="btn-group-toggle"
                                          data-toggle="buttons"
                                          data-price="1049"
@@ -989,7 +989,7 @@
                                             <center>
                                                 <p>PROMO 1</p>
                                                 <p>₱460.00</p>
-                                                <p>10 DAYS SUPPLY</p>
+                                                <p class="supply-text">10 DAYS SUPPLY</p>
                                             </center>
                                         </div>
                                     </td>
@@ -1017,7 +1017,7 @@
                                 <center>
                                     <p>PROMO 1</p>
                                     <p>₱460.00</p>
-                                    <p>10 DAYS SUPPLY</p>
+                                    <p class="supply-text">10 DAYS SUPPLY</p>
                                     <div class="btn-group-toggle"
                                          data-toggle="buttons"
                                          data-price="460"
@@ -1036,11 +1036,8 @@
                         <div class="zoom2" id="two" onmouseover="transform('two')" onmouseout="againtransform('two')">
                             <table class="d-block d-sm-none">
                                 <tr>
-                                    <td class="best-seller-block">
+                                    <td>
                                         <div class="col-sm-6">
-                                            <img class="img-fluid best-seller"
-                                                 src="{% static 'funnel/products/img/boost_coffee/mobile/best-seller-mobile.png' %}"
-                                                 alt="">
                                             <img class="img-fluid"
                                                  src="{% static '/funnel/products/img/vw/mobile/fusion-promo-2b.webp' %}"
                                                  alt="">
@@ -1051,7 +1048,7 @@
                                             <center>
                                                 <p>PROMO 2</p>
                                                 <p>₱850.00</p>
-                                                <p>20 DAYS SUPPLY</p>
+                                                <p class="supply-text">20 DAYS SUPPLY</p>
                                             </center>
                                         </div>
                                     </td>
@@ -1068,13 +1065,6 @@
                                     </label>
                                 </div>
                             </div>
-                            <picture class="d-none d-sm-block best-seller-block">
-                                <source srcset="{% static 'funnel/products/img/fusion_coffee_old_age/tablet/best-seller-tablet.png' %}"
-                                        media="(max-width: 768px)">
-                                <img class="img-fluid best-seller"
-                                     src="{% static 'funnel/products/img/fusion_coffee_old_age/xl/best-seller-xl.png' %}"
-                                     alt="">
-                            </picture>
                             <div class="d-none d-sm-block">
                                 <img class="img-fluid promo-product"
                                      src="{% static '/funnel/products/img/vw/fusion-promo-2b.webp' %}"
@@ -1093,7 +1083,7 @@
                                 <center>
                                     <p>PROMO 2</p>
                                     <p>₱850.00</p>
-                                    <p>20 DAYS SUPPLY</p>
+                                    <p class="supply-text">20 DAYS SUPPLY</p>
                                     <div class="btn-group-toggle"
                                          data-toggle="buttons"
                                          data-price="850"
@@ -1115,6 +1105,9 @@
                                 <tr>
                                     <td>
                                         <div class="col-sm-6 wd-157">
+                                            <img class="img-fluid best-seller"
+                                                 src="{% static 'funnel/products/img/boost_coffee/mobile/best-seller-mobile.png' %}"
+                                                 alt="">
                                             <img class="img-fluid"
                                                  src="{% static '/funnel/products/img/vw/mobile/fusion-promo-3b.webp' %}"
                                                  alt="">
@@ -1125,7 +1118,7 @@
                                             <center>
                                                 <p>PROMO 3</p>
                                                 <p>₱1,240.00</p>
-                                                <p>40 DAYS SUPPLY</p>
+                                                <p class="supply-text">40 DAYS SUPPLY</p>
                                             </center>
                                         </div>
                                     </td>
@@ -1143,7 +1136,13 @@
                                     </label>
                                 </div>
                             </div>
-                            -
+                            <picture class="d-none d-sm-block best-seller-block">
+                                <source srcset="{% static 'funnel/products/img/fusion_coffee_old_age/tablet/best-seller-tablet.png' %}"
+                                        media="(max-width: 768px)">
+                                <img class="img-fluid best-seller"
+                                     src="{% static 'funnel/products/img/fusion_coffee_old_age/xl/best-seller-xl.png' %}"
+                                     alt="">
+                            </picture>
                             <div class="row d-none d-sm-block">
                                 <picture>
                                     <img class="img-fluid"
@@ -1162,7 +1161,7 @@
                                 <center>
                                     <p>PROMO 3</p>
                                     <p>₱1,240.00</p>
-                                    <p>40 DAYS SUPPLY</p>
+                                    <p class="supply-text">40 DAYS SUPPLY</p>
                                     <div class="btn-group-toggle"
                                          data-toggle="buttons"
                                          data-price="1240"

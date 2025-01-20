@@ -19,6 +19,7 @@
 {% block custom_css %}
     <link href="{% static 'funnel/products/custom_css/barley_for_cancer.css' %}" rel="stylesheet">
     <link href="{% static 'funnel/products/custom_css/embed-responsive.css' %}" rel="stylesheet">
+    <link href="{% static 'funnel/products/custom_css/funnel-mod.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -890,8 +891,7 @@
                                         <div class="col-sm-6">
                                             <p>PROMO 1</p>
                                             <p>₱720.00</p>
-                                            <p>30g of Pure Barley Powder <br> (3g per sachet)</p>
-                                            <p>10 DAYS SUPPLY</p>
+                                            <p class="supply-text">10 DAYS SUPPLY</p>
                                         </div>
                                     </td>
                                 </tr>
@@ -928,8 +928,7 @@
                             <div class="row d-none d-sm-block">
                                 <p>PROMO 1</p>
                                 <p>₱720.00</p>
-                                <p>30g of Pure Barley Powder <br> (3g per sachet)</p>
-                                <p style="margin-bottom: 0">10 DAYS SUPPLY</p>
+                                <p class="supply-text">10 DAYS SUPPLY</p>
                                 <div id="sweetalert1" class="btn-group-toggle"
                                      data-toggle="buttons"
                                      data-price="720"
@@ -948,9 +947,6 @@
                                 <tr>
                                     <td>
                                         <div class="col-sm-6">
-                                            <img class="img-fluid best-seller"
-                                                 src="{% static 'funnel/products/img/barley_for_diabetes/mobile/best-seller-mobile.png' %}"
-                                                 alt="best-seller">
                                             <img class="img-fluid"
                                                  src="{% static 'funnel/products/img/vw/mobile/barley-promo-2b.webp' %}"
                                                  alt="promo2">
@@ -960,8 +956,7 @@
                                         <div class="col-sm-6">
                                             <p>PROMO 2</p>
                                             <p>₱1199.00</p>
-                                            <p>60g of Pure Barley Powder <br> (3g per sachet)</p>
-                                            <p>20 DAYS SUPPLY</p>
+                                            <p class="supply-text">20 DAYS SUPPLY</p>
                                         </div>
                                     </td>
                                 </tr>
@@ -977,14 +972,6 @@
                                     </label>
                                 </div>
                             </div>
-                            <picture class="d-none d-sm-block">
-                                <source
-                                        srcset="{% static 'funnel/products/img/barley_for_diabetes/tablet/best-seller-tablet.png' %}"
-                                        media="(min-width: 768px) and (max-width: 991.98px)">
-                                <img class="img-fluid best-seller"
-                                     src="{% static 'funnel/products/img/barley_for_diabetes/xl/best-seller-xl.png' %}"
-                                     alt="best-seller">
-                            </picture>
                             <div class="d-none d-sm-block">
                                 <picture>
                                     <img class="img-fluid"
@@ -1004,8 +991,7 @@
                             <div class="d-none d-sm-block">
                                 <p>PROMO 2</p>
                                 <p>₱1,199.00</p>
-                                <p>60g of Pure Barley Powder <br> (3g per sachet)</p>
-                                <p style="font-weight: 900; font-size: 24px;">20 DAYS SUPPLY</p>
+                                <p class="supply-text"></p>
                                 <div class="btn-group-toggle"
                                      data-toggle="buttons"
                                      data-price="1199"
@@ -1025,6 +1011,9 @@
                                 <tr>
                                     <td>
                                         <div class="col-sm-6 wd-157">
+                                            <img class="img-fluid best-seller"
+                                                 src="{% static 'funnel/products/img/barley_for_diabetes/mobile/best-seller-mobile.png' %}"
+                                                 alt="best-seller">
                                             <img class="img-fluid"
                                                  src="{% static 'funnel/products/img/vw/mobile/barley-promo-3b.webp' %}"
                                                  alt="promo3">
@@ -1034,8 +1023,7 @@
                                         <div class="col-sm-6">
                                             <p>PROMO 3</p>
                                             <p>₱1,999.00</p>
-                                            <p>120g of Pure Barley Powder <br> (3g per scoop)</p>
-                                            <p>40 DAYS SUPPLY</p>
+                                            <p class="supply-text">40 DAYS SUPPLY</p>
                                         </div>
                                     </td>
                                 </tr>
@@ -1051,6 +1039,14 @@
                                     </label>
                                 </div>
                             </div>
+                            <picture class="d-none d-sm-block">
+                                <source
+                                        srcset="{% static 'funnel/products/img/barley_for_diabetes/tablet/best-seller-tablet.png' %}"
+                                        media="(min-width: 768px) and (max-width: 991.98px)">
+                                <img class="img-fluid best-seller"
+                                     src="{% static 'funnel/products/img/barley_for_diabetes/xl/best-seller-xl.png' %}"
+                                     alt="best-seller">
+                            </picture>
                             <div class="row d-none d-sm-block">
                                 <picture>
                                     <img class="img-fluid"
@@ -1070,8 +1066,7 @@
                             <div class="row d-none d-sm-block">
                                 <p style="margin-top: 0">PROMO 3</p>
                                 <p>₱1,999.00</p>
-                                <p>120g of Pure Barley Powder <br> (3g per scoop)</p>
-                                <p>40 DAYS SUPPLY</p>
+                                <p class="supply-text">40 DAYS SUPPLY</p>
                                 <div class="btn-group-toggle"
                                      data-price="1999"
                                      data-toggle="buttons"
@@ -1102,8 +1097,7 @@
                                         <div class="col-sm-6">
                                             <p>PROMO 1</p>
                                             <p>₱840.00</p>
-                                            <p>30g of Pure Barley Powder <br> (3g per sachet)</p>
-                                            <p>10 DAYS SUPPLY</p>
+                                            <p class="supply-text">10 DAYS SUPPLY</p>
                                         </div>
                                     </td>
                                 </tr>
@@ -1140,8 +1134,7 @@
                             <div class="row d-none d-sm-block">
                                 <p>PROMO 1</p>
                                 <p>₱840.00</p>
-                                <p>30g of Pure Barley Powder <br> (3g per sachet)</p>
-                                <p style="margin-bottom: 0">10 DAYS SUPPLY</p>
+                                <p class="supply-text">10 DAYS SUPPLY</p>
                                 <div id="sweetalert1" class="btn-group-toggle"
                                      data-toggle="buttons"
                                      data-price="840"
@@ -1160,9 +1153,6 @@
                                 <tr>
                                     <td>
                                         <div class="col-sm-6">
-                                            <img class="img-fluid best-seller"
-                                                 src="{% static 'funnel/products/img/barley_for_diabetes/mobile/best-seller-mobile.png' %}"
-                                                 alt="best-seller">
                                             <img class="img-fluid"
                                                  src="{% static 'funnel/products/img/vw/mobile/barley-promo-2b.webp' %}"
                                                  alt="promo2">
@@ -1172,8 +1162,7 @@
                                         <div class="col-sm-6">
                                             <p>PROMO 2</p>
                                             <p>₱1,610.00</p>
-                                            <p>60g of Pure Barley Powder <br> (3g per sachet)</p>
-                                            <p>20 DAYS SUPPLY</p>
+                                            <p class="supply-text">20 DAYS SUPPLY</p>
                                         </div>
                                     </td>
                                 </tr>
@@ -1189,14 +1178,6 @@
                                     </label>
                                 </div>
                             </div>
-                            <picture class="d-none d-sm-block">
-                                <source
-                                        srcset="{% static 'funnel/products/img/barley_for_diabetes/tablet/best-seller-tablet.png' %}"
-                                        media="(min-width: 768px) and (max-width: 991.98px)">
-                                <img class="img-fluid best-seller"
-                                     src="{% static 'funnel/products/img/barley_for_diabetes/xl/best-seller-xl.png' %}"
-                                     alt="best-seller">
-                            </picture>
                             <div class="d-none d-sm-block">
                                 <picture>
                                     <img class="img-fluid"
@@ -1216,8 +1197,7 @@
                             <div class="d-none d-sm-block">
                                 <p>PROMO 2</p>
                                 <p>₱1,610.00</p>
-                                <p>60g of Pure Barley Powder <br> (3g per sachet)</p>
-                                <p style="font-weight: 900; font-size: 24px;">20 DAYS SUPPLY</p>
+                                <p class="supply-text">20 DAYS SUPPLY</p>
                                 <div class="btn-group-toggle"
                                      data-toggle="buttons"
                                      data-price="1610"
@@ -1237,6 +1217,9 @@
                                 <tr>
                                     <td>
                                         <div class="col-sm-6 wd-157">
+                                            <img class="img-fluid best-seller"
+                                                 src="{% static 'funnel/products/img/barley_for_diabetes/mobile/best-seller-mobile.png' %}"
+                                                 alt="best-seller">
                                             <img class="img-fluid"
                                                  src="{% static 'funnel/products/img/vw/mobile/barley-promo-3b.webp' %}"
                                                  alt="promo3">
@@ -1246,7 +1229,6 @@
                                         <div class="col-sm-6">
                                             <p>PROMO 3</p>
                                             <p>₱2,380.00</p>
-                                            <p>120g of Pure Barley Powder <br> (3g per scoop)</p>
                                             <p>40 DAYS SUPPLY</p>
                                         </div>
                                     </td>
@@ -1263,6 +1245,14 @@
                                     </label>
                                 </div>
                             </div>
+                            <picture class="d-none d-sm-block">
+                                <source
+                                        srcset="{% static 'funnel/products/img/barley_for_diabetes/tablet/best-seller-tablet.png' %}"
+                                        media="(min-width: 768px) and (max-width: 991.98px)">
+                                <img class="img-fluid best-seller"
+                                     src="{% static 'funnel/products/img/barley_for_diabetes/xl/best-seller-xl.png' %}"
+                                     alt="best-seller">
+                            </picture>
                             <div class="row d-none d-sm-block">
                                 <picture>
                                     <img class="img-fluid"
@@ -1282,8 +1272,7 @@
                             <div class="row d-none d-sm-block">
                                 <p style="margin-top: 0">PROMO 3</p>
                                 <p>₱2,380.00</p>
-                                <p>120g of Pure Barley Powder <br> (3g per scoop)</p>
-                                <p>40 DAYS SUPPLY</p>
+                                <p class="supply-text">40 DAYS SUPPLY</p>
                                 <div class="btn-group-toggle"
                                      data-price="2380"
                                      data-toggle="buttons"

@@ -8,6 +8,10 @@ p, li, span {
     font-family: 'Montserrat', sans-serif;
 }
 
+.best-seller-block {
+        position: absolute!important;
+    }
+
 /* Section CSS */
 .rowone {
     background-image: url("../img/fusion_coffee_old_age/xl/bg1-xl.jpg");
@@ -468,7 +472,7 @@ a, a:hover {
 }
 
 #rowthirteen img {
-    display: block;
+    /*display: block;*/
     margin: auto;
 }
 
@@ -503,7 +507,7 @@ label.btn.btn-secondary {
 .best-seller {
     position: relative;
     top: -51px;
-    left: 9rem;
+    left: 14rem;
 }
 
 #rowthirteen div.zoom1 center p:nth-child(1) {
@@ -595,7 +599,7 @@ label.btn.btn-secondary {
 }
 
 #rowthirteen .zoom2 img.promo-product {
-    margin: -50px auto 40px
+    margin: 65px auto 40px
 }
 
 #rowthirteen div.zoom1 div.row img {
@@ -603,7 +607,7 @@ label.btn.btn-secondary {
 }
 
 #rowthirteen div.zoom3 div.row img {
-    margin-top: 1.5rem;
+    margin-top: 3.5rem;
 }
 
 #rowthirteen div.zoom3 div.row img.freebie {
@@ -626,7 +630,7 @@ label.btn.btn-secondary {
         }
 
         div.zoom3 div.row img {
-            margin-top: 2rem;
+            margin-top: 2.5rem;
         }
     }
 }
@@ -1219,13 +1223,13 @@ footer p {
     }
 
     #rowthirteen div#one.zoom1 p:nth-child(2) {
-        font-size: 14px;
+        font-size: 22px;
         line-height: normal;
         margin-bottom: 0;
     }
 
     #rowthirteen div#two.zoom2 p:nth-child(2) {
-        font-size: 14px;
+        font-size: 22px;
         font-weight: 900;
         line-height: normal;
         margin-bottom: 0;
@@ -1294,17 +1298,14 @@ footer p {
     }
 
     .best-seller-block {
-        position: relative !important;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
+        position: absolute!important;
     }
 
     .best-seller {
-        position: absolute;
+        position: relative!important;
         left: 240%;
         bottom: 60%;
+        top: -21px;
         height: 50px;
     }
 
@@ -1359,9 +1360,7 @@ footer p {
 
 /*Mobile Large - iPhone XR*/
 @media only screen and (max-width: 414px) {
-    .best-seller {
-        top: -33%;
-    }
+
 }
 
 
@@ -1495,7 +1494,6 @@ footer p {
 
     .best-seller {
         left: 215%;
-        top: -33%;
     }
 
     #delivery1 {
@@ -1677,8 +1675,8 @@ footer p {
     }
 
     .best-seller {
-        left: 78%;
-        top: 455.8%;
+        left: 12rem;
+        top: -20px;
     }
 
     #delivery1 {
@@ -2058,7 +2056,7 @@ footer p {
 
     .best-seller {
         top: -10px;
-        left: 60px;
+        left: 7.5rem;
         bottom: 60px;
     }
 
@@ -2261,7 +2259,7 @@ footer p {
     }
 
     #rowthirteen .zoom2 img.promo-product {
-        margin: 0 auto 40px;
+        margin: 15px auto 40px;
     }
 
     #rowthirteen div.zoom3 center p:nth-child(2) {
@@ -2301,7 +2299,7 @@ footer p {
     }
 
     .best-seller {
-        left: 6rem;
+        left: 9rem;
         height: 100px;
         top: -25px;
     }

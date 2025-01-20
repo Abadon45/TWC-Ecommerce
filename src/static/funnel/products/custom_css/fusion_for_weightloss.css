@@ -674,7 +674,7 @@ label.btn.btn-secondary {
 
         div.zoom3 {
             div.row img {
-                margin-top: 0;
+                margin-top: 2.5rem;
             }
         }
 
@@ -686,9 +686,6 @@ label.btn.btn-secondary {
             margin-top: 5rem;
         }
 
-        div#two.zoom2 p {
-            margin-top: 17px;
-        }
 
         div#three.zoom3 p:nth-child(1) {
             margin-top: 0;
