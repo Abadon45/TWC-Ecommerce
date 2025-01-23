@@ -189,12 +189,11 @@
                         <button class="nav-link active" id="nav-tab1" data-bs-toggle="tab" data-bs-target="#tab1"
                                 type="button" role="tab" aria-controls="tab1" aria-selected="true">Description
                         </button>
-
-                        <!-- Review -->
-                        {#                        <button class="nav-link" id="nav-tab6" data-bs-toggle="tab" data-bs-target="#tab6" type="button"#}
-                        {#                                role="tab" aria-controls="tab6" aria-selected="false">Reviews#}
-                        {#                            ({{ product.review_count }})#}
-                        {#                        </button>#}
+                        {% if product.specification %}
+                            <button class="nav-link" id="nav-tab2" data-bs-toggle="tab" data-bs-target="#tab2"
+                                    type="button" role="tab" aria-controls="tab2" aria-selected="true">Specifications
+                            </button>
+                        {% endif %}
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
@@ -234,7 +233,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="nav-tab5">
+                    <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="nav-tab5">
                         <div class="shop-single-review">
                             <div class="blog-comments">
                                 <p>{{ product.specification|linebreaks }}</p>
