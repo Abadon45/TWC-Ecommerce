@@ -23,11 +23,11 @@ HOST_DOMAIN = os.environ.get("HOST_DOMAIN", "twcako")
 
 # TWCAKO API
 SHOP_PRODUCTS_API = f'https://dashboard.{HOST_DOMAIN}.com/shop/api/get-product/?'
-PRODUCT_URL_API = f'https://dashboard.twcako.com/shop/api/get-product/?slug='
+PRODUCT_URL_API = f'https://dashboard.{HOST_DOMAIN}.com/shop/api/get-product/?slug='
 REFRESH_TOKEN_API = f'https://dashboard.{HOST_DOMAIN}.com/order/api/get-access-token/'
 ORDER_URL_API = f'https://dashboard.{HOST_DOMAIN}.com/order/api/create-order/'
 VW_INVENTORY_API = f"https://dashboard.{HOST_DOMAIN}.com/account/api/check-username/{{username}}/vwinventory/"
-PH_NUMBERS_PREFIXES_API = f"https://dashboard.twcdevtest.com/addresses/api/ph-number-prefixes/"
+PH_NUMBERS_PREFIXES_API = f"https://dashboard.{HOST_DOMAIN}.com/addresses/api/ph-number-prefixes/"
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
