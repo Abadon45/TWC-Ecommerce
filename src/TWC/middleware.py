@@ -84,13 +84,15 @@ class RedirectToWWW:
         self.get_response = get_response
 
     def __call__(self, request):
-        env = os.getenv('ENV', 'production')
         host = request.get_host()
 
         host_parts = host.split('.')
+        print(f'Host: {host}')
+        print(f'HostParts: {host_parts}')
 
-        if env == 'production' and len(host_parts) == 2 and host == 'twconline.store':
-            return HttpResponsePermanentRedirect(f'https://www.twconline.store{request.get_full_path()}')
+        if host == 'twconline.store' or host == 'twcstoredevtest.com' or host == 'devtest.store:8000':
+            new_url = request.build_absolute_uri().replace(f"{host}", f"www.{host}")
+            return HttpResponsePermanentRedirect(new_url)
 
         response = self.get_response(request)
         return response
