@@ -143,12 +143,14 @@
                                         </h6>
                                     </div>
                                 </div>
+                                {% if product.category_1 not in excluded_suppliers %}
                                 <div class="product-stock">
                                     <div class="product-price">
                                         <h6>In Stock: <span>{{ product.quantity }}</span>
                                         </h6>
                                     </div>
                                 </div>
+                                {% endif %}
                                 <div class="product-button">
                                     {% if product.slug in products_in_cart %}
                                         <button type="button" class="btn btn-secondary item-id-{{ product.slug }}"

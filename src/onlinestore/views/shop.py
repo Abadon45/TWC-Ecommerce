@@ -241,6 +241,7 @@ class ShopDetailView(View):
             'related_products': related_products,
             'products_in_cart': products_in_cart,
             'title': product['name'],
+            'excluded_suppliers': ['sante', 'promos', 'twc']
         }
 
         return render(request, self.template_name, context)
