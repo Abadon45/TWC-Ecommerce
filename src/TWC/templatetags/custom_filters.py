@@ -32,7 +32,7 @@ def round_rating(value):
         return int(math.ceil(value) if value - int(value) >= 0.5 else math.floor(value))
     except (ValueError, TypeError):
         return value
-    
+
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key, 0)
@@ -47,3 +47,6 @@ def increase_by_10_percent(value):
     except (ValueError, TypeError) as e:
         logging.error(f"Error in increase_by_10_percent: {e}")
         return value
+
+
+

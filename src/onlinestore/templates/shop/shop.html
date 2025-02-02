@@ -15,6 +15,10 @@
             border-top-right-radius: 0;
         }
 
+        .list-group-item {
+            border: none;
+        }
+
         .active a {
             color: white;
         }
@@ -36,81 +40,92 @@
                             </div>
                             <div class="card-body index-card-body">
                                 <ul class="list-group shop-category-list">
-                                    <li class="list-group-item active">
-                                        <a href="{% url 'shop:shop' %}?category_id=all" data-category-id="all"
-                                           class="list-group-link">All</a>
+                                    <li class="list-group-item {% if cat1 == 'all' %}active{% endif %}">
+                                        <a href="{% url 'shop:shop' %}?cat1=all" data-category-id="all"
+                                           class="list-group-link">
+                                            All
+                                        </a>
                                     </li>
-                                    <li class="list-group-item">
-                                        <a href="{% url 'shop:shop' %}?category_id=sante" data-category-id="sante"
-                                           class="list-group-link">Sante International</a>
+                                    <li class="list-group-item {% if cat1 == 'sante' %}active{% endif %}">
+                                        <a href="{% url 'shop:shop' %}?cat1=sante" data-category-id="sante"
+                                           class="list-group-link">
+                                            Sante International
+                                        </a>
                                     </li>
-                                    <li class="list-group-item">
-                                        <a href="{% url 'shop:shop' %}?category_id=mood" data-category-id="mood"
-                                           class="list-group-link">Mood</a>
+                                    <li class="list-group-item {% if cat1 == 'mood' %}active{% endif %}">
+                                        <a href="{% url 'shop:shop' %}?cat1=mood" data-category-id="mood"
+                                           class="list-group-link">
+                                            Mood
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
+
                         <div class="card mt-3 mobile-hidden" id="product-categories">
                             <div class="card-header">
                                 <h4>Category</h4>
                             </div>
                             <div class="card-body index-card-body">
-                                <ul class="list-group shop-category-list category-2">
+                                <ul class="list-group list-group-flush shop-category-list category-2">
                                     <li class="list-group-item">
-                                        <a href="{% url 'shop:shop' %}?category_id=sante-nutraceutical"
+                                        <a href="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=sante-nutraceutical"
                                            data-category-id="sante-nutraceutical" class="list-group-link">
                                             Health & Wellness
                                             <span>({{ category_product_count|get_item:'sante-nutraceutical' }})</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
-                                        <a href="{% url 'shop:shop' %}?category_id=sante-beverage"
+                                        <a href="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=sante-beverage"
                                            data-category-id="sante-beverage" class="list-group-link">
                                             Healthy Beverages
                                             <span>({{ category_product_count|get_item:'sante-beverage' }})</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
-                                        <a href="{% url 'shop:shop' %}?category_id=sante-intimate_care"
+                                        <a href="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=sante-intimate_care"
                                            data-category-id="sante-intimate_care" class="list-group-link">
                                             Intimate Care
                                             <span>({{ category_product_count|get_item:'sante-intimate_care' }})</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
-                                        <a href="{% url 'shop:shop' %}?category_id=bath-body"
+                                        <a href="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=bath-body"
                                            data-category-id="bath-body" class="list-group-link">
-                                            Bath & Body <span>({{ category_product_count|get_item:'bath-body' }})</span>
+                                            Bath & Body
+                                            <span>({{ category_product_count|get_item:'bath-body' }})</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
-                                        <a href="{% url 'shop:shop' %}?category_id=bags" data-category-id="bags"
-                                           class="list-group-link">
-                                            Bags <span>({{ category_product_count|get_item:'bags' }})</span>
+                                        <a href="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=bags"
+                                           data-category-id="bags" class="list-group-link">
+                                            Bags
+                                            <span>({{ category_product_count|get_item:'bags' }})</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
-                                        <a href="{% url 'shop:shop' %}?category_id=watches" data-category-id="watches"
-                                           class="list-group-link">
-                                            Watches <span>({{ category_product_count|get_item:'watches' }})</span>
+                                        <a href="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=watches"
+                                           data-category-id="watches" class="list-group-link">
+                                            Watches
+                                            <span>({{ category_product_count|get_item:'watches' }})</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
-                                        <a href="{% url 'shop:shop' %}?category_id=electronics"
+                                        <a href="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=electronics"
                                            data-category-id="electronics" class="list-group-link">
                                             Electronics
                                             <span>({{ category_product_count|get_item:'electronics' }})</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
-                                        <a href="{% url 'shop:shop' %}?category_id=perfume" data-category-id="perfume"
-                                           class="list-group-link">
-                                            Perfumes <span>({{ category_product_count|get_item:'perfume' }})</span>
+                                        <a href="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=perfume"
+                                           data-category-id="perfume" class="list-group-link">
+                                            Perfumes
+                                            <span>({{ category_product_count|get_item:'perfume' }})</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
-                                        <a href="{% url 'shop:shop' %}?category_id=accessories"
+                                        <a href="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=accessories"
                                            data-category-id="accessories" class="list-group-link">
                                             Accessories
                                             <span>({{ category_product_count|get_item:'accessories' }})</span>
@@ -157,7 +172,7 @@
                                         Healthy Beverages ({{ category_product_count|get_item:'sante-beverage' }})
                                     </option>
                                     <option value="{% url 'shop:shop' %}?category_id=sante-intimate_care">
-                                        Intimate Care ({{ category_product_count|get_item:'sante-intimate_care' }})
+                                        Intimate Care if({{ category_product_count|get_item:'sante-intimate_care' }})
                                     </option>
                                     <option value="{% url 'shop:shop' %}?category_id=bath-body">
                                         Bath & Body ({{ category_product_count|get_item:'bath-body' }})
@@ -243,12 +258,16 @@
     <script src="{% static 'js/shop.js' %}"></script>
     <script>
         $(document).ready(function () {
-            let urlParams = new URLSearchParams(window.location.search);
-            let categoryId = urlParams.get("category_id");
+            // Get the current URL parameters for cat1 and cat2
+            var urlParams = new URLSearchParams(window.location.search);
+            var cat1 = urlParams.get('cat1');
+            var cat2 = urlParams.get('cat2');
 
-            $(".list-group-item").removeClass("active"); // Remove active class from all
-            if (categoryId) {
-                $(".list-group-link[data-category-id='" + categoryId + "']").closest(".list-group-item").addClass("active");
+            // Add 'active' class to the correct category-2 list item
+            if (cat2) {
+                $('.list-group a[data-category-id="' + cat2.toLowerCase() + '"]')
+                    .closest('.list-group-item') // Target the parent <li>
+                    .addClass('active');
             }
         });
     </script>

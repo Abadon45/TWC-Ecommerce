@@ -25,16 +25,14 @@ class ShopView(TemplateView):
     template_name = 'shop/shop.html'
     context_object_name = 'products'
     paginate_by = 9
-    _product_choices = None
 
     def get(self, request, username=None, *args, **kwargs):
-
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             products, category_product_count, has_next = self.get_paginated_queryset()
             ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
             products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
                                 shop['items']]
-            products_grid_html = render_to_string('shop/products_grid.html', {'products': products,'excluded_suppliers': ['sante', 'promos', 'twc']}, request=request)
+            products_grid_html = render_to_string('shop/products_grid.html', {'products': products, 'excluded_suppliers': ['sante', 'promos', 'twc']}, request=request)
 
             return JsonResponse({
                 'products_grid_html': products_grid_html,
@@ -43,137 +41,134 @@ class ShopView(TemplateView):
                 'category_product_count': category_product_count,
                 'has_next': has_next,
                 'excluded_suppliers': ['sante', 'promos', 'twc'],
-
             })
 
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
-        category_id = self.request.GET.get('category_id')
+        cat1 = self.request.GET.get('cat1')
+        cat2 = self.request.GET.get('cat2')
         search_query = self.request.GET.get('q')
         sort_option = self.request.GET.get('sort', '1')
-        queryset = []
-        category_product_count = defaultdict(int)
 
-        domain = self.request.get_host()
-        base_api_url = settings.SHOP_PRODUCTS_API
-        api_url = f"{base_api_url}domain=twcstoredevtest.com" if 'twcstoredevtest.com' in domain or 'devtest.store' in domain else base_api_url
+        category_product_count = defaultdict(lambda: defaultdict(int))
 
-        # Full API request for category counting
+        # Build API request URL with filters
+        api_url = settings.SHOP_PRODUCTS_API
+        params = {}
+
+        if cat1:
+            params['cat1'] = cat1
+        if cat2:
+            params['cat2'] = cat2
+
         try:
-            response_full = requests.get(api_url)
-            response_full.raise_for_status()
-            data_full = response_full.json()
-
-            if data_full.get("success"):
-                full_product_list = data_full.get("products", [])
-
-                # Count products in each category (exclude 'twc')
-                for product in full_product_list:
-                    category_1 = product.get('category_1')
-                    category_2 = product.get('category_2')
-                    if category_1 and category_1.lower() != 'twc':
-                        category_product_count[category_1] += 1
-                    if category_2 and category_2.lower() != 'twc':
-                        category_product_count[category_2] += 1
-
-        except requests.exceptions.RequestException as e:
-            return [], {}  # Return empty if there's an issue with the full product list
-
-        # Filtered API request for specific category_id
-        filtered_api_url = f"{api_url}&category_id={category_id}" if category_id and category_id.lower() != 'all' else api_url
-        try:
-            response = requests.get(filtered_api_url)
+            # Fetch only filtered data from API
+            response = requests.get(api_url, params=params)
             response.raise_for_status()
             data = response.json()
 
-            if data.get("success"):
-                queryset = data.get("products", [])
+            if not data.get("success"):
+                return [], {}
 
-                # Apply search filter if present
-                if search_query:
-                    queryset = [
-                        product for product in queryset
-                        if search_query.lower() in product.get('name', '').lower()
-                           or search_query.lower() in product.get('category_1', '').lower()
-                           or search_query.lower() in product.get('category_2', '').lower()
-                    ]
+            queryset = data.get("products", [])
 
-                # Sorting logic
-                if sort_option == '5':  # Latest Items
-                    queryset = sorted(queryset, key=lambda p: p.get('timestamp', ''), reverse=True)
-                elif sort_option == '3':  # Price - Low To High
-                    queryset = sorted(queryset, key=lambda p: p.get('customer_price', 0))
-                elif sort_option == '4':  # Price - High To Low
-                    queryset = sorted(queryset, key=lambda p: p.get('customer_price', 0), reverse=True)
+            # Count products per category
+            for product in queryset:
+                category_1 = product.get('category_1', '').strip().lower()
+                category_2 = product.get('category_2', '').strip().lower()
 
-                # Aggregate ratings
-                for product in queryset:
-                    product_slug = product.get('slug')
-                    ratings = Rating.objects.filter(product_slug=product_slug)
-                    aggregate_rating = ratings.aggregate(Avg('score'))['score__avg'] if ratings.exists() else 5
-                    product['aggregate_rating'] = round(aggregate_rating, 1)
+                if category_1:
+                    category_product_count[category_1]['count'] += 1
+                if category_1 and category_2:
+                    category_product_count[category_1][category_2] += 1
+
+            # Apply search filter (optional)
+            if search_query:
+                queryset = [
+                    product for product in queryset
+                    if search_query.lower() in product.get('name', '').lower()
+                       or search_query.lower() in product.get('category_1', '').lower()
+                       or search_query.lower() in product.get('category_2', '').lower()
+                ]
+
+            # Apply sorting
+            if sort_option == '5':  # Latest Items
+                queryset = sorted(queryset, key=lambda p: p.get('timestamp', ''), reverse=True)
+            elif sort_option == '3':  # Price - Low To High
+                queryset = sorted(queryset, key=lambda p: p.get('customer_price', 0))
+            elif sort_option == '4':  # Price - High To Low
+                queryset = sorted(queryset, key=lambda p: p.get('customer_price', 0), reverse=True)
+
+            # Aggregate ratings
+            for product in queryset:
+                product_slug = product.get('slug')
+                ratings = Rating.objects.filter(product_slug=product_slug)
+                aggregate_rating = ratings.aggregate(Avg('score'))['score__avg'] if ratings.exists() else 5
+                product['aggregate_rating'] = round(aggregate_rating, 1)
 
             return queryset, dict(category_product_count)
 
         except requests.exceptions.RequestException:
-            return [], {}  # Handle API request errors by returning empty queryset and product count
+            return [], {}
 
     def get_paginated_queryset(self):
         """
-        This method paginates the queryset manually since the API returns all products.
+        Paginate the queryset manually.
         """
         products, category_product_count = self.get_queryset()
-        page = int(self.request.GET.get('page', 1))  # Default to page 1
+        page = int(self.request.GET.get('page', 1))
         paginate_by = self.paginate_by
 
-        # Calculate start and end indices for pagination
         start = (page - 1) * paginate_by
         end = start + paginate_by
 
-        # Slice the products list for pagination
         paginated_products = products[start:end]
-        has_next = len(products) > end  # Check if more products are available
-        print(f'Has Next: {has_next}')
+        has_next = len(products) > end
 
         return paginated_products, category_product_count, has_next
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         sort_option = self.request.GET.get('sort', '1')
-        category_id = self.request.GET.get('category_id', 'all')
+        cat1 = self.request.GET.get('cat1', 'all')
+        cat2 = self.request.GET.get('cat2')
 
-        # Fetch the products from the API using the get_queryset method
         products, category_product_count, _ = self.get_paginated_queryset()
         user_ratings = self.get_user_ratings(products)
 
-        # Determine the title based on the category
-        if category_id and category_id.lower() != 'all':
-            context['title'] = category_id.title()  # Use the category name as the title
+        if cat1 and cat1.lower() != 'all':
+            context['title'] = cat1.title()
         else:
-            context['title'] = "Shop"  # Default to "Shop" if no specific category
+            context['title'] = "Shop"
 
-        # Render the products to the 'shop/products_grid.html' template
         products_grid_html = render_to_string('shop/products_grid.html', {'products': products}, request=self.request)
 
-        # Get products in cart (assuming 'ordered_items_by_shop' is a session variable containing the cart items)
         ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
-        products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
-                            shop['items']]
+        products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in shop['items']]
 
+        categories = [
+            "sante-nutraceutical", "sante-beverage", "sante-intimate_care",
+            "bath-body", "bags", "watches", "electronics", "perfume", "accessories"
+        ]
 
-        context['products_grid_html'] = products_grid_html
-        context['category_id'] = category_id
-        context['products'] = products
-        context['sort_option'] = sort_option
-        context['products_in_cart'] = products_in_cart
-        context['category_product_count'] = category_product_count
-        context['user_ratings'] = user_ratings
-        context['excluded_suppliers'] = ['sante', 'promos', 'twc']
+        formatted_categories = [cat.replace("-", " ").title() for cat in categories]
+
+        context.update({
+            'products_grid_html': products_grid_html,
+            'cat1': cat1,
+            'cat2': cat2,
+            'products': products,
+            'sort_option': sort_option,
+            'products_in_cart': products_in_cart,
+            'category_product_count': category_product_count,
+            'user_ratings': user_ratings,
+            'excluded_suppliers': ['sante', 'promos', 'twc'],
+            "categories": zip(categories, formatted_categories),
+        })
 
         return context
 
-    # Modified rating logic to work with product_slug
     def get_user_ratings(self, products):
         user_ratings = {}
         if self.request.user.is_authenticated:
