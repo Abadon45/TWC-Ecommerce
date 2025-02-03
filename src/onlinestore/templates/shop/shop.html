@@ -72,63 +72,63 @@
                                         <a href="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=sante-nutraceutical"
                                            data-category-id="sante-nutraceutical" class="list-group-link">
                                             Health & Wellness
-                                            <span>({{ category_product_count|get_item:'sante-nutraceutical' }})</span>
+                                            <span id="count-sante-nutraceutical">(0)</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
                                         <a href="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=sante-beverage"
                                            data-category-id="sante-beverage" class="list-group-link">
                                             Healthy Beverages
-                                            <span>({{ category_product_count|get_item:'sante-beverage' }})</span>
+                                            <span id="count-sante-beverage">(0)</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
                                         <a href="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=sante-intimate_care"
                                            data-category-id="sante-intimate_care" class="list-group-link">
                                             Intimate Care
-                                            <span>({{ category_product_count|get_item:'sante-intimate_care' }})</span>
+                                            <span id="count-sante-intimate_care">(0)</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
                                         <a href="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=bath-body"
                                            data-category-id="bath-body" class="list-group-link">
                                             Bath & Body
-                                            <span>({{ category_product_count|get_item:'bath-body' }})</span>
+                                            <span id="count-bath-body">(0)</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
                                         <a href="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=bags"
                                            data-category-id="bags" class="list-group-link">
                                             Bags
-                                            <span>({{ category_product_count|get_item:'bags' }})</span>
+                                            <span id="count-bags">(0)</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
                                         <a href="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=watches"
                                            data-category-id="watches" class="list-group-link">
                                             Watches
-                                            <span>({{ category_product_count|get_item:'watches' }})</span>
+                                            <span id="count-watches">(0)</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
                                         <a href="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=electronics"
                                            data-category-id="electronics" class="list-group-link">
                                             Electronics
-                                            <span>({{ category_product_count|get_item:'electronics' }})</span>
+                                            <span id="count-electronics">(0)</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
                                         <a href="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=perfume"
                                            data-category-id="perfume" class="list-group-link">
                                             Perfumes
-                                            <span>({{ category_product_count|get_item:'perfume' }})</span>
+                                            <span id="count-perfume">(0)</span>
                                         </a>
                                     </li>
                                     <li class="list-group-item">
                                         <a href="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=accessories"
                                            data-category-id="accessories" class="list-group-link">
                                             Accessories
-                                            <span>({{ category_product_count|get_item:'accessories' }})</span>
+                                            <span id="count-accessories">(0)</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -166,31 +166,33 @@
                                         onchange="handleSubcategoryChange(this.value)">
                                     <option value="{% url 'shop:shop' %}" selected>Select a Subcategory</option>
                                     <option value="{% url 'shop:shop' %}?category_id=sante-nutraceutical">
-                                        Health & Wellness ({{ category_product_count|get_item:'sante-nutraceutical' }})
+                                        Health & Wellness
+                                        ({{ category_product_count|get_nested_item:'sante-nutraceutical' }})
                                     </option>
                                     <option value="{% url 'shop:shop' %}?category_id=sante-beverage">
-                                        Healthy Beverages ({{ category_product_count|get_item:'sante-beverage' }})
+                                        Healthy Beverages ({{ category_product_count|get_nested_item:'sante-beverage' }})
                                     </option>
                                     <option value="{% url 'shop:shop' %}?category_id=sante-intimate_care">
-                                        Intimate Care if({{ category_product_count|get_item:'sante-intimate_care' }})
+                                        Intimate Care
+                                        if({{ category_product_count|get_nested_item:'sante-intimate_care' }})
                                     </option>
                                     <option value="{% url 'shop:shop' %}?category_id=bath-body">
-                                        Bath & Body ({{ category_product_count|get_item:'bath-body' }})
+                                        Bath & Body ({{ category_product_count|get_nested_item:'bath-body' }})
                                     </option>
                                     <option value="{% url 'shop:shop' %}?category_id=chingu">
-                                        Bags ({{ category_product_count|get_item:'chingu' }})
+                                        Bags ({{ category_product_count|get_nested_item:'chingu' }})
                                     </option>
                                     <option value="{% url 'shop:shop' %}?category_id=mood-watches">
-                                        Watches ({{ category_product_count|get_item:'mood-watches' }})
+                                        Watches ({{ category_product_count|get_nested_item:'mood-watches' }})
                                     </option>
                                     <option value="{% url 'shop:shop' %}?category_id=mood-electronics">
-                                        Electronics ({{ category_product_count|get_item:'mood-electronics' }})
+                                        Electronics ({{ category_product_count|get_nested_item:'mood-electronics' }})
                                     </option>
                                     <option value="{% url 'shop:shop' %}?category_id=mood-perfume">
-                                        Perfumes ({{ category_product_count|get_item:'mood-perfume' }})
+                                        Perfumes ({{ category_product_count|get_nested_item:'mood-perfume' }})
                                     </option>
                                     <option value="{% url 'shop:shop' %}?category_id=accessories">
-                                        Accessories ({{ category_product_count|get_item:'accessories' }})
+                                        Accessories ({{ category_product_count|get_nested_item:'accessories' }})
                                     </option>
                                 </select>
 
@@ -271,6 +273,64 @@
             }
         });
     </script>
+    <script>
+        $(document).ready(function () {
+            // Fetch category counts via AJAX
+            $.ajax({
+                url: '{% url "shop:fetch_category_count" %}',  // Ensure the correct URL is used
+                type: 'GET',
+                success: function (response) {
+                    console.log("AJAX Response: ", response);
+
+                    if (response.category_product_count) {
+                        var categoryProductCount = response.category_product_count;
+                        console.log("Category Product Count: ", categoryProductCount);
+
+                        // Check if cat1 is 'all', if so, update all counts
+                        if ('all' === '{{ cat1 }}') {
+                            // Loop through each category to update the counts dynamically
+                            $('.shop-category-list .list-group-item').each(function () {
+                                var categoryLink = $(this).find('a');
+                                var categoryId = categoryLink.data('category-id');
+
+                                // Check if categoryProductCount['all'] contains the categoryId
+                                var count = 0;
+                                if (categoryProductCount['all'] && categoryProductCount['all'][categoryId]) {
+                                    count = categoryProductCount['all'][categoryId];
+                                }
+
+                                // Update the count in the span
+                                $('#count-' + categoryId).text(`(${count})`);
+                                console.log("Updating count for " + categoryId + ": " + count);
+                            });
+                        } else {
+                            // Normal logic for updating category counts based on cat1
+                            $('.shop-category-list .list-group-item').each(function () {
+                                var categoryLink = $(this).find('a');
+                                var categoryId = categoryLink.data('category-id');
+                                var cat1 = '{{ cat1 }}';  // Using the current cat1 value directly from Django template
+
+                                // Check if categoryProductCount[cat1] contains the categoryId
+                                var count = 0;
+                                if (categoryProductCount[cat1] && categoryProductCount[cat1][categoryId]) {
+                                    count = categoryProductCount[cat1][categoryId];
+                                }
+
+                                // Update the count in the span
+                                $('#count-' + categoryId).text(`(${count})`);
+                            });
+                        }
+                    } else {
+                        console.log("Category product count not found in response.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Failed to fetch category counts: " + error);
+                }
+            });
+        });
+    </script>
+
     <script>
         var spinner = $(".spinner-border");
         let page = 1;

@@ -48,5 +48,24 @@ def increase_by_10_percent(value):
         logging.error(f"Error in increase_by_10_percent: {e}")
         return value
 
+@register.filter
+def get_nested_item(dictionary, key_path):
+    """
+    Fetches a nested dictionary value given a key path in 'cat1:cat2' format.
+    Example: {{ category_product_count|get_nested_item:"sante:sante-nutraceutical" }}
+    """
+    keys = key_path.split(":")
+    try:
+        value = dictionary
+        for key in keys:
+            value = value.get(key, {})
+        return value if isinstance(value, int) else 0
+    except (AttributeError, TypeError):
+        return 0
+
+@register.filter
+def replace(value, arg):
+    """Replaces hyphens with spaces."""
+    return value.replace(arg, " ")
 
 

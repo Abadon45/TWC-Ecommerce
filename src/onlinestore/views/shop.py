@@ -51,6 +51,7 @@ class ShopView(TemplateView):
         search_query = self.request.GET.get('q')
         sort_option = self.request.GET.get('sort', '1')
 
+        # ✅ Fix: Use a nested defaultdict for category counts
         category_product_count = defaultdict(lambda: defaultdict(int))
 
         # Build API request URL with filters
@@ -63,7 +64,7 @@ class ShopView(TemplateView):
             params['cat2'] = cat2
 
         try:
-            # Fetch only filtered data from API
+            # Fetch filtered data from API
             response = requests.get(api_url, params=params)
             response.raise_for_status()
             data = response.json()
@@ -73,15 +74,16 @@ class ShopView(TemplateView):
 
             queryset = data.get("products", [])
 
-            # Count products per category
+            # ✅ Count products per category
             for product in queryset:
                 category_1 = product.get('category_1', '').strip().lower()
                 category_2 = product.get('category_2', '').strip().lower()
 
                 if category_1:
-                    category_product_count[category_1]['count'] += 1
+                    category_product_count[category_1]["_count"] += 1  # Total count for cat1
                 if category_1 and category_2:
-                    category_product_count[category_1][category_2] += 1
+                    category_product_count[category_1][category_2] += 1  # Count for cat2 under cat1
+
 
             # Apply search filter (optional)
             if search_query:
@@ -107,7 +109,7 @@ class ShopView(TemplateView):
                 aggregate_rating = ratings.aggregate(Avg('score'))['score__avg'] if ratings.exists() else 5
                 product['aggregate_rating'] = round(aggregate_rating, 1)
 
-            return queryset, dict(category_product_count)
+            return queryset, dict(category_product_count)  # Convert defaultdict to normal dict
 
         except requests.exceptions.RequestException:
             return [], {}
@@ -145,12 +147,25 @@ class ShopView(TemplateView):
         products_grid_html = render_to_string('shop/products_grid.html', {'products': products}, request=self.request)
 
         ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
-        products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in shop['items']]
+        products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
+                            shop['items']]
 
         categories = [
             "sante-nutraceutical", "sante-beverage", "sante-intimate_care",
             "bath-body", "bags", "watches", "electronics", "perfume", "accessories"
         ]
+
+        category_labels = {
+            "sante-nutraceutical": "Health & Wellness",
+            "sante-beverage": "Healthy Beverages",
+            "sante-intimate_care": "Intimate Care",
+            "bath-body": "Bath & Body",
+            "bags": "Bags",
+            "watches": "Watches",
+            "electronics": "Electronics",
+            "perfume": "Perfumes",
+            "accessories": "Accessories",
+        }
 
         formatted_categories = [cat.replace("-", " ").title() for cat in categories]
 
@@ -165,6 +180,7 @@ class ShopView(TemplateView):
             'user_ratings': user_ratings,
             'excluded_suppliers': ['sante', 'promos', 'twc'],
             "categories": zip(categories, formatted_categories),
+            'category_labels': category_labels,  # Add category_labels here
         })
 
         return context

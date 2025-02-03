@@ -1,12 +1,16 @@
+from collections import defaultdict
+
 import requests
 
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseNotFound, HttpResponseRedirect, JsonResponse
+from django.shortcuts import render
 from django.urls import reverse
 from django.core.mail import send_mail
 from django.conf import settings
 from urllib.parse import urlparse
 
+from django.views.decorators.http import require_GET
 
 User = get_user_model()
 
@@ -111,6 +115,53 @@ def fetch_address_data(request):
         # Handle error gracefully
         print(f"Failed to fetch address data: {e}")
         return JsonResponse({'error': 'Failed to fetch address data'}, status=500)
+
+
+@require_GET
+def fetch_category_count(request):
+    # API URL to fetch product data
+    api_url = settings.SHOP_PRODUCTS_API
+
+    try:
+        # Fetch filtered data from the API
+        response = requests.get(api_url)
+        response.raise_for_status()
+
+        # Check if the response is successful and print the data
+        data = response.json()
+
+        if not data.get("success"):
+            print("API response does not indicate success.")
+            return JsonResponse({'category_product_count': {}})
+
+        # Extract products from the API response
+        queryset = data.get("products", [])
+        print(f"Fetched {len(queryset)} products.")  # Debugging: check how many products are fetched
+
+        # Create a dictionary to store product counts per category (cat1 -> cat2 -> count)
+        category_product_count = defaultdict(lambda: defaultdict(int))
+
+        # Count products by cat1 (category_1) and cat2 (category_2)
+        for product in queryset:
+            cat1 = product.get("category_1", "all")  # Default to "all" if no category_1 is provided
+            cat2 = product.get("category_2", "uncategorized")  # Default to "uncategorized" if no category_2 is provided
+
+            # Debugging: check the categories being processed
+            print(f"Processing product: category_1 = {cat1}, category_2 = {cat2}")
+
+            category_product_count[cat1][cat2] += 1
+            category_product_count['all'][cat2] += 1
+
+        # Debugging: print the final product count structure
+        print("Category Product Count:", dict(category_product_count))
+
+        return JsonResponse({'category_product_count': category_product_count})
+
+    except requests.exceptions.RequestException as e:
+        # Handle errors if the API request fails
+        print(f"Error fetching product data: {e}")
+        return JsonResponse({'category_product_count': {}})
+
 
 
 def fetch_ph_number_prefixes(api_url):
