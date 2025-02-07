@@ -12,7 +12,7 @@
             <div class="category-slider owl-carousel owl-theme mt-2">
                 {% for category, data in categories.items %}
                     <div class="category-item">
-                        <a href="{% url 'shop:shop' %}?category_id={{ category }}">
+                        <a href="{% url 'shop:shop' %}?cat1=all&cat2={{ category }}">
                             <div class="category-info index-category">
                                 <div class="icon">
                                     {% with 'img/icon/categories/'|add:category|add:'.svg' as icon_path %}
