@@ -134,9 +134,9 @@ class ProductFunnelView(View):
         if 'pf-vw' in request.path:
             quantity_dict = inventory.get('quantity_dict', {})
             section = 'vw'
-            if product == ['weight-loss', 'old-age'] and quantity_dict.get('fusion_coffee', 0) == 0:
+            if product == ['weight-loss', 'old-age'] and quantity_dict.get('fusion_coffee', 0) < 4:
                 return redirect(f'/pf-ds/{product}/')
-            elif product == 'boost-coffee' and quantity_dict.get('boost_coffee', 0) == 0:
+            elif product == 'boost-coffee' and quantity_dict.get('boost_coffee', 0) < 4:
                 return redirect(f'/pf-ds/{product}/')
             elif product in ['barley-for-cancer', 'barley-for-diabetes', 'barley-for-high-blood'] and quantity_dict.get(
                     'barley_powder_10', 0) < 4:
