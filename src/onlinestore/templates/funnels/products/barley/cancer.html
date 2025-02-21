@@ -8,7 +8,7 @@
         fbq('track', 'ViewContent', {
             content_name: '{{ product_name|escapejs }}',
             content_category: '{% if section == "ds" %}Dropshipping{% else %}Virtual Warehouse{% endif %}',
-            content_ids: '{{ content_ids|safe }}', 
+            content_ids: '{{ content_ids|safe }}',
             content_type: 'product',
         }, {
             eventID: '{{ event_id }}',

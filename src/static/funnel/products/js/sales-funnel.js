@@ -80,7 +80,7 @@ function addBundle(bundleId) {
     } else if (bundleId === "promo3") {
         bundleDetails = {
             products: [
-                {slug: "sante-barley-powder-10s", quantity: 4},
+                {slug: "31-sante-barley-powder-10s", quantity: 1},
                 {slug: "water-bottle", quantity: 1},
                 {slug: "water-stirrer", quantity: 1},
             ],
@@ -99,7 +99,7 @@ function addBundle(bundleId) {
     } else if (bundleId === "promo6") {
         bundleDetails = {
             products: [
-                {slug: "fusion-coffee", quantity: 4},
+                {slug: "31-fusion-coffee", quantity: 1},
                 {slug: "water-bottle", quantity: 1},
                 {slug: "water-stirrer", quantity: 1},
             ],
@@ -118,7 +118,7 @@ function addBundle(bundleId) {
     } else if (bundleId === "promo9") {
         bundleDetails = {
             products: [
-                {slug: "boost-coffee", quantity: 4},
+                {slug: "31-boost-coffee", quantity: 1},
                 {slug: "water-bottle", quantity: 1},
                 {slug: "water-stirrer", quantity: 1},
             ],

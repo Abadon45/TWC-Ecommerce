@@ -72,7 +72,7 @@ class ShopView(TemplateView):
             if not data.get("success"):
                 return [], {}
 
-            queryset = data.get("products", [])
+            queryset = [product for product in data.get("products", []) if not product.get("is_for_vw", False)]
 
             # ✅ Count products per category
             for product in queryset:
