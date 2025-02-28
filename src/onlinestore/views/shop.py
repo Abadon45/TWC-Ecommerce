@@ -242,6 +242,7 @@ class ShopDetailView(View):
         # Get related products based on category
         related_products = self.get_related_products(product.get('slug'), product.get('category_1'))
 
+
         # Get products in cart (assuming 'ordered_items_by_shop' is a session variable containing the cart items)
         ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
         products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
@@ -269,10 +270,12 @@ class ShopDetailView(View):
             if data.get("success"):
                 all_products = data.get("products", [])
 
-                # Filter products by the same category and exclude the current product
+                # Filter out the current product and VW products
                 related_products = [
                     product for product in all_products
-                    if product.get('category_1') == current_category and product.get('slug') != current_product_slug
+                    if product.get('category_1') == current_category
+                       and product.get('slug') != current_product_slug
+                       and not product.get('is_for_vw', False)  # Exclude VW products
                 ]
 
                 # Shuffle the products randomly
