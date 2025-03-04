@@ -335,7 +335,7 @@ def create_order(request, items, shipping_amount, shop_count, total_discount):
 
         for item in shop_data['items']:
             product_name = item['product']['name']
-            barley_point = item['product'].get('barley_point', 0)
+            barley_point = item['product']['barley_point']
             quantity = item.get('quantity', 1)
 
             # Debugging to check individual values

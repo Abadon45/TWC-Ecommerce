@@ -298,6 +298,7 @@ def create_order(request):
                             'slug': product_slug,
                             'image': product.get('image_1', None),
                             'price': product['customer_price'],
+                            'barley_point': product['barley_point'],
                         },
                         'quantity': product_detail['quantity'],
                         'get_total': f'{get_total:.2f}',
@@ -352,6 +353,7 @@ def create_order(request):
                 'shipping_fee': str(shipping_fee),
                 'discount': str(discount),
                 'cod_amount': str(cod_amount),
+                'barley_point': str(total_amount),
             }
         }
 
