@@ -196,6 +196,7 @@ class UpdateCartView(View):
                 'get_total': float(Decimal(cart_item['price']) * cart_item['quantity']),
             })
 
+        self.request.session['cart_total'] = 0
         # Calculate and update subtotal and cod amount for each shop
         for shop, data in ordered_items_by_shop.items():
             items = data['items']
@@ -206,6 +207,7 @@ class UpdateCartView(View):
             ordered_items_by_shop[shop]['discount'] = float(discount)
             cod_amount = subtotal + float(FIXED_SHIPPING_FEE) - float(discount)
             ordered_items_by_shop[shop]['cod_amount'] = cod_amount
+            self.request.session['cart_total'] += cod_amount
 
         return ordered_items_by_shop
 

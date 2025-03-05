@@ -13,8 +13,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "2": "^3.0.0",
+    "alert": "^6.0.2",
     "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.39"
+    "postcss": "^8.4.39",
+    "sweet": "^0.1.1"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.4"

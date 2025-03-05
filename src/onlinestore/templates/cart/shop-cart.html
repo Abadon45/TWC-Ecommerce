@@ -261,4 +261,12 @@
             window.location.href = "{% url 'shop:shop' %}";
         }
     </script>
+    <script>
+        $(window).on("pageshow", function (event) {
+            if (performance.navigation.type === 2) {
+                // Force reload if user navigated back
+                location.reload();
+            }
+        });
+    </script>
 {% endblock %}
