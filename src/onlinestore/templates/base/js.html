@@ -5,16 +5,15 @@
     const updateItemUrl = '{% url "cart:update_item" %}';
     const checkoutUrl = "{% url 'cart:checkout' %}";
     const checkoutCompleteUrl = "{% url 'cart:checkout_complete' %}";
-    const registerURL = "{% url 'login:register' %}";
     const addressApiUrl = "{% url 'shop:get_address_data' %}";
     var csrf = "{{ csrf_token }}";
     const phNumbers = "{{ ph_number_prefixes|safe }}"
     const getProductQuantityUrl = "{% url 'cart:fetch_product_quantity' %}";
-    
+
     function fetchProductQuantity(productSlug) {
         console.log(`Fetching available quantity for product: ${productSlug}`);
         return $.ajax({
-            url: getProductQuantityUrl, 
+            url: getProductQuantityUrl,
             method: 'GET',
             data: {slug: productSlug},
             dataType: 'json'

@@ -61,7 +61,6 @@ def check_sponsor_and_redirect(request, username, success_redirect_url, slug=Non
             request.session['messenger_link'] = messenger_link
             request.session['mobile'] = mobile
 
-            print(f"Session Referrer Set: {request.session['referrer']}")
             request.session.modified = True
 
             if slug:

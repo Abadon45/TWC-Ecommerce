@@ -2,7 +2,6 @@ from django.urls import path, include, re_path
 from django.conf.urls import handler404
 from django.conf.urls.static import static
 from onlinestore.views import *
-from ..views import EmailFormView
 
 urlpatterns = [
     path('mail-success/', TemplateView.as_view(template_name='mail-success.html'), name="mail_success"),
@@ -23,8 +22,7 @@ urlpatterns = [
         ),
         name="terms_of_service"
     ),
-    path('test-email/', EmailFormView.as_view(), name="test_email"),
-    path('login/', include('TWC.urls.login', namespace='login')),
+    path("user/", include("user.urls.login", namespace="login")),
     path('shop/', include('TWC.urls.shop', namespace='shop')),
     path('dashboard/', include('user.urls.index', namespace='user')),
     path('cart/', include('cart.urls', namespace='cart')),

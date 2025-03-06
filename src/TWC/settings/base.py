@@ -15,9 +15,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-)!a@6)s)$_u_o6*b7&#vqo++i)i5f^$_8nid!r0w^wm3#w47$y'
-REFRESH_TOKEN = os.environ.get("REFRESH_TOKEN", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc2Mjk0MzM5OSwiaWF0IjoxNzMxNDA3Mzk5LCJqdGkiOiJiNjNjMTNlYzdkNjA0OGYxYmE3NDU2NzQwNmFiZTU1ZSIsInVzZXJfaWQiOjE5ODgzfQ.CoHhMbk89oiwTVKk-Y7VAaMBa3WkzwrLRJo-6IKTZ70")
+REFRESH_TOKEN = os.environ.get("REFRESH_TOKEN",
+                               "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc2Mjk0MzM5OSwiaWF0IjoxNzMxNDA3Mzk5LCJqdGkiOiJiNjNjMTNlYzdkNjA0OGYxYmE3NDU2NzQwNmFiZTU1ZSIsInVzZXJfaWQiOjE5ODgzfQ.CoHhMbk89oiwTVKk-Y7VAaMBa3WkzwrLRJo-6IKTZ70")
 
-XENDIT_API_KEY = os.environ.get("XENDIT_API_KEY", '_gyFfI1cqWWOTpXRWcfg1RMPC3UkCTAfAVsqSDl6fjFuZqs6mFaPZw9yzqO7B5')
+XENDIT_API_KEY = os.environ.get("XENDIT_API_KEY",
+                                '_gyFfI1cqWWOTpXRWcfg1RMPC3UkCTAfAVsqSDl6fjFuZqs6mFaPZw9yzqO7B5')
 
 HOST_DOMAIN = os.environ.get("HOST_DOMAIN", "twcako")
 
@@ -28,7 +30,7 @@ REFRESH_TOKEN_API = f'https://dashboard.{HOST_DOMAIN}.com/order/api/get-access-t
 ORDER_URL_API = f'https://dashboard.{HOST_DOMAIN}.com/order/api/create-order/'
 VW_INVENTORY_API = f"https://dashboard.{HOST_DOMAIN}.com/account/api/check-username/{{username}}/vwinventory/"
 PH_NUMBERS_PREFIXES_API = f"https://dashboard.{HOST_DOMAIN}.com/addresses/api/ph-number-prefixes/"
-
+AUTH_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/api/auth/"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
@@ -59,6 +61,8 @@ INSTALLED_APPS = [
     'cart',
     'django_hosts',
     'django.contrib.sites',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -82,6 +86,13 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+}
+
 MIDDLEWARE = [
     'django_hosts.middleware.HostsRequestMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -92,12 +103,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # custom middlewares
     'TWC.middleware.SubdomainMiddleware',
     'django_hosts.middleware.HostsResponseMiddleware',
     'TWC.middleware.RedirectToWWW',
     'TWC.middleware.DynamicCSRFMiddleware',
     'TWC.middleware.CurrentDomainMiddleware',
     'TWC.middleware.SubdomainSessionMiddleware',
+    'user.middleware.APISessionAuthenticationMiddleware',
 ]
 
 AUTH_USER_MODEL = 'user.User'
@@ -260,8 +274,6 @@ SESSION_COOKIE_SECURE = False
 SESSION_COOKIE_HTTPONLY = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
-
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -281,7 +293,4 @@ LOGGING = {
 }
 
 # Application definition
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
+AUTHENTICATION_BACKENDS = ["user.auth_backends.APIAuthenticationBackend"]

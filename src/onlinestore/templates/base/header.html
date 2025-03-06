@@ -23,23 +23,23 @@
                                 </ul>
                             </div>
                         </div>
-                        {#                    <div class="col-12 col-md-6 col-lg-6 col-xl-7 mobile-hidden">#}
-                        {#                        <div class="header-top-right">#}
-                        {#                            <ul class="header-top-list">#}
-                        {#                                <li><a href="{% url 'products:product_list' %}"><i#}
-                        {#                                            class="fa-solid fa-code-compare"></i> Product List</a></li>#}
-                        {#                                <li><a href="{% url 'products:add_product' %}"><i#}
-                        {#                                            class="fa-solid fa-keyboard"></i> Add Products</a></li>#}
-                        {#                                {% if user.is_authenticated %}#}
-                        {#                                <li class="login"><a href="{% url 'login:logout' %}"><i#}
-                        {#                                            class="far fa-arrow-right-to-arc"></i> Logout</a></li>#}
-                        {#                                {% else %}#}
-                        {#                                <li class="login"><a href="{% url 'login:login' %}"><i#}
-                        {#                                            class="far fa-arrow-right-to-arc"></i> Login</a></li>#}
-                        {#                                {% endif %}#}
-                        {#                            </ul>#}
-                        {#                        </div>#}
-                        {#                    </div>#}
+                        <div class="col-12 col-md-6 col-lg-6 col-xl-7 mobile-hidden">
+                            <div class="header-top-right">
+                                <ul class="header-top-list">
+                                    <li><a href="{% url 'products:product_list' %}"><i
+                                            class="fa-solid fa-code-compare"></i> Product List</a></li>
+                                    <li><a href="{% url 'products:add_product' %}"><i
+                                            class="fa-solid fa-keyboard"></i> Add Products</a></li>
+                                    {% if user.is_authenticated %}
+                                        <li class="login"><a href="{% url 'login:logout' %}"><i
+                                                class="far fa-arrow-right-to-arc"></i> Logout</a></li>
+                                    {% else %}
+                                        <li class="login"><a href="{% url 'login:login' %}"><i
+                                                class="far fa-arrow-right-to-arc"></i> Login</a></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 {% else %}
                     <div class="row">
@@ -47,23 +47,23 @@
                             <div class="header-top-left">
                             </div>
                         </div>
-                        {#                    <div class="col-12 col-md-6 col-lg-6 col-xl-7 mobile-hidden">#}
-                        {#                        <div class="header-top-right">#}
-                        {#                            <ul class="header-top-list">#}
-                        {#                                {% if user.is_authenticated %}#}
-                        {#                                <li class="login"><a href="{% url 'login:logout' %}">Logout</a></li>#}
-                        {#                                {% else %}#}
-                        {#                                <li class="login"><a href="{% url 'login:login' %}">Login</a></li>#}
-                        {#                                {% endif %}#}
-                        {#                                <li class="social">#}
-                        {#                                    <div class="header-top-social">#}
-                        {#                                        <span>Follow Us: </span>#}
-                        {#                                        <a href="#"><i class="fab fa-facebook"></i></a>#}
-                        {#                                    </div>#}
-                        {#                                </li>#}
-                        {#                            </ul>#}
-                        {#                        </div>#}
-                        {#                    </div>#}
+                                            <div class="col-12 col-md-6 col-lg-6 col-xl-7 mobile-hidden">
+                                                <div class="header-top-right">
+                                                    <ul class="header-top-list">
+                                                        {% if user.is_authenticated %}
+                                                        <li class="login"><a href="{% url 'login:logout' %}">Logout</a></li>
+                                                        {% else %}
+                                                        <li class="login"><a href="{% url 'login:login' %}">Login</a></li>
+                                                        {% endif %}
+                                                        <li class="social">
+                                                            <div class="header-top-social">
+                                                                <span>Follow Us: </span>
+                                                                <a href="#"><i class="fab fa-facebook"></i></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
                     </div>
                 {% endif %}
             </div>
@@ -132,7 +132,7 @@
                                 {% if user.is_authenticated %}
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">My
-                                            Account</a>
+                                            Account ({{ user.username }})</a>
                                         <ul class="dropdown-menu fade-down">
                                             <li><a class="dropdown-item" href="{{ DASHBOARD_URL }}" class="list-item">My
                                                 Profile</a></li>
@@ -251,7 +251,7 @@
                                             {% if user.is_authenticated %}
                                                 <li class="nav-item dropdown">
                                                     <a class="nav-link" href="{{ DASHBOARD_URL }}">
-                                                        My Account
+                                                        My Account (({{ user.username }}))
                                                     </a>
                                                 </li>
                                             {% endif %}

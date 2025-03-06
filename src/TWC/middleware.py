@@ -20,8 +20,6 @@ class SubdomainMiddleware:
     def __call__(self, request):
         # Extract the full host
         full_host = request.get_host()
-        print(f'Full Host: {full_host}')
-
         # Split the host into parts
         host_parts = full_host.split('.')
 
@@ -30,8 +28,6 @@ class SubdomainMiddleware:
             request.subdomain = host_parts[0]  # The first part is the subdomain
         else:
             request.subdomain = None  # No subdomain
-
-        print(f'Subdomain: {request.subdomain}')
 
         # If there's a subdomain, check it against the external API
         if request.subdomain:
@@ -87,8 +83,6 @@ class RedirectToWWW:
         host = request.get_host()
 
         host_parts = host.split('.')
-        print(f'Host: {host}')
-        print(f'HostParts: {host_parts}')
 
         if host == 'twconline.store' or host == 'twcstoredevtest.com' or host == 'devtest.store:8000':
             new_url = request.build_absolute_uri().replace(f"{host}", f"www.{host}")
