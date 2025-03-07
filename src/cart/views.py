@@ -387,54 +387,55 @@ def submit_checkout(request):
     temp_password = request.session.get('temp_password')
     email = request.session.get('email')
     sponsor = request.session.get('referrer')
+    user = request.user
+    access_token = get_access_token()
 
     print(f'temp_username: {temp_username}, temp_password: {temp_password}')
 
-    REGISTER_USER_API_URL = settings.REGISTER_USER_API_URL
-    access_token = get_access_token()
+    if not user.is_authenticated:
+        if temp_password and temp_username:
+            REGISTER_USER_API_URL = settings.REGISTER_USER_API_URL
+            # Retrieve email from shipping_address stored in the session
+            shipping_address = request.session.get('shipping_address', {})
+            email = shipping_address.get('email')
 
-    if temp_password and temp_username:
-        # Retrieve email from shipping_address stored in the session
-        shipping_address = request.session.get('shipping_address', {})
-        email = shipping_address.get('email')
+            if not email or email == 'undefined':
+                email = None
 
-        if not email or email == 'undefined':
-            email = None
+            register_data = {
+                "username": temp_username,
+                "email": email,
+                "password": temp_password,
+                "is_customer": True,
+                "sponsor_username": sponsor,
+            }
 
-        register_data = {
-            "username": temp_username,
-            "email": email,
-            "password": temp_password,
-            "is_customer": True,
-            "sponsor_username": sponsor,
-        }
+            headers = {
+                "Content-Type": "application/json"
+            }
+            if access_token:
+                headers["Authorization"] = f"Bearer {access_token}"  # Add token if available
 
-        headers = {
-            "Content-Type": "application/json"
-        }
-        if access_token:
-            headers["Authorization"] = f"Bearer {access_token}"  # Add token if available
+            print(f"Registering user: {register_data}")
 
-        print(f"Registering user: {register_data}")
+            try:
+                response = requests.post(REGISTER_USER_API_URL, json=register_data, headers=headers)
+                api_response = response.json()
 
-        try:
-            response = requests.post(REGISTER_USER_API_URL, json=register_data, headers=headers)
-            api_response = response.json()
+                print(f"Response Status: {response.status_code}")
+                print(f"Response Content: {api_response}")
 
-            print(f"Response Status: {response.status_code}")
-            print(f"Response Content: {api_response}")
+                if response.status_code != 201:
+                    return JsonResponse({
+                        'error': f'User registration failed. {api_response.get("message", "Please try again.")}',
+                        'status_code': response.status_code
+                    }, status=400)
 
-            if response.status_code != 201:
-                return JsonResponse({
-                    'error': f'User registration failed. {api_response.get("message", "Please try again.")}',
-                    'status_code': response.status_code
-                }, status=400)
+                print(f"User {temp_username} registered successfully!")
 
-            print(f"User {temp_username} registered successfully!")
-
-        except requests.RequestException as e:
-            print(f"Error: {e}")
-            return JsonResponse({'error': 'Failed to register user. Please try again later.'}, status=500)
+            except requests.RequestException as e:
+                print(f"Error: {e}")
+                return JsonResponse({'error': 'Failed to register user. Please try again later.'}, status=500)
 
     for shop, shop_data in ordered_items_by_shop.items():
 
