@@ -105,8 +105,9 @@ class ShopView(TemplateView):
             # Aggregate ratings
             for product in queryset:
                 product_slug = product.get('slug')
-                ratings = Rating.objects.filter(product_slug=product_slug)
-                aggregate_rating = ratings.aggregate(Avg('score'))['score__avg'] if ratings.exists() else 5
+                # ratings = Rating.objects.filter(product_slug=product_slug)
+                # aggregate_rating = ratings.aggregate(Avg('score'))['score__avg'] if ratings.exists() else 5
+                aggregate_rating = 5
                 product['aggregate_rating'] = round(aggregate_rating, 1)
 
             return queryset, dict(category_product_count)  # Convert defaultdict to normal dict
@@ -137,7 +138,8 @@ class ShopView(TemplateView):
         cat2 = self.request.GET.get('cat2')
 
         products, category_product_count, _ = self.get_paginated_queryset()
-        user_ratings = self.get_user_ratings(products)
+        # user_ratings = self.get_user_ratings(products)
+        user_ratings = 5
 
         if cat1 and cat1.lower() != 'all':
             context['title'] = cat1.title()
