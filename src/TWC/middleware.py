@@ -4,6 +4,7 @@ import os
 from django.http import Http404
 from django.http import HttpResponsePermanentRedirect
 from django.conf import settings
+from django.shortcuts import redirect
 from django.utils.deprecation import MiddlewareMixin
 
 import logging
@@ -30,6 +31,10 @@ class SubdomainMiddleware:
         else:
             request.subdomain = None  # No subdomain
 
+        # 🚨 Skip username checking for "dashboard"
+        if request.subdomain in ["www", "admin", "dashboard"]:
+            return self.get_response(request)
+
         # If there's a subdomain, check it against the external API
         if request.subdomain:
             response = self.check_username(request, request.subdomain)
@@ -44,36 +49,72 @@ class SubdomainMiddleware:
         if username == "www" or username == "admin":
             return None
 
-        api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
+        if username == "dashboard":
 
-        try:
-            api_response = requests.get(api_url)
-            api_response.raise_for_status()  # Raise an exception for HTTP errors
+            user = request.user
+            sponsor = request.session.get('sponsor')
+            request.session['referrer'] = sponsor
+            username_user = request.session.get('username')
+            api_url = f'https://dashboard.twcako.com/account/api/check-username/{username_user}/'
 
-            data = api_response.json()
-            is_success = data.get('success')
-            messenger_link = data.get('messenger_link')
-            sponsor_mobile = data.get('sponsor_mobile')
-            sponsor_fb_pixel = data.get('selling_pixel')
-            selling_capi_token = data.get('selling_capi_token')
+            if user.is_authenticated:
+                try:
+                    api_response = requests.get(api_url)
+                    api_response.raise_for_status()  # Raise an exception for HTTP errors
 
-            print(f'Data: {data}')
+                    data = api_response.json()
+                    is_success = data.get('success')
+                    messenger_link = data.get('messenger_link')
+                    sponsor_mobile = data.get('sponsor_mobile')
 
-            if is_success:
-                request.session['referrer'] = username
-                request.session['messenger_link'] = messenger_link
-                request.session['sponsor_mobile'] = sponsor_mobile
-                request.session['sponsor_fb_pixel'] = sponsor_fb_pixel
-                request.session['selling_capi_token'] = selling_capi_token
-                print(f"Referrer set: {username}, Messenger Link: {messenger_link}, FB Pixel: {sponsor_fb_pixel}")
-                return None
+                    print(f'Data: {data}')
+
+                    if is_success:
+                        request.session['messenger_link'] = messenger_link
+                        request.session['sponsor_mobile'] = sponsor_mobile
+                        return None
+                    else:
+                        print(f'Username check failed for: {username}')  # Debugging
+                        raise Http404(f'User "{username}" Does Not Exist.')
+
+                except requests.RequestException as e:
+                    print(f"API request failed: {e}")  # Debugging
+                    raise Http404('Server Is Under Maintainance.')
             else:
-                print(f'Username check failed for: {username}')  # Debugging
-                raise Http404(f'User "{username}" Does Not Exist.')
+                return redirect("login:login")
 
-        except requests.RequestException as e:
-            print(f"API request failed: {e}")  # Debugging
-            raise Http404('Server Is Under Maintainance.')
+        else:
+
+            api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
+
+            try:
+                api_response = requests.get(api_url)
+                api_response.raise_for_status()  # Raise an exception for HTTP errors
+
+                data = api_response.json()
+                is_success = data.get('success')
+                messenger_link = data.get('messenger_link')
+                sponsor_mobile = data.get('sponsor_mobile')
+                sponsor_fb_pixel = data.get('selling_pixel')
+                selling_capi_token = data.get('selling_capi_token')
+
+                print(f'Data: {data}')
+
+                if is_success:
+                    request.session['referrer'] = username
+                    request.session['messenger_link'] = messenger_link
+                    request.session['sponsor_mobile'] = sponsor_mobile
+                    request.session['sponsor_fb_pixel'] = sponsor_fb_pixel
+                    request.session['selling_capi_token'] = selling_capi_token
+                    print(f"Referrer set: {username}, Messenger Link: {messenger_link}, FB Pixel: {sponsor_fb_pixel}")
+                    return None
+                else:
+                    print(f'Username check failed for: {username}')  # Debugging
+                    raise Http404(f'User "{username}" Does Not Exist.')
+
+            except requests.RequestException as e:
+                print(f"API request failed: {e}")  # Debugging
+                raise Http404('Server Is Under Maintainance.')
 
 
 class RedirectToWWW:

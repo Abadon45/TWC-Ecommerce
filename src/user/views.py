@@ -72,13 +72,10 @@ class APILoginView(View):
         return render(request, self.template_name, {"error": "Invalid credentials"})
 
 
-
 class LogoutView(View):
     def get(self, request):
         request.session.flush()
         return redirect("home_view")
-
-
 
 class ForgotPasswordView(SuccessMessageMixin, PasswordResetView):
     title = "Password Reset"
@@ -98,9 +95,12 @@ class PasswordResetComplete(PasswordResetCompleteView):
     title = "Password Reset Complete"
 
 
-
 class PasswordDoneView(TemplateView):
     template_name = 'login/change-password-done.html'
+
+
+class DashboardView(TemplateView):
+    template_name = "user/dashboard.html"
 
 
 
