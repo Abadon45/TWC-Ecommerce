@@ -31,6 +31,7 @@ ORDER_URL_API = f'https://dashboard.{HOST_DOMAIN}.com/order/api/create-order/'
 VW_INVENTORY_API = f"https://dashboard.{HOST_DOMAIN}.com/account/api/check-username/{{username}}/vwinventory/"
 PH_NUMBERS_PREFIXES_API = f"https://dashboard.{HOST_DOMAIN}.com/addresses/api/ph-number-prefixes/"
 AUTH_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/api/auth/"
+REGISTER_USER_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/account/api/register/"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'

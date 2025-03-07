@@ -39,6 +39,7 @@ AUTH_API_URL = settings.AUTH_API_URL
 
 class APILoginView(View):
     template_name = "login/login.html"
+    title = "Login"
 
     def get(self, request):
         return render(request, self.template_name)
@@ -49,19 +50,27 @@ class APILoginView(View):
 
         # Authenticate via external API
         api_url = settings.AUTH_API_URL  # Ensure this is correctly set in settings.py
-        response = requests.post(api_url, data={"username": username, "password": password})
-        api_response = response.json()
+        response = requests.post(api_url, json={"username": username, "password": password})  # Use JSON, not form data
+
+        try:
+            api_response = response.json()
+        except ValueError:
+            return render(request, self.template_name, {"error": "Invalid response from server."})
 
         if response.status_code == 200 and "token" in api_response:
             request.session["access_token"] = api_response["token"]
-            request.session["username"] = api_response["user"]  # Store username in session
-            request.session["is_authenticated"] = True  # Custom flag for logged-in status
+            request.session["username"] = api_response["user"]
+            request.session["is_authenticated"] = True
+            request.session["sponsor"] = api_response.get("sponsor", None)  # Store sponsor from API response
+            request.session["expires_at"] = api_response["expires"]  # Store token expiry time
             request.session.set_expiry(60 * 60 * 24)  # Set session expiration (1 day)
 
             print(f"Login successful! Token stored for {username}")
+            print(f'Sponsor: {api_response["sponsor"]}')
             return redirect("home_view")
 
         return render(request, self.template_name, {"error": "Invalid credentials"})
+
 
 
 class LogoutView(View):

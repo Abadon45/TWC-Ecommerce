@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 def some_view(request):
     logger.debug(f"Session: {request.session.items()}")
 
+
 class SubdomainMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
@@ -82,14 +83,13 @@ class RedirectToWWW:
     def __call__(self, request):
         host = request.get_host()
 
-        host_parts = host.split('.')
-
         if host == 'twconline.store' or host == 'twcstoredevtest.com' or host == 'devtest.store:8000':
             new_url = request.build_absolute_uri().replace(f"{host}", f"www.{host}")
             return HttpResponsePermanentRedirect(new_url)
 
         response = self.get_response(request)
         return response
+
 
 class DynamicCSRFMiddleware(MiddlewareMixin):
     def process_request(self, request):

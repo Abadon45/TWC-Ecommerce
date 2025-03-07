@@ -305,12 +305,17 @@ class CheckoutView(View):
         shipping_address = {
             'full_name': data.get('full_name'),
             'phone': data.get('phone'),
+            'email': data.get('email'),
             'address': data.get('address'),
             'province': data.get('province'),
             'city': data.get('city'),
             'barangay': data.get('barangay'),
             'landmark': data.get('landmark'),
         }
+
+        self.request.session['temp_username'] = data.get('username')
+        self.request.session['temp_password'] = generate_random_password()
+        self.request.session['email'] = data.get('email')
 
         # Save the address to session
         if 'shipping_address' in self.request.session:
@@ -324,7 +329,6 @@ class CheckoutView(View):
         updated_orders = []
         total_shipping = Decimal(0)
         total_payment = Decimal(0)
-        shop_count = 0
 
         # Calculate shipping fees and update orders
         for shop, order_data in orders.items():
@@ -379,8 +383,56 @@ class CheckoutView(View):
 def submit_checkout(request):
     ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
     cart = request.session.get('cart', {})  # Retrieve the cart from the session
-    print(f'Order: {ordered_items_by_shop}')
-    print(f'Cart: {cart}')
+    temp_username = request.session.get('temp_username')
+    temp_password = request.session.get('temp_password')
+    email = request.session.get('email')
+
+    print(f'temp_username: {temp_username}, temp_password: {temp_password}')
+
+    REGISTER_USER_API_URL = settings.REGISTER_USER_API_URL
+    access_token = get_access_token()
+
+    if temp_password and temp_username:
+        # Retrieve email from shipping_address stored in the session
+        shipping_address = request.session.get('shipping_address', {})
+        email = shipping_address.get('email')
+
+        if not email or email == 'undefined':
+            email = None
+
+        register_data = {
+            "username": temp_username,
+            "email": email,
+            "password": temp_password,
+            "is_customer": True
+        }
+
+        headers = {
+            "Content-Type": "application/json"
+        }
+        if access_token:
+            headers["Authorization"] = f"Bearer {access_token}"  # Add token if available
+
+        print(f"Registering user: {register_data}")
+
+        try:
+            response = requests.post(REGISTER_USER_API_URL, json=register_data, headers=headers)
+            api_response = response.json()
+
+            print(f"Response Status: {response.status_code}")
+            print(f"Response Content: {api_response}")
+
+            if response.status_code != 201:
+                return JsonResponse({
+                    'error': f'User registration failed. {api_response.get("message", "Please try again.")}',
+                    'status_code': response.status_code
+                }, status=400)
+
+            print(f"User {temp_username} registered successfully!")
+
+        except requests.RequestException as e:
+            print(f"Error: {e}")
+            return JsonResponse({'error': 'Failed to register user. Please try again later.'}, status=500)
 
     for shop, shop_data in ordered_items_by_shop.items():
 
@@ -412,7 +464,7 @@ def submit_checkout(request):
                     'redirect_url': reverse('cart:cart'),
                 }, status=400)
 
-    access_token = get_access_token()
+
     if not access_token:
         return JsonResponse({
             'error': 'Failed to retrieve access token. Please try again later.'
@@ -569,6 +621,7 @@ class CheckoutDoneView(View):
         total_cod_amount = sum(Decimal(shop['cod_amount']) for shop in orders.values())
         # Update the context with data retrieved from the session
         cart_total = request.session.get('cart_total', 0)  # Add a default value if needed
+
         context.update({
             'title': self.title,
             'sponsor_mobile': sponsor_mobile,
@@ -583,6 +636,9 @@ class CheckoutDoneView(View):
             'payment_method': payment_method,
             'invoice_number': request.session.get('invoice_number', ""),
             'cart_total': cart_total,
+            'username': request.session.get('temp_username', ""),
+            'password': request.session.get('temp_password', ""),
+            'email': request.session.get('email', ""),
         })
 
         return context

@@ -21,27 +21,29 @@
                     <h3>YOUR ORDER HAS BEEN RECEIVED</h3>
                     <p>
                         For any concern, please feel free to Contact Us.
-{#                        {% if sponsor_mobile %}#}
-{#                            contact us at {{ sponsor_mobile }}#}
-{#                        {% elif referrer %}#}
-{#                            <button class="contact-us-btn btn theme-btn" onclick="window.open('{{ referrer }}', '_blank')" >#}
-{#                                Contact Us#}
-{#                            </button>#}
-{#                        {% else %}#}
-{#                            Contact Us.#}
-{#                        {% endif %}#}
+                        {#                        {% if sponsor_mobile %}#}
+                        {#                            contact us at {{ sponsor_mobile }}#}
+                        {#                        {% elif referrer %}#}
+                        {#                            <button class="contact-us-btn btn theme-btn" onclick="window.open('{{ referrer }}', '_blank')" >#}
+                        {#                                Contact Us#}
+                        {#                            </button>#}
+                        {#                        {% else %}#}
+                        {#                            Contact Us.#}
+                        {#                        {% endif %}#}
                     </p>
 
-                    {#                {% if not user.is_authenticated %}#}
-                    {#                    <div class="card login-info">#}
-                    {#                        <div class="card-body track-order-body">#}
-                    {#                            <h4 style="color: var(--color-dark);">Please save your login details to track your order.</h4>#}
-                    {#                            <h6>Username: {{ username }}</h6>#}
-                    {#                            <h6>Password: {{ password }}</h6>#}
-                    {#                            <h6>Email: {{ email }}</h6>#}
-                    {#                        </div>#}
-                    {#                    </div> #}
-                    {#                {% endif %}#}
+                    {% if not user.is_authenticated %}
+                        <div class="card login-info">
+                            <div class="card-body track-order-body">
+                                <h4 style="color: var(--color-dark);">Please save your login details to track your
+                                    order.</h4>
+                                <h6 class="mt-2">Username: {{ username }}</h6>
+                                <h6>Password: {{ password }}</h6>
+                                <a href="{% url 'login:login' %} " class="btn theme-btn mt-2 px-5">Login</a>
+{#                                <h6>Email: {{ email }}</h6>#}
+                            </div>
+                        </div>
+                    {% endif %}
 
                 </div>
             </div>
@@ -99,7 +101,8 @@
                                                 <td class="name-column" style="width: 50%;">{{ item.product.name }}</td>
                                                 <td class="quantity-column"
                                                     style="width: 10%; text-align: center;">{{ item.quantity }}</td>
-                                                <td class="price-column" style="width: 20%;">{{ item.get_total|currency }}</td>
+                                                <td class="price-column"
+                                                    style="width: 20%;">{{ item.get_total|currency }}</td>
                                             </tr>
                                         {% endfor %}
                                         <tr style="height: 10px;">

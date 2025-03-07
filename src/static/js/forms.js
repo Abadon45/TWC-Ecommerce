@@ -87,28 +87,65 @@ $(document).ready(function () {
 
     // Function to prepare user data
     function prepareUserData() {
-        var userDetails = {
-            full_name: $(".inputFullName").val().charAt(0),
-        };
+        var fullName = $(".inputFullName").val().trim();
 
-        var userName = userDetails.full_name + generateRandomString(3);
-        console.log("User Details:", userDetails);
+        if (!fullName) {
+            return {username: generateRandomString(6)}; // Fallback if no name is entered
+        }
+
+        var userDetails = splitFullName(fullName);
+        var firstInitial = userDetails.first_name ? userDetails.first_name.charAt(0).toLowerCase() : "";
+        var lastName = userDetails.last_name ? userDetails.last_name.replace(/\s/g, "").toLowerCase() : "";
+
+        var userName = firstInitial + lastName + generateRandomString(3);
+        var email = $('input[name="email"]').val().trim();
+
+        console.log("Generated Username:", userName);
 
         return {
             username: userName,
+            email: email
         };
     }
 
-    // Function to generate a random string
+// Function to split full name into first and last name
+    function splitFullName(fullName) {
+        var lastNamePrefixes = ["de", "de la", "van", "von", "da", "del", "la", "san", "dela"];
+        var parts = fullName.split(/\s+/);
+
+        if (parts.length <= 1) {
+            return {first_name: fullName, last_name: ""};
+        }
+
+        var firstName = [];
+        var lastName = [];
+
+        for (var i = parts.length - 1; i >= 0; i--) {
+            var potentialLastName = parts.slice(i).join(" ").toLowerCase();
+            if (lastName.length === 0 || lastNamePrefixes.includes(potentialLastName)) {
+                lastName.unshift(parts[i]);
+            } else {
+                firstName = parts.slice(0, i + 1);
+                break;
+            }
+        }
+
+        return {
+            first_name: firstName.join(" "),
+            last_name: lastName.join(" ")
+        };
+    }
+
+// Function to generate a random string
     function generateRandomString(length) {
         var result = "";
-        var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        var charactersLength = characters.length;
+        var characters = "abcdefghijklmnopqrstuvwxyz0123456789";
         for (var i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            result += characters.charAt(Math.floor(Math.random() * characters.length));
         }
         return result;
     }
+
 });
 
 

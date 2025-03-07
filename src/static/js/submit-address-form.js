@@ -20,6 +20,7 @@ function isPhMobileNumber(number) {
 function submitForm() {
     const fullName = $('input[name="full_name"]').val().trim();
     const phone = $('input[name="phone_display"]').val().trim();
+    const email = $('input[name="email"]').val().trim();
     const address = $('input[name="address"]').val().trim();
     const province = $('select[name="province"]').val();
     const city = $('select[name="city"]').val();
@@ -31,6 +32,7 @@ function submitForm() {
     let missingFields = [];
 
     if (!fullName) missingFields.push('Full Name');
+    if (!email) missingFields.push('Email');
     if (!phone) {
         missingFields.push('Phone');
     } else if (!isPhMobileNumber(phone)) {
@@ -65,3 +67,4 @@ function submitForm() {
         $('#addUserData').click();
     }
 }
+

@@ -533,6 +533,15 @@ def create_xendit_invoice(
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
 
 
+def generate_random_password(length=8):
+    """Generate a random alphanumeric password of a given length."""
+    characters = string.ascii_letters + string.digits  # A-Z, a-z, 0-9
+    return ''.join(random.choices(characters, k=length))
+
+
+
+
+
 
 
 
