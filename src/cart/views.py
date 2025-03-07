@@ -386,6 +386,7 @@ def submit_checkout(request):
     temp_username = request.session.get('temp_username')
     temp_password = request.session.get('temp_password')
     email = request.session.get('email')
+    sponsor = request.session.get('referrer')
 
     print(f'temp_username: {temp_username}, temp_password: {temp_password}')
 
@@ -404,7 +405,8 @@ def submit_checkout(request):
             "username": temp_username,
             "email": email,
             "password": temp_password,
-            "is_customer": True
+            "is_customer": True,
+            "sponsor_username": sponsor,
         }
 
         headers = {
