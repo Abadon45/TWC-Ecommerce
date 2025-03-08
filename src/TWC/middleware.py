@@ -62,6 +62,7 @@ class SubdomainMiddleware:
             return
 
         api_url = settings.CHECK_USERNAME_API_URL.format(username=username)
+        print(api_url)
 
         try:
             api_response = requests.get(api_url)
