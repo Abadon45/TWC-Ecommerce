@@ -22,7 +22,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from cart.utils import detect_region
+from cart.utils import detect_region, get_main_domain
 from user.forms import LoginForm
 
 import logging
@@ -63,19 +63,38 @@ class APILoginView(View):
             request.session["is_authenticated"] = True
             request.session["sponsor"] = api_response.get("sponsor", None)  # Store sponsor from API response
             request.session["expires_at"] = api_response["expires"]  # Store token expiry time
-            request.session.set_expiry(60 * 60 * 24)  # Set session expiration (1 day)
+            request.session["first_name"] = api_response.get("first_name", "")  # Store first name
+            request.session["middle_name"] = api_response.get("middle_name", "")  # Store middle name
+            request.session["last_name"] = api_response.get("last_name", "")  # Store last name
+            request.session["image"] = api_response.get("image", None)  # Store image URL
+            request.session["is_seller"] = api_response.get("is_seller", False)  # Store seller status
+            request.session["is_member"] = api_response.get("is_member", False)  # Store member status
+
+            # Set session expiration (1 day)
+            request.session.set_expiry(60 * 60 * 24)
 
             print(f"Login successful! Token stored for {username}")
-            print(f'Sponsor: {api_response["sponsor"]}')
-            return redirect("home_view")
+            print(f'Sponsor: {api_response.get("sponsor")}')
+            print(f'User details: {api_response.get("first_name")} {api_response.get("last_name")}, Seller: {api_response.get("is_seller")}')
+
+            # Redirect to dashboard
+            main_domain = get_main_domain(request)
+            return redirect(f"http://dashboard.{main_domain}")
 
         return render(request, self.template_name, {"error": "Invalid credentials"})
 
 
 class LogoutView(View):
     def get(self, request):
+        subdomain = request.session.get("sponsor")
+        main_domain = get_main_domain(request)
+
+        # Construct the redirect URL
+        redirect_url = f"http://{subdomain}.{main_domain}" if subdomain else f"http://{main_domain}"
+
         request.session.flush()
-        return redirect("home_view")
+        return redirect(redirect_url)
+
 
 class ForgotPasswordView(SuccessMessageMixin, PasswordResetView):
     title = "Password Reset"
@@ -101,10 +120,20 @@ class PasswordDoneView(TemplateView):
 
 class DashboardView(TemplateView):
     template_name = "user/dashboard.html"
+    title = "Dashboard Home"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
+        # Access session data using self.request
+        context.update({
+            "first_name": self.request.session.get("first_name", ""),
+            "middle_name": self.request.session.get("middle_name", ""),
+            "last_name": self.request.session.get("last_name", ""),
+            "image": self.request.session.get("image", 'img/user/default_profile.png'),
+        })
 
-
+        return context
 
 
 

@@ -9,6 +9,7 @@ import requests
 from datetime import datetime, time
 from django.conf import settings
 from django.http import JsonResponse, HttpResponseRedirect, Http404
+from django.shortcuts import redirect
 from django.urls import reverse
 
 from facebook_business.adobjects.serverside.action_source import ActionSource
@@ -538,8 +539,52 @@ def generate_random_password(length=8):
     characters = string.ascii_letters + string.digits  # A-Z, a-z, 0-9
     return ''.join(random.choices(characters, k=length))
 
+def fetch_username(request, username):
+    api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
+
+    # Check if the user is authenticated via session
+    if not request.session.get("is_authenticated", False):
+        subdomain = request.session.get("sponsor")
+        main_domain = get_main_domain(request)
+        redirect_url = f"http://{subdomain}.{main_domain}/login" if subdomain else f"http://{main_domain}/login"
+        return redirect(redirect_url)
+
+    try:
+        response = requests.get(api_url)
+        response.raise_for_status()
+
+        data = response.json()
+        is_success = data.get("success", False)
+
+        if is_success:
+            # Store API response in session
+            request.session["messenger_link"] = data.get("messenger_link", "")
+            request.session["sponsor_mobile"] = data.get("sponsor_mobile", "")
+            request.session["first_name"] = data.get("first_name", "")
+            request.session["middle_name"] = data.get("middle_name", "")
+            request.session["last_name"] = data.get("last_name", "")
+            request.session["image"] = data.get("image", None)
+            request.session["is_seller"] = data.get("is_seller", False)
+            request.session["is_member"] = data.get("is_member", False)
+            return True  # Indicate success
+        else:
+            print(f"Username check failed for: {username}")  # Debugging
+            raise Http404(f'User "{username}" Does Not Exist.')
+
+    except requests.RequestException as e:
+        print(f"API request failed: {e}")  # Debugging
+        raise Http404("Server Is Under Maintenance.")
 
 
+
+
+def get_main_domain(request):
+    """Extracts the main domain by removing subdomains."""
+    host = request.get_host()
+    host_parts = host.split(".")
+    if len(host_parts) > 2:  # If there's a subdomain
+        return ".".join(host_parts[-2:])  # Extract last two parts
+    return host  # If already a main domain, return as is
 
 
 

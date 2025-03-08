@@ -9,6 +9,8 @@ from django.utils.deprecation import MiddlewareMixin
 
 import logging
 
+from cart.utils import fetch_username
+
 logger = logging.getLogger(__name__)
 
 def some_view(request):
@@ -20,101 +22,89 @@ class SubdomainMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        """Process the subdomain and check username if needed."""
         # Extract the full host
         full_host = request.get_host()
-        # Split the host into parts
-        host_parts = full_host.split('.')
+        host_parts = full_host.split(".")
 
-        # Check if the host has a subdomain (at least three parts)
+        # Determine if there is a subdomain
         if len(host_parts) > 2:
             request.subdomain = host_parts[0]  # The first part is the subdomain
         else:
-            request.subdomain = None  # No subdomain
+            request.subdomain = None  # No subdomain present
 
-        # 🚨 Skip username checking for "dashboard"
-        if request.subdomain in ["www", "admin", "dashboard"]:
+        # 🚨 Skip username checking for specific subdomains
+        if request.subdomain in ["www", "admin"]:
             return self.get_response(request)
 
-        # If there's a subdomain, check it against the external API
-        if request.subdomain:
+        # If subdomain is "dashboard", set sponsor session and username
+        if request.subdomain == "dashboard":
+            sponsor = request.session.get("sponsor")
+            request.session["referrer"] = sponsor if sponsor else None
+
+            username = request.session.get("username")
+            if username:
+                self.fetch_username(request, username)
+
+        # Otherwise, check the username from the API
+        elif request.subdomain:
             response = self.check_username(request, request.subdomain)
             if response:
-                return response
+                return response  # Return early if an error occurs
 
         # Continue processing the request
         return self.get_response(request)
 
-    def check_username(self, request, username):
+    def fetch_username(self, request, username):
+        """Fetch username from the API and store relevant session data."""
+        if not username:
+            print("⚠️ Username not found in session.")
+            return
 
-        if username == "www" or username == "admin":
-            return None
+        api_url = settings.CHECK_USERNAME_API_URL.format(username=username)
 
-        if username == "dashboard":
+        try:
+            api_response = requests.get(api_url)
+            api_response.raise_for_status()  # Raise an exception for HTTP errors
 
-            user = request.user
-            sponsor = request.session.get('sponsor')
-            request.session['referrer'] = sponsor
-            username_user = request.session.get('username')
-            api_url = f'https://dashboard.twcako.com/account/api/check-username/{username_user}/'
+            data = api_response.json()
+            is_success = data.get("success", False)
 
-            if user.is_authenticated:
-                try:
-                    api_response = requests.get(api_url)
-                    api_response.raise_for_status()  # Raise an exception for HTTP errors
+            if is_success:
+                # Update session only if necessary
+                request.session["messenger_link"] = data.get("messenger_link", request.session.get("messenger_link"))
+                request.session["sponsor_mobile"] = data.get("sponsor_mobile", request.session.get("sponsor_mobile"))
+                request.session["sponsor_fb_pixel"] = data.get("selling_pixel", request.session.get("sponsor_fb_pixel"))
+                request.session["selling_capi_token"] = data.get("selling_capi_token", request.session.get("selling_capi_token"))
+                request.session["first_name"] = data.get("first_name", request.session.get("first_name"))
+                request.session["middle_name"] = data.get("middle_name", request.session.get("middle_name"))
+                request.session["last_name"] = data.get("last_name", request.session.get("last_name"))
+                request.session["image"] = data.get("image", request.session.get("image"))
+                request.session["is_seller"] = data.get("is_seller", request.session.get("is_seller"))
+                request.session["is_member"] = data.get("is_member", request.session.get("is_member"))
 
-                    data = api_response.json()
-                    is_success = data.get('success')
-                    messenger_link = data.get('messenger_link')
-                    sponsor_mobile = data.get('sponsor_mobile')
-
-                    print(f'Data: {data}')
-
-                    if is_success:
-                        request.session['messenger_link'] = messenger_link
-                        request.session['sponsor_mobile'] = sponsor_mobile
-                        return None
-                    else:
-                        print(f'Username check failed for: {username}')  # Debugging
-                        raise Http404(f'User "{username}" Does Not Exist.')
-
-                except requests.RequestException as e:
-                    print(f"API request failed: {e}")  # Debugging
-                    raise Http404('Server Is Under Maintainance.')
-            else:
-                return redirect("login:login")
-
-        else:
-
-            api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
-
-            try:
-                api_response = requests.get(api_url)
-                api_response.raise_for_status()  # Raise an exception for HTTP errors
-
-                data = api_response.json()
-                is_success = data.get('success')
-                messenger_link = data.get('messenger_link')
-                sponsor_mobile = data.get('sponsor_mobile')
-                sponsor_fb_pixel = data.get('selling_pixel')
-                selling_capi_token = data.get('selling_capi_token')
-
+                image = request.session.get("image", None)
                 print(f'Data: {data}')
 
-                if is_success:
-                    request.session['referrer'] = username
-                    request.session['messenger_link'] = messenger_link
-                    request.session['sponsor_mobile'] = sponsor_mobile
-                    request.session['sponsor_fb_pixel'] = sponsor_fb_pixel
-                    request.session['selling_capi_token'] = selling_capi_token
-                    print(f"Referrer set: {username}, Messenger Link: {messenger_link}, FB Pixel: {sponsor_fb_pixel}")
-                    return None
-                else:
-                    print(f'Username check failed for: {username}')  # Debugging
-                    raise Http404(f'User "{username}" Does Not Exist.')
+                print(f'image: {image}')
 
-            except requests.RequestException as e:
-                print(f"API request failed: {e}")  # Debugging
-                raise Http404('Server Is Under Maintainance.')
+
+                print(f"✅ Username '{username}' verified & session updated.")
+                return None
+            else:
+                print(f"❌ Username check failed for: {username}")
+                raise Http404(f'User "{username}" Does Not Exist.')
+
+        except requests.RequestException as e:
+            print(f"🚨 API request failed: {e}")
+            raise Http404("Server Is Under Maintenance.")
+
+    def check_username(self, request, username):
+        """Check username validity from the API and store session data."""
+        if username in ["www", "admin"]:
+            return None  # Ignore checking for these subdomains
+
+        return self.fetch_username(request, username)
 
 
 class RedirectToWWW:
