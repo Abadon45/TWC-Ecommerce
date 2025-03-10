@@ -47,6 +47,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [
     "*.twconline.store",
     "*.twcstoredevtest.com",
+    "dashboard.twcstoredevtest.com",
+    "dashboard.twconline.store",
 ]
 
 REQUEST_API = 'https://dashboard.twcako.com/order/api/token/refresh/'

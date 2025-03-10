@@ -9,7 +9,7 @@ from django.utils.deprecation import MiddlewareMixin
 
 import logging
 
-from cart.utils import fetch_username
+from cart.utils import fetch_username, get_main_domain
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +45,8 @@ class SubdomainMiddleware:
             username = request.session.get("username")
             if username:
                 self.fetch_username(request, username)
+            else:
+                return redirect("http://www." + get_main_domain(request) + "/user")
 
         # Otherwise, check the username from the API
         elif request.subdomain:
@@ -84,6 +86,12 @@ class SubdomainMiddleware:
                 request.session["is_seller"] = data.get("is_seller", request.session.get("is_seller"))
                 request.session["is_member"] = data.get("is_member", request.session.get("is_member"))
                 request.session["email"] = data.get("email", request.session.get("email"))
+                request.session["sponsor_username"] = data.get("sponsor", request.session.get("sponsor_username"))
+
+                sponsor = request.session.get("sponsor_username")
+                is_member = request.session.get("is_member")
+                print(f'Sponsor: {sponsor}')
+                print(f'Member: {is_member}')
 
                 image = request.session.get("image", None)
                 print(f'Data: {data}')

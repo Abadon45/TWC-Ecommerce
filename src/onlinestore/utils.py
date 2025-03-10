@@ -215,7 +215,8 @@ def fetch_vw_inventory(request):
         dict: A dictionary containing the quantity of each product and the grand total.
         None: If the request fails or no data is available.
     """
-    username = extract_username_from_request(request)
+    # username = extract_username_from_request(request)
+    username = request.session.get('sponsor_username')
     url = settings.VW_INVENTORY_API.format(username=username)
 
     print(f'PRODUCT FUNNEL URL: {url}')
@@ -228,6 +229,7 @@ def fetch_vw_inventory(request):
         data = response.json()
 
         if data.get('success'):
+            print(f'VW DATA: {data}')
             return {
                 'quantity_dict': data.get('quantity_dict', {}),
                 'grand_total': data.get('grand_total', 0),

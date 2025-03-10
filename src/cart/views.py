@@ -550,6 +550,7 @@ class PromoCheckoutView(CheckoutView):
                 # Log the exception for debugging purposes
                 print(f"Conversion API error: {e}")
 
+        context['sponsor'] = self.request.session.get('sponsor_username', None)
         context['event_id'] = event_id
         context['title'] = self.title
         context['event_name'] = self.request.session.get('event_name', "")
