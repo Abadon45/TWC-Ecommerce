@@ -26,7 +26,7 @@ urlpatterns = [
 
     path('login/', include('user.urls.login')),
     path('cart/', include('cart.urls')),
-    path('', IndexView.as_view(), name='home_view'),
+    # path('', IndexView.as_view(), name='home_view'),
     path('shop/', include('TWC.urls.shop')),
     path('admin/', RedirectView.as_view(url=f'http://admin.{settings.SITE_DOMAIN}{port}/'), name='admin'),
 
