@@ -135,7 +135,6 @@ def fetch_category_count(request):
 
         # Extract products from the API response
         queryset = data.get("products", [])
-        print(f"Fetched {len(queryset)} products.")  # Debugging: check how many products are fetched
 
         # Create a dictionary to store product counts per category (cat1 -> cat2 -> count)
         category_product_count = defaultdict(lambda: defaultdict(int))
@@ -145,14 +144,8 @@ def fetch_category_count(request):
             cat1 = product.get("category_1", "all")  # Default to "all" if no category_1 is provided
             cat2 = product.get("category_2", "uncategorized")  # Default to "uncategorized" if no category_2 is provided
 
-            # Debugging: check the categories being processed
-            print(f"Processing product: category_1 = {cat1}, category_2 = {cat2}")
-
             category_product_count[cat1][cat2] += 1
             category_product_count['all'][cat2] += 1
-
-        # Debugging: print the final product count structure
-        print("Category Product Count:", dict(category_product_count))
 
         return JsonResponse({'category_product_count': category_product_count})
 

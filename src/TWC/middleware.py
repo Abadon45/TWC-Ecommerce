@@ -33,8 +33,12 @@ class SubdomainMiddleware:
         else:
             request.subdomain = None  # No subdomain present
 
+        print(f"🌐 Incoming request: {full_host} | Subdomain: {request.subdomain}")
+        print(f"🔍 Request Path: {request.path}")
+
         # 🚨 Skip username checking for specific subdomains
         if request.subdomain in ["www", "admin"]:
+            print("✅ Skipping subdomain checks for:", request.subdomain)
             return self.get_response(request)
 
         # If subdomain is "dashboard", set sponsor session and username
@@ -43,9 +47,13 @@ class SubdomainMiddleware:
             request.session["referrer"] = sponsor if sponsor else None
 
             username = request.session.get("username")
+            print(f"📌 Dashboard Username in session: {username}")
+
             if username:
                 self.fetch_username(request, username)
             else:
+                print("⚠️ No username found in session. Redirecting to www.")
+                self.debug_session(request)
                 return redirect("http://www." + get_main_domain(request) + "/user")
 
         # Otherwise, check the username from the API
@@ -64,7 +72,7 @@ class SubdomainMiddleware:
             return
 
         api_url = settings.CHECK_USERNAME_API_URL.format(username=username)
-        print(api_url)
+        print(f"🔗 Fetching username from API: {api_url}")
 
         try:
             api_response = requests.get(api_url)
@@ -88,18 +96,17 @@ class SubdomainMiddleware:
                 request.session["email"] = data.get("email", request.session.get("email"))
                 request.session["sponsor_username"] = data.get("sponsor", request.session.get("sponsor_username"))
 
+                # ✅ Ensure session is properly saved
+                request.session.modified = True
+                request.session.save()
+
                 sponsor = request.session.get("sponsor_username")
                 is_member = request.session.get("is_member")
-                print(f'Sponsor: {sponsor}')
-                print(f'Member: {is_member}')
-
-                image = request.session.get("image", None)
-                print(f'Data: {data}')
-
-                print(f'image: {image}')
-
 
                 print(f"✅ Username '{username}' verified & session updated.")
+                print(f"🔹 Sponsor: {sponsor} | Member: {is_member}")
+                print(f"🔹 Image URL: {request.session.get('image', None)}")
+
                 return None
             else:
                 print(f"❌ Username check failed for: {username}")
@@ -115,6 +122,11 @@ class SubdomainMiddleware:
             return None  # Ignore checking for these subdomains
 
         return self.fetch_username(request, username)
+
+    def debug_session(self, request):
+        """Print the session data before redirecting."""
+        print(f"🔎 SESSION DEBUG: {dict(request.session)}")
+
 
 
 class RedirectToWWW:
