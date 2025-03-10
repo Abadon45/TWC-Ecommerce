@@ -9,8 +9,6 @@ DEBUG = False
 
 #XENDIT KEYS
 
-
-
 # Default settings
 PARENT_HOST = 'twconline.store'
 SITE_DOMAIN = 'twconline.store'
@@ -24,12 +22,12 @@ if current_domain == 'twconline.store':
     # Production settings
     PARENT_HOST = 'twconline.store'
     SITE_DOMAIN = 'twconline.store'
-    SESSION_COOKIE_DOMAIN = 'twconline.store'
+    SESSION_COOKIE_DOMAIN = '.twconline.store'
 elif current_domain == 'twcstoredevtest.com':
     # Test server settings
     PARENT_HOST = 'twcstoredevtest.com'
     SITE_DOMAIN = 'twcstoredevtest.com'
-    SESSION_COOKIE_DOMAIN = 'twcstoredevtest.com'
+    SESSION_COOKIE_DOMAIN = '.twcstoredevtest.com'
     DOMAIN_NAME = 'twcstoredevtest.com'
 else:
     SESSION_COOKIE_DOMAIN = None
