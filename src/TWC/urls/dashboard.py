@@ -17,7 +17,12 @@ else:
 app_name = 'dashboard'
 
 urlpatterns = [
+    #DASHBOARD URL
     path('', DashboardView.as_view(), name='dashboard'),
+    path('profile/', DashboardProfileView.as_view(template_name="user/dashboard-profile.html"), name='dashboard-profile'),
+    path('order-history/', DashboardOrderView.as_view(template_name="user/dashboard-order-history.html"), name='order-history'),
+    path('order-history/<str:order_number>', DashboardOrderDetailView.as_view(template_name="user/dashboard-order-detail.html"), name='order-detail'),
+
     path('login/', include('user.urls.login')),
     path('cart/', include('cart.urls')),
     path('', IndexView.as_view(), name='home_view'),

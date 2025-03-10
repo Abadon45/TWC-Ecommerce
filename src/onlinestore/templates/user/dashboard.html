@@ -6,70 +6,62 @@
 
 {% block content %}
 
+{% block extra_css %}
+    <style>
+        .badge-afs {
+            color: green
+        }
+    </style>
+{% endblock %}
 
-<!-- breadcrumb -->
-<div class="site-breadcrumb">
-    <div class="site-breadcrumb-bg" style="background: url({% static 'img\breadcrumb\01.jpg' %})"></div>
-    <div class="container">
-        <div class="site-breadcrumb-wrap">
-            <h4 class="breadcrumb-title">Dashboard</h4>
-            <ul class="breadcrumb-menu">
-                <li><a href="index.html"><i class="far fa-home"></i> Home</a></li>
-                <li class="active">Dashboard</li>
-            </ul>
-        </div>
-    </div>
-</div>
-<!-- breadcrumb end -->
-
-<!-- user dashboard -->
-<div id="dashboard-content" class="user-area bg py-100">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3">
-                {% include 'user/dashboard-user-sidebar.html' %}
-            </div>
-            <div class="col-lg-9">
-                <div class="user-wrapper">
-                    <div class="user-card">
-                        <h4 class="user-card-title">Summary</h4>
-                        <div class="row">
-                            <div class="col-md-6 col-lg-4">
-                                <div class="dashboard-widget color-1">
-                                    <div class="dashboard-widget-info">
-                                        <h1>{{ pending_orders_count }}</h1>
-                                        <span>Pending Orders</span>
-                                    </div>
-                                    <div class="dashboard-widget-icon">
-                                        <i class="fal fa-list"></i>
+    <!-- user dashboard -->
+    <div id="dashboard-content" class="user-area bg py-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    {% include 'user/dashboard-user-sidebar.html' %}
+                </div>
+                <div class="col-lg-9">
+                    <div class="user-wrapper">
+                        <div class="user-card">
+                            <h4 class="user-card-title">Summary</h4>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="dashboard-widget color-1">
+                                        <div class="dashboard-widget-info">
+                                            <h1>{{ pending_order_count }}</h1>
+                                            <span>Pending Orders</span>
+                                        </div>
+                                        <div class="dashboard-widget-icon">
+                                            <i class="fal fa-list"></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="dashboard-widget color-2">
-                                    <div class="dashboard-widget-info">
-                                        <h1>{{ completed_order_count }}</h1>
-                                        <span>Completed Orders</span>
-                                    </div>
-                                    <div class="dashboard-widget-icon">
-                                        <i class="fal fa-layer-group"></i>
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="dashboard-widget color-2">
+                                        <div class="dashboard-widget-info">
+                                            <h1>{{ completed_order_count }}</h1>
+                                            <span>Completed Orders</span>
+                                        </div>
+                                        <div class="dashboard-widget-icon">
+                                            <i class="fal fa-layer-group"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="user-card">
-                                <div class="user-card-header">
-                                    <h4 class="user-card-title">Recent Orders</h4>
-                                    <div class="user-card-header-right">
-                                        <a href="" class="theme-btn">View All Orders</a>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="user-card">
+                                    <div class="user-card-header">
+                                        <h4 class="user-card-title">Recent Orders</h4>
+                                        <div class="user-card-header-right">
+                                            <a href="" class="theme-btn">View All Orders</a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table table-borderless text-nowrap">
-                                        <thead>
+                                    <div class="table-responsive">
+                                        <table class="table table-borderless text-nowrap">
+                                            <thead>
                                             <tr>
                                                 <th>#Order No</th>
                                                 <th>Purchased Date</th>
@@ -77,44 +69,50 @@
                                                 <th class="text-center">Status</th>
                                                 <th>Action</th>
                                             </tr>
-                                        </thead>
-                                        <tbody>
+                                            </thead>
+                                            <tbody>
                                             {% if orders %}
                                                 {% for order in orders %}
-                                                <tr>
-                                                    <td><span class="table-list-code">{{ order.order_id }}</span></td>
-                                                    <td>{{ order.created_at }}</td>
-                                                    <td>{{ order.cod_amount|currency }}</td>
-                                                    <td class="text-center">
-                                                        <span id="orderStatus" class="badge badge-{{ order.status|lower }}">
-                                                            {% if order.status == "for-booking" %}
+                                                    <tr>
+                                                        <td><span
+                                                                class="table-list-code">{{ order.order_number }}</span>
+                                                        </td>
+                                                        <td>{{ order.timestamp }}</td>
+                                                        <td>{{ order.cod_amount|currency }}</td>
+                                                        <td class="text-center">
+                                                        <span id="orderStatus"
+                                                              class="badge badge-{{ order.status }}">
+                                                            {% if order.status == "afs" %}
                                                                 PREPARING TO SHIP
-                                                            {% elif order.status == "for-pickup" %}
+                                                            {% elif order.status == "for-pickup" or order.status == "for_pickup" %}
                                                                 PREPARING TO SHIP
                                                             {% elif order.status == "pending" %}
                                                                 ORDER PLACED
                                                             {% elif order.status == "shipping" %}
                                                                 IN TRANSIT
                                                             {% else %}
-                                                                {{ order.status|upper }}
+                                                                {{ order.status }}
                                                             {% endif %}
                                                         </span>
-                                                    </td>
-                                                    <td>
-                                                        <a href=""
-                                                            class="btn btn-outline-secondary btn-sm rounded-2">
-                                                            <i class="far fa-eye"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                        <td>
+                                                            <a href=""
+                                                               class="btn btn-outline-secondary btn-sm rounded-2">
+                                                                <i class="far fa-eye"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
                                                 {% endfor %}
                                             {% else %}
                                                 <tr>
-                                                    <td colspan="5" class="text-center">There are no orders in this query</td>
+                                                    <td colspan="5" class="text-center">There are no orders in this
+                                                        query
+                                                    </td>
                                                 </tr>
                                             {% endif %}
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -123,17 +121,16 @@
             </div>
         </div>
     </div>
-</div>
 
 {% endblock %}
 {% block extra_js %}
-<script src="{% static 'js/dashboardview.js' %}"></script>
-<script src="{% static 'js/view-order.js' %}"></script>
-<!-- <script src="{% static 'js/user-dashboardview.js' %}"></script> -->
-<script>
-    $(document).ready(function () {
-        $(".active").removeClass("active");
-        $(".dashboard-tab").addClass("active");
-    });
-</script>
+    <script src="{% static 'js/dashboardview.js' %}"></script>
+    <script src="{% static 'js/view-order.js' %}"></script>
+    <!-- <script src="{% static 'js/user-dashboardview.js' %}"></script> -->
+    <script>
+        $(document).ready(function () {
+            $(".active").removeClass("active");
+            $(".dashboard-tab").addClass("active");
+        });
+    </script>
 {% endblock %}

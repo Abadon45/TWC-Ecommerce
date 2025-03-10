@@ -576,8 +576,6 @@ def fetch_username(request, username):
         raise Http404("Server Is Under Maintenance.")
 
 
-
-
 def get_main_domain(request):
     """Extracts the main domain by removing subdomains."""
     host = request.get_host()
@@ -585,6 +583,9 @@ def get_main_domain(request):
     if len(host_parts) > 2:  # If there's a subdomain
         return ".".join(host_parts[-2:])  # Extract last two parts
     return host  # If already a main domain, return as is
+
+
+
 
 
 

@@ -1,5 +1,5 @@
 {% load static %}
-{% load currency_filters %} 
+{% load currency_filters %}
 
 <div class="user-wrapper">
     <div class="user-card">
@@ -43,10 +43,10 @@
                         {% for order in page_obj %}
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
-                                    <button class="accordion-button {% if forloop.first %}  {% else %} collapsed {% endif %}" type="button" 
-                                        data-bs-toggle="collapse" 
-                                        data-bs-target="#collapse-{{ order.order_id }}" 
-                                        aria-expanded="true" 
+                                    <button class="accordion-button {% if forloop.first %}  {% else %} collapsed {% endif %}" type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#collapse-{{ order.order_id }}"
+                                        aria-expanded="true"
                                         aria-controls="collapse-{{ order.order_id }}">
                                         <span class="table-list-code">{{ order.order_id }}</span>
                                     </button>
@@ -68,22 +68,22 @@
                                                         <tr>
                                                             <td>
                                                                 {% for item in order.orderitem_set.all %}
-                                                                    {% if forloop.first %}  
+                                                                    {% if forloop.first %}
                                                                     <img class="shop-cart-img" src="{{ item.product.image_1.url }}" alt="{{ item.product.name }}">
                                                                     {% endif %}
                                                                 {% endfor %}
                                                             </td>
                                                             <td>{{ order.created_at }}</td>
                                                             <td>{{ order.get_cart_items|currency }}</td>
-                                                            <td><span id="orderStatus" 
+                                                            <td><span id="orderStatus"
                                                                 class="badge badge-{{ order.status|lower }}">{{order.status|upper }}</span></td>
                                                             <td>
                                                                 <button type="button" class="btn btn-outline-secondary btn-sm rounded-2"
                                                                     data-bs-toggle="modal" data-bs-target="#orderDetailsModal"
-                                                                    data-order-id="{{ order.order_id }}" 
+                                                                    data-order-id="{{ order.order_id }}"
                                                                     data-order-date="{{ order.created_at }}"
                                                                     data-order-total="{{ order.total_amount }}"
-                                                                    data-order-status="{{ order.status }}" 
+                                                                    data-order-status="{{ order.status }}"
                                                                     data-tooltip="Order Details"
                                                                     title="Details">
                                                                     <i class="far fa-eye"></i>
@@ -93,7 +93,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                
+
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +103,6 @@
                     <h5 class="text-center">No orders completed found</h5>
                     {% endif %}
 
-                    {% include 'user/user-order-pagination.html' %}
 
             </div>
         </div>

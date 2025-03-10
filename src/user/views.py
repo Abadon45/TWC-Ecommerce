@@ -23,6 +23,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from cart.utils import detect_region, get_main_domain
+from onlinestore.api import fetch_user_orders
 from user.forms import LoginForm
 
 import logging
@@ -118,30 +119,85 @@ class PasswordDoneView(TemplateView):
     template_name = 'login/change-password-done.html'
 
 
-class DashboardView(TemplateView):
+class UserSessionMixin:
+    """Mixin to provide user session data to the context."""
+
+    def get_user_session_data(self):
+        user = self.request.user
+        return {
+            "username": user.username,
+            "first_name": self.request.session.get("first_name", ""),
+            "middle_name": self.request.session.get("middle_name", ""),
+            "last_name": self.request.session.get("last_name", ""),
+            "image": self.request.session.get("image", "img/user/default_profile.png"),
+            "email": self.request.session.get("email", ""),
+            "mobile": self.request.session.get("sponsor_mobile", ""),
+            "messenger_link": self.request.session.get("messenger_link", ""),
+        }
+
+
+class DashboardView(TemplateView, UserSessionMixin):
     template_name = "user/dashboard.html"
     title = "Dashboard Home"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        user = self.request.user
 
-        # Access session data using self.request
+        # Fetch user orders safely
+        order_data = fetch_user_orders(user.username) if user.is_authenticated else {"orders": [], "count": 0}
+        orders = order_data.get("orders", [])
+
+        # Define statuses that should NOT be counted as "pending"
+        non_pending_statuses = ["in_progress", "delivered", "undelivered", "paid", "vw-paid", "rejected", "rts", "returned"]
+
+        # Separate orders into pending and completed
+        pending_orders = [order for order in orders if order["status"] not in non_pending_statuses]
+        completed_orders = [order for order in orders if order["status"] == "completed"]
+
+        # Update context with orders and session data
         context.update({
-            "first_name": self.request.session.get("first_name", ""),
-            "middle_name": self.request.session.get("middle_name", ""),
-            "last_name": self.request.session.get("last_name", ""),
-            "image": self.request.session.get("image", 'img/user/default_profile.png'),
+            "orders": orders,  # Full orders list
+            "pending_order_count": len(pending_orders),
+            "completed_order_count": len(completed_orders),
+        })
+
+        # Add session data from mixin
+        context.update(self.get_user_session_data())
+
+        return context
+
+class DashboardProfileView(TemplateView, UserSessionMixin):
+    template_name = "user/dashboard-profile.html"
+    title = "User Profile"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        # Add session-based user data
+        context.update(self.get_user_session_data())
+
+        # Fetch additional user fields
+        context.update({
+            "username": user.username,
         })
 
         return context
 
 
 
+class DashboardOrderView(TemplateView, UserSessionMixin):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({})
+        context.update(self.get_user_session_data())
+        return context
 
 
-
-
-
-
-
-
+class DashboardOrderDetailView(TemplateView, UserSessionMixin):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({})
+        context.update(self.get_user_session_data())
+        return context

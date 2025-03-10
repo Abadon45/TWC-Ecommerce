@@ -83,6 +83,7 @@ class SubdomainMiddleware:
                 request.session["image"] = data.get("image", request.session.get("image"))
                 request.session["is_seller"] = data.get("is_seller", request.session.get("is_seller"))
                 request.session["is_member"] = data.get("is_member", request.session.get("is_member"))
+                request.session["email"] = data.get("email", request.session.get("email"))
 
                 image = request.session.get("image", None)
                 print(f'Data: {data}')

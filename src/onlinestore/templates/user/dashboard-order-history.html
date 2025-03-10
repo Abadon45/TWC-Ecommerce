@@ -35,28 +35,28 @@
                         <ul class="nav nav-pills" id="pills-tab" role="tablist" style="margin-left: 20px;">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link {% if not request.GET.status or request.GET.status == 'all' %}active{% endif %}"
-                                    href="{% url 'dashboard_order' %}?status=all">All</a>
+                                    href=">All</a>
                             </li>
                             <li class="nav-item pending-btn" role="presentation" style="margin-right: 10px;">
                                 <a class="nav-link {% if request.GET.status == 'pending' %}active{% endif %}"
-                                    href="{% url 'dashboard_order' %}?status=pending">Pending
+                                    href="">Pending
                                     <span>({{ pending_count }})</span>
                                 </a>
                             </li>
                             <li class="nav-item to-ship-btn" role="presentation">
                                 <a class="nav-link {% if request.GET.status == 'for-pickup' or request.GET.status == 'for-booking' %}active{% endif %}"
-                                    href="{% url 'dashboard_order' %}?status=for-pickup">
+                                    href="">
                                     To Ship<span>({{ to_ship_count }})</span>
                                 </a>
                             </li>
                             <li class="nav-item shipping-btn" role="presentation">
                                 <a class="nav-link {% if request.GET.status == 'shipping' %}active{% endif %}"
-                                    href="{% url 'dashboard_order' %}?status=shipping">To Receive
+                                    href="">To Receive
                                     <span>({{ shipping_count }})</span></a>
                             </li>
                             <li class="nav-item delivered-btn" role="presentation">
                                 <a class="nav-link {% if request.GET.status == 'delivered' %}active{% endif %}"
-                                    href="{% url 'dashboard_order' %}?status=delivered">Received
+                                    href="">Received
                                     <span>({{ delivered_count }})</span></a>
                             </li>
                         </ul>
@@ -157,7 +157,7 @@
 
                 // Make AJAX request to load more orders
                 $.ajax({
-                    url: '{% url "load_more_orders" %}',
+                    url: "",
                     data: {
                         page: page,
                         status: '{{ status_filter }}' // Pass current status filter
