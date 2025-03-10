@@ -34,6 +34,7 @@ AUTH_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/api/auth/"
 REGISTER_USER_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/account/api/register/"
 CHECK_USERNAME_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/account/api/check-username/{{username}}/"
 FETCH_ORDERS_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/order/api/fetch-order/{{username}}"
+UPDATE_PROFILE_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/account/api/update-profile/{{username}}"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'

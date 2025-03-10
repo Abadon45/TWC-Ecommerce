@@ -1,26 +1,16 @@
 import requests
-from django.contrib import messages
-from django.utils.functional import SimpleLazyObject
-from django.views.generic import View, TemplateView, FormView
+from django.views.generic import View, TemplateView
 from django.contrib.auth.views import PasswordResetCompleteView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import get_object_or_404
-from django.contrib.auth import authenticate, login, get_user_model, logout
-from django.urls import reverse_lazy, reverse
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
+from django.contrib.auth import get_user_model
+from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect, JsonResponse
 from django.conf import settings
-from django.views.decorators.cache import cache_page
-from django.db.models import Q
-from django.core.paginator import Paginator
-from decimal import Decimal
-from django.contrib.humanize.templatetags.humanize import intcomma
-from allauth.account.views import LoginView as AllauthLoginView
 from allauth.account.views import PasswordResetView
-from django.db import transaction, IntegrityError
 from django.shortcuts import render, redirect
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from cart.utils import detect_region, get_main_domain
 from onlinestore.api import fetch_user_orders
@@ -38,6 +28,11 @@ User = get_user_model()
 AUTH_API_URL = settings.AUTH_API_URL
 
 
+from django.shortcuts import redirect, render
+import requests
+from django.conf import settings
+from django.http import HttpResponseRedirect
+
 class APILoginView(View):
     template_name = "login/login.html"
     title = "Login"
@@ -50,8 +45,8 @@ class APILoginView(View):
         password = request.POST.get("password")
 
         # Authenticate via external API
-        api_url = settings.AUTH_API_URL  # Ensure this is correctly set in settings.py
-        response = requests.post(api_url, json={"username": username, "password": password})  # Use JSON, not form data
+        api_url = settings.AUTH_API_URL
+        response = requests.post(api_url, json={"username": username, "password": password})
 
         try:
             api_response = response.json()
@@ -59,28 +54,31 @@ class APILoginView(View):
             return render(request, self.template_name, {"error": "Invalid response from server."})
 
         if response.status_code == 200 and "token" in api_response:
-            request.session["access_token"] = api_response["token"]
+            token = api_response["token"]
+
+            request.session["access_token"] = token
             request.session["username"] = api_response["user"]
             request.session["is_authenticated"] = True
-            request.session["sponsor"] = api_response.get("sponsor", None)  # Store sponsor from API response
-            request.session["expires_at"] = api_response["expires"]  # Store token expiry time
-            request.session["first_name"] = api_response.get("first_name", "")  # Store first name
-            request.session["middle_name"] = api_response.get("middle_name", "")  # Store middle name
-            request.session["last_name"] = api_response.get("last_name", "")  # Store last name
-            request.session["image"] = api_response.get("image", None)  # Store image URL
-            request.session["is_seller"] = api_response.get("is_seller", False)  # Store seller status
-            request.session["is_member"] = api_response.get("is_member", False)  # Store member status
+            request.session["sponsor"] = api_response.get("sponsor", None)
+            request.session["expires_at"] = api_response["expires"]
+            request.session["first_name"] = api_response.get("first_name", "")
+            request.session["middle_name"] = api_response.get("middle_name", "")
+            request.session["last_name"] = api_response.get("last_name", "")
+            request.session["image"] = api_response.get("image", None)
+            request.session["is_seller"] = api_response.get("is_seller", False)
+            request.session["is_member"] = api_response.get("is_member", False)
 
             # Set session expiration (1 day)
             request.session.set_expiry(60 * 60 * 24)
 
             print(f"Login successful! Token stored for {username}")
+            print(f"Token is {token}")
             print(f'Sponsor: {api_response.get("sponsor")}')
             print(f'User details: {api_response.get("first_name")} {api_response.get("last_name")}, Seller: {api_response.get("is_seller")}')
 
-            # Redirect to dashboard
-            main_domain = get_main_domain(request)
-            return redirect(f"http://dashboard.{main_domain}")
+            # ✅ Create response
+            response = HttpResponseRedirect(f"http://dashboard.{get_main_domain(request)}/token/?token={token}")
+            return response
 
         return render(request, self.template_name, {"error": "Invalid credentials"})
 
@@ -117,6 +115,20 @@ class PasswordResetComplete(PasswordResetCompleteView):
 
 class PasswordDoneView(TemplateView):
     template_name = 'login/change-password-done.html'
+
+
+class SaveTokenView(View):
+    def get(self, request):
+        token = request.GET.get("token")
+
+        if token:
+            # Save token in session
+            request.session["access_token"] = token
+            print(f"✅ Token saved in session: {token}")
+
+        # Redirect to dashboard
+        return HttpResponseRedirect(f"http://dashboard.{get_main_domain(request)}/")
+
 
 
 class UserSessionMixin:
@@ -167,24 +179,35 @@ class DashboardView(TemplateView, UserSessionMixin):
 
         return context
 
-class DashboardProfileView(TemplateView, UserSessionMixin):
+
+class DashboardProfileView(View, UserSessionMixin):
     template_name = "user/dashboard-profile.html"
     title = "User Profile"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user = self.request.user
+    def dispatch(self, request, *args, **kwargs):
+        """Allow PUT requests (Django View does not handle PUT by default)"""
+        if request.method.upper() == "PUT":
+            return self.put(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
-        # Add session-based user data
-        context.update(self.get_user_session_data())
-
-        # Fetch additional user fields
+    def get_context_data(self, request):
+        """Helper method to generate context data"""
+        context = self.get_user_session_data()
         context.update({
-            "username": user.username,
+            "UPDATE_PROFILE_API_URL": settings.UPDATE_PROFILE_API_URL.format(username=request.user.username),
+            "REFRESH_TOKEN": request.session.get("access_token"),
         })
-
         return context
 
+    def get(self, request):
+        return render(request, self.template_name, self.get_context_data(request))
+
+    def put(self, request):
+        """Handle profile update via AJAX (PUT request)"""
+        if request.headers.get("x-requested-with") == "XMLHttpRequest":
+            return JsonResponse({"message": "Profile updated successfully."})
+
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
 
 
 class DashboardOrderView(TemplateView, UserSessionMixin):
