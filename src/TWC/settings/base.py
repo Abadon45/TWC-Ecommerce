@@ -127,7 +127,10 @@ CSRF_TRUSTED_ORIGINS = ['https://twconline.store', 'https://twcstoredevtest.com'
 CORS_ALLOWED_ORIGINS = [
     "https://www.twconline.store",
     "http://localhost:8000",
-    "https://www.twcstoredevtest.com"
+    "https://www.twcstoredevtest.com",
+    "https://dashboard.twcstoredevtest.com",
+    "https://dashboard.twconline.store"
+
 ]
 
 TEMPLATES = [
