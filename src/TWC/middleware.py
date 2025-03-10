@@ -128,7 +128,6 @@ class SubdomainMiddleware:
         print(f"🔎 SESSION DEBUG: {dict(request.session)}")
 
 
-
 class RedirectToWWW:
     def __init__(self, get_response):
         self.get_response = get_response
@@ -136,12 +135,26 @@ class RedirectToWWW:
     def __call__(self, request):
         host = request.get_host()
 
-        if host == 'twconline.store' or host == 'twcstoredevtest.com' or host == 'devtest.store:8000':
-            new_url = request.build_absolute_uri().replace(f"{host}", f"www.{host}")
+        # Extract the base domain from the host
+        base_domain = self.get_base_domain(host)
+
+        # Check if base domain matches the ones we need to redirect
+        if base_domain in ["twconline.store", "twcstoredevtest.com", "devtest.store"]:
+            new_url = request.build_absolute_uri().replace(f"{host}", f"www.{base_domain}")
             return HttpResponsePermanentRedirect(new_url)
 
         response = self.get_response(request)
         return response
+
+    def get_base_domain(self, host):
+        """Extracts the base domain from the full host."""
+        parts = host.split(".")
+
+        # If it's something like "www.example.com" or "dashboard.example.com"
+        if len(parts) > 2:
+            return ".".join(parts[-2:])  # Get last two parts (example.com)
+
+        return host  # If already a base domain, return as is
 
 
 class DynamicCSRFMiddleware(MiddlewareMixin):
