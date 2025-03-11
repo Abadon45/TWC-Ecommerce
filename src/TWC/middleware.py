@@ -49,6 +49,9 @@ class SubdomainMiddleware:
             username = request.session.get("username")
             print(f"📌 Dashboard Username in session: {username}")
 
+            user = request.user
+            username = user.username
+
             if username:
                 self.fetch_username(request, username)
             else:
