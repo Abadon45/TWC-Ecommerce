@@ -46,11 +46,12 @@ class SubdomainMiddleware:
             sponsor = request.session.get("sponsor")
             request.session["referrer"] = sponsor if sponsor else None
 
-            username = request.session.get("username")
-            print(f"📌 Dashboard Username in session: {username}")
+            # username = request.session.get("username")
+            # print(f"📌 Dashboard Username in session: {username}")
+            username = request.user.username if getattr(request.user, "is_authenticated",
+                                                        False) else request.session.get("username", "Guest")
+            print(f"📌 Dashboard Username: {username}")
 
-            user = request.user
-            username = user.username
 
             if username:
                 self.fetch_username(request, username)

@@ -108,6 +108,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
+    # API Authentication
+    'user.middleware.APISessionAuthenticationMiddleware',
+
     # custom middlewares
     'TWC.middleware.SubdomainMiddleware',
     'django_hosts.middleware.HostsResponseMiddleware',
@@ -115,7 +118,7 @@ MIDDLEWARE = [
     'TWC.middleware.DynamicCSRFMiddleware',
     'TWC.middleware.CurrentDomainMiddleware',
     'TWC.middleware.SubdomainSessionMiddleware',
-    'user.middleware.APISessionAuthenticationMiddleware',
+
 ]
 
 AUTH_USER_MODEL = 'user.User'
