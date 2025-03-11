@@ -77,7 +77,7 @@ class APILoginView(View):
             print(f'User details: {api_response.get("first_name")} {api_response.get("last_name")}, Seller: {api_response.get("is_seller")}')
 
             # ✅ Create response
-            response = HttpResponseRedirect(f"http://dashboard.{get_main_domain(request)}/token/?token={token}")
+            response = HttpResponseRedirect(f"http://dashboard.{get_main_domain(request)}/token/?token={token}&username={username}")
             return response
 
         return render(request, self.template_name, {"error": "Invalid credentials"})
@@ -120,10 +120,12 @@ class PasswordDoneView(TemplateView):
 class SaveTokenView(View):
     def get(self, request):
         token = request.GET.get("token")
+        username = request.GET.get("username")
 
         if token:
             # Save token in session
             request.session["access_token"] = token
+            request.session["username"] = username
             print(f"✅ Token saved in session: {token}")
 
         # Redirect to dashboard

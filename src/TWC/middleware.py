@@ -48,7 +48,7 @@ class SubdomainMiddleware:
             user = request.user
             # username = request.session.get("username")
             # print(f"📌 Dashboard Username in session: {username}")
-            username = request.user.username if user.is_authenticated else request.session.get("username", "Guest")
+            username = request.user.username if user.is_authenticated else request.session.get("username", "")
             print(f"📌 Dashboard Username: {username}")
 
 
