@@ -1,6 +1,6 @@
 from django.urls import path, include
 from onlinestore.views import *
-from user.views import APILoginView
+from user.views import *
 
 urlpatterns = [
     path('mail-success/', TemplateView.as_view(template_name='mail-success.html'), name="mail_success"),
@@ -23,6 +23,7 @@ urlpatterns = [
     ),
     path("user/", include("TWC.urls.dashboard", namespace="dashboard")),
     path("login/", APILoginView.as_view(), name="login"),
+    path("token/", SaveTokenView.as_view(), name="user_token"),
     path('shop/', include('TWC.urls.shop', namespace='shop')),
     path('cart/', include('cart.urls', namespace='cart')),
     path('accounts/', include('allauth.urls')),
