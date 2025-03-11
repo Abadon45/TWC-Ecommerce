@@ -7,13 +7,12 @@ load_dotenv()
 
 DEBUG = False
 
-#XENDIT KEYS
-
 # Default settings
 PARENT_HOST = 'twconline.store'
 SITE_DOMAIN = 'twconline.store'
 SESSION_COOKIE_DOMAIN = 'twconline.store'
 DOMAIN_NAME = 'twconline.store'
+SESSION_COOKIE_SECURE = False
 
 # Use the CURRENT_DOMAIN set in the middleware
 current_domain = getattr(settings, 'CURRENT_DOMAIN', None)
@@ -23,34 +22,26 @@ if current_domain == 'twconline.store':
     PARENT_HOST = 'twconline.store'
     SITE_DOMAIN = 'twconline.store'
     SESSION_COOKIE_DOMAIN = '.twconline.store'
+    SESSION_COOKIE_SECURE = True
 elif current_domain == 'twcstoredevtest.com':
     # Test server settings
     PARENT_HOST = 'twcstoredevtest.com'
     SITE_DOMAIN = 'twcstoredevtest.com'
     SESSION_COOKIE_DOMAIN = '.twcstoredevtest.com'
     DOMAIN_NAME = 'twcstoredevtest.com'
+    SESSION_COOKIE_SECURE = False
 else:
     SESSION_COOKIE_DOMAIN = None
 
-# PARENT_HOST = 'twconline.store'
-# SITE_DOMAIN = 'twconline.store'
-# SESSION_COOKIE_DOMAIN = 'twconline.store'
-# DOMAIN_NAME = 'twconline.store'
-
 SESSION_COOKIE_NAME = "twccookie"
-SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SAMESITE = "None" if SESSION_COOKIE_SECURE else "Lax"
 CSRF_COOKIE_DOMAIN = SESSION_COOKIE_DOMAIN
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
+# Allow cookies on HTTP for testing
+
+SESSION_COOKIE_HTTPONLY = True
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = [
-    "*.twconline.store",
-    "*.twcstoredevtest.com",
-    "dashboard.twcstoredevtest.com",
-    "dashboard.twconline.store",
-]
-
-REQUEST_API = 'https://dashboard.twcako.com/order/api/token/refresh/'
-ORDER_API = 'https://dashboard.twcako.com/order/api/create-order/'
 
 DASHBOARD_URL = 'https://dashboard.twconline.store'
 ADMIN_URL = 'https://admin.twconline.store'
