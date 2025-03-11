@@ -21,7 +21,7 @@ urlpatterns = [
         ),
         name="terms_of_service"
     ),
-    path("", include("TWC.urls.dashboard")),
+    path("user/", include("TWC.urls.dashboard", namespace="dashboard")),
     # path("login/", APILoginView.as_view(), name="login"),
     path('shop/', include('TWC.urls.shop', namespace='shop')),
     path('cart/', include('cart.urls', namespace='cart')),
