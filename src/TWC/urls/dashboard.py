@@ -24,7 +24,8 @@ urlpatterns = [
     path('order-history/', DashboardOrderView.as_view(template_name="user/dashboard-order-history.html"), name='order-history'),
     path('order-history/<str:order_number>', DashboardOrderDetailView.as_view(template_name="user/dashboard-order-detail.html"), name='order-detail'),
 
-    path('login/', include('user.urls.login')),
+    path("login/", APILoginView.as_view(), name="login"),
+    path('logout/', LogoutView.as_view(), name='logout'),
     path('cart/', include('cart.urls')),
     # path('', IndexView.as_view(), name='home_view'),
     path('shop/', include('TWC.urls.shop')),

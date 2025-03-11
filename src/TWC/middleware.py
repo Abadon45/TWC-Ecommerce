@@ -1,7 +1,7 @@
 import requests
 import os
 
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.http import HttpResponsePermanentRedirect
 from django.conf import settings
 from django.shortcuts import redirect
@@ -28,10 +28,7 @@ class SubdomainMiddleware:
         host_parts = full_host.split(".")
 
         # Determine if there is a subdomain
-        if len(host_parts) > 2:
-            request.subdomain = host_parts[0]  # The first part is the subdomain
-        else:
-            request.subdomain = None  # No subdomain present
+        request.subdomain = host_parts[0] if len(host_parts) > 2 else None
 
         print(f"🌐 Incoming request: {full_host} | Subdomain: {request.subdomain}")
         print(f"🔍 Request Path: {request.path}")
@@ -41,23 +38,26 @@ class SubdomainMiddleware:
             print("✅ Skipping subdomain checks for:", request.subdomain)
             return self.get_response(request)
 
-        # If subdomain is "dashboard", set sponsor session and username
+        # If subdomain is "dashboard", handle login and username check
         if request.subdomain == "dashboard":
             sponsor = request.session.get("sponsor")
             request.session["referrer"] = sponsor if sponsor else None
             user = request.user
-            # username = request.session.get("username")
-            # print(f"📌 Dashboard Username in session: {username}")
-            username = request.user.username if user.is_authenticated else request.session.get("username", "")
+            username = user.username if user.is_authenticated else request.session.get("username", "")
+
             print(f"📌 Dashboard Username: {username}")
 
+            # Allow access to the login page without redirecting
+            if request.path.startswith("/login/"):
+                print("✅ User is on login page. Allowing access.")
+                return self.get_response(request)  # Fixed the reference here
 
             if username:
                 self.fetch_username(request, username)
             else:
-                print("⚠️ No username found in session. Redirecting to www.")
+                print("⚠️ No username found in session. Redirecting to dashboard login page.")
                 self.debug_session(request)
-                return redirect("http://www." + get_main_domain(request) + "/user")
+                return HttpResponseRedirect(f"http://dashboard.{get_main_domain(request)}/login/")
 
         # Otherwise, check the username from the API
         elif request.subdomain:
@@ -86,18 +86,20 @@ class SubdomainMiddleware:
 
             if is_success:
                 # Update session only if necessary
-                request.session["messenger_link"] = data.get("messenger_link", request.session.get("messenger_link"))
-                request.session["sponsor_mobile"] = data.get("sponsor_mobile", request.session.get("sponsor_mobile"))
-                request.session["sponsor_fb_pixel"] = data.get("selling_pixel", request.session.get("sponsor_fb_pixel"))
-                request.session["selling_capi_token"] = data.get("selling_capi_token", request.session.get("selling_capi_token"))
-                request.session["first_name"] = data.get("first_name", request.session.get("first_name"))
-                request.session["middle_name"] = data.get("middle_name", request.session.get("middle_name"))
-                request.session["last_name"] = data.get("last_name", request.session.get("last_name"))
-                request.session["image"] = data.get("image", request.session.get("image"))
-                request.session["is_seller"] = data.get("is_seller", request.session.get("is_seller"))
-                request.session["is_member"] = data.get("is_member", request.session.get("is_member"))
-                request.session["email"] = data.get("email", request.session.get("email"))
-                request.session["sponsor_username"] = data.get("sponsor", request.session.get("sponsor_username"))
+                request.session.update({
+                    "messenger_link": data.get("messenger_link", request.session.get("messenger_link")),
+                    "sponsor_mobile": data.get("sponsor_mobile", request.session.get("sponsor_mobile")),
+                    "sponsor_fb_pixel": data.get("selling_pixel", request.session.get("sponsor_fb_pixel")),
+                    "selling_capi_token": data.get("selling_capi_token", request.session.get("selling_capi_token")),
+                    "first_name": data.get("first_name", request.session.get("first_name")),
+                    "middle_name": data.get("middle_name", request.session.get("middle_name")),
+                    "last_name": data.get("last_name", request.session.get("last_name")),
+                    "image": data.get("image", request.session.get("image")),
+                    "is_seller": data.get("is_seller", request.session.get("is_seller")),
+                    "is_member": data.get("is_member", request.session.get("is_member")),
+                    "email": data.get("email", request.session.get("email")),
+                    "sponsor_username": data.get("sponsor", request.session.get("sponsor_username")),
+                })
 
                 # ✅ Ensure session is properly saved
                 request.session.modified = True

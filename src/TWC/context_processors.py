@@ -5,6 +5,7 @@ def main_site_url(request):
     return {'MAIN_SITE_URL': settings.MAIN_SITE_URL}
 
 def site_urls(request):
+    print(settings.DASHBOARD_URL)
     return {
         'MAIN_SITE_URL': settings.MAIN_SITE_URL,
         'DASHBOARD_URL': settings.DASHBOARD_URL,

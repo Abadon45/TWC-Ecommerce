@@ -31,10 +31,15 @@
                                     <li><a href="{% url 'products:add_product' %}"><i
                                             class="fa-solid fa-keyboard"></i> Add Products</a></li>
                                     {% if user.is_authenticated %}
-                                        <li class="login"><a href="{% url 'login:logout' %}"><i
+                                                        <li class="login"><a href="{{ DASHBOARD_URL }}/logout/">Logout</a></li>
+                                                        {% else %}
+                                                        <li class="login"><a href="{{ DASHBOARD_URL }}/login/">Login</a></li>
+                                                        {% endif %}
+                                    {% if user.is_authenticated %}
+                                        <li class="login"><a href="{{ DASHBOARD_URL }}/logout/"><i
                                                 class="far fa-arrow-right-to-arc"></i> Logout</a></li>
                                     {% else %}
-                                        <li class="login"><a href="{% url 'login:login' %}"><i
+                                        <li class="login"><a href="{{ DASHBOARD_URL }}/login/"><i
                                                 class="far fa-arrow-right-to-arc"></i> Login</a></li>
                                     {% endif %}
                                 </ul>
@@ -51,9 +56,9 @@
                                                 <div class="header-top-right">
                                                     <ul class="header-top-list">
                                                         {% if user.is_authenticated %}
-                                                        <li class="login"><a href="{% url 'login:logout' %}">Logout</a></li>
+                                                        <li class="login"><a href="{{ DASHBOARD_URL }}/logout/">Logout</a></li>
                                                         {% else %}
-                                                        <li class="login"><a href="{% url 'login:login' %}">Login</a></li>
+                                                        <li class="login"><a href="{{ DASHBOARD_URL }}/login">Login</a></li>
                                                         {% endif %}
                                                         <li class="social">
                                                             <div class="header-top-social">

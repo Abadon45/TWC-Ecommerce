@@ -43,7 +43,8 @@ SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_HTTPONLY = True
 CORS_ORIGIN_ALLOW_ALL = True
 
-DASHBOARD_URL = 'https://dashboard.twconline.store'
-ADMIN_URL = 'https://admin.twconline.store'
-MAIN_SITE_URL = 'https://www.twconline.store'
+os.environ.get("POSTGRES_PORT", "5432")
 
+DASHBOARD_URL = os.environ.get("DASHBOARD_URL", "https://dashboard.twconline.store")
+ADMIN_URL = os.environ.get("ADMIN_URL", "https://admin.twconline.store")
+MAIN_SITE_URL = os.environ.get("MAIN_SITE_URL", "https://www.twconline.store")
