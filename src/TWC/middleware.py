@@ -135,19 +135,12 @@ class RedirectToWWW:
     def __call__(self, request):
         host = request.get_host()
 
-        # Extract the base domain (ignore subdomains)
-        parts = host.split(".")
-        base_domain = ".".join(parts[-2:])  # Get last two parts (e.g., twcstoredevtest.com)
-
-        # Define domains that should be redirected
-        redirect_domains = ["twconline.store", "twcstoredevtest.com", "devtest.store"]
-
-        # If it's the base domain (without a subdomain) and not already "www.", redirect it
-        if base_domain in redirect_domains and not host.startswith("www.") and host == base_domain:
-            new_url = request.build_absolute_uri().replace(host, f"www.{host}")
+        # Ensure we only redirect if "www." is missing
+        if not host.startswith("www.") and host in ["twconline.store", "twcstoredevtest.com", "devtest.store"]:
+            new_url = request.build_absolute_uri().replace(f"{host}", f"www.{host}")
             return HttpResponsePermanentRedirect(new_url)
 
-        # Otherwise, proceed normally
+        # If already www., proceed normally
         return self.get_response(request)
 
 
