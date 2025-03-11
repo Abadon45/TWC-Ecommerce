@@ -1,7 +1,6 @@
-from django.urls import path, include, re_path
-from django.conf.urls import handler404
-from django.conf.urls.static import static
+from django.urls import path, include
 from onlinestore.views import *
+from user.views import APILoginView
 
 urlpatterns = [
     path('mail-success/', TemplateView.as_view(template_name='mail-success.html'), name="mail_success"),
@@ -22,7 +21,7 @@ urlpatterns = [
         ),
         name="terms_of_service"
     ),
-    path("login/", include("TWC.urls.login", namespace="login")),
+    path("login/", APILoginView.as_view(), name="login"),
     path('shop/', include('TWC.urls.shop', namespace='shop')),
     path('cart/', include('cart.urls', namespace='cart')),
     path('accounts/', include('allauth.urls')),

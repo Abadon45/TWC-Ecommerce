@@ -3,9 +3,7 @@
 from django.urls import path, include
 from django.views.generic import RedirectView
 from user.views import *
-from TWC.urls import IndexView
 from django.contrib import admin
-from django.conf.urls.static import static
 
 admin.autodiscover()
 

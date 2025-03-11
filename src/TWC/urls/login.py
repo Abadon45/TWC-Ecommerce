@@ -5,5 +5,5 @@ from django.urls import reverse_lazy
 
 app_name = 'login'
 urlpatterns = [
-    # path("user/", include("user.urls.login", namespace="login")),
+    path("user/", include("user.urls.login", namespace="login")),
 ]
