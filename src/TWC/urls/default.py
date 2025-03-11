@@ -22,7 +22,7 @@ urlpatterns = [
         ),
         name="terms_of_service"
     ),
-    # path("user/", include("user.urls.login", namespace="login")),
+    path("login/", include("TWC.urls.login", namespace="login")),
     path('shop/', include('TWC.urls.shop', namespace='shop')),
     path('cart/', include('cart.urls', namespace='cart')),
     path('accounts/', include('allauth.urls')),
