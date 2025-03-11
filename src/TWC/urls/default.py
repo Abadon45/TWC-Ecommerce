@@ -24,7 +24,6 @@ urlpatterns = [
     ),
     path("user/", include("user.urls.login", namespace="login")),
     path('shop/', include('TWC.urls.shop', namespace='shop')),
-    path('dashboard/', include('user.urls.index', namespace='user')),
     path('cart/', include('cart.urls', namespace='cart')),
     path('accounts/', include('allauth.urls')),
     path('', IndexView.as_view(), name="home_view"),
