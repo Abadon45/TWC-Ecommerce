@@ -160,6 +160,9 @@
         $(document).ready(function () {
             let cropper;
             const imageInput = $("#formFile");
+            const updateProfileForm = $("#updateProfileForm");
+
+            let croppedBlob = null; // Store cropped image blob
 
             // When user selects an image
             imageInput.on("change", function (event) {
@@ -169,17 +172,16 @@
                     const reader = new FileReader();
 
                     reader.onload = function (e) {
-                        // Show SweetAlert with Cropper centered
                         Swal.fire({
                             title: "Crop your image",
                             html: `
-                            <div style="display: flex; justify-content: center; align-items: center;">
-                                <div style="width: 100%; max-width: 350px; height: 350px; overflow: hidden; margin: auto;">
-                                    <img id="image-preview" src="${e.target.result}" style="max-width: 100%;" />
-                                </div>
-                            </div>`,
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                            <div style="width: 100%; max-width: 350px; height: 350px; overflow: hidden; margin: auto;">
+                                <img id="image-preview" src="${e.target.result}" style="max-width: 100%;" />
+                            </div>
+                        </div>`,
                             showCancelButton: true,
-                            confirmButtonText: "Crop & Upload",
+                            confirmButtonText: "Crop & Save",
                             didOpen: () => {
                                 const image = document.getElementById("image-preview");
 
@@ -194,27 +196,23 @@
                                     viewMode: 2,
                                     autoCropArea: 0.8, // Default crop area
                                     dragMode: 'move',
-                                    scalable: true, // Allow zooming
-                                    zoomable: true, // Enable zooming
-                                    minCropBoxWidth: 100, // Allow smaller crops
-                                    minCropBoxHeight: 100, // Allow smaller crops
-                                    maxCropBoxWidth: 300, // Max width
-                                    maxCropBoxHeight: 300 // Max height
+                                    scalable: true,
+                                    zoomable: true,
+                                    minCropBoxWidth: 100,
+                                    minCropBoxHeight: 100,
+                                    maxCropBoxWidth: 300,
+                                    maxCropBoxHeight: 300
                                 });
                             }
                         }).then((result) => {
                             if (result.isConfirmed && cropper) {
                                 const croppedCanvas = cropper.getCroppedCanvas({
-                                    width: Math.min(cropper.getCropBoxData().width, 300), // Crop width up to 300
-                                    height: Math.min(cropper.getCropBoxData().height, 300) // Crop height up to 300
+                                    width: 300,
+                                    height: 300
                                 });
 
                                 croppedCanvas.toBlob((blob) => {
-                                    let formData = new FormData();
-                                    formData.append("image", blob, "profile.jpg");
-                                    formData.append("csrfmiddlewaretoken", "{{ csrf_token }}");
-
-                                    sendProfileUpdate(formData);
+                                    croppedBlob = blob; // Store the cropped image blob
                                 }, "image/jpeg", 0.7);
                             }
                         });
@@ -230,6 +228,19 @@
                 }
             });
 
+            // Handle form submission with AJAX
+            updateProfileForm.submit(function (e) {
+                e.preventDefault();
+                let formData = new FormData(this);
+
+                // If an image was cropped, add it to form data
+                if (croppedBlob) {
+                    formData.append("image", croppedBlob, "profile.jpg");
+                }
+
+                sendProfileUpdate(formData);
+            });
+
             // AJAX request to update profile
             function sendProfileUpdate(formData) {
                 $.ajax({
@@ -243,18 +254,18 @@
                     },
                     beforeSend: function () {
                         Swal.fire({
-                            title: "Uploading...",
-                            text: "Please wait while we upload your image.",
+                            title: "Updating...",
+                            text: "Please wait while we update your profile.",
                             allowOutsideClick: false,
                             didOpen: () => {
                                 Swal.showLoading();
                             }
                         });
                     },
-                    success: function () {
+                    success: function (response) {
                         Swal.fire({
                             title: "Success!",
-                            text: "Your profile picture has been updated.",
+                            text: "Your profile has been updated successfully.",
                             icon: "success",
                             confirmButtonText: "OK"
                         }).then(() => {
@@ -262,13 +273,13 @@
                         });
                     },
                     error: function (xhr) {
-                        let errorMessage = "Error uploading image.";
+                        let errorMessage = "Error updating profile.";
                         if (xhr.responseJSON && xhr.responseJSON.detail) {
                             errorMessage = xhr.responseJSON.detail;
                         }
 
                         Swal.fire({
-                            title: "Upload Failed",
+                            title: "Update Failed",
                             text: errorMessage,
                             icon: "error",
                             confirmButtonText: "Try Again"
