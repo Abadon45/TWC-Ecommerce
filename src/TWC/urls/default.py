@@ -41,7 +41,11 @@ urlpatterns = [
 
     # Dashboard & Authentication
     path("login/", APILoginView.as_view(), name="login"),
+    path('logout/', LogoutView.as_view(), name='logout'),
     path("token/", SaveTokenView.as_view(), name="user_token"),
+    path('profile/', DashboardProfileView.as_view(template_name="user/dashboard-profile.html"), name='dashboard-profile'),
+    path('order-history/', DashboardOrderView.as_view(template_name="user/dashboard-order-history.html"), name='order-history'),
+    path('order-history/<str:order_number>', DashboardOrderDetailView.as_view(template_name="user/dashboard-order-detail.html"), name='order-detail'),
 
     # Store-related URLs
     path('shop/', include('TWC.urls.shop', namespace='shop')),
