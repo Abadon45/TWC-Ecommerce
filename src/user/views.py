@@ -132,11 +132,11 @@ class SaveTokenView(View):
         return HttpResponseRedirect(f"http://dashboard.{get_main_domain(request)}/")
 
 
-
 class UserSessionMixin:
     """Mixin to provide user session data to the context."""
 
     def get_user_session_data(self):
+        """Fetch user session data."""
         user = self.request.user
         return {
             "username": user.username,
@@ -148,6 +148,22 @@ class UserSessionMixin:
             "mobile": self.request.session.get("sponsor_mobile", ""),
             "messenger_link": self.request.session.get("messenger_link", ""),
         }
+
+    def get(self, request, *args, **kwargs):
+        """Redirect unauthenticated users and return the view."""
+        main_domain = get_main_domain(request)
+        host = request.get_host()
+        subdomain = host.split('.')[0]  # Extract subdomain
+
+        redirect_url = f"http://{subdomain}.{main_domain}" if subdomain else f"http://{main_domain}"
+
+        if subdomain != "dashboard":
+            return redirect(redirect_url)  # Redirect to login/home
+
+        context = self.get_context_data(**kwargs)  # Get default context
+        context.update(self.get_user_session_data())  # Merge user session data
+
+        return render(request, self.template_name, context)
 
 
 class DashboardView(TemplateView, UserSessionMixin):
@@ -187,37 +203,43 @@ class DashboardProfileView(View, UserSessionMixin):
     title = "User Profile"
 
     def dispatch(self, request, *args, **kwargs):
-        """Allow PUT requests (Django View does not handle PUT by default)"""
+        """Redirect unauthenticated users and allow PUT requests."""
         if request.method.upper() == "PUT":
             return self.put(request, *args, **kwargs)
         return super().dispatch(request, *args, **kwargs)
 
-    def get_context_data(self, request):
-        """Helper method to generate context data"""
+    def get_context_data(self, **kwargs):
+        """Helper method to generate context data."""
         context = self.get_user_session_data()
         context.update({
-            "UPDATE_PROFILE_API_URL": settings.UPDATE_PROFILE_API_URL.format(username=request.user.username),
-            "REFRESH_TOKEN": request.session.get("access_token"),
+            "UPDATE_PROFILE_API_URL": settings.UPDATE_PROFILE_API_URL.format(username=self.request.user.username),
+            "REFRESH_TOKEN": self.request.session.get("access_token"),
         })
         return context
 
-    def get(self, request):
-        return render(request, self.template_name, self.get_context_data(request))
+    def get(self, request, *args, **kwargs):
+        """Ensure authentication and redirect logic is handled by UserSessionMixin."""
+        return super().get(request, *args, **kwargs)  # Calls UserSessionMixin's `get()`
 
-    def put(self, request):
-        """Handle profile update via AJAX (PUT request)"""
+    def put(self, request, *args, **kwargs):
+        """Handle profile update via AJAX (PUT request)."""
         if request.headers.get("x-requested-with") == "XMLHttpRequest":
             return JsonResponse({"message": "Profile updated successfully."})
 
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
 
 
-class DashboardOrderView(TemplateView, UserSessionMixin):
+
+class DashboardOrderView(UserSessionMixin, TemplateView):
     def get_context_data(self, **kwargs):
+        """Generate context data including user session details."""
         context = super().get_context_data(**kwargs)
-        context.update({})
         context.update(self.get_user_session_data())
         return context
+
+    def get(self, request, *args, **kwargs):
+        """Ensure authentication and redirection logic is handled by UserSessionMixin."""
+        return UserSessionMixin.get(self, request, *args, **kwargs)  # Explicitly call UserSessionMixin's `get()`
 
 
 class DashboardOrderDetailView(TemplateView, UserSessionMixin):
@@ -226,3 +248,7 @@ class DashboardOrderDetailView(TemplateView, UserSessionMixin):
         context.update({})
         context.update(self.get_user_session_data())
         return context
+
+    def get(self, request, *args, **kwargs):
+        """Ensure authentication and redirection logic is handled by UserSessionMixin."""
+        return UserSessionMixin.get(self, request, *args, **kwargs)
