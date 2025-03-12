@@ -1,5 +1,5 @@
 # dashboard.py
-
+from django.http import HttpRequest
 from django.urls import path, include
 from django.views.generic import RedirectView
 from user.views import *

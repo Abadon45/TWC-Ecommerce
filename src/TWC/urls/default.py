@@ -1,8 +1,25 @@
+from django.http import HttpRequest
 from django.urls import path, include
+from django.shortcuts import redirect
 from onlinestore.views import *
 from user.views import *
 
+
+def conditional_home_view(request: HttpRequest):
+    """Serves DashboardView if the subdomain is 'dashboard', otherwise IndexView."""
+    host = request.get_host()
+    subdomain = host.split('.')[0]  # Extract subdomain
+
+    if subdomain == "dashboard":
+        return DashboardView.as_view()(request)  # Serve DashboardView directly
+    return IndexView.as_view()(request)  # Serve IndexView directly
+
+
 urlpatterns = [
+    # Conditional Home View
+    path('', conditional_home_view, name="home_redirect"),
+
+    # Global pages
     path('mail-success/', TemplateView.as_view(template_name='mail-success.html'), name="mail_success"),
     path('terms/', TemplateView.as_view(template_name='terms.html'), name="terms"),
     path(
@@ -21,20 +38,19 @@ urlpatterns = [
         ),
         name="terms_of_service"
     ),
-    path("user/", include("TWC.urls.dashboard", namespace="dashboard")),
+
+    # Dashboard & Authentication
     path("login/", APILoginView.as_view(), name="login"),
     path("token/", SaveTokenView.as_view(), name="user_token"),
+
+    # Store-related URLs
     path('shop/', include('TWC.urls.shop', namespace='shop')),
     path('cart/', include('cart.urls', namespace='cart')),
     path('accounts/', include('allauth.urls')),
-    path('', IndexView.as_view(), name="home_view"),
     path('pf/', ProductFunnelView.as_view(), name='product_funnel'),
     path('pf-vw/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_vw'),
     path('pf-ds/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_ds'),
     path('pf/create-order', create_order, name='create_order'),
-
 ]
 
 handler404 = Handle404View.as_view()
-
-
