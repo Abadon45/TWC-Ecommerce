@@ -99,11 +99,9 @@
 
     <!-- js -->
     {% include 'base/js.html' %}
-    
+
     <script>
-        const dashboardURL = '{% url "dashboard" %}';
         const confirmOrder = '{% url "confirm_order" %}';
-        const sellerDashboardURL = '{% url "seller_dashboard" %}';
         const sellerPendingOrderUrl = '{% url "seller_pending_orders" %}'
         const courierBooking = '{% url "courier_booking_view" %}'
         const rejectOrderUrl = '{% url "reject_order" %}'

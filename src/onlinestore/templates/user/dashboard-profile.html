@@ -6,6 +6,10 @@
 
 {% block content %}
 
+    {% block extra_css %}
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
+    {% endblock %}
+
 
     <!-- user dashboard -->
     <div id="dashboard-content" class="user-area bg py-100">
@@ -30,7 +34,7 @@
                                                 </div>
                                             </div>
                                         {% endif %}
-                                        <form method="post" enctype="multipart/form-data"
+                                        <form id="updateProfileForm" method="post" enctype="multipart/form-data"
                                               action="{% url 'dashboard-profile' %}">
                                             {% csrf_token %}
                                             <div class="row">
@@ -134,8 +138,7 @@
 
 {% endblock %}
 {% block extra_js %}
-    <script src="{% static 'js/dashboardview.js' %}"></script>
-    <script src="{% static 'js/view-order.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script>
         $(document).ready(function () {
             $(".active").removeClass("active");
@@ -154,54 +157,125 @@
         });
     </script>
     <script>
-        $("#updateProfileForm").submit(function (e) {
-            e.preventDefault();
+        $(document).ready(function () {
+            let cropper;
+            const imageInput = $("#formFile");
 
-            var formData = new FormData(this);
+            // When user selects an image
+            imageInput.on("change", function (event) {
+                const file = event.target.files[0];
 
-            $.ajax({
-                url: "{{ UPDATE_PROFILE_API_URL }}",
-                type: "PUT",  // Changed from POST to PUT
-                data: formData,
-                processData: false,
-                contentType: false,
-                headers: {
-                    "Authorization": "{{ REFRESH_TOKEN }}"
-                },
-                beforeSend: function () {
-                    Swal.fire({
-                        title: "Updating...",
-                        text: "Please wait while we update your profile.",
-                        allowOutsideClick: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-                },
-                success: function (response) {
-                    Swal.fire({
-                        title: "Success!",
-                        text: "Your profile has been updated successfully.",
-                        icon: "success",
-                        confirmButtonText: "OK"
-                    }).then(() => {
-                        location.reload();
-                    });
-                },
-                error: function (xhr) {
-                    let errorMessage = "Error updating profile.";
-                    if (xhr.responseJSON && xhr.responseJSON.detail) {
-                        errorMessage = xhr.responseJSON.detail;
-                    }
+                if (file && file.type.startsWith("image/")) {
+                    const reader = new FileReader();
 
+                    reader.onload = function (e) {
+                        // Show SweetAlert with Cropper centered
+                        Swal.fire({
+                            title: "Crop your image",
+                            html: `
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <div style="width: 100%; max-width: 350px; height: 350px; overflow: hidden; margin: auto;">
+                                    <img id="image-preview" src="${e.target.result}" style="max-width: 100%;" />
+                                </div>
+                            </div>`,
+                            showCancelButton: true,
+                            confirmButtonText: "Crop & Upload",
+                            didOpen: () => {
+                                const image = document.getElementById("image-preview");
+
+                                // Destroy previous Cropper instance if exists
+                                if (cropper) {
+                                    cropper.destroy();
+                                }
+
+                                // Initialize Cropper
+                                cropper = new Cropper(image, {
+                                    aspectRatio: 1, // Square crop
+                                    viewMode: 2,
+                                    autoCropArea: 0.8, // Default crop area
+                                    dragMode: 'move',
+                                    scalable: true, // Allow zooming
+                                    zoomable: true, // Enable zooming
+                                    minCropBoxWidth: 100, // Allow smaller crops
+                                    minCropBoxHeight: 100, // Allow smaller crops
+                                    maxCropBoxWidth: 300, // Max width
+                                    maxCropBoxHeight: 300 // Max height
+                                });
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed && cropper) {
+                                const croppedCanvas = cropper.getCroppedCanvas({
+                                    width: Math.min(cropper.getCropBoxData().width, 300), // Crop width up to 300
+                                    height: Math.min(cropper.getCropBoxData().height, 300) // Crop height up to 300
+                                });
+
+                                croppedCanvas.toBlob((blob) => {
+                                    let formData = new FormData();
+                                    formData.append("image", blob, "profile.jpg");
+                                    formData.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+
+                                    sendProfileUpdate(formData);
+                                }, "image/jpeg", 0.7);
+                            }
+                        });
+                    };
+
+                    reader.readAsDataURL(file);
+                } else {
                     Swal.fire({
-                        title: "Update Failed",
-                        text: errorMessage,
                         icon: "error",
-                        confirmButtonText: "Try Again"
+                        title: "Invalid file",
+                        text: "Please select a valid image file.",
                     });
                 }
             });
+
+            // AJAX request to update profile
+            function sendProfileUpdate(formData) {
+                $.ajax({
+                    url: "{{ UPDATE_PROFILE_API_URL }}",
+                    type: "PUT",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        "Authorization": "{{ REFRESH_TOKEN }}"
+                    },
+                    beforeSend: function () {
+                        Swal.fire({
+                            title: "Uploading...",
+                            text: "Please wait while we upload your image.",
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                    },
+                    success: function () {
+                        Swal.fire({
+                            title: "Success!",
+                            text: "Your profile picture has been updated.",
+                            icon: "success",
+                            confirmButtonText: "OK"
+                        }).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function (xhr) {
+                        let errorMessage = "Error uploading image.";
+                        if (xhr.responseJSON && xhr.responseJSON.detail) {
+                            errorMessage = xhr.responseJSON.detail;
+                        }
+
+                        Swal.fire({
+                            title: "Upload Failed",
+                            text: errorMessage,
+                            icon: "error",
+                            confirmButtonText: "Try Again"
+                        });
+                    }
+                });
+            }
         });
     </script>
 {% endblock %}

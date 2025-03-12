@@ -9,7 +9,7 @@ import requests
 def referrer(request):
     try:
         sponsor_messenger = request.session.get('messenger_link', None)
-        # sponsor_mobile = request.session.get('mobile', None)
+        sponsor_mobile = request.session.get('mobile', None)
         sponsor = request.session.get('referrer', None)
         sponsor_fb_pixel = request.session.get('sponsor_fb_pixel', None)
         selling_capi_token = request.session.get('selling_capi_token', None)

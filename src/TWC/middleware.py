@@ -88,7 +88,7 @@ class SubdomainMiddleware:
                 # Update session only if necessary
                 request.session.update({
                     "messenger_link": data.get("messenger_link", request.session.get("messenger_link")),
-                    "sponsor_mobile": data.get("sponsor_mobile", request.session.get("sponsor_mobile")),
+                    "sponsor_mobile": data.get("mobile", request.session.get("mobile")),
                     "sponsor_fb_pixel": data.get("selling_pixel", request.session.get("sponsor_fb_pixel")),
                     "selling_capi_token": data.get("selling_capi_token", request.session.get("selling_capi_token")),
                     "first_name": data.get("first_name", request.session.get("first_name")),

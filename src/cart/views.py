@@ -605,7 +605,7 @@ class CheckoutDoneView(View):
 
         checkout_details = request.session.get('updated_orders', {})
         address_from_session = request.session.get('shipping_address', {})
-        sponsor_mobile = request.session.get('sponsor_mobile')
+        sponsor_mobile = request.session.get('mobile')
         payment_method = request.session.get('payment_method')
         print(f'Selected Payment Method: {payment_method}')
 

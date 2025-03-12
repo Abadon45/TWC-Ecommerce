@@ -1,4 +1,6 @@
 import requests
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View, TemplateView
 from django.contrib.auth.views import PasswordResetCompleteView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -12,7 +14,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from cart.utils import detect_region, get_main_domain
+from cart.utils import detect_region, get_main_domain, fetch_and_update_user_session
 from onlinestore.api import fetch_user_orders
 from user.forms import LoginForm
 
@@ -138,6 +140,9 @@ class UserSessionMixin:
     def get_user_session_data(self):
         """Fetch user session data."""
         user = self.request.user
+        username = self.request.session.get("username", "")
+        if username:
+            fetch_and_update_user_session(self.request, username)
         return {
             "username": user.username,
             "first_name": self.request.session.get("first_name", ""),
@@ -145,7 +150,7 @@ class UserSessionMixin:
             "last_name": self.request.session.get("last_name", ""),
             "image": self.request.session.get("image", "img/user/default_profile.png"),
             "email": self.request.session.get("email", ""),
-            "mobile": self.request.session.get("sponsor_mobile", ""),
+            "mobile": self.request.session.get("mobile", ""),
             "messenger_link": self.request.session.get("messenger_link", ""),
         }
 
@@ -198,33 +203,29 @@ class DashboardView(TemplateView, UserSessionMixin):
         return context
 
 
-class DashboardProfileView(View, UserSessionMixin):
+class DashboardProfileView(TemplateView, UserSessionMixin):
     template_name = "user/dashboard-profile.html"
     title = "User Profile"
 
-    def dispatch(self, request, *args, **kwargs):
-        """Redirect unauthenticated users and allow PUT requests."""
-        if request.method.upper() == "PUT":
-            return self.put(request, *args, **kwargs)
-        return super().dispatch(request, *args, **kwargs)
-
     def get_context_data(self, **kwargs):
-        """Helper method to generate context data."""
-        context = self.get_user_session_data()
+        """Return context data for rendering the profile page."""
+        context = super().get_context_data(**kwargs)
+        context.update(self.get_user_session_data())  # Mixin method
         context.update({
             "UPDATE_PROFILE_API_URL": settings.UPDATE_PROFILE_API_URL.format(username=self.request.user.username),
             "REFRESH_TOKEN": self.request.session.get("access_token"),
         })
         return context
 
-    def get(self, request, *args, **kwargs):
-        """Ensure authentication and redirect logic is handled by UserSessionMixin."""
-        return super().get(request, *args, **kwargs)  # Calls UserSessionMixin's `get()`
-
+    @method_decorator(csrf_exempt)  # Allow AJAX PUT requests without CSRF issues
     def put(self, request, *args, **kwargs):
-        """Handle profile update via AJAX (PUT request)."""
+        """Handle AJAX profile updates via PUT request."""
         if request.headers.get("x-requested-with") == "XMLHttpRequest":
-            return JsonResponse({"message": "Profile updated successfully."})
+            username = request.session.get("username", "")
+            if username:
+                fetch_and_update_user_session(request, username)
+                return JsonResponse({"message": "Profile updated successfully."})
+            return JsonResponse({"error": "Username not found in session."}, status=400)
 
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
 

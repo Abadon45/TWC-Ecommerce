@@ -559,7 +559,7 @@ def fetch_username(request, username):
         if is_success:
             # Store API response in session
             request.session["messenger_link"] = data.get("messenger_link", "")
-            request.session["sponsor_mobile"] = data.get("sponsor_mobile", "")
+            request.session["mobile"] = data.get("mobile", "")
             request.session["first_name"] = data.get("first_name", "")
             request.session["middle_name"] = data.get("middle_name", "")
             request.session["last_name"] = data.get("last_name", "")
@@ -583,6 +583,50 @@ def get_main_domain(request):
     if len(host_parts) > 2:  # If there's a subdomain
         return ".".join(host_parts[-2:])  # Extract last two parts
     return host  # If already a main domain, return as is
+
+def fetch_and_update_user_session(request, username):
+    """
+    Fetch user data from the API and update session data.
+    This ensures that the latest user details are available in the session.
+    """
+    if not username:
+        print("⚠️ Username not found in session.")
+        return
+
+    api_url = settings.CHECK_USERNAME_API_URL.format(username=username)
+    print(f"🔗 Fetching username from API: {api_url}")
+
+    try:
+        response = requests.get(api_url)
+        response.raise_for_status()  # Raise an error for HTTP failures (4xx, 5xx)
+
+        data = response.json()
+        if not data.get("success", False):
+            print(f"❌ Username check failed for: {username}")
+            raise Http404(f'User "{username}" Does Not Exist.')
+
+        # Update session data if API response contains new values
+        session_fields = [
+            "messenger_link", "mobile", "sponsor_fb_pixel",
+            "selling_capi_token", "first_name", "middle_name", "last_name",
+            "image", "is_seller", "is_member", "email", "sponsor_username"
+        ]
+
+        for field in session_fields:
+            request.session[field] = data.get(field, request.session.get(field))
+
+        # Ensure session modifications are saved
+        request.session.modified = True
+        request.session.save()
+
+        print(f"✅ Username '{username}' verified & session updated.")
+        print(f"🔹 Sponsor: {request.session.get('sponsor_username')}, "
+              f"Member: {request.session.get('is_member')}")
+        print(f"🔹 Image URL: {request.session.get('image')}")
+
+    except requests.RequestException as e:
+        print(f"🚨 API request failed: {e}")
+        raise Http404("Server Is Under Maintenance.")
 
 
 
