@@ -6,7 +6,7 @@ from django.contrib.auth.views import PasswordResetCompleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, Http404
 from django.conf import settings
 from allauth.account.views import PasswordResetView
 from django.shortcuts import render, redirect
@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from cart.utils import detect_region, get_main_domain, fetch_and_update_user_session
+from cart.utils import detect_region, get_main_domain, fetch_and_update_user_session, fetch_product_from_slug
 from onlinestore.api import fetch_user_orders
 from user.forms import LoginForm
 
@@ -183,16 +183,20 @@ class DashboardView(TemplateView, UserSessionMixin):
         order_data = fetch_user_orders(user.username) if user.is_authenticated else {"orders": [], "count": 0}
         orders = order_data.get("orders", [])
 
+        excluded_statuses = ["transfer_vw"]  # Can expand this list later if needed
+
+        filtered_orders = [order for order in orders if order["status"] not in excluded_statuses]
+
         # Define statuses that should NOT be counted as "pending"
         non_pending_statuses = ["in_progress", "delivered", "undelivered", "paid", "vw-paid", "rejected", "rts", "returned"]
 
         # Separate orders into pending and completed
-        pending_orders = [order for order in orders if order["status"] not in non_pending_statuses]
-        completed_orders = [order for order in orders if order["status"] == "completed"]
+        pending_orders = [order for order in filtered_orders if order["status"] not in non_pending_statuses]
+        completed_orders = [order for order in filtered_orders if order["status"] == "completed"]
 
         # Update context with orders and session data
         context.update({
-            "orders": orders,  # Full orders list
+            "orders": filtered_orders,  # Full orders list
             "pending_order_count": len(pending_orders),
             "completed_order_count": len(completed_orders),
         })
@@ -232,21 +236,60 @@ class DashboardProfileView(TemplateView, UserSessionMixin):
 
 
 class DashboardOrderView(UserSessionMixin, TemplateView):
+    template_name = "user/dashboard-order-history.html"
+    excluded_statuses = ["transfer_vw"]
+
     def get_context_data(self, **kwargs):
-        """Generate context data including user session details."""
         context = super().get_context_data(**kwargs)
+        user = self.request.user
+        order_data = fetch_user_orders(user.username) if user.is_authenticated else {"orders": [], "count": 0}
+
+
+        filtered_orders = [order for order in order_data["orders"] if order["status"] not in self.excluded_statuses]
+
+        print(f"Filtered Orders with Product Details: {filtered_orders}")
+
+        context.update({"orders": filtered_orders})
         context.update(self.get_user_session_data())
+
         return context
 
     def get(self, request, *args, **kwargs):
-        """Ensure authentication and redirection logic is handled by UserSessionMixin."""
-        return UserSessionMixin.get(self, request, *args, **kwargs)  # Explicitly call UserSessionMixin's `get()`
+        if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+            user = request.user
+
+            order_data = fetch_user_orders(user.username) if user.is_authenticated else {"orders": [], "count": 0}
+
+
+            filtered_orders = [order for order in order_data["orders"] if order["status"] not in self.excluded_statuses]
+
+            print(f"Fetched Order Data (AJAX): {filtered_orders}")
+
+            return JsonResponse({"orders": filtered_orders, "count": len(filtered_orders)})
+
+        return super().get(request, *args, **kwargs)
 
 
 class DashboardOrderDetailView(TemplateView, UserSessionMixin):
     def get_context_data(self, **kwargs):
+        user = self.request.user
+        order_number = kwargs.get("order_number")
+        order_data = fetch_user_orders(user.username) if user.is_authenticated else {"orders": [], "count": 0}
+
+        filtered_order = next((order for order in order_data["orders"] if order["order_number"] == order_number), None)
+
+        if filtered_order:
+            try:
+                filtered_order["subtotal"] = float(filtered_order["cod_amount"]) - 120
+            except (TypeError, ValueError):
+                filtered_order["subtotal"] = 0
+
+        print(f'Filtered Order: {filtered_order}')
+
         context = super().get_context_data(**kwargs)
-        context.update({})
+        context.update({
+            "order": filtered_order,
+        })
         context.update(self.get_user_session_data())
         return context
 

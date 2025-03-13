@@ -14,6 +14,8 @@ from django.http import JsonResponse, Http404
 from django.template.loader import render_to_string
 from django.contrib.auth import get_user_model
 from collections import defaultdict
+
+from cart.utils import fetch_product_from_slug
 from onlinestore.utils import check_sponsor_and_redirect
 from onlinestore.models import *
 
@@ -212,27 +214,10 @@ class ShopDetailView(View):
         if not product_slug:
             raise Http404("Product not found")
 
-        HOST_DOMAIN = os.environ.get("HOST_DOMAIN", "twcako")
-        product_detail_url = f'https://dashboard.{HOST_DOMAIN}.com/shop/api/get-product/?slug={product_slug}'
-
-        try:
-            response = requests.get(product_detail_url, verify=False)
-            response.raise_for_status()  # Raises HTTPError for bad responses
-            product_data = response.json()
-            product = product_data.get('product', {})
-            if not product:
-                raise Http404("Product not found")
-
-        except requests.exceptions.HTTPError as http_err:
-            print(f'HTTP error occurred: {http_err}')
-            raise Http404("Product not found")
-
-        except requests.exceptions.RequestException as req_err:
-            print(f'Request error occurred: {req_err}')
-            return render(request, self.template_name, {'product': None})
+        product = fetch_product_from_slug(product_slug)
 
             # Get the product rating
-        product_slug = product.get('slug')
+        # product_slug = product.get('slug')
         ratings = Rating.objects.filter(product_slug=product_slug)
 
         if ratings.exists():

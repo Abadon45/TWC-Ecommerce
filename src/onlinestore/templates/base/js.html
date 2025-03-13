@@ -9,6 +9,8 @@
     var csrf = "{{ csrf_token }}";
     const phNumbers = "{{ ph_number_prefixes|safe }}"
     const getProductQuantityUrl = "{% url 'cart:fetch_product_quantity' %}";
+    var orderHistoryUrl = "{% url 'order-history' %}";
+    {#var orderDetailUrl = "{% url 'order-detail' %}";#}
 
     function fetchProductQuantity(productSlug) {
         console.log(`Fetching available quantity for product: ${productSlug}`);

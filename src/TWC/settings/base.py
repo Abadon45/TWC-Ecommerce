@@ -25,6 +25,7 @@ HOST_DOMAIN = os.environ.get("HOST_DOMAIN", "twcako")
 
 # TWCAKO API
 SHOP_PRODUCTS_API = f'https://dashboard.{HOST_DOMAIN}.com/shop/api/get-product/?'
+SHOP_PRODUCT_DETAIL_API = f'https://dashboard.{HOST_DOMAIN}.com/shop/api/get-product/?slug={{product_slug}}'
 PRODUCT_URL_API = f'https://dashboard.{HOST_DOMAIN}.com/shop/api/get-product/?slug='
 REFRESH_TOKEN_API = f'https://dashboard.{HOST_DOMAIN}.com/order/api/get-access-token/'
 ORDER_URL_API = f'https://dashboard.{HOST_DOMAIN}.com/order/api/create-order/'

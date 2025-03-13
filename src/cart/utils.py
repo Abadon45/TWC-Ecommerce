@@ -9,7 +9,7 @@ import requests
 from datetime import datetime, time
 from django.conf import settings
 from django.http import JsonResponse, HttpResponseRedirect, Http404
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from facebook_business.adobjects.serverside.action_source import ActionSource
@@ -627,6 +627,32 @@ def fetch_and_update_user_session(request, username):
     except requests.RequestException as e:
         print(f"🚨 API request failed: {e}")
         raise Http404("Server Is Under Maintenance.")
+
+
+def fetch_product_from_slug(product_slug):
+    SHOP_PRODUCT_DETAIL_API = settings.SHOP_PRODUCT_DETAIL_API.format(product_slug=product_slug)
+
+    try:
+        response = requests.get(SHOP_PRODUCT_DETAIL_API, verify=False)
+        response.raise_for_status()  # Raises HTTPError for bad responses
+        product_data = response.json()
+        product = product_data.get('product', {})
+        if not product:
+            raise Http404("Product not found")
+
+        return product
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching product {product_slug}: {e}")
+        return {"slug": product_slug, "name": "Unknown Product", "price": 0, "image": ""}
+
+    # except requests.exceptions.HTTPError as http_err:
+    #     print(f'HTTP error occurred: {http_err}')
+    #     raise Http404("Product not found")
+
+    # except requests.exceptions.RequestException as req_err:
+    #     print(f'Request error occurred: {req_err}')
+    #     return render(request, self.template_name, {'product': None})
 
 
 
