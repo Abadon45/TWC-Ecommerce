@@ -285,10 +285,21 @@ class DashboardOrderDetailView(TemplateView, UserSessionMixin):
                 filtered_order["subtotal"] = 0
 
         print(f'Filtered Order: {filtered_order}')
+        region = filtered_order["address"]["region"]
+        region_group = detect_region(region)
+        print(f'Region Group: {region_group}')
+
+        for_shipping = ['afs', 'for-pickup', 'shipping', 'pickup', 'delivered', 'paid', 'vw-paid']
+        shipping = ["shipping", "delivered", "paid", "vw-paid"]
+        delivered = ["delivered", "paid", "vw-paid"]
 
         context = super().get_context_data(**kwargs)
         context.update({
             "order": filtered_order,
+            "region_group": region_group,
+            "for_shipping": for_shipping,
+            "shipping": shipping,
+            "delivered": delivered,
         })
         context.update(self.get_user_session_data())
         return context

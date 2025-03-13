@@ -77,40 +77,29 @@ def sf_calculator(province=None, qty=0):
     return 0.00
 
 
-def detect_region(province):
-    # Define mappings of provinces to regions
-    ncr = {"NCR, CITY OF MANILA, FIRST DISTRICT", "CITY OF MANILA", "NCR, SECOND DISTRICT", "NCR, THIRD DISTRICT",
-           "NCR, FOURTH DISTRICT"}
-    luzon = {
-        "ILOCOS NORTE", "ILOCOS SUR", "LA UNION", "PANGASINAN", "BATANES", "CAGAYAN", "ISABELA", "NUEVA VIZCAYA",
-        "QUIRINO", "BATAAN", "BULACAN", "NUEVA ECIJA", "PAMPANGA", "TARLAC", "ZAMBALES", "AURORA", "BATANGAS",
-        "CAVITE", "LAGUNA", "QUEZON", "RIZAL", "MARINDUQUE", "OCCIDENTAL MINDORO", "ORIENTAL MINDORO",
-        "PALAWAN", "ROMBLON", "ABRA", "BENGUET", "IFUGAO", "KALINGA", "MOUNTAIN PROVINCE", "APAYAO"
-    }
-    visayas = {
-        "AKLAN", "ANTIQUE", "CAPIZ", "ILOILO", "NEGROS OCCIDENTAL", "GUIMARAS", "BOHOL", "CEBU",
-        "NEGROS ORIENTAL", "SIQUIJOR", "EASTERN SAMAR", "LEYTE", "NORTHERN SAMAR", "SAMAR (WESTERN SAMAR)",
-        "SOUTHERN LEYTE", "BILIRAN"
-    }
-    mindanao = {
-        "ZAMBOANGA DEL NORTE", "ZAMBOANGA DEL SUR", "ZAMBOANGA SIBUGAY", "CITY OF ISABELA", "BUKIDNON", "CAMIGUIN",
-        "LANAO DEL NORTE", "MISAMIS OCCIDENTAL", "MISAMIS ORIENTAL", "DAVAO DEL NORTE", "DAVAO DEL SUR",
-        "DAVAO ORIENTAL", "COMPOSTELA VALLEY", "DAVAO OCCIDENTAL", "COTABATO (NORTH COTABATO)", "SOUTH COTABATO",
-        "SULTAN KUDARAT", "SARANGANI", "COTABATO CITY", "BASILAN", "LANAO DEL SUR", "MAGUINDANAO", "SULU",
-        "TAWI-TAWI", "AGUSAN DEL NORTE", "AGUSAN DEL SUR", "SURIGAO DEL NORTE", "SURIGAO DEL SUR", "DINAGAT ISLANDS"
+def detect_region(region):
+    # Define mappings of regions to their major island group
+    region_mapping = {
+        "NATIONAL CAPITAL REGION (NCR)": "ncr",
+        "REGION I (ILOCOS REGION)": "luzon",
+        "REGION II (CAGAYAN VALLEY)": "luzon",
+        "REGION III (CENTRAL LUZON)": "luzon",
+        "REGION IV-A (CALABARZON)": "luzon",
+        "REGION IV-B (MIMAROPA)": "luzon",
+        "REGION V (BICOL REGION)": "luzon",
+        "CORDILLERA ADMINISTRATIVE REGION (CAR)": "luzon",
+        "REGION VI (WESTERN VISAYAS)": "visayas",
+        "REGION VII (CENTRAL VISAYAS)": "visayas",
+        "REGION VIII (EASTERN VISAYAS)": "visayas",
+        "REGION IX (ZAMBOANGA PENINSULA)": "mindanao",
+        "REGION X (NORTHERN MINDANAO)": "mindanao",
+        "REGION XI (DAVAO REGION)": "mindanao",
+        "REGION XII (SOCCSKSARGEN)": "mindanao",
+        "AUTONOMOUS REGION IN MUSLIM MINDANAO (ARMM)": "mindanao",
+        "REGION XIII (Caraga)": "mindanao",
     }
 
-    # Check the province against each region mapping
-    if province in ncr:
-        return "ncr"
-    elif province in luzon:
-        return "luzon"
-    elif province in visayas:
-        return "visayas"
-    elif province in mindanao:
-        return "mindanao"
-    else:
-        return "unknown"
+    return region_mapping.get(region, "unknown")
 
 
 def generate_invoice_number():

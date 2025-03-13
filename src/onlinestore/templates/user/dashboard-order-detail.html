@@ -38,15 +38,23 @@
                                                     {% endif %}
                                                 </a>
                                                 <a href="#">Status: <span
-                                                        id="order-status-{{ order.order_number }}">{{ order.status|title }}</span></a>
+                                                        id="order-status-{{ order.order_number }}">
+                                                    {% if order.status == "afs" %}
+                                                        Approved for Shipping
+                                                    {% elif order.status == "for-pickup" %}
+                                                        Order for Pickup
+                                                    {% else %}
+                                                        {{ order.status|title }}
+                                                    {% endif %}
+                                                </span></a>
                                                 <a href="#"><span>ESTIMATED DELIVERY:</span>
-                                                    {% if order.region_group == 'ncr' %}
+                                                    {% if region_group == 'ncr' %}
                                                         NCR: 2-3 Days
-                                                    {% elif order.region_group == 'luzon' %}
+                                                    {% elif region_group == 'luzon' %}
                                                         Luzon: 3-5 Days
-                                                    {% elif order.region_group == 'visayas' %}
+                                                    {% elif region_group == 'visayas' %}
                                                         Visayas: 5-7 Days
-                                                    {% elif order.region_group == 'mindanao' %}
+                                                    {% elif region_group == 'mindanao' %}
                                                         Mindanao: 7-10 Days
                                                     {% else %}
                                                         To be estimated
@@ -60,19 +68,19 @@
                                                     </div>
                                                     <h6>Order Placed</h6>
                                                 </div>
-                                                <div class="step-item {% if order.status == 'for-booking' or order.status == 'for-pickup' or order.status == 'shipping' or order.status == 'delivered' %}completed{% endif %}">
+                                                <div class="step-item {% if order.status in for_shipping %}completed{% endif %}">
                                                     <div class="step-icon">
                                                         <i class="fal fa-cog"></i>
                                                     </div>
                                                     <h6>Preparing to Ship</h6>
                                                 </div>
-                                                <div class="step-item {% if order.status == 'shipping' or order.status == 'delivered' %}completed{% endif %}">
+                                                <div class="step-item {% if order.status in shipping %}completed{% endif %}">
                                                     <div class="step-icon">
                                                         <i class="fal fa-truck-fast"></i>
                                                     </div>
                                                     <h6>Shipping</h6>
                                                 </div>
-                                                <div class="step-item {% if order.status == 'delivered' %}completed{% endif %}">
+                                                <div class="step-item {% if order.status in delivered %}completed{% endif %}">
                                                     <div class="step-icon">
                                                         <i class="fal fa-home"></i>
                                                     </div>
