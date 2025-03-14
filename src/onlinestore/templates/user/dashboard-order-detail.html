@@ -31,8 +31,10 @@
                                             <h5>Order Number: <span>{{ order.order_number }}</span></h5>
                                             <div class="track-order-info">
                                                 <a href=""><span>Shipped Via:</span>
-                                                    {% if order.courier %}
+                                                    {% if order.courier != "choose"%}
                                                         {{ order.courier|upper }}
+                                                    {% elif order.courier == 'choose' %}
+                                                        TBA
                                                     {% else %}
                                                         TBA
                                                     {% endif %}
