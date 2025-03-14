@@ -271,7 +271,7 @@
                     </ul>
                     <div class="text-end mt-40">
                         <a href="${orderHistoryUrl}${orderData.order_number}" class="theme-btn" style="margin-right: 5px; background: #31D2F2;">Order Detail</a>
-                        <a href="{% url 'shop:shop' %}" class="theme-btn">Buy Again</a>
+                        <a href="{% url 'shop:shop' %}?cat1=${orderData.products[0]?.shop}" class="theme-btn">Buy Again</a>
                     </div>
                 </div>
             </div>
