@@ -234,36 +234,94 @@ class DashboardProfileView(TemplateView, UserSessionMixin):
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
 
 
-
 class DashboardOrderView(UserSessionMixin, TemplateView):
     template_name = "user/dashboard-order-history.html"
     excluded_statuses = ["transfer_vw"]
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    status_map = {
+        "for-pickup": ["afs", "for-pickup", "paid", "vw-paid"],  # To Ship
+        "shipping": ["shipping"],  # To Receive
+        "delivered": ["delivered"],  # Delivered
+    }
+
+    def get_filtered_orders(self, all_orders, status_filter):
+        """Filters orders based on the selected status."""
+        status_filter = status_filter.lower().strip()  # Normalize input
+        print(f"🔍 Filtering with status: '{status_filter}'")  # Debugging
+
+        if status_filter == "all":
+            return all_orders  # Show all orders when 'all' is selected
+
+        # Get expected statuses based on the filter (default to provided status if not mapped)
+        expected_statuses = self.status_map.get(status_filter, [status_filter])
+
+        print(f"✅ Expected statuses: {expected_statuses}")  # Debugging
+
+        # Apply filtering
+        filtered_orders = [order for order in all_orders if order["status"].lower() in expected_statuses]
+
+        print(f"📌 Filtered Orders Count: {len(filtered_orders)}")
+        for order in filtered_orders:
+            print(f"🔹 Order {order['order_number']} | Status: {order['status']}")
+
+        return filtered_orders
+
+    def get_all_orders(self):
+        """Fetch and return all orders excluding unwanted statuses."""
         user = self.request.user
         order_data = fetch_user_orders(user.username) if user.is_authenticated else {"orders": [], "count": 0}
 
+        # Exclude unwanted statuses
+        all_orders = [order for order in order_data["orders"] if order["status"] not in self.excluded_statuses]
 
-        filtered_orders = [order for order in order_data["orders"] if order["status"] not in self.excluded_statuses]
+        print(f"✅ Total Orders After Exclusion: {len(all_orders)}")
+        return all_orders
 
-        print(f"Filtered Orders with Product Details: {filtered_orders}")
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-        context.update({"orders": filtered_orders})
+        # Get all orders
+        all_orders = self.get_all_orders()
+
+        # Compute counts BEFORE filtering
+        pending_count = sum(1 for order in all_orders if order["status"] == "pending")
+        to_ship_count = sum(1 for order in all_orders if order["status"] in self.status_map["for-pickup"])
+        shipping_count = sum(1 for order in all_orders if order["status"] in self.status_map["shipping"])
+        delivered_count = sum(1 for order in all_orders if order["status"] in self.status_map["delivered"])
+
+        # Apply filtering ONLY for displayed orders
+        status_filter = self.request.GET.get("status", "all").strip().lower()
+        print(f"🔎 Status Filter (Context Data): '{status_filter}'")  # Debugging
+        filtered_orders = self.get_filtered_orders(all_orders, status_filter)
+
+        print(f"📊 Final Orders Count for '{status_filter}': {len(filtered_orders)}")  # Debugging
+
+        # Update context
+        context.update({
+            "orders": filtered_orders,
+            "pending_count": pending_count,
+            "to_ship_count": to_ship_count,
+            "shipping_count": shipping_count,
+            "delivered_count": delivered_count,
+        })
         context.update(self.get_user_session_data())
 
         return context
 
     def get(self, request, *args, **kwargs):
         if request.headers.get("X-Requested-With") == "XMLHttpRequest":
-            user = request.user
+            status_filter = request.GET.get("status", "all").strip().lower()
+            print(f"🔎 Status Filter (AJAX GET): '{status_filter}'")
 
-            order_data = fetch_user_orders(user.username) if user.is_authenticated else {"orders": [], "count": 0}
+            # ✅ Fetch all orders again (AJAX request is separate from initial page load)
+            all_orders = self.get_all_orders()
 
+            # ✅ Apply filtering for AJAX requests
+            filtered_orders = self.get_filtered_orders(all_orders, status_filter)
 
-            filtered_orders = [order for order in order_data["orders"] if order["status"] not in self.excluded_statuses]
-
-            print(f"Fetched Order Data (AJAX): {filtered_orders}")
+            print(f"📌 Filtered Orders Count (AJAX): {len(filtered_orders)}")
+            for order in filtered_orders:
+                print(f"🔹 Order {order.get('order_number', 'N/A')} | Status: {order['status']}")
 
             return JsonResponse({"orders": filtered_orders, "count": len(filtered_orders)})
 
@@ -284,10 +342,10 @@ class DashboardOrderDetailView(TemplateView, UserSessionMixin):
             except (TypeError, ValueError):
                 filtered_order["subtotal"] = 0
 
-        print(f'Filtered Order: {filtered_order}')
         region = filtered_order["address"]["region"]
         region_group = detect_region(region)
-        print(f'Region Group: {region_group}')
+        courier = filtered_order["courier"]
+        print(f'courier: {courier}')
 
         for_shipping = ['afs', 'for-pickup', 'shipping', 'pickup', 'delivered', 'paid', 'vw-paid']
         shipping = ["shipping", "delivered", "paid", "vw-paid"]

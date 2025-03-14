@@ -69,7 +69,8 @@ def fetch_user_orders(username):
             order_number = order.get("order_number", "")
             timestamp = order.get("timestamp", "")
             cod_amount = float(order.get("cod_amount", 0))  # Ensure float conversion
-            status = order.get("status", "").lower()  # Convert to lowercase
+            status = order.get("status", "").lower()
+            courier = order.get("courier", "")
 
             # Ensure 'items' is a list of dictionaries
             item_slugs = order.get("items", [])
@@ -98,6 +99,7 @@ def fetch_user_orders(username):
                 "timestamp": timestamp,
                 "cod_amount": cod_amount,
                 "status": status,
+                "courier": courier,
                 "products": products,
                 "address": address
             })

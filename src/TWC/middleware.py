@@ -30,9 +30,6 @@ class SubdomainMiddleware:
         # Determine if there is a subdomain
         request.subdomain = host_parts[0] if len(host_parts) > 2 else None
 
-        print(f"🌐 Incoming request: {full_host} | Subdomain: {request.subdomain}")
-        print(f"🔍 Request Path: {request.path}")
-
         # 🚨 Skip username checking for specific subdomains
         if request.subdomain in ["www", "admin"]:
             print("✅ Skipping subdomain checks for:", request.subdomain)
@@ -45,7 +42,6 @@ class SubdomainMiddleware:
             user = request.user
             username = user.username if user.is_authenticated else request.session.get("username", "")
 
-            print(f"📌 Dashboard Username: {username}")
 
             # Allow access to the login page without redirecting
             if request.path.startswith("/login/"):
@@ -75,7 +71,6 @@ class SubdomainMiddleware:
             return
 
         api_url = settings.CHECK_USERNAME_API_URL.format(username=username)
-        print(f"🔗 Fetching username from API: {api_url}")
 
         try:
             api_response = requests.get(api_url)
@@ -107,10 +102,6 @@ class SubdomainMiddleware:
 
                 sponsor = request.session.get("sponsor_username")
                 is_member = request.session.get("is_member")
-
-                print(f"✅ Username '{username}' verified & session updated.")
-                print(f"🔹 Sponsor: {sponsor} | Member: {is_member}")
-                print(f"🔹 Image URL: {request.session.get('image', None)}")
 
                 return None
             else:

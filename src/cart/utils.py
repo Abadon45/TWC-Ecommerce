@@ -583,7 +583,6 @@ def fetch_and_update_user_session(request, username):
         return
 
     api_url = settings.CHECK_USERNAME_API_URL.format(username=username)
-    print(f"🔗 Fetching username from API: {api_url}")
 
     try:
         response = requests.get(api_url)
@@ -607,11 +606,6 @@ def fetch_and_update_user_session(request, username):
         # Ensure session modifications are saved
         request.session.modified = True
         request.session.save()
-
-        print(f"✅ Username '{username}' verified & session updated.")
-        print(f"🔹 Sponsor: {request.session.get('sponsor_username')}, "
-              f"Member: {request.session.get('is_member')}")
-        print(f"🔹 Image URL: {request.session.get('image')}")
 
     except requests.RequestException as e:
         print(f"🚨 API request failed: {e}")

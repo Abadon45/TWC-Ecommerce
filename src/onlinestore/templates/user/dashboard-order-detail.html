@@ -30,14 +30,14 @@
                                         <div class="track-order-content" style="margin-top: 0px!important;">
                                             <h5>Order Number: <span>{{ order.order_number }}</span></h5>
                                             <div class="track-order-info">
-                                                <a href="#"><span>Shipped Via:</span>
+                                                <a href=""><span>Shipped Via:</span>
                                                     {% if order.courier %}
-                                                        {{ order.courier }}
+                                                        {{ order.courier|upper }}
                                                     {% else %}
                                                         TBA
                                                     {% endif %}
                                                 </a>
-                                                <a href="#">Status: <span
+                                                <a href="">Status: <span
                                                         id="order-status-{{ order.order_number }}">
                                                     {% if order.status == "afs" %}
                                                         Approved for Shipping
@@ -47,7 +47,7 @@
                                                         {{ order.status|title }}
                                                     {% endif %}
                                                 </span></a>
-                                                <a href="#"><span>ESTIMATED DELIVERY:</span>
+                                                <a href=""><span>ESTIMATED DELIVERY:</span>
                                                     {% if region_group == 'ncr' %}
                                                         NCR: 2-3 Days
                                                     {% elif region_group == 'luzon' %}

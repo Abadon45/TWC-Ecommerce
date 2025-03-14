@@ -19,33 +19,31 @@
                             <ul class="nav nav-pills" id="pills-tab" role="tablist" style="margin-left: 20px;">
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link {% if not request.GET.status or request.GET.status == 'all' %}active{% endif %}"
-                                       href=">All</a>
-                            </li>
-                            <li class=" nav-item pending-btn" role="presentation" style="margin-right: 10px;">
-                                    <a class="nav-link {% if request.GET.status == 'pending' %}active{% endif %}"
-                                       href="">Pending
-                                        <span>({{ pending_count }})</span>
-                                    </a>
+                                       href="?status=all">All</a>
                                 </li>
                                 <li class="nav-item to-ship-btn" role="presentation">
-                                    <a class="nav-link {% if request.GET.status == 'for-pickup' or request.GET.status == 'for-booking' %}active{% endif %}"
-                                       href="">
-                                        To Ship<span>({{ to_ship_count }})</span>
+                                    <a class="nav-link {% if request.GET.status == 'for-pickup' %}active{% endif %}"
+                                       href="?status=for-pickup">To Ship
+                                        <span>({{ to_ship_count|default:0 }})</span>
                                     </a>
                                 </li>
                                 <li class="nav-item shipping-btn" role="presentation">
                                     <a class="nav-link {% if request.GET.status == 'shipping' %}active{% endif %}"
-                                       href="">To Receive
-                                        <span>({{ shipping_count }})</span></a>
+                                       href="?status=shipping">To Receive
+                                        <span>({{ shipping_count|default:0 }})</span>
+                                    </a>
                                 </li>
                                 <li class="nav-item delivered-btn" role="presentation">
                                     <a class="nav-link {% if request.GET.status == 'delivered' %}active{% endif %}"
-                                       href="">Received
-                                        <span>({{ delivered_count }})</span></a>
+                                       href="?status=delivered">Delivered
+                                        <span>({{ delivered_count|default:0 }})</span>
+                                    </a>
                                 </li>
                             </ul>
+
                         </div>
                     </div>
+
                     {% if orders %}
                         <div id="orders-container">
                             <!-- list order items here via ajax -->
@@ -129,50 +127,40 @@
             var page = 1;
             var loading = false; // Flag to prevent multiple AJAX requests
             var allOrdersLoaded = false; // Flag to track if all orders have been loaded
+            function getSelectedStatus() {
+                return $(".order-status-tabs .active").data("status") || "all";
+            }
 
             // Function to load more orders via AJAX
             function loadMoreOrders() {
                 if (!loading && !allOrdersLoaded) {
-                    loading = true; // Set loading flag to true to prevent multiple requests
-
+                    loading = true; // Prevent multiple requests
                     $('#loading').show();
 
-                    // Make AJAX request to load more orders
+                    var selectedStatus = "{{ request.GET.status|default:'all' }}";
+
                     $.ajax({
                         url: orderHistoryUrl,
-                        data: {page: page},
-                        headers: {
-                            "X-Requested-With": "XMLHttpRequest"
+                        data: {
+                            page: page,
+                            status: selectedStatus  // ✅ Include status filter in AJAX request
                         },
-                        success: async function (data) {
+                        headers: {"X-Requested-With": "XMLHttpRequest"},
+                        success: function (data) {
                             console.log("✅ AJAX Success Response:", data);
 
                             if (data.orders.length > 0) {
                                 for (const orderData of data.orders) {
-                                    // Fetch full product details for each item
-                                    let updatedItems = await Promise.all(orderData.products.map(async (item) => {
-                                        try {
-                                            let response = await fetch(`https://dashboard.twcdevtest.com/shop/api/get-product/?slug=${item.slug}`);
-                                            let productData = await response.json();
-
-                                            if (productData.success) {
-                                                return {
-                                                    name: productData.product.name,
-                                                    sku: productData.product.sku,
-                                                    image: productData.product.image_1 || '',
-                                                    customer_price: productData.product.customer_price,
-                                                    total_qty: item.quantity,  // Ensure correct quantity field
-                                                    slug: productData.product.slug
-                                                };
-                                            }
-                                        } catch (error) {
-                                            console.error(`❌ Error fetching product ${item.slug}:`, error);
-                                            return null; // Return null if fetching fails
-                                        }
+                                    // Process products directly from fetched order data
+                                    orderData.products = orderData.products.map(item => ({
+                                        name: item.name,
+                                        sku: item.sku,
+                                        image: item.image_1 || '',
+                                        customer_price: item.customer_price,
+                                        total_qty: item.quantity,  // Ensure correct quantity field
+                                        slug: item.slug,
+                                        shop: item.category_1
                                     }));
-
-                                    // Remove null values (failed fetches)
-                                    orderData.products = updatedItems.filter(item => item !== null);
 
                                     // Generate and append HTML
                                     const orderHtml = generateOrderHTML(orderData);
@@ -207,7 +195,7 @@
                     <div class="row">
                         <div class="col-6 text-left">
                             <a href="${orderData.shop_url || '#'}" style="margin-top: 10px; color: #11B76B;">
-                                <i class="fa-solid fa-store"></i> Shop: ${orderData.supplier || 'Unknown'}
+                                <i class="fa-solid fa-store"></i> Shop: ${orderData.products[0]?.shop.toUpperCase() || 'Unknown'}
                             </a>
                         </div>
                         <div class="col-6 text-right">
@@ -298,6 +286,20 @@
                 if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
                     loadMoreOrders();
                 }
+            });
+            // Load orders when clicking on a status tab
+            $(".order-status-tabs a").on("click", function (e) {
+                e.preventDefault();
+                $(".order-status-tabs .active").removeClass("active");
+                $(this).addClass("active");
+
+                // Reset pagination & order list
+                page = 1;
+                allOrdersLoaded = false;
+                $("#orders-container").empty();
+
+                // Load orders for the selected status
+                loadMoreOrders();
             });
 
             // Initial load of orders

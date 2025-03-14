@@ -24,8 +24,6 @@ def referrer(request):
         else:
             current_domain = host  # If no subdomain, use the whole host
 
-        print(f'Current domain: {current_domain}')
-
         dev_admin = ""
         dev_domain = ""
 
@@ -38,8 +36,6 @@ def referrer(request):
 
         if sponsor in valid_sponsors:
             dev_admin = sponsor
-
-        print(f'Sponsor FB Pixel: {sponsor_fb_pixel}')
 
         if sponsor_messenger or dev_admin:
             return {
