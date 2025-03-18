@@ -62,14 +62,23 @@ $(document).ready(function () {
                     .attr("name", "city")
                     .prop("required", true)
                     .focus();
-                $('.barangayDropdown').empty()
-                    .append('<option selected>- Barangay -</option>')
-                    .append('<option value="Other (Specify Barangay)">Other (Specify Barangay)</option>');
+                $(".barangayDropdownBox").hide();
+                $(".barangayInputBox").show();
+                $(".barangayDropdown").attr("name", "barangay_input");
+                $(".barangayInputBox input")
+                    .attr("name", "barangay")
+                    .prop("required", true)
+                    .focus();
             } else {
                 $(".cityDropdownBox").show();
                 $(".cityDropdown").attr("name", "city");
                 $(".cityInputBox input")
                     .attr("name", "city_input")
+                    .removeAttr("required");
+                $(".barangayDropdownBox").show();
+                $(".barangayDropdown").attr("name", "barangay");
+                $(".barangayInputBox input")
+                    .attr("name", "barangay_input")
                     .removeAttr("required");
             }
         });
@@ -82,6 +91,13 @@ $(document).ready(function () {
                 .attr("name", "city_input")
                 .removeAttr("required");
             $(".cityDropdown").val("");
+            $(".barangayInputBox").hide();
+            $(".barangayDropdownBox").show();
+            $(".barangayDropdown").attr("name", "barangay");
+            $(".barangayInputBox input")
+                .attr("name", "barangay_input")
+                .removeAttr("required");
+            $(".barangayDropdown").val("");
         });
 
         cityDropdown.on('change', function () {

@@ -18,21 +18,26 @@ function isPhMobileNumber(number) {
 }
 
 function submitForm() {
-    const fullName = $('input[name="full_name"]').val().trim();
-    const phone = $('input[name="phone_display"]').val().trim();
-    const email = $('input[name="email"]').val().trim();
-    const address = $('input[name="address"]').val().trim();
-    const province = $('select[name="province"]').val();
-    const city = $('select[name="city"]').val();
-    const barangay = $('select[name="barangay"]').val();
-    const landmark = $('textarea[name="landmark"]').val().trim();
+    const fullName = $('input[name="full_name"]').val()?.trim() || "";
+    const phone = $('input[name="phone_display"]').val()?.trim() || "";
+    const address = $('input[name="address"]').val()?.trim() || "";
+    const province = $('select[name="province"]').val() || "";
+    const landmark = $('textarea[name="landmark"]').val()?.trim() || "";
 
+    // Determine city selection (manual input or dropdown)
+    const city = $('.cityInputBox').is(':visible')
+        ? $('input[name="city"]').val()?.trim() || ""
+        : $('select[name="city"]').val()?.trim() || "";
 
-    // Validate if any required field is missing
+    // Determine barangay selection (manual input or dropdown)
+    const barangay = $('.barangayInputBox').is(':visible')
+        ? $('.barangayInputBox input').val()?.trim() || ""
+        : $('select[name="barangay"]').val()?.trim() || "";
+
+    // Validate missing fields
     let missingFields = [];
 
     if (!fullName) missingFields.push('Full Name');
-    if (!email) missingFields.push('Email');
     if (!phone) {
         missingFields.push('Phone');
     } else if (!isPhMobileNumber(phone)) {
@@ -41,30 +46,19 @@ function submitForm() {
     if (!address) missingFields.push('Address');
     if (!province || province === "- Select Province -") missingFields.push('Province');
     if (!city || city === "- Select City -") missingFields.push('City');
-    if (!barangay || barangay === "- Barangay -") missingFields.push('Barangay');
+    if (!barangay || barangay === "- Barangay -" || barangay === "") missingFields.push('Barangay');
     if (!landmark) missingFields.push('Landmark');
 
-
-    if (missingFields.length > 0) {
-        if (missingFields.length > 1) {
-            const lastField = missingFields.pop();
-            Swal.fire({
-                icon: 'warning',
-                title: 'Incomplete Address',
-                text: 'Please fill in or select the following fields: ' + missingFields.join(', ') + ', and ' + lastField,
-                confirmButtonText: 'OK'
-            });
-        } else {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Incomplete Address',
-                text: 'Please fill in or select the following field: ' + missingFields[0],
-                confirmButtonText: 'OK'
-            });
-        }
-
-    } else {
-        $('#addUserData').click();
+    if (missingFields.length) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Incomplete Address',
+            text: `Please fill in or select: ${missingFields.join(', ')}`,
+            confirmButtonText: 'OK'
+        });
+        return;
     }
-}
 
+    // Submit the form
+    $('#addUserData').click();
+}

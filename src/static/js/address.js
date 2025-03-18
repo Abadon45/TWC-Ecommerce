@@ -68,6 +68,7 @@ $(document).ready(function () {
             if (input.value.replace(/\s/g, '').length >= 10 && (key >= "0" && key <= "9")) {
                 e.preventDefault(); // Prevent input if it's already 10 characters, excluding spaces
             }
+
         });
 
 
@@ -101,4 +102,5 @@ $(document).ready(function () {
             handleChange();
         });
     }
+
 });
