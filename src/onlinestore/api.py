@@ -114,3 +114,18 @@ def fetch_user_orders(username):
         print("[FETCH] Error: Failed to decode JSON response.")
 
     return {"orders": [], "count": 0}
+
+
+def online_store_settings(request):
+    settings_data = {}
+    api_url = settings.ONLINE_STORE_SETTINGS_API_URL
+
+    if api_url:
+        try:
+            response = requests.get(api_url, timeout=5)
+            if response.status_code == 200:
+                settings_data = response.json()
+        except requests.RequestException as e:
+            print(f"Error fetching online store settings: {e}")
+
+    return {"online_store_settings": settings_data}

@@ -1,5 +1,5 @@
 # ecommerce context_processors.py
-
+from cart.utils import get_access_token
 from .models import SiteSetting
 from django.conf import settings
 
@@ -128,3 +128,30 @@ def ph_number_prefixes(request):
         prefixes = []
 
     return {'ph_number_prefixes': prefixes}
+
+
+def get_online_store_settings(request):
+    settings_data = {}
+    api_url = getattr(settings, "ONLINE_STORE_SETTINGS_API_URL", None)
+    access_token = get_access_token()  # Get the token from the session
+
+    if api_url and access_token:
+        try:
+            print(f"Fetching API: {api_url}")  # Debug: Show API URL
+            headers = {"Authorization": f"Bearer {access_token}"}
+            response = requests.get(api_url, headers=headers, timeout=5)
+
+            print(f"API Response Status: {response.status_code}")  # Debug: Show HTTP Status
+
+            if response.status_code == 200:
+                settings_data = response.json()
+                print(f"Settings data: {settings_data}")  # Debug: Show API response data
+            else:
+                print(f"API returned non-200 status: {response.status_code}, Response: {response.text}")
+
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching online store settings: {e}")
+
+    return {
+        "promotional_banner": settings_data.get("upload_image_path_online_store", ""),
+    }

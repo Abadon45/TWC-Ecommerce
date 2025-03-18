@@ -316,7 +316,7 @@ class DashboardOrderView(UserSessionMixin, TemplateView):
             # ✅ Fetch all orders again (AJAX request is separate from initial page load)
             all_orders = self.get_all_orders()
 
-            # ✅ Apply filtering for AJAX requests
+            # ✅ Apply filtering for AJAX reques
             filtered_orders = self.get_filtered_orders(all_orders, status_filter)
 
             print(f"📌 Filtered Orders Count (AJAX): {len(filtered_orders)}")

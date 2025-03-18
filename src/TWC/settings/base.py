@@ -37,6 +37,9 @@ CHECK_USERNAME_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/account/api/check
 FETCH_ORDERS_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/order/api/fetch-order/{{username}}"
 UPDATE_PROFILE_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/account/api/update-profile/{{username}}"
 
+#TWCAKO ONLINE STORE SETTINGS
+ONLINE_STORE_SETTINGS_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/shop/api/online-store-settings/"
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
@@ -155,6 +158,7 @@ TEMPLATES = [
                 'onlinestore.context_processors.cart_items',
                 'onlinestore.context_processors.facebook_pixel_id',
                 'onlinestore.context_processors.ph_number_prefixes',
+                'onlinestore.context_processors.get_online_store_settings',
                 'TWC.context_processors.main_site_url',
                 'TWC.context_processors.site_urls',
             ],
