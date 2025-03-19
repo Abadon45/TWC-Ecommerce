@@ -7,70 +7,70 @@
     <div class="header-top">
         <div class="container">
             <div class="header-top-wrapper">
-                {% if user.is_authenticated and user.is_superuser %}
-                    <div class="row">
-                        <div class="col-12 col-md-6 col-lg-6 col-xl-5">
-                            <div class="header-top-left">
-                                <ul class="header-top-list">
-                                    {% if settings.IS_PRODUCTION %}
-                                        <li><a href="admin.twconline.store"><i class="fa-solid fa-user-secret"></i></i>
-                                            ADMIN</a>
-                                        </li>
-                                    {% else %}
-                                        <li><a href="admin.twconline.store:8000"><i
-                                                class="fa-solid fa-user-secret"></i></i>ADMIN</a></li>
-                                    {% endif %}
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-6 col-xl-7 mobile-hidden">
-                            <div class="header-top-right">
-                                <ul class="header-top-list">
-                                    <li><a href="{% url 'products:product_list' %}"><i
-                                            class="fa-solid fa-code-compare"></i> Product List</a></li>
-                                    <li><a href="{% url 'products:add_product' %}"><i
-                                            class="fa-solid fa-keyboard"></i> Add Products</a></li>
-                                    {% if user.is_authenticated %}
-                                                        <li class="login"><a href="{{ DASHBOARD_URL }}/logout/">Logout</a></li>
-                                                        {% else %}
-                                                        <li class="login"><a href="{{ DASHBOARD_URL }}/login/">Login</a></li>
-                                                        {% endif %}
-                                    {% if user.is_authenticated %}
-                                        <li class="login"><a href="{{ DASHBOARD_URL }}/logout/"><i
-                                                class="far fa-arrow-right-to-arc"></i> Logout</a></li>
-                                    {% else %}
-                                        <li class="login"><a href="{{ DASHBOARD_URL }}/login/"><i
-                                                class="far fa-arrow-right-to-arc"></i> Login</a></li>
-                                    {% endif %}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="row">
-                        <div class="col-12 col-md-6 col-lg-6 col-xl-5">
-                            <div class="header-top-left">
-                            </div>
-                        </div>
-                                            <div class="col-12 col-md-6 col-lg-6 col-xl-7 mobile-hidden">
-                                                <div class="header-top-right">
-                                                    <ul class="header-top-list">
-                                                        {% if user.is_authenticated %}
-                                                        <li class="login"><a href="{{ DASHBOARD_URL }}/logout/">Logout</a></li>
-                                                        {% else %}
-                                                        <li class="login"><a href="{{ DASHBOARD_URL }}/login">Login</a></li>
-                                                        {% endif %}
-                                                        <li class="social">
-                                                            <div class="header-top-social">
-                                                                <span>Follow Us: </span>
-                                                                <a href="#"><i class="fab fa-facebook"></i></a>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                    </div>
-                {% endif %}
+                {#                {% if user.is_authenticated and user.is_superuser %}#}
+                {#                    <div class="row">#}
+                {#                        <div class="col-12 col-md-6 col-lg-6 col-xl-5">#}
+                {#                            <div class="header-top-left">#}
+                {#                                <ul class="header-top-list">#}
+                {#                                    {% if settings.IS_PRODUCTION %}#}
+                {#                                        <li><a href="admin.twconline.store"><i class="fa-solid fa-user-secret"></i></i>#}
+                {#                                            ADMIN</a>#}
+                {#                                        </li>#}
+                {#                                    {% else %}#}
+                {#                                        <li><a href="admin.twconline.store:8000"><i#}
+                {#                                                class="fa-solid fa-user-secret"></i></i>ADMIN</a></li>#}
+                {#                                    {% endif %}#}
+                {#                                </ul>#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {#                        <div class="col-12 col-md-6 col-lg-6 col-xl-7 mobile-hidden">#}
+                {#                            <div class="header-top-right">#}
+                {#                                <ul class="header-top-list">#}
+                {#                                    <li><a href="{% url 'products:product_list' %}"><i#}
+                {#                                            class="fa-solid fa-code-compare"></i> Product List</a></li>#}
+                {#                                    <li><a href="{% url 'products:add_product' %}"><i#}
+                {#                                            class="fa-solid fa-keyboard"></i> Add Products</a></li>#}
+                {#                                    {% if user.is_authenticated %}#}
+                {#                                        <li class="login"><a href="{{ DASHBOARD_URL }}/logout/">Logout</a></li>#}
+                {#                                    {% else %}#}
+                {#                                        <li class="login"><a href="{{ DASHBOARD_URL }}/login/">Login</a></li>#}
+                {#                                    {% endif %}#}
+                {#                                    {% if user.is_authenticated %}#}
+                {#                                        <li class="login"><a href="{{ DASHBOARD_URL }}/logout/"><i#}
+                {#                                                class="far fa-arrow-right-to-arc"></i> Logout</a></li>#}
+                {#                                    {% else %}#}
+                {#                                        <li class="login"><a href="{{ DASHBOARD_URL }}/login/"><i#}
+                {#                                                class="far fa-arrow-right-to-arc"></i> Login</a></li>#}
+                {#                                    {% endif %}#}
+                {#                                </ul>#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {#                {% else %}#}
+                {#                    <div class="row">#}
+                {#                        <div class="col-12 col-md-6 col-lg-6 col-xl-5">#}
+                {#                            <div class="header-top-left">#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {#                        <div class="col-12 col-md-6 col-lg-6 col-xl-7 mobile-hidden">#}
+                {#                            <div class="header-top-right">#}
+                {#                                <ul class="header-top-list">#}
+                {#                                    {% if user.is_authenticated %}#}
+                {#                                        <li class="login"><a href="{{ DASHBOARD_URL }}/logout/">Logout</a></li>#}
+                {#                                    {% else %}#}
+                {#                                        <li class="login"><a href="{{ DASHBOARD_URL }}/login">Login</a></li>#}
+                {#                                    {% endif %}#}
+                {#                                    <li class="social">#}
+                {#                                        <div class="header-top-social">#}
+                {#                                            <span>Follow Us: </span>#}
+                {#                                            <a href="#"><i class="fab fa-facebook"></i></a>#}
+                {#                                        </div>#}
+                {#                                    </li>#}
+                {#                                </ul>#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {#                {% endif %}#}
             </div>
         </div>
     </div>
@@ -141,29 +141,23 @@
                                         <ul class="dropdown-menu fade-down">
                                             <li><a class="dropdown-item" href="{{ DASHBOARD_URL }}" class="list-item">My
                                                 Profile</a></li>
-                                            {% if referrer %}
-                                                <li>
-                                                    <a class="dropdown-item"
-                                                       href="{{ referrer }}"
-                                                       id="user-chat-seller">
-                                                        Chat With Seller</a>
-                                                </li>
-                                            {% endif %}
-                                            {% if user.is_seller %}
-                                                <li><a class="dropdown-item" href="{{ DASHBOARD_URL|add:'/seller' }}">Seller
-                                                    Dashboard</a></li>
-                                            {% endif %}
-                                            {% if user.is_staff %}
-                                                <li><a class="dropdown-item"
-                                                       href="{{ DASHBOARD_URL|add:'/logistics' }}">Logistics
-                                                    Dashboard</a></li>
-                                            {% endif %}
-                                            {% if user.is_supplier %}
-                                                <li><a class="dropdown-item" href="{{ DASHBOARD_URL|add:'/supplier' }}">Supplier
-                                                    Dashboard</a></li>
-                                            {% endif %}
+                                            <li><a class="dropdown-item" href="{{ DASHBOARD_URL }}/profile"
+                                                   class="list-item">Profile Settings</a>
+                                                {% if referrer %}
+                                                    <li>
+                                                        <a class="dropdown-item"
+                                                           href="{{ referrer }}"
+                                                           id="user-chat-seller">
+                                                            Chat With Seller</a>
+                                                    </li>
+                                                {% endif %}
+                                            <li><a class="dropdown-item" href="{{ DASHBOARD_URL }}/logout/"
+                                                   class="list-item">Logout</a>
                                         </ul>
                                     </li>
+                                {% else %}
+                                    <li class="nav-item"><a class="nav-link"
+                                                            href="{{ DASHBOARD_URL }}/login">Login</a></li>
                                 {% endif %}
                                 <li class="cart-link nav-item dropdown-cart mobile-hidden">
                                     <a href="{% url 'cart:cart' %}" class="nav-link shop-cart list-item"><i
@@ -257,6 +251,12 @@
                                                 <li class="nav-item dropdown">
                                                     <a class="nav-link" href="{{ DASHBOARD_URL }}">
                                                         My Account (({{ user.username }}))
+                                                    </a>
+                                                </li>
+                                            {% else %}
+                                                <li class="nav-item dropdown">
+                                                    <a class="nav-link" href="{{ DASHBOARD_URL }}/login">
+                                                        Login
                                                     </a>
                                                 </li>
                                             {% endif %}

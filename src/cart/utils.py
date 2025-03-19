@@ -349,7 +349,7 @@ def create_order(request, items, shipping_amount, shop_count, total_discount):
         print(f'Invoice Number in Create Order: {invoice_number}')
 
         const_data = {
-            "username": request.session['referrer'],
+            "username": request.session.get('referrer'),
             "shipping_details": shipping_details,
             "order_details": {
                 "supplier": shop,

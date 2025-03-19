@@ -285,8 +285,11 @@ class CheckoutView(View):
 
         if referrer in not_referrer:
             referrer = self.request.session.get('referrer', self.request.session.get("sponsor"))
+
         if num_shops > 1:
             multishop = True
+
+        self.request.session['referrer'] = referrer
 
         context = {
             'multishop': multishop,
