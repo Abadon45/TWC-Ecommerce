@@ -349,7 +349,7 @@ def create_order(request, items, shipping_amount, shop_count, total_discount):
         print(f'Invoice Number in Create Order: {invoice_number}')
 
         const_data = {
-            "username": request.session.get('referrer'),
+            "username": get_referrer_from_host(request),
             "shipping_details": shipping_details,
             "order_details": {
                 "supplier": shop,
@@ -658,6 +658,28 @@ def send_email(to_email, subject, html_content, from_email="noypangan5@gmail.com
     except Exception as e:
         print(f"❌ Failed to send email: {e}")
         return None
+
+
+def get_referrer_from_host(request):
+    """
+    Extracts the referrer (subdomain) from the request host.
+    If the referrer is in the excluded list, it falls back to session values.
+    """
+    full_host = request.get_host()
+    host_parts = full_host.split(".")
+    referrer = host_parts[0] if len(host_parts) > 2 else None
+    not_referrer = ['dashboard', 'www', 'admin']
+
+    if referrer in not_referrer:
+        referrer = request.session.get('referrer', request.session.get("sponsor"))
+
+    if referrer:
+        request.session['referrer'] = referrer
+    else:
+        referrer = None
+
+    return referrer
+
 
 
 

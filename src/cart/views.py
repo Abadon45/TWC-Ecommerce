@@ -278,18 +278,10 @@ class CheckoutView(View):
         print(f'Orders: {self.get_orders()}')
         num_shops = len(self.get_orders().keys())
         multishop = False
-        full_host = self.request.get_host()
-        host_parts = full_host.split(".")
-        referrer = host_parts[0] if len(host_parts) > 2 else None
-        not_referrer = ['dashboard', 'www', 'admin']
-
-        if referrer in not_referrer:
-            referrer = self.request.session.get('referrer', self.request.session.get("sponsor"))
+        referrer = get_referrer_from_host(self.request)
 
         if num_shops > 1:
             multishop = True
-
-        self.request.session['referrer'] = referrer
 
         context = {
             'multishop': multishop,
@@ -398,9 +390,12 @@ def submit_checkout(request):
     temp_username = request.session.get('temp_username')
     temp_password = request.session.get('temp_password')
     email = request.session.get('email')
-    sponsor = request.session.get('referrer')
+    sponsor = get_referrer_from_host(request)
     user = request.user
     access_token = get_access_token()
+
+    if sponsor == None:
+        sponsor = temp_username
 
     print(f'temp_username: {temp_username}, temp_password: {temp_password}')
 
