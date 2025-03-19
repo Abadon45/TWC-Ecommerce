@@ -101,33 +101,6 @@
 <!-- Include jQuery library -->
 
 <script>
-    const categoryBanners = {
-        'all': [
-            "{% static 'img/breadcrumb/01.webp' %}",
-            "{% static 'img/breadcrumb/02.webp' %}",
-            "{% static 'img/breadcrumb/03.webp' %}",
-            "{% static 'img/breadcrumb/04.webp' %}",
-            "{% static 'img/breadcrumb/05.webp' %}"
-        ],
-        'sante': ["{% static 'img/breadcrumb/03.webp' %}"],
-        'chingu': [
-            "{% static 'img/breadcrumb/01.webp' %}",
-            "{% static 'img/breadcrumb/02.webp' %}"
-        ],
-        'mood': [
-            "{% static 'img/breadcrumb/04.webp' %}",
-            "{% static 'img/breadcrumb/05.webp' %}"
-        ]
-    };
-
-    function shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-    }
-
     $(document).ready(function () {
         const bannerUrl = `{{ promotional_banner }}` || 'default-banner.jpg';
         const bannerLink = "https://www.twcako.com"; // Redirect link

@@ -2,6 +2,7 @@ import json
 
 from django.utils import timezone
 from django.shortcuts import redirect, render
+from django.utils.html import format_html
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
@@ -277,14 +278,22 @@ class CheckoutView(View):
         print(f'Orders: {self.get_orders()}')
         num_shops = len(self.get_orders().keys())
         multishop = False
+        full_host = self.request.get_host()
+        host_parts = full_host.split(".")
+        referrer = host_parts[0] if len(host_parts) > 2 else None
+        not_referrer = ['dashboard', 'www', 'admin']
+
+        if referrer in not_referrer:
+            referrer = self.request.session.get('referrer', self.request.session.get("sponsor"))
         if num_shops > 1:
             multishop = True
+
         context = {
             'multishop': multishop,
             'shipping_form': AddressForm(),
             'orders': self.get_orders(),
             'cart_total': self.request.session.get('cart_total', 0),
-            'referred_by': self.request.session.get('referrer'),
+            'referred_by': referrer,
             'title': "Checkout",
         }
         return context
@@ -563,68 +572,60 @@ class PromoCheckoutView(CheckoutView):
 #########################################################
 
 
+from django.utils.html import format_html
+from cart.utils import send_email
+from decimal import Decimal
+
 class CheckoutDoneView(View):
     title = "Thank You"
     template_name = 'cart/shop-checkout-complete.html'
 
     def get(self, request, *args, **kwargs):
-        # Check if 'order_complete' exists in the session
         order_complete = request.session.get('order_complete', False)
         request.session['promo'] = False
 
-        # Redirect to home if the order is not complete
         if not order_complete:
             return redirect("home_view")
 
-        # Prepare the context data for rendering
         context = self.get_context_data()
 
-        # Render the template with the context
+        # Send confirmation email
+        self.send_confirmation_email(context)
+
         return render(request, self.template_name, context)
 
     def get_context_data(self):
         context = {}
-
         total_payment = 0.0
-        total_quantity = 0
         current_date = timezone.now().strftime('%b %d, %Y')
 
-        # Retrieve ordered_items_by_shop and total_cart_subtotal from the session
         request = self.request
         request.session['checkout_completed'] = False
-        if 'ordered_items_by_shop' in request.session:
-            ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
-            orders = ordered_items_by_shop.copy()
 
-            request.session.pop('cart', None)
-            request.session.pop('ordered_items_by_shop', None)
-
-            request.session['orders'] = orders
-        else:
-            orders = request.session.get('orders', [])
+        orders = request.session.pop('ordered_items_by_shop', {}).copy()
+        request.session.pop('cart', None)
+        request.session['orders'] = orders or request.session.get('orders', {})
 
         checkout_details = request.session.get('updated_orders', {})
         address_from_session = request.session.get('shipping_address', {})
         sponsor_mobile = request.session.get('mobile')
         payment_method = request.session.get('payment_method')
-        print(f'Selected Payment Method: {payment_method}')
 
         province_name = address_from_session.get('province', 'Unknown')
         region_detected = detect_region(province_name)
 
-        print(f'region_detected: {region_detected}')
-        print(f'Referrer saved: {request.session.get("referrer")}')
-        print(f'Orders: {orders}')
-        print(f'Address: {address_from_session}')
-
         for shop, shop_data in orders.items():
-            items = shop_data['items']
-            total_quantity = sum(item['quantity'] for item in items)
+            items = shop_data.get('items', [])
+            total_quantity = sum(item.get('quantity', 0) for item in items)
             orders[shop]['total_quantity'] = total_quantity
 
-        total_cod_amount = sum(Decimal(shop['cod_amount']) for shop in orders.values())
-        # Update the context with data retrieved from the session
-        cart_total = request.session.get('cart_total', 0)  # Add a default value if needed
+        try:
+            total_cod_amount = sum(Decimal(shop.get('cod_amount', 0)) for shop in orders.values())
+        except Exception as e:
+            print(f"❌ Error calculating COD amount: {e}")
+            total_cod_amount = 0
+
+        cart_total = request.session.get('cart_total', 0)
 
         context.update({
             'title': self.title,
@@ -646,6 +647,34 @@ class CheckoutDoneView(View):
         })
 
         return context
+
+    def send_confirmation_email(self, context):
+        """Send a confirmation email with temporary login details."""
+        user_email = context.get("email")
+        username = context.get("username")
+        password = context.get("password")
+
+        if user_email and username and password:
+            subject = "Welcome to TWCAKO - Your Account Details"
+            html_content = f"""
+                <p>Dear Customer,</p>
+                <p>Thank you for shopping with TWCAKO. Below are your temporary login details:</p>
+                <ul>
+                    <li><strong>Username:</strong> {username}</li>
+                    <li><strong>Password:</strong> {password}</li>
+                </ul>
+                <p>Please change your password after logging in for security purposes.</p>
+                <p>If you have any questions, feel free to contact our support team.</p>
+                <p>Best regards,</p>
+                <p><strong>TWCAKO Support Team</strong></p>
+            """
+
+            try:
+                send_email(user_email, subject, html_content, from_email="support@twcako.com")
+                print(f"✅ Email sent successfully to {user_email}")
+            except Exception as e:
+                print(f"❌ Failed to send email: {e}")
+
 
 
 class PromoCheckoutDoneView(CheckoutDoneView):

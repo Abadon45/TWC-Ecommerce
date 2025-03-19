@@ -259,25 +259,25 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
+
 # SENDGRID EMAIL
-
-SENDGRID_API_KEY = ''
-username = 'ZXZnZXJvbmlsbGE='
-password = 'dmVuZGljczIwMTU='
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'apikey'
-EMAIL_MAIN = 'TWCAKO <support@twcako.com>'
-EMAIL_HOST_PASSWORD = ''
+# SENDGRID_API_KEY = ''
+# username = 'ZXZnZXJvbmlsbGE='
+# password = 'dmVuZGljczIwMTU='
 # EMAIL_PORT = 587
 # EMAIL_USE_TLS = True
 
-EMAIL_PORT = 465
-EMAIL_USE_SSL = True
-EMAIL_USE_TLS = False
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'  # Required for SendGrid authentication
+EMAIL_HOST_PASSWORD = ''  # Fetch API key from environment variables
+EMAIL_PORT = 587  # TLS port
+EMAIL_USE_TLS = True  # Enable TLS for security
+EMAIL_USE_SSL = False  # Should remain False if using TLS
+DEFAULT_FROM_EMAIL = "TWCAKO <support@twcako.com>"  # Default sender email
+EMAIL_MAIN = "TWCAKO <support@twcako.com>"  # Main contact email
+SENDGRID_API_KEY = ""
 
-DEFAULT_FROM_EMAIL = EMAIL_MAIN
 SERVER_EMAIL = EMAIL_MAIN
 
 ACCOUNT_EMAIL_TEMPLATE_PASSWORD_RESET = 'login/password_reset_email.html'

@@ -18,7 +18,10 @@ from facebook_business.adobjects.serverside.event import Event
 from facebook_business.adobjects.serverside.event_request import EventRequest
 from facebook_business.adobjects.serverside.user_data import UserData
 from facebook_business.api import FacebookAdsApi
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
+from TWC.settings import SENDGRID_API_KEY
 from onlinestore.models import *
 
 
@@ -638,6 +641,23 @@ def fetch_product_from_slug(product_slug):
     #     return render(request, self.template_name, {'product': None})
 
 
+def send_email(to_email, subject, html_content, from_email="noypangan5@gmail.com"):
+    """Send an email using SendGrid API."""
+    message = Mail(
+        from_email=from_email,
+        to_emails=to_email,
+        subject=subject,
+        html_content=html_content
+    )
+
+    try:
+        sg = SendGridAPIClient(SENDGRID_API_KEY)
+        response = sg.send(message)
+        print(f"✅ Email sent! Status Code: {response.status_code}")
+        return response.status_code
+    except Exception as e:
+        print(f"❌ Failed to send email: {e}")
+        return None
 
 
 
