@@ -101,8 +101,12 @@
                                                      style="margin: auto; border-left: 1px solid lightgray;">
                                                     <div class="form-group mt-3">
                                                         <div class="sidebar-profile-img">
-                                                            <img src="{{ image }}" alt="Profile Picture"
-                                                                 id="profilePicture">
+                                                            {% if image %}
+                                                            	<img src="{{ image }}" alt="Profile Picture"
+                                                                 class="profilePicture">
+                                                            {% else %}
+                                                            	<img src="{% static 'img/user/default_profile.png' %}" alt="Profile Picture" class="profilePicture">
+                                                            {% endif %}
                                                         </div>
                                                         <label for="formFile" class="form-label text-center"
                                                                style="display: block;">Choose a Profile
@@ -151,7 +155,7 @@
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = function (e) {
-                        $('#profilePicture').attr('src', e.target.result);
+                        $('.profilePicture').attr('src', e.target.result);
                     }
                     reader.readAsDataURL(file);
                 }

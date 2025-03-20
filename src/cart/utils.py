@@ -289,6 +289,7 @@ def create_order(request, items, shipping_amount, shop_count, total_discount):
     """
     Creates an order by sending a request to the TWC Ako API.
     """
+    user = request.user
     order_url = settings.ORDER_URL_API
     access_token = get_access_token()
     ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
@@ -296,6 +297,10 @@ def create_order(request, items, shipping_amount, shop_count, total_discount):
     failure_redirect_url = request.build_absolute_uri(reverse('cart:cart'))
     order_number = ""
 
+    if user.is_authenticated:
+        username = user.username
+    else:
+        username = request.session.get('temp_username') if request.session.get('temp_username') else get_referrer_from_host(request)
 
     payment_method = request.session.get('payment_method')
     if payment_method == 'Cash On Delivery':
@@ -349,7 +354,7 @@ def create_order(request, items, shipping_amount, shop_count, total_discount):
         print(f'Invoice Number in Create Order: {invoice_number}')
 
         const_data = {
-            "username": get_referrer_from_host(request),
+            "username": username,
             "shipping_details": shipping_details,
             "order_details": {
                 "supplier": shop,

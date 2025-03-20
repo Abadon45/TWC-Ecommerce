@@ -427,10 +427,13 @@ def submit_checkout(request):
 
             try:
                 response = requests.post(REGISTER_USER_API_URL, json=register_data, headers=headers)
-                api_response = response.json()
 
                 print(f"Response Status: {response.status_code}")
-                print(f"Response Content: {api_response}")
+                print(f"Response Content (Raw): {response.text}")  # Print raw response
+
+                api_response = response.json()  # This is where the error occurs
+
+                print(f"Response Content (Parsed JSON): {api_response}")
 
                 if response.status_code != 201:
                     return JsonResponse({
@@ -443,6 +446,10 @@ def submit_checkout(request):
             except requests.RequestException as e:
                 print(f"Error: {e}")
                 return JsonResponse({'error': 'Failed to register user. Please try again later.'}, status=500)
+
+            except json.JSONDecodeError:
+                print("Error: Response is not valid JSON.")
+                return JsonResponse({'error': 'Invalid response from the server. Please try again later.'}, status=500)
 
     for shop, shop_data in ordered_items_by_shop.items():
 
