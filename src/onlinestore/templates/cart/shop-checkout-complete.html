@@ -59,7 +59,7 @@
                                     </div>
                                     {% if user.is_authenticated %}
                                         <div class="view-order">
-                                            <a href="{{ DASHBOARD_URL }}/order/order-detail/?order_id={{ order.order_id }}"
+                                            <a href="{{ DASHBOARD_URL }}/order-history/{{ data.order_number }}"
                                                target="_blank">
                                                 View Order</a>
                                         </div>

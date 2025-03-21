@@ -7,6 +7,8 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from urllib.parse import urlencode
+from cart.utils import send_email
+from decimal import Decimal
 
 from onlinestore.api import *
 from onlinestore.forms import AddressForm
@@ -577,10 +579,6 @@ class PromoCheckoutView(CheckoutView):
 #########################################################
 
 
-from django.utils.html import format_html
-from cart.utils import send_email
-from decimal import Decimal
-
 class CheckoutDoneView(View):
     title = "Thank You"
     template_name = 'cart/shop-checkout-complete.html'
@@ -607,9 +605,14 @@ class CheckoutDoneView(View):
         request = self.request
         request.session['checkout_completed'] = False
 
-        orders = request.session.pop('ordered_items_by_shop', {}).copy()
-        request.session.pop('cart', None)
-        request.session['orders'] = orders or request.session.get('orders', {})
+        # Preserve orders session to prevent loss on refresh
+        if 'ordered_items_by_shop' in request.session:
+            ordered_items_by_shop = request.session.pop('ordered_items_by_shop', {})
+            orders = ordered_items_by_shop.copy()
+            request.session.pop('cart', None)
+            request.session['orders'] = orders  # Store the orders in session
+        else:
+            orders = request.session.get('orders', {})
 
         checkout_details = request.session.get('updated_orders', {})
         address_from_session = request.session.get('shipping_address', {})
@@ -658,9 +661,22 @@ class CheckoutDoneView(View):
         user_email = context.get("email")
         username = context.get("username")
         password = context.get("password")
+        orders = context.get("orders", {})
 
         if user_email and username and password:
-            subject = "Welcome to TWCAKO - Your Account Details"
+            subject = "Welcome to TWCAKO - Your Account & Order Details"
+
+            # Generate order details safely
+            order_details_list = []
+            for shop, shop_data in orders.items():
+                items_list = ", ".join(
+                    f"{item['product'].get('name', 'Unknown Item')} (x{item.get('quantity', 0)})"
+                    for item in shop_data.get('items', [])
+                )
+                order_details_list.append(f"<li><strong>{shop}:</strong> {items_list}</li>")
+
+            order_details_html = "".join(order_details_list)
+
             html_content = f"""
                 <p>Dear Customer,</p>
                 <p>Thank you for shopping with TWCAKO. Below are your temporary login details:</p>
@@ -669,6 +685,12 @@ class CheckoutDoneView(View):
                     <li><strong>Password:</strong> {password}</li>
                 </ul>
                 <p>Please change your password after logging in for security purposes.</p>
+
+                <h3>Your Order Details:</h3>
+                <ul>
+                    {order_details_html}
+                </ul>
+
                 <p>If you have any questions, feel free to contact our support team.</p>
                 <p>Best regards,</p>
                 <p><strong>TWCAKO Support Team</strong></p>
@@ -679,7 +701,6 @@ class CheckoutDoneView(View):
                 print(f"✅ Email sent successfully to {user_email}")
             except Exception as e:
                 print(f"❌ Failed to send email: {e}")
-
 
 
 class PromoCheckoutDoneView(CheckoutDoneView):
