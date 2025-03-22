@@ -129,3 +129,37 @@ def online_store_settings(request):
             print(f"Error fetching online store settings: {e}")
 
     return {"online_store_settings": settings_data}
+
+
+def get_tokens(username, password):
+    """
+    Fetch access token and refresh token from the authentication API.
+    """
+    url = settings.REQUEST_ACCESS_TOKEN_API_URL
+
+    if not url:
+        return {"error": "REQUEST_ACCESS_TOKEN_API_URL is not set in settings."}
+
+    data = {
+        "username": username,
+        "password": password
+    }
+
+    try:
+        response = requests.post(url=url, json=data)
+        response.raise_for_status()
+
+        try:
+            response_data = response.json()
+        except ValueError:
+            return {"error": "Invalid JSON response from API"}
+
+        return {
+            "access_token": response_data.get("access"),
+            "refresh_token": response_data.get("refresh")
+        }
+
+    except requests.exceptions.RequestException as e:
+        return {"error": str(e)}
+
+

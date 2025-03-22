@@ -17,9 +17,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from cart.utils import detect_region, get_main_domain, fetch_and_update_user_session, fetch_product_from_slug, \
-    get_access_token_from_user
-from onlinestore.api import fetch_user_orders
+from cart.utils import detect_region, get_main_domain, fetch_and_update_user_session, get_user_access_token
+from onlinestore.api import fetch_user_orders, get_tokens
 from user.forms import LoginForm
 
 import logging
@@ -54,15 +53,22 @@ class APILoginView(View):
         api_url = settings.AUTH_API_URL
         response = requests.post(api_url, json={"username": username, "password": password})
 
+        token_response = get_tokens(username, password)
+
+        if "error" in token_response:
+            return render(request, self.template_name, {"error": token_response["error"]})
+
         try:
             api_response = response.json()
         except ValueError:
             return render(request, self.template_name, {"error": "Invalid response from server."})
 
         if response.status_code == 200 and "token" in api_response:
-            token = api_response["token"]
+            token = token_response.get("refresh_token")
 
-            request.session["access_token"] = token
+            request.session["user_token"] = api_response.get("token")
+            request.session["refresh_token"] = token
+            request.session["access_token"] = token_response.get("access_token")
             request.session["username"] = api_response["user"]
             request.session["is_authenticated"] = True
             request.session["sponsor"] = api_response.get("sponsor", None)
@@ -76,11 +82,6 @@ class APILoginView(View):
 
             # Set session expiration (1 day)
             request.session.set_expiry(60 * 60 * 24)
-
-            print(f"Login successful! Token stored for {username}")
-            print(f"Token is {token}")
-            print(f'Sponsor: {api_response.get("sponsor")}')
-            print(f'User details: {api_response.get("first_name")} {api_response.get("last_name")}, Seller: {api_response.get("is_seller")}')
 
             # ✅ Create response
             response = HttpResponseRedirect(f"http://dashboard.{get_main_domain(request)}/token/?token={token}&username={username}")
@@ -138,8 +139,8 @@ class ChangePasswordView(LoginRequiredMixin, View):
         if not old_password or not new_password:
             return JsonResponse({"error": "Both old and new passwords are required."}, status=400)
 
-
-        access_token = get_access_token_from_user(request, old_password)
+        refresh_token = request.session.get("refresh_token")
+        access_token = get_user_access_token(refresh_token)
 
         if not access_token:
             return JsonResponse({"error": "User is not authenticated. Please log in again."}, status=401)
@@ -150,20 +151,13 @@ class ChangePasswordView(LoginRequiredMixin, View):
         }
         payload = {"old_password": old_password, "new_password": new_password}
 
-        print("🔍 Sending Request to API:", self.CHANGE_PASSWORD_API_URL)
-        print("🔍 Request Headers:", headers)
-        print("🔍 Request Payload:", payload)
-
         try:
             response = requests.post(self.CHANGE_PASSWORD_API_URL, json=payload, headers=headers)
-            print("🔍 Raw API Response:", response.text)  # Debugging
 
             if response.status_code == 200:
                 return JsonResponse({"message": "Password changed successfully."}, status=200)
 
             if response.status_code == 401:  # 🔁 Token expired, try refreshing
-                print("⚠️ Token expired. Fetching a new access token...")
-                access_token = get_access_token_from_user(request)
                 if access_token:
                     headers["Authorization"] = f"Bearer {access_token}"
                     response = requests.post(self.CHANGE_PASSWORD_API_URL, json=payload, headers=headers)
@@ -179,6 +173,7 @@ class ChangePasswordView(LoginRequiredMixin, View):
 
         except requests.exceptions.RequestException as e:
             return JsonResponse({"error": f"Request failed: {str(e)}"}, status=500)
+
 
 
 class SaveTokenView(View):
@@ -275,11 +270,26 @@ class DashboardProfileView(TemplateView, UserSessionMixin):
 
     def get_context_data(self, **kwargs):
         """Return context data for rendering the profile page."""
+        user_token = self.request.session.get("user_token")
+        refresh_token = self.request.session.get("refresh_token")
+        access_token = self.request.session.get("access_token")
+
+        print(f'UserToken: {user_token}')
+        print(f'RefreshToken: {refresh_token}')
+        print(f'AccessToken: {access_token}')
+
+        # Try to refresh token if access_token is missing or expired
+        if not access_token:
+            access_token = get_user_access_token(refresh_token)
+            if access_token:
+                self.request.session["access_token"] = access_token
+
         context = super().get_context_data(**kwargs)
         context.update(self.get_user_session_data())  # Mixin method
         context.update({
-            "UPDATE_PROFILE_API_URL": settings.UPDATE_PROFILE_API_URL.format(username=self.request.user.username),
-            "REFRESH_TOKEN": self.request.session.get("access_token"),
+            "UPDATE_PROFILE_API_URL": settings.UPDATE_PROFILE_API_URL.format(
+                username=self.request.session.get("username")),
+            "ACCESS_TOKEN": access_token,
         })
         return context
 

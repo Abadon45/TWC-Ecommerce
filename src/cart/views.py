@@ -91,7 +91,8 @@ class UpdateCartView(View):
         """Update the cart stored in the session."""
         # Fetch product data from the API
         product = self.get_product_data(product_slug)
-        MAX_ORDER_QUANTITY = int(SiteSetting.get_max_order_quantity())
+        # MAX_ORDER_QUANTITY = int(SiteSetting.get_max_order_quantity())
+        MAX_ORDER_QUANTITY = 5
 
         max_order_exceeded = False
         message = "Cart updated"

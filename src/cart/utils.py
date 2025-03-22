@@ -205,31 +205,25 @@ def get_access_token():
         return None
 
 
-def get_access_token_from_user(request, password):
-    """Fetches a fresh access token using the refresh token stored in the session."""
-    user = request.user
-    username = user.username
-    password = password
-
-    url = settings.REQUEST_ACCESS_TOKEN_API_URL  # ✅ Use URL from settings
+def get_user_access_token(refresh_token):
+    """Fetches a fresh access token for API calls."""
+    url = settings.REFRESH_TOKEN_API
+    print(f'REFRESH_TOKEN: {refresh_token}')
     data = {
-        "username": username,
-        "password": password,
+        "refresh": refresh_token
     }
 
     try:
         response = requests.post(url, json=data)
         response.raise_for_status()
 
-        token_data = response.json()
-        if "access" in token_data:
-            new_access_token = token_data["access"]
-            request.session["access_token"] = new_access_token  # ✅ Save new access token
-            print(f"✅ New access token saved in session: {new_access_token}")
-            return new_access_token
+        if response.status_code == 200 and "access_token" in response.json():
+            print(f'Access token fetched: {response.json().get("access_token")}')
+            return response.json().get("access_token")
 
     except requests.exceptions.RequestException as e:
-        print(f"❌ Error fetching access token: {e}")
+        print("Error fetching access token:", e)
+        # Log the error details for debugging purposes
         return None
 
 

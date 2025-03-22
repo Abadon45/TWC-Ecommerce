@@ -102,10 +102,11 @@
                                                     <div class="form-group mt-3">
                                                         <div class="sidebar-profile-img">
                                                             {% if image %}
-                                                            	<img src="{{ image }}" alt="Profile Picture"
-                                                                 class="profilePicture">
+                                                                <img src="{{ image }}" alt="Profile Picture"
+                                                                     class="profilePicture">
                                                             {% else %}
-                                                            	<img src="{% static 'img/user/default_profile.png' %}" alt="Profile Picture" class="profilePicture">
+                                                                <img src="{% static 'img/user/default_profile.png' %}"
+                                                                     alt="Profile Picture" class="profilePicture">
                                                             {% endif %}
                                                         </div>
                                                         <label for="formFile" class="form-label text-center"
@@ -248,6 +249,19 @@
 
             // AJAX request to update profile
             function sendProfileUpdate(formData) {
+                let email = $("input[name='email']").val().trim();
+                let mobile = $("input[name='mobile']").val().trim();
+
+                if (!email || !mobile) {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Email and Phone number are required.",
+                        icon: "error",
+                        confirmButtonText: "OK"
+                    });
+                    return;  // Stop execution if fields are empty
+                }
+
                 $.ajax({
                     url: "{{ UPDATE_PROFILE_API_URL }}",
                     type: "PUT",
@@ -255,7 +269,7 @@
                     processData: false,
                     contentType: false,
                     headers: {
-                        "Authorization": "{{ REFRESH_TOKEN }}"
+                        "Authorization": "Bearer {{ ACCESS_TOKEN }}"  // ✅ Use Access Token
                     },
                     beforeSend: function () {
                         Swal.fire({
@@ -279,8 +293,15 @@
                     },
                     error: function (xhr) {
                         let errorMessage = "Error updating profile.";
-                        if (xhr.responseJSON && xhr.responseJSON.detail) {
-                            errorMessage = xhr.responseJSON.detail;
+
+                        if (xhr.responseJSON) {
+                            if (xhr.responseJSON.error) {
+                                errorMessage = xhr.responseJSON.error;
+                            } else if (xhr.responseJSON.email) {
+                                errorMessage = xhr.responseJSON.email[0]; // Unique email error
+                            } else if (xhr.responseJSON.mobile) {
+                                errorMessage = xhr.responseJSON.mobile[0]; // Unique phone error
+                            }
                         }
 
                         Swal.fire({
