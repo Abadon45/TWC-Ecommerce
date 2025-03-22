@@ -205,6 +205,34 @@ def get_access_token():
         return None
 
 
+def get_access_token_from_user(request, password):
+    """Fetches a fresh access token using the refresh token stored in the session."""
+    user = request.user
+    username = user.username
+    password = password
+
+    url = settings.REQUEST_ACCESS_TOKEN_API_URL  # ✅ Use URL from settings
+    data = {
+        "username": username,
+        "password": password,
+    }
+
+    try:
+        response = requests.post(url, json=data)
+        response.raise_for_status()
+
+        token_data = response.json()
+        if "access" in token_data:
+            new_access_token = token_data["access"]
+            request.session["access_token"] = new_access_token  # ✅ Save new access token
+            print(f"✅ New access token saved in session: {new_access_token}")
+            return new_access_token
+
+    except requests.exceptions.RequestException as e:
+        print(f"❌ Error fetching access token: {e}")
+        return None
+
+
 def submit_checkout_base(request):
     referrer_username = request.GET.get('username')
     payment_method = request.GET.get('payment_method', 'Cash On Delivery')

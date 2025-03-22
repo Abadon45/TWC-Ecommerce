@@ -86,7 +86,7 @@
 
 <body class="home-6">
 <!-- FB PIXEL Tracking Custom Event -->
-{%  if sponsor_fb_pixel %}
+{% if sponsor_fb_pixel %}
     {% block fb_pixel_event %}{% endblock %}
 {% endif %}
 
@@ -138,6 +138,18 @@
 <!-- js -->
 {% include 'base/js.html' %}
 {% block extra_js %}{% endblock %}
+
+<script>
+    $(document).ready(function () {
+        {% if user.is_authenticated %}
+            $('.cart-amount').each(function () {
+                let originalPrice = parseFloat($(this).data('price')); // Get original price from data attribute
+                let discountedPrice = (originalPrice * 0.95).toFixed(2); // Apply 5% discount
+                $(this).text('₱' + discountedPrice); // Update displayed price
+            });
+        {% endif %}
+    });
+</script>
 
 
 </body>

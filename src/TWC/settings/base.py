@@ -24,10 +24,12 @@ XENDIT_API_KEY = os.environ.get("XENDIT_API_KEY",
 HOST_DOMAIN = os.environ.get("HOST_DOMAIN", "twcako")
 
 # TWCAKO API
+REQUEST_ACCESS_TOKEN_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/api/auth/token/"
+REFRESH_TOKEN_API = f'https://dashboard.{HOST_DOMAIN}.com/order/api/get-access-token/'
+
 SHOP_PRODUCTS_API = f'https://dashboard.{HOST_DOMAIN}.com/shop/api/get-product/?'
 SHOP_PRODUCT_DETAIL_API = f'https://dashboard.{HOST_DOMAIN}.com/shop/api/get-product/?slug={{product_slug}}'
 PRODUCT_URL_API = f'https://dashboard.{HOST_DOMAIN}.com/shop/api/get-product/?slug='
-REFRESH_TOKEN_API = f'https://dashboard.{HOST_DOMAIN}.com/order/api/get-access-token/'
 ORDER_URL_API = f'https://dashboard.{HOST_DOMAIN}.com/order/api/create-order/'
 VW_INVENTORY_API = f"https://dashboard.{HOST_DOMAIN}.com/account/api/check-username/{{username}}/vwinventory/"
 PH_NUMBERS_PREFIXES_API = f"https://dashboard.{HOST_DOMAIN}.com/addresses/api/ph-number-prefixes/"
@@ -36,6 +38,8 @@ REGISTER_USER_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/account/api/regist
 CHECK_USERNAME_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/account/api/check-username/{{username}}/"
 FETCH_ORDERS_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/order/api/fetch-order/{{username}}"
 UPDATE_PROFILE_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/account/api/update-profile/{{username}}"
+CHANGE_PASSWORD_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/account/api/change-password/"
+
 
 #TWCAKO ONLINE STORE SETTINGS
 ONLINE_STORE_SETTINGS_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/shop/api/online-store-settings/"

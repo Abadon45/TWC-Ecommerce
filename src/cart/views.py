@@ -30,7 +30,7 @@ class CartView(TemplateView):
         # Log the structure of each product's slug
         for shop, data in ordered_items_by_shop.items():
             cod_amount = data.get('cod_amount', 0)
-            cart_total += int(cod_amount)
+            cart_total += float(cod_amount)
 
         self.request.session['cart_total'] = cart_total
         # Update the context with data retrieved from the session
@@ -63,6 +63,8 @@ def fetch_product_quantity(request):
 
 
 class UpdateCartView(View):
+    DISCOUNT_RATE = Decimal('0.05')
+
     def get_product_data(self, product_slug):
         """Fetch product data from the API."""
         product_url = f'{settings.PRODUCT_URL_API}{product_slug}'
@@ -78,6 +80,12 @@ class UpdateCartView(View):
         except requests.RequestException as e:
             print(f"Error fetching product data: {e}")
             return None
+
+    def apply_discount(self, price, request):
+        """Apply a 5% discount if the user is authenticated."""
+        if request.user.is_authenticated:
+            return price * (1 - self.DISCOUNT_RATE)  # Apply 5% discount
+        return price
 
     def update_cart(self, request, product_slug, action, quantity):
         """Update the cart stored in the session."""
@@ -102,6 +110,9 @@ class UpdateCartView(View):
         # Get the shop (category_1) for grouping
         shop = product.get('category_1', 'Unknown Shop')
 
+        original_price = Decimal(str(product['customer_price']))
+        discounted_price = self.apply_discount(original_price, request)
+
         # Get the item from the cart or initialize it
         item = cart.get(product_slug, {
             'id': product['sku'],
@@ -110,7 +121,7 @@ class UpdateCartView(View):
             'slug': product_slug,
             'image': product.get('image_1', None),
             'quantity': 0,
-            'price': product['customer_price'],
+            'price': float(discounted_price),  # ✅ Use discounted price
             "barley_point": product['barley_point'],
         })
 
@@ -211,7 +222,6 @@ class UpdateCartView(View):
             cod_amount = subtotal + float(FIXED_SHIPPING_FEE) - float(discount)
             ordered_items_by_shop[shop]['cod_amount'] = cod_amount
             self.request.session['cart_total'] += cod_amount
-
         return ordered_items_by_shop
 
     def get(self, request, *args, **kwargs):

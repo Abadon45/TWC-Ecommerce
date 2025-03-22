@@ -196,8 +196,12 @@
                                                                         <h4><a
                                                                                 href="{% url 'shop:single' slug=item.product.slug %}">{{ item.product.name }}</a>
                                                                         </h4>
-                                                                        <p class="cart-qty">{{ item.quantity }}x - <span
-                                                                                class="cart-amount">{{ item.subtotal|currency }}</span>
+                                                                        <p class="cart-qty">
+                                                                            {{ item.quantity }}x -
+                                                                            <span class="cart-amount"
+                                                                                  data-price="{{ item.subtotal }}">
+                                                                            {{ item.subtotal|currency }}
+                                                                        </span>
                                                                         </p>
                                                                     </div>
                                                                     <a href="#" data-product="{{ item.product.slug }}"

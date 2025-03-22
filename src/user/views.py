@@ -1,4 +1,7 @@
+import json
+
 import requests
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View, TemplateView
@@ -14,7 +17,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from cart.utils import detect_region, get_main_domain, fetch_and_update_user_session, fetch_product_from_slug
+from cart.utils import detect_region, get_main_domain, fetch_and_update_user_session, fetch_product_from_slug, \
+    get_access_token_from_user
 from onlinestore.api import fetch_user_orders
 from user.forms import LoginForm
 
@@ -115,8 +119,66 @@ class PasswordResetComplete(PasswordResetCompleteView):
     title = "Password Reset Complete"
 
 
-class PasswordDoneView(TemplateView):
-    template_name = 'login/change-password-done.html'
+class ChangePasswordView(LoginRequiredMixin, View):
+    template_name = "login/change-password.html"
+    CHANGE_PASSWORD_API_URL = settings.CHANGE_PASSWORD_API_URL
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+    def post(self, request, *args, **kwargs):
+        """Handle password change request."""
+        try:
+            data = json.loads(request.body)  # ✅ Correctly parse JSON request
+            old_password = data.get("old_password")
+            new_password = data.get("new_password")
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON format."}, status=400)
+
+        if not old_password or not new_password:
+            return JsonResponse({"error": "Both old and new passwords are required."}, status=400)
+
+
+        access_token = get_access_token_from_user(request, old_password)
+
+        if not access_token:
+            return JsonResponse({"error": "User is not authenticated. Please log in again."}, status=401)
+
+        headers = {
+            "Authorization": f"Bearer {access_token}",
+            "Content-Type": "application/json"
+        }
+        payload = {"old_password": old_password, "new_password": new_password}
+
+        print("🔍 Sending Request to API:", self.CHANGE_PASSWORD_API_URL)
+        print("🔍 Request Headers:", headers)
+        print("🔍 Request Payload:", payload)
+
+        try:
+            response = requests.post(self.CHANGE_PASSWORD_API_URL, json=payload, headers=headers)
+            print("🔍 Raw API Response:", response.text)  # Debugging
+
+            if response.status_code == 200:
+                return JsonResponse({"message": "Password changed successfully."}, status=200)
+
+            if response.status_code == 401:  # 🔁 Token expired, try refreshing
+                print("⚠️ Token expired. Fetching a new access token...")
+                access_token = get_access_token_from_user(request)
+                if access_token:
+                    headers["Authorization"] = f"Bearer {access_token}"
+                    response = requests.post(self.CHANGE_PASSWORD_API_URL, json=payload, headers=headers)
+                    if response.status_code == 200:
+                        return JsonResponse({"message": "Password changed successfully."}, status=200)
+
+            try:
+                response_data = response.json()
+            except requests.exceptions.JSONDecodeError:
+                return JsonResponse({"error": "Invalid response from API."}, status=500)
+
+            return JsonResponse(response_data, status=response.status_code)
+
+        except requests.exceptions.RequestException as e:
+            return JsonResponse({"error": f"Request failed: {str(e)}"}, status=500)
 
 
 class SaveTokenView(View):
@@ -126,7 +188,7 @@ class SaveTokenView(View):
 
         if token:
             # Save token in session
-            request.session["access_token"] = token
+            request.session["refresh_token"] = token
             request.session["username"] = username
             print(f"✅ Token saved in session: {token}")
 

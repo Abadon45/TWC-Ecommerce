@@ -42,7 +42,7 @@ urlpatterns = [
     # Dashboard & Authentication
     path("login/", APILoginView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('change-password/', TemplateView.as_view(template_name='login/change-password.html'), name='change-password'),
+    path('change-password/', ChangePasswordView.as_view(template_name='login/change-password.html'), name='change-password'),
     path("token/", SaveTokenView.as_view(), name="user_token"),
     path('profile/', DashboardProfileView.as_view(template_name="user/dashboard-profile.html"), name='dashboard-profile'),
     path('order-history/', DashboardOrderView.as_view(template_name="user/dashboard-order-history.html"), name='order-history'),

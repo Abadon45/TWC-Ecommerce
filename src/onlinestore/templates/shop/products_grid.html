@@ -17,42 +17,6 @@
                                      id="product-image">
                             {% endif %}
                         </a>
-                        {#                        <div class="product-action-wrap">#}
-                        {#                            {% if not product.id in products_in_cart %}#}
-                        {#                                <div class="product-action">#}
-                        {#                                    <a href="#" class="quickview-btn"#}
-                        {#                                       data-tooltip="tooltip" title="Quick View"#}
-                        {#                                       data-product-id="{{ product.id }}"#}
-                        {#                                       data-product-name="{{ product.name }}"#}
-                        {#                                            {% if product.image_1 %}#}
-                        {#                                       data-product-image="{{ product.image_1.url }}"#}
-                        {#                                            {% else %}#}
-                        {#                                       data-product-image="{% static 'img/product/default_product_image.png' %}"#}
-                        {#                                            {% endif %}#}
-                        {#                                       data-product-price="{{ product.customer_price }}"#}
-                        {#                                       data-product-shop="{{ product.category_1|title }}"#}
-                        {#                                       data-product-category="{{ product.category_2|title }}"#}
-                        {#                                       data-product-sku="{{ product.sku }}"#}
-                        {#                                       data-bs-toggle="modal"#}
-                        {#                                       data-bs-target="#quickview"#}
-                        {#                                            {% if product.id in products_in_cart %}#}
-                        {#                                       data-button="btn btn-secondary item-id-{{ product.id }}"#}
-                        {#                                       data-text="Added To Cart"#}
-                        {#                                            {% else %}#}
-                        {#                                       data-button="btn theme-btn add-to-cart-btn update-cart item-id-{{ product.id }}"#}
-                        {#                                       data-action="add"#}
-                        {#                                       data-text="Add To Cart"#}
-                        {#                                            {% endif %}>#}
-                        {#                                        <i class="far fa-eye"></i>#}
-                        {#                                    </a>#}
-                        {##}
-                        {#                                    <a href="#" data-tooltip="tooltip" title="Add To Wishlist" hidden><i#}
-                        {#                                            class="far fa-heart"></i></a>#}
-                        {#                                    <a href="#" data-tooltip="tooltip" title="Add To Compare" hidden><i#}
-                        {#                                            class="far fa-arrows-repeat"></i></a>#}
-                        {#                                </div>#}
-                        {#                            {% endif %}#}
-                        {#                        </div>#}
                     </div>
                     <div class="product-content">
                         <h3 class="product-title"><a
@@ -96,8 +60,20 @@
                         {% endif %}
                         <div class="product-bottom">
                             <div class="product-price">
-                                <span class="current-product-price">{{ product.customer_price|currency }}</span>
+                                {% if user.is_authenticated %}
+                                    <span class="original-price" style="text-decoration: line-through; color: #888;">
+                                        {{ product.customer_price|currency }}
+                                    </span>
+                                    <span class="discounted-price" data-price="{{ product.customer_price }}">
+                                        {{ product.customer_price|currency }}
+                                    </span>
+                                {% else %}
+                                    <span class="current-product-price">
+                                        {{ product.customer_price|currency }}
+                                    </span>
+                                {% endif %}
                             </div>
+
                         </div>
                         {% if product.category_1 not in excluded_suppliers %}
                             <div class="product-stock mt-2">
@@ -121,5 +97,19 @@
         {% endfor %}
     </div>
 </div>
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function () {
+            {% if user.is_authenticated %}
+                $('.discounted-price').each(function () {
+                    let originalPrice = parseFloat($(this).data('price')); // Get price from data attribute
+                    let discountedPrice = (originalPrice * 0.95).toFixed(2); // Apply 5% discount
+                    $(this).text('₱' + discountedPrice); // Update price text
+                });
+            {% endif %}
+        });
+    </script>
+{% endblock %}
 
 
