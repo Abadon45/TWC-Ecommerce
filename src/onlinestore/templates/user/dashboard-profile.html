@@ -36,6 +36,23 @@
                                                 </div>
                                             </div>
                                         {% endif %}
+{#                                        <div class="col-md-4" style="margin: auto; border-left: 1px solid lightgray;">#}
+{#                                            <div class="form-group mt-3">#}
+{#                                                <div class="sidebar-profile-img">#}
+{#                                                    {% if image %}#}
+{#                                                        <img src="{{ image }}" alt="Profile Picture"#}
+{#                                                             class="profilePicture">#}
+{#                                                    {% else %}#}
+{#                                                        <img src="{% static 'img/user/default_profile.png' %}"#}
+{#                                                             alt="Profile Picture" class="profilePicture">#}
+{#                                                    {% endif %}#}
+{#                                                </div>#}
+{#                                                <label for="formFile" class="form-label text-center"#}
+{#                                                       style="display: block;">Choose a Profile Picture</label>#}
+{#                                                <input class="form-control" type="file" id="formFile">#}
+{#                                            </div>#}
+{#                                        </div>#}
+
                                         <form id="updateProfileForm" method="post" enctype="multipart/form-data"
                                               action="{% url 'dashboard-profile' %}">
                                             {% csrf_token %}
@@ -97,25 +114,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4"
-                                                     style="margin: auto; border-left: 1px solid lightgray;">
-                                                    <div class="form-group mt-3">
-                                                        <div class="sidebar-profile-img">
-                                                            {% if image %}
-                                                                <img src="{{ image }}" alt="Profile Picture"
-                                                                     class="profilePicture">
-                                                            {% else %}
-                                                                <img src="{% static 'img/user/default_profile.png' %}"
-                                                                     alt="Profile Picture" class="profilePicture">
-                                                            {% endif %}
-                                                        </div>
-                                                        <label for="formFile" class="form-label text-center"
-                                                               style="display: block;">Choose a Profile
-                                                            Picture</label>
-                                                        <input class="form-control" type="file" id="formFile"
-                                                               name="image">
-                                                    </div>
-                                                </div>
                                             </div>
                                             <button type="submit" class="theme-btn"><span class="far fa-user"></span>
                                                 Save Changes
@@ -150,27 +148,11 @@
             $(".active").removeClass("active");
             $(".profile-tab").addClass("active");
 
-            $('#formFile').on('change', function () {
-                const file = this.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        $('.profilePicture').attr('src', e.target.result);
-                    }
-                    reader.readAsDataURL(file);
-                }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            let cropper;
+            let croppedBlob = null;
             const imageInput = $("#formFile");
             const updateProfileForm = $("#updateProfileForm");
 
-            let croppedBlob = null; // Store cropped image blob
-
-            // When user selects an image
+            // ✅ Handle Image Selection & Cropping
             imageInput.on("change", function (event) {
                 const file = event.target.files[0];
 
@@ -181,26 +163,19 @@
                         Swal.fire({
                             title: "Crop your image",
                             html: `
-                        <div style="display: flex; justify-content: center; align-items: center;">
-                            <div style="width: 100%; max-width: 350px; height: 350px; overflow: hidden; margin: auto;">
-                                <img id="image-preview" src="${e.target.result}" style="max-width: 100%;" />
-                            </div>
-                        </div>`,
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <div style="width: 100%; max-width: 350px; height: 350px; overflow: hidden; margin: auto;">
+                            <img id="image-preview" src="${e.target.result}" style="max-width: 100%;" />
+                        </div>
+                    </div>`,
                             showCancelButton: true,
                             confirmButtonText: "Crop & Save",
                             didOpen: () => {
                                 const image = document.getElementById("image-preview");
-
-                                // Destroy previous Cropper instance if exists
-                                if (cropper) {
-                                    cropper.destroy();
-                                }
-
-                                // Initialize Cropper
-                                cropper = new Cropper(image, {
-                                    aspectRatio: 1, // Square crop
+                                window.cropper = new Cropper(image, {
+                                    aspectRatio: 1,
                                     viewMode: 2,
-                                    autoCropArea: 0.8, // Default crop area
+                                    autoCropArea: 0.8,
                                     dragMode: 'move',
                                     scalable: true,
                                     zoomable: true,
@@ -211,15 +186,15 @@
                                 });
                             }
                         }).then((result) => {
-                            if (result.isConfirmed && cropper) {
-                                const croppedCanvas = cropper.getCroppedCanvas({
-                                    width: 300,
-                                    height: 300
-                                });
+                            if (result.isConfirmed && window.cropper) {
+                                const croppedCanvas = window.cropper.getCroppedCanvas({width: 300, height: 300});
 
-                                croppedCanvas.toBlob((blob) => {
-                                    croppedBlob = blob; // Store the cropped image blob
-                                }, "image/jpeg", 0.7);
+                                if (croppedCanvas) {
+                                    croppedCanvas.toBlob((blob) => {
+                                        croppedBlob = blob; // ✅ Store cropped image for upload
+                                        uploadProfileImage(croppedBlob);
+                                    }, "image/jpeg", 0.7);
+                                }
                             }
                         });
                     };
@@ -234,21 +209,76 @@
                 }
             });
 
-            // Handle form submission with AJAX
+            // ✅ Function to Upload Cropped Profile Image
+            async function uploadProfileImage(imageBlob) {
+                let formData = new FormData();
+                formData.append("image", new File([imageBlob], "profile.jpg", {type: "image/jpeg"}));
+
+                // 🔍 Debugging: Log form data
+                for (let pair of formData.entries()) {
+                    console.log(pair[0], pair[1]);  // Logs each form field (e.g., image file)
+                }
+
+                try {
+                    const response = await $.ajax({
+                        url: "{{ UPDATE_IMAGE_API_URL }}",
+                        type: "PUT",  // ✅ Try PUT instead
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        headers: {"Authorization": "Bearer {{ ACCESS_TOKEN }}"},
+                        beforeSend: function () {
+                            Swal.fire({
+                                title: "Uploading...",
+                                text: "Please wait while we update your profile picture.",
+                                allowOutsideClick: false,
+                                didOpen: () => Swal.showLoading()
+                            });
+                        }
+                    });
+
+                    console.log("Success Response:", response);
+
+                    // ✅ If API returns new image URL, update the profile picture immediately
+                    if (response.image_url) {
+                        $(".profilePicture").attr("src", response.image_url);
+                    }
+
+                    Swal.fire({
+                        title: "Success!",
+                        text: "Profile picture updated successfully.",
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    });
+
+                } catch (xhr) {
+                    console.error("Upload Error:", xhr);
+
+                    let errorMessage = "Error uploading profile picture.";
+
+                    // ✅ If the API returns a specific error message, display it
+                    if (xhr.responseJSON && xhr.responseJSON.error) {
+                        console.log("API Response:", xhr.responseJSON);
+                        errorMessage = xhr.responseJSON.error;
+                    }
+
+                    Swal.fire({
+                        title: "Upload Failed",
+                        text: errorMessage,
+                        icon: "error",
+                        confirmButtonText: "Try Again"
+                    });
+                }
+            }
+
+            // ✅ Handle Profile Updates (Without Image)
             updateProfileForm.submit(function (e) {
                 e.preventDefault();
                 let formData = new FormData(this);
-
-                // If an image was cropped, add it to form data
-                if (croppedBlob) {
-                    formData.append("image", croppedBlob, "profile.jpg");
-                }
-
                 sendProfileUpdate(formData);
             });
 
-            // AJAX request to update profile
-            function sendProfileUpdate(formData) {
+            async function sendProfileUpdate(formData) {
                 let email = $("input[name='email']").val().trim();
                 let mobile = $("input[name='mobile']").val().trim();
 
@@ -259,59 +289,42 @@
                         icon: "error",
                         confirmButtonText: "OK"
                     });
-                    return;  // Stop execution if fields are empty
+                    return;
                 }
 
-                $.ajax({
-                    url: "{{ UPDATE_PROFILE_API_URL }}",
-                    type: "PUT",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    headers: {
-                        "Authorization": "Bearer {{ ACCESS_TOKEN }}"  // ✅ Use Access Token
-                    },
-                    beforeSend: function () {
-                        Swal.fire({
-                            title: "Updating...",
-                            text: "Please wait while we update your profile.",
-                            allowOutsideClick: false,
-                            didOpen: () => {
-                                Swal.showLoading();
-                            }
-                        });
-                    },
-                    success: function (response) {
-                        Swal.fire({
-                            title: "Success!",
-                            text: "Your profile has been updated successfully.",
-                            icon: "success",
-                            confirmButtonText: "OK"
-                        }).then(() => {
-                            location.reload();
-                        });
-                    },
-                    error: function (xhr) {
-                        let errorMessage = "Error updating profile.";
-
-                        if (xhr.responseJSON) {
-                            if (xhr.responseJSON.error) {
-                                errorMessage = xhr.responseJSON.error;
-                            } else if (xhr.responseJSON.email) {
-                                errorMessage = xhr.responseJSON.email[0]; // Unique email error
-                            } else if (xhr.responseJSON.mobile) {
-                                errorMessage = xhr.responseJSON.mobile[0]; // Unique phone error
-                            }
+                try {
+                    const response = await $.ajax({
+                        url: "{{ UPDATE_PROFILE_API_URL }}",
+                        type: "PUT",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        headers: {"Authorization": "{{ ACCESS_TOKEN }}"},
+                        beforeSend: function () {
+                            Swal.fire({
+                                title: "Updating...",
+                                text: "Please wait while we update your profile.",
+                                allowOutsideClick: false,
+                                didOpen: () => Swal.showLoading()
+                            });
                         }
+                    });
 
-                        Swal.fire({
-                            title: "Update Failed",
-                            text: errorMessage,
-                            icon: "error",
-                            confirmButtonText: "Try Again"
-                        });
-                    }
-                });
+                    Swal.fire({
+                        title: "Success!",
+                        text: "Your profile has been updated successfully.",
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    }).then(() => location.reload());
+
+                } catch (error) {
+                    Swal.fire({
+                        title: "Update Failed",
+                        text: error.responseJSON?.detail || "Error updating profile.",
+                        icon: "error",
+                        confirmButtonText: "Try Again"
+                    });
+                }
             }
         });
     </script>

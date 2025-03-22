@@ -289,11 +289,16 @@ class DashboardProfileView(TemplateView, UserSessionMixin):
         context.update({
             "UPDATE_PROFILE_API_URL": settings.UPDATE_PROFILE_API_URL.format(
                 username=self.request.session.get("username")),
+            "UPDATE_IMAGE_API_URL": settings.UPDATE_PROFILE_API_URL.format(
+                username=self.request.session.get("username")),
             "ACCESS_TOKEN": access_token,
         })
         return context
 
-    @method_decorator(csrf_exempt)  # Allow AJAX PUT requests without CSRF issues
+    @method_decorator(csrf_exempt)  # Allow AJAX PUT/PATCH requests
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
     def put(self, request, *args, **kwargs):
         """Handle AJAX profile updates via PUT request."""
         if request.headers.get("x-requested-with") == "XMLHttpRequest":
@@ -302,6 +307,40 @@ class DashboardProfileView(TemplateView, UserSessionMixin):
                 fetch_and_update_user_session(request, username)
                 return JsonResponse({"message": "Profile updated successfully."})
             return JsonResponse({"error": "Username not found in session."}, status=400)
+
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+
+    def patch(self, request, *args, **kwargs):
+        """Forward profile image update to external API."""
+        if request.headers.get("x-requested-with") == "XMLHttpRequest":
+            if "image" not in request.FILES:
+                return JsonResponse({"error": "No image uploaded."}, status=400)
+
+            image_file = request.FILES["image"]
+            username = request.session.get("username", "")
+            access_token = request.session.get("access_token", "")
+
+            if not username:
+                return JsonResponse({"error": "Username not found in session."}, status=400)
+
+            if not access_token:
+                return JsonResponse({"error": "Unauthorized"}, status=401)
+
+            # API URL
+            api_url = settings.UPDATE_PROFILE_API_URL.format(username=username)
+
+            # Prepare request data
+            files = {"image": (image_file.name, image_file, image_file.content_type)}
+            headers = {"Authorization": f"Bearer {access_token}"}
+
+            # Send the request to the API
+            response = requests.patch(api_url, files=files, headers=headers)
+
+            # Forward the response back to the frontend
+            if response.status_code == 200:
+                return JsonResponse(response.json())
+            else:
+                return JsonResponse(response.json(), status=response.status_code)
 
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
 

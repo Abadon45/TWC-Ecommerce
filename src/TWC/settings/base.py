@@ -38,6 +38,7 @@ REGISTER_USER_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/account/api/regist
 CHECK_USERNAME_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/account/api/check-username/{{username}}/"
 FETCH_ORDERS_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/order/api/fetch-order/{{username}}"
 UPDATE_PROFILE_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/account/api/update-profile/{{username}}"
+UPDATE_IMAGE_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/account/api/update-image/{{username}}"
 CHANGE_PASSWORD_API_URL = f"https://dashboard.{HOST_DOMAIN}.com/account/api/change-password/"
 
 
