@@ -10,6 +10,9 @@
     <div id="dashboard-content" class="user-area bg py-100">
         <div class="container">
             <div class="row">
+                <div class="col-lg-3">
+                    {% include 'user/dashboard-user-sidebar.html' %}
+                </div>
                 <div class="col-lg-9">
                     <div class="user-card seller-order">
                         <div class="row">
@@ -216,7 +219,7 @@
                 <tr class="cart-product">
                     <td>
                         <div class="table-list-info">
-                            <a href="/product/${product.slug}">
+                            <a href="{% url 'shop:shop' %}single/${product.slug}">
                                 <div class="table-list-img">
                                     <img src="${product.image}" alt="${product.name}">
                                 </div>

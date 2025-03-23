@@ -244,6 +244,16 @@ class DashboardView(TemplateView, UserSessionMixin):
 
         filtered_orders = [order for order in orders if order["status"] not in excluded_statuses]
 
+        if filtered_orders:
+            print("Available keys in order:", filtered_orders[0].keys())
+
+            # Sort orders by timestamp (fallback to purchase_date)
+        sorted_orders = sorted(
+            filtered_orders,
+            key=lambda x: x.get("timestamp", x.get("purchase_date", "")),
+            reverse=True
+        )
+
         # Define statuses that should NOT be counted as "pending"
         non_pending_statuses = ["in_progress", "delivered", "undelivered", "paid", "vw-paid", "rejected", "rts", "returned"]
 
@@ -253,7 +263,7 @@ class DashboardView(TemplateView, UserSessionMixin):
 
         # Update context with orders and session data
         context.update({
-            "orders": filtered_orders,  # Full orders list
+            "orders": sorted_orders[:10],  # Full orders list
             "pending_order_count": len(pending_orders),
             "completed_order_count": len(completed_orders),
         })
