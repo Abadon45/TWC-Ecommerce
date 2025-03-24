@@ -13,6 +13,7 @@ from django.http import HttpResponseRedirect, JsonResponse, Http404
 from django.conf import settings
 from allauth.account.views import PasswordResetView
 from django.shortcuts import render, redirect
+from django_hosts import reverse
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -84,7 +85,10 @@ class APILoginView(View):
             request.session.set_expiry(60 * 60 * 24)
 
             # ✅ Create response
-            response = HttpResponseRedirect(f"http://dashboard.{get_main_domain(request)}/token/?token={token}&username={username}")
+            next_url = request.GET.get("next", f"http://dashboard.{get_main_domain(request)}/")
+            response = HttpResponseRedirect(
+                f"http://dashboard.{get_main_domain(request)}/token/?token={token}&username={username}&next={next_url}")
+
             return response
 
         return render(request, self.template_name, {"error": "Invalid credentials"})
@@ -180,15 +184,17 @@ class SaveTokenView(View):
     def get(self, request):
         token = request.GET.get("token")
         username = request.GET.get("username")
+        next_url = request.GET.get("next", f"http://dashboard.{get_main_domain(request)}/")
 
         if token:
-            # Save token in session
             request.session["refresh_token"] = token
             request.session["username"] = username
             print(f"✅ Token saved in session: {token}")
 
-        # Redirect to dashboard
-        return HttpResponseRedirect(f"http://dashboard.{get_main_domain(request)}/")
+        # Redirect to the next URL
+        return HttpResponseRedirect(next_url)
+
+
 
 
 class UserSessionMixin:

@@ -9,7 +9,7 @@
 
 
     <!-- shop checkout complete -->
-    <div id="checkout-complete" class="shop-checkout-complete twc-checkout-complete py-120 mobile-width">
+    <div id="checkout-complete" class="shop-checkout-complete twc-checkout-complete py-120 mobile-width">+
         <div class="container">
             <div class="card index-card order-completed-card">
                 <div class="card-header">
@@ -39,8 +39,13 @@
                                     order.</h4>
                                 <h4 class="mt-2">Username: {{ username }}</h4>
                                 <h4>Password: {{ password }}</h4>
-                                <a href="{% url 'login' %}" class="btn theme-btn mt-2 px-5">Login</a>
-{#                                <h6>Email: {{ email }}</h6>#}
+                                <form method="POST" action="{% url 'login' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="username" value="{{ username }}">
+                                    <input type="hidden" name="password" value="{{ password }}">
+                                    <button type="submit" class="btn theme-btn mt-2 px-5">Login</button>
+                                </form>
+                                {#                                <h6>Email: {{ email }}</h6>#}
                             </div>
                         </div>
                     {% endif %}
