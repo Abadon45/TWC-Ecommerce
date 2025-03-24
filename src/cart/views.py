@@ -418,13 +418,19 @@ def submit_checkout(request):
             # Retrieve email from shipping_address stored in the session
             shipping_address = request.session.get('shipping_address', {})
             email = shipping_address.get('email')
+            full_name = shipping_address.get('full_name')
+            first_name, last_name = split_full_name(full_name)
+            mobile = shipping_address.get('phone')
 
             if not email or email == 'undefined':
                 email = None
 
             register_data = {
                 "username": temp_username,
+                "first_name": first_name,
+                "last_name": last_name,
                 "email": email,
+                "mobile": mobile,
                 "password": temp_password,
                 "is_customer": True,
                 "sponsor_username": sponsor,
