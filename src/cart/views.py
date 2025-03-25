@@ -457,7 +457,8 @@ def submit_checkout(request):
                 if response.status_code != 201:
                     return JsonResponse({
                         'error': f'User registration failed. {api_response.get("message", "Please try again.")}',
-                        'status_code': response.status_code
+                        'status_code': response.status_code,
+                        'details': api_response  # Include full API response details
                     }, status=400)
 
                 print(f"User {temp_username} registered successfully!")
