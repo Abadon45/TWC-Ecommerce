@@ -48,3 +48,11 @@ os.environ.get("POSTGRES_PORT", "5432")
 DASHBOARD_URL = os.environ.get("DASHBOARD_URL", "https://dashboard.twconline.store")
 ADMIN_URL = os.environ.get("ADMIN_URL", "https://admin.twconline.store")
 MAIN_SITE_URL = os.environ.get("MAIN_SITE_URL", "https://www.twconline.store")
+
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_MAIN = 'TWCAKO <support@twcako.com>'
+EMAIL_HOST_PASSWORD = os.environ.get("SENDGRID_API_KEY", '')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
