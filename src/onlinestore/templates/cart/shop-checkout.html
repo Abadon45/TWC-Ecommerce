@@ -84,11 +84,11 @@
                                                             type="button"
                                                             data-bs-toggle="collapse" data-bs-target="#collapseOne"
                                                             aria-expanded="true" aria-controls="collapseOne"
-                                                            {% if multishop %}disabled{% endif %}>
+                                                            disabled>
                                                         <div class="d-flex align-items-center">
                                                             <input class="form-check-input me-2" type="radio"
                                                                    name="paymentMethod" id="xendit" value="xendit"
-                                                                   {% if not multishop %}checked{% else %}disabled{% endif %}>
+                                                                   disabled>
                                                             <div class="d-flex align-items-center">
                                                                 <img class="img-fluid ms-2 payment-method-img"
                                                                      src="{% static 'img/icon/payment/visa.svg' %}"
@@ -103,14 +103,13 @@
                                                                      src="{% static 'img/icon/payment/paymaya.svg' %}"
                                                                      alt="Mastercard">
                                                                 <h6 style="color: var(--border-info-color3);margin-left: 25px">
-                                                                    {% if multishop %}(CURRENTLY UNAVAILABLE FOR
-                                                                        MULTIPLE ORDERS){% endif %}</h6>
+                                                                    (CURRENTLY UNAVAILABLE)</h6>
                                                             </div>
                                                         </div>
                                                     </button>
                                                 </h2>
                                                 <div id="collapseOne"
-                                                     class="accordion-collapse collapse {% if not multishop %}show{% endif %}"
+                                                     class="accordion-collapse collapse"
                                                      aria-labelledby="headingOne"
                                                      data-bs-parent="#accordionExample">
                                                     <div class="accordion-body">
@@ -134,13 +133,13 @@
                                                             aria-expanded="false" aria-controls="collapseTwo">
                                                         <input class="form-check-input me-2" type="radio"
                                                                name="paymentMethod" id="cod" value="cod"
-                                                               {% if multishop %}checked{% endif %}>
+                                                               checked>
                                                         <label class="form-check-label" for="cod">Pay with Cash on
                                                             Delivery</label>
                                                     </button>
                                                 </h2>
                                                 <div id="collapseTwo"
-                                                     class="accordion-collapse collapse {% if multishop %}show{% endif %}"
+                                                     class="accordion-collapse collapse show"
                                                      aria-labelledby="headingTwo"
                                                      data-bs-parent="#accordionExample">
                                                     <div class="accordion-body">
@@ -269,8 +268,8 @@
                 $('input[name="paymentMethod"][value="cod"]').prop('checked', true);
                 console.log('Default payment method set to: COD');
             } else {
-                $('input[name="paymentMethod"][value="xendit"]').prop('checked', true);
-                console.log('Default payment method set to: Xendit');
+                $('input[name="paymentMethod"][value="cod"]').prop('checked', true);
+                console.log('Default payment method set to: cod');
             }
 
             $('.accordion-button').on('click', function () {
