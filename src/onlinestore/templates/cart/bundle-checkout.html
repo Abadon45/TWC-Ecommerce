@@ -176,24 +176,24 @@
                                             {% include 'cart/address-form.html' %}
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="step2" role="tabpanel"
-                                         aria-labelledby="step2-tab"
-                                         tabindex="0">
-                                        <div class="container mt-5">
-                                            <h3 class="payment-head">How Would You Like to Pay?</h3>
-                                            <p class="payment-des">Choose Your Option Below.</p>
-                                            <div class="accordion" id="accordionExample">
+                                    <div class="tab-pane fade" id="step2" role="tabpanel" aria-labelledby="step2-tab"
+                                     tabindex="0">
+                                    <div class="container mt-5">
+                                        <h3 class="payment-head">How Would You Like to Pay?</h3>
+                                        <p class="payment-des">Choose Your Option Below.</p>
+                                        <div class="accordion" id="accordionExample">
                                             <!-- Accordion Item 1 -->
                                             <div class="accordion-item">
                                                 <h2 class="accordion-header" id="headingOne">
                                                     <button class="accordion-button d-flex justify-content-between"
                                                             type="button"
                                                             data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                                                            aria-expanded="true" aria-controls="collapseOne">
+                                                            aria-expanded="true" aria-controls="collapseOne"
+                                                            disabled>
                                                         <div class="d-flex align-items-center">
                                                             <input class="form-check-input me-2" type="radio"
                                                                    name="paymentMethod" id="xendit" value="xendit"
-                                                                   checked>
+                                                                   disabled>
                                                             <div class="d-flex align-items-center">
                                                                 <img class="img-fluid ms-2 payment-method-img"
                                                                      src="{% static 'img/icon/payment/visa.svg' %}"
@@ -207,12 +207,14 @@
                                                                 <img class="img-fluid ms-2 payment-method-img"
                                                                      src="{% static 'img/icon/payment/paymaya.svg' %}"
                                                                      alt="Mastercard">
-                                                                <h6 style="color: var(--border-info-color3);margin-left: 25px"></h6>
+                                                                <h6 style="color: var(--border-info-color3);margin-left: 25px">
+                                                                    (CURRENTLY UNAVAILABLE)</h6>
                                                             </div>
                                                         </div>
                                                     </button>
                                                 </h2>
-                                                <div id="collapseOne" class="accordion-collapse collapse show"
+                                                <div id="collapseOne"
+                                                     class="accordion-collapse collapse"
                                                      aria-labelledby="headingOne"
                                                      data-bs-parent="#accordionExample">
                                                     <div class="accordion-body">
@@ -235,12 +237,14 @@
                                                             data-bs-toggle="collapse" data-bs-target="#collapseTwo"
                                                             aria-expanded="false" aria-controls="collapseTwo">
                                                         <input class="form-check-input me-2" type="radio"
-                                                               name="paymentMethod" id="cod" value="cod">
+                                                               name="paymentMethod" id="cod" value="cod"
+                                                               checked>
                                                         <label class="form-check-label" for="cod">Pay with Cash on
                                                             Delivery</label>
                                                     </button>
                                                 </h2>
-                                                <div id="collapseTwo" class="accordion-collapse collapse"
+                                                <div id="collapseTwo"
+                                                     class="accordion-collapse collapse show"
                                                      aria-labelledby="headingTwo"
                                                      data-bs-parent="#accordionExample">
                                                     <div class="accordion-body">
@@ -258,8 +262,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        </div>
                                     </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -338,8 +342,8 @@
             {#$('input[name="paymentMethod"][value="xendit"]').prop('checked', true);#}
             {#console.log('Default payment method set to: xendit');#}
 
-            $('input[name="paymentMethod"][value="xendit"]').prop('checked', true);
-            console.log('Default payment method set to: XENDIT');
+            $('input[name="paymentMethod"][value="cod"]').prop('checked', true);
+            console.log('Default payment method set to: COD');
 
 
             $('.accordion-button').on('click', function () {
