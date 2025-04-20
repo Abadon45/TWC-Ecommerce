@@ -27,68 +27,257 @@
             padding: 0 !important;
             background-color: #eeeeee;
         }
-        .payment-method, .shipping-details {
-            h1, p, span {
-                color: #56a27b !important;
+        .payment-method h1, .payment-method p, .payment-method span,
+        .shipping-details h1, .shipping-details p, .shipping-details span {
+            color: #56a27b !important;
+        }
+        .theme-btn {
+            background-color: #3D835F!important;
+        }
+        #promo-thank-you .index-card .card-header {
+            background-color: #3D835F;
+        }
+
+        #promo-thank-you .index-card .cart-summary h1,
+        #promo-thank-you .index-card .cart-summary h3,
+        #promo-thank-you .index-card .cart-summary p {
+            color: #3D835F;
+        }
+
+        #promo-thank-you th:nth-child(4),
+        #promo-thank-you td:nth-child(4),
+        #promo-thank-you th.price-column {
+            text-align: right;
+            padding-right: 15px;
+        }
+
+        #promo-thank-you .image-column {
+            width: 20%;
+        }
+
+        #promo-thank-you .name-column {
+            width: 50%;
+        }
+
+        #promo-thank-you .quantity-column {
+            width: 10%;
+            text-align: center;
+        }
+
+        #promo-thank-you .price-column {
+            width: 20%;
+        }
+
+        #promo-thank-you tr.center-text {
+            text-align: center;
+        }
+
+        #promo-thank-you tr.subtotal-row,
+        #promo-thank-you tr.shipping-row,
+        #promo-thank-you tr.discount-row,
+        #promo-thank-you tr.total-row {
+            text-align: left;
+        }
+
+        #promo-thank-you tr.spacer-row {
+            height: 10px;
+        }
+        /* Default state for mobile-specific classes (desktop view) */
+        .mobile-hidden {
+            display: block;
+        }
+
+        .mobile-only {
+            display: none;
+        }
+
+        /* Mobile-specific classes will be overridden in media queries */
+
+        /* Tablet screens (768px and below) */
+        @media only screen and (max-width: 768px) {
+            /* Override mobile-specific classes for tablet */
+            .mobile-hidden {
+                display: none !important;
+            }
+
+            .mobile-only {
+                display: block !important;
+            }
+
+            #promo-thank-you .row {
+                display: flex;
+                flex-direction: column;
+            }
+
+            #promo-thank-you .col-sm-8,
+            #promo-thank-you .col-sm-4 {
+                width: 100%;
+                max-width: 100%;
+                flex: 0 0 100%;
+            }
+
+            #promo-thank-you .delivery-card {
+                margin-top: 20px;
+            }
+
+            #promo-thank-you .fixed-height {
+                height: auto;
+            }
+
+            #promo-thank-you .summary-details-row {
+                flex-direction: column;
+            }
+
+            #promo-thank-you .details-title,
+            #promo-thank-you .delivery-details {
+                width: 100%;
+            }
+
+            #promo-thank-you .address-list {
+                padding-left: 0;
+            }
+
+            #promo-thank-you .mobile-product {
+                margin-bottom: 15px;
+                padding-bottom: 15px;
+                border-bottom: 1px solid #eee;
+            }
+
+            #promo-thank-you .shop-cart-img {
+                width: 80px;
+                height: 80px;
+                margin-right: 15px;
+            }
+
+            #promo-thank-you .shop-cart-img img {
+                max-width: 100%;
+                height: auto;
             }
         }
-        #promo-thank-you {
-            .index-card {
-                .card-header {
-                    background-color: #3D835F;
-                }
 
-                .cart-summary {
-                    h1, h3, p {
-                        color: #3D835F;
-                    }
-                }
-            }
-
-            th:nth-child(4), td:nth-child(4), th.price-column {
-                text-align: right;
-                padding-right: 15px;
-            }
-        }
+        /* Small screens (480px and below) */
         @media only screen and (max-width: 480px) {
+            /* Reinforce mobile-specific classes for small screens */
+            .mobile-hidden {
+                display: none !important;
+            }
+
+            .mobile-only {
+                display: block !important;
+            }
+
             .ps-5 {
                 padding: 0 12px !important;
             }
 
             .order {
                 padding: 30px 10px;
+            }
 
-                h1 {
-                    font-size: 45px;
-                    text-align: center;
-                }
+            .order h1 {
+                font-size: 45px;
+                text-align: center;
+            }
 
-                p {
-                    font-size: 20px;
-                    margin: 0;
-                }
+            .order p {
+                font-size: 20px;
+                margin: 0;
+            }
 
-                span {
-                    font-size: 16px;
-                }
+            .order span {
+                font-size: 16px;
             }
 
             .details {
                 padding: 0;
             }
 
-            .twc-checkout-complete {
-                & .index-card {
-                    & .checkout-complete {
-                        & .checkout-payment {
-                            & h5 {
-                                span {
-                                    font-weight: 600;
-                                }
-                            }
-                        }
-                    }
-                }
+            /* Header and text size adjustments */
+            #promo-thank-you .card-header h2,
+            #promo-thank-you .card-header h4 {
+                font-size: 16px;
+                padding: 5px 0;
+            }
+
+            #promo-thank-you .cart-summary h1 {
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
+
+            #promo-thank-you .cart-summary h3 {
+                font-size: 16px;
+                margin-bottom: 10px;
+            }
+
+            #promo-thank-you .cart-summary p {
+                font-size: 14px;
+            }
+
+            /* Login info adjustments */
+            #promo-thank-you .login-info {
+                padding: 10px;
+                margin: 10px 0;
+            }
+
+            #promo-thank-you .login-detail {
+                font-size: 14px;
+                word-break: break-all;
+            }
+
+            /* Mobile product adjustments */
+            #promo-thank-you .shop-cart-img {
+                width: 60px;
+                height: 60px;
+            }
+
+            #promo-thank-you .shop-cart-product-info h5 {
+                font-size: 14px;
+            }
+
+            #promo-thank-you .shop-cart-product-info h6 {
+                font-size: 12px;
+                margin-bottom: 0;
+            }
+
+            /* Continue shopping button */
+            #promo-thank-you .continue-shopping {
+                text-align: center;
+                margin-top: 10px;
+            }
+
+            #promo-thank-you .theme-btn {
+                width: 100%;
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            /* Payment and delivery info */
+            .twc-checkout-complete .index-card .checkout-complete .checkout-payment h5 span {
+                font-weight: 600;
+            }
+
+            #promo-thank-you .estimated-delivery p {
+                font-size: 13px;
+                line-height: 1.4;
+            }
+
+            #promo-thank-you .address-details p {
+                font-size: 13px;
+                line-height: 1.4;
+            }
+
+            /* Card body spacing */
+            #promo-thank-you .card-body {
+                padding: 15px 10px;
+            }
+
+            /* Checkout payment adjustments */
+            #promo-thank-you .checkout-payment h4,
+            #promo-thank-you .checkout-payment h5 {
+                font-size: 14px;
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 10px;
             }
         }
 
@@ -111,27 +300,24 @@
                         <h3>YOUR ORDER HAS BEEN RECEIVED</h3>
                         <p>
                             For any concern, please feel free to Contact Us.
-                            {#                        {% if sponsor_mobile %}#}
-                            {#                            contact us at {{ sponsor_mobile }}#}
-                            {#                        {% elif referrer %}#}
-                            {#                            <button class="contact-us-btn btn theme-btn" onclick="window.open('{{ referrer }}', '_blank')" >#}
-                            {#                                Contact Us#}
-                            {#                            </button>#}
-                            {#                        {% else %}#}
-                            {#                            Contact Us.#}
-                            {#                        {% endif %}#}
                         </p>
 
-                        {#                {% if not user.is_authenticated %}#}
-                        {#                    <div class="card login-info">#}
-                        {#                        <div class="card-body track-order-body">#}
-                        {#                            <h4 style="color: var(--color-dark);">Please save your login details to track your order.</h4>#}
-                        {#                            <h6>Username: {{ username }}</h6>#}
-                        {#                            <h6>Password: {{ password }}</h6>#}
-                        {#                            <h6>Email: {{ email }}</h6>#}
-                        {#                        </div>#}
-                        {#                    </div> #}
-                        {#                {% endif %}#}
+                        {% if not user.is_authenticated %}
+                            <div class="card login-info">
+                                <div class="card-body track-order-body">
+                                    <h3 class="save-login">Please save your login details to track your
+                                        order.</h3>
+                                    <h4 class="mt-2">USERNAME: <span class="login-detail">{{ username }}</span></h4>
+                                    <h4>PASSWORD: <span class="login-detail">{{ password }}</span></h4>
+                                    <form class="mt-2" method="POST" action="{% url 'login' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="username" value="{{ username }}">
+                                        <input type="hidden" name="password" value="{{ password }}">
+                                        <button type="submit" class="btn theme-btn mt-2 px-5">Login</button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endif %}
 
                     </div>
                 </div>
@@ -145,6 +331,13 @@
                                             {#update this when theres api#}
                                             <h4>ORDER NUMBER: {{ data.order_number }}</h4>
                                         </div>
+                                        {% if user.is_authenticated %}
+                                            <div class="view-order">
+                                                <a href="{{ DASHBOARD_URL }}/order-history/{{ data.order_number }}"
+                                                   target="_blank">
+                                                    View Order</a>
+                                            </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="card-body fixed-height checkout-complete">
@@ -159,9 +352,9 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {% with data.items|first as item %}
+                                            {% for item in data.items %}
                                                 <tr class="center-text">
-                                                    <td class="image-column" style="width: 20%;">
+                                                    <td class="image-column">
                                                         <div class="shop-cart-img">
                                                             <a href="#">
                                                                 {% if item.product.image %}
@@ -174,79 +367,75 @@
                                                             </a>
                                                         </div>
                                                     </td>
-                                                    <td class="name-column" style="width: 50%;">
-                                                        {{ item.product.name }}
-                                                    </td>
-                                                    <td class="quantity-column" style="width: 10%; text-align: center;">
-                                                        1
-                                                    </td>
-                                                    <td class="price-column" style="width: 20%;">
-                                                        {{ data.cod_amount|currency }}
-                                                    </td>
+                                                    <td class="name-column">{{ item.product.name }}</td>
+                                                    <td class="quantity-column">{{ item.quantity }}</td>
+                                                    <td class="price-column">{{ item.get_total|currency }}</td>
                                                 </tr>
-                                            {% endwith %}
-
-                                            <tr style="height: 10px;">
+                                            {% endfor %}
+                                            <tr class="spacer-row">
                                                 <td colspan="4"></td>
                                             </tr>
-                                            <tr class="subtotal-row" style="text-align: left;">
-                                                <th colspan="3" style="padding: 0"></th>
-                                                <th style="padding: 0"></th>
+                                            <tr class="subtotal-row">
+                                                <th colspan="3">Subtotal</th>
+                                                <th class="price-column">{{ data.subtotal|currency }}</th>
                                             </tr>
-                                            <tr class="shipping-row" style="text-align: left;">
+                                            <tr class="shipping-row">
                                                 <th colspan="3">Shipping</th>
-                                                <th class="price-column">FREE</th>
+                                                <th class="price-column">{{ FIXED_SHIPPING_FEE|currency }}</th>
                                             </tr>
-                                            <tr class="total-row table-active" style="text-align: left;">
+                                            {% if data.discount > 0 %}
+                                                <tr class="discount-row">
+                                                    <th colspan="3">Discount</th>
+                                                    <th class="price-column">({{ data.discount|currency }})</th>
+                                                </tr>
+                                            {% endif %}
+                                            <tr class="total-row table-active">
                                                 <th colspan="2">Total:</th>
-                                                <th style="text-align: center;"></th>
+                                                <th></th>
                                                 <th class="price-column">{{ data.cod_amount|currency }}</th>
                                             </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="mobile-only checkout-items bb">
-                                        {% with data.items|first as item %}
-                                            {% if item %}
-                                                {% with item.product as product %}
-                                                    <div class="mobile-product">
-                                                        <div class="d-flex">
-                                                            <div class="shop-cart-img">
-                                                                <a href="{% url 'shop:single' slug=product.slug %}">
-                                                                    {% if product.image %}
-                                                                        <img src="{{ product.image }}"
-                                                                             alt="{{ product.name }}">
-                                                                    {% else %}
-                                                                        No image
-                                                                    {% endif %}
-                                                                </a>
-                                                            </div>
-                                                            <div class="shop-cart-product-info">
-                                                                <h6>Product</h6>
-                                                                <h5 class="shop-cart-name mt5">
-                                                                    <a href="{% url 'shop:single' slug=product.slug %}">
-                                                                        <span class="product-name-{{ product.id }}">{{ product.name }}</span>
-                                                                    </a>
-                                                                </h5>
-                                                                <h6 class="mt10">Quantity</h6>
-                                                                <h5 class="mt5">1</h5>
-                                                            </div>
-                                                        </div>
+                                        {% for item in data.items %}
+                                            <div class="mobile-product">
+                                                <div class="d-flex">
+                                                    <div class="shop-cart-img">
+                                                        <a href="{% url 'shop:single' slug=item.product.slug %}">
+                                                            {% if item.product.image %}
+                                                                <img src="{{ item.product.image }}"
+                                                                     alt="{{ item.product.name }}">
+                                                            {% else %}
+                                                                No image
+                                                            {% endif %}
+                                                        </a>
                                                     </div>
-                                                {% endwith %}
-                                            {% else %}
-                                                <p>No products available.</p>
-                                            {% endif %}
-                                        {% endwith %}
-
+                                                    <div class="shop-cart-product-info">
+                                                        <h6>Product</h6>
+                                                        <h5 class="shop-cart-name mt5">
+                                                            <a href="{% url 'shop:single' slug=item.product.slug %}"><span
+                                                                    class="product-name-{{ item.product.id }}">{{ item.product.name }}</span>
+                                                            </a>
+                                                        </h5>
+                                                        <h6 class="mt10">Quantity</h6>
+                                                        <h5 class="mt5">{{ item.quantity }}</h5>
+                                                        <h6 class="mt10">Unit Price</h6>
+                                                        <h5 class="mt5">{{ item.get_total|currency }}</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
                                     </div>
                                     <div class="checkout-payment mobile-only">
                                         <h5 class="checkout-shipping">
-                                            Subtotal <span>{{ data.cod_amount|currency }}</span>
+                                            Shipping Fee <span>{{ FIXED_SHIPPING_FEE|currency }}</span>
                                         </h5>
-                                        <h5 class="checkout-shipping bb">
-                                            Shipping Fee <span>FREE</span>
-                                        </h5>
+                                        {% if data.discount %}
+                                            <h5 class="checkout-discount bb">
+                                                Discount <span>- {{ data.discount|currency }}</span>
+                                            </h5>
+                                        {% endif %}
                                         <h4>
                                             Total <span>{{ data.cod_amount|currency }}</span>
                                         </h4>
@@ -293,9 +482,6 @@
                                         {{ address.postcode }}<br>
                                         Landmark: {{ address.landmark }}
                                     </p>
-                                    {% if address.landmark %}
-                                        <p><b>Landmark:</b> <br>{{ address.landmark }}</p>
-                                    {% endif %}
                                 </div>
                                 <div class="estimated-delivery region-list">
                                     <p><b>Estimated Delivery:</b></p>
@@ -318,11 +504,11 @@
                     </div>
                 </div>
             </div>
-            {#            <div class="container cont-shop">#}
-            {#                <div class="col-lg-12 mt-20 continue-shopping">#}
-            {#                    <a href="{% url 'shop:shop' %}" type="button" class="theme-btn theme-btn2">CONTINUE SHOPPING</a>#}
-            {#                </div>#}
-            {#            </div>#}
+            <div class="container cont-shop">
+                <div class="col-lg-12 mt-20 continue-shopping">
+                    <a href="{% url 'shop:shop' %}" type="button" class="theme-btn theme-btn2">CONTINUE SHOPPING</a>
+                </div>
+            </div>
 
         </div>
     </section>
