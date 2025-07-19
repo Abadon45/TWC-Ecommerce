@@ -13,45 +13,49 @@ logger = logging.getLogger(__name__)
 def some_view(request):
     logger.debug(f"Session: {request.session.items()}")
 
+from django.http import HttpResponsePermanentRedirect, Http404
+import requests
+
+
 class SubdomainMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
-        # Extract the full host
         full_host = request.get_host()
         print(f'Full Host: {full_host}')
 
-        # Split the host into parts
         host_parts = full_host.split('.')
 
-        # Check if the host has a subdomain (at least three parts)
         if len(host_parts) > 2:
-            request.subdomain = host_parts[0]  # The first part is the subdomain
+            request.subdomain = host_parts[0]
         else:
-            request.subdomain = None  # No subdomain
+            request.subdomain = None
 
         print(f'Subdomain: {request.subdomain}')
 
-        # If there's a subdomain, check it against the external API
         if request.subdomain:
             response = self.check_username(request, request.subdomain)
             if response:
                 return response
 
-        # Continue processing the request
         return self.get_response(request)
 
     def check_username(self, request, username):
+        if username in ["www", "admin"]:
+            return None
 
-        if username == "www" or username == "admin":
+        # Skip redirect if URL already includes promo flags
+        current_path = request.get_full_path()
+        if "pf-vw" in current_path or "pf-ds" in current_path:
+            print("🔁 Skipping redirect due to pf-vw or pf-ds in URL.")
             return None
 
         api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
 
         try:
             api_response = requests.get(api_url)
-            api_response.raise_for_status()  # Raise an exception for HTTP errors
+            api_response.raise_for_status()
 
             data = api_response.json()
             is_success = data.get('success')
@@ -63,20 +67,29 @@ class SubdomainMiddleware:
             print(f'Data: {data}')
 
             if is_success:
+                # Optional: keep session storage if still used anywhere
                 request.session['referrer'] = username
                 request.session['messenger_link'] = messenger_link
                 request.session['sponsor_mobile'] = sponsor_mobile
                 request.session['sponsor_fb_pixel'] = sponsor_fb_pixel
                 request.session['selling_capi_token'] = selling_capi_token
-                print(f"Referrer set: {username}, Messenger Link: {messenger_link}, FB Pixel: {sponsor_fb_pixel}")
-                return None
+                print(f"✅ Valid username: {username}. Redirecting...")
+
+                full_path = request.get_full_path()
+                if full_path.startswith('/shop'):
+                    redirect_url = f"https://www.technowealthcreators.com/eshop?ref={username}"
+                else:
+                    redirect_url = f"https://www.technowealthcreators.com/?ref={username}"
+
+                return HttpResponsePermanentRedirect(redirect_url)
             else:
-                print(f'Username check failed for: {username}')  # Debugging
+                print(f'❌ Invalid username: {username}')
                 raise Http404(f'User "{username}" Does Not Exist.')
 
         except requests.RequestException as e:
-            print(f"API request failed: {e}")  # Debugging
-            raise Http404('Server Is Under Maintainance.')
+            print(f"❗ API request failed: {e}")
+            raise Http404('Server Is Under Maintenance.')
+
 
 
 class RedirectToWWW:
