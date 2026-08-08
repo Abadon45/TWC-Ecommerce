@@ -9,6 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="keywords" content="">
+    <script>
+        (function () {
+            var savedTheme = localStorage.getItem('twc-theme');
+            document.documentElement.setAttribute('data-theme', savedTheme === 'dark' ? 'dark' : 'light');
+        }());
+    </script>
     {% block head %}{% endblock %}
 
     <!-- title -->
@@ -66,11 +72,14 @@
 <!-- header area -->
 {% include 'base/header.html' %}
 <!-- header area end -->
+{% include 'base/cart-drawer.html' %}
 
 <main class="main bt2-m">
 
     <!-- breadcrumb -->
-    {% include 'base/breadcrumb.html' %}
+    {% if not product and '/cart/checkout' not in request.path %}
+        {% include 'base/breadcrumb.html' %}
+    {% endif %}
     <!-- breadcrumb end -->
 
     {% block content %}{% endblock content %}
@@ -81,26 +90,18 @@
 
 {% include 'base/footer.html' %}
 
-<!-- chat -->
-{% if referrer %}
-    <a href="{{ referrer }}" id="chat-seller" aria-label="Chat with seller">
-        <i class="fa-solid fa-message" aria-hidden="true"></i> Chat
-    </a>
-{% endif %}
-<!-- chat end -->
-
 <!-- scroll-top -->
-<a href="{% url 'cart:cart' %}" id="scroll-top" class="cart-link shop-cart list-item"><i
+<a href="#" role="button" id="scroll-top" data-cart-drawer-open="true" class="cart-link shop-cart list-item"><i
         class="fa-solid fa-cart-shopping"></i>
     <span id="lower-cart-count">{{ cart_items }}</span></a>
 <!-- scroll-top end -->
-{% include 'base/modal.html' %}
 <!-- js -->
 {% include 'base/js.html' %}
 {% block extra_js %}{% endblock %}
 <!-- Include jQuery library -->
-
-<script>
+{# Banner carousel is rendered by base/breadcrumb.html. #}
+{# The old random banner script was intentionally removed. #}
+<!--
     const categoryBanners = {
         'all': [
             "{% static 'img/breadcrumb/01.webp' %}",
@@ -162,7 +163,7 @@
 
         sessionStorage.setItem('bannerSequence', JSON.stringify(bannerSequence));
     });
-</script>
+-->
 </body>
 
 </html>

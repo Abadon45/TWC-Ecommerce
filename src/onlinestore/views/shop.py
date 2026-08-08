@@ -1,9 +1,7 @@
 import os
-
 import requests
 import random
 
-from allauth.socialaccount.providers.mediawiki.provider import settings
 from django.conf import settings
 from django.db.models import Avg
 from django.shortcuts import render
@@ -16,6 +14,7 @@ from django.contrib.auth import get_user_model
 from collections import defaultdict
 from onlinestore.utils import check_sponsor_and_redirect
 from onlinestore.models import *
+from cart.utils import get_cart_cookie
 
 
 User = get_user_model()
@@ -29,10 +28,12 @@ class ShopView(TemplateView):
     def get(self, request, username=None, *args, **kwargs):
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             products, category_product_count, has_next = self.get_paginated_queryset()
-            ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
-            products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
-                                shop['items']]
-            products_grid_html = render_to_string('shop/products_grid.html', {'products': products, 'excluded_suppliers': ['sante', 'promos', 'twc']}, request=request)
+            products_in_cart = self.get_products_in_cart()
+            products_grid_html = render_to_string('shop/products_grid.html', {
+                'products': products,
+                'products_in_cart': products_in_cart,
+                'excluded_suppliers': ['sante', 'promos', 'twc'],
+            }, request=request)
 
             return JsonResponse({
                 'products_grid_html': products_grid_html,
@@ -58,14 +59,20 @@ class ShopView(TemplateView):
         api_url = settings.SHOP_PRODUCTS_API
         params = {}
 
-        if cat1:
+        if cat1 and cat1.lower() != 'all':
             params['cat1'] = cat1
         if cat2:
             params['cat2'] = cat2
 
+        def price_to_float(product):
+            try:
+                return float(product.get('customer_price', 0) or 0)
+            except (TypeError, ValueError):
+                return 0.0
+
         try:
             # Fetch filtered data from API
-            response = requests.get(api_url, params=params)
+            response = requests.get(api_url, params=params, verify=False, timeout=10)
             response.raise_for_status()
             data = response.json()
 
@@ -98,9 +105,9 @@ class ShopView(TemplateView):
             if sort_option == '5':  # Latest Items
                 queryset = sorted(queryset, key=lambda p: p.get('timestamp', ''), reverse=True)
             elif sort_option == '3':  # Price - Low To High
-                queryset = sorted(queryset, key=lambda p: p.get('customer_price', 0))
+                queryset = sorted(queryset, key=price_to_float)
             elif sort_option == '4':  # Price - High To Low
-                queryset = sorted(queryset, key=lambda p: p.get('customer_price', 0), reverse=True)
+                queryset = sorted(queryset, key=price_to_float, reverse=True)
 
             # Aggregate ratings
             for product in queryset:
@@ -144,11 +151,12 @@ class ShopView(TemplateView):
         else:
             context['title'] = "Shop"
 
-        products_grid_html = render_to_string('shop/products_grid.html', {'products': products}, request=self.request)
-
-        ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
-        products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
-                            shop['items']]
+        products_in_cart = self.get_products_in_cart()
+        products_grid_html = render_to_string('shop/products_grid.html', {
+            'products': products,
+            'products_in_cart': products_in_cart,
+            'excluded_suppliers': ['sante', 'promos', 'twc'],
+        }, request=self.request)
 
         categories = [
             "sante-nutraceutical", "sante-beverage", "sante-intimate_care",
@@ -169,6 +177,18 @@ class ShopView(TemplateView):
 
         formatted_categories = [cat.replace("-", " ").title() for cat in categories]
 
+        cat1_normalized = (cat1 or 'all').lower()
+        cat2_normalized = (cat2 or '').lower()
+
+        if cat1_normalized == 'sante' or cat2_normalized.startswith('sante-'):
+            shop_banner_key = 'sante'
+        elif cat1_normalized == 'mood' or cat2_normalized in {'watches', 'electronics', 'perfume'}:
+            shop_banner_key = 'mood'
+        elif cat1_normalized == 'chingu' or cat2_normalized == 'bags':
+            shop_banner_key = 'chingu'
+        else:
+            shop_banner_key = 'all'
+
         context.update({
             'products_grid_html': products_grid_html,
             'cat1': cat1,
@@ -181,9 +201,23 @@ class ShopView(TemplateView):
             'excluded_suppliers': ['sante', 'promos', 'twc'],
             "categories": zip(categories, formatted_categories),
             'category_labels': category_labels,  # Add category_labels here
+            'shop_banner_key': shop_banner_key,
         })
 
         return context
+
+    def get_products_in_cart(self):
+        """Use the browser cart cookie so product buttons match the drawer."""
+        cart = get_cart_cookie(self.request)
+        if cart:
+            return list(cart.keys())
+
+        ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
+        return [
+            item['product']['slug']
+            for shop in ordered_items_by_shop.values()
+            for item in shop.get('items', [])
+        ]
 
     def get_user_ratings(self, products):
         user_ratings = {}
@@ -210,11 +244,10 @@ class ShopDetailView(View):
         if not product_slug:
             raise Http404("Product not found")
 
-        HOST_DOMAIN = os.environ.get("HOST_DOMAIN", "twcako")
-        product_detail_url = f'https://dashboard.{HOST_DOMAIN}.com/shop/api/get-product/?slug={product_slug}'
+        product_detail_url = f'{settings.SHOP_PRODUCTS_API}&slug={product_slug}'
 
         try:
-            response = requests.get(product_detail_url, verify=False)
+            response = requests.get(product_detail_url, verify=False, timeout=10)
             response.raise_for_status()  # Raises HTTPError for bad responses
             product_data = response.json()
             product = product_data.get('product', {})
@@ -243,10 +276,18 @@ class ShopDetailView(View):
         related_products = self.get_related_products(product.get('slug'), product.get('category_1'))
 
 
-        # Get products in cart (assuming 'ordered_items_by_shop' is a session variable containing the cart items)
+        # The drawer persists the browser cart in a cookie. Keep the legacy
+        # session as a secondary source so detail-page state remains correct
+        # for older sessions and carts created before the cookie migration.
+        cookie_cart = get_cart_cookie(request)
         ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
-        products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
-                            shop['items']]
+        session_slugs = {
+            item.get('product', {}).get('slug')
+            for shop in ordered_items_by_shop.values()
+            for item in shop.get('items', [])
+            if item.get('product', {}).get('slug')
+        }
+        products_in_cart = set(cookie_cart.keys()) | session_slugs
 
         context = {
             'product': product,
@@ -259,11 +300,11 @@ class ShopDetailView(View):
         return render(request, self.template_name, context)
 
     def get_related_products(self, current_product_slug, current_category):
-        api_url = 'https://dashboard.twcako.com/shop/api/get-product/'
+        api_url = settings.SHOP_PRODUCTS_API
 
         try:
             # Fetch all products
-            response = requests.get(api_url, verify=False)
+            response = requests.get(api_url, verify=False, timeout=10)
             response.raise_for_status()
             data = response.json()
 

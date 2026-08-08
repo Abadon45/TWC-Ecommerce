@@ -24,16 +24,9 @@ urlpatterns = [
         name="terms_of_service"
     ),
     path('test-email/', EmailFormView.as_view(), name="test_email"),
-    path('login/', include('TWC.urls.login', namespace='login')),
     path('shop/', include('TWC.urls.shop', namespace='shop')),
-    path('dashboard/', include('user.urls.index', namespace='user')),
     path('cart/', include('cart.urls', namespace='cart')),
-    path('accounts/', include('allauth.urls')),
     path('', IndexView.as_view(), name="home_view"),
-    path('pf/', ProductFunnelView.as_view(), name='product_funnel'),
-    path('pf-vw/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_vw'),
-    path('pf-ds/<str:product>/', ProductFunnelView.as_view(), name='product_funnel_ds'),
-    path('pf/create-order', create_order, name='create_order'),
 
 ]
 

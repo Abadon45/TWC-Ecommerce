@@ -72,6 +72,12 @@
 
         const csrftoken = getCookie('csrftoken');
     </script>
+    <script>
+        (function () {
+            var savedTheme = localStorage.getItem('twc-theme');
+            document.documentElement.setAttribute('data-theme', savedTheme === 'dark' ? 'dark' : 'light');
+        }());
+    </script>
 
     <!-- title -->
     <title>TWC Store | {{ title }}</title>
@@ -109,6 +115,7 @@
 <!-- header area -->
 {% include 'base/header.html' %}
 <!-- header area end -->
+{% include 'base/cart-drawer.html' %}
 
 <main class="main">
 
@@ -118,19 +125,10 @@
 </main>
 <!-- footer area -->
 {% include 'base/footer.html' %}
-<!-- {% include 'base/footer.html' %} -->
 <!-- footer area end -->
 
-<!-- chat -->
-{% if referrer %}
-    <a href="{{ referrer }}" id="chat-seller" aria-label="Chat with seller">
-        <i class="fa-solid fa-message" aria-hidden="true"></i> Chat
-    </a>
-{% endif %}
-<!-- chat end -->
-
 <!-- cart-top -->
-<a href="{% url 'cart:cart' %}" id="scroll-top" class="cart-link shop-cart list-item"><i
+<a href="#" role="button" id="scroll-top" data-cart-drawer-open="true" class="cart-link shop-cart list-item"><i
         class="fa-solid fa-cart-shopping"></i>
     <span id="lower-cart-count">{{ cart_items }}</span></a>
 <!-- cart end -->

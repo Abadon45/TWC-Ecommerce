@@ -3,6 +3,7 @@ import random
 import string
 import datetime
 import time
+import json
 
 import requests
 
@@ -20,6 +21,33 @@ from facebook_business.api import FacebookAdsApi
 
 from onlinestore.models import *
 
+USER_CART_COOKIE = 'userCart'
+USER_CART_MAX_AGE = 60 * 60 * 24 * 14
+
+
+def get_cart_cookie(request):
+    """Read the browser cart used by the storefront, with safe fallback."""
+    raw = request.COOKIES.get(USER_CART_COOKIE, '')
+    if not raw:
+        return {}
+    try:
+        value = json.loads(raw)
+    except (TypeError, ValueError):
+        return {}
+    return value if isinstance(value, dict) else {}
+
+
+def set_cart_cookie(response, cart):
+    """Persist the cart in a JS-readable cookie for refreshes and guest use."""
+    response.set_cookie(
+        USER_CART_COOKIE,
+        json.dumps(cart, separators=(',', ':')),
+        max_age=USER_CART_MAX_AGE,
+        secure=not settings.DEBUG,
+        httponly=False,
+        samesite='Lax',
+    )
+    return response
 
 
 def sf_calculator(province=None, qty=0):
@@ -300,7 +328,7 @@ def create_order(request, items, shipping_amount, shop_count, total_discount):
     access_token = get_access_token()
     ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
     address_from_session = request.session.get('shipping_address', {})
-    failure_redirect_url = request.build_absolute_uri(reverse('cart:cart'))
+    failure_redirect_url = request.build_absolute_uri(reverse('cart:checkout'))
     order_number = ""
 
 
@@ -397,7 +425,7 @@ def create_order(request, items, shipping_amount, shop_count, total_discount):
         else:
             print("Error creating order:", response.status_code, response.text)
             return JsonResponse({
-                'redirect_url': reverse('cart:cart'),
+                'redirect_url': reverse('cart:checkout'),
             })
 
     if 'promo' in ordered_items_by_shop:

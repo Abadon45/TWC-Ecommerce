@@ -1,211 +1,254 @@
-$(document).ready(function () {
+$(function () {
+    var $document = $(document);
 
-    $(document).on("click", ".update-cart", function (event) {
+    $document.on("click", ".update-cart", function (event) {
         event.preventDefault();
-        var button = $(this);
-        var shop = button.data("shop")
-        var productId = button.data("product");
-        var orderId = button.data("order-id");
-        var action = button.data("action");
-        var quantityInput = $("#quantity");
-        var quantity = parseInt(quantityInput.val()) || 1;
 
-        console.log("Product Slug: " + productId)
-        console.log("Quantity: ", quantity)
+        var button = this;
+        var productId = button.getAttribute("data-product");
+        var action = button.getAttribute("data-action");
+        var isDrawerQuantityButton = button.classList.contains("cart-drawer-qty-button");
 
-        if (action === 'remove') {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Do you want to remove this item from your cart?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, remove it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Removing...',
-                        allowOutsideClick: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-                    setTimeout(() => {
-                        updateUserOrder(productId, action, quantity, updateItemUrl, button);
-                        Swal.close();
-                    }, 1000);
-                }
-            });
+        if (!productId || !action) {
+            console.warn("Cart action skipped: missing product or action", { productId: productId, action: action });
+            return;
+        }
+
+        var quantity = isDrawerQuantityButton ? 1 : getProductQuantity(productId);
+
+        if (action === "remove") {
+            confirmRemoval(productId, quantity, button);
+        } else if (isDrawerQuantityButton) {
+            updateCart(productId, action, quantity, button, true);
         } else {
-            updateUserOrder(productId, action, quantity, updateItemUrl, button);
+            validateAndAdd(productId, quantity, button);
         }
     });
 
-    function updateUserOrder(productId, action, quantity, url, button) {
-        $.ajax({
-            url: url,
-            method: "GET",
-            dataType: "json",
-            data: {
-                productId: productId,
-                action: action,
-                quantity: quantity,
-            },
-            success: function (data) {
-                // Check if the order quantity exceeds the limit
-                console.log("Data from add to cart: ", data)
+    function getProductQuantity(productId) {
+        var input = document.querySelector(".input-" + productId) || document.querySelector(".quantity");
+        var value = input ? parseInt(input.value, 10) : 1;
+        return Number.isFinite(value) && value > 0 ? value : 1;
+    }
 
-                // Access basic data
-                var totalItems = data.cart_items;
-                var totalCartPrice = data.total_cart_price;
-                var subtotal = data.subtotal !== undefined && data.subtotal !== null ? data.subtotal : 0;
-
-                // Access individual products in the cart
-                var cart = data.cart;
-                var shop_cart = data.shop_cart
-                var productData = cart[productId];
-                var cartHtml = '';
-                var shop = button.data("shop")
-
-
-                // logic to update the cart
-                var formattedCartItems = String(totalItems).padStart(2, "0");
-                var orderTotal = parseFloat(totalCartPrice).toLocaleString(
-                    "en-US",
-                    {
-                        minimumFractionDigits: 2,
-                    }
-                );
-
-                console.log("Max Order: " + data.max_order_exceeded)
-                if (data.max_order_exceeded) {
-                    Swal.fire({
-                        title: 'Order Quantity Limit Exceeded!',
-                        text: data.message,
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                    return; // Stop further processing if the limit is exceeded
-                }
-
-                var cartDropdownHtml = `
-                    <div class="dropdown-cart-menu">
-                        <div class="dropdown-cart-header">
-                            <span class="cart-items-count">${formattedCartItems} ITEMS</span>
-                            <a href="/cart">View Cart</a>
-                        </div>
-                        <ul id="dropdown-cart-list">
-                            <!--insert dropdown cart items here-->
-                        </ul>
-                        <div class="dropdown-cart-bottom">
-                            <div class="dropdown-cart-total">
-                                <span>Total</span>
-                                <span class="total-amount">${orderTotal}</span>
-                            </div>
-                            <a href="/cart" class="theme-btn">Checkout</a>
-                        </div>
-                    </div>`;
-
-                // Iterate over the products in the cart
-                for (var slug in cart) {
-                    if (cart.hasOwnProperty(slug)) {
-                        var item = cart[slug]; // Each product in the cart
-
-                        cartHtml += `
-                          <li id="cart-row-${item.id}">
-                              <div class="dropdown-cart-item">
-                                  <div class="cart-img">
-                                      <a href="/shop/single/${item.slug}">
-                                          ${item.image ? `<img src="${item.image}" alt="${item.name}">` : '<img src="/static/img/product/default-product-image.png" alt="Default Product Image">'}
-                                      </a>
-                                  </div>
-                                  <div class="cart-info">
-                                      <h4><a href="/shop/single/${item.slug}">${item.name}</a></h4>
-                                      <p class="cart-qty">${item.quantity}x - <span class="cart-amount">₱${item.get_total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></p>
-                                  </div>
-                                  <a href="#" data-product="${item.slug}" data-action="remove" class="update-cart shop-cart-remove">
-                                      <i class="far fa-times-circle"></i>
-                                  </a>
-                              </div>
-                          </li>`;
-                    }
-                }
-
-                //Update Cart Count
-                $("#upper-cart-count").text(totalItems);
-                $("#lower-cart-count").text(totalItems);
-
-
-                if ($('#cart-dropdown').text().trim() === "") {
-                    $('#cart-dropdown').html(cartDropdownHtml);
-                }
-                $("#dropdown-cart-list").empty().append(cartHtml);
-                $('.cart-items-count').text(formattedCartItems + " ITEMS");
-
-                if (totalItems === 0) {
-                    $('#cart-dropdown').empty();
-                }
-
-
-                //Disable add to cart button after product is added
-                if (action === 'remove') {
-                    $(".item-id-" + productId)
-                        .text("ADD TO CART")
-                        .removeClass("btn-secondary")
-                        .addClass("theme-btn update-cart")
-                        .prop("disabled", false)
-
-                    location.reload();
-                } else {
-                    $(".item-id-" + productId)
-                        .text("ADDED TO CART")
-                        .removeClass("theme-btn")
-                        .addClass("btn-secondary")
-                        .prop("disabled", true)
-
-                    if (isCartPage()) {
-
-                        // CART PAGE
-                        if (productData.quantity === 1) {
-                            $('.minus-btn[data-product="' + productId + '"]').prop("disabled", true);
-                        } else {
-                            $('.minus-btn[data-product="' + productId + '"]').prop("disabled", false);
-                        }
-
-                        $('.input-' + productId).val(productData.quantity)
-                        $('.product-subtotal-' + productId).text("₱" + productData.get_total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','))
-                        $('#order-subtotal-' + shop).text("₱" + shop_cart[shop].subtotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','))
-                        $('#order-total-' + shop).text("₱" + shop_cart[shop].total_amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','))
-                        $('.total-amount').text("₱" + orderTotal)
-                    }
-
-
-                }
-
-
-                if (!isCartPage()) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Success",
-                        text: "Cart updated successfully!",
-                        timer: 1500,
-                        timerProgressBar: true,
-                        showConfirmButton: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        },
-                    });
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error("AJAX Error:", textStatus, errorThrown);
-
-            },
+    function confirmRemoval(productId, quantity, button) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Do you want to remove this item from your cart?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, remove it!"
+        }).then(function (result) {
+            if (result.isConfirmed) {
+                updateCart(productId, "remove", quantity, button, false);
+            }
         });
     }
 
-    function isCartPage() {
-        return window.location.pathname.includes("/cart/");
+    function validateAndAdd(productId, quantity, button) {
+        if (typeof fetchProductQuantity !== "function") {
+            updateCart(productId, "add", quantity, button, false);
+            return;
+        }
+
+        fetchProductQuantity(productId)
+            .done(function (response) {
+                var available = parseInt(response.quantity, 10);
+                var current = getCurrentCartQuantity(productId);
+
+                if (response.supplier_product && Number.isFinite(available) && current + quantity > available) {
+                    showCartToast("Only " + response.quantity + " item(s) are available.", "error");
+                    return;
+                }
+
+                updateCart(productId, "add", quantity, button, false);
+            })
+            .fail(function () {
+                // Stock lookup is auxiliary; do not prevent the cart update when
+                // the legacy stock service is unavailable.
+                updateCart(productId, "add", quantity, button, false);
+            });
+    }
+
+    function getCurrentCartQuantity(productId) {
+        var drawerItem = document.querySelector('[data-drawer-product="' + productId + '"] .cart-drawer-qty-value');
+        var value = drawerItem ? parseInt(drawerItem.textContent, 10) : 0;
+        return Number.isFinite(value) ? value : 0;
+    }
+
+    function updateCart(productId, action, quantity, button, isDrawerQuantityButton) {
+        setButtonBusy(button, true);
+
+        $.ajax({
+            url: updateItemUrl,
+            method: "GET",
+            dataType: "json",
+            data: { productId: productId, action: action, quantity: quantity }
+        })
+            .done(function (data) {
+                if (data.max_order_exceeded) {
+                    showCartToast(data.message || "The maximum order quantity was reached.", "error");
+                    setButtonBusy(button, false);
+                    return;
+                }
+
+                synchronizeCartUI(data, productId, action, isDrawerQuantityButton);
+            })
+            .fail(function (xhr) {
+                var message = "Unable to update your cart.";
+                if (xhr.responseJSON && (xhr.responseJSON.message || xhr.responseJSON.error)) {
+                    message = xhr.responseJSON.message || xhr.responseJSON.error;
+                }
+                showCartToast(message, "error");
+                setButtonBusy(button, false);
+            });
+    }
+
+    function synchronizeCartUI(data, productId, action, isDrawerQuantityButton) {
+        var cart = data.cart || {};
+        var totalItems = Number(data.cart_items) || 0;
+        var total = Number(data.total_cart_price) || 0;
+
+        updateCartCounts(totalItems);
+        syncProductButton(productId, action);
+
+        if (!isCheckoutPage()) {
+            renderCartDrawer(cart, total, totalItems);
+            openCartDrawer();
+        }
+
+        if (action === "remove") {
+            showCartToast("Item removed from your cart.", "error");
+        } else if (!isDrawerQuantityButton) {
+            showCartToast("Added to cart.", "success");
+        }
+
+        updateCheckoutFields(data, productId);
+    }
+
+    function updateCartCounts(totalItems) {
+        $("#upper-cart-count, #lower-cart-count, #cart-drawer-count").text(totalItems);
+    }
+
+    function syncProductButton(productId, action) {
+        $(".item-id-" + productId).each(function () {
+            var productButton = $(this);
+            if (productButton.hasClass("cart-drawer-qty-button")) return;
+
+            if (action === "remove") {
+                productButton
+                    .text("ADD TO CART")
+                    .removeClass("btn-secondary is-added")
+                    .addClass("shop-product-add update-cart")
+                    .attr({ "data-product": productId, "data-action": "add" })
+                    .prop("disabled", false);
+            } else {
+                productButton
+                    .text("ADDED TO CART")
+                    .removeClass("theme-btn update-cart")
+                    .addClass("shop-product-add is-added")
+                    .prop("disabled", true);
+            }
+        });
+    }
+
+    function updateCheckoutFields(data, productId) {
+        if (!isCheckoutPage()) return;
+
+        var product = data.cart && data.cart[productId];
+        if (!product) {
+            window.location.reload();
+            return;
+        }
+
+        $(".input-" + productId).val(product.quantity);
+        $(".product-subtotal-" + productId).text("₱" + Number(product.get_total).toFixed(2));
+    }
+
+    function isCheckoutPage() {
+        return window.location.pathname.indexOf("/cart/checkout") !== -1;
+    }
+
+    function setButtonBusy(button, busy) {
+        if (!button || button.classList.contains("cart-drawer-remove")) return;
+        button.disabled = busy;
+        button.classList.toggle("is-cart-updating", busy);
+    }
+
+    function showCartToast(message, type) {
+        var container = $("#cart-toast-container");
+        if (!container.length) {
+            container = $('<div id="cart-toast-container" class="cart-toast-container" aria-live="polite"></div>');
+            $("body").append(container);
+        }
+
+        var icon = type === "success" ? "fas fa-check-circle" : "far fa-trash-can";
+        var toast = $('<div class="cart-toast"></div>')
+            .addClass(type === "success" ? "cart-toast-add" : "cart-toast-remove")
+            .append($('<i aria-hidden="true"></i>').addClass(icon))
+            .append($('<span></span>').text(message));
+
+        container.append(toast);
+        setTimeout(function () {
+            toast.addClass("is-leaving");
+            setTimeout(function () { toast.remove(); }, 250);
+        }, 2600);
+    }
+
+    function renderCartDrawer(cart, total, count) {
+        var list = $("#cart-drawer-list");
+        if (!list.length) return;
+        list.empty();
+
+        var shops = {};
+        Object.keys(cart).forEach(function (slug) {
+            var item = cart[slug];
+            var shop = item.shop || "Store";
+            if (!shops[shop]) shops[shop] = [];
+            shops[shop].push(item);
+        });
+
+        Object.keys(shops).forEach(function (shop) {
+            var section = $('<section class="cart-drawer-shop"></section>');
+            section.append($('<h3></h3>').text("Shop: " + shop));
+
+            shops[shop].forEach(function (item) {
+                var row = $('<article class="cart-drawer-item"></article>').attr("data-drawer-product", item.slug);
+                var image = $('<div class="cart-drawer-image"></div>').append($('<img>').attr({
+                    src: item.image || "/static/img/product/default-product-image.png",
+                    alt: item.name
+                }));
+                var copy = $('<div class="cart-drawer-item-copy"></div>')
+                    .append($('<strong></strong>').text(item.name))
+                    .append($('<span></span>').text(item.quantity + " × ₱" + Number(item.price).toLocaleString("en-US", { minimumFractionDigits: 2 })));
+                var controls = $('<div class="cart-drawer-qty"></div>').attr("aria-label", "Quantity for " + item.name);
+                var minus = $('<button type="button" class="cart-drawer-qty-button update-cart">−</button>')
+                    .attr({ "data-product": item.slug, "data-action": "minus", "aria-label": "Decrease quantity" })
+                    .prop("disabled", Number(item.quantity) <= 1);
+                var plus = $('<button type="button" class="cart-drawer-qty-button update-cart">+</button>')
+                    .attr({ "data-product": item.slug, "data-action": "add", "aria-label": "Increase quantity" });
+                controls.append(minus, $('<span class="cart-drawer-qty-value"></span>').text(item.quantity), plus);
+                copy.append(controls);
+
+                var remove = $('<button type="button" class="cart-drawer-remove update-cart"><i class="far fa-trash-can" aria-hidden="true"></i></button>')
+                    .attr({ "data-product": item.slug, "data-action": "remove", "aria-label": "Remove " + item.name });
+                row.append(image, copy, remove);
+                section.append(row);
+            });
+            list.append(section);
+        });
+
+        if (!Object.keys(cart).length) {
+            list.append('<div class="cart-drawer-empty"><strong>Your basket is empty</strong><span>Add something good to get started.</span></div>');
+        }
+        $("#cart-drawer-count").text(count);
+        $("#cart-drawer-total").text("₱" + total.toLocaleString("en-US", { minimumFractionDigits: 2 }));
+    }
+
+    function openCartDrawer() {
+        $("#cart-drawer").addClass("is-open").attr("aria-hidden", "false");
+        $("body").addClass("cart-drawer-open");
     }
 });

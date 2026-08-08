@@ -1,0 +1,24 @@
+{% load static %}
+{% load currency_filters %}
+<article class="home-product-card">
+    <a class="home-product-image" href="{% url 'shop:single' slug=product.slug %}">
+        {% if product.image_1 %}
+            <img src="{{ product.image_1 }}" alt="{{ product.name }}">
+        {% else %}
+            <img src="{% static 'img/product/default-product-image.png' %}" alt="{{ product.name }}">
+        {% endif %}
+        {% if product.is_new %}<span class="home-product-badge">New</span>{% endif %}
+    </a>
+    <div class="home-product-info">
+        <span class="home-product-category">{{ product.category_1|default:'Featured'|title }}</span>
+        <h3><a href="{% url 'shop:single' slug=product.slug %}">{{ product.name }}</a></h3>
+        <div class="home-product-bottom">
+            <strong>{{ product.customer_price|currency }}</strong>
+            {% if product.slug in products_in_cart %}
+                <button type="button" class="home-add-button is-added item-id-{{ product.slug }}" disabled>Added to cart</button>
+            {% else %}
+                <button type="button" class="home-add-button update-cart item-id-{{ product.slug }}" data-product="{{ product.slug }}" data-action="add">Add to cart</button>
+            {% endif %}
+        </div>
+    </div>
+</article>

@@ -300,9 +300,10 @@
                                     </div>
                                 </div>
                                 <div class="text-end mt-40 checkoutBtn">
-                                    <form id="checkoutForm" class="form" method="GET"
-                                          action="{% url 'cart:submit_promo_checkout' %}">
-                                        <button type="submit" class="theme-btn checkout-btn"
+                                <form id="checkoutForm" class="form" method="GET"
+                                      action="{% url 'cart:submit_promo_checkout' %}">
+                                    <input type="hidden" name="checkout_snapshot" value="{{ checkout_snapshot }}">
+                                    <button type="submit" class="theme-btn checkout-btn"
                                                 data-referrer-id="{{ referred_by }}"
                                                 data-username="{{ current_user }}"
                                                 hidden>
@@ -375,22 +376,18 @@
 
                 console.log('Selected Payment Method:', paymentMethod);
 
-                if (paymentMethod === 'xendit') {
-                    Swal.fire({
-                        title: 'Confirm Payment',
-                        text: 'Do you want to proceed with the Xendit payment?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Yes, proceed',
-                        cancelButtonText: 'No, cancel'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            checkoutBtn(event, paymentMethod);
-                        }
-                    });
-                } else {
-                    checkoutBtn(event, paymentMethod);
-                }
+                Swal.fire({
+                    title: 'Confirm your demo order?',
+                    text: 'Your order will be marked complete locally. No payment API will be called.',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, place order',
+                    cancelButtonText: 'Review order'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        checkoutBtn(event, paymentMethod);
+                    }
+                });
             });
 
             // Handle form check label click to check the corresponding radio button
@@ -403,39 +400,7 @@
 
             function checkoutBtn(event, paymentMethod) {
                 event.preventDefault();
-                var referrerId = $(event.currentTarget).data('referrer-id');
-
-                if (referrerId === "None" || referrerId === '') {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'REQUIRED INFORMATION',
-                        text: 'To complete checkout, please input the USERNAME of your sponsor.',
-                        input: 'text',
-                        inputPlaceholder: 'Enter username',
-                        showCancelButton: true,
-                        confirmButtonText: 'Submit',
-                        cancelButtonText: 'Cancel',
-                        preConfirm: (username) => {
-                            if (!username) {
-                                Swal.showValidationMessage('Username is required!');
-                            } else if (username.toLowerCase() === 'None') {
-                                Swal.showValidationMessage('Username is required!');
-                            } else if (username.toLowerCase() === 'admin') {
-                                Swal.showValidationMessage('You cannot use this username!');
-                            } else {
-                                return username;
-                            }
-                        }
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            var username = result.value;
-                            saveReferrerUsername(username, paymentMethod);
-                        }
-                    });
-                } else {
-                    var username = referrerId;
-                    saveReferrerUsername(username, paymentMethod);
-                }
+                saveReferrerUsername('', paymentMethod);
             }
 
             function saveReferrerUsername(username, paymentMethod) {
@@ -446,39 +411,26 @@
                     data: {
                         username: username,
                         payment_method: paymentMethod,
+                        checkout_snapshot: $('#checkoutForm input[name="checkout_snapshot"]').val(),
                     },
                     success: function (response) {
-                        if (response.payment_method === 'xendit') {
+                        if (!response || !response.local_completion || !response.redirect_url) {
                             Swal.fire({
-                                title: 'Redirecting to Xendit Payment Portal',
-                                icon: 'info',
-                                didOpen: () => {
-                                    Swal.showLoading();
-                                }
+                                title: 'Unable to complete order',
+                                text: 'Please try again.',
+                                icon: 'error'
                             });
-
-                            setTimeout(() => {
-                                window.location.href = response.redirect_url;
-                            }, 500);
-                        } else {
-                            Swal.fire({
-                                title: 'Thank You for Your Order!',
-                                text: 'Now completing checkout...',
-                                icon: 'success',
-                                didOpen: () => {
-                                    Swal.showLoading();
-                                }
-                            });
-
-                            setTimeout(() => {
-                                window.location.href = response.redirect_url;
-                            }, 500);
+                            return;
                         }
+                        window.location.assign(response.redirect_url);
                     },
                     error: function (xhr, status, error) {
                         console.error('Error saving referrer username:', error);
-                        var responseData = JSON.parse(xhr.responseText);
-                        var errorMessage = responseData.error;
+                        var responseData = {};
+                        try {
+                            responseData = JSON.parse(xhr.responseText);
+                        } catch (e) {}
+                        var errorMessage = responseData.error || 'Please try again.';
                         Swal.fire({
                             title: 'Error',
                             text: errorMessage,

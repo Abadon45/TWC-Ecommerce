@@ -4,809 +4,115 @@
 {% load currency_filters %}
 
 {% block head %}
-    <meta property="og:title" content="{{ product.name }}"/>
-    <meta property="og:description" content="{{ product.description_1 }}"/>
-    {% if product.image_1 %}
-        <meta property="og:image" content="{{ product.image_1 }}"/>
-    {% else %}
-        <meta property="og:image" content="/static/img/default-product-image.png"/>
-    {% endif %}
-    <meta property="og:url" content="{{ request.build_absolute_uri }}"/>
-    <meta property="og:type" content="product"/>
-    <meta property="og:site_name" content="TWC Online Store"/>
-    <meta property="og:image:width" content="1200"/>
-    <meta property="og:image:height" content="630"/>
+    <meta property="og:title" content="{{ product.name }}">
+    <meta property="og:description" content="{{ product.description_1 }}">
+    {% if product.image_1 %}<meta property="og:image" content="{{ product.image_1 }}">{% endif %}
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:type" content="product">
 {% endblock %}
-{% block title %} {{ title }} {% endblock %}
+
+{% block title %}{{ product.name }} | TWC Online Store{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/product-detail-refresh.css' %}?v=product-1">
+{% endblock %}
 
 {% block content %}
+<main class="product-detail-modern">
+    <div class="product-detail-shell">
+        <nav class="product-breadcrumb" aria-label="Breadcrumb">
+            <a href="{% url 'shop:shop' %}">Shop</a><span>/</span>
+            <span>{{ product.category_1|title }}</span><span>/</span>
+            <strong>{{ product.name }}</strong>
+        </nav>
 
-    <!-- shop single -->
-    <div class="shop-single product-detail-page py-100 mobile-width">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="shop-single-gallery">
-                        <div class="flexslider-thumbnails">
-                            <ul class="slides">
-                                {% if product.image_1 %}
-                                    <li data-thumb="{{ product.image_1 }}">
-                                        <img src="{{ product.image_1 }}" alt="{{ product.name }}">
-                                    </li>
-                                {% endif %}
-                                {% if product.image_2 %}
-                                    <li data-thumb="{{ product.image_2 }}">
-                                        <img src="{{ product.image_2 }}" alt="{{ product.name }}">
-                                    </li>
-                                {% endif %}
-                                {% if product.image_3 %}
-                                    <li data-thumb="{{ product.image_3 }}">
-                                        <img src="{{ product.image_3 }}" alt="{{ product.name }}">
-                                    </li>
-                                {% endif %}
-                                {% if product.image_4 %}
-                                    <li data-thumb="{{ product.image_4 }}">
-                                        <img src="{{ product.image_4 }}" alt="{{ product.name }}">
-                                    </li>
-                                {% endif %}
-                                {% if product.image_5 %}
-                                    <li data-thumb="{{ product.image_5 }}">
-                                        <img src="{{ product.image_5 }}" alt="{{ product.name }}">
-                                    </li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="shop-single-info">
-                        <h4 class="shop-single-title">{{ product.name }}</h4>
-                        <div class="shop-single-rating" data-product-id="{{ product.id }}">
-                            {% if user.is_authenticated %}
-                                {% if rating %}
-                                    {% for i in 1|to:6 %}
-                                        {% if i <= rating.score %}
-                                            <i class="fas fa-star" data-index="{{ forloop.counter }}"></i>
-                                        {% else %}
-                                            <i class="far fa-star" data-index="{{ forloop.counter }}"></i>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% else %}
-                                    {% for i in 1|to:6 %}
-                                        {% if product.aggregate_rating >= i %}
-                                            <i class="fas fa-star" data-index="{{ forloop.counter }}"></i>
-                                        {% elif product.aggregate_rating >= i|subtract:0.5 %}
-                                            <i class="fas fa-star-half-alt" data-index="{{ forloop.counter }}"></i>
-                                        {% else %}
-                                            <i class="far fa-star" data-index="{{ forloop.counter }}"></i>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endif %}
-                            {% else %}
-                                {% for i in 1|to:6 %}
-                                    {% if product.aggregate_rating >= i %}
-                                        <i class="fas fa-star" data-index="{{ forloop.counter }}"></i>
-                                    {% elif product.aggregate_rating >= i|subtract:0.5 %}
-                                        <i class="fas fa-star-half-alt" data-index="{{ forloop.counter }}"></i>
-                                    {% else %}
-                                        <i class="far fa-star" data-index="{{ forloop.counter }}"></i>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endif %}
-                            <!-- <span class="rating-count"> ({{ product.review_count }} Customer Reviews)</span> -->
-                        </div>
-                        <div class="shop-single-price">
-                            <!-- <del>{{ product.discount_price }}</del> -->
-                            <span class="amount">{{ product.customer_price|currency }}</span>
-                            <!-- <span class="discount-percentage">10% Off</span> -->
-                        </div>
-                        <p class="mb-3">
-                            {{ product.description_1 }}
-                        </p>
-                        <div class="shop-single-sortinfo mt-20">
-                            <ul>
-                                <li>Shop: <span>{{ product.category_1|title }}</span></li>
-                                <li>Stock: <span>Available</span></li>
-                                <li>SKU: <span>{{ product.sku }}</span></li>
-                                <li>Category:
-                                    <span>{{ product.category_2|replace_dash_to_space|replace_underscore_to_space|title }}</span>
-                                </li>
-                                <!-- <li>Sold By: <a href="#">Fast Shop</a></li>
-                                        <li>Tags: <a href="#">Headphone</a>,<a href="#">Bluetooth</a>,<a href="#">Modern</a>,<a href="#">Shop</a></li> -->
-                            </ul>
-                        </div>
-                        <div class="shop-single-cs product-detail-btn-group">
-                            <div class="my20">
-                                {% if not product.id in products_in_cart %}
-                                    <div class="row qty-input-group">
-                                        <div class="col-6">
-                                            <div class="shop-single-size">
-                                                <div class="shop-cart-qty">
-                                                    <h6>Quantity</h6>
-                                                    <button class="qty-btn minus-btn"><i class="fal fa-minus"></i>
-                                                    </button>
-                                                    <input id="quantity-input-{{ product.sku }}"
-                                                           class="quantity"
-                                                           type="text"
-                                                           value="{{ item.quantity|default:1 }}">
-                                                    <button class="qty-btn plus-btn"><i class="fal fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endif %}
-                                <div class="product-bottom">
-                                    <div class="product-price">
-                                        <h6>Current Price: <span
-                                                class="current-product-price current-price">{{ product.customer_price|currency }}</span>
-                                        </h6>
-                                    </div>
-                                </div>
-                                {% if product.category_1 not in excluded_suppliers %}
-                                <div class="product-stock">
-                                    <div class="product-price">
-                                        <h6>In Stock: <span>{{ product.quantity }}</span>
-                                        </h6>
-                                    </div>
-                                </div>
-                                {% endif %}
-                                <div class="product-button">
-                                    {% if product.slug in products_in_cart %}
-                                        <button type="button" class="btn btn-secondary item-id-{{ product.slug }}"
-                                                disabled>ADDED TO CART
-                                        </button>
-                                    {% else %}
-                                        <button data-product="{{ product.slug }}" data-action="add" type="button"
-                                                class="btn theme-btn update-cart item-id-{{ product.slug }}">ADD TO CART
-                                        </button>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="social-opt">
-                                <div class="row mt-3">
-                                    {#                                    <div class="col">#}
-                                    {#                                        <!-- Put Add Wishlist icon here -->#}
-                                    {#                                    </div>#}
-                                    <div class="col-auto">
-                                        <div class="shop-single-share">
-                                            <a href="#" class="facebook-btn fb-share-button"
-                                               onclick="shareOnFacebook(); return false;">
-                                                <i class="fab fa-facebook-f"></i> SHARE
-                                            </a>
-                                            {#                                            <a href="#"><i class="fa-brands fa-instagram"></i></a>#}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- shop single details -->
-            <div class="shop-single-details">
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <button class="nav-link active" id="nav-tab1" data-bs-toggle="tab" data-bs-target="#tab1"
-                                type="button" role="tab" aria-controls="tab1" aria-selected="true">Description
-                        </button>
-                        {% if product.specification %}
-                            <button class="nav-link" id="nav-tab2" data-bs-toggle="tab" data-bs-target="#tab2"
-                                    type="button" role="tab" aria-controls="tab2" aria-selected="true">Specifications
-                            </button>
-                        {% endif %}
-                    </div>
-                </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="nav-tab1">
-                        <div class="shop-single-desc">
-                            <p>
-                                {{ product.description_2 }}
-                            </p>
-                            <div class="product-details mt-20">
-                                <div class="row">
-                                    {% if product.feature %}
-                                        <div class="col-sm-6 mb-20">
-                                            <h6 class="color-theme1">Features</h6>
-                                            <p class="mt-10">
-                                                {{ product.feature|linebreaksbr }}
-                                            </p>
-                                        </div>
-                                    {% endif %}
-                                    {% if product.advantage %}
-                                        <div class="col-sm-6 mb-20">
-                                            <h6 class="color-theme1">Advantages</h6>
-                                            <p class="mt-10">
-                                                {{ product.advantage }}
-                                            </p>
-                                        </div>
-                                    {% endif %}
-                                    {% if product.benefit %}
-                                        <div class="col-sm-6 mb-20">
-                                            <h6 class="color-theme1">Benefits</h6>
-                                            <p class="mt-10">
-                                                {{ product.benefit }}
-                                            </p>
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="nav-tab5">
-                        <div class="shop-single-review">
-                            <div class="blog-comments">
-                                <p>{{ product.specification|linebreaks }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    {% if product_ratings %}
-                        <div class="tab-pane fade" id="tab6" role="tabpanel" aria-labelledby="nav-tab6">
-                            <div class="shop-single-review">
-                                <div class="blog-comments">
-                                    <div class="blog-comments-wrapper">
-                                        {% for product_rating in product_ratings %}
-                                            {% if product_rating.user == user %}
-                                                <div class="mobile-only">
-                                                    <div class="edit-review review-rating">
-                                            <span>
-                                                <a onclick="editReview(event, {{ product_rating.review.id }})"
-                                                   class="edit-review-link">Edit
-                                                </a>
-                                            </span>
-                                                        <span style="margin: 0 10px;">|</span>
-                                                        <span>
-                                                <a onclick="removeReview(event, {{ product_rating.review.id }})"
-                                                   class="remove-review-link"
-                                                   data-review-id="{{ product_rating.review.id }}">Remove
-                                                </a>
-                                            </span>
-                                                    </div>
-                                                </div>
-                                            {% endif %}
-                                            <div class="blog-comments-single mt-0 mb-3">
-                                                {% if product_rating.user.image %}
-                                                    <img src="{{ product_rating.user.image.url }}"
-                                                         alt="Profile Picture">
-                                                {% else %}
-                                                    <img src="{% static 'img/user/default_profile.png' %}"
-                                                         alt="No Image">
-                                                {% endif %}
-                                                <div class="blog-comments-content">
-                                                    <div class="star-rating"
-                                                         id="review-rating-{{ product_rating.review.id }}">
-                                                        {% for i in 1|to:6 %}
-                                                            {% if i <= product_rating.score %}
-                                                                <i class="fas fa-star"></i>
-                                                            {% else %}
-                                                                <i class="far fa-star"></i>
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                    </div>
-                                                    <h5>{{ product_rating.user.first_name }} {{ product_rating.user.last_name }}</h5>
-                                                    {% if product_rating.user == user %}
-                                                        <div class="edit-review review-rating mobile-hidden">
-                                                    <span>
-                                                        <a onclick="editReview(event, {{ product_rating.review.id }})"
-                                                           class="edit-review-link">Edit
-                                                        </a>
-                                                    </span>
-                                                            <span style="margin: 0 10px;">|</span>
-                                                            <span>
-                                                        <a onclick="removeReview(event, {{ product_rating.review.id }})"
-                                                           class="remove-review-link"
-                                                           data-review-id="{{ product_rating.review.id }}">Remove
-                                                        </a>
-                                                    </span>
-                                                        </div>
-                                                    {% endif %}
-                                                    <p id="review-content-{{ product_rating.review.id }}">{{ product_rating.review.content }}</p>
-                                                    <span>{{ product_rating.review.created_at }}</span>
-                                                </div>
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <section class="product-detail-hero">
+            <div class="product-gallery" data-product-gallery>
+                <div class="product-gallery-main">
+                    {% if product.image_1 %}
+                        <img data-gallery-main src="{{ product.image_1 }}" alt="{{ product.name }}" loading="eager">
                     {% else %}
-                        <div class="tab-pane fade" id="tab6" role="tabpanel" aria-labelledby="nav-tab6">
-                            <div class="shop-single-review">
-                                <div class="blog-comments">
-                                    <div class="blog-comments-wrapper">
-                                        <p>No product reviews available yet.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="product-image-fallback">No image available</div>
                     {% endif %}
-
-
-                    <!-- Review form -->
-
-                    {% if user.is_authenticated and user_has_purchased %}
-                        <div class="blog-comments-form">
-                            <h4 class="mb-4">Leave A Review</h4>
-                            {% if not user_reviewed %}
-                                <form method="post">
-                                    {% csrf_token %}
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                {{ rating_form.score }}
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                {{ review_form.content }}
-                                            </div>
-                                            <button type="submit" class="theme-btn">SUBMIT</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            {% else %}
-                                <p>You have already submitted a review for this product.</p>
-                                <button class="theme-btn mt-3" onclick="editReview(event, {{ rating.user.id }})">
-                                    Edit Review
-                                </button>
-                            {% endif %}
-                        </div>
-                    {% endif %}
+                    <span class="product-image-label">TWC collection</span>
                 </div>
-
-            </div>
-            <!-- shop single details end -->
-
-            <!-- related item -->
-            <div class="product-area pt-80">
-                <div class="card index-card">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="p-2">
-                                <h2 class="site-title">Related Products</h2>
-                            </div>
-                            <div class="p-2">
-                                <a class="theme-btn" href="{% url 'shop:shop' %}?category_id={{ product.category_1 }}">View
-                                    More</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body product-body">
-                        <div class="row">
-                            {% for related_product in related_products %}
-                                <div class="col-md-3 col-6 product-column">
-                                    <div class="product-item">
-                                        <div class="product-img">
-                                            <a href="{% url 'shop:single' slug=related_product.slug %}">
-                                                {% if product.image_1 %}
-                                                    <img src="{{ related_product.image_1 }}"
-                                                         alt="{{ related_product.name }}" id="product-image">
-                                                {% else %}
-                                                    no image
-                                                {% endif %}
-                                            </a>
-                                        </div>
-                                        <div class="product-content">
-                                            <h3 class="product-title"><a
-                                                    href="{% url 'shop:single' slug=related_product.slug %}">{{ related_product.name }}</a>
-                                            </h3>
-                                            <div class="product-rate">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                            </div>
-                                            <div class="product-bottom">
-                                                <div class="product-price">
-                                                    <!-- <del>P120</del> -->
-                                                    <span class="current-product-price">{{ related_product.customer_price|currency }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-button">
-                                            {% if related_product.slug in products_in_cart %}
-                                                <button type="button"
-                                                        class="btn btn-secondary item-id-{{ related_product.slug }}"
-                                                        disabled>ADDED TO CART
-                                                </button>
-                                            {% else %}
-                                                <button data-product="{{ related_product.slug }}" data-action="add"
-                                                        type="button"
-                                                        class="btn theme-btn update-cart item-id-{{ related_product.slug }}">
-                                                    ADD
-                                                    TO CART
-                                                </button>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
+                <div class="product-gallery-thumbs" role="list" aria-label="Product images">
+                    {% if product.image_1 %}<button class="gallery-thumb is-active" type="button" data-gallery-image="{{ product.image_1 }}" aria-label="View product image 1"><img src="{{ product.image_1 }}" alt=""></button>{% endif %}
+                    {% if product.image_2 %}<button class="gallery-thumb" type="button" data-gallery-image="{{ product.image_2 }}" aria-label="View product image 2"><img src="{{ product.image_2 }}" alt=""></button>{% endif %}
+                    {% if product.image_3 %}<button class="gallery-thumb" type="button" data-gallery-image="{{ product.image_3 }}" aria-label="View product image 3"><img src="{{ product.image_3 }}" alt=""></button>{% endif %}
+                    {% if product.image_4 %}<button class="gallery-thumb" type="button" data-gallery-image="{{ product.image_4 }}" aria-label="View product image 4"><img src="{{ product.image_4 }}" alt=""></button>{% endif %}
+                    {% if product.image_5 %}<button class="gallery-thumb" type="button" data-gallery-image="{{ product.image_5 }}" aria-label="View product image 5"><img src="{{ product.image_5 }}" alt=""></button>{% endif %}
                 </div>
             </div>
-            <!-- related item end -->
-        </div>
+
+            <div class="product-detail-copy">
+                <p class="product-detail-eyebrow">{{ product.category_1|title }}{% if product.category_2 %} · {{ product.category_2|replace_dash_to_space|replace_underscore_to_space|title }}{% endif %}</p>
+                <h1>{{ product.name }}</h1>
+                <div class="product-detail-rating" aria-label="Rated {{ product.aggregate_rating }} out of 5">
+                    <span class="product-stars">★★★★★</span><span>{{ product.aggregate_rating|floatformat:1 }}</span><span class="rating-muted">Trusted by our shoppers</span>
+                </div>
+                <div class="product-detail-price">{{ product.customer_price|currency }}</div>
+                <p class="product-detail-intro">{{ product.description_1|default:"A practical pick for everyday routines, selected by TWC Online Store." }}</p>
+
+                <div class="product-detail-meta">
+                    <span><i class="fa-solid fa-circle-check"></i> In stock{% if product.category_1 not in excluded_suppliers %}: {{ product.quantity }}{% endif %}</span>
+                    {% if product.sku %}<span><i class="fa-solid fa-tag"></i> SKU {{ product.sku }}</span>{% endif %}
+                </div>
+
+                {% if product.slug not in products_in_cart %}
+                    <div class="product-purchase-row">
+                        <div class="product-quantity-control" data-product-quantity data-unit-price="{{ product.customer_price|default:'0' }}">
+                            <span>Quantity</span>
+                            <div class="quantity-stepper">
+                                <button type="button" class="product-qty-button" data-quantity-action="decrease" aria-label="Decrease quantity">−</button>
+                                <input class="quantity input-{{ product.slug }}" value="1" inputmode="numeric" min="1" max="10" aria-label="Quantity">
+                                <button type="button" class="product-qty-button" data-quantity-action="increase" aria-label="Increase quantity">+</button>
+                            </div>
+                        </div>
+                        <div class="product-purchase-total"><small>Total</small><strong data-product-total>{{ product.customer_price|currency }}</strong></div>
+                    </div>
+                {% endif %}
+
+                <div class="product-detail-actions">
+                    {% if product.slug in products_in_cart %}
+                        <button type="button" class="product-add-button is-added item-id-{{ product.slug }}" data-cart-drawer-open="true"><i class="fa-solid fa-check"></i> In your cart · View cart</button>
+                    {% else %}
+                        <button data-product="{{ product.slug }}" data-action="add" type="button" class="product-add-button update-cart item-id-{{ product.slug }}">Add to cart</button>
+                    {% endif %}
+                    <button type="button" class="product-share-button" data-product-share aria-label="Share product"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
+                </div>
+                <div class="product-detail-perks"><span><i class="fa-solid fa-shield-halved"></i> Secure checkout</span><span><i class="fa-solid fa-cart-shopping"></i> Cart saved automatically</span><span><i class="fa-solid fa-headset"></i> Friendly support</span></div>
+            </div>
+        </section>
+
+        <section class="product-information">
+            <div class="product-information-heading"><p class="product-detail-eyebrow">Know your pick</p><h2>Made to fit your routine.</h2></div>
+            <div class="product-information-grid">
+                <article><h3>Description</h3><div>{{ product.description_2|default:product.description_1|linebreaks }}</div></article>
+                {% if product.feature %}<article><h3>Features</h3><div>{{ product.feature|linebreaks }}</div></article>{% endif %}
+                {% if product.advantage or product.benefit %}<article><h3>Why you’ll like it</h3><div>{% if product.advantage %}{{ product.advantage|linebreaks }}{% endif %}{% if product.benefit %}{{ product.benefit|linebreaks }}{% endif %}</div></article>{% endif %}
+                {% if product.specification %}<article><h3>Specifications</h3><div>{{ product.specification|linebreaks }}</div></article>{% endif %}
+            </div>
+        </section>
+
+        {% if related_products %}
+        <section class="product-related-section">
+            <div class="product-section-heading"><div><p class="product-detail-eyebrow">You may also like</p><h2>More good picks.</h2></div><a href="{% url 'shop:shop' %}?cat1={{ product.category_1 }}">View collection <span>→</span></a></div>
+            <div class="product-related-grid">
+                {% for related_product in related_products %}
+                <article class="product-related-card">
+                    <a href="{% url 'shop:single' slug=related_product.slug %}" class="product-related-image">{% if related_product.image_1 %}<img src="{{ related_product.image_1 }}" alt="{{ related_product.name }}" loading="lazy">{% endif %}</a>
+                    <p>{{ related_product.category_1|title }}</p><h3><a href="{% url 'shop:single' slug=related_product.slug %}">{{ related_product.name }}</a></h3><strong>{{ related_product.customer_price|currency }}</strong>
+                    {% if related_product.slug in products_in_cart %}<button class="product-related-add is-added" disabled>Added to cart</button>{% else %}<button data-product="{{ related_product.slug }}" data-action="add" type="button" class="product-related-add update-cart item-id-{{ related_product.slug }}">Add to cart</button>{% endif %}
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
     </div>
-    <!-- shop single end -->
-
+</main>
 {% endblock %}
+
 {% block extra_js %}
-    <script>
-        $(document).ready(function () {
-            var js, fjs = $('script')[0]; // Select the first script tag
-            if ($('#facebook-jssdk').length > 0) return; // Check if the Facebook SDK is already included
-            js = $('<script>', {
-                id: 'facebook-jssdk',
-                src: 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0'
-            })[0];
-            fjs.parentNode.insertBefore(js, fjs); // Insert the new script before the first script tag
-        });
-
-    </script>
-    <script>
-        window.onload = function () {
-            // Function to check if the browser is Facebook's in-app browser
-            function isFacebookBrowser() {
-                return /FBAN|FBAV/i.test(navigator.userAgent);
-            }
-
-            // Check if we are in Facebook's browser
-            if (isFacebookBrowser()) {
-                // Check if the alert has already been shown
-                if (!sessionStorage.getItem('alertShown')) {
-                    // Show the alert
-                    alert('You are using the Facebook app browser. For a better experience, please open this link in your external browser.');
-
-                    // Set a flag in sessionStorage to indicate the alert has been shown
-                    sessionStorage.setItem('alertShown', 'true');
-
-                }
-            }
-        };
-
-        function isFacebookBrowser() {
-            const ua = navigator.userAgent || navigator.vendor || window.opera;
-            return (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1);
-        }
-
-        // Facebook share functionality
-        function shareOnFacebook() {
-            const url = window.location.href; // Get the current URL
-            const facebookAppUrl = `fb://share/?link=${encodeURIComponent(url)}`;
-            const facebookWebUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-
-            let facebookShareUrl = facebookWebUrl; // Default to the web URL
-
-            // Check if the user is on the Facebook app browser
-            if (isFacebookBrowser()) {
-                // If the alert has not been shown in this session, show it
-                if (!sessionStorage.getItem('alertShown')) {
-                    Swal.fire({
-                        title: 'Notice',
-                        text: 'You are using the Facebook app browser. For a better experience, please open this link in your external browser.',
-                        icon: 'warning',
-                        confirmButtonText: 'Okay'
-                    });
-                    sessionStorage.setItem('alertShown', 'true'); // Store the flag to avoid duplicate alerts
-                }
-                {#facebookShareUrl = facebookAppUrl; // Use the Facebook app URL for sharing#}
-            }
-
-            // Open the appropriate Facebook share dialog
-            window.open(facebookShareUrl, '_blank');
-        }
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            // Get initial values
-            var unitPrice = {{ product.customer_price|floatformat:2 }};  // Use floatformat to ensure it's a number
-            var currentPrice = $('.current-price');
-            var minusBtn = $('.minus-btn');
-            var plusBtn = $('.plus-btn');
-            var quantityInput = $('.quantity');
-            var isProductInCart = {% if product.slug in products_in_cart %} true {% else %} false {% endif %};
-
-            function updatePrice() {
-                // Get current quantity from the input
-                var quantity = parseInt(quantityInput.val());
-
-                // Calculate the new total price
-                var totalPrice = quantity * unitPrice;
-
-                // Update the price on the page with comma formatting
-                currentPrice.text('₱' + totalPrice.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-
-
-            }
-
-            // Increase quantity
-            plusBtn.click(function () {
-                var quantity = parseInt(quantityInput.val());
-                if (quantity >= 10) {
-                    plusBtn.prop('disabled', true);
-                } else {
-                    plusBtn.prop('disabled', false);
-                }
-                updatePrice();
-            });
-
-            // Decrease quantity
-            minusBtn.click(function () {
-                var quantity = parseInt(quantityInput.val());
-                if (quantity <= 1) {
-                    minusBtn.prop('disabled', true);
-                } else {
-                    minusBtn.prop('disabled', false);
-                }
-                updatePrice();
-            });
-
-            if (isProductInCart) {
-                minusBtn.prop('disabled', true);
-                plusBtn.prop('disabled', true);
-            } else {
-                minusBtn.prop('disabled', false);
-                plusBtn.prop('disabled', false);
-            }
-
-            // Initial call to set the correct state for buttons and price
-            updatePrice();
-
-        });
-    </script>
-
-    {#    <script>#}
-    {#        $(document).ready(function () {#}
-    {##}
-    {#            ////////////////////#}
-    {#            // Product Rating //#}
-    {#            ///////////////////#}
-    {#            $('.shop-single-rating .fa-star, .shop-single-rating .fa-star-half-alt').on('click', function () {#}
-    {#                var $this = $(this);#}
-    {#                var ratingIndex = $this.data('index'); // Get the data-index of the clicked star#}
-    {#                var productId = $this.closest('.shop-single-rating').data('product-id'); // Get the product ID from the closest product-rate container#}
-    {#                var $productRate = $this.closest('.shop-single-rating'); // Get the closest product-rate container#}
-    {##}
-    {#                // Update the star rating display#}
-    {#                updateStarRating($productRate, ratingIndex);#}
-    {##}
-    {#                // Send the rating to the server if productId is defined#}
-    {#                if (productId !== undefined) {#}
-    {#                    $.ajax({#}
-    {#                        url: "{% url 'products:rate_product' 0 %}".replace('0', productId), // Replace '0' with the actual product ID#}
-    {#                        type: 'POST',#}
-    {#                        data: {#}
-    {#                            'score': ratingIndex, // Send the rating index as the score#}
-    {#                            'csrfmiddlewaretoken': '{{ csrf_token }}' // CSRF token for security#}
-    {#                        },#}
-    {#                        success: function (response) {#}
-    {#                            console.log('Rating submitted successfully');#}
-    {#                        },#}
-    {#                        error: function (response) {#}
-    {#                            console.log('Error in submitting rating');#}
-    {#                        }#}
-    {#                    });#}
-    {#                }#}
-    {#            });#}
-    {##}
-    {#            // Function to update star rating display#}
-    {#            function updateStarRating($ratingElement, ratingIndex) {#}
-    {#                $ratingElement.find('.fa-star, .fa-star-half-alt').each(function () {#}
-    {#                    var $star = $(this);#}
-    {#                    var starIndex = parseInt($star.data('index')); // Get the index of the current star#}
-    {#                    if (starIndex <= ratingIndex) {#}
-    {#                        $star.removeClass('far fa-star fa-star-half-alt').addClass('fas fa-star'); // Set star to full#}
-    {#                    } else {#}
-    {#                        $star.removeClass('fas fa-star').addClass('far fa-star'); // Set star to empty#}
-    {#                    }#}
-    {#                });#}
-    {#            }#}
-    {##}
-    {#        });#}
-    {#    </script>#}
-    {#    <script>#}
-    {#        function editReview(event, reviewId) {#}
-    {#            // Prevent the default action of the link click#}
-    {#            event.preventDefault();#}
-    {##}
-    {#            if (!reviewId) {#}
-    {#                console.error("No reviewId provided");#}
-    {#                return;#}
-    {#            }#}
-    {##}
-    {#            console.log("Edit review called with reviewId:", reviewId);#}
-    {##}
-    {#            // Fetch the current review content and rating#}
-    {#            $.ajax({#}
-    {#                url: "{% url 'shop:get_review_details' 0 %}".replace('0', reviewId),#}
-    {#                type: 'GET',#}
-    {#                success: function (response) {#}
-    {#                    const currentContent = response.content;#}
-    {#                    const currentRating = response.rating;#}
-    {##}
-    {##}
-    {#                    console.log("Current review content:", currentContent);#}
-    {#                    console.log("Current review rating:", currentRating);#}
-    {##}
-    {#                    // Display SweetAlert2 modal with a textarea for editing the review#}
-    {#                    Swal.fire({#}
-    {#                        title: 'Edit your review',#}
-    {#                        width: '800px', // Set the width of the SweetAlert window#}
-    {#                        html: `#}
-    {#                            <div style="text-align: center; margin-top: 10px;">#}
-    {#                                <div class="row">#}
-    {#                                    <div class="col-6">#}
-    {#                                        <label for="swal-rating">Product Rating: </label>#}
-    {#                                    </div>#}
-    {#                                    <div class="col-6">#}
-    {#                                        <select id="swal-rating" class="swal2-select" style="margin-left: 10px;">#}
-    {#                                            <option value="1">1</option>#}
-    {#                                            <option value="2">2</option>#}
-    {#                                            <option value="3">3</option>#}
-    {#                                            <option value="4">4</option>#}
-    {#                                            <option value="5">5</option>#}
-    {#                                        </select>#}
-    {#                                    </div>#}
-    {#                                </div>#}
-    {#                            </div>#}
-    {#                            <div style="margin-top: 10px; text-align: center;">#}
-    {#                                <textarea id="swal-input1" class="swal2-textarea" rows="6" style="width: 90%; max-height: 150px;">${currentContent}</textarea>#}
-    {#                            </div>#}
-    {#                        `,#}
-    {#                        focusConfirm: false,#}
-    {#                        showCancelButton: true, // Show cancel button#}
-    {#                        confirmButtonText: 'Confirm', // Change confirm button text#}
-    {#                        didOpen: () => {#}
-    {#                            // Initialize the star rating plugin#}
-    {#                            $('#swal-rating').barrating({#}
-    {#                                theme: 'fontawesome-stars',#}
-    {#                                initialRating: currentRating, // Set the current rating#}
-    {#                                onSelect: function (value, text, event) {#}
-    {#                                    if (typeof (event) !== 'undefined') {#}
-    {#                                        // rating was selected by a user#}
-    {#                                        console.log('Selected rating:', value);#}
-    {#                                    }#}
-    {#                                }#}
-    {#                            });#}
-    {#                        },#}
-    {#                        preConfirm: () => {#}
-    {#                            const editedContent = document.getElementById('swal-input1').value;#}
-    {#                            const editedRating = document.getElementById('swal-rating').value; // Access the value directly from the select element#}
-    {#                            return {#}
-    {#                                content: editedContent,#}
-    {#                                rating: editedRating#}
-    {#                            };#}
-    {#                        }#}
-    {#                    }).then((result) => {#}
-    {#                        if (result.isConfirmed) {#}
-    {#                            const editedContent = result.value.content;#}
-    {#                            const editedRating = result.value.rating;#}
-    {#                            console.log("Edited content:", editedContent);#}
-    {#                            console.log("Edited rating:", editedRating);#}
-    {##}
-    {#                            // Make AJAX POST request to update the review and rating#}
-    {#                            $.ajax({#}
-    {#                                url: "{% url 'shop:edit_review' 0 %}".replace('0', reviewId),#}
-    {#                                type: 'POST',#}
-    {#                                data: {#}
-    {#                                    content: editedContent,#}
-    {#                                    rating: editedRating,#}
-    {#                                    csrfmiddlewaretoken: '{{ csrf_token }}',#}
-    {#                                },#}
-    {#                                beforeSend: function (jqXHR, setting) {#}
-    {#                                    console.log("AJAX request is being sent with data:", setting.data);#}
-    {#                                },#}
-    {#                                success: function (response) {#}
-    {#                                    console.log("AJAX success response:", response);#}
-    {#                                    if (response.success) {#}
-    {#                                        // Update the review content and rating on the page#}
-    {#                                        const reviewContent = $('#review-content-' + reviewId);#}
-    {#                                        reviewContent.text(editedContent);#}
-    {#                                        // Update the rating display (you'll need to add this functionality)#}
-    {#                                        updateRatingDisplay(reviewId, editedRating);#}
-    {#                                        Swal.fire('Success', response.message, 'success');#}
-    {#                                    } else {#}
-    {#                                        Swal.fire('Error', response.message, 'error');#}
-    {#                                    }#}
-    {#                                },#}
-    {#                                error: function (jqXHR, textStatus, errorThrown) {#}
-    {#                                    console.log("AJAX error:", textStatus, errorThrown);#}
-    {#                                    console.log("AJAX error details:", jqXHR.responseText);#}
-    {#                                    Swal.fire('Error', 'There was an error updating your review.', 'error');#}
-    {#                                }#}
-    {#                            });#}
-    {#                        } else if (result.dismiss === Swal.DismissReason.cancel) {#}
-    {#                            console.log('Review edit cancelled');#}
-    {#                        }#}
-    {#                    });#}
-    {#                },#}
-    {#                error: function (jqXHR, textStatus, errorThrown) {#}
-    {#                    console.log("Error fetching review details:", textStatus, errorThrown);#}
-    {#                    Swal.fire('Error', 'There was an error fetching the review details.', 'error');#}
-    {#                }#}
-    {#            });#}
-    {##}
-    {#            function updateRatingDisplay(reviewId, editedRating) {#}
-    {#                const ratingContainer = $('#review-rating-' + reviewId);#}
-    {#                ratingContainer.empty(); // Clear existing stars#}
-    {##}
-    {#                for (let i = 1; i <= 5; i++) {#}
-    {#                    const starIcon = $('<i></i>');#}
-    {#                    starIcon.addClass(i <= editedRating ? 'fas fa-star' : 'far fa-star');#}
-    {#                    ratingContainer.append(starIcon);#}
-    {#                }#}
-    {#            }#}
-    {#        }#}
-    {##}
-    {#        function removeReview(event, reviewId) {#}
-    {#            event.preventDefault();#}
-    {##}
-    {#            if (!reviewId) {#}
-    {#                console.error("No reviewId provided");#}
-    {#                return;#}
-    {#            }#}
-    {##}
-    {#            Swal.fire({#}
-    {#                title: 'Are you sure?',#}
-    {#                text: "You won't be able to revert this!",#}
-    {#                icon: 'warning',#}
-    {#                showCancelButton: true,#}
-    {#                confirmButtonColor: '#3085d6',#}
-    {#                cancelButtonColor: '#d33',#}
-    {#                confirmButtonText: 'Yes, delete it!'#}
-    {#            }).then((result) => {#}
-    {#                if (result.isConfirmed) {#}
-    {#                    // Make AJAX POST request to remove the review#}
-    {#                    $.ajax({#}
-    {#                        url: "{% url 'shop:remove_review' 0 %}".replace('0', reviewId),#}
-    {#                        type: 'POST',#}
-    {#                        data: {#}
-    {#                            csrfmiddlewaretoken: '{{ csrf_token }}',#}
-    {#                        },#}
-    {#                        beforeSend: function (jqXHR, setting) {#}
-    {#                            console.log("AJAX request is being sent with data:", setting.data);#}
-    {#                        },#}
-    {#                        success: function (response) {#}
-    {#                            console.log("AJAX success response:", response);#}
-    {#                            if (response.success) {#}
-    {#                                // Remove the review element from the page#}
-    {#                                $('#review-' + reviewId).remove();#}
-    {#                                Swal.fire('Deleted!', response.message, 'success');#}
-    {#                            } else {#}
-    {#                                Swal.fire('Error', response.message, 'error');#}
-    {#                            }#}
-    {#                        },#}
-    {#                        error: function (jqXHR, textStatus, errorThrown) {#}
-    {#                            console.log("AJAX error:", textStatus, errorThrown);#}
-    {#                            console.log("AJAX error details:", jqXHR.responseText);#}
-    {#                            Swal.fire('Error', 'There was an error removing your review.', 'error');#}
-    {#                        }#}
-    {#                    });#}
-    {#                }#}
-    {#            });#}
-    {#        }#}
-    {##}
-    {#        $(document).on('click', '.edit-review-link', function (event) {#}
-    {#            const reviewId = $(this).data('review-id');#}
-    {#            editReview(event, reviewId);#}
-    {#        });#}
-    {##}
-    {#        $(document).on('click', '.remove-review-link', function (event) {#}
-    {#            const reviewId = $(this).data('review-id');#}
-    {#            removeReview(event, reviewId);#}
-    {#        });#}
-    {##}
-    {#        const style = document.createElement('style');#}
-    {#        style.innerHTML = `#}
-    {#            .swal-container {#}
-    {#                overflow: hidden !important;#}
-    {#            }#}
-    {#        `;#}
-    {#        document.head.appendChild(style);#}
-    {#    </script>#}
+    <script src="{% static 'js/product-detail.js' %}?v=product-1"></script>
 {% endblock %}

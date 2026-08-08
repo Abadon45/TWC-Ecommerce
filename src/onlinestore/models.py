@@ -48,9 +48,11 @@ class SiteSetting(models.Model):
     def get_max_order_quantity(cls):
         try:
             max_qty = cls.objects.get(key='max_order_quantity').value
-            return Decimal('0.00') if max_qty == Decimal('0.00') else max_qty
+            if max_qty is None or max_qty <= Decimal('0.00'):
+                return Decimal('999')
+            return max_qty
         except cls.DoesNotExist:
-            return Decimal('0.00')
+            return Decimal('999')
 
 
 class Rating(models.Model):

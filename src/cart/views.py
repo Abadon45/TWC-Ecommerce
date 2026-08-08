@@ -1,7 +1,10 @@
 import json
 
 from django.utils import timezone
+from django.core import signing
+from django.core.signing import BadSignature
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
@@ -11,33 +14,8 @@ from onlinestore.api import *
 from onlinestore.forms import AddressForm
 from .utils import *
 
-
-
-class CartView(TemplateView):
-    template_name = 'cart/shop-cart.html'
-    title = "Cart"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # Retrieve ordered_items_by_shop and total_cart_subtotal from the session
-        ordered_items_by_shop = self.request.session.get('ordered_items_by_shop', {})
-        cart_total = 0
-
-        # Log the structure of each product's slug
-        for shop, data in ordered_items_by_shop.items():
-            cod_amount = data.get('cod_amount', 0)
-            cart_total += int(cod_amount)
-
-        self.request.session['cart_total'] = cart_total
-        # Update the context with data retrieved from the session
-        context.update({
-            'title': self.title,
-            'ordered_items_by_shop': ordered_items_by_shop,
-            'cart_total': cart_total,
-        })
-
-        return context
+DEMO_ORDER_COOKIE = 'twcDemoOrder'
+DEMO_ADDRESS_COOKIE = 'twcDemoAddress'
 
 
 def fetch_product_quantity(request):
@@ -81,6 +59,8 @@ class UpdateCartView(View):
         # Fetch product data from the API
         product = self.get_product_data(product_slug)
         MAX_ORDER_QUANTITY = int(SiteSetting.get_max_order_quantity())
+        if MAX_ORDER_QUANTITY <= 0:
+            MAX_ORDER_QUANTITY = 999
 
         max_order_exceeded = False
         message = "Cart updated"
@@ -94,7 +74,7 @@ class UpdateCartView(View):
             return None, 'Product not found or API error'
 
         # Retrieve the cart from the session, or create an empty one
-        cart = request.session.get('cart', {})
+        cart = get_cart_cookie(request) or request.session.get('cart', {})
 
         # Get the shop (category_1) for grouping
         shop = product.get('category_1', 'Unknown Shop')
@@ -259,7 +239,7 @@ class UpdateCartView(View):
             item['get_total'] = float(item['price']) * item['quantity']
 
         # Return a response
-        return JsonResponse({
+        response = JsonResponse({
             'error': False,
             'message': message,
             'cart_items': total_items,
@@ -268,6 +248,7 @@ class UpdateCartView(View):
             'shop_cart': ordered_items_by_shop,
             'max_order_exceeded': max_order_exceeded,
         }, status=200)
+        return set_cart_cookie(response, cart)
 
 
 class CheckoutView(View):
@@ -286,6 +267,9 @@ class CheckoutView(View):
             'cart_total': self.request.session.get('cart_total', 0),
             'referred_by': self.request.session.get('referrer'),
             'title': "Checkout",
+            # The signed snapshot is a fallback for browsers where the legacy
+            # duplicate address requests rotate or lose the session state.
+            'checkout_snapshot': signing.dumps(self.get_orders()),
         }
         return context
 
@@ -298,7 +282,16 @@ class CheckoutView(View):
             return self.process_shipping_info(request.GET)
 
         context = self.get_context_data()
-        return render(request, self.template_name, context)
+        response = render(request, self.template_name, context)
+        response.set_cookie(
+            DEMO_ORDER_COOKIE,
+            signing.dumps(context['orders']),
+            max_age=60 * 60 * 24,
+            secure=not settings.DEBUG,
+            httponly=False,
+            samesite='Lax',
+        )
+        return response
 
     def process_shipping_info(self, data):
 
@@ -344,19 +337,41 @@ class CheckoutView(View):
                 print("Unexpected order format:", order_data)
 
         self.request.session['updated_orders'] = updated_orders
+        self.request.session['checkout_order_snapshot'] = orders
+        # Dedicated demo-only snapshot consumed by the thank-you page.
+        self.request.session['thank_you_order'] = orders
         self.request.session['checkout_completed'] = False
+        self.request.session.modified = True
 
         # Return a JsonResponse if the request was made via AJAX
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({
+            response = JsonResponse({
                 'status': 'success',
                 'updated_orders': updated_orders,
                 'total_shipping': str(total_shipping),
                 'total_payment': str(total_payment),
             })
+            response.set_cookie(
+                DEMO_ADDRESS_COOKIE,
+                signing.dumps(shipping_address),
+                max_age=60 * 60 * 24,
+                secure=not settings.DEBUG,
+                httponly=False,
+                samesite='Lax',
+            )
+            return response
 
         # Otherwise, redirect to the success URL or the same page with updated parameters
-        return redirect(self.template_name + '?' + urlencode(self.request.GET))
+        response = redirect(reverse('cart:checkout') + '?' + urlencode(self.request.GET))
+        response.set_cookie(
+            DEMO_ADDRESS_COOKIE,
+            signing.dumps(shipping_address),
+            max_age=60 * 60 * 24,
+            secure=not settings.DEBUG,
+            httponly=False,
+            samesite='Lax',
+        )
+        return response
 
     def calculate_shipping_fee(self, region, order):
         FIXED_SHIPPING_FEE = SiteSetting.get_fixed_shipping_fee()
@@ -365,10 +380,27 @@ class CheckoutView(View):
             return FIXED_SHIPPING_FEE
         else:
             qty = order['qty']
-            return sf_calculator(region=region, qty=qty)
+            return sf_calculator(province=region, qty=qty)
 
     def get_orders(self):
-        return self.request.session.get('ordered_items_by_shop', {})
+        orders = self.request.session.get('ordered_items_by_shop', {})
+        if orders:
+            return orders
+
+        # The drawer can start checkout directly from the shop. Hydrate the
+        # legacy checkout session from the same browser cart cookie instead of
+        # redirecting back to the shop because the old session is empty.
+        cart = get_cart_cookie(self.request)
+        if not cart:
+            return {}
+
+        cart_builder = UpdateCartView()
+        cart_builder.request = self.request
+        orders = cart_builder._rebuild_ordered_items_by_shop(cart)
+        self.request.session['cart'] = cart
+        self.request.session['ordered_items_by_shop'] = orders
+        self.request.session.modified = True
+        return orders
 
 
 #########################
@@ -376,57 +408,121 @@ class CheckoutView(View):
 #########################
 
 
-def submit_checkout(request):
-    ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
-    cart = request.session.get('cart', {})  # Retrieve the cart from the session
-    print(f'Order: {ordered_items_by_shop}')
-    print(f'Cart: {cart}')
+def complete_checkout_locally(request):
+    """Finish the legacy checkout without calling the retired order API.
 
-    for shop, shop_data in ordered_items_by_shop.items():
-
-        for item in shop_data['items']:
-            product_name = item['product']['name']
-            product_quantity = item.get('quantity', 1)
-            slug = item['product']['slug']
-
-            quantity, supplier_product = fetch_quantity_api(slug)
-            quantity = int(quantity)
-
-            if int(product_quantity) > quantity and supplier_product:
-                message = f'{product_name} stock exceeds quantity of available stock: {quantity}'
-                item['quantity'] = quantity
-
-                if slug in cart:
-                    cart[slug]['quantity'] = quantity
-
-                if int(quantity) == 0:
-                    message = f'{product_name} is out of stock, deleting your product from the cart'
-                    shop_data['items'].remove(item)
-                    if slug in cart:
-                        del cart[slug]
-
-                request.session['ordered_items_by_shop'] = ordered_items_by_shop
-                request.session['cart'] = cart
-                return JsonResponse({
-                    'error': message,
-                    'redirect_url': reverse('cart:cart'),
-                }, status=400)
-
-    access_token = get_access_token()
-    if not access_token:
+    The original storefront delegated final order creation to the dashboard
+    service. That service is no longer part of this legacy app, so the local
+    checkout snapshot is now the completed-order record used by the thank-you
+    page.
+    """
+    # The legacy dashboard/order API is retired.  The checkout confirmation
+    # must therefore be built from a local, immutable session snapshot.
+    orders = (
+        request.session.get('thank_you_order')
+        or
+        request.session.get('checkout_order_snapshot')
+        or request.session.get('ordered_items_by_shop')
+        or request.session.get('demo_order_snapshot')
+        or request.session.get('orders')
+    )
+    if not orders:
+        snapshot_token = request.GET.get('checkout_snapshot')
+        if snapshot_token:
+            try:
+                orders = signing.loads(snapshot_token)
+            except (BadSignature, ValueError, TypeError):
+                orders = {}
+    if not orders:
+        snapshot_token = request.COOKIES.get(DEMO_ORDER_COOKIE)
+        if snapshot_token:
+            try:
+                orders = signing.loads(snapshot_token)
+            except (BadSignature, ValueError, TypeError):
+                orders = {}
+    # The drawer is cookie-backed. Rehydrate the legacy session at the final
+    # step as well, because a checkout can be opened in a fresh session or
+    # after the session snapshot has expired.
+    if not orders:
+        cart = get_cart_cookie(request) or request.session.get('cart', {})
+        if cart:
+            cart_builder = UpdateCartView()
+            cart_builder.request = request
+            orders = cart_builder._rebuild_ordered_items_by_shop(cart)
+            request.session['cart'] = cart
+            request.session['ordered_items_by_shop'] = orders
+            request.session.modified = True
+    if not orders:
         return JsonResponse({
-            'error': 'Failed to retrieve access token. Please try again later.'
+            'error': 'Your checkout has no items. Please return to the shop.'
         }, status=400)
-    return submit_checkout_base(request)
+
+    # Payment providers are intentionally bypassed for this demo.  Keep the
+    # selected value out of the result so a stale xendit value can never send
+    # the customer back into the retired integration.
+    payment_method = 'cod'
+
+    order_number = request.session.get('invoice_number') or generate_invoice_number()
+    for shop_data in orders.values():
+        shop_data['order_number'] = order_number
+
+    request.session['ordered_items_by_shop'] = orders
+    request.session['orders'] = orders
+    request.session['demo_order_snapshot'] = orders
+    request.session['thank_you_order'] = orders
+    request.session['demo_order_status'] = 'completed'
+    request.session['payment_method'] = payment_method
+    request.session['invoice_number'] = order_number
+    request.session['order_complete'] = True
+    request.session['checkout_completed'] = True
+
+    username = request.GET.get('username')
+    if username:
+        request.session['referrer'] = username
+    request.session.modified = True
+
+    thank_you_url = reverse('cart:checkout_complete')
+    if request.headers.get('x-requested-with') != 'XMLHttpRequest':
+        # Progressive-enhancement fallback: if checkout JavaScript is blocked
+        # or fails to load, a regular form submit still completes the demo
+        # order and reaches the confirmation page.
+        response = redirect(thank_you_url)
+    else:
+        response = JsonResponse({
+            'redirect_url': request.build_absolute_uri(thank_you_url),
+            'payment_method': payment_method,
+            'local_completion': True,
+            'demo_order': True,
+        })
+    response.set_cookie(
+        DEMO_ORDER_COOKIE,
+        signing.dumps(orders),
+        max_age=60 * 60 * 24,
+        secure=not settings.DEBUG,
+        httponly=False,
+        samesite='Lax',
+    )
+    address = request.session.get('shipping_address')
+    if address:
+        response.set_cookie(
+            DEMO_ADDRESS_COOKIE,
+            signing.dumps(address),
+            max_age=60 * 60 * 24,
+            secure=not settings.DEBUG,
+            httponly=False,
+            samesite='Lax',
+        )
+    # A completed order must not reappear in the next shopping session.
+    response.delete_cookie(USER_CART_COOKIE, path='/')
+    return response
+
+
+def submit_checkout(request):
+    return complete_checkout_locally(request)
 
 
 def submit_promo_checkout(request):
-    access_token = get_access_token()
-    if not access_token:
-        return JsonResponse({
-            'error': 'Failed to retrieve access token. Please try again later.'
-        }, status=400)
-    return submit_checkout_base(request)
+    return complete_checkout_locally(request)
 
 
 #########################
@@ -514,11 +610,43 @@ class CheckoutDoneView(View):
     def get(self, request, *args, **kwargs):
         # Check if 'order_complete' exists in the session
         order_complete = request.session.get('order_complete', False)
+        has_demo_snapshot = bool(request.session.get('demo_order_snapshot'))
+        has_thank_you_order = bool(request.session.get('thank_you_order'))
         request.session['promo'] = False
 
+        # Recover the dedicated demo order from the cart cookie if the
+        # duplicate legacy checkout requests rotated the session.
+        if not order_complete and not has_demo_snapshot and not has_thank_you_order:
+            cart = get_cart_cookie(request)
+            if cart:
+                cart_builder = UpdateCartView()
+                cart_builder.request = request
+                thank_you_order = cart_builder._rebuild_ordered_items_by_shop(cart)
+                request.session['thank_you_order'] = thank_you_order
+                request.session['demo_order_snapshot'] = thank_you_order
+                request.session['order_complete'] = True
+                request.session['demo_order_status'] = 'completed'
+                request.session.modified = True
+                has_thank_you_order = True
+
+        if not order_complete and not has_demo_snapshot and not has_thank_you_order:
+            snapshot_token = request.COOKIES.get(DEMO_ORDER_COOKIE)
+            if snapshot_token:
+                try:
+                    thank_you_order = signing.loads(snapshot_token)
+                except (BadSignature, ValueError, TypeError):
+                    thank_you_order = {}
+                if thank_you_order:
+                    request.session['thank_you_order'] = thank_you_order
+                    request.session['demo_order_snapshot'] = thank_you_order
+                    request.session['order_complete'] = True
+                    request.session['demo_order_status'] = 'completed'
+                    request.session.modified = True
+                    has_thank_you_order = True
+
         # Redirect to home if the order is not complete
-        if not order_complete:
-            return redirect("home_view")
+        if not order_complete and not has_demo_snapshot and not has_thank_you_order:
+            return redirect("shop:shop")
 
         # Prepare the context data for rendering
         context = self.get_context_data()
@@ -536,7 +664,10 @@ class CheckoutDoneView(View):
         # Retrieve ordered_items_by_shop and total_cart_subtotal from the session
         request = self.request
         request.session['checkout_completed'] = False
-        if 'ordered_items_by_shop' in request.session:
+        if request.session.get('thank_you_order'):
+            orders = request.session.get('thank_you_order', {})
+            request.session['orders'] = orders
+        elif request.session.get('ordered_items_by_shop'):
             ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
             orders = ordered_items_by_shop.copy()
 
@@ -545,10 +676,17 @@ class CheckoutDoneView(View):
 
             request.session['orders'] = orders
         else:
-            orders = request.session.get('orders', [])
+            orders = request.session.get('demo_order_snapshot') or request.session.get('orders', {})
 
         checkout_details = request.session.get('updated_orders', {})
         address_from_session = request.session.get('shipping_address', {})
+        if not address_from_session:
+            address_token = request.COOKIES.get(DEMO_ADDRESS_COOKIE)
+            if address_token:
+                try:
+                    address_from_session = signing.loads(address_token)
+                except (BadSignature, ValueError, TypeError):
+                    address_from_session = {}
         sponsor_mobile = request.session.get('sponsor_mobile')
         payment_method = request.session.get('payment_method')
         print(f'Selected Payment Method: {payment_method}')
@@ -583,6 +721,7 @@ class CheckoutDoneView(View):
             'payment_method': payment_method,
             'invoice_number': request.session.get('invoice_number', ""),
             'cart_total': cart_total,
+            'demo_order': request.session.get('demo_order_status') == 'completed',
         })
 
         return context
@@ -652,4 +791,3 @@ class PromoCheckoutDoneView(CheckoutDoneView):
         context['event_name'] = self.request.session.get('event_name', "")
 
         return context
-

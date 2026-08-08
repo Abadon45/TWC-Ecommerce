@@ -1,5 +1,6 @@
 import requests
 import os
+import ipaddress
 
 from django.http import Http404
 from django.http import HttpResponsePermanentRedirect
@@ -23,11 +24,12 @@ class SubdomainMiddleware:
 
     def __call__(self, request):
         full_host = request.get_host()
+        host_no_port = full_host.rsplit(':', 1)[0]
         print(f'Full Host: {full_host}')
 
-        host_parts = full_host.split('.')
+        host_parts = host_no_port.split('.')
 
-        if len(host_parts) > 2:
+        if len(host_parts) > 2 and not self._is_local_host(host_no_port):
             request.subdomain = host_parts[0]
         else:
             request.subdomain = None
@@ -40,6 +42,15 @@ class SubdomainMiddleware:
                 return response
 
         return self.get_response(request)
+
+    def _is_local_host(self, hostname):
+        if hostname in ['localhost', '127.0.0.1']:
+            return True
+        try:
+            ipaddress.ip_address(hostname)
+            return True
+        except ValueError:
+            return False
 
     def check_username(self, request, username):
         if username in ["www", "admin"]:
@@ -54,7 +65,7 @@ class SubdomainMiddleware:
         api_url = f'https://dashboard.twcako.com/account/api/check-username/{username}/'
 
         try:
-            api_response = requests.get(api_url)
+            api_response = requests.get(api_url, verify=False, timeout=10)
             api_response.raise_for_status()
 
             data = api_response.json()
@@ -97,14 +108,15 @@ class RedirectToWWW:
         self.get_response = get_response
 
     def __call__(self, request):
-        host = request.get_host()
+        host_full = request.get_host()
+        host = host_full.rsplit(':', 1)[0]
 
         host_parts = host.split('.')
-        print(f'Host: {host}')
+        print(f'Host: {host_full}')
         print(f'HostParts: {host_parts}')
 
-        if host == 'twconline.store' or host == 'twcstoredevtest.com' or host == 'devtest.store:8000':
-            new_url = request.build_absolute_uri().replace(f"{host}", f"www.{host}")
+        if host in ['twconline.store', 'twcstoredevtest.com', 'devtest.store']:
+            new_url = request.build_absolute_uri().replace(f"{host_full}", f"www.{host}")
             return HttpResponsePermanentRedirect(new_url)
 
         response = self.get_response(request)
@@ -113,7 +125,7 @@ class RedirectToWWW:
 class DynamicCSRFMiddleware(MiddlewareMixin):
     def process_request(self, request):
         # Extract the domain from the request
-        domain = request.get_host().split(':')[0]
+        domain = request.get_host().rsplit(':', 1)[0]
         if domain and domain not in settings.CSRF_TRUSTED_ORIGINS:
             # Add the domain to CSRF_TRUSTED_ORIGINS dynamically
             settings.CSRF_TRUSTED_ORIGINS.append(f'https://{domain}')
@@ -121,11 +133,13 @@ class DynamicCSRFMiddleware(MiddlewareMixin):
 
 class CurrentDomainMiddleware(MiddlewareMixin):
     def process_request(self, request):
-        host = request.get_host().split(':')[0]  # Get the host without the port
+        host = request.get_host().rsplit(':', 1)[0]  # Get the host without the port
         domain_parts = host.split('.')
 
-        # Check if there's a subdomain
-        if len(domain_parts) > 2:
+        # For localhost or numeric IPs, keep the full host instead of using last two parts
+        if host == 'localhost' or self._is_ip_address(host):
+            current_domain = host
+        elif len(domain_parts) > 2:
             current_domain = '.'.join(domain_parts[-2:])  # Join the last two parts (domain + TLD)
         else:
             current_domain = host  # If no subdomain, use the whole host
@@ -133,15 +147,21 @@ class CurrentDomainMiddleware(MiddlewareMixin):
         # Set the current domain in the request
         settings.CURRENT_DOMAIN = current_domain
 
+    def _is_ip_address(self, host):
+        try:
+            ipaddress.ip_address(host)
+            return True
+        except ValueError:
+            return False
+
 
 class SubdomainSessionMiddleware(MiddlewareMixin):
+    """Keep one session cookie name across the storefront hosts.
+
+    SessionMiddleware has already loaded the session before this middleware
+    runs. Mutating ``request.session.cookie_name`` here makes Django save a new
+    cookie name that SessionMiddleware will not read on the next request.
+    """
+
     def process_request(self, request):
-        # Extract the host and subdomain
-        host = request.get_host().split('.')
-        if len(host) > 2:
-            subdomain = host[0]  # Get the subdomain (e.g., subdomain.twconline.store)
-            # Set a unique session cookie name for each subdomain
-            request.session.cookie_name = f"session_{subdomain}"
-        else:
-            # Use a default session cookie name for the main domain
-            request.session.cookie_name = "session_main"
+        return None

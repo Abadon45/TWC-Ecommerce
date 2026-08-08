@@ -1,15 +1,35 @@
 {% load static %}
-<!-- breadcrumb -->
-<div class="site-breadcrumb">
-    <div class="site-breadcrumb-bg"></div>
-    <div class="container">
-        <div class="site-breadcrumb-wrap">
-            <!-- <h4 class="breadcrumb-title">{{ title }}</h4>
-            <ul class="breadcrumb-menu">
-                <li><a href="/"><i class="far fa-home"></i> Home</a></li>
-                <li class="active">{{ title }}</li>
-            </ul> -->
+
+{% if shop_banner_key == 'sante' %}
+    <section class="shop-hero-carousel shop-hero-single">
+        <img src="{% static 'img/breadcrumb/03.webp' %}" alt="Sante wellness products">
+        <div class="shop-hero-caption"><span>Feel better, every day</span><h1>Thoughtful wellness picks for real life.</h1><a href="{% url 'shop:shop' %}?cat1=sante">Shop wellness <span>→</span></a></div>
+    </section>
+{% elif shop_banner_key == 'mood' %}
+    <section class="shop-hero-carousel shop-hero-single">
+        <img src="{% static 'img/breadcrumb/04.webp' %}" alt="Mood watches and lifestyle products">
+        <div class="shop-hero-caption"><span>Made for your day</span><h1>Small upgrades that fit your lifestyle.</h1><a href="{% url 'shop:shop' %}?cat1=mood">Shop Mood <span>→</span></a></div>
+    </section>
+{% elif shop_banner_key == 'chingu' %}
+    <section class="shop-hero-carousel shop-hero-single">
+        <img src="{% static 'img/breadcrumb/01.webp' %}" alt="Bags and accessories collection">
+        <div class="shop-hero-caption"><span>Style, made practical</span><h1>Useful pieces with a little more personality.</h1><a href="{% url 'shop:shop' %}?cat1=all&cat2=bags">Explore bags <span>→</span></a></div>
+    </section>
+{% else %}
+    <section id="shop-hero-carousel" class="shop-hero-carousel carousel slide" data-bs-ride="carousel" data-bs-interval="6000">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#shop-hero-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#shop-hero-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#shop-hero-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#shop-hero-carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
         </div>
-    </div>
-</div>
-<!-- breadcrumb end -->
+        <div class="carousel-inner">
+            <div class="carousel-item active"><img src="{% static 'img/breadcrumb/01.webp' %}" alt="Featured products at TWC Online Store"><div class="shop-hero-caption"><span>Everyday essentials</span><h1>Find something good for your routine.</h1><a href="{% url 'shop:shop' %}?cat1=all">Shop all products <span>→</span></a></div></div>
+            <div class="carousel-item"><img src="{% static 'img/breadcrumb/02.webp' %}" alt="Bags and accessories collection"><div class="shop-hero-caption"><span>Style, made practical</span><h1>Useful pieces with a little more personality.</h1><a href="{% url 'shop:shop' %}?cat1=all&cat2=bags">Explore bags <span>→</span></a></div></div>
+            <div class="carousel-item"><img src="{% static 'img/breadcrumb/03.webp' %}" alt="Wellness products collection"><div class="shop-hero-caption"><span>Feel better, every day</span><h1>Thoughtful wellness picks for real life.</h1><a href="{% url 'shop:shop' %}?cat1=sante">Shop wellness <span>→</span></a></div></div>
+            <div class="carousel-item"><img src="{% static 'img/breadcrumb/04.webp' %}" alt="Watches and lifestyle products"><div class="shop-hero-caption"><span>Made for your day</span><h1>Small upgrades that fit your lifestyle.</h1><a href="{% url 'shop:shop' %}?cat1=mood">Shop Mood <span>→</span></a></div></div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#shop-hero-carousel" data-bs-slide="prev" aria-label="Previous slide"><span class="carousel-control-prev-icon"></span></button>
+        <button class="carousel-control-next" type="button" data-bs-target="#shop-hero-carousel" data-bs-slide="next" aria-label="Next slide"><span class="carousel-control-next-icon"></span></button>
+    </section>
+{% endif %}

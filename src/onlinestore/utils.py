@@ -103,11 +103,11 @@ def send_temporary_account_email(user, full_name, temporary_username, temporary_
 
 
 def fetch_address_data(request):
-    address_api_url = 'https://dashboard.twcdevtest.com/addresses/api/get-address/'
+    address_api_url = getattr(settings, 'ADDRESS_API_URL', 'https://dashboard.twcako.com/addresses/api/get-address/')
 
     try:
         # Fetch address data from the external API
-        response = requests.get(address_api_url, timeout=10)
+        response = requests.get(address_api_url, verify=False, timeout=10)
         response.raise_for_status()
         data = response.json()
         return JsonResponse(data, safe=False)
@@ -124,7 +124,7 @@ def fetch_category_count(request):
 
     try:
         # Fetch filtered data from the API
-        response = requests.get(api_url)
+        response = requests.get(api_url, verify=False, timeout=10)
         response.raise_for_status()
 
         # Check if the response is successful and print the data
@@ -175,7 +175,7 @@ def fetch_ph_number_prefixes(api_url):
         list: A list of prefixes, or an empty list if the API call fails.
     """
     try:
-        response = requests.get(api_url)
+        response = requests.get(api_url, verify=False, timeout=10)
         response.raise_for_status()  # Raise an error for HTTP status codes 4xx/5xx
         data = response.json()
         return data.get('ph_number_prefixes', [])
@@ -223,7 +223,7 @@ def fetch_vw_inventory(request):
 
     try:
         # Make the API call
-        response = requests.get(url)
+        response = requests.get(url, verify=False, timeout=10)
         response.raise_for_status()
 
         data = response.json()

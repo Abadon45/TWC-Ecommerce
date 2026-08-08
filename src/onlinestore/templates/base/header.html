@@ -77,7 +77,8 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-2 col-5">
                         <a class="navbar-brand" href="{% url 'home_view' %}">
-                            <img src="{% static 'img/logo/logo.png' %}" alt="logo">
+                            <img class="header-logo header-logo-light" src="{% static 'img/logo/logo.png' %}" alt="TWC Online Store">
+                            <img class="header-logo header-logo-dark" src="{% static 'img/logo/logo-light.png' %}" alt="TWC Online Store">
                         </a>
                     </div>
                     {#                    <div class="col-7 mobile-only">#}
@@ -99,25 +100,21 @@
                     {#                    </div>#}
                     <div class="col-lg-5 col-md-5 col-10" style="margin: auto;">
                         <div class="header-middle-search">
-                            <form method="get" action="{% url 'shop:search' %}">
+                            <form class="navbar-search-form" method="get" action="{% url 'shop:search' %}" role="search">
                                 <div class="search-content">
-                                    <input type="text" class="form-control" name="q" placeholder="Search Here...">
-                                    <button type="submit" class="search-btn"><i class="far fa-search"></i></button>
+                                    <i class="navbar-search-icon far fa-search" aria-hidden="true"></i>
+                                    <input id="navbar-search-input" type="search" name="q"
+                                           value="{{ request.GET.q|default:'' }}"
+                                           placeholder="Search products, categories..."
+                                           autocomplete="off" aria-label="Search products">
+                                    <button type="button" class="navbar-search-clear" aria-label="Clear search" hidden><i class="far fa-xmark" aria-hidden="true"></i></button>
+                                    <button type="submit" class="search-btn" aria-label="Submit search"><i class="far fa-arrow-right" aria-hidden="true"></i></button>
                                 </div>
                             </form>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6 col-2 navigation-col" style="align-content: center;">
                         <div class="mobile-menu-right">
-                            <!-- <div class="search-btn">
-                                <button type="button" class="nav-right-link"><i class="far fa-search"></i></button>
-                                <div class="mobile-search-form">
-                                    <form method="get" action="{% url 'shop:search' %}">
-                                        <input type="text" class="form-control" name="q" placeholder="Search Here...">
-                                        <button type="submit"><i class="far fa-search"></i></button>
-                                    </form>
-                                </div>
-                            </div> -->
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#menu_nav" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-mobile-icon"><i class="far fa-bars"></i></span>
@@ -129,99 +126,20 @@
                                                         href="{% url 'home_view' %}">Home</a></li>
                                 <li class="nav-item"><a class="nav-link"
                                                         href="{% url 'shop:shop' %}?cat1=all">Shop</a></li>
-                                {% if user.is_authenticated %}
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">My
-                                            Account</a>
-                                        <ul class="dropdown-menu fade-down">
-                                            <li><a class="dropdown-item" href="{{ DASHBOARD_URL }}" class="list-item">My
-                                                Profile</a></li>
-                                            {% if referrer %}
-                                                <li>
-                                                    <a class="dropdown-item"
-                                                       href="{{ referrer }}"
-                                                       id="user-chat-seller">
-                                                        Chat With Seller</a>
-                                                </li>
-                                            {% endif %}
-                                            {% if user.is_seller %}
-                                                <li><a class="dropdown-item" href="{{ DASHBOARD_URL|add:'/seller' }}">Seller
-                                                    Dashboard</a></li>
-                                            {% endif %}
-                                            {% if user.is_staff %}
-                                                <li><a class="dropdown-item"
-                                                       href="{{ DASHBOARD_URL|add:'/logistics' }}">Logistics
-                                                    Dashboard</a></li>
-                                            {% endif %}
-                                            {% if user.is_supplier %}
-                                                <li><a class="dropdown-item" href="{{ DASHBOARD_URL|add:'/supplier' }}">Supplier
-                                                    Dashboard</a></li>
-                                            {% endif %}
-                                        </ul>
-                                    </li>
-                                {% endif %}
-                                <li class="cart-link nav-item dropdown-cart mobile-hidden">
-                                    <a href="{% url 'cart:cart' %}" class="nav-link shop-cart list-item"><i
+                                <li class="cart-link nav-item mobile-hidden">
+                                    <a href="#" role="button" data-cart-drawer-open="true" class="nav-link shop-cart list-item"><i
                                             class="far fa-shopping-bag"></i>
                                         <span id="upper-cart-count">{{ cart_items }}</span></a>
-                                    <div id="cart-dropdown">
-                                        {% if cart_items %}
-                                            <div class="dropdown-cart-menu">
-                                                <div class="dropdown-cart-header">
-                                                <span class="cart-items-count">{{ cart_items|stringformat:"02d" }}
-                                                    Items</span>
-                                                    <a href="{% url 'cart:cart' %}">View Cart</a>
-                                                </div>
-                                                <ul id="dropdown-cart-list">
-                                                    {% for order, items in order_products.items %}
-                                                        {% for item in items %}
-                                                            <li id="cart-row-{{ item.product.id }}">
-                                                                <div class="dropdown-cart-item">
-                                                                    <div class="cart-img">
-                                                                        <a href="{% url 'shop:single' slug=item.product.slug %}">
-                                                                            {% if item.product.image_1 %}
-                                                                                {% if item.product.image_1 %}
-                                                                                    <img src="{{ item.product.image_1 }}"
-                                                                                         alt="{{ item.product.name }}">
-                                                                                {% else %}
-                                                                                    <img src="{% static 'img/product/default-product-image.png' %}"
-                                                                                         alt="{{ item.product.name }}">
-                                                                                {% endif %}
-                                                                            {% else %}
-                                                                                <img src="{% static 'img/product/default-product-image.png' %}"
-                                                                                     alt="{{ item.product.name }}">
-                                                                            {% endif %}
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="cart-info">
-                                                                        <h4><a
-                                                                                href="{% url 'shop:single' slug=item.product.slug %}">{{ item.product.name }}</a>
-                                                                        </h4>
-                                                                        <p class="cart-qty">{{ item.quantity }}x - <span
-                                                                                class="cart-amount">{{ item.subtotal|currency }}</span>
-                                                                        </p>
-                                                                    </div>
-                                                                    <a href="#" data-product="{{ item.product.slug }}"
-                                                                       data-action="remove"
-                                                                       class="update-cart shop-cart-remove">
-                                                                        <i class="far fa-times-circle"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </li>
-                                                        {% endfor %}
-                                                    {% endfor %}
-                                                </ul>
-                                                <div class="dropdown-cart-bottom">
-                                                    <div class="dropdown-cart-total">
-                                                        <span>Total</span>
-                                                        <span class="total-amount">{{ total_cart_subtotal|currency }}</span>
-                                                    </div>
-                                                    <a href="{% url 'cart:cart' %}"
-                                                       class="theme-btn">Checkout</a>
-                                                </div>
-                                            </div>
-                                        {% endif %}
-                                    </div>
+                                </li>
+                                <li class="nav-item theme-toggle-item">
+                                    <button type="button" id="theme-toggle" class="theme-toggle" role="switch"
+                                            aria-checked="false" aria-label="Switch to dark mode">
+                                        <span class="theme-toggle-track" aria-hidden="true">
+                                            <span class="theme-toggle-stars"></span>
+                                            <span class="theme-toggle-cloud"></span>
+                                            <span class="theme-toggle-thumb"><span class="theme-toggle-sun">☼</span><span class="theme-toggle-moon">☾</span></span>
+                                        </span>
+                                    </button>
                                 </li>
                             </ul>
                         </div>
@@ -248,13 +166,6 @@
                                             <li class="nav-item">
                                                 <a class="nav-link" href="{% url 'shop:shop' %}">Shop</a>
                                             </li>
-                                            {% if user.is_authenticated %}
-                                                <li class="nav-item dropdown">
-                                                    <a class="nav-link" href="{{ DASHBOARD_URL }}">
-                                                        My Account
-                                                    </a>
-                                                </li>
-                                            {% endif %}
                                         </ul>
                                     </a>
                                 </li>

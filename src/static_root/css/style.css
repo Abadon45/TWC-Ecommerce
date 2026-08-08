@@ -25,64 +25,64 @@ Table of contents
 13. Category all css
 14. Mega menu
 15. Multi level dropdown menu
-16. Hero css 
-17. Small banner css 
-18. Mid banner css 
-19. Big banner css 
-20. Popup banner css 
-21. Category css 
-22. Shop css 
-23. Shop cart css 
-24. Shop checkout css 
-25. Shop checkout complete css 
-26. Shop single css 
-27. Compare css 
-28. Price range css 
-29. Product css 
+16. Hero css
+17. Small banner css
+18. Mid banner css
+19. Big banner css
+20. Popup banner css
+21. Category css
+22. Shop css
+23. Shop cart css
+24. Shop checkout css
+25. Shop checkout complete css
+26. Shop single css
+27. Compare css
+28. Price range css
+29. Product css
 30. Product list css
-31. Modal quick view css 
-32. Bs custom css 
+31. Modal quick view css
+32. Bs custom css
 33. Countdown css
-34. Seller css 
+34. Seller css
 35. Become seller css
 36. Vendor css
-37. Vendor store css 
-38. Deal css 
-39. Feature css 
-40. About css 
-41. Counter css 
-42. Team css 
+37. Vendor store css
+38. Deal css
+39. Feature css
+40. About css
+41. Counter css
+42. Team css
 43. Play btn
-44. Video css 
-45. Testimonial css 
-46. Brand css 
-47. Help css 
-48. Invoices css 
-49. Faq css 
+44. Video css
+45. Testimonial css
+46. Brand css
+47. Help css
+48. Invoices css
+49. Faq css
 50. Auth css
-51. User css  
-52. Coming soon css 
-53. Error css 
-54. Terms/privacy css 
-55. Mail success css 
-56. Blog css 
+51. User css
+52. Coming soon css
+53. Error css
+54. Terms/privacy css
+55. Mail success css
+56. Blog css
 57. Blog single css
 58. Widget sidebar css
-59. Pagination css 
+59. Pagination css
 60. Breadcrumb css
-61. Contact us css 
-62. Instagram css 
-63. Newsletter css 
+61. Contact us css
+62. Instagram css
+63. Newsletter css
 64. Footer css
-65. Home 2 css 
+65. Home 2 css
 66. Home 3 css
-67. Home 4 css 
-68. Home 5 css  
-69. Home 6 css 
-70. Home 7 css 
-71. Home 8 css 
-72. Home 9 css 
-73. Home 10 css 
+67. Home 4 css
+68. Home 5 css
+69. Home 6 css
+70. Home 7 css
+71. Home 8 css
+72. Home 9 css
+73. Home 10 css
 
 =======================================================*/
 
@@ -105,7 +105,7 @@ Table of contents
   --theme-color: #0C4779;
   --theme-color2: #B29C5B;
   --theme-bg-light: #F6F9FC;
-  --theme-bg-light2: #F1F6FA; 
+  --theme-bg-light2: #F1F6FA;
   --theme-bg-light3: #C6EBFE;
   --theme-bg-light4: #FDFBEF;
   --theme-bg-light5: #CFDFEF;
@@ -926,7 +926,7 @@ label {
   .header-top-right .header-top-list li{
     padding-right: 0px;
   }
-  
+
   .header-top .dropdown-toggle::after{
     float: unset;
   }
@@ -1081,135 +1081,6 @@ label {
   position: relative;
 }
 
-
-/* dropdown cart */
-.dropdown-cart{
-  position: relative;
-}
-
-.dropdown-cart-menu{
-  position: absolute;
-  right: 0;
-  top: 60px;
-  background: var(--color-white);
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: var(--box-shadow);
-  min-width: 320px;
-  opacity: 0;
-  visibility: hidden;
-  transition: var(--transition);
-}
-
-.dropdown-cart:hover .dropdown-cart-menu{
-  opacity: 1;
-  visibility: visible;
-  top: 40px;
-}
-
-.dropdown-cart-header{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 10px;
-  margin-bottom: 15px;
-  border-bottom: 1px solid var(--border-info-color);
-}
-
-.dropdown-cart-header span,
-.dropdown-cart-header a{
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--color-dark);
-  text-transform: uppercase;
-}
-
-.dropdown-cart-header a:hover{
-  color: var(--theme-color);
-}
-
-.dropdown-cart-list li {
-  position: relative;
-  width: 100%;
-  border-bottom: 1px solid var(--border-info-color);
-  padding-bottom: 15px;
-  margin-bottom: 15px;
-}
-
-.dropdown-cart-list li:last-child{
-  border-bottom: none;
-  padding-bottom: 0;
-  margin-bottom: 0;
-}
-
-.dropdown-cart-item{
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.dropdown-cart-item .cart-img{
-  width: 70px;
-  height: 70px;
-  border-radius: 10px;
-  border: 1px solid var(--border-info-color);
-}
-
-.dropdown-cart-item:hover .cart-img img{
-	transform:scale(1.09);
-}
-
-.dropdown-cart-item .cart-info{
-  flex: 1;
-}
-
-.dropdown-cart-item .cart-info h4{
-  font-size: 14px;
-  margin-bottom: 5px;
-}
-
-.dropdown-cart-item .cart-info h4 a:hover{
-  color: var(--theme-color);
-}
-
-.dropdown-cart-item .cart-remove{
-  color: var(--color-red);
-  font-size: 18px;
-  transition: var(--transition);
-}
-
-.dropdown-cart-item .cart-remove:hover{
-  color: var(--theme-color);
-}
-
-.dropdown-cart-bottom{
-  padding-top: 10px;
-  margin-top: 15px;
-  border-top: 1px solid var(--border-info-color);
-}
-
-.dropdown-cart-total{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.dropdown-cart-total span {
-  text-transform: uppercase;
-  color: #222;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.dropdown-cart-total .total-amount{
-  font-size: 14px;
-}
-
-.dropdown-cart-bottom .theme-btn{
-  display: block;
-  padding: 8px 20px;
-  margin-top: 25px;
-}
 
 /* header middle line */
 .header-middle-line{
@@ -1968,7 +1839,7 @@ label {
   .category-all{
     flex-grow: 1;
   }
-  
+
   .category-all .category-btn{
     padding: 5px 12px;
   }
@@ -2014,11 +1885,11 @@ label {
   .nav-item.mega-menu {
     position: static;
   }
-  
+
   .navbar .nav-item.mega-menu .dropdown-menu{
     width: 98%;
     left: 12px;
-  } 
+  }
 
   .mega-menu .mega-content{
     padding: 12px 16px 10px 16px;
@@ -2121,7 +1992,7 @@ label {
 
 
 /*====================
-16. Hero css 
+16. Hero css
 ======================*/
 
 .hero-section {
@@ -2255,7 +2126,7 @@ label {
 .hero-section2 .hero-slider .owl-nav{
   right: 20px;
   bottom: 16px;
-} 
+}
 
 /* hero section 3 */
 .hero-section3 .hero-single{
@@ -2498,7 +2369,7 @@ label {
 
 
 /*====================
-17. Small banner css 
+17. Small banner css
 ======================*/
 
 .small-banner{
@@ -2579,7 +2450,7 @@ label {
 
 
 /*====================
-18. Mid banner css 
+18. Mid banner css
 ======================*/
 
 .mid-banner{
@@ -2649,7 +2520,7 @@ label {
   .mid-banner .banner-item h3 {
     font-size: 19px;
   }
-} 
+}
 
 @media all and (max-width: 991px) {
   .mid-banner .banner-item p{
@@ -2665,7 +2536,7 @@ label {
 
 
 /*====================
-19. Big banner css 
+19. Big banner css
 ======================*/
 
 .big-banner{
@@ -2718,7 +2589,7 @@ label {
 
 
 /*====================
-20. Popup banner css 
+20. Popup banner css
 ======================*/
 
 .popup-banner .modal-content{
@@ -2832,7 +2703,7 @@ label {
 
 
 /*====================
-21. Category css 
+21. Category css
 ======================*/
 
 .category-area{
@@ -3049,8 +2920,8 @@ label {
 
 .category-slider .category-info .icon img{
   width: 55px;
-}                       
-     
+}
+
 .category-slider .category-info:hover .icon img{
   filter: unset;
   transform: scale(1.05);
@@ -3081,7 +2952,7 @@ label {
 
   .category-slider .category-info .icon img{
     width: 46px;
-  } 
+  }
 }
 
 @media all and (max-width: 1399px) {
@@ -3094,7 +2965,7 @@ label {
 
 
 /*====================
-22. Shop css 
+22. Shop css
 ======================*/
 
 /* shop sidebar */
@@ -3184,12 +3055,12 @@ label {
   color: var(--body-text-color);
   width: 100%;
   margin-left: 4px;
-} 
+}
 
 .shop-checkbox-list .form-check-label span{
   float: right;
   margin-right: 3px;
-} 
+}
 
 .shop-checkbox-list.color li{
   display: inline-block;
@@ -3407,7 +3278,7 @@ label {
 
 
 /*===================
-23. Shop cart css 
+23. Shop cart css
 =====================*/
 
 .shop-cart thead tr {
@@ -3617,7 +3488,7 @@ label {
 
 
 /*===================
-24. Shop checkout css 
+24. Shop checkout css
 =====================*/
 
 .shop-checkout-step .accordion-item{
@@ -3926,19 +3797,19 @@ label {
 
 
 /*============================
-25. Shop checkout complete css 
+25. Shop checkout complete css
 ==============================*/
 
 .shop-checkout-complete{
   position: relative;
-  
+
 }
 
 .shop-checkout-complete hr{
   width: 5px;
   height: 20px;
   display: inline-block;
-  
+
 }
 
 .checkout-complete-content{
@@ -3988,7 +3859,7 @@ label {
 
 
 /*===================
-26. Shop single css 
+26. Shop single css
 =====================*/
 
 .shop-single{
@@ -4031,7 +3902,7 @@ label {
   margin: 6.8px;
   padding: 0;
   width: 23%;
-} 
+}
 
 .shop-single-gallery .flex-control-thumbs li:first-child{
   margin-left: 0;
@@ -4317,7 +4188,7 @@ label {
 @media all and (max-width: 1399px) {
   .shop-single-gallery .flex-control-thumbs li{
     margin: 6px;
-  } 
+  }
 
   .shop-single-action .theme-btn2{
     margin-left: 2px;
@@ -4352,7 +4223,7 @@ label {
 @media all and (max-width: 767px) {
   .shop-single-gallery .flex-control-thumbs li{
     margin: 4.6px;
-  } 
+  }
 
   .shop-single-size{
     margin-top: 20px;
@@ -4380,7 +4251,7 @@ label {
 
 
 /*====================
-27. Compare css 
+27. Compare css
 ======================*/
 
 .compare-table {
@@ -4448,7 +4319,7 @@ label {
 
 
 /*===================
-28. Price range css 
+28. Price range css
 =====================*/
 
 .price-range-box{
@@ -4496,7 +4367,7 @@ label {
 
 
 /*====================
-29. Product css 
+29. Product css
 ======================*/
 
 .product-area{
@@ -4676,12 +4547,12 @@ label {
 	border-radius: 10px;
   background: var(--color-white);
 	box-shadow: var(--box-shadow);
-}	
+}
 
 .product-brand h5{
 	font-size: 22px;
 	margin-bottom: 20px;
-}	
+}
 
 .product-brand .brand-list a{
 	display: block;
@@ -4879,7 +4750,7 @@ label {
 
 
 /*====================
-30. Product list css 
+30. Product list css
 ======================*/
 
 .product-list{
@@ -4992,7 +4863,7 @@ label {
 
 
 /*======================
-31. Modal quick view css 
+31. Modal quick view css
 ========================*/
 
 .quickview .modal-content{
@@ -5087,7 +4958,7 @@ label {
 
 
 /*====================
-32. Bs custom css 
+32. Bs custom css
 ======================*/
 
 /* tooltip */
@@ -5161,7 +5032,7 @@ label {
 
 
 /*====================
-34. Seller css 
+34. Seller css
 ======================*/
 
 .seller-area{
@@ -5209,7 +5080,7 @@ label {
     width: 118px;
     height: 118px;
   }
-  
+
   .seller-img img{
     width: 60px;
   }
@@ -5416,7 +5287,7 @@ label {
 
 
 /*====================
-37. Vendor store css 
+37. Vendor store css
 ======================*/
 
 .vendor-store{
@@ -5514,7 +5385,7 @@ label {
 
 
 /*====================
-38. Deal css 
+38. Deal css
 ======================*/
 
 .deal-area{
@@ -5678,7 +5549,7 @@ label {
 
 
 /*====================
-39. Feature css 
+39. Feature css
 ======================*/
 
 .feature-area{
@@ -5745,7 +5616,7 @@ label {
 
 
 /*====================
-40. About css 
+40. About css
 ======================*/
 
 .about-left{
@@ -5809,7 +5680,7 @@ label {
 
 
 /*====================
-41. Counter css 
+41. Counter css
 ======================*/
 
 .counter-area {
@@ -5882,7 +5753,7 @@ label {
 
 
 /*===================
-42. Team css 
+42. Team css
 =====================*/
 
 .team-area {
@@ -6009,7 +5880,7 @@ label {
 
 
 /*====================
-44. Video css 
+44. Video css
 ======================*/
 
 .video-content {
@@ -6063,9 +5934,9 @@ label {
 
 
 
- 
+
 /*====================
-45. Testimonial css 
+45. Testimonial css
 ======================*/
 
 .testimonial-area {
@@ -6143,7 +6014,7 @@ label {
 
 
 /*====================
-46. Brand css 
+46. Brand css
 ======================*/
 
 .brand-area{
@@ -6164,7 +6035,7 @@ label {
 
 
 /*====================
-47. Help css 
+47. Help css
 ======================*/
 
 .help-area{
@@ -6243,7 +6114,7 @@ label {
   margin-top: 15px;
   margin-bottom: 10px;
   font-size: 20px;
-} 
+}
 
 .help-item .theme-btn{
   border-radius: 50px;
@@ -6264,7 +6135,7 @@ label {
 
 
 /*====================
-48. Invoices css 
+48. Invoices css
 ======================*/
 
 .invoice-area{
@@ -6325,12 +6196,12 @@ label {
 }
 
 .invoice-table table,
-.invoice-table td, 
+.invoice-table td,
 .invoice-table th {
   border: 1px solid var(--border-info-color);
 }
 
-.invoice-table td, 
+.invoice-table td,
 .invoice-table th {
   padding: 10px 20px;
 }
@@ -6361,7 +6232,7 @@ label {
 display: flex!important;
   background: none !important;
   border: none !important;
-  color: var(--theme-color) !important; 
+  color: var(--theme-color) !important;
   cursor: pointer !important;
   padding: 0 !important;
   caret-color: transparent;
@@ -6377,7 +6248,7 @@ display: flex!important;
 
 
 /*====================
-49. Faq css 
+49. Faq css
 ======================*/
 
 .faq-area{
@@ -6464,7 +6335,7 @@ display: flex!important;
 
 
 /*====================
-50. Auth css 
+50. Auth css
 ======================*/
 
 .login-form {
@@ -6667,7 +6538,7 @@ display: flex!important;
 
 
 /*====================
-51. User css 
+51. User css
 ======================*/
 
 /* header middle account */
@@ -7531,7 +7402,7 @@ display: flex!important;
 }
 
 .user-payout .payout-method .payout-method-img img{
-  width: 100px; 
+  width: 100px;
   margin-right: 10px;
 }
 
@@ -7848,7 +7719,7 @@ display: flex!important;
 
 
 /*====================
-52. Coming soon css 
+52. Coming soon css
 ======================*/
 
 .coming-soon {
@@ -7960,7 +7831,7 @@ display: flex!important;
 
 
 /*====================
-53. Error css 
+53. Error css
 ======================*/
 
 .error-wrapper {
@@ -8002,7 +7873,7 @@ display: flex!important;
 
 
 /*====================
-54. Terms/privacy css 
+54. Terms/privacy css
 ====================== */
 
 .terms-content:not(:last-child) {
@@ -8035,7 +7906,7 @@ display: flex!important;
 
 
 /*============================
-55. Mail success css 
+55. Mail success css
 ==============================*/
 
 .mail-success{
@@ -8075,7 +7946,7 @@ display: flex!important;
 
 
 /*====================
-56. Blog css 
+56. Blog css
 ======================*/
 
 .blog-area{
@@ -8100,7 +7971,7 @@ display: flex!important;
 
 .blog-item:hover .blog-item-img img{
   transform: scale(1.1);
-} 
+}
 
 .blog-item-meta{
   padding: 14px 0;
@@ -8603,7 +8474,7 @@ display: flex!important;
 
 
 /*====================
-59. Pagination css 
+59. Pagination css
 ======================*/
 
 .pagination-area{
@@ -8639,7 +8510,7 @@ display: flex!important;
 
 
 /*====================
-60. Breadcrumb css 
+60. Breadcrumb css
 ======================*/
 
 .site-breadcrumb {
@@ -8721,7 +8592,7 @@ display: flex!important;
 
 
 /*===================
-61. Contact us css 
+61. Contact us css
 =====================*/
 
 .contact-area {
@@ -8833,7 +8704,7 @@ display: flex!important;
 
 
 /* ===================
-62. Instagram css 
+62. Instagram css
 ====================== */
 
 .instagram-area{
@@ -8894,7 +8765,7 @@ display: flex!important;
 
 
 /*====================
-63. Newsletter css 
+63. Newsletter css
 ======================*/
 
 .newsletter-area{
@@ -9026,7 +8897,7 @@ display: flex!important;
   .newsletter-img-2{
     display: none;
   }
-  
+
   .newsletter-area2 .newsletter-wrap{
     padding: 40px 20px;
   }
@@ -9048,7 +8919,7 @@ display: flex!important;
 
 
 /*====================
-64. Footer css 
+64. Footer css
 ======================*/
 
 .footer-area {
@@ -9149,6 +9020,7 @@ display: flex!important;
 
 .footer-contact li i {
   width: 35px;
+  min-width: 35px;
   height: 35px;
   line-height: 35px;
   font-size: 16px;
@@ -9478,7 +9350,7 @@ display: flex!important;
 
 
 /*====================
-65. Home 2 css 
+65. Home 2 css
 ======================*/
 
 .home-2 .header-top{
@@ -9557,7 +9429,7 @@ display: flex!important;
 
 
 /*====================
-66. Home 3 css 
+66. Home 3 css
 ======================*/
 
 .home-3 .header-top{
@@ -9695,7 +9567,7 @@ display: flex!important;
 
 
 /*====================
-67. Home 4 css 
+67. Home 4 css
 ======================*/
 
 .home-4 .product-brand{
@@ -9761,7 +9633,7 @@ display: flex!important;
     justify-content: center;
     gap: 40px;
   }
-  
+
   .home-4 .footer-download-btn{
     flex-direction: row;
   }
@@ -9769,7 +9641,7 @@ display: flex!important;
 
 
 /*====================
-68. Home 5 css 
+68. Home 5 css
 ======================*/
 
 .home-5 .header-top{
@@ -9958,7 +9830,7 @@ display: flex!important;
 
 
 /*====================
-69. Home 6 css 
+69. Home 6 css
 ======================*/
 
 .home-6 .header-top{
@@ -10062,7 +9934,7 @@ display: flex!important;
 
 
 /*====================
-70. Home 7 css 
+70. Home 7 css
 ======================*/
 
 .home-7 .header-top{
@@ -10146,7 +10018,7 @@ display: flex!important;
 
 
 /*====================
-71. Home 8 css 
+71. Home 8 css
 ======================*/
 
 .home-8 .header-middle{
@@ -10254,7 +10126,7 @@ display: flex!important;
 
 
 /*====================
-72. Home 9 css 
+72. Home 9 css
 ======================*/
 
 .home-9 .hero-section3 .hero-single{
@@ -10269,7 +10141,7 @@ display: flex!important;
 
 
 /*====================
-73. Home 10 css 
+73. Home 10 css
 ======================*/
 
 .home-10 .header-top{

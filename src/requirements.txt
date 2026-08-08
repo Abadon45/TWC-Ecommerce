@@ -20,9 +20,9 @@ cron-descriptor==1.4.5
 cryptography==44.0.2
 curlify==2.2.1
 defusedxml==0.7.1
-Django==5.1.6
+Django==5.2.16
 django-allauth==65.4.1
-django-celery-beat==2.7.0
+django-celery-beat==2.9.0
 django-celery-results==2.5.1
 django-hosts==6.0
 django-ses==4.4.0

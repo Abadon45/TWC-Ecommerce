@@ -5,40 +5,21 @@
 {% block title %} {{ title }} {% endblock %}
 
 {% block css %}
-    <style>
-        .url-link {
-            color: var(--color-blue);
-        }
-
-        @media only screen and (max-width: 480px) {
-            .landmark-line {
-                margin-bottom: 50px;
-            }
-
-            .input-group.mb-3 {
-                margin-bottom: 8px !important;
-
-                .input-group-text {
-                    font-size: 8px;
-                }
-            }
-
-            .cart-page, .twc-checkout {
-                .shop-checkout-form {
-                    .form-row {
-                        height: 500px !important;
-                    }
-                }
-            }
-
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/checkout-refresh.css' %}?v=checkout-5">
 {% endblock %}
 
 {% block content %}
 
-    <div class="shop-checkout2 twc-checkout py-100 mobile-width">
+    <div class="shop-checkout2 twc-checkout checkout-modern py-100 mobile-width">
         <div class="container">
+            <div class="checkout-page-heading">
+                <div>
+                    <p class="checkout-eyebrow">Almost there</p>
+                    <h1>Complete your order</h1>
+                    <p>Confirm your delivery details and choose how you would like to pay.</p>
+                </div>
+                <a href="{% url 'shop:shop' %}" class="checkout-back-link"><i class="fa-solid fa-arrow-left"></i> Continue shopping</a>
+            </div>
             <div class="shop-checkout-wrap">
                 <div class="row">
                     <div class="col-sm-7 col-md-8 mb-20">
@@ -49,19 +30,19 @@
                                    data-bs-target="#step1" type="button" role="tab" aria-controls="step1"
                                    aria-selected="true" disabled>
                                     <span class="step-count">1</span>
-                                    SHIPPING ADDRESS
+                                    <small>Step 1</small> SHIPPING ADDRESS
                                 </a>
                                 <a href="#" class="nav-link" id="step2-tab" data-bs-toggle="pill"
                                    data-bs-target="#step2"
                                    type="button" role="tab" aria-controls="step2" aria-selected="false" disabled>
                                     <span class="step-count">2</span>
-                                    PAYMENT
+                                    <small>Step 2</small> PAYMENT
                                 </a>
                                 <a href="#" class="nav-link" id="step3-tab" data-bs-toggle="pill"
                                    data-bs-target="#step3"
                                    type="button" role="tab" aria-controls="step3" aria-selected="false" disabled>
                                     <span class="step-count">3</span>
-                                    ORDER COMPLETE
+                                    <small>Step 3</small> ORDER COMPLETE
                                 </a>
                             </nav>
                             <div class="tab-content" id="pills-tabContent">
@@ -74,10 +55,9 @@
                                 <div class="tab-pane fade" id="step2" role="tabpanel" aria-labelledby="step2-tab"
                                      tabindex="0">
                                     <div class="container mt-5">
-                                        <h3 class="payment-head">How Would You Like to Pay?</h3>
-                                        <p class="payment-des">Choose Your Option Below.</p>
+                                        <div class="checkout-section-heading"><p class="checkout-eyebrow">Demo payment</p><h2>Confirm your order</h2><p class="payment-des">Payment processing is simulated for this demo. Your order will be marked complete locally.</p></div>
                                         <div class="accordion" id="accordionExample">
-                                            <!-- Accordion Item 1 -->
+                                            <!-- Retired provider: retained only as a visual explanation of the demo limitation. -->
                                             <div class="accordion-item">
                                                 <h2 class="accordion-header" id="headingOne">
                                                     <button class="accordion-button d-flex justify-content-between"
@@ -102,8 +82,8 @@
                                                                 <img class="img-fluid ms-2 payment-method-img"
                                                                      src="{% static 'img/icon/payment/paymaya.svg' %}"
                                                                      alt="Mastercard">
-                                                                <h6 style="color: var(--border-info-color3);margin-left: 25px">
-                                                                    (CURRENTLY UNAVAILABLE)</h6>
+                                                            <h6 style="color: var(--twc-text-muted);margin-left: 25px">
+                                                                    (NOT AVAILABLE IN DEMO)</h6>
                                                             </div>
                                                         </div>
                                                     </button>
@@ -144,9 +124,9 @@
                                                      data-bs-parent="#accordionExample">
                                                     <div class="accordion-body">
                                                         <p>
-                                                            After clicking “Checkout,” your order will be confirmed
-                                                            with Cash on Delivery as the payment method. Please read
-                                                            our
+                                                            After clicking “Confirm order,” this demo will mark your order
+                                                            as complete locally. No external payment API is called.
+                                                            Please read our
                                                             <a class="url-link" href="{% url 'terms' %}"
                                                                onclick="showTerms(); return false;">
                                                                 Terms and Conditions
@@ -232,18 +212,18 @@
                             <div class="text-end mt-40 checkoutBtn">
                                 <form id="checkoutForm" class="form" method="GET"
                                       action="{% url 'cart:submit_checkout' %}">
+                                    <input type="hidden" name="checkout_snapshot" value="{{ checkout_snapshot }}">
                                     <button type="submit" class="theme-btn checkout-btn"
                                             data-referrer-id="{{ referred_by }}"
                                             data-username="{{ current_user }}"
                                             hidden>
-                                        CHECKOUT NOW
+                                            CONFIRM ORDER
                                     </button>
                                 </form>
                             </div>
                             <div class="d-flex justify-content-between align-items-center dummy-submit">
                                 <input type="hidden" name="submit_type" value="shipping">
-                                <button type="button" class="theme-btn next-step-btn">NEXT
-                                    STEP
+                                <button type="button" class="theme-btn next-step-btn"><span>Continue to payment</span> <i class="fa-solid fa-arrow-right"></i>
                                 </button>
                             </div>
                         </div>
@@ -259,6 +239,45 @@
 {% block extra_js %}
     <script src="{% static 'js/address-jnt.js' %}"></script>
     <script src="{% static 'js/submit-address-form.js' %}"></script>
+    <script>
+        // Keep address validation and shipping calculation on the same page.
+        // This avoids the old template-path redirect and gives the customer
+        // immediate feedback before moving to payment.
+        $(document).on('submit', '#addShipping', function (event) {
+            event.preventDefault();
+            var form = $(this);
+            var submitButton = $('.next-step-btn');
+            submitButton.prop('disabled', true).addClass('is-loading').find('span').text('Calculating shipping…');
+
+            $.ajax({
+                url: form.attr('action'),
+                method: 'GET',
+                data: form.serialize(),
+                headers: {'X-Requested-With': 'XMLHttpRequest'}
+            }).done(function (response) {
+                (response.updated_orders || []).forEach(function (order) {
+                    $('#shipping_fee_' + order.shop + ' span').text(Number(order.shipping_fee).toLocaleString('en-PH', {style: 'currency', currency: 'PHP'}));
+                    $('#order-total-' + order.shop).text(Number(order.total_amount).toLocaleString('en-PH', {style: 'currency', currency: 'PHP'}));
+                });
+                if (response.total_payment) {
+                    $('#total-payment').text(Number(response.total_payment).toLocaleString('en-PH', {style: 'currency', currency: 'PHP'}));
+                }
+                $('#step1').removeClass('show active');
+                $('#step2').addClass('show active');
+                $('#step1-tab').removeClass('active').addClass('done');
+                $('#step2-tab').addClass('active').removeAttr('disabled');
+                $('.dummy-submit').addClass('d-none');
+                $('.checkout-btn').prop('hidden', false);
+                $('.checkout-modern .shop-checkout-step').get(0).scrollIntoView({behavior: 'smooth', block: 'start'});
+            }).fail(function (xhr) {
+                var message = 'We could not save your delivery details. Please review the form and try again.';
+                if (xhr.responseJSON && xhr.responseJSON.error) message = xhr.responseJSON.error;
+                Swal.fire({icon: 'error', title: 'Address not saved', text: message});
+            }).always(function () {
+                submitButton.prop('disabled', false).removeClass('is-loading').find('span').text('Continue to payment');
+            });
+        });
+    </script>
     <script>
         $(document).ready(function () {
 
@@ -285,7 +304,7 @@
                 var paymentMethod;
                 paymentMethod = $('input[name="paymentMethod"]:checked').val();
 
-                $('input[name="paymentMethod"]').on('change', function () {
+            $('input[name="paymentMethod"]').on('change', function () {
                     console.log('Selected Payment Method:', $(this).val());
                 });
 
@@ -299,22 +318,20 @@
 
                 console.log('Selected Payment Method:', paymentMethod);
 
-                if (paymentMethod === 'xendit') {
-                    Swal.fire({
-                        title: 'Confirm Payment',
-                        text: 'Do you want to proceed with the Xendit payment?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Yes, proceed',
-                        cancelButtonText: 'No, cancel'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            checkoutBtn(event, paymentMethod);
-                        }
-                    });
-                } else {
-                    checkoutBtn(event, paymentMethod);
-                }
+                Swal.fire({
+                    title: 'Confirm your order?',
+                    text: paymentMethod === 'xendit'
+                        ? 'You will continue to the Xendit payment portal.'
+                        : 'Do you want to place this order now?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, place order',
+                    cancelButtonText: 'Review order'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        checkoutBtn(event, paymentMethod);
+                    }
+                });
             });
 
             // Handle form check label click to check the corresponding radio button
@@ -327,39 +344,9 @@
 
             function checkoutBtn(event, paymentMethod) {
                 event.preventDefault();
-                var referrerId = $(event.currentTarget).data('referrer-id');
-
-                if (referrerId === "None" || referrerId === '') {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'REQUIRED INFORMATION',
-                        text: 'To complete checkout, please input the USERNAME of your sponsor.',
-                        input: 'text',
-                        inputPlaceholder: 'Enter username',
-                        showCancelButton: true,
-                        confirmButtonText: 'Submit',
-                        cancelButtonText: 'Cancel',
-                        preConfirm: (username) => {
-                            if (!username) {
-                                Swal.showValidationMessage('Username is required!');
-                            } else if (username.toLowerCase() === 'None') {
-                                Swal.showValidationMessage('Username is required!');
-                            } else if (username.toLowerCase() === 'admin') {
-                                Swal.showValidationMessage('You cannot use this username!');
-                            } else {
-                                return username;
-                            }
-                        }
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            var username = result.value;
-                            saveReferrerUsername(username, paymentMethod);
-                        }
-                    });
-                } else {
-                    var username = referrerId;
-                    saveReferrerUsername(username, paymentMethod);
-                }
+                // Sponsor usernames belong to the retired legacy flow and
+                // are intentionally not required for this demo checkout.
+                saveReferrerUsername('', paymentMethod);
             }
 
             function saveReferrerUsername(username, paymentMethod) {
@@ -370,57 +357,36 @@
                     data: {
                         username: username,
                         payment_method: paymentMethod,
+                        checkout_snapshot: $('#checkoutForm input[name="checkout_snapshot"]').val(),
                     },
                     success: function (response) {
-                        if (response.payment_method === 'xendit') {
-                            Swal.fire({
-                                title: 'Redirecting to Xendit Payment Portal',
-                                icon: 'info',
-                                didOpen: () => {
-                                    Swal.showLoading();
-                                }
-                            });
-
-                            setTimeout(() => {
-                                window.location.href = response.redirect_url;
-                            }, 500);
-                        } else {
-                            Swal.fire({
-                                title: 'Thank You for Your Order!',
-                                text: 'Now completing checkout...',
-                                icon: 'success',
-                                didOpen: () => {
-                                    Swal.showLoading();
-                                }
-                            });
-
-                            setTimeout(() => {
-                                window.location.href = response.redirect_url;
-                            }, 500);
+                        if (!response || !response.local_completion || !response.redirect_url) {
+                            showCompletionError('The demo order could not be completed. Please try again.');
+                            return;
                         }
+                        window.location.assign(response.redirect_url);
                     },
                     error: function (xhr, status, error) {
                         console.error('Error saving referrer username:', error);
-                        let errorMessage = 'An unknown error occurred.';
-                        let redirectUrl = '/cart'; // Default fallback URL
-
+                        let errorMessage = 'The demo order could not be completed. Please try again.';
                         try {
                             const responseData = JSON.parse(xhr.responseText);
                             errorMessage = responseData.error || errorMessage;
-                            redirectUrl = responseData.redirect_url || redirectUrl;
                         } catch (e) {
                             console.error('Failed to parse error response:', e);
                         }
 
-                        Swal.fire({
+                        showCompletionError(errorMessage);
+                    }
+                });
+            }
+
+            function showCompletionError(message) {
+                Swal.fire({
                             title: 'Error',
-                            text: errorMessage,
+                            text: message,
                             icon: 'error',
                             confirmButtonText: 'OK'
-                        }).then(() => {
-                            window.location.href = redirectUrl;
-                        });
-                    }
                 });
             }
         });

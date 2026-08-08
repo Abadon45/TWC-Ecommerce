@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+from django.conf import settings
 from django.views.generic import View, TemplateView
 from django.http import JsonResponse, Http404
 from django.shortcuts import render, redirect
@@ -8,7 +9,7 @@ from django.contrib.auth import get_user_model
 from django.utils.text import capfirst
 from django.urls import reverse
 from django.db import transaction
-from cart.utils import generate_invoice_number, get_client_ip, get_client_user_agent, conversion_api
+from cart.utils import generate_invoice_number, get_client_ip, get_client_user_agent, conversion_api, get_cart_cookie
 from onlinestore.models import SiteSetting
 from onlinestore.utils import fetch_vw_inventory
 from django.templatetags.static import static
@@ -29,42 +30,50 @@ class IndexView(TemplateView):
 
     def get(self, request, *args, **kwargs):
 
-        base_api_url = 'https://dashboard.twcako.com/shop/api/get-product/'
+        base_api_url = settings.SHOP_PRODUCTS_API
 
         endpoints = {
-            'is_trending': f"{base_api_url}?is_trending=true",
-            'is_popular': f"{base_api_url}?is_popular=true",
-            'new_arrival': f"{base_api_url}?new_arrival=true",
+            'is_trending': f"{base_api_url}&is_trending=true",
+            'is_popular': f"{base_api_url}&is_popular=true",
+            'new_arrival': f"{base_api_url}&new_arrival=true",
         }
 
         # Fetch each filtered list from the API
         products_data = {}
         for key, url in endpoints.items():
             try:
-                response = requests.get(url)
+                response = requests.get(url, verify=False, timeout=10)
                 response.raise_for_status()
                 data = response.json()
                 products_data[key] = data.get("products", []) if data.get("success") else []
-            except requests.exceptions.RequestException as e:
+            except requests.exceptions.RequestException:
                 products_data[key] = []  # Fallback to empty list in case of API error
 
         # Fetch the main products list (e.g., without "twc" in `category_1`)
         try:
-            response = requests.get(base_api_url)
+            response = requests.get(base_api_url, verify=False, timeout=10)
             response.raise_for_status()
             data = response.json()
             products = data.get("products", []) if data.get("success") else []
-            products = [product for product in products if product.get('category_1') != 'twc']
-        except requests.exceptions.RequestException as e:
-            return JsonResponse({'error': str(e)})
+        except requests.exceptions.RequestException:
+            products = []
+
+        products = [product for product in products if product.get('category_1') != 'twc']
 
         # Exclude products with category_1 = 'twc'
         products = [product for product in products if product.get('category_1') != 'twc']
 
         # Get products in cart (assuming 'ordered_items_by_shop' is a session variable containing the cart items)
-        ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
-        products_in_cart = [item['product']['slug'] for shop in ordered_items_by_shop.values() for item in
-                            shop['items']]
+        cart_snapshot = get_cart_cookie(request)
+        if cart_snapshot:
+            products_in_cart = list(cart_snapshot.keys())
+        else:
+            ordered_items_by_shop = request.session.get('ordered_items_by_shop', {})
+            products_in_cart = [
+                item['product']['slug']
+                for shop in ordered_items_by_shop.values()
+                for item in shop.get('items', [])
+            ]
 
         guest_user_info = request.session.get('guest_user_data', {})
         new_guest_user = request.session.get('new_guest_user', False)
@@ -279,9 +288,9 @@ def create_order(request):
         for product_detail in product_details.get('products', []):
             product_slug = product_detail['slug']
 
-            product_url = f'https://dashboard.twcako.com/shop/api/get-product/?slug={product_slug}'
+            product_url = f"{settings.SHOP_PRODUCTS_API}&slug={product_slug}"
             try:
-                response = requests.get(product_url)
+                response = requests.get(product_url, verify=False)
                 response.raise_for_status()
                 product_data = response.json()
 

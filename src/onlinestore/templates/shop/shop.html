@@ -4,33 +4,23 @@
 {% load custom_filters %}
 
 {% block css %}
-    <style>
-        .index-card-body {
-            padding: 0 !important;
-            border-radius: 0 0 10px 10px !important;
-        }
-
-        .list-group-item:first-child {
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-        }
-
-        .list-group-item {
-            border: none;
-        }
-
-        .active a {
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/shop-refresh.css' %}?v=shop-7">
 
 {% endblock %}
 
 {% block content %}
 
     <!-- shop-area -->
-    <div class="shop-area py-100 shop-page">
+    <div class="shop-area shop-page shop-refresh">
         <div class="container">
+            <div class="shop-intro">
+                <div>
+                    <span class="shop-intro-eyebrow">THE TWC COLLECTION</span>
+                    <h1>Find your next everyday favorite.</h1>
+                    <p>Wellness, style, and useful essentials selected for the way you live.</p>
+                </div>
+                <span class="shop-result-pill"><i class="far fa-sparkles"></i> Curated for you</span>
+            </div>
             <div class="row">
                 <div class="col-sm-3">
                     <div class="shop-sidebar index-card mobile-hidden">
@@ -145,53 +135,53 @@
                                 <select class="shop-category-select mobile-only"
                                         onchange="window.location.href=this.value;">
                                     <option value="{% url 'shop:shop' %}" selected>Select a Category</option>
-                                    <option value="{% url 'shop:shop' %}?category_id=all"
-                                            {% if category_id == 'all' %}selected{% endif %}>
+                                    <option value="{% url 'shop:shop' %}?cat1=all"
+                                            {% if cat1 == 'all' %}selected{% endif %}>
                                         All
                                     </option>
-                                    <option value="{% url 'shop:shop' %}?category_id=sante"
-                                            {% if category_id == 'sante' %}selected{% endif %}>
+                                    <option value="{% url 'shop:shop' %}?cat1=sante"
+                                            {% if cat1 == 'sante' %}selected{% endif %}>
                                         Sante International
                                     </option>
-                                    <option value="{% url 'shop:shop' %}?category_id=chingu"
-                                            {% if category_id == 'chingu' %}selected{% endif %}>
+                                    <option value="{% url 'shop:shop' %}?cat1=chingu"
+                                            {% if cat1 == 'chingu' %}selected{% endif %}>
                                         Chingu
                                     </option>
-                                    <option value="{% url 'shop:shop' %}?category_id=mood"
-                                            {% if category_id == 'mood' %}selected{% endif %}>
+                                    <option value="{% url 'shop:shop' %}?cat1=mood"
+                                            {% if cat1 == 'mood' %}selected{% endif %}>
                                         Mood
                                     </option>
                                 </select>
                                 <select class="shop-category-select mobile-only"
                                         onchange="handleSubcategoryChange(this.value)">
                                     <option value="{% url 'shop:shop' %}" selected>Select a Subcategory</option>
-                                    <option value="{% url 'shop:shop' %}?category_id=sante-nutraceutical">
+                                    <option value="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=sante-nutraceutical">
                                         Health & Wellness
                                         ({{ category_product_count|get_nested_item:'sante-nutraceutical' }})
                                     </option>
-                                    <option value="{% url 'shop:shop' %}?category_id=sante-beverage">
+                                    <option value="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=sante-beverage">
                                         Healthy Beverages ({{ category_product_count|get_nested_item:'sante-beverage' }})
                                     </option>
-                                    <option value="{% url 'shop:shop' %}?category_id=sante-intimate_care">
+                                    <option value="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=sante-intimate_care">
                                         Intimate Care
-                                        if({{ category_product_count|get_nested_item:'sante-intimate_care' }})
+                                        ({{ category_product_count|get_nested_item:'sante-intimate_care' }})
                                     </option>
-                                    <option value="{% url 'shop:shop' %}?category_id=bath-body">
+                                    <option value="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=bath-body">
                                         Bath & Body ({{ category_product_count|get_nested_item:'bath-body' }})
                                     </option>
-                                    <option value="{% url 'shop:shop' %}?category_id=chingu">
+                                    <option value="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=bags">
                                         Bags ({{ category_product_count|get_nested_item:'chingu' }})
                                     </option>
-                                    <option value="{% url 'shop:shop' %}?category_id=mood-watches">
+                                    <option value="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=watches">
                                         Watches ({{ category_product_count|get_nested_item:'mood-watches' }})
                                     </option>
-                                    <option value="{% url 'shop:shop' %}?category_id=mood-electronics">
+                                    <option value="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=electronics">
                                         Electronics ({{ category_product_count|get_nested_item:'mood-electronics' }})
                                     </option>
-                                    <option value="{% url 'shop:shop' %}?category_id=mood-perfume">
+                                    <option value="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=perfume">
                                         Perfumes ({{ category_product_count|get_nested_item:'mood-perfume' }})
                                     </option>
-                                    <option value="{% url 'shop:shop' %}?category_id=accessories">
+                                    <option value="{% url 'shop:shop' %}?cat1={{ cat1 }}&cat2=accessories">
                                         Accessories ({{ category_product_count|get_nested_item:'accessories' }})
                                     </option>
                                 </select>
@@ -231,23 +221,18 @@
                                     Results
                                 </div>
                             </div>
-                            {#                            <div class="shop-sort-gl mobile-hidden">#}
-                            {#                                <button id="gridBtn" class="shop-sort-grid active"><i#}
-                            {#                                        class="far fa-grid-round-2"></i></button>#}
-                            {#                                <button id="listBtn" class="shop-sort-list"><i class="far fa-list-ul"></i></button>#}
-                            {#                            </div>#}
                         </div>
                     </div>
-                    {% if products %}
-                        <div id="products-grid" class="row">
-                        </div>
-                        <div class="spinner-border" role="status"></div>
-                        <div id="products-list">
-                            {% include 'shop/products_list.html' %}
-                        </div>
-                    {% else %}
-                        <p>No products found.</p>
-                    {% endif %}
+                    <div id="products-grid" class="row"></div>
+                    <div id="products-loading" class="shop-skeleton-grid" aria-label="Loading products">
+                        {% for item in "123456" %}
+                            <article class="shop-skeleton-card" aria-hidden="true">
+                                <div class="shop-skeleton shop-skeleton-image"></div>
+                                <div class="shop-skeleton-content"><div class="shop-skeleton shop-skeleton-line short"></div><div class="shop-skeleton shop-skeleton-line"></div><div class="shop-skeleton shop-skeleton-line medium"></div><div class="shop-skeleton shop-skeleton-button"></div></div>
+                            </article>
+                        {% endfor %}
+                    </div>
+                    <p id="products-empty" class="shop-empty-state" hidden>No products found for this selection.</p>
                 </div>
             </div>
         </div>
@@ -257,7 +242,6 @@
 {% endblock %}
 
 {% block extra_js %}
-    <script src="{% static 'js/shop.js' %}"></script>
     <script>
         $(document).ready(function () {
             // Get the current URL parameters for cat1 and cat2
@@ -332,15 +316,25 @@
     </script>
 
     <script>
-        var spinner = $(".spinner-border");
+        var skeleton = $("#products-loading");
+        var emptyState = $("#products-empty");
+        var productsGrid = $("#products-grid");
+        var firstLoadStartedAt = 0;
+
+        function finishInitialLoading() {
+            var elapsed = Date.now() - firstLoadStartedAt;
+            var remaining = Math.max(0, 450 - elapsed);
+            window.setTimeout(function () {
+                skeleton.addClass('is-hidden');
+                window.setTimeout(function () { skeleton.hide(); }, 320);
+            }, remaining);
+        }
         let page = 1;
         let isLoading = false;
         let hasNext = true;
 
         function loadProducts() {
             console.log('loadProducts function called, isLoading:', isLoading);
-            spinner.show()
-
             // Prevent further loading if we are already loading or if all products are loaded
             if (isLoading || !hasNext) {
                 console.log('Already loading or no more products, returning...');
@@ -348,6 +342,11 @@
             }
 
             isLoading = true;
+
+            if (page === 1) {
+                firstLoadStartedAt = Date.now();
+                skeleton.show().removeClass('is-hidden');
+            }
 
             // Get the query parameters (e.g., ?q=barley&category_id=1&sort=5) from the current URL
             const queryParams = window.location.search;
@@ -362,7 +361,15 @@
                 success: function (response) {
                     console.log('AJAX request successful:', response);
 
-                    $('#products-grid').append(response.products_grid_html);
+                    if (page === 1) {
+                        $('#products-grid').empty();
+                    }
+                    productsGrid.append(response.products_grid_html || '');
+                    productsGrid.addClass('is-ready');
+                    if (page === 1) {
+                        finishInitialLoading();
+                    }
+                    emptyState.prop('hidden', Boolean(response.products_grid_html));
                     $('#products-grid').data('page', page);
                     hasNext = response.has_next;
 
@@ -383,23 +390,27 @@
                 },
                 error: function () {
                     console.error("Failed to load products");
+                    if (page === 1) {
+                        finishInitialLoading();
+                    }
+                    emptyState.text("Products could not be loaded. Please try again.").prop('hidden', false);
                 },
                 complete: function () {
-                    spinner.hide();
                     isLoading = false; // Reset loading state
                 }
             });
         }
 
         function updateButtonState() {
-            // Loop through all products and check if they are in the cart
-            $('.theme-btn').each(function () {
+            // Only update product add buttons. Global theme buttons include
+            // checkout, navigation, and drawer controls.
+            $('.shop-product-add[data-product]').each(function () {
                 var productSlug = $(this).data('product');
 
                 if (productsInCart.includes(productSlug)) {
-                    $(this).text('ADDED TO CART').prop('disabled', true).removeClass('theme-btn').addClass('btn-secondary');
+                    $(this).text('ADDED TO CART').prop('disabled', true).removeClass('update-cart').addClass('is-added');
                 } else {
-                    $(this).text('ADD TO CART').prop('disabled', false).removeClass('btn-secondary').addClass('theme-btn');
+                    $(this).text('ADD TO CART').prop('disabled', false).removeClass('is-added').addClass('update-cart');
                 }
             });
         }
@@ -421,52 +432,13 @@
 
             // Ensure we only load products if there are more to load initially
             if (hasNext) {
-                spinner.show();
                 loadProducts();
             } else {
-                spinner.hide();
                 console.log("No products to load initially.");
             }
         });
     </script>
 
-    <script src="{% static 'js/save-scroll-position.js' %}"></script>
-    <script>
-        $(document).ready(function () {
-            $('.quickview-btn').on('click', function () {
-                var productId = $(this).data('product-id');
-                var productName = $(this).data('product-name');
-                var productImage = $(this).data('product-image');
-                var productPrice = $(this).data('product-price');
-                var productShop = $(this).data('product-shop');
-                var productCategory = $(this).data('product-category');
-                var productSku = $(this).data('product-sku');
-                var productBtnClass = $(this).data('button');
-                var productBtnAction = $(this).data('action');
-                var productBtnText = $(this).data('text');
-
-                $('#quickview .modal-title').text(productName);
-                $('#quickview .product-img').attr('src', productImage);
-                $('#quickview .quickview-title').text(productName);
-                $('#quickview .quickview-price').html('<span>₱' + productPrice + '</span>');
-                $('#quickview .quickview-list .modal-shop').text(productShop);
-                $('#quickview .quickview-list .modal-category').text(productCategory);
-                $('#quickview .quickview-list .modal-sku').text(productSku);
-                $('.quickview-cart .modal-btn')
-                    .removeAttr('class')
-                    .addClass('modal-btn')
-                    .addClass(productBtnClass)
-                    .text(productBtnText)
-                    .attr('data-product', productId)
-                    .attr('data-action', productBtnAction);
-            });
-        });
-    </script>
-    <script>
-        function handleCategoryChange(value) {
-            window.location.href = value;
-        }
-    </script>
     <script>
         function handleSubcategoryChange(value) {
             if (value) {

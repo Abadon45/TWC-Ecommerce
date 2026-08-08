@@ -1,0 +1,49 @@
+.rowone {
+    button a {
+        font-size: xx-large;
+        padding: 8px 30px;
+    }
+}
+
+.supply-text {
+    font-weight: 900 !important;
+    font-size: 24px !important;
+    margin-bottom: 50px !important;
+}
+
+
+@media (max-width: 1200px) {
+    .supply-text {
+        font-size: 20px !important;
+    }
+}
+
+@media (max-width: 992px) {
+    .rowone {
+        button a {
+            font-size: x-large;
+        }
+    }
+
+    .supply-text {
+        font-size: 16px !important;
+    }
+}
+
+
+@media only screen and (max-width: 480px) {
+    .rowone {
+        button a {
+            font-size: large;
+        }
+    }
+    .supply-text {
+        font-size: 14px !important;
+        margin: 0 !important;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+
+}
+

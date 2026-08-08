@@ -2,264 +2,71 @@
 {% load static %}
 {% load currency_filters %}
 
-{% block title %} {{ title }} {% endblock %}
+{% block title %}Thank you | TWC Online Store{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/order-success-refresh.css' %}?v=success-2">
+{% endblock %}
 
 {% block content %}
-
-
-
-    <!-- shop checkout complete -->
-    <div id="checkout-complete" class="shop-checkout-complete twc-checkout-complete py-120 mobile-width">
-        <div class="container">
-            <div class="card index-card order-completed-card">
-                <div class="card-header">
-                    <h2>ORDER COMPLETED</h2>
-                </div>
-                <div class="card-body cart-summary text-center">
-                    <h1>THANK YOU</h1>
-
-                    <h3>YOUR ORDER HAS BEEN RECEIVED</h3>
-                    <p>
-                        For any concern, please feel free to Contact Us.
-{#                        {% if sponsor_mobile %}#}
-{#                            contact us at {{ sponsor_mobile }}#}
-{#                        {% elif referrer %}#}
-{#                            <button class="contact-us-btn btn theme-btn" onclick="window.open('{{ referrer }}', '_blank')" >#}
-{#                                Contact Us#}
-{#                            </button>#}
-{#                        {% else %}#}
-{#                            Contact Us.#}
-{#                        {% endif %}#}
-                    </p>
-
-                    {#                {% if not user.is_authenticated %}#}
-                    {#                    <div class="card login-info">#}
-                    {#                        <div class="card-body track-order-body">#}
-                    {#                            <h4 style="color: var(--color-dark);">Please save your login details to track your order.</h4>#}
-                    {#                            <h6>Username: {{ username }}</h6>#}
-                    {#                            <h6>Password: {{ password }}</h6>#}
-                    {#                            <h6>Email: {{ email }}</h6>#}
-                    {#                        </div>#}
-                    {#                    </div> #}
-                    {#                {% endif %}#}
-
-                </div>
+<main class="order-success-page">
+    <div class="order-success-shell">
+        <section class="order-success-hero">
+            <div class="success-mark" aria-hidden="true"><i class="fa-solid fa-check"></i></div>
+            <p class="success-eyebrow">Order confirmed</p>
+            <h1>Thank you for your order!</h1>
+            <p class="success-lead">Your order has been received and is being prepared. We’ll use the delivery details below to complete your shipment.</p>
+            <div class="success-reference">
+                <span>Order reference</span>
+                <strong>{{ invoice_number|default:"TWC-DEMO" }}</strong>
+                <span>{{ current_date }}</span>
             </div>
-            <div class="row mt-20">
-                <div class="col-sm-8">
-                    {% for shop, data in orders.items %}
-                        <div class="card index-card order-card">
-                            <div class="card-header order-header">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="p-2">
-                                        {#update this when theres api#}
-                                        <h4>ORDER NUMBER: {{ data.order_number }}</h4>
-                                    </div>
-                                    {% if user.is_authenticated %}
-                                        <div class="view-order">
-                                            <a href="{{ DASHBOARD_URL }}/order/order-detail/?order_id={{ order.order_id }}"
-                                               target="_blank">
-                                                View Order</a>
-                                        </div>
-                                    {% endif %}
-                                </div>
+        </section>
+
+        <div class="order-success-grid">
+            <section class="success-card success-order-card">
+                <div class="success-card-heading"><div><p class="success-eyebrow">Your purchase</p><h2>Order summary</h2></div><button type="button" class="success-print-button" onclick="window.print()"><i class="fa-solid fa-print"></i> Print</button></div>
+                {% for shop, data in orders.items %}
+                    <div class="success-shop-section">
+                        <div class="success-shop-heading"><strong>{{ shop|title }}</strong><span>{{ data.total_quantity }} item{{ data.total_quantity|pluralize }}</span></div>
+                        {% for item in data.items %}
+                            <div class="success-item">
+                                <div class="success-item-image">{% if item.product.image %}<img src="{{ item.product.image }}" alt="{{ item.product.name }}">{% else %}<span>No image</span>{% endif %}</div>
+                                <div class="success-item-copy"><strong>{{ item.product.name }}</strong><span>Quantity: {{ item.quantity }}</span></div>
+                                <strong class="success-item-price">{{ item.get_total|currency }}</strong>
                             </div>
-                            <div class="card-body fixed-height checkout-complete">
-                                <div class="table-responsive mobile-hidden">
-                                    <table class="table">
-                                        <thead>
-                                        <tr class="table-active" style="text-align: left;">
-                                            <th scope="col-6"></th>
-                                            <th scope="col-6">Product</th>
-                                            <th scope="col-2">Quantity</th>
-                                            <th scope="col-4">Unit Price</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {% for item in data.items %}
-                                            <tr class="center-text">
-                                                <td class="image-column" style="width: 20%;">
-                                                    <div class="shop-cart-img">
-                                                        <a href="#">
-                                                            {% if item.product.image %}
-                                                                {% if item.product.image %}
-                                                                    <img src="{{ item.product.image }}"
-                                                                         alt="{{ item.product.name }}">
-                                                                {% else %}
-                                                                    <img src="{% static 'img/product/default-product-image.png' %}"
-                                                                         alt="{{ item.product.name }}">
-                                                                {% endif %}
-                                                            {% else %}
-                                                                <img src="{% static 'img/product/default-product-image.png' %}"
-                                                                     alt="{{ item.product.name }}">
-                                                            {% endif %}
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                                <td class="name-column" style="width: 50%;">{{ item.product.name }}</td>
-                                                <td class="quantity-column"
-                                                    style="width: 10%; text-align: center;">{{ item.quantity }}</td>
-                                                <td class="price-column" style="width: 20%;">{{ item.get_total|currency }}</td>
-                                            </tr>
-                                        {% endfor %}
-                                        <tr style="height: 10px;">
-                                            <td colspan="4"></td>
-                                        </tr>
-                                        <tr class="subtotal-row" style="text-align: left;">
-                                            <th colspan="3">Subtotal</th>
-                                            <th class="price-column">{{ data.subtotal|currency }}</th>
-                                        </tr>
-                                        <tr class="shipping-row" style="text-align: left;">
-                                            <th colspan="3">Shipping</th>
-                                            <th class="price-column">{{ FIXED_SHIPPING_FEE|currency }}</th>
-                                        </tr>
-                                        {% if data.discount > 0 %}
-                                            <tr class="discount-row" style="text-align: left;">
-                                                <th colspan="3">Discount</th>
-                                                <th class="price-column">({{ data.discount|currency }})</th>
-                                            </tr>
-                                        {% endif %}
-                                        <tr class="total-row table-active" style="text-align: left;">
-                                            <th colspan="2">Total:</th>
-                                            <th style="text-align: center;"></th>
-                                            <th class="price-column">{{ data.cod_amount|currency }}</th>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="mobile-only checkout-items bb">
-                                    {% for item in data.items %}
-                                        <div class="mobile-product">
-                                            <div class="d-flex">
-                                                <div class="shop-cart-img">
-                                                    <a href="{% url 'shop:single' slug=item.product.slug %}">
-                                                        {% if item.product.image %}
-                                                            <img src="{{ item.product.image }}"
-                                                                 alt="{{ item.product.name }}">
-                                                        {% else %}
-                                                            No image
-                                                        {% endif %}
-                                                    </a>
-                                                </div>
-                                                <div class="shop-cart-product-info">
-                                                    <h6>Product</h6>
-                                                    <h5 class="shop-cart-name mt5">
-                                                        <a href="{% url 'shop:single' slug=item.product.slug %}"><span
-                                                                class="product-name-{{ item.product.id }}">{{ item.product.name }}</span>
-                                                        </a>
-                                                    </h5>
-                                                    <h6 class="mt10">Quantity</h6>
-                                                    <h5 class="mt5">{{ item.quantity }}</h5>
-                                                    <h6 class="mt10">Unit Price</h6>
-                                                    <h5 class="mt5">{{ item.get_total|currency }}</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                                <div class="checkout-payment mobile-only">
-                                    <h5 class="checkout-shipping">
-                                        Shipping Fee <span>{{ FIXED_SHIPPING_FEE|currency }}</span>
-                                    </h5>
-                                    {% if data.discount %}
-                                        <h5 class="checkout-discount bb">
-                                            Discount <span>- {{ data.discount|currency }}</span>
-                                        </h5>
-                                    {% endif %}
-                                    <h4>
-                                        Total <span>{{ data.cod_amount|currency }}</span>
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-                <div class="col-sm-4 delivery-card">
-                    <div class="card index-card">
-                        <div class="card-header order-header delivery-header">
-                            <div class="p-2">
-                                <h4>DELIVERY</h4>
-                            </div>
-                        </div>
-                        <div class="card-body fixed-height">
-                            <div class="d-flex justify-content-between bb mb-10 summary-details-row">
-                                <div class="details-title">
-                                    <ul class="address-list">
-                                        <li>Date</li>
-                                        <li>Mobile Number</li>
-                                        <li>Payment Method</li>
-                                        <li>Total</li>
-                                    </ul>
-                                </div>
-                                <div class="mr-auto delivery-details">
-                                    <ul class="address-list">
-                                        <li>{{ current_date }}</li>
-                                        <li>{{ address.phone }}</li>
-                                        <li>{{ payment_method|upper }}</li>
-                                        <li>{{ total_cod_amount|currency }}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="bb mb-10 address-details">
-                                <p class="pb10">
-                                    <b>Shipping Details:</b><br>
-                                    {{ address.full_name }}<br>
-                                    Mobile: {{ address.phone }}<br>
-                                    {{ address.address }},
-                                    Brgy. {{ address.barangay }},
-                                    {{ address.city }},
-                                    {{ address.province }},
-                                    {{ address.postcode }}<br>
-                                    Landmark: {{ address.landmark }}
-                                </p>
-                            </div>
-                            <div class="estimated-delivery region-list">
-                                <p><b>Estimated Delivery:</b></p>
-                                <p>
-                                    Thank you for your order! We’re pleased to inform you that your delivery within
-                                    {% if detect_region == "ncr" %}
-                                        the National Capital Region (NCR) is estimated to arrive in 2 to 3 days.
-                                    {% elif detect_region == "luzon" %}
-                                        Luzon is estimated to arrive in 3 to 5 days.
-                                    {% elif detect_region == "visayas" %}
-                                        Visayas is estimated to arrive in 5 to 7 days.
-                                    {% elif detect_region == "mindanao" %}
-                                        Mindanao is estimated to arrive in 7 to 10 days.
-                                    {% endif %}
-                                    We appreciate your trust in us and are committed to ensuring your satisfaction!
-                                </p>
-                            </div>
+                        {% endfor %}
+                        <div class="success-cost-list">
+                            <div><span>Subtotal</span><strong>{{ data.subtotal|currency }}</strong></div>
+                            <div><span>Shipping</span><strong>{{ data.shipping_fee|default:FIXED_SHIPPING_FEE|currency }}</strong></div>
+                            {% if data.discount %}<div><span>Discount</span><strong>-{{ data.discount|currency }}</strong></div>{% endif %}
+                            <div class="success-total"><span>Shop total</span><strong>{{ data.cod_amount|currency }}</strong></div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="container cont-shop">
-            <div class="col-lg-12 mt-20 continue-shopping">
-                <a href="{% url 'shop:shop' %}" type="button" class="theme-btn theme-btn2">CONTINUE SHOPPING</a>
-            </div>
-        </div>
+                {% endfor %}
+                <div class="success-grand-total"><span>Total paid on delivery</span><strong>{{ total_cod_amount|currency }}</strong></div>
+            </section>
 
+            <aside class="success-side-column">
+                <section class="success-card">
+                    <div class="success-card-heading"><div><p class="success-eyebrow">Delivery</p><h2>Shipping details</h2></div></div>
+                    <div class="success-detail-list">
+                        <div><span>Name</span><strong>{{ address.full_name|default:"Guest customer" }}</strong></div>
+                        <div><span>Phone</span><strong>{{ address.phone|default:"—" }}</strong></div>
+                        <div><span>Address</span><strong>{{ address.address|default:"—" }}, {{ address.barangay }}, {{ address.city }}, {{ address.province }}</strong></div>
+                        {% if address.landmark %}<div><span>Landmark</span><strong>{{ address.landmark }}</strong></div>{% endif %}
+                        <div><span>Payment</span><strong>{{ payment_method|default:"COD"|upper }}</strong></div>
+                    </div>
+                    <div class="success-delivery-note"><i class="fa-solid fa-truck"></i><div><strong>Preparing your delivery</strong><span>Tracking details will be available once your order is dispatched.</span></div></div>
+                </section>
+                <section class="success-card success-next-card">
+                    <p class="success-eyebrow">What’s next?</p>
+                    <h2>Keep exploring the collection.</h2>
+                    <p>Find more everyday essentials, wellness picks, and useful gifts from TWC.</p>
+                    <a class="success-shop-button" href="{% url 'shop:shop' %}">Continue shopping <i class="fa-solid fa-arrow-right"></i></a>
+                </section>
+            </aside>
+        </div>
     </div>
-{% endblock %}
-{% block extra_js %}
-    <script>
-        $(document).ready(function () {
-            var sponsor = "{{ sponsor }}";
-            var orders = {{ orders|safe }};  // Use safe to render as JSON
-
-            console.log('Sponsor Username:', sponsor);
-
-            $.each(orders, function (shop, shopData) {
-                console.log('Shop:', shop);
-                console.log('Products in Order:');
-
-                $.each(shopData.items, function (index, item) {
-                    console.log('Product:', item.product.name, ', Quantity:', item.quantity);
-                });
-
-                console.log('Total Quantity for ' + shop + ':', shopData.total_quantity);
-            });
-        });
-    </script>
+</main>
 {% endblock %}

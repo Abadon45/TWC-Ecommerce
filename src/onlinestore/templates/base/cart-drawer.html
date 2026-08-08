@@ -1,0 +1,52 @@
+{% load currency_filters %}
+
+<aside id="cart-drawer" class="cart-drawer" aria-hidden="true" aria-labelledby="cart-drawer-title">
+    <div class="cart-drawer-backdrop" data-cart-drawer-close></div>
+    <section class="cart-drawer-panel" role="dialog" aria-modal="true">
+        <header class="cart-drawer-header">
+            <div class="cart-drawer-heading">
+                <button type="button" class="cart-drawer-back" data-cart-drawer-close aria-label="Continue shopping">←</button>
+                <div>
+                    <h2 id="cart-drawer-title">Continue Shopping</h2>
+                    <p><span id="cart-drawer-count">{{ cart_items }}</span> item{{ cart_items|pluralize }}</p>
+                </div>
+            </div>
+            <button type="button" class="cart-drawer-close" data-cart-drawer-close aria-label="Close cart">×</button>
+        </header>
+
+        <div id="cart-drawer-list" class="cart-drawer-list">
+            {% for shop, items in order_products.items %}
+                <section class="cart-drawer-shop" data-drawer-shop="{{ shop }}">
+                    <h3>Shop: {{ shop|title }}</h3>
+                    {% for item in items %}
+                        <article class="cart-drawer-item" data-drawer-product="{{ item.product.slug }}">
+                            <div class="cart-drawer-image">
+                                <img src="{{ item.product.image_1|default:'/static/img/product/default-product-image.png' }}" alt="{{ item.product.name }}">
+                            </div>
+                            <div class="cart-drawer-item-copy">
+                                <strong>{{ item.product.name }}</strong>
+                                <span>{{ item.quantity }} × {{ item.product.price|currency }}</span>
+                                <div class="cart-drawer-qty" aria-label="Quantity for {{ item.product.name }}">
+                                    <button type="button" class="cart-drawer-qty-button update-cart" data-product="{{ item.product.slug }}" data-action="minus" {% if item.quantity <= 1 %}disabled{% endif %} aria-label="Decrease quantity">−</button>
+                                    <span class="cart-drawer-qty-value">{{ item.quantity }}</span>
+                                    <button type="button" class="cart-drawer-qty-button update-cart" data-product="{{ item.product.slug }}" data-action="add" aria-label="Increase quantity">+</button>
+                                </div>
+                            </div>
+                            <button type="button" class="cart-drawer-remove update-cart" data-product="{{ item.product.slug }}" data-action="remove" aria-label="Remove {{ item.product.name }}"><i class="far fa-trash-can" aria-hidden="true"></i></button>
+                        </article>
+                    {% endfor %}
+                </section>
+            {% empty %}
+                <div class="cart-drawer-empty">
+                    <strong>Your basket is empty</strong>
+                    <span>Add something good to get started.</span>
+                </div>
+            {% endfor %}
+        </div>
+
+        <footer class="cart-drawer-footer">
+            <div class="cart-drawer-total-row"><span>Total</span><strong id="cart-drawer-total">{{ total_cart_subtotal|currency }}</strong></div>
+            <a href="{% url 'cart:checkout' %}" class="theme-btn cart-drawer-checkout">Proceed To Checkout</a>
+        </footer>
+    </section>
+</aside>
