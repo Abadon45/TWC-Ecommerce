@@ -11,6 +11,7 @@ from django.views.generic import TemplateView
 from urllib.parse import urlencode
 
 from onlinestore.api import *
+from onlinestore.catalog import get_product_by_slug
 from onlinestore.forms import AddressForm
 from .utils import *
 
@@ -39,20 +40,8 @@ def fetch_product_quantity(request):
 
 class UpdateCartView(View):
     def get_product_data(self, product_slug):
-        """Fetch product data from the API."""
-        product_url = f'{settings.PRODUCT_URL_API}{product_slug}'
-        try:
-            response = requests.get(product_url)
-            response.raise_for_status()
-            data = response.json()
-
-            if data['success']:
-                return data['product']
-            else:
-                return None
-        except requests.RequestException as e:
-            print(f"Error fetching product data: {e}")
-            return None
+        """Read product data from the local catalog snapshot."""
+        return get_product_by_slug(product_slug)
 
     def update_cart(self, request, product_slug, action, quantity):
         """Update the cart stored in the session."""

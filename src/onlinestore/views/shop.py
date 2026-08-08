@@ -1,5 +1,4 @@
 import os
-import requests
 import random
 
 from django.conf import settings
@@ -13,6 +12,7 @@ from django.template.loader import render_to_string
 from django.contrib.auth import get_user_model
 from collections import defaultdict
 from onlinestore.utils import check_sponsor_and_redirect
+from onlinestore.catalog import get_product_by_slug, get_products
 from onlinestore.models import *
 from cart.utils import get_cart_cookie
 
@@ -55,71 +55,49 @@ class ShopView(TemplateView):
         # ✅ Fix: Use a nested defaultdict for category counts
         category_product_count = defaultdict(lambda: defaultdict(int))
 
-        # Build API request URL with filters
-        api_url = settings.SHOP_PRODUCTS_API
-        params = {}
-
-        if cat1 and cat1.lower() != 'all':
-            params['cat1'] = cat1
-        if cat2:
-            params['cat2'] = cat2
-
         def price_to_float(product):
             try:
                 return float(product.get('customer_price', 0) or 0)
             except (TypeError, ValueError):
                 return 0.0
 
-        try:
-            # Fetch filtered data from API
-            response = requests.get(api_url, params=params, verify=False, timeout=10)
-            response.raise_for_status()
-            data = response.json()
+        queryset = [product for product in get_products() if not product.get("is_for_vw", False)]
 
-            if not data.get("success"):
-                return [], {}
+        if cat1 and cat1.lower() != 'all':
+            queryset = [product for product in queryset if product.get('category_1', '').lower() == cat1.lower()]
+        if cat2:
+            queryset = [product for product in queryset if product.get('category_2', '').lower() == cat2.lower()]
 
-            queryset = [product for product in data.get("products", []) if not product.get("is_for_vw", False)]
+        for product in queryset:
+            category_1 = product.get('category_1', '').strip().lower()
+            category_2 = product.get('category_2', '').strip().lower()
+            if category_1:
+                category_product_count[category_1]["_count"] += 1
+            if category_1 and category_2:
+                category_product_count[category_1][category_2] += 1
 
-            # ✅ Count products per category
-            for product in queryset:
-                category_1 = product.get('category_1', '').strip().lower()
-                category_2 = product.get('category_2', '').strip().lower()
+        if search_query:
+            query = search_query.lower()
+            queryset = [
+                product for product in queryset
+                if query in product.get('name', '').lower()
+                or query in product.get('category_1', '').lower()
+                or query in product.get('category_2', '').lower()
+            ]
 
-                if category_1:
-                    category_product_count[category_1]["_count"] += 1  # Total count for cat1
-                if category_1 and category_2:
-                    category_product_count[category_1][category_2] += 1  # Count for cat2 under cat1
+        if sort_option == '5':
+            queryset = sorted(queryset, key=lambda p: p.get('timestamp', ''), reverse=True)
+        elif sort_option == '3':
+            queryset = sorted(queryset, key=price_to_float)
+        elif sort_option == '4':
+            queryset = sorted(queryset, key=price_to_float, reverse=True)
 
+        for product in queryset:
+            ratings = Rating.objects.filter(product_slug=product.get('slug'))
+            aggregate_rating = ratings.aggregate(Avg('score'))['score__avg'] if ratings.exists() else 5
+            product['aggregate_rating'] = round(aggregate_rating, 1)
 
-            # Apply search filter (optional)
-            if search_query:
-                queryset = [
-                    product for product in queryset
-                    if search_query.lower() in product.get('name', '').lower()
-                       or search_query.lower() in product.get('category_1', '').lower()
-                       or search_query.lower() in product.get('category_2', '').lower()
-                ]
-
-            # Apply sorting
-            if sort_option == '5':  # Latest Items
-                queryset = sorted(queryset, key=lambda p: p.get('timestamp', ''), reverse=True)
-            elif sort_option == '3':  # Price - Low To High
-                queryset = sorted(queryset, key=price_to_float)
-            elif sort_option == '4':  # Price - High To Low
-                queryset = sorted(queryset, key=price_to_float, reverse=True)
-
-            # Aggregate ratings
-            for product in queryset:
-                product_slug = product.get('slug')
-                ratings = Rating.objects.filter(product_slug=product_slug)
-                aggregate_rating = ratings.aggregate(Avg('score'))['score__avg'] if ratings.exists() else 5
-                product['aggregate_rating'] = round(aggregate_rating, 1)
-
-            return queryset, dict(category_product_count)  # Convert defaultdict to normal dict
-
-        except requests.exceptions.RequestException:
-            return [], {}
+        return queryset, dict(category_product_count)
 
     def get_paginated_queryset(self):
         """
@@ -238,29 +216,14 @@ class ShopDetailView(View):
 
     def get(self, request, slug):
         product = None
-        # Fetch product from API
         product_slug = slug or request.GET.get('slug')
 
         if not product_slug:
             raise Http404("Product not found")
 
-        product_detail_url = f'{settings.SHOP_PRODUCTS_API}&slug={product_slug}'
-
-        try:
-            response = requests.get(product_detail_url, verify=False, timeout=10)
-            response.raise_for_status()  # Raises HTTPError for bad responses
-            product_data = response.json()
-            product = product_data.get('product', {})
-            if not product:
-                raise Http404("Product not found")
-
-        except requests.exceptions.HTTPError as http_err:
-            print(f'HTTP error occurred: {http_err}')
+        product = get_product_by_slug(product_slug)
+        if not product:
             raise Http404("Product not found")
-
-        except requests.exceptions.RequestException as req_err:
-            print(f'Request error occurred: {req_err}')
-            return render(request, self.template_name, {'product': None})
 
             # Get the product rating
         product_slug = product.get('slug')
@@ -300,35 +263,14 @@ class ShopDetailView(View):
         return render(request, self.template_name, context)
 
     def get_related_products(self, current_product_slug, current_category):
-        api_url = settings.SHOP_PRODUCTS_API
-
-        try:
-            # Fetch all products
-            response = requests.get(api_url, verify=False, timeout=10)
-            response.raise_for_status()
-            data = response.json()
-
-            if data.get("success"):
-                all_products = data.get("products", [])
-
-                # Filter out the current product and VW products
-                related_products = [
-                    product for product in all_products
-                    if product.get('category_1') == current_category
-                       and product.get('slug') != current_product_slug
-                       and not product.get('is_for_vw', False)  # Exclude VW products
-                ]
-
-                # Shuffle the products randomly
-                random.shuffle(related_products)
-
-                # Return only 4 related products
-                return related_products[:4]
-            else:
-                return []
-        except requests.exceptions.RequestException as e:
-            print(f'Error fetching products: {str(e)}')
-            return []
+        related_products = [
+            product for product in get_products()
+            if product.get('category_1') == current_category
+            and product.get('slug') != current_product_slug
+            and not product.get('is_for_vw', False)
+        ]
+        random.shuffle(related_products)
+        return related_products[:4]
 
     # def post(self, request, *args, **kwargs):
     #     self.object = self.get_object()

@@ -12,6 +12,7 @@ from django.db import transaction
 from cart.utils import generate_invoice_number, get_client_ip, get_client_user_agent, conversion_api, get_cart_cookie
 from onlinestore.models import SiteSetting
 from onlinestore.utils import fetch_vw_inventory
+from onlinestore.catalog import get_products
 from django.templatetags.static import static
 
 from facebook_business.adobjects.serverside.custom_data import CustomData
@@ -30,38 +31,19 @@ class IndexView(TemplateView):
 
     def get(self, request, *args, **kwargs):
 
-        base_api_url = settings.SHOP_PRODUCTS_API
+        products = [
+            product for product in get_products()
+            if product.get('category_1') != 'twc' and not product.get('is_for_vw', False)
+        ]
 
-        endpoints = {
-            'is_trending': f"{base_api_url}&is_trending=true",
-            'is_popular': f"{base_api_url}&is_popular=true",
-            'new_arrival': f"{base_api_url}&new_arrival=true",
+        # The snapshot contains the canonical catalog but the retired API's
+        # marketing flags are not part of every response. Keep home sections
+        # useful with deterministic local selections when flags are absent.
+        products_data = {
+            'is_trending': [p for p in products if p.get('is_trending')][:8] or products[:8],
+            'is_popular': [p for p in products if p.get('is_popular')][:8] or products[8:16],
+            'new_arrival': [p for p in products if p.get('new_arrival')][:8] or products[16:24],
         }
-
-        # Fetch each filtered list from the API
-        products_data = {}
-        for key, url in endpoints.items():
-            try:
-                response = requests.get(url, verify=False, timeout=10)
-                response.raise_for_status()
-                data = response.json()
-                products_data[key] = data.get("products", []) if data.get("success") else []
-            except requests.exceptions.RequestException:
-                products_data[key] = []  # Fallback to empty list in case of API error
-
-        # Fetch the main products list (e.g., without "twc" in `category_1`)
-        try:
-            response = requests.get(base_api_url, verify=False, timeout=10)
-            response.raise_for_status()
-            data = response.json()
-            products = data.get("products", []) if data.get("success") else []
-        except requests.exceptions.RequestException:
-            products = []
-
-        products = [product for product in products if product.get('category_1') != 'twc']
-
-        # Exclude products with category_1 = 'twc'
-        products = [product for product in products if product.get('category_1') != 'twc']
 
         # Get products in cart (assuming 'ordered_items_by_shop' is a session variable containing the cart items)
         cart_snapshot = get_cart_cookie(request)
@@ -288,14 +270,10 @@ def create_order(request):
         for product_detail in product_details.get('products', []):
             product_slug = product_detail['slug']
 
-            product_url = f"{settings.SHOP_PRODUCTS_API}&slug={product_slug}"
             try:
-                response = requests.get(product_url, verify=False)
-                response.raise_for_status()
-                product_data = response.json()
+                product = next((item for item in get_products() if item.get('slug') == product_slug), None)
 
-                if product_data['success']:
-                    product = product_data['product']
+                if product:
                     get_total = product_detail['quantity'] * Decimal(product['customer_price'])
                     total_amount += get_total
                     print(f'Total amount: {total_amount}')
@@ -314,10 +292,10 @@ def create_order(request):
                     }
                     items.append(item)
                 else:
-                    print("Failed to fetch the product")
+                    print("Product was not found in the local catalog")
 
-            except requests.RequestException as e:
-                print(f"Error fetching product data: {e}")
+            except (TypeError, ValueError) as e:
+                print(f"Error reading product data: {e}")
 
         print(f'Items: {items}')
 

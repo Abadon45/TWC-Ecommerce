@@ -96,12 +96,22 @@ The cart tests cover drawer-oriented checkout completion, demo thank-you renderi
 
 ## Project notes
 
-- Product and address data still come from the configured dashboard APIs.
+- The active product catalog is a checked-in snapshot at `src/onlinestore/data/products.json`, so the home, shop, detail, category-count, and cart stock flows continue working if the product API goes offline. Product image URLs in that snapshot may still point to remote storage.
+- Address lookup and other legacy integrations still come from their configured services.
 - The cart no longer depends on a separate cart page; checkout is opened from the drawer.
 - Adding a product opens the drawer and updates the cart state in the page.
 - Removing an item requires confirmation and uses the drawer toaster for feedback.
 - The final order step is simulated until a replacement order API is available.
 - The `html/` directory contains legacy/static HTML material retained for reference.
+
+### Refreshing the product snapshot
+
+The snapshot is intentionally versioned and is not refreshed automatically at runtime. When the source catalog is available, save the successful JSON response from the product endpoint to `src/onlinestore/data/products.json`, preserving the top-level `success` and `products` fields, then run:
+
+```bash
+python -m json.tool src/onlinestore/data/products.json >/dev/null
+python src/manage.py check
+```
 
 ## Security before deployment
 
