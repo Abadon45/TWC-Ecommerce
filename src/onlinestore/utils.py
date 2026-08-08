@@ -1,4 +1,7 @@
 from collections import defaultdict
+import json
+from functools import lru_cache
+from pathlib import Path
 
 import requests
 
@@ -14,6 +17,18 @@ from django.views.decorators.http import require_GET
 from onlinestore.catalog import get_products
 
 User = get_user_model()
+
+ADDRESS_CATALOG_PATH = Path(settings.BASE_DIR) / 'onlinestore' / 'data' / 'addresses.json'
+
+
+@lru_cache(maxsize=1)
+def get_local_address_data():
+    """Load the checked-in address snapshot once per Django process."""
+    with ADDRESS_CATALOG_PATH.open(encoding='utf-8') as address_file:
+        data = json.load(address_file)
+    if not isinstance(data, list):
+        raise ValueError('The local address catalog has an invalid format.')
+    return data
 
 
 
@@ -111,11 +126,16 @@ def fetch_address_data(request):
         response = requests.get(address_api_url, verify=False, timeout=10)
         response.raise_for_status()
         data = response.json()
+        if not isinstance(data, list):
+            raise ValueError('Invalid address API response format')
         return JsonResponse(data, safe=False)
-    except requests.exceptions.RequestException as e:
-        # Handle error gracefully
-        print(f"Failed to fetch address data: {e}")
-        return JsonResponse({'error': 'Failed to fetch address data'}, status=500)
+    except (requests.exceptions.RequestException, ValueError) as e:
+        print(f"Address API unavailable; using local snapshot: {e}")
+        try:
+            return JsonResponse(get_local_address_data(), safe=False)
+        except (OSError, ValueError) as fallback_error:
+            print(f"Failed to load local address snapshot: {fallback_error}")
+            return JsonResponse({'error': 'Address data is temporarily unavailable'}, status=500)
 
 
 @require_GET
