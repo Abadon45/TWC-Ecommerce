@@ -62,7 +62,9 @@ python src/manage.py runserver
 
 Open `http://127.0.0.1:8000/`.
 
-Put local credentials and API overrides in `.env`; do not commit that file. The settings module reads environment values for database, host, debug, and external API configuration. Production secrets should be supplied through the deployment environment rather than stored in source control.
+Put local credentials and API overrides in `.env`; do not commit that file. Copy `src/.env.example` as a starting point. The settings module reads environment values for database, host, debug, and external API configuration. Production secrets should be supplied through the deployment environment rather than stored in source control.
+
+The Xendit key is intentionally empty unless `XENDIT_API_KEY` is provided by the environment. If a key has ever been committed, revoke it in Xendit immediately and issue a replacement.
 
 ## Docker
 
