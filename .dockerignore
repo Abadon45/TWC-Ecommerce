@@ -1,0 +1,17 @@
+.git
+.github
+.idea
+__pycache__
+*.py[cod]
+*.log
+.env
+venv
+env
+bin
+lib
+lib64
+include
+node_modules
+src/static_root
+src/media
+src/TWC/logs
