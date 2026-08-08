@@ -9,6 +9,36 @@ Django storefront for TWC Online Store. The active customer journey is intention
 
 The cart is stored in the Django session and is exposed through the drawer. The current checkout completion is demo-mode: it records the submitted address and creates a signed session snapshot for the thank-you page without calling the legacy order POST API.
 
+## Project story
+
+This was my first full-stack project. I built the original e-commerce application manually before using AI, then spent several years migrating and improving it. I recently returned to the codebase with Codex to audit the storefront, simplify the active customer journey, modernize the interface, and make the cart and demo checkout easier to maintain.
+
+That history is part of the project: it is an example of building a working system from the ground up, learning from its accumulated complexity, and then using AI-assisted development to make focused improvements.
+
+## Architecture at a glance
+
+This is a real Django application rather than a tutorial prototype. Its supporting architecture includes:
+
+- Django with PostgreSQL
+- Celery and Redis configuration for background work
+- Docker, Nginx, and Supervisor deployment configuration
+- Tailwind CSS, Bootstrap, jQuery, and SweetAlert in the storefront assets
+- Static and media file handling
+- Separate Django applications for the cart, storefront, and user areas
+- Legacy HTML assets and templates under `html/` and `src/`
+
+The active customer-facing flow is intentionally smaller than the full legacy codebase:
+
+```text
+Home → Shop / Product detail → Checkout with cart drawer → Thank-you page
+```
+
+## Current status
+
+This repository should be presented as an early full-stack e-commerce application that was manually built and later revisited as an exercise in AI-assisted modernization. It is not currently a production order-processing system: the legacy order API is defunct, so checkout completion is simulated for demonstration purposes.
+
+The README and code intentionally make that limitation explicit. Before production use, the order integration, credentials, external service configuration, deployment security settings, and operational monitoring would need to be replaced or revalidated.
+
 ## Requirements
 
 - Python 3.10+
@@ -71,6 +101,7 @@ The cart tests cover drawer-oriented checkout completion, demo thank-you renderi
 - Adding a product opens the drawer and updates the cart state in the page.
 - Removing an item requires confirmation and uses the drawer toaster for feedback.
 - The final order step is simulated until a replacement order API is available.
+- The `html/` directory contains legacy/static HTML material retained for reference.
 
 ## Security before deployment
 
